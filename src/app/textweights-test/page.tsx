@@ -1,51 +1,51 @@
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-8">
-      <h1 className="text-4xl font-bold mb-4">Test text sizes</h1>
-      <p className="text-gray-600 font-light">
+    <main className="flex min-h-screen flex-col items-center justify-center p-8">
+      <h1 className="mb-4 font-bold text-4xl">Test text sizes</h1>
+      <p className="font-light text-gray-600">
         This is a simple landing page with Next.js and Tailwind CSS
       </p>
-      <p className="text-gray-600 font-normal">
+      <p className="font-normal text-gray-600">
         This is a simple landing page with Next.js and Tailwind CSS
       </p>
-      <p className="text-gray-600 font-medium">
+      <p className="font-medium text-gray-600">
         This is a simple landing page with Next.js and Tailwind CSS
       </p>
-      <p className="text-gray-600 font-semibold">
+      <p className="font-semibold text-gray-600">
         This is a simple landing page with Next.js and Tailwind CSS
       </p>
-      <p className="text-gray-600 font-bold">
+      <p className="font-bold text-gray-600">
         This is a simple landing page with Next.js and Tailwind CSS
       </p>
 
       <p className="mt-12" />
 
       {/* also add all possible font weights for the mono-font */}
-      <p className="text-gray-600 font-mono font-thin">
+      <p className="font-mono font-thin text-gray-600">
         This is an example of a mono-font paragraph with thin weight.
       </p>
-      <p className="text-gray-600 font-mono font-extralight">
+      <p className="font-extralight font-mono text-gray-600">
         This is an example of a mono-font paragraph with extra light weight.
       </p>
-      <p className="text-gray-600 font-mono font-light">
+      <p className="font-light font-mono text-gray-600">
         This is an example of a mono-font paragraph with light weight.
       </p>
-      <p className="text-gray-600 font-mono font-normal">
+      <p className="font-mono font-normal text-gray-600">
         This is an example of a mono-font paragraph with normal weight.
       </p>
-      <p className="text-gray-600 font-mono font-medium">
+      <p className="font-medium font-mono text-gray-600">
         This is an example of a mono-font paragraph with medium weight.
       </p>
-      <p className="text-gray-600 font-mono font-semibold">
+      <p className="font-mono font-semibold text-gray-600">
         This is an example of a mono-font paragraph with semi bold weight.
       </p>
-      <p className="text-gray-600 font-mono font-bold">
+      <p className="font-bold font-mono text-gray-600">
         This is an example of a mono-font paragraph with bold weight.
       </p>
-      <p className="text-gray-600 font-mono font-extrabold">
+      <p className="font-extrabold font-mono text-gray-600">
         This is an example of a mono-font paragraph with extra bold weight.
       </p>
-      <p className="text-gray-600 font-mono font-black">
+      <p className="font-black font-mono text-gray-600">
         This is an example of a mono-font paragraph with black weight.
       </p>
     </main>

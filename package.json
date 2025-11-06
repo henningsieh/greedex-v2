@@ -8,7 +8,7 @@
     "build": "tsc --project tsconfig.server.json && next build",
     "start": "cross-env NODE_ENV=production node out/server.js",
     "lint": "biome check",
-    "format": "biome format --write",
+    "format": "biome check --write",
     "drizzle:pull": "drizzle-kit pull",
     "drizzle:push": "drizzle-kit push",
     "drizzle:generate": "drizzle-kit generate",

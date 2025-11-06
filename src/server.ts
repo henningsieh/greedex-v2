@@ -11,7 +11,8 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const httpServer = createServer((req, res) => {
-    const parsedUrl = parse(req.url!, true);
+    if (!req.url) return;
+    const parsedUrl = parse(req.url, true);
     handle(req, res, parsedUrl);
   });
 
@@ -66,7 +67,7 @@ app.prepare().then(() => {
       console.log(
         `> Server listening at http://${hostname}:${port} as ${
           dev ? "development" : process.env.NODE_ENV
-        }`
+        }`,
       );
     });
 });

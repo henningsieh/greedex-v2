@@ -57,15 +57,15 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen p-8 pb-20 sm:p-20 font-sans">
-      <main className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">Socket.IO + Next.js</h1>
+    <div className="min-h-screen p-8 pb-20 font-sans sm:p-20">
+      <main className="mx-auto max-w-4xl">
+        <h1 className="mb-8 font-bold text-4xl">Socket.IO + Next.js</h1>
 
         {/* Connection Status */}
-        <div className="mb-6 p-4 rounded-lg bg-gray-100 dark:bg-gray-800">
+        <div className="mb-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
           <div className="flex items-center gap-2">
             <div
-              className={`w-3 h-3 rounded-full ${
+              className={`h-3 w-3 rounded-full ${
                 isConnected ? "bg-green-500" : "bg-red-500"
               }`}
             />
@@ -83,21 +83,21 @@ export default function Home() {
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && sendMessage()}
             placeholder="Type a message..."
-            className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+            className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 dark:border-gray-700 dark:bg-gray-800"
           />
           <button
             type="button"
             onClick={sendMessage}
             disabled={!isConnected || !inputMessage.trim()}
-            className="px-6 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-lg bg-blue-500 px-6 py-2 font-medium text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Send
           </button>
         </div>
 
         {/* Messages Display */}
-        <div className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 h-96 overflow-y-auto">
-          <h2 className="text-xl font-semibold mb-4">Messages</h2>
+        <div className="h-96 overflow-y-auto rounded-lg border border-gray-300 p-4 dark:border-gray-700">
+          <h2 className="mb-4 font-semibold text-xl">Messages</h2>
           {messages.length === 0 ? (
             <p className="text-gray-500">No messages yet...</p>
           ) : (
@@ -105,10 +105,10 @@ export default function Home() {
               {messages.map((msg) => (
                 <div
                   key={msg.timestamp}
-                  className="p-3 rounded-lg bg-gray-100 dark:bg-gray-800"
+                  className="rounded-lg bg-gray-100 p-3 dark:bg-gray-800"
                 >
                   <p className="text-sm">{msg.text}</p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="mt-1 text-gray-500 text-xs">
                     {new Date(msg.timestamp).toLocaleTimeString()}
                   </p>
                 </div>
@@ -118,8 +118,8 @@ export default function Home() {
         </div>
 
         {/* Stats */}
-        <div className="mt-6 p-4 rounded-lg bg-gray-100 dark:bg-gray-800">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="mt-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
+          <p className="text-gray-600 text-sm dark:text-gray-400">
             Total messages received:{" "}
             <span className="font-bold">{messages.length}</span>
           </p>

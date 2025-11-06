@@ -27,7 +27,7 @@ export function UserSession() {
   if (isPending) {
     return (
       <div className="flex items-center gap-2">
-        <div className="h-8 w-8 rounded-full bg-muted animate-pulse" />
+        <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
       </div>
     );
   }
@@ -75,8 +75,8 @@ export function UserSession() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">
+            <p className="font-medium text-sm leading-none">{user.name}</p>
+            <p className="text-muted-foreground text-xs leading-none">
               {user.email}
             </p>
           </div>

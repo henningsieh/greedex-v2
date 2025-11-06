@@ -21,7 +21,7 @@ export const env = createEnv({
         },
         {
           message: "Must start with twelve digits",
-        }
+        },
       ),
     GOOGLE_CLIENT_SECRET: z
       .string()
