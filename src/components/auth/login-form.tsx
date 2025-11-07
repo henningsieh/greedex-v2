@@ -45,12 +45,19 @@ export function LoginForm({
       },
       {
         onError: (c) => {
+          if (c.error.code === "EMAIL_NOT_VERIFIED") {
+            toast.error("Please verify your email address to continue");
+            router.push(
+              `/verify-email?email=${encodeURIComponent(data.email)}`
+            );
+            return;
+          }
           toast.error(c.error.message || "Failed to sign in");
         },
         onSuccess: () => {
           router.push("/");
         },
-      },
+      }
     );
   };
 

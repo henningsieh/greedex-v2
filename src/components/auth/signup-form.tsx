@@ -58,9 +58,10 @@ export function SignupForm({
           toast.error(c.error.message || "Failed to create account");
         },
         onSuccess: () => {
-          router.push("/");
+          // Redirect to verify email page after successful signup
+          router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         },
-      },
+      }
     );
   };
 
