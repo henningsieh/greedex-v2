@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import SocialButtons from "@/components/auth/social-buttons";
 import FormField from "@/components/forms/form-field";
-import GoogleIcon from "@/components/icons/google";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -65,20 +65,13 @@ export function SignupForm({
     );
   };
 
-  const handleGoogleSignIn = async () => {
-    await authClient.signIn.social({
-      provider: "google",
-      callbackURL: "/",
-    });
-  };
-
   return (
     <form
       className={cn("flex flex-col gap-6", className)}
       {...props}
       onSubmit={form.handleSubmit(onSubmit)}
     >
-      <FieldGroup>
+      <FieldGroup className="gap-5">
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="font-bold text-2xl">Create your account</h1>
           <p className="text-balance text-muted-foreground text-sm">
@@ -130,18 +123,6 @@ export function SignupForm({
               ? "Creating Account..."
               : "Create Account"}
           </Button>
-        </Field>
-        <FieldSeparator>Or continue with</FieldSeparator>
-        <Field>
-          <Button
-            variant="outline"
-            type="button"
-            onClick={handleGoogleSignIn}
-            disabled={form.formState.isSubmitting}
-          >
-            <GoogleIcon />
-            Sign up with Google
-          </Button>
           <FieldDescription className="px-6 text-center">
             Already have an account?{" "}
             <Link href="/login" className="underline underline-offset-4">
@@ -149,6 +130,12 @@ export function SignupForm({
             </Link>
           </FieldDescription>
         </Field>
+
+        <FieldSeparator className="my-4 font-bold">
+          Or continue with
+        </FieldSeparator>
+
+        <SocialButtons disabled={form.formState.isSubmitting} />
       </FieldGroup>
     </form>
   );

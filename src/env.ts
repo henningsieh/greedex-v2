@@ -28,9 +28,21 @@ export const env = createEnv({
       .refine((value) => value.startsWith("GOCSPX"), {
         message: "Must start with GOCSPX",
       }),
+    DISCORD_CLIENT_ID: z.string().min(19),
+    DISCORD_CLIENT_SECRET: z.string().length(64),
+    GITHUB_CLIENT_ID: z.string().length(20),
+    GITHUB_CLIENT_SECRET: z.string().length(40),
     SMTP_HOST: z.string().min(1),
-    SMTP_PORT: z.string().regex(/^\d+$/, "Must be a number"),
-    SMTP_SENDER: z.string().email(),
+    SMTP_PORT: z.preprocess(
+      (val) => (typeof val === "string" ? Number(val) : val),
+      z
+        .number()
+        .int()
+        .refine((v) => v === 465 || v === 587, {
+          message: "SMTP_PORT must be 465 or 587",
+        })
+    ),
+    SMTP_SENDER: z.email(),
     SMTP_USERNAME: z.string().min(1),
     SMTP_PASSWORD: z.string().min(1),
     SMTP_SECURE: z
@@ -50,6 +62,10 @@ export const env = createEnv({
     BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+    DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+    GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     SMTP_HOST: process.env.SMTP_HOST,
     SMTP_PORT: process.env.SMTP_PORT,
     SMTP_SENDER: process.env.SMTP_SENDER,
