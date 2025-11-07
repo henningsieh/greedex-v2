@@ -10,7 +10,7 @@ export default function VerifyEmailPage() {
           <BackToHome label="Back to login" href="/login" />
         </div>
         <div className="flex flex-1 justify-center pt-12">
-          <div className="w-full max-w-md">
+          <div className="w-full max-w-lg">
             <VerifyEmailContent />
           </div>
         </div>
