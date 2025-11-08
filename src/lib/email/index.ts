@@ -27,7 +27,7 @@ export async function sendPasswordResetEmail({
       PasswordResetEmail({
         userName: user.name,
         resetUrl: url,
-      })
+      }),
     );
 
     await sendEmail({
@@ -62,7 +62,7 @@ export async function sendEmailVerificationEmail({
       EmailVerification({
         userName: user.name,
         verificationUrl: url,
-      })
+      }),
     );
 
     await sendEmail({

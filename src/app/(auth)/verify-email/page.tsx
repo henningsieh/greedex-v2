@@ -1,6 +1,6 @@
-import RightSideImage from "@/components/auth/right-side-image";
-import { VerifyEmailContent } from "@/components/auth/verify-email-content";
 import BackToHome from "@/components/back-to-home";
+import RightSideImage from "@/components/features/authentication/right-side-image";
+import { VerifyEmailContent } from "@/components/features/authentication/verify-email-content";
 
 export default function VerifyEmailPage() {
   return (

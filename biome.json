@@ -20,10 +20,12 @@
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "indentWidth": 2
+    "indentWidth": 2,
+    "includes": ["**", "!src/components/ui/**"]
   },
   "linter": {
     "enabled": true,
+    "includes": ["**", "!src/components/ui/**"],
     "rules": {
       "recommended": true,
       "suspicious": {
@@ -48,6 +50,7 @@
     }
   },
   "assist": {
+    "includes": ["**", "!src/components/ui/**"],
     "actions": {
       "source": {
         "organizeImports": "on"

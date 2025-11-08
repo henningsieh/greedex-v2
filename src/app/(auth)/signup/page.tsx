@@ -1,6 +1,6 @@
-import RightSideImage from "@/components/auth/right-side-image";
-import { SignupForm } from "@/components/auth/signup-form";
 import BackToHome from "@/components/back-to-home";
+import RightSideImage from "@/components/features/authentication/right-side-image";
+import { SignupForm } from "@/components/features/authentication/signup-form";
 
 export default function SignupPage() {
   return (

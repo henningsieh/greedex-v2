@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useState } from "react";
-import { ThemeSwitcher } from "@/components/kibo-ui/theme-switcher";
-import { UserSession } from "@/components/user-session";
+import { UserSession } from "@/components/features/authentication/user-session";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import type { ThemeKey } from "@/lib/theme";
 
 export function Navbar() {

@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import SocialButtons from "@/components/auth/social-buttons";
-import FormField from "@/components/forms/form-field";
+import SocialButtons from "@/components/features/authentication/social-buttons";
+import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import {
   Card,

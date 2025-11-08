@@ -1,6 +1,6 @@
-import { LoginForm } from "@/components/auth/login-form";
-import RightSideImage from "@/components/auth/right-side-image";
 import BackToHome from "@/components/back-to-home";
+import { LoginForm } from "@/components/features/authentication/login-form";
+import RightSideImage from "@/components/features/authentication/right-side-image";
 
 export default function LoginPage() {
   return (

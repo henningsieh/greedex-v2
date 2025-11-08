@@ -11,7 +11,7 @@ function getTransporter(): Transporter {
   if (!transporter) {
     transporter = nodemailer.createTransport({
       host: env.SMTP_HOST,
-      port: Number.parseInt(env.SMTP_PORT, 10),
+      port: env.SMTP_PORT,
       secure: env.SMTP_SECURE,
       auth: {
         user: env.SMTP_USERNAME,

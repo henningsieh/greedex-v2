@@ -21,7 +21,7 @@ export const env = createEnv({
         },
         {
           message: "Must start with twelve digits",
-        }
+        },
       ),
     GOOGLE_CLIENT_SECRET: z
       .string()
@@ -40,7 +40,7 @@ export const env = createEnv({
         .int()
         .refine((v) => v === 465 || v === 587, {
           message: "SMTP_PORT must be 465 or 587",
-        })
+        }),
     ),
     SMTP_SENDER: z.email(),
     SMTP_USERNAME: z.string().min(1),

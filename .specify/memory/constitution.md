@@ -38,21 +38,27 @@ Rationale: Outputs inform decisions and reporting; transparency and auditability
 are essential to stakeholder trust.
 
 ### III. Accessibility & Inclusivity
-UI and content MUST meet WCAG 2.1 AA standards. The application MUST support
-the primary Erasmus+ languages (at minimum) and be responsive for mobile use.
-Interfaces MUST function acceptably on low-bandwidth networks.
+UI and content MUST is simple english, as this is the common language.
 
 Rationale: Erasmus+ serves diverse users across Europe; accessibility and
 language coverage are essential for fairness and adoption.
 
 ### IV. Test-First & Reproducibility (NON-NEGOTIABLE)
-All new features MUST include tests before implementation: unit tests for core
-logic, contract tests for APIs, and integration/e2e tests for critical flows.
-The CO₂ calculation engine MUST have deterministic tests that assert expected
-numerical outputs for known inputs and dataset versions.
+All new features MUST include test specifications and contracts. The actual test
+implementation is done manually by the project maintainer. AI agents MUST NOT
+generate test implementation code (no Vitest, Playwright, or test runner code).
+The CO₂ calculation engine MUST have deterministic test contracts that specify
+expected numerical outputs for known inputs and dataset versions.
 
 Rationale: Calculation correctness and reproducibility are central to the
-project's mission and credibility.
+project's mission and credibility. Tests are implemented manually to ensure
+proper integration with the existing test infrastructure.
+
+**AI Agent Constraints**:
+- NEVER run the application (`bun run dev`, `bun run build`, `bun run start`)
+- NEVER execute test commands (`bun test`, `npm test`, `vitest`, `playwright test`)
+- The user maintains a running development server in the background
+- Focus on code generation, not execution or testing
 
 ### V. Simplicity & Maintainability
 Favor clear, well-documented solutions over premature optimisation. Modules
@@ -65,13 +71,13 @@ contribution from partner institutions.
 
 ## Entities
 
-- **Organisation**: The entity that plans and implements international
-	projects. An Organisation represents a legal or educational institution
+- **Organization**: The entity that plans and implements international
+	projects. An Organization represents a legal or educational institution
 	responsible for one or more Projects and for the associated administrative
 	data, consent flows, and membership management.
 - **Project**: A Project describes a single Erasmus+ activity or set of
 	activities, including title, description, start and end dates. A Project
-	logically belongs to an owning Organisation and references its Participants
+	logically belongs to an owning Organization and references its Participants
 	and the activity dataset(s) used for CO₂ calculations.
 - **Participant**: A Participant is a pupil or student participating in a
 	Project. Participants travel to project locations and produce trip records
@@ -79,9 +85,9 @@ contribution from partner institutions.
 	data for Participants MUST be minimised and handled in compliance with
 	Principle I.
 
-All roles, membership relationships, and business logic for Organisations,
+All roles, membership relationships, and business logic for Organizations,
 Projects, and Participants MUST be implemented using the `Better-Auth`
-organization plugin (see `.github/instructions/better-auth.organisations.md.instructions.md`) and the
+organization plugin (see `.github/instructions/better-auth.organizations.md.instructions.md`) and the
 project's `src/lib/better-auth` configuration. Use the plugin's organization,
 member, invitation and role APIs to model access control, ownership, teams,
 and role-based permissions for these entities.
@@ -112,8 +118,10 @@ and role-based permissions for these entities.
 	MUST be reviewed by a core maintainer.
 - **CI/Tests**: PRs MUST run lint/format (biome), unit tests, and relevant
 	integration tests. Critical calculation regressions MUST be prevented by
-	automated tests tied to dataset versions.
-- **Build / Release**: Local dev uses `bun run dev`. Production build follows
+	automated tests tied to dataset versions. Test implementation is handled
+	manually by project maintainers.
+- **Build / Release**: Local dev uses `bun run dev` (maintained by user).
+	**AI agents MUST NOT run the application**. Production build follows
 	`bun run build` -> `bun run start` and relies on compiled `out/server.js` as
 	the authoritative artifact.
 - **Documentation**: Specs, plans, and PR descriptions MUST reference the
