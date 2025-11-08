@@ -25,21 +25,19 @@ export default async function DashboardPage() {
   const members = membersResult.members || [];
 
   return (
-    <div className="container py-8">
-      <div className="space-y-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="font-bold text-3xl">{activeOrganization?.name}</h1>
-            <p className="text-muted-foreground">
-              Welcome to your organization dashboard
-            </p>
-          </div>
-
-          <CreateOrganizationModal />
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-bold text-3xl">{activeOrganization?.name}</h1>
+          <p className="text-muted-foreground">
+            Welcome to your organization dashboard
+          </p>
         </div>
 
-        <DashboardTabs members={members} />
+        <CreateOrganizationModal />
       </div>
+
+      <DashboardTabs members={members} />
     </div>
   );
 }

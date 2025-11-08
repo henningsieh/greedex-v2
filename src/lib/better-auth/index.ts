@@ -2,9 +2,11 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { organization as organizationPlugin } from "better-auth/plugins";
+import { desc, eq } from "drizzle-orm";
 import { env } from "@/env";
 import { db } from "@/lib/drizzle/db";
 import * as schema from "@/lib/drizzle/schema";
+import { member } from "@/lib/drizzle/schema";
 import {
   sendEmailVerificationEmail,
   sendPasswordResetEmail,
@@ -53,4 +55,25 @@ export const auth = betterAuth({
     },
   },
   plugins: [organizationPlugin(), nextCookies()],
+
+  databaseHooks: {
+    session: {
+      create: {
+        before: async (userSession) => {
+          const membership = await db.query.member.findFirst({
+            where: eq(member.userId, userSession.userId),
+            orderBy: desc(member.createdAt),
+            columns: { organizationId: true },
+          });
+
+          return {
+            data: {
+              ...userSession,
+              activeOrganizationId: membership?.organizationId,
+            },
+          };
+        },
+      },
+    },
+  },
 });

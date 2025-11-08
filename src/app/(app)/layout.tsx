@@ -1,6 +1,15 @@
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { AppSidebar } from "@/components/app-sidebar";
 import { Navbar } from "@/components/navbar";
+import { ThemeProvider } from "@/components/theme-provider";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/lib/better-auth";
 
 export default async function AppLayout({
@@ -31,13 +40,37 @@ export default async function AppLayout({
     redirect("/org/create");
   }
 
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
   // Authenticated and has orgs -> allow rendering of the protected app
   return (
-    <>
-      <Navbar />
-      <main className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col">
-        {children}
-      </main>
-    </>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <NuqsAdapter>
+        <Navbar />
+        <SidebarProvider
+          defaultOpen={defaultOpen}
+          className="min-h-[calc(svh-4rem)]"
+        >
+          {/* <div className="mx-auto flex w-full"> */}
+          <AppSidebar />
+          <SidebarInset>
+            <main className="flex-1 flex-col">
+              <div className="border-b p-2 pl-0">
+                <SidebarTrigger />
+              </div>
+              <div className="p-2 md:p-4 lg:p-6 xl:p-8">{children}</div>
+            </main>
+          </SidebarInset>
+          {/* </div> */}
+        </SidebarProvider>
+      </NuqsAdapter>
+      <Toaster richColors position="top-right" />
+    </ThemeProvider>
   );
 }

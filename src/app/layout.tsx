@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Comfortaa, JetBrains_Mono } from "next/font/google";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
+import Script from "next/script";
 
 const comfortaa = Comfortaa({
   weight: ["300", "400", "500", "600", "700"],
@@ -57,20 +55,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script
+          src="https://tweakcn.com/live-preview.min.js"
+          strategy="beforeInteractive"
+        />
+      </head>
       <body
         className={`${comfortaa.className} ${jetbrainsMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NuqsAdapter>
-            <div className="mx-auto max-w-7xl px-8">{children}</div>
-          </NuqsAdapter>
-          <Toaster richColors position="top-right" />
-        </ThemeProvider>
+        <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">{children}</div>
       </body>
     </html>
   );
