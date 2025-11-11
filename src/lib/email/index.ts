@@ -1,7 +1,7 @@
 import { render } from "@react-email/components";
-import { sendEmail } from "./nodemailer";
-import { EmailVerification } from "./templates/email-verification";
-import { PasswordResetEmail } from "./templates/password-reset";
+import { sendEmail } from "@/lib/email/nodemailer";
+import { EmailVerification } from "@/lib/email/templates/email-verification";
+import { PasswordResetEmail } from "@/lib/email/templates/password-reset";
 
 interface User {
   email: string;

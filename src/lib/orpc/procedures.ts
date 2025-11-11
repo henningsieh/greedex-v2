@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { base } from "./context";
-import { authorized } from "./middleware";
+import { base } from "@/lib/orpc/context";
+import { authorized } from "@/lib/orpc/middleware";
 
 /**
  * Public hello world procedure

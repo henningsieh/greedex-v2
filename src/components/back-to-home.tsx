@@ -1,7 +1,7 @@
 import { ChevronLeft } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   label?: string;

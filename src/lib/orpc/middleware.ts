@@ -1,6 +1,6 @@
 import { ORPCError } from "@orpc/server";
 import { auth } from "@/lib/better-auth";
-import { base } from "./context";
+import { base } from "@/lib/orpc/context";
 
 /**
  * Middleware that validates authentication using Better Auth

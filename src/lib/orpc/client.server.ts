@@ -2,7 +2,7 @@ import "server-only";
 
 import { createRouterClient } from "@orpc/server";
 import { headers } from "next/headers";
-import { router } from "./router";
+import { router } from "@/lib/orpc/router";
 
 /**
  * Server-side oRPC client for SSR optimization

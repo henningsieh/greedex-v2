@@ -4,7 +4,7 @@ import {
   listProjects,
   setActiveProject,
 } from "@/components/features/projects/procedures";
-import { getHealth, getProfile, helloWorld } from "./procedures";
+import { getHealth, getProfile, helloWorld } from "@/lib/orpc/procedures";
 
 /**
  * Main oRPC router

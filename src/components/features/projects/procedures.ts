@@ -13,7 +13,7 @@ import {
   projectTable,
   session as sessionTable,
 } from "@/lib/drizzle/schema";
-import { authorized } from "@/lib/orpc";
+import { authorized } from "@/lib/orpc/middleware";
 
 /**
  * Create a new project
