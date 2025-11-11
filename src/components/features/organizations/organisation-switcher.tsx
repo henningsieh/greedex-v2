@@ -3,6 +3,7 @@
 import { Check, ChevronsUpDown, GalleryVerticalEnd } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { useLoading } from "@/components/providers/loading-provider";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,9 +21,11 @@ import { authClient } from "@/lib/better-auth/auth-client";
 
 export function OrganizationSwitcher() {
   const router = useRouter();
+  const { setIsLoading } = useLoading();
   const {
     data: session,
     isPending: sessionIsPending,
+
     error: sessionError,
     // refetch: refetchSession,
   } = authClient.useSession();
@@ -90,9 +93,11 @@ export function OrganizationSwitcher() {
                 key={org.id}
                 onSelect={async () => {
                   setActiveOrganization(org);
+                  setIsLoading(true);
                   await authClient.organization.setActive({
                     organizationId: org.id,
                   });
+                  setIsLoading(false);
                   router.refresh();
                 }}
               >

@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Navbar } from "@/components/navbar";
+import { LoadingProvider } from "@/components/providers/loading-provider";
 import {
   SidebarInset,
   SidebarProvider,
@@ -53,25 +54,26 @@ export default async function AppLayout({
   return (
     <div className="mx-auto max-w-7xl">
       <Navbar />
-      <SidebarProvider
-        defaultOpen={defaultOpen}
-        className="min-h-[calc(svh-4rem)]"
-      >
-        <ErrorBoundary fallback={<div>Failed to load sidebar.</div>}>
-          <Suspense fallback="loading sidebar...">
-            <AppSidebar />
-          </Suspense>
-        </ErrorBoundary>
-        <SidebarInset>
-          <main className="flex-1 flex-col">
-            <div className="border-b p-2 pl-0">
-              <SidebarTrigger />
-            </div>
-            <div className="p-2 md:p-4 lg:p-6 xl:p-8">{children}</div>
-          </main>
-        </SidebarInset>
-        {/* </div> */}
-      </SidebarProvider>
+      <LoadingProvider>
+        <SidebarProvider
+          defaultOpen={defaultOpen}
+          className="min-h-[calc(svh-4rem)]"
+        >
+          <ErrorBoundary fallback={<div>Failed to load sidebar.</div>}>
+            <Suspense fallback="loading sidebar...">
+              <AppSidebar />
+            </Suspense>
+          </ErrorBoundary>
+          <SidebarInset>
+            <main className="flex-1 flex-col">
+              <div className="border-b p-2 pl-0">
+                <SidebarTrigger />
+              </div>
+              <div className="p-2 md:p-4 lg:p-6 xl:p-8">{children}</div>
+            </main>
+          </SidebarInset>
+        </SidebarProvider>
+      </LoadingProvider>
 
       <Toaster richColors position="top-right" />
     </div>
