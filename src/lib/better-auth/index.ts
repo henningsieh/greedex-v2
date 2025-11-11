@@ -53,6 +53,11 @@ export const auth = betterAuth({
       enabled: true,
       maxAge: 60, // 1 minute
     },
+    additionalFields: {
+      activeProjectId: {
+        type: "string",
+      },
+    },
   },
   plugins: [organizationPlugin(), nextCookies()],
 

@@ -8,7 +8,11 @@ import {
   ProjectSelectSchema,
 } from "@/components/features/projects/types";
 import { db } from "@/lib/drizzle/db";
-import { projectParticipant, projectTable } from "@/lib/drizzle/schema";
+import {
+  projectParticipant,
+  projectTable,
+  session as sessionTable,
+} from "@/lib/drizzle/schema";
 import { authorized } from "@/lib/orpc";
 
 /**
@@ -110,4 +114,18 @@ export const getProjectById = authorized
     }
 
     return project;
+  });
+
+/**
+ * Set active project for the session
+ */
+export const setActiveProject = authorized
+  .input(z.object({ projectId: z.string().optional() }))
+  .handler(async ({ input, context }) => {
+    await db
+      .update(sessionTable)
+      .set({ activeProjectId: input.projectId })
+      .where(eq(sessionTable.id, context.session.id));
+
+    return { success: true };
   });

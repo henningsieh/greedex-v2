@@ -1,0 +1,1 @@
+ALTER TABLE "session" ADD COLUMN "active_project_id" text;

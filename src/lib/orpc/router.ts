@@ -2,6 +2,7 @@ import {
   createProject,
   getProjectById,
   listProjects,
+  setActiveProject,
 } from "@/components/features/projects/procedures";
 import { getHealth, getProfile, helloWorld } from "./procedures";
 
@@ -24,6 +25,7 @@ export const router = {
     create: createProject,
     list: listProjects,
     getById: getProjectById,
+    setActive: setActiveProject,
   },
 };
 

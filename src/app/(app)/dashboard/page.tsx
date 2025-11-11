@@ -1,9 +1,10 @@
 import { headers } from "next/headers";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/query/hydration";
+import { DashboardHeader } from "./_components/dashboard-header";
 import { DashboardTabs } from "./_components/dashboard-tabs";
 
 export default async function DashboardPage() {
@@ -20,10 +21,6 @@ export default async function DashboardPage() {
   const activeOrganizationId =
     session?.session?.activeOrganizationId || organizations[0]?.id || "";
 
-  const activeOrganization = organizations.find(
-    (org) => org.id === activeOrganizationId,
-  );
-
   const membersResult = await auth.api.listMembers({
     query: { organizationId: activeOrganizationId },
     headers: await headers(),
@@ -34,21 +31,24 @@ export default async function DashboardPage() {
   return (
     <HydrateClient client={queryClient}>
       <div className="space-y-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="font-bold text-3xl">{activeOrganization?.name}</h1>
-            <p className="text-muted-foreground">
-              Welcome to your organization's dashboard
-            </p>
-          </div>
-
-          <Button asChild variant="link">
-            <Link href="/create-project">Create New Project</Link>
-          </Button>
-        </div>
+        <Suspense fallback={<DashboardHeaderSkeleton />}>
+          <DashboardHeader />
+        </Suspense>
 
         <DashboardTabs members={members} />
       </div>
     </HydrateClient>
+  );
+}
+
+function DashboardHeaderSkeleton() {
+  return (
+    <div className="flex items-center justify-between">
+      <div className="space-y-2">
+        <Skeleton className="h-9 w-64" />
+        <Skeleton className="h-5 w-96" />
+      </div>
+      <Skeleton className="h-10 w-32" />
+    </div>
   );
 }

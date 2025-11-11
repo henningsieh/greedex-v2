@@ -16,7 +16,12 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   return (
-    <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
+    <LoadingContext.Provider
+      value={{
+        isLoading: isLoading,
+        setIsLoading: setIsLoading,
+      }}
+    >
       {children}
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/50 backdrop-blur-sm">
@@ -30,10 +35,10 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useLoading() {
+export function useAppLoading() {
   const context = React.useContext(LoadingContext);
   if (!context) {
-    throw new Error("useLoading must be used within LoadingProvider");
+    throw new Error("useAppLoading must be used within LoadingProvider");
   }
   return context;
 }

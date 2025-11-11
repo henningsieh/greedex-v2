@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import CreateOrganizationModal from "@/components/features/organizations/create-organization-modal";
-import { useLoading } from "@/components/providers/loading-provider";
+import { useAppLoading } from "@/components/providers/loading-provider";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,7 +29,7 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function OrganizationSwitcher() {
   const queryClient = useQueryClient();
-  const { setIsLoading } = useLoading();
+  const { setIsLoading } = useAppLoading();
   const {
     data: session,
     isPending: sessionIsPending,
@@ -104,6 +104,13 @@ export function OrganizationSwitcher() {
                   setIsLoading(true);
                   await authClient.organization.setActive({
                     organizationId: org.id,
+                  });
+                  // Invalidate queries to refresh data after organization switch
+                  await queryClient.invalidateQueries({
+                    queryKey: ["better-auth", "session"],
+                  });
+                  queryClient.invalidateQueries({
+                    queryKey: ["better-auth", "organizations"],
                   });
                   queryClient.invalidateQueries({
                     queryKey: orpcQuery.project.list.queryKey(),

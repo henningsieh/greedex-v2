@@ -12,6 +12,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { OrganizationSwitcher } from "@/components/features/organizations/organisation-switcher";
+import { ProjectSwitcher } from "@/components/features/projects/project-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -48,7 +49,7 @@ export function AppSidebar() {
       collapsible="icon"
     >
       <SidebarHeader>
-        <OrganizationSwitcher />
+        <ProjectSwitcher />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
