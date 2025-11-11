@@ -29,7 +29,7 @@ export const env = createEnv({
         message: "Must start with GOCSPX",
       }),
     DISCORD_CLIENT_ID: z.string().min(19),
-    DISCORD_CLIENT_SECRET: z.string().length(64),
+    DISCORD_CLIENT_SECRET: z.string().length(32),
     GITHUB_CLIENT_ID: z.string().length(20),
     GITHUB_CLIENT_SECRET: z.string().length(40),
     SMTP_HOST: z.string().min(1),
