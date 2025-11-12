@@ -140,7 +140,7 @@ export const HeroHeader = () => {
               </ul>
             </div>
 
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden items-center gap-3 lg:flex">
               <div
                 className={cn(
                   "relative h-8 overflow-hidden transition-all ease-in-out",

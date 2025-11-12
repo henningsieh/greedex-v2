@@ -14,6 +14,7 @@
       "!dist",
       "!build",
       "!src/lib/drizzle/migrations",
+      "!src/lib/drizzle/schemas",
       "!src/components/ui"
     ]
   },
@@ -21,11 +22,21 @@
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "includes": ["**", "!src/components/ui/**"]
+    "includes": [
+      "**",
+      "!src/components/ui/**",
+      "!src/lib/drizzle/schemas/**",
+      "!src/lib/drizzle/migrations/**"
+    ]
   },
   "linter": {
     "enabled": true,
-    "includes": ["**", "!src/components/ui/**"],
+    "includes": [
+      "**",
+      "!src/components/ui/**",
+      "!src/lib/drizzle/schemas/**",
+      "!src/lib/drizzle/migrations/**"
+    ],
     "rules": {
       "recommended": true,
       "suspicious": {
@@ -50,7 +61,12 @@
     }
   },
   "assist": {
-    "includes": ["**", "!src/components/ui/**"],
+    "includes": [
+      "**",
+      "!src/components/ui/**",
+      "!src/lib/drizzle/schemas/**",
+      "!src/lib/drizzle/migrations/**"
+    ],
     "actions": {
       "source": {
         "organizeImports": "on"
