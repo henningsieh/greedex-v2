@@ -1,6 +1,34 @@
 {
   "LandingPage": {
     "title": "Welcome to Greedex",
-    "description": "Your app description"
+    "description": "Your app description",
+
+    "launchButton": "Launch Erasmus+ Carbon Calculator",
+    "launchButtonAria": "Open Erasmus+ Carbon Calculator — login required",
+
+    "hero": {
+      "missionTitle": "Our mission",
+      "missionText": "Erasmus+ programme enables us to have amazing learning adventures with inspirational people from different countries. However, each of our personal gatherings contributes to a deep carbon footprint due to our travelling and living habits. The purpose of this project was to offset our carbon footprint on the projects we make by bringing more awareness and more action to change our habits. For this reason, we have created a carbon footprint calculator that is specialized for Erasmus+ projects such as youth exchanges, training courses, meetings etc. This calculator offers the final number of the CO2 produced by each participant and transforms this number to the number of the average trees that will absorb our CO2 in their lifetime. Our calculations are based on scientific research done by different professionals. We did not make our own calculations.",
+      "visionTitle": "Our vision",
+      "visionText": "We want to create a movement, where each Erasmus+ project calculates their carbon footprint and plants trees to offset it. We see several Erasmus+ forests rising in Europe which contribute to the cleaner air in Europe. We see young people continuing to learn together in a more sustainable environment, while travelling green, and enjoying the beauty of nature. This website has so much knowledge gathered for you, so take some time and search a bit around.",
+      "scrollDown": "Scroll down",
+      "meetCustomers": "Meet Our Customers"
+    },
+
+    "workshops": {
+      "headingPrefix": "Hello, fellow",
+      "headingEmphasis": "Earth walker",
+      "intro1": "We are very happy you have found a way to our Greendex page. This page will help you bring awareness of sustainable and eco-friendly habits on the Erasmus+ project.",
+      "intro2": "In this section we offer you three different workshops for you to use on your learning mobility, depending on your time:",
+      "card": {
+        "learnMore": "Learn More →"
+      },
+      "keyword": "workshops",
+      "bottomP1": "You can use the same workshop on every single mobility, because the numbers will always be different. These workshops will bring awareness about the sustainability of this mobility and will inspire you to take some actions. Sustainability is not just a topic, is a principle we should all live by.",
+      "bottomP2Prefix": "If you are interested to learn more about the sustainability, go to sections",
+      "bottomP2Middle": "and",
+      "library": "Library",
+      "tipsAndTricks": "Tips and Tricks"
+    }
   }
 }

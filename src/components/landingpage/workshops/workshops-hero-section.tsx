@@ -1,6 +1,7 @@
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { calculatorWorkshops } from "@/components/landingpage/workshops/workshops.config";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import {
@@ -11,7 +12,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export default function WorkshopsHeroSection() {
+export default async function WorkshopsHeroSection() {
+  const t = await getTranslations("LandingPage");
+  const intro2 = t("workshops.intro2");
+  const intro2Parts = intro2.split("workshops");
   return (
     <section
       id="workshops"
@@ -20,23 +24,19 @@ export default function WorkshopsHeroSection() {
       <div className="@container mx-auto max-w-6xl px-6 lg:px-0">
         <div className="space-y-8 text-center">
           <h2 className="text-balance font-semibold text-4xl lg:text-5xl">
-            Hello, fellow{" "}
+            {t("workshops.headingPrefix")}{" "}
             <span className="bg-accent text-accent-foreground">
-              Earth walker
+              {t("workshops.headingEmphasis")}
             </span>
             .
           </h2>
+          <p className="mx-auto max-w-4xl">{t("workshops.intro1")}</p>
           <p className="mx-auto max-w-4xl">
-            We are very happy you have found a way to our Greendex page. This
-            page will help you bring awareness of sustainable and eco-friendly
-            habits on the Erasmus+ project.
-          </p>
-          <p className="mx-auto max-w-4xl">
-            In this section we offer you three different{" "}
+            {intro2Parts[0]}{" "}
             <span className="bg-primary text-primary-foreground text-xl capitalize">
-              workshops
+              {t("workshops.keyword")}
             </span>{" "}
-            for you to use on your learning mobility, depending on your time:
+            {intro2Parts[1] ?? ""}
           </p>
         </div>
 
@@ -88,7 +88,7 @@ export default function WorkshopsHeroSection() {
                 <CardContent className="flex-1">{w.description}</CardContent>
                 <CardFooter className="justify-end">
                   <span className="font-medium text-primary text-sm underline underline-offset-4">
-                    Learn More →
+                    {t("workshops.card.learnMore")}
                   </span>
                 </CardFooter>
               </Card>
@@ -97,23 +97,16 @@ export default function WorkshopsHeroSection() {
         </AnimatedGroup>
 
         <div className="mx-auto mt-16 max-w-5xl space-y-8 text-center">
-          <p>
-            You can use the same workshop on every single mobility, because the
-            numbers will always be different. These workshops will bring
-            awareness about the sustainability of this mobility and will inspire
-            you to take some actions. Sustainability is not just a topic, is a
-            principle we should all live by.
-          </p>
+          <p>{t("workshops.bottomP1")}</p>
 
           <p>
-            If you are interested to learn more about the sustainability, go to
-            sections{" "}
+            {t("workshops.bottomP2Prefix")}{" "}
             <Link className="text-primary underline" href="/#">
-              Library
+              {t("workshops.library")}
             </Link>{" "}
-            and{" "}
+            {t("workshops.bottomP2Middle") ?? "and"}{" "}
             <Link className="text-primary underline" href="/tips-and-tricks">
-              Tips and Tricks
+              {t("workshops.tipsAndTricks")}
             </Link>
             .
           </p>
