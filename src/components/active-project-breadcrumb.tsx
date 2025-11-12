@@ -19,10 +19,9 @@ export function ActiveProjectBreadcrumb() {
     orpcQuery.project.list.queryOptions(),
   );
 
-  const activeProject =
-    projects?.find(
-      (project) => project.id === session?.session?.activeProjectId,
-    ) || projects?.[0];
+  const activeProject = projects?.find(
+    (project) => project.id === session?.session?.activeProjectId,
+  );
 
   if (!activeProject) {
     return null;

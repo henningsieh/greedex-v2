@@ -3,7 +3,6 @@ import "@/lib/orpc/client.server"; // Initialize server-side oRPC client for pre
 
 import type { Metadata } from "next";
 import { Comfortaa, JetBrains_Mono } from "next/font/google";
-import Script from "next/script";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import Providers from "@/components/providers";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -60,9 +59,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <head>
-        <Script
+        <script
+          async
+          crossOrigin="anonymous"
           src="https://tweakcn.com/live-preview.min.js"
-          strategy="beforeInteractive"
         />
       </head>
       <body

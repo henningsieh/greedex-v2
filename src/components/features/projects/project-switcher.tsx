@@ -7,7 +7,7 @@ import {
   MapPinnedIcon,
   PlusIcon,
 } from "lucide-react";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
   DropdownMenu,
@@ -30,6 +30,7 @@ import { cn } from "@/lib/utils";
 export function ProjectSwitcher() {
   const { setIsLoading } = useAppLoading();
   const queryClient = useQueryClient();
+  const [mounted, setMounted] = useState(false);
 
   const {
     data: session,
@@ -44,47 +45,44 @@ export function ProjectSwitcher() {
     error: projectsError,
   } = useQuery(orpcQuery.project.list.queryOptions());
 
-  const activeProject =
-    projects?.find(
-      (project) => project.id === session?.session?.activeProjectId,
-    ) || projects?.[0];
-
-  const [activeProjectState, setActiveProjectState] =
-    React.useState(activeProject);
-
-  React.useEffect(() => {
-    setActiveProjectState(activeProject);
-  }, [activeProject]);
+  const activeProject = projects?.find(
+    (project) => project.id === session?.session?.activeProjectId,
+  );
 
   const setActiveProject = useMutation({
     mutationFn: (projectId: string | undefined) =>
       orpc.project.setActive({ projectId }),
     onSuccess: async () => {
-      refetchSession();
+      // Step 1: Invalidate the session query cache
+      await queryClient.invalidateQueries({
+        queryKey: ["auth", "session"],
+      });
 
-      // queryClient.invalidateQueries({
-      //   queryKey: orpcQuery.project.list.queryKey(),
+      // Step 2: Wait for the refetch to complete
+      // await queryClient.refetchQueries({
+      //   queryKey: ["auth", "session"],
       // });
 
+      // Step 3: Invalidate project list
       queryClient.invalidateQueries({
         queryKey: orpcQuery.project.list.queryKey(),
       });
+      refetchSession();
     },
   });
 
   const { isMobile } = useSidebar();
 
-  if (sessionError || projectsError) {
-    return <div>Error loading projects</div>;
+  // Fix hydration by only rendering after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || sessionError || projectsError) {
+    return <ProjectSwitcherSkeleton />;
   }
 
-  if (
-    !session ||
-    !activeProjectState ||
-    !projects ||
-    sessionIsPending ||
-    projectsIsPending
-  ) {
+  if (!session || !projects || sessionIsPending || projectsIsPending) {
     return <ProjectSwitcherSkeleton />;
   }
 
@@ -101,7 +99,9 @@ export function ProjectSwitcher() {
                 <MapPinnedIcon className="size-6" />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
-                <span className="">{activeProjectState.name}</span>
+                <span className="">
+                  {activeProject ? activeProject.name : "No active project"}
+                </span>
               </div>
               <ChevronsUpDownIcon className="ml-auto" />
             </SidebarMenuButton>
@@ -116,14 +116,13 @@ export function ProjectSwitcher() {
               <DropdownMenuItem
                 key={project.id}
                 onSelect={async () => {
-                  setActiveProjectState(project);
                   setIsLoading(true);
                   await setActiveProject.mutateAsync(project.id);
                   setIsLoading(false);
                 }}
               >
                 {project.name}
-                {project.id === activeProjectState.id && (
+                {activeProject && project.id === activeProject.id && (
                   <CheckIcon className="ml-auto" />
                 )}
               </DropdownMenuItem>
