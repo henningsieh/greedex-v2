@@ -1,6 +1,7 @@
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { calculatorWorkshops } from "@/components/landingpage/workshops/workshops.config";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import {
   Card,
@@ -9,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { calculatorWorkshops } from "@/components/workshops/workshops.config";
 
 export default function WorkshopsHeroSection() {
   return (

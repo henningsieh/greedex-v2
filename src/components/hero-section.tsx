@@ -63,7 +63,7 @@ export default function HeroSection() {
             <div className="text-center sm:mx-auto lg:mt-0 lg:mr-auto">
               <AnimatedGroup variants={transitionVariants}>
                 <Link
-                  href="/dashboard"
+                  href="/org/dashboard"
                   title="Open Erasmus+ Carbon Calculator — login required"
                   aria-label="Open Erasmus+ Carbon Calculator — login required"
                   className="group mx-auto flex w-fit items-center gap-4 rounded-full border bg-accent p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 hover:bg-primary/50 dark:border-t-white/5 dark:shadow-zinc-950 dark:hover:border-t-border"

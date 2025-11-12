@@ -1,3 +1,5 @@
+import type { Route } from "next";
+
 export type CalculatorType = "moment" | "deal" | "day";
 
 export interface Step {
@@ -5,7 +7,7 @@ export interface Step {
   content: string;
   links?: Array<{
     text: string;
-    href: string;
+    href: Route;
     isExternal?: boolean;
   }>;
 }
@@ -43,7 +45,7 @@ export const calculatorWorkshops: Record<CalculatorType, CalculatorWorkshop> = {
             links: [
               {
                 text: "Open Greendex App",
-                href: "/dashboard",
+                href: "/org/dashboard",
                 isExternal: false,
               },
             ],
@@ -126,7 +128,7 @@ export const calculatorWorkshops: Record<CalculatorType, CalculatorWorkshop> = {
             links: [
               {
                 text: "Open Greendex App",
-                href: "/dashboard",
+                href: "/org/dashboard",
                 isExternal: false,
               },
             ],
@@ -347,7 +349,7 @@ export const calculatorWorkshops: Record<CalculatorType, CalculatorWorkshop> = {
             links: [
               {
                 text: "Open Greendex App",
-                href: "/dashboard",
+                href: "/org/dashboard",
                 isExternal: false,
               },
             ],

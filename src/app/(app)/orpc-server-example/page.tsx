@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { orpc } from "@/lib/orpc";
+import { orpc } from "@/lib/orpc/orpc";
 
 /**
  * Server Component demonstrating oRPC usage during SSR

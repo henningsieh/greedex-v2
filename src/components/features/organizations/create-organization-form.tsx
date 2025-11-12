@@ -62,7 +62,7 @@ export default function CreateOrganizationForm({
             });
 
             onSuccess?.();
-            router.push("/dashboard");
+            router.push("/org/dashboard");
             router.refresh();
           },
         },

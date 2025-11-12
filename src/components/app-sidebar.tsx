@@ -28,13 +28,14 @@ import {
 
 const projectsMenuItems = [
   // { title: "Home", icon: Home, url: "/" },
+  { title: "Dashboard", icon: LayoutDashboardIcon, url: "/project" },
   { title: "Analytics", icon: BarChart3Icon, url: "/analytics" },
   { title: "Documents", icon: FileTextIcon, url: "/documents" },
 ];
 const organizationMenuItems = [
   // { title: "Home", icon: Home, url: "/" },
-  { title: "Dashboard", icon: LayoutDashboardIcon, url: "/dashboard" },
-  { title: "Projects", icon: MapPinnedIcon, url: "/projects" },
+  { title: "Dashboard", icon: LayoutDashboardIcon, url: "/org/dashboard" },
+  { title: "Projects", icon: MapPinnedIcon, url: "/org/projects" },
   { title: "Team", icon: UsersIcon, url: "/team" },
   { title: "Settings", icon: SettingsIcon, url: "/settings" },
 ];

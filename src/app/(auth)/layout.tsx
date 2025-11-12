@@ -24,7 +24,7 @@ export default async function AuthLayout({
       redirect("/org/create");
     } else {
       // Signed in and has orgs -> app dashboard
-      redirect("/dashboard");
+      redirect("/org/dashboard");
     }
   }
 

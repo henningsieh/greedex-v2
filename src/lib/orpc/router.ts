@@ -1,8 +1,10 @@
 import {
   createProject,
+  deleteProject,
   getProjectById,
   listProjects,
   setActiveProject,
+  updateProject,
 } from "@/components/features/projects/procedures";
 import { getHealth, getProfile, helloWorld } from "@/lib/orpc/procedures";
 
@@ -25,6 +27,8 @@ export const router = {
     create: createProject,
     list: listProjects,
     getById: getProjectById,
+    update: updateProject,
+    delete: deleteProject,
     setActive: setActiveProject,
   },
 };

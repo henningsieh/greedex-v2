@@ -6,14 +6,19 @@ import { organization, user } from "@/lib/drizzle/schemas/auth-schema";
 const activityTypeValues = ["boat", "bus", "train", "car"] as const;
 export type ActivityType = (typeof activityTypeValues)[number];
 
-// Define participant roles as a const array (single source of truth)
-const participantRoleValues = ["participant", "leader"] as const;
-export type ParticipantRole = (typeof participantRoleValues)[number];
-
 // ============================================================================
 // TABLES
 // ============================================================================
 
+/**
+ * Project table
+ * 
+ * Projects belong to organizations and access is controlled through
+ * Better Auth's organization membership system.
+ * 
+ * Members with "member" role can READ projects
+ * Members with "admin" or "owner" role can CREATE, READ, UPDATE, DELETE projects
+ */
 export const projectTable = pgTable("project", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -28,7 +33,7 @@ export const projectTable = pgTable("project", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
 
-  // Foreign key to organization (assuming projects belong to organizations)
+  // Foreign key to organization - projects are scoped to organizations
   organizationId: text("organization_id")
     .notNull()
     .references(() => organization.id, { onDelete: "cascade" }),
@@ -40,6 +45,11 @@ export const projectTable = pgTable("project", {
     .notNull(),
 });
 
+/**
+ * Project Activity table
+ * 
+ * Tracks travel activities associated with projects for carbon footprint calculation
+ */
 export const projectActivity = pgTable("project_activity", {
   id: text("id").primaryKey(),
   projectId: text("project_id")
@@ -65,21 +75,6 @@ export const projectActivity = pgTable("project_activity", {
     .notNull(),
 });
 
-export const projectParticipant = pgTable("project_participant", {
-  id: text("id").primaryKey(),
-  projectId: text("project_id")
-    .notNull()
-    .references(() => projectTable.id, { onDelete: "cascade" }),
-  userId: text("user_id")
-    .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
-  role: text("role", { enum: participantRoleValues })
-    .$type<ParticipantRole>()
-    .default("participant")
-    .notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-});
-
 // ============================================================================
 // RELATIONS
 // ============================================================================
@@ -95,7 +90,6 @@ export const projectRelations = relations(projectTable, ({ one, many }) => ({
     references: [organization.id],
   }),
   activities: many(projectActivity),
-  participants: many(projectParticipant),
 }));
 
 // projectActivity - relations
@@ -105,21 +99,6 @@ export const projectActivityRelations = relations(
     project: one(projectTable, {
       fields: [projectActivity.projectId],
       references: [projectTable.id],
-    }),
-  }),
-);
-
-// projectParticipant - relations
-export const projectParticipantRelations = relations(
-  projectParticipant,
-  ({ one }) => ({
-    project: one(projectTable, {
-      fields: [projectParticipant.projectId],
-      references: [projectTable.id],
-    }),
-    user: one(user, {
-      fields: [projectParticipant.userId],
-      references: [user.id],
     }),
   }),
 );

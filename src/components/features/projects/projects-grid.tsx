@@ -2,14 +2,8 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { FolderOpen, Plus } from "lucide-react";
+import ProjectDetailCard from "@/components/features/organizations/organization-card";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   Empty,
   EmptyContent,
@@ -19,7 +13,6 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { formatDate } from "@/lib/utils";
 
 export function ProjectsGrid() {
   const { data: projects, error } = useSuspenseQuery(
@@ -56,26 +49,7 @@ export function ProjectsGrid() {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {projects.map((project) => (
-        <Card key={project.id}>
-          <CardHeader>
-            <CardTitle>{project.name}</CardTitle>
-            <CardDescription>
-              {project.location}, {project.country}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2 text-sm">
-              <div>
-                <span className="font-medium">Start:</span>{" "}
-                {formatDate(project.startDate)}
-              </div>
-              <div>
-                <span className="font-medium">End:</span>{" "}
-                {formatDate(project.endDate)}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <ProjectDetailCard key={project.id} project={project} />
       ))}
     </div>
   );

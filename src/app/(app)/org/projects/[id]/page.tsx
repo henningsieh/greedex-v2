@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import ProjectDetails from "@/components/features/projects/project-details";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient, HydrateClient } from "@/lib/query/hydration";
+import { getQueryClient } from "@/lib/query/hydration";
 
 export default async function ProjectsDetailsPage({
   params,
@@ -22,9 +22,9 @@ export default async function ProjectsDetailsPage({
   return (
     <ErrorBoundary fallback={<div>Failed to load project details.</div>}>
       <Suspense fallback="loading project details...">
-        <HydrateClient client={queryClient}>
-          <ProjectDetails id={id} />
-        </HydrateClient>
+        {/* <HydrateClient client={queryClient}> */}
+        <ProjectDetails id={id} />
+        {/* </HydrateClient> */}
       </Suspense>
     </ErrorBoundary>
   );

@@ -1,9 +1,9 @@
 "use client";
 
 import { parseAsStringLiteral, useQueryState } from "nuqs";
+import { WorkshopDetails } from "@/components/landingpage/workshops/workshiop-details";
+import type { CalculatorType } from "@/components/landingpage/workshops/workshops.config";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { WorkshopDetails } from "@/components/workshops/workshiop-details";
-import type { CalculatorType } from "@/components/workshops/workshops.config";
 
 export function WorkshopContent({
   initialType,

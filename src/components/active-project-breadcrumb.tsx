@@ -1,7 +1,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { MapPinnedIcon } from "lucide-react";
+import { MapPinnedIcon, TriangleAlertIcon } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -23,21 +23,30 @@ export function ActiveProjectBreadcrumb() {
     (project) => project.id === session?.session?.activeProjectId,
   );
 
-  if (!activeProject) {
-    return null;
-  }
+  // if (!activeProject) {
+  //   return null;
+  // }
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink
-            href={`/projects/${activeProject.id}`}
-            className="flex items-center gap-2 text-secondary transition-colors hover:text-sidebar-accent-foreground"
-          >
-            <MapPinnedIcon className="size-4" />
-            <span className="font-medium">{activeProject.name}</span>
-          </BreadcrumbLink>
+          {activeProject ? (
+            <BreadcrumbLink
+              href={`/projects/${activeProject.id}`}
+              className="flex items-center gap-2 text-secondary transition-colors hover:text-sidebar-accent-foreground"
+            >
+              <MapPinnedIcon className="size-4" />
+              <span className="font-medium">{activeProject.name}</span>
+            </BreadcrumbLink>
+          ) : (
+            <span className="flex items-center gap-2 text-rose-500/80">
+              <TriangleAlertIcon className="size-4" />
+              <span className="font-bold italic">
+                You have not selected an project
+              </span>
+            </span>
+          )}
         </BreadcrumbItem>
         <BreadcrumbSeparator className="text-sidebar-border" />
       </BreadcrumbList>

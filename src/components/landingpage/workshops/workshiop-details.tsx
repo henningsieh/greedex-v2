@@ -3,6 +3,10 @@
 import { CheckCircle2, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import {
+  type CalculatorType,
+  calculatorWorkshops,
+} from "@/components/landingpage/workshops/workshops.config";
+import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -18,10 +22,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-  type CalculatorType,
-  calculatorWorkshops,
-} from "@/components/workshops/workshops.config";
 
 export function WorkshopDetails({ type }: { type: CalculatorType }) {
   const workshop = calculatorWorkshops[type];
@@ -88,9 +88,7 @@ export function WorkshopDetails({ type }: { type: CalculatorType }) {
                                     <ExternalLink className="size-3" />
                                   </a>
                                 ) : (
-                                  <Link href={link.href as "/dashboard"}>
-                                    {link.text}
-                                  </Link>
+                                  <Link href={link.href}>{link.text}</Link>
                                 )}
                               </Button>
                             ))}
@@ -117,7 +115,7 @@ export function WorkshopDetails({ type }: { type: CalculatorType }) {
         <CardContent>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg">
-              <Link href="/dashboard">Open Greendex App</Link>
+              <Link href="/org/dashboard">Open Greendex App</Link>
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link href="/#workshops">View All Workshops</Link>

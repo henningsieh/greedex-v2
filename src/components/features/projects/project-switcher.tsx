@@ -107,13 +107,14 @@ export function ProjectSwitcher() {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width)"
+            className="w-(--radix-dropdown-menu-trigger-width) border border-secondary/50 bg-background/80 backdrop-blur-md"
             align="start"
             side={isMobile ? undefined : "right"}
             sideOffset={4}
           >
             {projects.map((project) => (
               <DropdownMenuItem
+                className="focus:bg-secondary/50 focus:text-accent-foreground"
                 key={project.id}
                 onSelect={async () => {
                   setIsLoading(true);
@@ -129,6 +130,7 @@ export function ProjectSwitcher() {
             ))}
             <DropdownMenuSeparator />
             <DropdownMenuItem
+              className="focus:bg-secondary/50 focus:text-accent-foreground"
               onSelect={() => {
                 // TODO: Open create project modal
               }}

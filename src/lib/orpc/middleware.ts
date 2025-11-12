@@ -1,5 +1,6 @@
 import { ORPCError } from "@orpc/server";
 import { auth } from "@/lib/better-auth";
+import type { ProjectPermission } from "@/lib/better-auth/permissions";
 import { base } from "@/lib/orpc/context";
 
 /**
@@ -29,3 +30,49 @@ export const authMiddleware = base.middleware(async ({ context, next }) => {
  * Use this instead of `base` when creating procedures that require authentication
  */
 export const authorized = base.use(authMiddleware);
+
+/**
+ * Middleware that checks for specific project permissions
+ * Must be used after authMiddleware (use with `authorized` base)
+ *
+ * @param permissions - Array of required project permissions
+ * @example
+ * ```ts
+ * const createProject = authorized
+ *   .use(requireProjectPermissions(["create"]))
+ *   .handler(...)
+ * ```
+ */
+export const requireProjectPermissions = (permissions: ProjectPermission[]) => {
+  return base.middleware(async ({ context, next }) => {
+    // Type assertion since we know this middleware is used with `authorized`
+    const typedContext = context as typeof context & {
+      session: { activeOrganizationId?: string | null };
+      user: { id: string };
+    };
+
+    if (!typedContext.session.activeOrganizationId) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Check if user has the required permissions using Better Auth's API
+    const hasPermission = await auth.api.hasPermission({
+      headers: context.headers,
+      body: {
+        permissions: {
+          project: permissions,
+        },
+      },
+    });
+
+    if (!hasPermission) {
+      throw new ORPCError("FORBIDDEN", {
+        message: `Missing required permissions: ${permissions.join(", ")}`,
+      });
+    }
+
+    return next();
+  });
+};

@@ -17,7 +17,7 @@ import {
 import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient } from "@/lib/query/hydration";
+import { getQueryClient, HydrateClient } from "@/lib/query/hydration";
 
 export default async function AppLayout({
   children,
@@ -32,7 +32,7 @@ export default async function AppLayout({
   if (!session?.user) {
     // Not authenticated -> send to login (auth group).
     // The (auth) directory is a route group, its login page is at '/login'.
-    redirect("/login");
+    return redirect("/login");
   }
 
   // If authenticated, ensure they have an organization
@@ -47,8 +47,17 @@ export default async function AppLayout({
     redirect("/org/create");
   }
 
-  // Prefetch the projects data on the server
+  // Prefetch data on the server
   const queryClient = getQueryClient();
+
+  // Prefetch session data - this is critical for hydration!
+  // Better Auth's useSession hook will use this prefetched data on the client
+  await queryClient.prefetchQuery({
+    queryKey: ["auth", "session"],
+    queryFn: async () => session,
+  });
+
+  // Prefetch projects
   void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
 
   const cookieStore = await cookies();
@@ -56,33 +65,35 @@ export default async function AppLayout({
 
   // Authenticated and has orgs -> allow rendering of the protected app
   return (
-    <div className="mx-auto max-w-7xl">
-      <Navbar />
-      <LoadingProvider>
-        <SidebarProvider
-          defaultOpen={defaultOpen}
-          className="min-h-[calc(svh-4rem)]"
-        >
-          <ErrorBoundary fallback={<div>Failed to load sidebar.</div>}>
-            <Suspense fallback="loading sidebar...">
-              <AppSidebar />
-            </Suspense>
-          </ErrorBoundary>
-          <SidebarInset>
-            <main className="flex-1 flex-col">
-              <div className="flex items-center gap-4 border-b p-2 pl-0">
-                <SidebarTrigger />
-                <Suspense fallback={<BreadcrumbSkeleton />}>
-                  <ActiveProjectBreadcrumb />
-                </Suspense>
-              </div>
-              <div className="p-2 md:p-4 lg:p-6 xl:p-8">{children}</div>
-            </main>
-          </SidebarInset>
-        </SidebarProvider>
-      </LoadingProvider>
+    <HydrateClient client={queryClient}>
+      <div className="mx-auto max-w-7xl">
+        <Navbar />
+        <LoadingProvider>
+          <SidebarProvider
+            defaultOpen={defaultOpen}
+            className="min-h-[calc(svh-4rem)]"
+          >
+            <ErrorBoundary fallback={<div>Failed to load sidebar.</div>}>
+              <Suspense fallback="loading sidebar...">
+                <AppSidebar />
+              </Suspense>
+            </ErrorBoundary>
+            <SidebarInset>
+              <main className="flex-1 flex-col">
+                <div className="flex items-center gap-4 border-b p-2 pl-0">
+                  <SidebarTrigger />
+                  <Suspense fallback={<BreadcrumbSkeleton />}>
+                    <ActiveProjectBreadcrumb />
+                  </Suspense>
+                </div>
+                <div className="p-2 md:p-4 lg:p-6 xl:p-8">{children}</div>
+              </main>
+            </SidebarInset>
+          </SidebarProvider>
+        </LoadingProvider>
 
-      <Toaster richColors position="top-right" />
-    </div>
+        <Toaster richColors position="top-right" />
+      </div>
+    </HydrateClient>
   );
 }

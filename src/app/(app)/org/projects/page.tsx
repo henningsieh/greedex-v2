@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ProjectsGrid } from "@/components/features/projects/projects-grid";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient, HydrateClient } from "@/lib/query/hydration";
+import { getQueryClient } from "@/lib/query/hydration";
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
   // Prefetch the projects data on the server
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
@@ -12,9 +12,7 @@ export default function ProjectsPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ErrorBoundary fallback={<div>Something went wrong.</div>}>
-        <HydrateClient client={queryClient}>
-          <ProjectsGrid />
-        </HydrateClient>
+        <ProjectsGrid />
       </ErrorBoundary>
     </Suspense>
   );

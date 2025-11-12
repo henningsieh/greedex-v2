@@ -107,15 +107,20 @@ export function OrganizationSwitcher() {
                     organizationId: org.id,
                   });
                   // Invalidate queries to refresh data after organization switch
+                  // await queryClient.invalidateQueries({
+                  //   queryKey: ["better-auth", "session"],
+                  // });
+                  // queryClient.invalidateQueries({
+                  //   queryKey: ["better-auth", "organizations"],
+                  // });
                   await queryClient.invalidateQueries({
-                    queryKey: ["better-auth", "session"],
-                  });
-                  queryClient.invalidateQueries({
-                    queryKey: ["better-auth", "organizations"],
-                  });
-                  queryClient.invalidateQueries({
                     queryKey: orpcQuery.project.list.queryKey(),
                   });
+
+                  await queryClient.prefetchQuery(
+                    orpcQuery.project.list.queryOptions(),
+                  );
+
                   setIsLoading(false);
                 }}
               >

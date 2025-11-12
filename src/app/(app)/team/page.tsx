@@ -1,7 +1,7 @@
 import { headers as nextHeaders } from "next/headers";
 import { redirect } from "next/navigation";
+import { TeamTable } from "@/app/(app)/org/dashboard/_components/team-table";
 import { auth } from "@/lib/better-auth";
-import { TeamTable } from "../dashboard/_components/team-table";
 
 export default async () => {
   const headers = await nextHeaders();

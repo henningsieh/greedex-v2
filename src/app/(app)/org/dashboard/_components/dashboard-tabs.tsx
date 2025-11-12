@@ -2,8 +2,8 @@
 
 import { useQueryState } from "nuqs";
 import { Suspense } from "react";
-import { DashboardStats } from "@/app/(app)/dashboard/_components/dashboard-stats";
-import { TeamTable } from "@/app/(app)/dashboard/_components/team-table";
+import { DashboardStats } from "@/app/(app)/org/dashboard/_components/dashboard-stats";
+import { TeamTable } from "@/app/(app)/org/dashboard/_components/team-table";
 import { ProjectsGrid } from "@/components/features/projects/projects-grid";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
