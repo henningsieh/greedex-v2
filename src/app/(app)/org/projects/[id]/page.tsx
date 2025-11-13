@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import ProjectDetails from "@/components/features/projects/project-details";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient } from "@/lib/query/hydration";
+import { getQueryClient } from "@/lib/react-query/hydration";
 
 export default async function ProjectsDetailsPage({
   params,

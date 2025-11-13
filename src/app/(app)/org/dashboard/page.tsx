@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { Suspense } from "react";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient } from "@/lib/query/hydration";
+import { getQueryClient } from "@/lib/react-query/hydration";
 import {
   DashboardHeader,
   DashboardHeaderSkeleton,

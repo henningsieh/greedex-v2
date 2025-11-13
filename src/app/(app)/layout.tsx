@@ -17,7 +17,7 @@ import {
 import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient, HydrateClient } from "@/lib/query/hydration";
+import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
 
 export default async function AppLayout({
   children,
