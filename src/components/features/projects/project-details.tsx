@@ -81,12 +81,12 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
-                Team Members
+                Participants
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-500">
-                Team members will be displayed here.
+                Participants will be displayed here.
               </p>
             </CardContent>
           </Card>

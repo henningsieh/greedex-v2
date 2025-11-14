@@ -1,13 +1,9 @@
 import { Comfortaa, JetBrains_Mono } from "next/font/google";
+import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import { notFound } from "next/navigation";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
-import { routing } from "@/lib/i18n/routing";
-import { HeroHeader } from "@/components/header";
-import { LocaleSwitcher } from "@/components/locale-switcher";
 import Providers from "@/components/providers";
-import { ThemeProvider } from "@/components/theme-provider";
+import { routing } from "@/lib/i18n/routing";
 
 const comfortaa = Comfortaa({
   weight: ["300", "400", "500", "600", "700"],
@@ -57,22 +53,12 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body
         className={`${comfortaa.className} ${jetbrainsMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NuqsAdapter>
-            <Providers>
-              <NextIntlClientProvider messages={messages}>
-                <LocaleSwitcher />
-                <HeroHeader />
-                {children}
-              </NextIntlClientProvider>
-            </Providers>
-          </NuqsAdapter>
-        </ThemeProvider>
+        <Providers>
+          <NextIntlClientProvider messages={messages}>
+            {/* <LocaleSwitcher /> */}
+            {children}
+          </NextIntlClientProvider>
+        </Providers>
       </body>
     </html>
   );

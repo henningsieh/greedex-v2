@@ -22,13 +22,13 @@ export default async function WorkshopsHeroSection() {
   return (
     <section
       id="workshops"
-      className="min-h-[calc(100vh-5rem)] py-24 md:py-32 dark:bg-transparent"
+      className="min-h-[calc(100vh-5rem)] bg-background/60 py-24 md:py-32"
     >
       <div className="@container mx-auto max-w-6xl px-6 lg:px-0">
         <div className="space-y-8 text-center">
           <h2 className="text-balance font-semibold text-4xl lg:text-5xl">
             {t("workshops.headingPrefix")}{" "}
-            <span className="bg-gradient-to-r from-primary/20 to-primary/60 px-1 py-2 text-accent-foreground">
+            <span className="bg-gradient-to-r from-primary/20 to-primary/60 px-1 py-2 text-primary-foreground">
               {t("workshops.headingEmphasis")}
             </span>
             .
@@ -96,7 +96,7 @@ export default async function WorkshopsHeroSection() {
                   </CardHeader>
                   <CardContent className="flex-1">{description}</CardContent>
                   <CardFooter className="justify-end">
-                    <span className="font-medium text-primary text-sm underline underline-offset-4">
+                    <span className="font-bold text-secondary-foreground text-sm underline underline-offset-4">
                       {t("workshops.card.learnMore")}
                     </span>
                   </CardFooter>

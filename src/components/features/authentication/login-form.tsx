@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
-import { Link, useRouter } from "@/lib/i18n/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -24,6 +23,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { Link, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({

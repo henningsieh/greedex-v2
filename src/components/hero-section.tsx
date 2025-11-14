@@ -65,12 +65,12 @@ export default async function HeroSection() {
             <div className="text-center sm:mx-auto lg:mt-0 lg:mr-auto">
               <AnimatedGroup variants={transitionVariants}>
                 <Link
-                  href="/org/create"
+                  href="/org/dashboard"
                   title={t("launchButtonAria")}
                   aria-label={t("launchButtonAria")}
-                  className="group mx-auto flex w-fit items-center gap-4 rounded-full border bg-accent p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 hover:bg-primary/50 dark:border-t-white/5 dark:shadow-zinc-950 dark:hover:border-t-border"
+                  className="group mx-auto flex w-fit items-center gap-4 rounded-full border bg-accent p-1 pl-4 shadow-md shadow-zinc-950/5 transition-colors duration-300 hover:bg-primary dark:border-t-white/5 dark:shadow-zinc-950 dark:hover:border-t-border"
                 >
-                  <span className="flex h-8 items-center font-bold text-foreground text-lg">
+                  <span className="flex h-8 items-center font-bold text-accent-foreground text-lg">
                     {t("launchButton")}
                   </span>
                   <span className="block h-4 w-0.5 border-l bg-white dark:border-background dark:bg-zinc-700"></span>
@@ -230,7 +230,7 @@ export default async function HeroSection() {
         <div className="group relative m-auto max-w-5xl px-6">
           <div className="absolute inset-0 z-10 flex scale-95 items-center justify-center opacity-0 duration-500 group-hover:scale-100 group-hover:opacity-100">
             <Link
-              href="/org/create"
+              href="/org/dashboard"
               title={t("hero.meetCustomers")}
               aria-label={t("hero.meetCustomers")}
               className="block text-sm duration-150 hover:opacity-75"

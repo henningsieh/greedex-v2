@@ -1,4 +1,3 @@
-import { Link } from "@/lib/i18n/navigation";
 import type { ProjectType } from "@/components/features/projects/types";
 import {
   Card,
@@ -7,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Link } from "@/lib/i18n/navigation";
 import { formatDate } from "@/lib/utils";
 
 interface ProjectDetailCardProps {

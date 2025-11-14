@@ -1,10 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "@/lib/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { Link } from "@/lib/i18n/navigation";
 
 export function DashboardHeader() {
   const { data: session } = authClient.useSession();

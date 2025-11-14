@@ -1,7 +1,6 @@
 "use client";
 
 import { Mail } from "lucide-react";
-import { Link } from "@/lib/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 export function VerifyEmailContent({

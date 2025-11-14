@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { Link, useRouter } from "@/lib/i18n/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { Link, useRouter } from "@/lib/i18n/navigation";
 
 export function UserSession() {
   const router = useRouter();

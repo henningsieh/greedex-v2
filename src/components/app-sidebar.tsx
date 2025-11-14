@@ -9,7 +9,6 @@ import {
   UsersIcon,
 } from "lucide-react";
 import type { Route } from "next";
-import { Link, usePathname } from "@/lib/i18n/navigation";
 import { OrganizationSwitcher } from "@/components/features/organizations/organisation-switcher";
 import { ProjectSwitcher } from "@/components/features/projects/project-switcher";
 import {
@@ -24,6 +23,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Link, usePathname } from "@/lib/i18n/navigation";
 
 const projectsMenuItems = [
   // { title: "Home", icon: Home, url: "/" },
@@ -43,11 +43,7 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar
-      className="h-[calc(svh-4rem)]"
-      variant="floating"
-      collapsible="icon"
-    >
+    <Sidebar className="h-[calc(svh-4rem)]" variant="inset" collapsible="icon">
       <SidebarHeader>
         <ProjectSwitcher />
       </SidebarHeader>

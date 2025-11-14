@@ -132,7 +132,7 @@ export const HeroHeader = () => {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="block font-bold text-muted-foreground hover:text-primary-foreground"
+                      className="block font-bold text-muted-foreground hover:text-accent"
                     >
                       <span>{item.name}</span>
                     </Link>

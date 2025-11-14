@@ -1,7 +1,6 @@
 import { cookies, headers } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
-import { redirect } from "@/lib/i18n/navigation";
 import { ErrorBoundary } from "react-error-boundary";
 import {
   ActiveProjectBreadcrumb,
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/lib/better-auth";
+import { redirect } from "@/lib/i18n/navigation";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
 

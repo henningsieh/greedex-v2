@@ -1,9 +1,9 @@
 "use client";
 
-import { Link } from "@/lib/i18n/navigation";
 import { UserSession } from "@/components/features/authentication/user-session";
 import Logo from "@/components/logo";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { Link } from "@/lib/i18n/navigation";
 
 export function Navbar() {
   return (

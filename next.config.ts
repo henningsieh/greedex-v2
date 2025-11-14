@@ -5,6 +5,9 @@ import createNextIntlPlugin from "next-intl/plugin";
 const nextConfig: NextConfig = {
   typedRoutes: true,
   reactCompiler: true,
+  devIndicators: {
+    position: "bottom-right",
+  },
 
   // allow image hosting from external domains
 

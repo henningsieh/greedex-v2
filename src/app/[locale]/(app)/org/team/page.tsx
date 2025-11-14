@@ -20,7 +20,10 @@ export default async () => {
 
   if (!activeOrganizationId) {
     console.error("No active organization ID found in session");
-    return redirect({ href: "/org/create", locale });
+    await auth.api.signOut({
+      headers: headers,
+    });
+    return redirect({ href: "/login", locale });
   }
 
   const membersResult = await auth.api.listMembers({
