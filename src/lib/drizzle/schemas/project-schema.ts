@@ -1,10 +1,8 @@
 import { relations } from "drizzle-orm";
 import { decimal, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organization, user } from "@/lib/drizzle/schemas/auth-schema";
+import { ActivityType, activityTypeValues } from "@/components/participate/types";
 
-// Define activity types as a const array (single source of truth)
-const activityTypeValues = ["boat", "bus", "train", "car"] as const;
-export type ActivityType = (typeof activityTypeValues)[number];
 
 // ============================================================================
 // TABLES

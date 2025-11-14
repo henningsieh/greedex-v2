@@ -17,7 +17,7 @@ import {
   CO2_FACTORS,
   type Participant,
   type ProjectStats,
-} from "@/lib/types";
+} from "@/components/participate/types";
 
 /**
  * Demo mock data generator
