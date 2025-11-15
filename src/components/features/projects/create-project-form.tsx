@@ -1,7 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CalendarIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -33,14 +36,18 @@ import {
 } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { orpc } from "@/lib/orpc/orpc";
+import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { formatDate } from "@/lib/utils";
 
 function isValidDate(date: Date | undefined) {
   if (!date) {
     return false;
   }
-  return !Number.isNaN(date.getTime());
+  if (Number.isNaN(date.getTime())) {
+    return false;
+  }
+  const year = date.getFullYear();
+  return year >= 1900 && year <= 2100;
 }
 
 interface DatePickerWithInputProps {
@@ -126,7 +133,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     register,
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ProjectFormSchemaType>({
     resolver: zodResolver(ProjectFormSchema),
     defaultValues: {
@@ -140,21 +147,37 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     },
   });
 
-  async function onSubmit(values: ProjectFormSchemaType) {
-    console.debug("Submitting project:", values);
-    try {
-      const result = await orpc.project.create(values);
+  const locale = useLocale();
 
+  const queryClient = useQueryClient();
+
+  const router = useRouter();
+
+  const { mutateAsync: createProjectMutation, isPending } = useMutation({
+    mutationFn: (values: ProjectFormSchemaType) => orpc.project.create(values),
+    onSuccess: (result) => {
       if (result.success) {
         toast.success("Project created successfully");
       } else {
         toast.error("Failed to create project");
       }
-    } catch (err: unknown) {
+      router.push(`/${locale}/org/projects/${result.project.id}`);
+      // Invalidate project list
+      queryClient.invalidateQueries({
+        queryKey: orpcQuery.project.list.queryKey(),
+      });
+    },
+
+    onError: (err: unknown) => {
       console.error(err);
       const message = err instanceof Error ? err.message : String(err);
       toast.error(message || "An error occurred");
-    }
+    },
+  });
+
+  async function onSubmit(values: ProjectFormSchemaType) {
+    console.debug("Submitting project:", values);
+    await createProjectMutation(values);
   }
 
   return (
@@ -244,8 +267,8 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
             <FieldError errors={[errors.organizationId]} />
           </Field>
 
-          <Button type="submit" disabled={isSubmitting} className="w-fit">
-            {isSubmitting ? "Creating..." : "Create Project"}
+          <Button type="submit" disabled={isPending} className="w-fit">
+            {isPending ? "Creating..." : "Create Project"}
           </Button>
         </FieldGroup>
       </form>

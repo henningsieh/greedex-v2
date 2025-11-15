@@ -298,7 +298,7 @@
   },
   "organization": {
     "dashboard": {
-      "welcome-to-your-organizations-dashboard": "Willkommen im Dashboard Ihrer Organisation",
+      "welcome-to-your-organizations-dashboard": "Organisationsmanagement",
       "total-projects": "Gesamtanzahl der Projekte",
       "total-participants": "Gesamtzahl der Teilnehmer",
       "total-activities": "Gesamtemissionen durch Aktivitäten",

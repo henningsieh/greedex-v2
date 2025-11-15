@@ -54,12 +54,12 @@ export default async () => {
   };
 
   return (
-    <>
-      <h1 className="font-bold text-4xl">Team Members</h1>
-      <p className="py-2 text-muted-foreground">
-        List of team members goes here.
-      </p>
+    <div className="space-y-8">
+      <div className="space-y-4">
+        <h2 className="font-bold text-4xl">Team Members</h2>
+        <p className="text-muted-foreground">List of team members goes here.</p>
+      </div>
       <TeamTable members={membersResult.members} />
-    </>
+    </div>
   );
 };

@@ -3,7 +3,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { FolderOpen, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
-import ProjectDetailCard from "@/components/features/organizations/organization-card";
+import ProjectCard from "@/components/features/projects/project-card";
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -53,7 +53,7 @@ export function ProjectsGrid() {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {projects.map((project) => (
-        <ProjectDetailCard key={project.id} project={project} />
+        <ProjectCard key={project.id} project={project} />
       ))}
     </div>
   );

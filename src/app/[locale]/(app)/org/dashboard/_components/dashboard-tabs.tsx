@@ -44,8 +44,8 @@ export function DashboardTabs({ members }: DashboardTabsProps) {
     >
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="dashboard">{t("tabs.dashboard")}</TabsTrigger>
-        <TabsTrigger value="participants">{t("tabs.participants")}</TabsTrigger>
         <TabsTrigger value="projects">{t("tabs.projects")}</TabsTrigger>
+        <TabsTrigger value="participants">{t("tabs.participants")}</TabsTrigger>
       </TabsList>
 
       <TabsContent value="dashboard" className="mt-6">

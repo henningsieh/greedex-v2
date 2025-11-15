@@ -1,9 +1,4 @@
 import { headers } from "next/headers";
-import { Suspense } from "react";
-import {
-  DashboardHeader,
-  DashboardHeaderSkeleton,
-} from "@/app/[locale]/(app)/org/dashboard/_components/dashboard-header";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/react-query/hydration";
@@ -44,10 +39,13 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <Suspense fallback={<DashboardHeaderSkeleton />}>
-        <DashboardHeader />
-      </Suspense>
-
+      <div className="space-y-4">
+        <h2 className="font-bold text-4xl">Dashboard</h2>
+        <p className="text-muted-foreground">
+          Overview of your organization's statistics, projects, and
+          participants.
+        </p>
+      </div>
       <DashboardTabs members={members} />
     </div>
   );

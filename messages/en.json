@@ -298,7 +298,7 @@
   },
   "organization": {
     "dashboard": {
-      "welcome-to-your-organizations-dashboard": "Welcome to your organization's dashboard",
+      "welcome-to-your-organizations-dashboard": "Organization management",
       "total-projects": "Total Projects",
       "total-participants": "Total Participants",
       "total-activities": "Total emissions from activities",

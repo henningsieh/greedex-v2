@@ -13,12 +13,18 @@ interface ProjectDetailCardProps {
   project: ProjectType;
 }
 
-function ProjectDetailCard({ project }: ProjectDetailCardProps) {
+function ProjectCard({ project }: ProjectDetailCardProps) {
   return (
     <Link href={`/org/projects/${project.id}`}>
-      <Card key={project.id}>
+      <Card
+        key={project.id}
+        className="transition-transform duration-150 hover:scale-[1.01] hover:bg-accent/10 hover:text-accent dark:hover:text-accent-foreground"
+      >
         <CardHeader>
-          <CardTitle>{project.name}</CardTitle>
+          <div className="flex justify-between">
+            <CardTitle>{project.name}</CardTitle>
+            {/* button to open edit project modal, e.prevent default from link click event */}
+          </div>
           <CardDescription>
             {project.location}, {project.country}
           </CardDescription>
@@ -40,4 +46,4 @@ function ProjectDetailCard({ project }: ProjectDetailCardProps) {
   );
 }
 
-export default ProjectDetailCard;
+export default ProjectCard;

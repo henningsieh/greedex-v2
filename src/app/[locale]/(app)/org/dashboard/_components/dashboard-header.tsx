@@ -28,14 +28,15 @@ export function DashboardHeader() {
   );
 
   return (
-    <div className="flex items-center justify-between">
-      <div>
-        <h1 className="font-bold text-3xl">{activeOrganization?.name}</h1>
-        <p className="text-muted-foreground">
+    <div className="flex items-center justify-between rounded-md border border-accent/70 bg-accent/10">
+      <div className="space-y-2 p-4">
+        <h1 className="font-bold text-2xl text-accent">
+          {activeOrganization?.name}
+        </h1>
+        <p className="text-muted-foreground text-sm">
           {t("dashboard.welcome-to-your-organizations-dashboard")}
         </p>
       </div>
-
       <Button asChild variant="link">
         <Link href="/create-project">{t("button.create")}</Link>
       </Button>

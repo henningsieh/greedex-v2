@@ -3,6 +3,10 @@ import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
+  DashboardHeader,
+  DashboardHeaderSkeleton,
+} from "@/app/[locale]/(app)/org/dashboard/_components/dashboard-header";
+import {
   ActiveProjectBreadcrumb,
   BreadcrumbSkeleton,
 } from "@/components/active-project-breadcrumb";
@@ -91,7 +95,12 @@ export default async function AppLayout({
                     <ActiveProjectBreadcrumb />
                   </Suspense>
                 </div>
-                <div className="p-2 md:p-4 lg:p-6 xl:p-8">{children}</div>
+                <div className="space-y-8 p-2 md:p-4 lg:p-6 xl:p-8">
+                  <Suspense fallback={<DashboardHeaderSkeleton />}>
+                    <DashboardHeader />
+                  </Suspense>
+                  {children}
+                </div>
               </main>
             </SidebarInset>
           </SidebarProvider>

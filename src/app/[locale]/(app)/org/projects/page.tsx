@@ -10,10 +10,18 @@ export default async function ProjectsPage() {
   void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ErrorBoundary fallback={<div>Something went wrong.</div>}>
-        <ProjectsGrid />
-      </ErrorBoundary>
-    </Suspense>
+    <div className="space-y-8">
+      <div className="space-y-4">
+        <h2 className="font-bold text-4xl">All Projects</h2>
+        <p className="text-muted-foreground">
+          List of projects of your organization.
+        </p>
+      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ErrorBoundary fallback={<div>Something went wrong.</div>}>
+          <ProjectsGrid />
+        </ErrorBoundary>
+      </Suspense>
+    </div>
   );
 }

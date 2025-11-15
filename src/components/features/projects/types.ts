@@ -15,8 +15,16 @@ const ProjectInsertSchema = createInsertSchema(projectTable, {
   name: (schema) => schema.min(1, "Project name is required"),
   country: (schema) => schema.min(1, "Country is required"),
   organizationId: (schema) => schema.min(1, "Organization is required"),
-  startDate: (schema) => schema,
-  endDate: (schema) => schema,
+  startDate: (schema) =>
+    schema.refine((date) => {
+      const year = date.getFullYear();
+      return year >= 1900 && year <= 2100;
+    }, "Start date must be between 1900 and 2100"),
+  endDate: (schema) =>
+    schema.refine((date) => {
+      const year = date.getFullYear();
+      return year >= 1900 && year <= 2100;
+    }, "End date must be between 1900 and 2100"),
 });
 
 // Form schema (only user-provided fields)
