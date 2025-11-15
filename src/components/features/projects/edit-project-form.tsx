@@ -2,11 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { OrganizationType } from "@/components/features/organizations/types";
+import type { ProjectType } from "@/components/features/projects/types";
 import {
   ProjectFormSchema,
   type ProjectFormSchemaType,
@@ -20,22 +18,16 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
-interface CreateProjectFormProps {
-  userOrganizations: Omit<OrganizationType, "metadata">[];
+interface EditProjectFormProps {
+  project: ProjectType;
+  onSuccess?: () => void;
 }
 
-function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
+function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   const {
     register,
     control,
@@ -45,37 +37,41 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     resolver: zodResolver(ProjectFormSchema),
     mode: "onChange",
     defaultValues: {
-      name: "",
-      startDate: undefined,
-      endDate: undefined,
-      location: null,
-      country: "",
-      welcomeMessage: null,
-      organizationId: "",
+      name: project.name,
+      startDate: project.startDate,
+      endDate: project.endDate,
+      location: project.location,
+      country: project.country,
+      welcomeMessage: project.welcomeMessage,
+      organizationId: project.organizationId,
     },
   });
 
-  const locale = useLocale();
-
   const queryClient = useQueryClient();
 
-  const router = useRouter();
-
-  const { mutateAsync: createProjectMutation, isPending } = useMutation({
-    mutationFn: (values: ProjectFormSchemaType) => orpc.project.create(values),
+  const { mutateAsync: updateProjectMutation, isPending } = useMutation({
+    mutationFn: (data: ProjectFormSchemaType) =>
+      orpc.project.update({
+        id: project.id,
+        data,
+      }),
     onSuccess: (result) => {
       if (result.success) {
-        toast.success("Project created successfully");
+        toast.success("Project updated successfully");
+        onSuccess?.();
       } else {
-        toast.error("Failed to create project");
+        toast.error("Failed to update project");
       }
-      router.push(`/${locale}/org/projects/${result.project.id}`);
-      // Invalidate project list
+      // Invalidate project list and specific project
       queryClient.invalidateQueries({
         queryKey: orpcQuery.project.list.queryKey(),
       });
+      queryClient.invalidateQueries({
+        queryKey: orpcQuery.project.getById.queryOptions({
+          input: { id: project.id },
+        }).queryKey,
+      });
     },
-
     onError: (err: unknown) => {
       console.error(err);
       const message = err instanceof Error ? err.message : String(err);
@@ -84,15 +80,20 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   });
 
   async function onSubmit(values: ProjectFormSchemaType) {
-    console.debug("Submitting project:", values);
-    await createProjectMutation(values);
+    console.debug("Updating project:", values);
+    await updateProjectMutation(values);
   }
 
   return (
     <div>
       <Toaster />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit(onSubmit, (errors) => {
+          console.error("Form validation errors:", errors);
+          toast.error("Please fix the form errors before submitting");
+        })}
+      >
         <FieldGroup>
           <Field data-invalid={!!errors.name}>
             <FieldLabel htmlFor="name">Project Name</FieldLabel>
@@ -152,31 +153,8 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
             <Textarea id="welcomeMessage" {...register("welcomeMessage")} />
           </Field>
 
-          <Field data-invalid={!!errors.organizationId}>
-            <FieldLabel htmlFor="organizationId">Organization</FieldLabel>
-            <Controller
-              control={control}
-              name="organizationId"
-              render={({ field }) => (
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger id="organizationId">
-                    <SelectValue placeholder="Select organization" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {userOrganizations.map((org) => (
-                      <SelectItem key={org.id} value={org.id}>
-                        {org.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            <FieldError errors={[errors.organizationId]} />
-          </Field>
-
           <Button type="submit" disabled={isPending} className="w-fit">
-            {isPending ? "Creating..." : "Create Project"}
+            {isPending ? "Updating..." : "Update Project"}
           </Button>
         </FieldGroup>
       </form>
@@ -184,4 +162,4 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   );
 }
 
-export default CreateProjectForm;
+export default EditProjectForm;

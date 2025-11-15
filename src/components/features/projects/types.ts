@@ -17,14 +17,40 @@ const ProjectInsertSchema = createInsertSchema(projectTable, {
   organizationId: (schema) => schema.min(1, "Organization is required"),
   startDate: (schema) =>
     schema.refine((date) => {
+      if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+        return false;
+      }
+      // Ensure date has valid day, month, year (not just a timestamp)
+      const day = date.getDate();
+      const month = date.getMonth();
       const year = date.getFullYear();
-      return year >= 1900 && year <= 2100;
-    }, "Start date must be between 1900 and 2100"),
+      return (
+        day >= 1 &&
+        day <= 31 &&
+        month >= 0 &&
+        month <= 11 &&
+        year >= 1900 &&
+        year <= 2100
+      );
+    }, "Start date must be a valid date between 1900 and 2100"),
   endDate: (schema) =>
     schema.refine((date) => {
+      if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+        return false;
+      }
+      // Ensure date has valid day, month, year (not just a timestamp)
+      const day = date.getDate();
+      const month = date.getMonth();
       const year = date.getFullYear();
-      return year >= 1900 && year <= 2100;
-    }, "End date must be between 1900 and 2100"),
+      return (
+        day >= 1 &&
+        day <= 31 &&
+        month >= 0 &&
+        month <= 11 &&
+        year >= 1900 &&
+        year <= 2100
+      );
+    }, "End date must be a valid date between 1900 and 2100"),
 });
 
 // Form schema (only user-provided fields)

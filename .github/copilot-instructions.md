@@ -1,3 +1,14 @@
+
+# Agent Constitution
+
+These rules are for automated AI agents (including Copilot-style agents) that interact with this repository during a session. They are intentionally strict to avoid interfering with a developer's existing local workflows or creating confusing terminal state.
+
+- **Never run the dev server.** The developer always runs the dev server (`bun run dev`) locally and expects it to remain under their control; automated agents must not start or stop the dev server process.
+- **Also do not run the build or start commands.** Building and starting the production server (`bun run build` and `bun run start`) are also reserved for the developer to run manually.
+- **Reuse a single terminal session.** Do not open several separate shell terminal windows one after another. If a terminal was opened by the agent earlier in the session, reuse that same terminal shell for subsequent commands rather than creating new terminals.
+
+These constraints help keep the developer's environment stable and predictable while allowing the agent to make code edits, run non-destructive checks, and suggest commands for the user to run locally when needed.
+
 # Copilot instructions for this repository
 
 Concise, actionable guidance to get AI agents productive quickly in this codebase.
@@ -97,20 +108,10 @@ If you'd like, I can:
 - add a client example `src/app/socket-client.tsx` that connects with `socket.io-client`, or
 - add a short PR that wires `src/instrumentation.ts` to initialize the oRPC server client for SSR.
 
-## Active Technologies
+# Active Technologies
 - TypeScript 5.x with Next.js 16 (App Router) + Better Auth (organization plugin), React 19, nuqs (URL state), shadcn/ui, Drizzle ORM, Zod
 - oRPC (`@orpc/server`, `@orpc/client`) for a type-safe RPC layer; server-side client is initialized for SSR optimization in `src/lib/orpc`.
 
 ## Recent Changes / Notes
 - The codebase added an oRPC layer with `src/app/api/rpc/[[...rest]]/route.ts` and `src/lib/orpc` to support server-side RPC during SSR and type-safe client calls.
 - `src/server.ts` includes a Socket.IO POC — this is the recommended place for realtime server-side work.
-
-## Agent Constitution
-
-These rules are for automated AI agents (including Copilot-style agents) that interact with this repository during a session. They are intentionally strict to avoid interfering with a developer's existing local workflows or creating confusing terminal state.
-
-- **Never run the dev server.** The developer always runs the dev server (`bun run dev`) locally and expects it to remain under their control; automated agents must not start or stop the dev server process.
-- **Reuse a single terminal session.** Do not open several separate shell terminal windows one after another. If a terminal was opened by the agent earlier in the session, reuse that same terminal shell for subsequent commands rather than creating new terminals.
-
-These constraints help keep the developer's environment stable and predictable while allowing the agent to make code edits, run non-destructive checks, and suggest commands for the user to run locally when needed.
-
