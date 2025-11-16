@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { CO2_FACTORS } from "../types";
 
 describe("ParticipateForm", () => {
@@ -54,7 +54,7 @@ describe("ParticipateForm", () => {
   describe("ActivityType", () => {
     it("should have correct activity type values", () => {
       const validTypes = ["boat", "bus", "train", "car"];
-      
+
       validTypes.forEach((type) => {
         expect(CO2_FACTORS).toHaveProperty(type);
       });
