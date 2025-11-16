@@ -2,6 +2,7 @@
 
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
+import { useFormatter, useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -10,7 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { formatDate } from "@/lib/utils";
 
 interface DatePickerWithInputProps {
   id: string;
@@ -27,13 +27,19 @@ function DatePickerWithInput({
 }: DatePickerWithInputProps) {
   const [open, setOpen] = useState(false);
   const [month, setMonth] = useState<Date | undefined>(value);
+  const locale = useLocale();
+  const format = useFormatter();
 
   return (
     <div className="relative flex gap-2">
       <Input
         id={id}
         type="text"
-        value={formatDate(value)}
+        value={value && format.dateTime(value, { 
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+         })}
         placeholder={placeholder}
         readOnly
         className="cursor-pointer bg-background pr-10"

@@ -2,10 +2,10 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Activity, MapPinnedIcon, Users } from "lucide-react";
+import { useFormatter } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { formatDate } from "@/lib/utils";
 
 interface ProjectDetailsProps {
   id: string;
@@ -15,6 +15,7 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
   const { data } = useSuspenseQuery(
     orpcQuery.project.getById.queryOptions({ input: { id } }),
   );
+  const format = useFormatter();
 
   return (
     <div className="space-y-6">
@@ -39,7 +40,11 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
                 Start Date
               </Label>
               <p className="font-semibold text-lg">
-                {formatDate(data.startDate)}
+                {format.dateTime(data.startDate, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
               </p>
             </div>
             <div className="space-y-2">
@@ -47,7 +52,11 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
                 End Date
               </Label>
               <p className="font-semibold text-lg">
-                {formatDate(data.endDate)}
+                {format.dateTime(data.endDate, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
               </p>
             </div>
           </div>
