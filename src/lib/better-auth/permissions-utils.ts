@@ -59,13 +59,34 @@ export function checkProjectPermission(
  * }
  * ```
  */
-export async function useProjectPermissions() {
-  // Get the current user's active member data (includes role)
-  const { data: activeMember } =
-    await authClient.organization.getActiveMember();
+export function useProjectPermissions() {
+  // Get session and organizations
+  const { data: session } = authClient.useSession();
+  const { data: organizations } = authClient.useListOrganizations();
 
-  // Extract role with proper type casting
-  const role = (activeMember?.role as OrganizationRole | undefined) || "member";
+  // Find active organization
+  const activeOrgId = session?.session?.activeOrganizationId;
+  const activeOrg = organizations?.find((org) => org.id === activeOrgId);
+
+  // Try to get role from the active organization
+  // Note: useListOrganizations returns organizations with a members array
+  // but TypeScript types don't reflect this. We need to access it at runtime.
+  const currentUserId = session?.user?.id;
+  let role: OrganizationRole = "member"; // default to least privileged
+
+  if (activeOrg && currentUserId) {
+    // Access members property which exists at runtime but not in types
+    const orgWithMembers = activeOrg as typeof activeOrg & {
+      members?: Array<{ userId: string; role: string }>;
+    };
+    const members = orgWithMembers.members;
+    if (Array.isArray(members)) {
+      const membership = members.find((m) => m.userId === currentUserId);
+      if (membership?.role) {
+        role = membership.role as OrganizationRole;
+      }
+    }
+  }
 
   return {
     role,
