@@ -39,7 +39,8 @@ export const createProject = authorized
   .handler(async ({ input, context }) => {
     if (!context.session.activeOrganizationId) {
       throw new ORPCError("BAD_REQUEST", {
-        message: "No active organization. Please select an organization first.",
+        message:
+          "2 No active organization. Please select an organization first.",
       });
     }
 

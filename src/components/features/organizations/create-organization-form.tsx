@@ -3,7 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import {
+  OrganizationFormSchema,
+  type OrganizationFormSchemaType,
+} from "@/components/features/organizations/types";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,12 +21,6 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { useRouter } from "@/lib/i18n/navigation";
 import { findAvailableSlug } from "@/lib/utils";
 
-const createOrganizationSchema = z.object({
-  name: z.string().min(1, "Organization name is required"),
-});
-
-type CreateOrganizationInput = z.infer<typeof createOrganizationSchema>;
-
 interface CreateOrganizationFormProps {
   onSuccess?: () => void;
 }
@@ -33,14 +30,14 @@ export default function CreateOrganizationForm({
 }: CreateOrganizationFormProps) {
   const router = useRouter();
 
-  const form = useForm<CreateOrganizationInput>({
-    resolver: zodResolver(createOrganizationSchema),
+  const form = useForm<OrganizationFormSchemaType>({
+    resolver: zodResolver(OrganizationFormSchema),
     defaultValues: {
       name: "",
     },
   });
 
-  async function onSubmit(data: CreateOrganizationInput) {
+  async function onSubmit(data: OrganizationFormSchemaType) {
     try {
       // Find an available slug automatically
       const availableSlug = await findAvailableSlug(data.name);

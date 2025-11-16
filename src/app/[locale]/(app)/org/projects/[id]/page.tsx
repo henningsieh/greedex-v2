@@ -20,7 +20,7 @@ export default async function ProjectsDetailsPage({
   );
 
   return (
-    <ErrorBoundary fallback={<div>Failed to load project details.</div>}>
+    <ErrorBoundary fallback={"Failed to load project details."}>
       <Suspense fallback="loading project details...">
         {/* <HydrateClient client={queryClient}> */}
         <ProjectDetails id={id} />

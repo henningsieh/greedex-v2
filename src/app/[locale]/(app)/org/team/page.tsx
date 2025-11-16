@@ -19,27 +19,47 @@ export default async () => {
   const activeOrganizationId = sessionResult.session.activeOrganizationId;
 
   if (!activeOrganizationId) {
-    console.error("No active organization ID found in session");
     await auth.api.signOut({
       headers: headers,
     });
     return redirect({ href: "/login", locale });
   }
 
-  const membersResult = await auth.api.listMembers({
-    query: {
-      organizationId: activeOrganizationId,
-    },
-    headers: headers,
-  });
+  const [ownersResult, adminsResult] = await Promise.all([
+    auth.api.listMembers({
+      query: {
+        organizationId: activeOrganizationId,
+        filterField: "role",
+        filterOperator: "eq",
+        filterValue: "owner",
+      },
+      headers: headers,
+    }),
+    auth.api.listMembers({
+      query: {
+        organizationId: activeOrganizationId,
+        filterField: "role",
+        filterOperator: "eq",
+        filterValue: "admin",
+      },
+      headers: headers,
+    }),
+  ]);
+
+  const membersResult = {
+    members: [
+      ...(ownersResult?.members || []),
+      ...(adminsResult?.members || []),
+    ],
+  };
 
   return (
-    <>
-      <h1 className="font-bold text-4xl">Team Members</h1>
-      <p className="py-2 text-muted-foreground">
-        List of team members goes here.
-      </p>
+    <div className="space-y-8">
+      <div className="space-y-4">
+        <h2 className="font-bold text-4xl">Team Members</h2>
+        <p className="text-muted-foreground">List of team members goes here.</p>
+      </div>
       <TeamTable members={membersResult.members} />
-    </>
+    </div>
   );
 };

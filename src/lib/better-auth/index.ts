@@ -1,7 +1,10 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
-import { organization as organizationPlugin } from "better-auth/plugins";
+import {
+  magicLink,
+  organization as organizationPlugin,
+} from "better-auth/plugins";
 import { desc, eq } from "drizzle-orm";
 import { env } from "@/env";
 import {
@@ -17,6 +20,7 @@ import {
   sendEmailVerificationEmail,
   sendPasswordResetEmail,
 } from "@/lib/email";
+import { sendEmail } from "@/lib/email/nodemailer";
 
 export const auth = betterAuth({
   appName: "Next WebSocket Server",
@@ -72,6 +76,16 @@ export const auth = betterAuth({
         owner,
         admin,
         member: memberRole,
+      },
+    }),
+    magicLink({
+      sendMagicLink: async ({ email, url }) => {
+        await sendEmail({
+          to: email,
+          subject: "Sign in to your account",
+          html: `<p>Click the link below to sign in:</p><a href="${url}">Sign in</a>`,
+          text: `Click the link below to sign in: ${url}`,
+        });
       },
     }),
     nextCookies(),

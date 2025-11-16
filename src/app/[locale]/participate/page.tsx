@@ -17,7 +17,7 @@ import {
   CO2_FACTORS,
   type Participant,
   type ProjectStats,
-} from "@/lib/types";
+} from "@/components/participate/types";
 
 /**
  * Demo mock data generator
@@ -130,7 +130,7 @@ export default function Dashboard() {
     setStats(calculateStats(initialData));
   }, []);
 
-  // Simulate real-time updates (in production, this would be WebSocket/polling)
+  // Simulate real-time updates (in production, this would be WebSocket/Socket.IO)
   useEffect(() => {
     const interval = setInterval(() => {
       setParticipants((prev) => {

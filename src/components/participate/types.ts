@@ -1,3 +1,4 @@
+// Define activity types as a const array (single source of truth)
 export const activityTypeValues = ["boat", "bus", "train", "car"] as const;
 export type ActivityType = (typeof activityTypeValues)[number];
 
@@ -29,6 +30,9 @@ export interface ProjectStats {
   totalParticipants: number;
   totalCO2: number;
   averageCO2: number;
-  breakdownByType: Record<ActivityType, { distance: number; co2: number; count: number }>;
+  breakdownByType: Record<
+    ActivityType,
+    { distance: number; co2: number; count: number }
+  >;
   treesNeeded: number; // Average tree absorbs ~22kg CO₂ per year, ~1 ton in lifetime (~45 years)
 }

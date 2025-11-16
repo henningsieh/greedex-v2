@@ -43,15 +43,13 @@ export const authorized = base.use(authMiddleware);
  *   .handler(...)
  * ```
  */
-export const requireProjectPermissions = (permissions: ProjectPermission[]) => {
-  return base.middleware(async ({ context, next }) => {
-    // Type assertion since we know this middleware is used with `authorized`
-    const typedContext = context as typeof context & {
-      session: { activeOrganizationId?: string | null };
-      user: { id: string };
-    };
-
-    if (!typedContext.session.activeOrganizationId) {
+export const requireProjectPermissions =
+  (permissions: ProjectPermission[]) =>
+  async ({
+    context,
+    next,
+  }: Parameters<Parameters<typeof authorized.use>[0]>[0]) => {
+    if (!context.session.activeOrganizationId) {
       throw new ORPCError("FORBIDDEN", {
         message: "No active organization. Please select an organization first.",
       });
@@ -74,5 +72,4 @@ export const requireProjectPermissions = (permissions: ProjectPermission[]) => {
     }
 
     return next();
-  });
-};
+  };

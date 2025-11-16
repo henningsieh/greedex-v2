@@ -9,13 +9,15 @@ import {
 
 interface Props {
   disabled?: boolean;
+  callbackUrl?: string | string[];
 }
 
-function SocialButtons({ disabled }: Props) {
+function SocialButtons({ disabled, callbackUrl }: Props) {
   const handleSocialSignIn = async (provider: SupportedOAuthProvider) => {
     await authClient.signIn.social({
       provider,
-      callbackURL: "/",
+      callbackURL:
+        typeof callbackUrl === "string" ? callbackUrl : "/org/dashboard",
     });
   };
 

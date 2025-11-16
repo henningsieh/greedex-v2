@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { Suspense } from "react";
 import { DashboardStats } from "@/app/[locale]/(app)/org/dashboard/_components/dashboard-stats";
@@ -26,6 +27,7 @@ interface DashboardTabsProps {
 }
 
 export function DashboardTabs({ members }: DashboardTabsProps) {
+  const t = useTranslations("organization.dashboard");
   const [activeTab, setActiveTab] = useQueryState("tab", {
     defaultValue: "dashboard",
     parse: (value) =>
@@ -41,9 +43,9 @@ export function DashboardTabs({ members }: DashboardTabsProps) {
       className="w-full"
     >
       <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-        <TabsTrigger value="participants">Participants</TabsTrigger>
-        <TabsTrigger value="projects">Projects</TabsTrigger>
+        <TabsTrigger value="dashboard">{t("tabs.dashboard")}</TabsTrigger>
+        <TabsTrigger value="projects">{t("tabs.projects")}</TabsTrigger>
+        <TabsTrigger value="participants">{t("tabs.participants")}</TabsTrigger>
       </TabsList>
 
       <TabsContent value="dashboard" className="mt-6">
@@ -55,7 +57,7 @@ export function DashboardTabs({ members }: DashboardTabsProps) {
       </TabsContent>
 
       <TabsContent value="projects" className="mt-6">
-        <Suspense fallback={<div>Loading projects...</div>}>
+        <Suspense fallback={<div>{t("tabs.loading-projects")}</div>}>
           <ProjectsGrid />
         </Suspense>
       </TabsContent>

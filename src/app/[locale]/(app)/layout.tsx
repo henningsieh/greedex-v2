@@ -3,10 +3,14 @@ import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
+  DashboardHeader,
+  DashboardHeaderSkeleton,
+} from "@/app/[locale]/(app)/org/dashboard/_components/dashboard-header";
+import {
   ActiveProjectBreadcrumb,
   BreadcrumbSkeleton,
 } from "@/components/active-project-breadcrumb";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar, AppSidebarSkeleton } from "@/components/app-sidebar";
 import { Navbar } from "@/components/navbar";
 import { LoadingProvider } from "@/components/providers/loading-provider";
 import {
@@ -19,6 +23,7 @@ import { auth } from "@/lib/better-auth";
 import { redirect } from "@/lib/i18n/navigation";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
+import { cn } from "@/lib/utils";
 
 export default async function AppLayout({
   children,
@@ -34,7 +39,7 @@ export default async function AppLayout({
   if (!session?.user) {
     // Not authenticated -> send to login (auth group).
     // The (auth) directory is a route group, its login page is at '/login'.
-    redirect({ href: "/login", locale });
+    redirect({ href: `/login?nextPageUrl=/${locale}/org/dashboard`, locale });
   }
 
   // If authenticated, ensure they have an organization
@@ -45,21 +50,18 @@ export default async function AppLayout({
   const hasOrgs = Array.isArray(organizations) && organizations.length > 0;
 
   if (!hasOrgs) {
-    // Authenticated but no orgs -> create one
+    // Authenticated but no orgs -> send to org setup flow (different route group)
     redirect({ href: "/org/create", locale });
   }
 
-  // Prefetch data on the server
+  // Prefetch data for all suspended client components
+  // This enables server-side Suspense without hydration errors
+  // Components using these queries: ActiveProjectBreadcrumb, DashboardHeader, ProjectSwitcher, OrganizationSwitcher
   const queryClient = getQueryClient();
-
-  // Prefetch session data - this is critical for hydration!
-  // Better Auth's useSession hook will use this prefetched data on the client
-  await queryClient.prefetchQuery({
-    queryKey: ["auth", "session"],
-    queryFn: async () => session,
-  });
-
-  // Prefetch projects
+  void queryClient.prefetchQuery(
+    orpcQuery.betterauth.getSession.queryOptions(),
+  );
+  void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
   void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
 
   const cookieStore = await cookies();
@@ -76,19 +78,29 @@ export default async function AppLayout({
             className="min-h-[calc(svh-4rem)]"
           >
             <ErrorBoundary fallback={<div>Failed to load sidebar.</div>}>
-              <Suspense fallback="loading sidebar...">
+              <Suspense fallback={<AppSidebarSkeleton />}>
                 <AppSidebar />
               </Suspense>
             </ErrorBoundary>
             <SidebarInset>
               <main className="flex-1 flex-col">
-                <div className="flex items-center gap-4 border-b p-2 pl-0">
-                  <SidebarTrigger />
+                <div className="flex h-16 items-center gap-4 border-b py-2 pl-2 md:pl-4 lg:pl-6">
+                  <SidebarTrigger
+                    className={cn(
+                      "size-11 border border-secondary/50 ring-secondary transition-colors duration-200",
+                      "hover:bg-secondary hover:text-secondary-foreground dark:hover:bg-secondary/50",
+                    )}
+                  />
                   <Suspense fallback={<BreadcrumbSkeleton />}>
                     <ActiveProjectBreadcrumb />
                   </Suspense>
                 </div>
-                <div className="p-2 md:p-4 lg:p-6 xl:p-8">{children}</div>
+                <div className="space-y-8 p-2 md:p-4 lg:p-6 xl:p-8">
+                  <Suspense fallback={<DashboardHeaderSkeleton />}>
+                    <DashboardHeader />
+                  </Suspense>
+                  {children}
+                </div>
               </main>
             </SidebarInset>
           </SidebarProvider>

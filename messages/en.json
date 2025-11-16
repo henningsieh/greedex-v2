@@ -2,7 +2,6 @@
   "LandingPage": {
     "launchButton": "Launch Erasmus+ Carbon Calculator",
     "launchButtonAria": "Open Erasmus+ Carbon Calculator — login required",
-
     "hero": {
       "missionTitle": "Our mission",
       "missionText": "Erasmus+ programme enables us to have amazing learning adventures with inspirational people from different countries. However, each of our personal gatherings contributes to a deep carbon footprint due to our travelling and living habits. The purpose of this project was to offset our carbon footprint on the projects we make by bringing more awareness and more action to change our habits. For this reason, we have created a carbon footprint calculator that is specialized for Erasmus+ projects such as youth exchanges, training courses, meetings etc. This calculator offers the final number of the CO2 produced by each participant and transforms this number to the number of the average trees that will absorb our CO2 in their lifetime. Our calculations are based on scientific research done by different professionals. We did not make our own calculations.",
@@ -11,7 +10,6 @@
       "scrollDown": "Scroll down",
       "meetCustomers": "Meet Our Customers"
     },
-
     "workshops": {
       "headingPrefix": "Hello, fellow",
       "headingEmphasis": "Earth walker",
@@ -26,7 +24,6 @@
       "bottomP2Middle": "and",
       "library": "Library",
       "tipsAndTricks": "Tips and Tricks",
-
       "types": {
         "moment": {
           "title": "Greendex Moment",
@@ -44,7 +41,6 @@
           "description": "This session, in addition to previously mentioned calculator and challenges, offers quiz about carbon footprint, reflection about how much plastic did we bring to this mobility and support to make some social pressure."
         }
       },
-
       "details": {
         "moment": {
           "sections": {
@@ -289,7 +285,6 @@
           }
         }
       },
-
       "links": {
         "openApp": "Open Greendex App",
         "erasmusCalculator": "E+ Distance Calculator",
@@ -299,6 +294,35 @@
         "challengesPresentation": "Challenges Presentation (PDF)",
         "greendexWebsite": "www.greendex.world"
       }
+    }
+  },
+  "organization": {
+    "dashboard": {
+      "welcome-to-your-organizations-dashboard": "Organization management",
+      "total-projects": "Total Projects",
+      "total-participants": "Total Participants",
+      "total-activities": "Total emissions from activities",
+      "tabs": {
+        "dashboard": "Dashboard",
+        "participants": "Participants",
+        "projects": "Projects",
+        "loading-projects": "Loading projects..."
+      }
+    },
+    "button": {
+      "create": "Create New Project"
+    }
+  },
+  "app": {
+    "sidebar": {
+      "projects": "Projects"
+    }
+  },
+  "project": {
+    "no-projects-yet": "No projects yet",
+    "projects-will-help-you-organize-your-work-and-track-activities-start-by-creating-your-first-project": "Projects will help you organize your work and track activities. Start by creating your first project!",
+    "button": {
+      "create-project": "Create new project"
     }
   }
 }

@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import CreateOrganizationModal from "@/components/features/organizations/create-organization-modal";
+import type { OrganizationType } from "@/components/features/organizations/types";
+// import type { OrganizationType } from "@/components/features/organizations/types";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
   DropdownMenu,
@@ -29,8 +31,11 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
 
 export function OrganizationSwitcher() {
-  const queryClient = useQueryClient();
+  const [activeOrganization, setActiveOrganization] = React.useState<
+    OrganizationType | undefined
+  >(undefined);
   const { setIsLoading } = useAppLoading();
+  const queryClient = useQueryClient();
 
   // Use oRPC queries for consistency
   const {
@@ -50,13 +55,11 @@ export function OrganizationSwitcher() {
       (org) => org.id === session?.session?.activeOrganizationId,
     ) || organizations?.[0];
 
-  const [activeOrganization, setActiveOrganization] = React.useState(activeOrg);
-
   React.useEffect(() => {
     setActiveOrganization(activeOrg);
   }, [activeOrg]);
 
-  const { isMobile } = useSidebar();
+  const { isMobile, state } = useSidebar();
 
   if (sessionError || organizationsError) {
     return <div>Error loading organizations</div>;
@@ -81,8 +84,8 @@ export function OrganizationSwitcher() {
               size="lg"
               className="border border-sidebar-accent/80 hover:bg-sidebar-accent/40 data-[state=open]:bg-sidebar-accent/30 data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <Building2Icon className="size-4" />
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary">
+                <Building2Icon className="size-4 text-primary-foreground" />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="">{activeOrganization.name}</span>
@@ -91,8 +94,12 @@ export function OrganizationSwitcher() {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width)"
-            align="start"
+            className={cn(
+              // "border border-secondary/50 bg-background/80 backdrop-blur-md",
+              state === "expanded" && "w-(--radix-dropdown-menu-trigger-width)",
+              state === "collapsed" && "w-72",
+            )}
+            align="end"
             side={isMobile ? undefined : "right"}
             sideOffset={4}
           >
@@ -134,21 +141,19 @@ export function OrganizationSwitcher() {
                 )}
               </DropdownMenuItem>
             ))}
-            <DropdownMenuSeparator />
+            {organizations && organizations.length > 0 && (
+              <DropdownMenuSeparator />
+            )}
             <CreateOrganizationModal
               label="Add Organization"
               triggerNode={
                 <DropdownMenuItem
                   variant="default"
-                  className="gap-2 p-2"
+                  className="flex justify-center"
                   onSelect={(e) => e.preventDefault()}
                 >
-                  <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                    <PlusIcon className="size-4" />
-                  </div>
-                  <div className="font-medium text-muted-foreground">
-                    Add Organization
-                  </div>
+                  <PlusIcon className="size-4" />
+                  Add Organization
                 </DropdownMenuItem>
               }
             />

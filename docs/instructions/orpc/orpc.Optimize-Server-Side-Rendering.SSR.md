@@ -1,15 +1,20 @@
 ---
 applyTo: '**'
----
----
+
 url: /docs/best-practices/optimize-ssr.md
-description: >-
+description: >
   Optimize SSR performance in Next.js, SvelteKit, and other frameworks by using
   oRPC to make direct server-side API calls, avoiding unnecessary network
   requests.
 ---
 
 # Optimize Server-Side Rendering (SSR) for Fullstack Frameworks
+
+::: tip See Also
+For Better Auth specific SSR patterns and hydration troubleshooting, see:
+- [Better Auth + oRPC SSR Pattern](./orpc.better-auth-ssr-pattern.md)
+- [Hydration & Suspense Analysis](/docs/HYDRATION_SUSPENSE_ANALYSIS.md)
+:::
 
 This guide demonstrates an optimized approach for setting up Server-Side Rendering (SSR) with oRPC in fullstack frameworks like Next.js, Nuxt, and SvelteKit. This method enhances performance by eliminating redundant network calls during the server rendering process.
 

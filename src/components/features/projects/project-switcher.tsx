@@ -1,13 +1,16 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import {
   CheckIcon,
   ChevronsUpDownIcon,
   MapPinnedIcon,
   PlusIcon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
   DropdownMenu,
@@ -23,27 +26,22 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { authClient } from "@/lib/better-auth/auth-client";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
 
 export function ProjectSwitcher() {
   const { setIsLoading } = useAppLoading();
   const queryClient = useQueryClient();
-  const [mounted, setMounted] = useState(false);
 
-  const {
-    data: session,
-    isPending: sessionIsPending,
-    error: sessionError,
-    refetch: refetchSession,
-  } = authClient.useSession();
+  // Use oRPC queries for stable SSR hydration
+  // Prefetched in layout.tsx or parent component
+  const { data: session } = useSuspenseQuery(
+    orpcQuery.betterauth.getSession.queryOptions(),
+  );
 
-  const {
-    data: projects,
-    isPending: projectsIsPending,
-    error: projectsError,
-  } = useQuery(orpcQuery.project.list.queryOptions());
+  const { data: projects } = useSuspenseQuery(
+    orpcQuery.project.list.queryOptions(),
+  );
 
   const activeProject = projects?.find(
     (project) => project.id === session?.session?.activeProjectId,
@@ -53,38 +51,19 @@ export function ProjectSwitcher() {
     mutationFn: (projectId: string | undefined) =>
       orpc.project.setActive({ projectId }),
     onSuccess: async () => {
-      // Step 1: Invalidate the session query cache
-      await queryClient.invalidateQueries({
-        queryKey: ["auth", "session"],
-      });
+      // Invalidate oRPC session cache (used throughout app)
+      await queryClient.invalidateQueries(
+        orpcQuery.betterauth.getSession.queryOptions(),
+      );
 
-      // Step 2: Wait for the refetch to complete
-      // await queryClient.refetchQueries({
-      //   queryKey: ["auth", "session"],
-      // });
-
-      // Step 3: Invalidate project list
+      // Invalidate project list
       queryClient.invalidateQueries({
         queryKey: orpcQuery.project.list.queryKey(),
       });
-      refetchSession();
     },
   });
 
-  const { isMobile } = useSidebar();
-
-  // Fix hydration by only rendering after mount
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted || sessionError || projectsError) {
-    return <ProjectSwitcherSkeleton />;
-  }
-
-  if (!session || !projects || sessionIsPending || projectsIsPending) {
-    return <ProjectSwitcherSkeleton />;
-  }
+  const { isMobile, state } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -107,7 +86,11 @@ export function ProjectSwitcher() {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) border border-secondary/50 bg-background/80 backdrop-blur-md"
+            className={cn(
+              "border border-secondary/50 bg-background/80 backdrop-blur-md",
+              state === "expanded" && "w-(--radix-dropdown-menu-trigger-width)",
+              state === "collapsed" && "w-48",
+            )}
             align="start"
             side={isMobile ? undefined : "right"}
             sideOffset={4}
@@ -128,9 +111,9 @@ export function ProjectSwitcher() {
                 )}
               </DropdownMenuItem>
             ))}
-            <DropdownMenuSeparator />
+            {projects && projects.length > 0 && <DropdownMenuSeparator />}
             <DropdownMenuItem
-              className="focus:bg-secondary/50 focus:text-accent-foreground"
+              className="flex justify-center focus:bg-secondary/50 focus:text-accent-foreground"
               onSelect={() => {
                 // TODO: Open create project modal
               }}

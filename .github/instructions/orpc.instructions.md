@@ -21,11 +21,15 @@ This file provides an overview of available oRPC documentation. For detailed ins
   - See: `docs/instructions/orpc/orpcNextjs.adapter.md`
 - **Better Auth Integration**: Using Better Auth for authentication in oRPC procedures.
   - See: `docs/instructions/orpc/orpc.better-auth.md`
+- **Better Auth + SSR Pattern**: Complete guide for wrapping Better Auth in oRPC for SSR compatibility.
+  - See: `docs/instructions/orpc/orpc.better-auth-ssr-pattern.md`
 - **TanStack Query**: Integrating oRPC with TanStack Query for data fetching and caching.
   - See: `docs/instructions/orpc/orpc.tanstack-query.md`
 
 ## Advanced Topics
 - **Server-Side Rendering (SSR) Optimization**: Optimizing SSR performance by avoiding redundant network calls.
   - See: `docs/instructions/orpc/orpc.Optimize-Server-Side-Rendering.SSR.md`
+- **Hydration & Suspense Analysis**: Deep dive into React hydration, why certain patterns cause errors, and best practices.
+  - See: `docs/HYDRATION_SUSPENSE_ANALYSIS.md`
 
 For the latest documentation, visit the oRPC official docs or check the detailed files in `docs/instructions/orpc/`.

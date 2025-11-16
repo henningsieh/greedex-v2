@@ -7,6 +7,7 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc --project tsconfig.server.json && next build",
     "start": "cross-env NODE_ENV=production node out/server.js",
+    "start:clickdummy": "bunx http-server docs/greendex-clickdummy/build -p 5000",
     "lint": "biome check",
     "format": "biome check --write",
     "test": "vitest",

@@ -10,11 +10,16 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
-import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function ActiveProjectBreadcrumb() {
-  const { data: session } = authClient.useSession();
+  // Use oRPC queries instead of authClient.useSession() to enable:
+  // 1. Server-side prefetching for optimal performance
+  // 2. Stable hydration (no SSR/client mismatch)
+  // 3. Server-side Suspense boundaries without errors
+  const { data: session } = useSuspenseQuery(
+    orpcQuery.betterauth.getSession.queryOptions(),
+  );
   const { data: projects } = useSuspenseQuery(
     orpcQuery.project.list.queryOptions(),
   );
@@ -23,10 +28,6 @@ export function ActiveProjectBreadcrumb() {
     (project) => project.id === session?.session?.activeProjectId,
   );
 
-  // if (!activeProject) {
-  //   return null;
-  // }
-
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -34,10 +35,10 @@ export function ActiveProjectBreadcrumb() {
           {activeProject ? (
             <BreadcrumbLink
               href={`/projects/${activeProject.id}`}
-              className="flex items-center gap-2 text-secondary transition-colors hover:text-sidebar-accent-foreground"
+              className="flex items-center gap-2 transition-colors duration-300 hover:text-secondary-foreground"
             >
-              <MapPinnedIcon className="size-4" />
-              <span className="font-medium">{activeProject.name}</span>
+              <MapPinnedIcon className="size-5" />
+              <span className="font-bold text-lg">{activeProject.name}</span>
             </BreadcrumbLink>
           ) : (
             <span className="flex items-center gap-2 text-rose-500/80">

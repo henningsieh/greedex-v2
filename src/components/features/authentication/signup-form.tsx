@@ -74,7 +74,7 @@ export function SignupForm({
   };
 
   return (
-    <Card>
+    <Card className="mx-auto max-w-lg p-12">
       <form
         className={cn("flex flex-col gap-6", className)}
         {...props}
@@ -93,7 +93,7 @@ export function SignupForm({
         </CardHeader>
 
         <CardContent>
-          <FieldGroup className="gap-6">
+          <FieldGroup className="gap-4">
             <FormField
               name="name"
               control={form.control}
@@ -145,7 +145,11 @@ export function SignupForm({
         <CardFooter>
           <div className="w-full">
             <Field>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="mt-2"
+              >
                 {form.formState.isSubmitting
                   ? "Creating Account..."
                   : "Create Account"}

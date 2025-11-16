@@ -1,14 +1,15 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { useFormatter } from "next-intl";
 import { Alert } from "@/components/ui/alert";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { formatDate } from "@/lib/utils";
 
 function ProjectsList() {
   const { data: projects, error } = useSuspenseQuery(
     orpcQuery.project.list.queryOptions(),
   );
+  const format = useFormatter();
 
   if (error) {
     return (
@@ -26,8 +27,22 @@ function ProjectsList() {
           {projects.map((project) => (
             <li key={project.id}>
               <h2>{project.name}</h2>
-              <p>Start: {formatDate(project.startDate)}</p>
-              <p>End: {formatDate(project.endDate)}</p>
+              <p>
+                Start:{" "}
+                {format.dateTime(project.startDate, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </p>
+              <p>
+                End:{" "}
+                {format.dateTime(project.endDate, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </p>
               <p>Location: {project.location}</p>
               <p>Country: {project.country}</p>
             </li>

@@ -1,14 +1,19 @@
+````markdown
 ---
 applyTo: '**'
 ---
 ---
 url: /docs/integrations/better-auth.md
-description: >-
+description: >
   Seamlessly use Better Auth inside your oRPC projects without any extra
   overhead.
 ---
 
 # Better Auth Integration
+
+::: tip See Also
+For SSR patterns and hydration best practices, see [Better Auth + oRPC SSR Pattern](./orpc.better-auth-ssr-pattern.md)
+:::
 
 [Better Auth](https://better-auth.com/) is a framework-agnostic, universal authentication and authorization framework for TypeScript.
 

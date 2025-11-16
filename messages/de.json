@@ -2,7 +2,6 @@
   "LandingPage": {
     "launchButton": "Erasmus+ CO2-Rechner starten",
     "launchButtonAria": "Erasmus+ CO2-Rechner öffnen — Login erforderlich",
-
     "hero": {
       "missionTitle": "Unsere Mission",
       "missionText": "Das Erasmus+ Programm ermöglicht uns fantastische Lernabenteuer mit inspirierenden Menschen aus verschiedenen Ländern. Jedoch trägt jede unserer persönlichen Begegnungen zu einem erheblichen CO2-Fußabdruck bei – durch unsere Reise- und Lebensgewohnheiten. Ziel dieses Projekts ist es, unseren CO2-Fußabdruck in den Projekten, die wir durchführen, auszugleichen, indem wir mehr Bewusstsein schaffen und aktiv unsere Gewohnheiten ändern. Aus diesem Grund haben wir einen CO2-Rechner entwickelt, der speziell auf Erasmus+ Projekte wie Jugendbegegnungen, Trainingskurse, Meetings etc. zugeschnitten ist. Dieser Rechner zeigt die finale CO2-Menge, die jeder Teilnehmende verursacht, und rechnet diese in die durchschnittliche Anzahl von Bäumen um, die unser CO2 in ihrer Lebenszeit absorbieren werden. Unsere Berechnungen basieren auf wissenschaftlicher Forschung verschiedener Fachleute. Wir haben keine eigenen Berechnungen angestellt.",
@@ -11,7 +10,6 @@
       "scrollDown": "Nach unten scrollen",
       "meetCustomers": "Lerne unsere Partner kennen"
     },
-
     "workshops": {
       "headingPrefix": "Hallo, liebe*r",
       "headingEmphasis": "Erdenwanderer*in",
@@ -26,7 +24,6 @@
       "bottomP2Middle": "und",
       "library": "Ressourcen-Bibliothek",
       "tipsAndTricks": "Tipps & Tricks",
-
       "types": {
         "moment": {
           "title": "Greendex Moment",
@@ -44,7 +41,6 @@
           "description": "Diese Session bietet zusätzlich zum bereits erwähnten Rechner und den Herausforderungen ein Quiz über den CO2-Fußabdruck, Reflexion darüber, wie viel Plastik wir zu dieser Mobilität mitgebracht haben, und Unterstützung, um sozialen Druck auszuüben."
         }
       },
-
       "details": {
         "moment": {
           "sections": {
@@ -289,7 +285,6 @@
           }
         }
       },
-
       "links": {
         "openApp": "Greendex App öffnen",
         "erasmusCalculator": "E+ Distanzrechner",
@@ -299,6 +294,35 @@
         "challengesPresentation": "Herausforderungspräsentation (PDF)",
         "greendexWebsite": "www.greendex.world"
       }
+    }
+  },
+  "organization": {
+    "dashboard": {
+      "welcome-to-your-organizations-dashboard": "Organisationsmanagement",
+      "total-projects": "Gesamtanzahl der Projekte",
+      "total-participants": "Gesamtzahl der Teilnehmer",
+      "total-activities": "Gesamtemissionen durch Aktivitäten",
+      "tabs": {
+        "dashboard": "Übersicht",
+        "participants": "Teilnehmende",
+        "projects": "Projekte",
+        "loading-projects": "Projekte werden geladen..."
+      }
+    },
+    "button": {
+      "create": "Neues Projekt anlegen"
+    }
+  },
+  "app": {
+    "sidebar": {
+      "projects": "Projekte"
+    }
+  },
+  "project": {
+    "no-projects-yet": "Noch keine Projekte",
+    "projects-will-help-you-organize-your-work-and-track-activities-start-by-creating-your-first-project": "Mithilfe von Projekten können Sie Ihre Arbeit organisieren und Aktivitäten verfolgen. \nBeginnen Sie mit der Erstellung Ihres ersten Projekts!",
+    "button": {
+      "create-project": "Neues Projekt anlegen"
     }
   }
 }

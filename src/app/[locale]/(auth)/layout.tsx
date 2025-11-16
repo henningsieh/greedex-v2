@@ -22,7 +22,7 @@ export default async function AuthLayout({
     const hasOrgs = Array.isArray(organizations) && organizations.length > 0;
 
     if (!hasOrgs) {
-      // Signed in but no organization -> create one
+      // Signed in but no organization -> send to org setup flow
       redirect({ href: "/org/create", locale });
     } else {
       // Signed in and has orgs -> app dashboard

@@ -13,6 +13,7 @@
       "!.next",
       "!dist",
       "!build",
+      "!docs/greendex-clickdummy",
       "!src/lib/drizzle/migrations",
       "!src/lib/drizzle/schemas",
       "!src/components/ui"
@@ -24,6 +25,7 @@
     "indentWidth": 2,
     "includes": [
       "**",
+      "!docs/greendex-clickdummy/**",
       "!src/components/ui/**",
       "!src/lib/drizzle/schemas/**",
       "!src/lib/drizzle/migrations/**"
@@ -33,6 +35,7 @@
     "enabled": true,
     "includes": [
       "**",
+      "!docs/greendex-clickdummy/**",
       "!src/components/ui/**",
       "!src/lib/drizzle/schemas/**",
       "!src/lib/drizzle/migrations/**"
@@ -63,6 +66,7 @@
   "assist": {
     "includes": [
       "**",
+      "!docs/greendex-clickdummy/**",
       "!src/components/ui/**",
       "!src/lib/drizzle/schemas/**",
       "!src/lib/drizzle/migrations/**"

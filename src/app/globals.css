@@ -40,8 +40,8 @@
   --font-serif: Source Serif 4, serif;
   --font-mono: JetBrains Mono, monospace;
   --radius: 0.4rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
+  --shadow-x: 0px;
+  --shadow-y: 0px;
   --shadow-blur: 4px;
   --shadow-spread: 2px;
   --shadow-opacity: 0.18;
@@ -103,8 +103,8 @@
   --font-serif: Source Serif 4, serif;
   --font-mono: JetBrains Mono, monospace;
   --radius: 0.4rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
+  --shadow-x: 0px;
+  --shadow-y: 0px;
   --shadow-blur: 4px;
   --shadow-spread: 2px;
   --shadow-opacity: 0.18;

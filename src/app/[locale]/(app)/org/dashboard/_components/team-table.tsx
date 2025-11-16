@@ -1,3 +1,4 @@
+import { organizationRoles } from "@/components/features/organizations/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -28,6 +29,9 @@ interface TeamTableProps {
 }
 
 export function TeamTable({ members }: TeamTableProps) {
+  const roleKeyByValue: Record<string, string> = Object.fromEntries(
+    Object.entries(organizationRoles).map(([key, value]) => [value, key]),
+  );
   return (
     <div className="rounded-md border">
       <Table>
@@ -58,7 +62,7 @@ export function TeamTable({ members }: TeamTableProps) {
                 <Badge
                   variant={member.role === "owner" ? "default" : "secondary"}
                 >
-                  {member.role}
+                  {roleKeyByValue[member.role] ?? member.role}
                 </Badge>
               </TableCell>
               <TableCell>
