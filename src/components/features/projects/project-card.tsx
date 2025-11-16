@@ -79,7 +79,11 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
               variant="outline"
               size="sm"
               onClick={() => {
-                // TODO: wire up delete action
+                /**
+                 * TODO: wire up delete action for this button
+                 * use the orpc mutation to delete the project
+                 * use the permissions system to check if the user can delete the project
+                 */
               }}
             >
               <Link href={`/org/projects/${project.id}`}>
