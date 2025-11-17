@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import ProjectCard from "@/components/features/projects/project-card";
 import { ProjectsTable } from "@/components/features/projects/projects-table";
+import { DEFAULT_PROJECT_SORT } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -22,7 +23,9 @@ export function ProjectsGrid() {
   const [view, setView] = useState<"grid" | "table">("table");
 
   const { data: projects, error } = useSuspenseQuery(
-    orpcQuery.project.list.queryOptions({ input: { sort_by: "createdAt" } }),
+    orpcQuery.project.list.queryOptions({
+      input: { sort_by: DEFAULT_PROJECT_SORT },
+    }),
   );
 
   if (error) {

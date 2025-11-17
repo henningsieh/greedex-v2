@@ -5,8 +5,10 @@ import { ORPCError } from "@orpc/server";
 import { and, asc, eq, type SQL, sql } from "drizzle-orm";
 import { z } from "zod";
 import {
+  DEFAULT_PROJECT_SORT,
   ProjectFormSchema,
   ProjectSelectSchema,
+  SORT_OPTIONS,
 } from "@/components/features/projects/types";
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";
@@ -83,9 +85,9 @@ export const listProjects = authorized
     z
       .object({
         sort_by: z
-          .enum(["name", "startDate", "createdAt", "updatedAt"])
-          .optional()
-          .default("createdAt"),
+          .enum(Object.values(SORT_OPTIONS))
+          .default(DEFAULT_PROJECT_SORT)
+          .optional(),
       })
       .optional(),
   )
@@ -100,16 +102,16 @@ export const listProjects = authorized
     // Determine sort order
     let orderByClause: SQL<unknown>;
     switch (input?.sort_by) {
-      case "name":
+      case SORT_OPTIONS.name:
         orderByClause = asc(sql`lower(${projectTable.name})`);
         break;
-      case "startDate":
+      case SORT_OPTIONS.startDate:
         orderByClause = asc(projectTable.startDate);
         break;
-      case "createdAt":
+      case SORT_OPTIONS.createdAt:
         orderByClause = asc(projectTable.createdAt);
         break;
-      case "updatedAt":
+      case SORT_OPTIONS.updatedAt:
         orderByClause = asc(projectTable.updatedAt);
         break;
       default:
