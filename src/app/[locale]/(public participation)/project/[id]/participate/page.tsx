@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { ParticipateForm } from "@/components/participate/participate-form";
+import { QuestionnaireForm } from "@/components/participate/questionnaire-form";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ParticipatePageProps {
@@ -44,7 +44,7 @@ export default async function ParticipatePage({
           </div>
         }
       >
-        <ParticipateForm project={project} />
+        <QuestionnaireForm project={project} />
       </Suspense>
     </div>
   );
