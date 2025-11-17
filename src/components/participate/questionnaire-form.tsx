@@ -1,6 +1,12 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, CheckCircle2, Leaf } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Leaf,
+  TreePine,
+} from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -89,6 +95,9 @@ const EMISSION_IMPACT_STEPS = [
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Partial<ParticipantAnswers>>({
+    firstName: "",
+    country: "",
+    email: "",
     days: 0,
     flightKm: 0,
     boatKm: 0,
@@ -109,9 +118,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     stepValue: string | number;
   } | null>(null);
 
-  // Total steps: 1 welcome + 14 questions
-  // Steps 11-12 are conditional based on carKm
-  const totalSteps = 15;
+  // Total steps: 1 welcome form + 1 participant info + 14 questions = 16 total
+  // Steps 12-13 are conditional based on carKm (car type and passengers)
+  const totalSteps = 16;
   const progress = ((currentStep + 1) / totalSteps) * 100;
 
   const updateAnswer = <K extends keyof ParticipantAnswers>(
@@ -125,6 +134,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const getStepKey = (step: number): string | null => {
     const keys = [
       null, // 0: welcome
+      null, // 1: participant info (firstName, country, email)
       "days",
       "accommodationCategory",
       "roomOccupancy",
@@ -145,8 +155,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const proceedToNextStep = () => {
     // Skip car questions if no car travel
-    if (currentStep === 10 && (!answers.carKm || answers.carKm === 0)) {
-      setCurrentStep(13); // Skip to age
+    if (currentStep === 11 && (!answers.carKm || answers.carKm === 0)) {
+      setCurrentStep(14); // Skip to age
       return;
     }
 
@@ -181,11 +191,13 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     const stepKey = getStepKey(currentStep);
 
     if (stepKey && shouldShowImpact(stepKey)) {
-      // Calculate previous and new CO2
-      const previousCO2 = calculateEmissions(answers).totalCO2;
-      const currentValue = answers[stepKey as keyof ParticipantAnswers];
+      // Calculate previous CO2 WITHOUT the current answer
+      const answersWithoutCurrent = { ...answers };
+      delete answersWithoutCurrent[stepKey as keyof ParticipantAnswers];
+      const previousCO2 = calculateEmissions(answersWithoutCurrent).totalCO2;
 
-      // Show impact modal
+      // Calculate new CO2 WITH the current answer
+      const currentValue = answers[stepKey as keyof ParticipantAnswers];
       const newCO2 = calculateEmissions(answers).totalCO2;
       const impact = newCO2 - previousCO2;
 
@@ -209,9 +221,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const handleBack = () => {
     // Handle back navigation with conditional steps
-    if (currentStep === 13 && (!answers.carKm || answers.carKm === 0)) {
-      // Jump back to step 10 (carKm) if we skipped car questions
-      setCurrentStep(10);
+    if (currentStep === 14 && (!answers.carKm || answers.carKm === 0)) {
+      // Jump back to step 11 (carKm) if we skipped car questions
+      setCurrentStep(11);
       return;
     }
 
@@ -250,35 +262,41 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       case 0:
         return true; // Welcome
       case 1:
-        return typeof answers.days === "number" && answers.days > 0;
+        return (
+          !!answers.firstName?.trim() &&
+          !!answers.country?.trim() &&
+          !!answers.email?.trim()
+        );
       case 2:
-        return !!answers.accommodationCategory;
+        return typeof answers.days === "number" && answers.days > 0;
       case 3:
-        return !!answers.roomOccupancy;
+        return !!answers.accommodationCategory;
       case 4:
-        return !!answers.electricity;
+        return !!answers.roomOccupancy;
       case 5:
-        return !!answers.food;
+        return !!answers.electricity;
       case 6:
-        return typeof answers.flightKm === "number" && answers.flightKm >= 0;
+        return !!answers.food;
       case 7:
-        return typeof answers.boatKm === "number" && answers.boatKm >= 0;
+        return typeof answers.flightKm === "number" && answers.flightKm >= 0;
       case 8:
-        return typeof answers.trainKm === "number" && answers.trainKm >= 0;
+        return typeof answers.boatKm === "number" && answers.boatKm >= 0;
       case 9:
-        return typeof answers.busKm === "number" && answers.busKm >= 0;
+        return typeof answers.trainKm === "number" && answers.trainKm >= 0;
       case 10:
-        return typeof answers.carKm === "number" && answers.carKm >= 0;
+        return typeof answers.busKm === "number" && answers.busKm >= 0;
       case 11:
-        return !!answers.carType;
+        return typeof answers.carKm === "number" && answers.carKm >= 0;
       case 12:
+        return !!answers.carType;
+      case 13:
         return (
           typeof answers.carPassengers === "number" &&
           answers.carPassengers >= 1
         );
-      case 13:
-        return typeof answers.age === "number" && answers.age > 0;
       case 14:
+        return typeof answers.age === "number" && answers.age > 0;
+      case 15:
         return !!answers.gender;
       default:
         return false;
@@ -287,8 +305,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const emissions = calculateEmissions(answers);
   const currentStepDisplay =
-    currentStep === 13 && (!answers.carKm || answers.carKm === 0)
-      ? 11 // Show as step 11 if we skipped car questions
+    currentStep === 14 && (!answers.carKm || answers.carKm === 0)
+      ? 12 // Show as step 12 if we skipped car questions
       : currentStep;
 
   return (
@@ -320,6 +338,35 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         Step {currentStepDisplay + 1} of {totalSteps}
       </div>
 
+      {/* Permanent CO₂ and Trees Display - shown from step 2 onwards */}
+      {currentStep >= 2 && (
+        <div className="grid grid-cols-2 gap-4">
+          {/* CO₂ Footprint Card */}
+          <Card className="border-teal-500/30 bg-gradient-to-br from-teal-500/10 to-emerald-500/10 p-4 text-center">
+            <div className="mb-2 flex justify-center">
+              <Leaf className="h-8 w-8 text-teal-400" />
+            </div>
+            <div className="mb-1 font-bold text-3xl text-teal-400">
+              {emissions.totalCO2.toFixed(1)}
+            </div>
+            <div className="text-muted-foreground text-xs">kg</div>
+            <div className="mt-1 text-foreground text-sm">CO₂ Footprint</div>
+          </Card>
+
+          {/* Trees Needed Card */}
+          <Card className="border-green-500/30 bg-gradient-to-br from-green-500/10 to-emerald-500/10 p-4 text-center">
+            <div className="mb-2 flex justify-center">
+              <TreePine className="h-8 w-8 text-green-400" />
+            </div>
+            <div className="mb-1 font-bold text-3xl text-green-400">
+              {emissions.treesNeeded}
+            </div>
+            <div className="text-muted-foreground text-xs">(1 Year)</div>
+            <div className="mt-1 text-foreground text-sm">Trees</div>
+          </Card>
+        </div>
+      )}
+
       {/* Impact Modal */}
       {showImpactModal && impactData && (
         <ImpactModal
@@ -343,15 +390,11 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         {currentStep === 0 && (
           <div className="space-y-6 text-center">
             <h2 className="font-bold text-2xl text-foreground">
-              Welcome to the Greendex Calculator!
+              Welcome to Greendex
             </h2>
             <p className="text-muted-foreground">
               {project.welcomeMessage ||
                 "Calculate the carbon footprint of your participation in this Erasmus+ project."}
-            </p>
-            <p className="text-muted-foreground">
-              This questionnaire has 14 questions about your travel,
-              accommodation, and habits.
             </p>
             <Button
               onClick={handleNext}
@@ -364,8 +407,59 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 1: Days */}
+        {/* Step 1: Participant Info */}
         {currentStep === 1 && (
+          <div className="space-y-6">
+            <h2 className="mb-6 text-center font-bold text-foreground text-xl">
+              Before we start, please tell us:
+            </h2>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="firstName" className="text-foreground">
+                  Your first name <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="firstName"
+                  type="text"
+                  placeholder="Enter your first name"
+                  value={answers.firstName || ""}
+                  onChange={(e) => updateAnswer("firstName", e.target.value)}
+                  className="text-lg"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="country" className="text-foreground">
+                  In which country do you live?{" "}
+                  <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="country"
+                  type="text"
+                  placeholder="Enter your country"
+                  value={answers.country || ""}
+                  onChange={(e) => updateAnswer("country", e.target.value)}
+                  className="text-lg"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-foreground">
+                  Your email address <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={answers.email || ""}
+                  onChange={(e) => updateAnswer("email", e.target.value)}
+                  className="text-lg"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Step 2: Days */}
+        {currentStep === 3 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               How many days are you participating on your project?
@@ -384,8 +478,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 2: Accommodation Category */}
-        {currentStep === 2 && (
+        {/* Step 3: Accommodation Category */}
+        {currentStep === 3 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               Which type of accommodation are you staying in?
@@ -409,8 +503,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 3: Room Occupancy */}
-        {currentStep === 3 && (
+        {/* Step 4: Room Occupancy */}
+        {currentStep === 4 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               How many people are sharing the room/tent?
@@ -434,8 +528,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 4: Electricity */}
-        {currentStep === 4 && (
+        {/* Step 5: Electricity */}
+        {currentStep === 5 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               Which type of energy does your accommodation use?
@@ -459,8 +553,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 5: Food */}
-        {currentStep === 5 && (
+        {/* Step 6: Food */}
+        {currentStep === 6 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               How often do you plan to eat meat on your project?
@@ -484,8 +578,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 6: Flight km */}
-        {currentStep === 6 && (
+        {/* Step 7: Flight km */}
+        {currentStep === 7 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               Your way TO the project: How many kilometres did you fly?
@@ -504,8 +598,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 7: Boat km */}
-        {currentStep === 7 && (
+        {/* Step 8: Boat km */}
+        {currentStep === 8 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               Your way TO the project: How many kilometres did you go by boat?
@@ -524,8 +618,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 8: Train km */}
-        {currentStep === 8 && (
+        {/* Step 9: Train km */}
+        {currentStep === 9 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               Your way TO the project: How many kilometres did you go by train
@@ -545,8 +639,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 9: Bus km */}
-        {currentStep === 9 && (
+        {/* Step 10: Bus km */}
+        {currentStep === 10 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               Your way TO the project: How many kilometres did you go by
@@ -566,8 +660,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 10: Car km */}
-        {currentStep === 10 && (
+        {/* Step 11: Car km */}
+        {currentStep === 11 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               Your way TO the project: How many kilometres did you go by car?
@@ -587,7 +681,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         )}
 
         {/* Step 11: Car Type (conditional) */}
-        {currentStep === 11 && (
+        {currentStep === 12 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               What type of car did you use?
@@ -612,7 +706,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         )}
 
         {/* Step 12: Car Passengers (conditional) */}
-        {currentStep === 12 && (
+        {currentStep === 13 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               How many participants (including you) were sitting in the car?
@@ -633,8 +727,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 13: Age */}
-        {currentStep === 13 && (
+        {/* Step 14: Age */}
+        {currentStep === 14 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               How old are you?
@@ -652,8 +746,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </div>
         )}
 
-        {/* Step 14: Gender */}
-        {currentStep === 14 && (
+        {/* Step 15: Gender */}
+        {currentStep === 15 && (
           <div className="space-y-4">
             <Label className="font-bold text-foreground text-xl">
               What is your gender?
@@ -714,7 +808,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       </Card>
 
       {/* Show final results after completion */}
-      {currentStep === 14 && emissions.totalCO2 > 0 && (
+      {currentStep === 15 && emissions.totalCO2 > 0 && (
         <Card className="border-teal-500/30 bg-gradient-to-br from-teal-500/20 to-emerald-500/20 p-6">
           <div className="space-y-4">
             <h3 className="text-center font-bold text-foreground text-xl">

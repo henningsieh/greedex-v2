@@ -28,6 +28,11 @@ export type CarType = "conventional (diesel, petrol, gas…)" | "electric";
 export type Gender = "Female" | "Male" | "Other / Prefer not to say";
 
 export interface ParticipantAnswers {
+  // Step 0: Participant Info
+  firstName: string;
+  country: string;
+  email: string;
+
   // Step 1: Days
   days: number;
 
