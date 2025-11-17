@@ -1,49 +1,94 @@
 "use client";
 
+import { Check, ChevronDown } from "lucide-react";
 import { useLocale } from "next-intl";
 import { useTransition } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { getLocaleData, type LocaleCode } from "@/lib/i18n/locales";
 import { usePathname, useRouter } from "@/lib/i18n/routing";
+import { cn } from "@/lib/utils";
 
-const LOCALES = [
-  { code: "en", label: "English" },
-  { code: "de", label: "Deutsch" },
-] as const;
-
-export function LocaleSwitcher() {
+export function LocaleSwitcher({ className }: { className?: string }) {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
 
-  function handleLocaleChange(newLocale: string) {
+  const locales = getLocaleData();
+  const currentLocale = locales.find((entry) => entry.code === locale);
+
+  function handleLocaleChange(newLocale: LocaleCode) {
+    if (newLocale === locale || isPending) {
+      return;
+    }
+
     startTransition(() => {
-      // The router from next-intl automatically handles locale switching
-      // It will navigate to the same page with the new locale prefix
       router.replace(pathname, { locale: newLocale });
     });
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50 rounded-lg border bg-background p-3 shadow-lg">
-      <label htmlFor="locale-select" className="mb-2 block font-medium text-sm">
-        Language / Sprache
-      </label>
-      <select
-        id="locale-select"
-        value={locale}
-        onChange={(e) => handleLocaleChange(e.target.value)}
-        disabled={isPending}
-        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {LOCALES.map((loc) => (
-          <option key={loc.code} value={loc.code}>
-            {loc.label}
-          </option>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild className="border border-muted">
+        <Button
+          variant="ghost"
+          size="sm"
+          className={cn(
+            "gap-2 rounded-full border-bg-muted-foreground dark:hover:bg-accent/20",
+            isPending ? "opacity-70" : "",
+            className,
+          )}
+          disabled={isPending}
+        >
+          {currentLocale?.Flag && (
+            <currentLocale.Flag className="size-6 rounded-sm border border-border/50" />
+          )}
+          {/* <span className="font-semibold text-sm">
+            {currentLocale?.nativeName ?? currentLocale?.label}
+          </span> */}
+          <ChevronDown
+            className={cn("size-4", isPending && "animate-pulse")}
+            aria-hidden
+          />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" side="bottom" className="w-60">
+        {locales.map((entry) => (
+          <DropdownMenuItem
+            key={entry.code}
+            onSelect={(event) => {
+              event.preventDefault();
+              handleLocaleChange(entry.code);
+            }}
+            disabled={entry.code === locale}
+            className="group flex items-center justify-between gap-3"
+          >
+            <span className="flex items-center gap-2">
+              {entry.Flag && (
+                <entry.Flag className="h-4 w-6 rounded-sm border border-border/20" />
+              )}
+              <span className="flex flex-col gap-0.5 leading-tight">
+                <span className="font-semibold text-sm">
+                  {entry.nativeName}
+                </span>
+                <span className="text-muted-foreground text-xs group-hover:text-accent-foreground">
+                  {entry.englishName}
+                </span>
+              </span>
+            </span>
+            {locale === entry.code && (
+              <Check className="size-4 text-primary" aria-hidden />
+            )}
+          </DropdownMenuItem>
         ))}
-      </select>
-      {isPending && (
-        <p className="mt-1 text-muted-foreground text-xs">Switching...</p>
-      )}
-    </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

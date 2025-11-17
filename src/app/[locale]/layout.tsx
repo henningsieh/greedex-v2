@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import Providers from "@/components/providers";
+import { isSupportedLocale } from "@/lib/i18n/locales";
 import { routing } from "@/lib/i18n/routing";
 
 const comfortaa = Comfortaa({
@@ -31,7 +32,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
 
   // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as "en" | "de")) {
+  if (!isSupportedLocale(locale)) {
     notFound();
   }
 
@@ -55,7 +56,6 @@ export default async function LocaleLayout({ children, params }: Props) {
       >
         <Providers>
           <NextIntlClientProvider messages={messages}>
-            {/* <LocaleSwitcher /> */}
             {children}
           </NextIntlClientProvider>
         </Providers>

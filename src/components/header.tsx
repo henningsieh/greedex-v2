@@ -3,6 +3,7 @@
 import { Menu, X } from "lucide-react";
 import type { Route } from "next";
 import * as React from "react";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,75 +56,77 @@ export const HeroHeader = () => {
               >
                 <Logo isScrolled={!isScrolled} />
               </Link>
-
-              <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    aria-label="Open Menu"
-                    className="-m-2.5 -mr-4 relative z-20 block cursor-pointer p-1.5 lg:hidden"
-                  >
-                    <Menu
-                      className={`m-auto size-6 duration-500 ${menuOpen ? "rotate-180 scale-0 opacity-0" : ""}`}
-                    />
-                    <X
-                      className={`-rotate-180 absolute inset-0 m-auto size-6 duration-500 ${menuOpen ? "rotate-0 scale-100 opacity-100" : "scale-0 opacity-0"}`}
-                    />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="rounded-3xl border bg-background p-4 shadow-2xl shadow-zinc-300/20"
-                  align="end"
-                >
-                  <ul className="space-y-6 text-base">
-                    {menuItems.map((item) => (
-                      <DropdownMenuItem key={item.name} asChild>
-                        <Link
-                          href={item.href}
-                          className="block text-muted-foreground hover:text-primary-foreground"
-                        >
-                          <span>{item.name}</span>
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </ul>
-                  <DropdownMenuSeparator />
-                  <div className="flex w-full items-center justify-end gap-3">
-                    <div
-                      className={cn(
-                        "relative h-8 overflow-hidden transition-all ease-in-out",
-                        isScrolled ? "lg:w-0" : "lg:w-fit",
-                      )}
-                      aria-hidden={isScrolled}
+              <div className="flex items-center gap-3 lg:hidden">
+                <LocaleSwitcher />
+                <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      aria-label="Open Menu"
+                      className="-m-2.5 -mr-4 relative z-20 block cursor-pointer p-1.5 lg:hidden"
                     >
+                      <Menu
+                        className={`m-auto size-6 duration-500 ${menuOpen ? "rotate-180 scale-0 opacity-0" : ""}`}
+                      />
+                      <X
+                        className={`-rotate-180 absolute inset-0 m-auto size-6 duration-500 ${menuOpen ? "rotate-0 scale-100 opacity-100" : "scale-0 opacity-0"}`}
+                      />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="rounded-3xl border bg-background p-4 shadow-2xl shadow-zinc-300/20"
+                    align="end"
+                  >
+                    <ul className="space-y-6 text-base">
+                      {menuItems.map((item) => (
+                        <DropdownMenuItem key={item.name} asChild>
+                          <Link
+                            href={item.href}
+                            className="block text-muted-foreground hover:text-primary-foreground"
+                          >
+                            <span>{item.name}</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </ul>
+                    <DropdownMenuSeparator />
+                    <div className="flex w-full items-center justify-end gap-3">
+                      <div
+                        className={cn(
+                          "relative h-8 overflow-hidden transition-all ease-in-out",
+                          isScrolled ? "lg:w-0" : "lg:w-fit",
+                        )}
+                        aria-hidden={isScrolled}
+                      >
+                        <Button
+                          asChild
+                          variant="outline"
+                          size="sm"
+                          className={cn(
+                            "transition-opacity ease-in-out",
+                            isScrolled ? "opacity-0" : "opacity-100",
+                          )}
+                        >
+                          <Link href="/login">
+                            <span>Login</span>
+                          </Link>
+                        </Button>
+                      </div>
+
                       <Button
                         asChild
-                        variant="outline"
                         size="sm"
                         className={cn(
-                          "transition-opacity ease-in-out",
-                          isScrolled ? "opacity-0" : "opacity-100",
+                          "transform transition-transform ease-in-out",
                         )}
                       >
-                        <Link href="/login">
-                          <span>Login</span>
+                        <Link href="/signup">
+                          <span>Sign Up</span>
                         </Link>
                       </Button>
                     </div>
-
-                    <Button
-                      asChild
-                      size="sm"
-                      className={cn(
-                        "transform transition-transform ease-in-out",
-                      )}
-                    >
-                      <Link href="/signup">
-                        <span>Sign Up</span>
-                      </Link>
-                    </Button>
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
 
             <div className="inset-0 m-auto hidden size-fit lg:block">
@@ -142,6 +145,7 @@ export const HeroHeader = () => {
             </div>
 
             <div className="hidden items-center gap-3 lg:flex">
+              <LocaleSwitcher className="rounded-md" />
               <div
                 className={cn(
                   "relative h-8 overflow-hidden transition-all ease-in-out",
