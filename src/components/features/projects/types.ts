@@ -62,3 +62,16 @@ export const ProjectFormSchema = ProjectInsertSchema.omit({
 });
 
 export type ProjectFormSchemaType = z.infer<typeof ProjectFormSchema>;
+
+// Sort options for projects
+export const SORT_OPTIONS = {
+  name: "name",
+  startDate: "startDate",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt",
+} as const;
+
+export type SortOption = (typeof SORT_OPTIONS)[keyof typeof SORT_OPTIONS];
+
+// Default sort option
+export const DEFAULT_PROJECT_SORT: SortOption = SORT_OPTIONS.createdAt;

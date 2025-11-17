@@ -4,6 +4,11 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { FolderOpen, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import {
+  DEFAULT_PROJECT_SORT,
+  SORT_OPTIONS,
+  type SortOption,
+} from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -30,11 +35,9 @@ import {
 } from "@/components/ui/table";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
-type SortOption = "name" | "startDate" | "createdAt" | "updatedAt";
-
 export function ProjectsTable() {
   const t = useTranslations("project");
-  const [sortBy, setSortBy] = useState<SortOption>("createdAt");
+  const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_PROJECT_SORT);
 
   const { data: projects, error } = useSuspenseQuery(
     orpcQuery.project.list.queryOptions({ input: { sort_by: sortBy } }),
@@ -76,6 +79,14 @@ export function ProjectsTable() {
     }).format(new Date(date));
   };
 
+  // Display names for sort options
+  const sortOptionLabels: Record<SortOption, string> = {
+    [SORT_OPTIONS.name]: "Name",
+    [SORT_OPTIONS.startDate]: "Start Date",
+    [SORT_OPTIONS.createdAt]: "Created",
+    [SORT_OPTIONS.updatedAt]: "Updated",
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-end">
@@ -89,10 +100,11 @@ export function ProjectsTable() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="name">Name</SelectItem>
-              <SelectItem value="startDate">Start Date</SelectItem>
-              <SelectItem value="createdAt">Created</SelectItem>
-              <SelectItem value="updatedAt">Updated</SelectItem>
+              {Object.values(SORT_OPTIONS).map((option) => (
+                <SelectItem key={option} value={option}>
+                  {sortOptionLabels[option]}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
