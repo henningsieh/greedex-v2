@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Edit2Icon, EyeIcon, MoreHorizontal, Trash2Icon } from "lucide-react";
-import { useFormatter } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import type { ProjectType } from "@/components/features/projects/types";
@@ -43,30 +43,33 @@ function DateCell({ date }: { date: Date }) {
   );
 }
 
-export const columns: ColumnDef<ProjectType>[] = [
-  {
-    accessorKey: SORT_OPTIONS.name,
-    header: ({ column, table }) => (
-      <SortableHeader column={column} table={table} title="Name" />
-    ),
-    cell: ({ row }) => (
-      <div className="font-medium">{row.getValue(SORT_OPTIONS.name)}</div>
-    ),
-  },
-  {
-    accessorKey: "country",
-    header: "Country",
-  },
-  {
-    accessorKey: SORT_OPTIONS.startDate,
-    header: ({ column, table }) => (
-      <SortableHeader
-        column={column}
-        table={table}
-        title="Start Date"
-        isNumeric
-      />
-    ),
+export function getProjectColumns(
+  t: (key: string) => string,
+): ColumnDef<ProjectType>[] {
+  return [
+    {
+      accessorKey: SORT_OPTIONS.name,
+      header: ({ column, table }) => (
+        <SortableHeader column={column} table={table} title={t("table.name")} />
+      ),
+      cell: ({ row }) => (
+        <div className="font-medium">{row.getValue(SORT_OPTIONS.name)}</div>
+      ),
+    },
+    {
+      accessorKey: "country",
+      header: t("table.country"),
+    },
+    {
+      accessorKey: SORT_OPTIONS.startDate,
+      header: ({ column, table }) => (
+        <SortableHeader
+          column={column}
+          table={table}
+          title={t("table.start-date")}
+          isNumeric
+        />
+      ),
     cell: ({ row }) => {
       const date = row.getValue(SORT_OPTIONS.startDate) as Date;
       return <DateCell date={date} />;
@@ -80,7 +83,12 @@ export const columns: ColumnDef<ProjectType>[] = [
   {
     accessorKey: SORT_OPTIONS.createdAt,
     header: ({ column, table }) => (
-      <SortableHeader column={column} table={table} title="Created" isNumeric />
+      <SortableHeader
+        column={column}
+        table={table}
+        title={t("table.created")}
+        isNumeric
+      />
     ),
     cell: ({ row }) => {
       const date = row.getValue(SORT_OPTIONS.createdAt) as Date;
@@ -95,7 +103,12 @@ export const columns: ColumnDef<ProjectType>[] = [
   {
     accessorKey: SORT_OPTIONS.updatedAt,
     header: ({ column, table }) => (
-      <SortableHeader column={column} table={table} title="Updated" isNumeric />
+      <SortableHeader
+        column={column}
+        table={table}
+        title={t("table.updated")}
+        isNumeric
+      />
     ),
     cell: ({ row }) => {
       const date = row.getValue(SORT_OPTIONS.updatedAt) as Date;
@@ -116,8 +129,10 @@ export const columns: ColumnDef<ProjectType>[] = [
     },
   },
 ];
+}
 
 function ProjectActionsCell({ project }: { project: ProjectType }) {
+  const t = useTranslations("project");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const { confirm, ConfirmDialogComponent } = useConfirmDialog();
@@ -133,27 +148,27 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
       mutationFn: () => orpc.project.delete({ id: project.id }),
       onSuccess: (result) => {
         if (result.success) {
-          toast.success("Project deleted successfully");
+          toast.success(t("delete.toast-success"));
           queryClient.invalidateQueries({
             queryKey: orpcQuery.project.list.queryKey(),
           });
         } else {
-          toast.error("Failed to delete project");
+          toast.error(t("delete.toast-error"));
         }
       },
       onError: (err: unknown) => {
         console.error(err);
         const message = err instanceof Error ? err.message : String(err);
-        toast.error(message || "An error occurred while deleting the project");
+        toast.error(message || t("delete.toast-error-generic"));
       },
     });
 
   const handleDelete = async () => {
     const confirmed = await confirm({
-      title: "Are you sure?",
-      description: `This will permanently delete the project "${project.name}". This action cannot be undone.`,
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("delete.confirm-title"),
+      description: t("delete.confirm-description", { name: project.name }),
+      confirmText: t("delete.confirm-button"),
+      cancelText: t("delete.cancel-button"),
       isDestructive: true,
     });
 
@@ -171,22 +186,22 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">{t("table.open-menu")}</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
           <DropdownMenuItem asChild>
             <Link href={`/org/projects/${project.id}`}>
               <EyeIcon className="mr-2 h-4 w-4" />
-              View Details
+              {t("table.view-details")}
             </Link>
           </DropdownMenuItem>
           {canUpdate && (
             <DropdownMenuItem onClick={() => setIsEditModalOpen(true)}>
               <Edit2Icon className="mr-2 h-4 w-4" />
-              Edit Project
+              {t("table.edit-project")}
             </DropdownMenuItem>
           )}
           {canDelete && (
@@ -198,7 +213,7 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
                 className="text-destructive"
               >
                 <Trash2Icon className="mr-2 h-4 w-4" />
-                Delete Project
+                {t("table.delete-project")}
               </DropdownMenuItem>
             </>
           )}
@@ -209,7 +224,7 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
         <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Edit Project</DialogTitle>
+              <DialogTitle>{t("edit.title")}</DialogTitle>
             </DialogHeader>
             <EditProjectForm
               project={project}

@@ -8,6 +8,7 @@ import {
   Leaf,
   TreePine,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { Button } from "@/components/ui/button";
@@ -95,6 +96,7 @@ const EMISSION_IMPACT_STEPS = [
 ];
 
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
+  const t = useTranslations("participation.questionnaire");
   const transitionVariants = {
     container: {
       hidden: { opacity: 0 },

@@ -2,7 +2,7 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Activity, MapPinnedIcon, Users } from "lucide-react";
-import { useFormatter } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { orpcQuery } from "@/lib/orpc/orpc";
@@ -12,6 +12,7 @@ interface ProjectDetailsProps {
 }
 
 function ProjectDetails({ id }: ProjectDetailsProps) {
+  const t = useTranslations("project.details");
   const { data } = useSuspenseQuery(
     orpcQuery.project.getById.queryOptions({ input: { id } }),
   );
@@ -30,14 +31,14 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <MapPinnedIcon className="h-5 w-5" />
-            Project Details
+            {t("title")}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label className="font-medium text-gray-600 text-sm">
-                Start Date
+                {t("start-date")}
               </Label>
               <p className="font-semibold text-lg">
                 {format.dateTime(data.startDate, {
@@ -49,7 +50,7 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
             </div>
             <div className="space-y-2">
               <Label className="font-medium text-gray-600 text-sm">
-                End Date
+                {t("end-date")}
               </Label>
               <p className="font-semibold text-lg">
                 {format.dateTime(data.endDate, {
@@ -64,7 +65,7 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
           {data.location && (
             <div className="space-y-2">
               <Label className="font-medium text-gray-600 text-sm">
-                Location
+                {t("location")}
               </Label>
               <p className="text-lg">{data.location}</p>
             </div>
@@ -73,7 +74,7 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
           {data.welcomeMessage && (
             <div className="space-y-2">
               <Label className="font-medium text-gray-600 text-sm">
-                Welcome Message
+                {t("welcome-message")}
               </Label>
               <p className="rounded-md bg-gray-50 p-4 text-lg italic">
                 {data.welcomeMessage}
@@ -89,13 +90,11 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Users className="h-5 w-5" />
-              Participants
+              {t("participants")}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">
-              Participants will be displayed here.
-            </p>
+            <p className="text-gray-500">{t("participants-description")}</p>
           </CardContent>
         </Card>
 
@@ -103,13 +102,11 @@ function ProjectDetails({ id }: ProjectDetailsProps) {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" />
-              Activities
+              {t("activities")}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">
-              Project activities will be displayed here.
-            </p>
+            <p className="text-gray-500">{t("activities-description")}</p>
           </CardContent>
         </Card>
       </div>
