@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
+import { useLocale } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -25,31 +26,38 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { magicLinkSchema } from "@/lib/better-auth/schemas";
 import { Link, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-const formSchema = z.object({
+const credentialsSchema = z.object({
   email: z.email("Please enter a valid email address."),
   password: z.string().min(1, "Password is required."),
+});
+export const magicLinkSchema = z.object({
+  email: z.email("Please enter a valid email address."),
 });
 
 export function LoginForm({
   className,
-  redirect,
+  nextPageUrl,
   ...props
-}: React.ComponentProps<"div"> & { redirect?: string | string[] }) {
+}: React.ComponentProps<"div"> & { nextPageUrl?: string | string[] }) {
   const router = useRouter();
+  const locale = useLocale();
 
   // append the callbackUrl to the env
-  const callbackURL =
-    env.NEXT_PUBLIC_BASE_URL +
-    (typeof redirect === "string" ? redirect : "/org/dashboard");
+  const normalizedRedirect =
+    typeof nextPageUrl === "string"
+      ? nextPageUrl
+      : Array.isArray(nextPageUrl)
+        ? nextPageUrl[0]
+        : undefined;
+  const fallbackRedirect = `/${locale}/org/dashboard`;
+  const finalRedirect = normalizedRedirect ?? fallbackRedirect;
+  const callbackURL = env.NEXT_PUBLIC_BASE_URL + finalRedirect;
 
-  console.log("Callback URL:", callbackURL);
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof credentialsSchema>>({
+    resolver: zodResolver(credentialsSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -63,13 +71,12 @@ export function LoginForm({
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: z.infer<typeof credentialsSchema>) => {
     await authClient.signIn.email(
       {
         email: data.email,
         password: data.password,
-        callbackURL:
-          typeof callbackURL === "string" ? callbackURL : "/org/dashboard",
+        callbackURL,
       },
       {
         onError: (c) => {
@@ -83,7 +90,7 @@ export function LoginForm({
           toast.error(c.error.message || "Failed to sign in");
         },
         onSuccess: () => {
-          router.push("/org/dashboard");
+          router.push(finalRedirect);
         },
       },
     );
@@ -93,7 +100,7 @@ export function LoginForm({
     await authClient.signIn.magicLink(
       {
         email: data.email,
-        callbackURL: "/org/dashboard",
+        callbackURL,
       },
       {
         onSuccess: () => {
@@ -222,7 +229,10 @@ export function LoginForm({
                 Or continue with
               </FieldSeparator>
 
-              <SocialButtons disabled={form.formState.isSubmitting} />
+              <SocialButtons
+                disabled={form.formState.isSubmitting}
+                callbackUrl={callbackURL}
+              />
             </Field>
           </div>
         </CardFooter>

@@ -27,24 +27,37 @@ export default async function AppLayout({
   children: React.ReactNode;
 }>) {
   const locale = await getLocale();
+  const requestHeaders = await headers();
+  const rememberedPath =
+    requestHeaders.get("x-org-requested-path") ?? undefined;
+  console.debug("Remembered path from header:", rememberedPath);
   // Ensure the user is authenticated
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: requestHeaders,
   });
 
   if (!session?.user) {
     // Not authenticated -> send to login (auth group).
     // The (auth) directory is a route group, its login page is at '/login'.
-    redirect({ href: `/login?nextPageUrl=/${locale}/org/dashboard`, locale });
-    redirect({ href: `/login?nextPageUrl=/${locale}/org/dashboard`, locale });
+    const fallbackPath = `/${locale}/org/dashboard`;
+    const nextPageUrl = rememberedPath ?? fallbackPath;
+    redirect({
+      href: `/login?nextPageUrl=${encodeURIComponent(nextPageUrl)}`,
+      locale,
+    });
   }
 
   // If authenticated, ensure they have an organization
-  const organizations = await auth.api.listOrganizations({
-    headers: await headers(),
-  });
-
-  const hasOrgs = Array.isArray(organizations) && organizations.length > 0;
+  let hasOrgs = false;
+  try {
+    const organizations = await auth.api.listOrganizations({
+      headers: await headers(),
+    });
+    hasOrgs = Array.isArray(organizations) && organizations.length > 0;
+  } catch (err) {
+    hasOrgs = false;
+    console.error("Session creation without having organizations:", err);
+  }
 
   if (!hasOrgs) {
     // Authenticated but no orgs -> send to org setup flow (different route group)
@@ -61,8 +74,7 @@ export default async function AppLayout({
   void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
   void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
 
-  const cookieStore = await cookies();
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+  const defaultOpen = (await cookies()).get("sidebar_state")?.value === "true";
 
   // Authenticated and has orgs -> allow rendering of the protected app
   return (
