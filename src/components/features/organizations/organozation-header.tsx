@@ -5,10 +5,13 @@ import { Building2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { CreateProjectButton } from "@/components/features/projects/CreateProjectButton";
 import { Skeleton } from "@/components/ui/skeleton";
+import { usePathname } from "@/lib/i18n/navigation";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function OrganizationHeader() {
   const t = useTranslations("organization.dashboard");
+
+  const pathname = usePathname();
 
   // Using oRPC queries for stable SSR hydration
   // Prefetched in page.tsx, so no loading state on mount
@@ -38,7 +41,9 @@ export function OrganizationHeader() {
           {t("welcome-to-your-organizations-dashboard")}
         </p>
       </div>
-      <CreateProjectButton variant="link" showIcon={false} />
+      {pathname !== "/org/create-project" && (
+        <CreateProjectButton variant="link" showIcon={false} />
+      )}
     </div>
   );
 }

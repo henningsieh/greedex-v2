@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getLocaleData, type LocaleCode } from "@/lib/i18n/locales";
-import { usePathname, useRouter } from "@/lib/i18n/routing";
+import { usePathname, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 export function LocaleSwitcher({ className }: { className?: string }) {

@@ -5,12 +5,8 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query";
-import {
-  CheckIcon,
-  ChevronsUpDownIcon,
-  MapPinnedIcon,
-  PlusIcon,
-} from "lucide-react";
+import { CheckIcon, ChevronsUpDownIcon, MapPinnedIcon } from "lucide-react";
+import { CreateProjectButton } from "@/components/features/projects/CreateProjectButton";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
   DropdownMenu,
@@ -26,10 +22,22 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
 
 export function ProjectSwitcher() {
+  // Get user permissions
+  const {
+    canCreate,
+    // canRead,
+    // canUpdate,
+    // canDelete,
+    // canShare,
+    // role,
+    // isPending: permissionsPending,
+  } = useProjectPermissions();
+
   const { setIsLoading } = useAppLoading();
   const queryClient = useQueryClient();
 
@@ -112,15 +120,7 @@ export function ProjectSwitcher() {
               </DropdownMenuItem>
             ))}
             {projects && projects.length > 0 && <DropdownMenuSeparator />}
-            <DropdownMenuItem
-              className="flex justify-center focus:bg-secondary/50 focus:text-accent-foreground"
-              onSelect={() => {
-                // TODO: Open create project modal
-              }}
-            >
-              <PlusIcon className="mr-2 h-4 w-4" />
-              Add Project
-            </DropdownMenuItem>
+            {canCreate && <CreateProjectButton className="w-full" />}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

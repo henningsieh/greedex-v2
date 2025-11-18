@@ -9,16 +9,18 @@ import { Link } from "@/lib/i18n/navigation";
 interface CreateProjectButtonProps {
   variant?: VariantProps<typeof Button>["variant"];
   showIcon?: boolean;
+  className?: string;
 }
 
 export function CreateProjectButton({
-  variant = "default",
+  variant = "secondary",
   showIcon = true,
+  className,
 }: CreateProjectButtonProps) {
   const t = useTranslations("project");
 
   return (
-    <Button asChild variant={variant}>
+    <Button asChild variant={variant} className={className}>
       <Link href="/org/create-project">
         {showIcon && <Plus className="mr-2 size-4" />}
         {t("button.create-project")}

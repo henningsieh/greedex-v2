@@ -120,7 +120,7 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
           </div>
         </CardContent>
         <CardFooter className="w-full">
-          <div className="flex w-full gap-2 sm:flex-col">
+          <div className="flex w-full flex-col gap-2">
             <Button
               asChild
               className="flex-1 gap-4"
