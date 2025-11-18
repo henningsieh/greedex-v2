@@ -1,6 +1,5 @@
 import { headers } from "next/headers";
 import { Suspense } from "react";
-import ActiveProjectHeaderClient from "@/components/features/projects/ActiveProjectHeaderClient";
 import ControlActiveProjectPageSkeleton from "@/components/features/projects/ControlActiveProjectPageSkeleton";
 import ParticipantsList from "@/components/features/projects/ParticipantsList";
 import ParticipationControlsClient from "@/components/features/projects/ParticipationControlsClient";
@@ -97,16 +96,12 @@ export default async function ControlActiveProjectPage() {
 
   return (
     <Suspense fallback={<ControlActiveProjectPageSkeleton />}>
-      <div className="container mx-auto max-w-6xl px-4 py-8">
-        <ActiveProjectHeaderClient activeProject={activeProject} />
+      <ParticipationControlsClient
+        activeProjectId={activeProjectId}
+        origin={origin}
+      />
 
-        <ParticipationControlsClient
-          activeProjectId={activeProjectId}
-          origin={origin}
-        />
-
-        <ParticipantsList participants={participants} />
-      </div>
+      <ParticipantsList participants={participants} />
     </Suspense>
   );
 }

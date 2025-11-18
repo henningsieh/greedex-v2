@@ -42,7 +42,7 @@ const organizationMenuItems = [
   { title: "Dashboard", icon: LayoutDashboardIcon, url: "/org/dashboard" },
   { title: "Projects", icon: MapPinnedIcon, url: "/org/projects" },
   { title: "Team", icon: UsersIcon, url: "/org/team" },
-  { title: "Settings", icon: SettingsIcon, url: "/settings" },
+  { title: "Settings", icon: SettingsIcon, url: "/org/settings" },
 ];
 
 export function AppSidebar() {

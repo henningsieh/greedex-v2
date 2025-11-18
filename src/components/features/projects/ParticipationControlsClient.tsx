@@ -1,6 +1,6 @@
 "use client";
 
-import { Link2Icon, QrCodeIcon } from "lucide-react";
+import { ExternalLinkIcon, Link2Icon, QrCodeIcon } from "lucide-react";
 import QRCode from "qrcode";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -53,23 +53,37 @@ export default function ParticipationControlsClient({
 
   return (
     <>
-      <div className="mb-8 rounded-lg border bg-card p-6">
-        <div className="mb-4 flex items-center gap-2">
-          <Link2Icon className="h-5 w-5 text-primary" />
-          <h2 className="font-semibold text-lg">Participant Link</h2>
+      <div className="mb-8 space-y-2 rounded-md border border-secondary/70 bg-secondary/10 p-4">
+        <div className="flex items-center justify-between">
+          <div className="mb-4 flex items-center gap-2">
+            <Link2Icon className="h-5 w-5 text-secondary" />
+            <h2 className="font-semibold text-lg dark:text-secondary-foreground">
+              Participation Link
+            </h2>
+          </div>
+          <Button
+            className="hover:bg-secondary/50 hover:text-secondary-foreground sm:w-36"
+            variant="outline"
+            onClick={() => setIsQrModalOpen(true)}
+          >
+            <QrCodeIcon className="h-4 w-4" />
+            <span className="hidden sm:inline">QR Code</span>
+          </Button>
         </div>
-        <p className="mb-4 text-muted-foreground text-sm">
+
+        <p className="text-muted-foreground text-sm">
           Share this link with participants to allow them to join the project
           and submit their travel activities.
         </p>
-        <div className="flex flex-wrap gap-2">
+
+        <div className="mt-6 flex flex-wrap gap-2">
           <Field className="flex-1">
             <FieldContent className="relative flex flex-col sm:flex-row">
               <input
                 type="text"
                 value={participationUrl}
                 readOnly
-                className="w-full truncate rounded-md border bg-muted px-4 py-2 pr-12 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                className="w-full truncate rounded-md border bg-secondary/40 px-4 py-2 pr-12 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 title="Participation URL"
               />
               <Button
@@ -97,18 +111,34 @@ export default function ParticipationControlsClient({
               </Button>
             </FieldContent>
           </Field>
-          <Button variant="outline" onClick={() => setIsQrModalOpen(true)}>
-            <QrCodeIcon className="h-4 w-4" />
-            QR Code
+
+          {/* Button open link external */}
+          <Button
+            variant="outline"
+            className="sm:w-36"
+            asChild
+            rel="noopener noreferrer"
+          >
+            <a
+              className="flex cursor-pointer hover:bg-secondary/50 hover:text-secondary-foreground"
+              href={participationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ExternalLinkIcon className="h-4 w-4" />
+              <span className="hidden sm:inline">Open Link</span>
+            </a>
           </Button>
         </div>
       </div>
 
       {/* QR Code Modal */}
       <Dialog open={isQrModalOpen} onOpenChange={setIsQrModalOpen}>
-        <DialogContent>
+        <DialogContent className="border-secondary/70" showCloseButton={false}>
           <DialogHeader>
-            <DialogTitle>Participation QR Code</DialogTitle>
+            <DialogTitle className="text-secondary-foreground">
+              Participation QR Code
+            </DialogTitle>
             <DialogDescription>
               Scan this QR code to access the participation page
             </DialogDescription>
@@ -119,11 +149,11 @@ export default function ParticipationControlsClient({
               <img
                 src={qrCodeDataUrl}
                 alt="QR Code for participation link"
-                className="rounded-lg border"
+                className="rounded-lg border border-secondary/70"
               />
             ) : (
-              <div className="flex h-[300px] w-[300px] items-center justify-center rounded-lg border">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+              <div className="flex h-[300px] w-[300px] items-center justify-center rounded-lg border border-secondary/70">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-secondary border-t-transparent" />
               </div>
             )}
             <p className="break-all text-center font-mono text-muted-foreground text-xs">

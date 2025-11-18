@@ -1,6 +1,7 @@
-import { UsersIcon } from "lucide-react";
+import { Users2Icon, UsersIcon } from "lucide-react";
 import { getFormatter } from "next-intl/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
 import {
   Empty,
   EmptyDescription,
@@ -20,9 +21,9 @@ export default async function ParticipantsList({
   const format = await getFormatter();
 
   return (
-    <div className="rounded-lg border bg-card p-6">
+    <div className="rounded-md border border-secondary/70 bg-secondary/10 p-4">
       <div className="mb-4 flex items-center gap-2">
-        <UsersIcon className="h-5 w-5 text-primary" />
+        <UsersIcon className="h-5 w-5 text-secondary" />
         <h2 className="font-semibold text-lg">
           Participants ({participants?.length || 0})
         </h2>
@@ -32,7 +33,7 @@ export default async function ParticipantsList({
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <UsersIcon className="h-12 w-12" />
+              <Users2Icon className="h-12 w-12" />
             </EmptyMedia>
             <EmptyTitle>No participants yet</EmptyTitle>
             <EmptyDescription>
@@ -41,7 +42,7 @@ export default async function ParticipantsList({
           </EmptyHeader>
         </Empty>
       ) : (
-        <div className="space-y-2">
+        <Card className="space-y-2">
           {participants.map((participant) => (
             <div
               key={participant.id}
@@ -72,7 +73,7 @@ export default async function ParticipantsList({
               </div>
             </div>
           ))}
-        </div>
+        </Card>
       )}
     </div>
   );

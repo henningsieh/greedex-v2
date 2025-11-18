@@ -48,7 +48,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
           disabled={isPending}
         >
           {currentLocale?.Flag && (
-            <currentLocale.Flag className="size-6 rounded-sm border border-border/50" />
+            <currentLocale.Flag className="size-6 rounded-sm border-none" />
           )}
           {/* <span className="font-semibold text-sm">
             {currentLocale?.nativeName ?? currentLocale?.label}

@@ -1,15 +1,15 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { FolderOpen, Plus } from "lucide-react";
+import { FolderOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { CreateProjectButton } from "@/components/features/projects/CreateProjectButton";
 import {
   DEFAULT_PROJECT_SORT,
   SORT_OPTIONS,
   type SortOption,
 } from "@/components/features/projects/types";
-import { Button } from "@/components/ui/button";
 import {
   Empty,
   EmptyContent,
@@ -62,10 +62,7 @@ export function ProjectsTable() {
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
-          <Button>
-            <Plus className="mr-2 size-4" />
-            {t("button.create-project")}
-          </Button>
+          <CreateProjectButton />
         </EmptyContent>
       </Empty>
     );

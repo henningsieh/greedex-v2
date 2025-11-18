@@ -308,9 +308,6 @@
         "projects": "Projects",
         "loading-projects": "Loading projects..."
       }
-    },
-    "button": {
-      "create": "Create New Project"
     }
   },
   "app": {

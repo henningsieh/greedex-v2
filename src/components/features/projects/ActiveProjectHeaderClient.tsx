@@ -32,12 +32,8 @@ export default function ActiveProjectHeaderClient({
 
   // Get user permissions
   const {
-    // canCreate,
-    // canRead,
     canUpdate,
     canDelete,
-    // canShare,
-    // role,
     isPending: permissionsPending,
   } = useProjectPermissions();
 
@@ -82,10 +78,12 @@ export default function ActiveProjectHeaderClient({
 
   return (
     <>
-      <div className="mb-8 space-y-4">
+      <div className="mb-8 space-y-4 rounded-md border border-secondary/70 bg-secondary/10 p-4">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-1">
-            <h1 className="font-bold text-3xl">{activeProject.name}</h1>
+          <div className="space-y-3">
+            <h1 className="font-bold text-3xl dark:text-secondary-foreground">
+              {activeProject.name}
+            </h1>
             <div className="flex flex-wrap gap-4 text-muted-foreground text-sm">
               <span className="flex items-center gap-1">
                 <MapPinIcon className="h-4 w-4" />
@@ -93,17 +91,19 @@ export default function ActiveProjectHeaderClient({
               </span>
               <span className="flex items-center gap-1">
                 <CalendarIcon className="h-4 w-4" />
-                {format.dateTime(activeProject.startDate, {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}{" "}
+                {activeProject &&
+                  format.dateTime(activeProject.startDate, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}{" "}
                 -{" "}
-                {format.dateTime(activeProject.endDate, {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
+                {activeProject &&
+                  format.dateTime(activeProject.endDate, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
               </span>
             </div>
           </div>
@@ -140,7 +140,7 @@ export default function ActiveProjectHeaderClient({
       </div>
 
       {/* Edit Modal */}
-      {canUpdate && (
+      {activeProject && canUpdate && (
         <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
           <DialogContent>
             <DialogHeader>
@@ -156,5 +156,26 @@ export default function ActiveProjectHeaderClient({
 
       <ConfirmDialogComponent />
     </>
+  );
+}
+
+export function ActiveProjectHeaderClientSkeleton() {
+  return (
+    <div className="mb-8 space-y-4">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="space-y-1">
+          <div className="h-8 w-64 rounded-md bg-muted" />
+          <div className="flex flex-wrap gap-4 text-sm">
+            <div className="h-5 w-48 rounded-md bg-muted" />
+            <div className="h-5 w-48 rounded-md bg-muted" />
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <div className="h-10 w-24 rounded-md bg-muted" />
+          <div className="h-10 w-24 rounded-md bg-muted" />
+        </div>
+      </div>
+      <div className="h-5 w-full max-w-3xl rounded-md bg-muted" />
+    </div>
   );
 }

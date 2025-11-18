@@ -1,9 +1,10 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { FolderOpen, Grid2X2, Plus, TableProperties } from "lucide-react";
+import { FolderOpen, Grid2X2, TableProperties } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { CreateProjectButton } from "@/components/features/projects/CreateProjectButton";
 import ProjectCard from "@/components/features/projects/project-card";
 import { ProjectsTable } from "@/components/features/projects/projects-table";
 import { DEFAULT_PROJECT_SORT } from "@/components/features/projects/types";
@@ -47,10 +48,7 @@ export function ProjectsGrid() {
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
-          <Button>
-            <Plus className="mr-2 size-4" />
-            {t("button.create-project")}
-          </Button>
+          <CreateProjectButton />
         </EmptyContent>
       </Empty>
     );
