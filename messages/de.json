@@ -298,16 +298,39 @@
   },
   "organization": {
     "dashboard": {
+      "title": "Dashboard",
+      "description": "Überblick über die Statistiken, Projekte und Teilnehmenden Ihrer Organisation.",
       "welcome-to-your-organizations-dashboard": "Organisationsmanagement",
       "total-projects": "Gesamtanzahl der Projekte",
       "total-participants": "Gesamtzahl der Teilnehmer",
       "total-activities": "Gesamtemissionen durch Aktivitäten",
+      "coming-soon": "Demnächst verfügbar",
       "tabs": {
         "dashboard": "Übersicht",
         "participants": "Teilnehmende",
         "projects": "Projekte",
         "loading-projects": "Projekte werden geladen..."
       }
+    },
+    "projects": {
+      "title": "Alle Projekte",
+      "description": "Liste der Projekte Ihrer Organisation.",
+      "suspense-loading": "Wird geladen...",
+      "error-message": "Es ist ein Fehler aufgetreten."
+    },
+    "team": {
+      "title": "Teammitglieder",
+      "description": "Liste der Teammitglieder.",
+      "table": {
+        "member": "Mitglied",
+        "email": "E-Mail",
+        "role": "Rolle",
+        "joined": "Beigetreten"
+      }
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "description": "Dies ist die Einstellungsseite. Einstellungsinhalte werden hier angezeigt."
     }
   },
   "app": {
@@ -320,6 +343,200 @@
     "projects-will-help-you-organize-your-work-and-track-activities-start-by-creating-your-first-project": "Mithilfe von Projekten können Sie Ihre Arbeit organisieren und Aktivitäten verfolgen. \nBeginnen Sie mit der Erstellung Ihres ersten Projekts!",
     "button": {
       "create-project": "Neues Projekt anlegen"
+    },
+    "create": {
+      "title": "Neues Projekt erstellen",
+      "form": {
+        "name": "Projektname",
+        "start-date": "Startdatum",
+        "end-date": "Enddatum",
+        "country": "Land",
+        "location": "Ort (optional)",
+        "welcome-message": "Willkommensnachricht (optional)",
+        "organization": "Organisation",
+        "select-organization": "Organisation auswählen",
+        "creating": "Wird erstellt...",
+        "create-project": "Projekt erstellen"
+      },
+      "toast": {
+        "success": "Projekt erfolgreich erstellt",
+        "error": "Fehler beim Erstellen des Projekts",
+        "error-generic": "Ein Fehler ist aufgetreten"
+      }
+    },
+    "details": {
+      "title": "Projektdetails",
+      "start-date": "Startdatum",
+      "end-date": "Enddatum",
+      "location": "Ort",
+      "welcome-message": "Willkommensnachricht",
+      "participants": "Teilnehmende",
+      "participants-description": "Teilnehmende werden hier angezeigt.",
+      "activities": "Aktivitäten",
+      "activities-description": "Projektaktivitäten werden hier angezeigt.",
+      "loading": "Projektdetails werden geladen...",
+      "error": "Fehler beim Laden der Projektdetails."
+    },
+    "table": {
+      "name": "Name",
+      "country": "Land",
+      "start-date": "Startdatum",
+      "created": "Erstellt",
+      "updated": "Aktualisiert",
+      "actions": "Aktionen",
+      "open-menu": "Menü öffnen",
+      "view-details": "Details anzeigen",
+      "edit-project": "Projekt bearbeiten",
+      "delete-project": "Projekt löschen",
+      "filter-projects": "Projekte filtern..."
+    },
+    "delete": {
+      "confirm-title": "Sind Sie sicher?",
+      "confirm-description": "Dies wird das Projekt \"{name}\" dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "confirm-button": "Löschen",
+      "cancel-button": "Abbrechen",
+      "toast-success": "Projekt erfolgreich gelöscht",
+      "toast-error": "Fehler beim Löschen des Projekts",
+      "toast-error-generic": "Fehler beim Löschen des Projekts"
+    },
+    "edit": {
+      "title": "Projekt bearbeiten"
+    }
+  },
+  "participation": {
+    "questionnaire": {
+      "header": {
+        "badge": "Greendex 2.0",
+        "title": "Willkommen bei Greendex",
+        "subtitle": "CO₂-Rechner für Erasmus+ Mobilitäten",
+        "step-counter": "Schritt {current} von {total}"
+      },
+      "welcome": {
+        "default-message": "Berechne den CO₂-Fußabdruck deiner Teilnahme an diesem Erasmus+ Projekt.",
+        "ready": "Mach dich bereit, deinen CO₂-Fußabdruck zu entdecken! 🌱",
+        "every-choice": "Jede Entscheidung zählt auf deinem Weg zu einer grüneren Zukunft!",
+        "fun-message": "Wir wünschen dir viel Spaß und einige \"Aha!\"-Momente auf deiner Reise mit Greendex! 🌳",
+        "start-button": "Greendex starten"
+      },
+      "participant-info": {
+        "title": "Bevor wir beginnen, sag uns bitte:",
+        "first-name": "Dein Vorname",
+        "first-name-placeholder": "Gib deinen Vornamen ein",
+        "country": "In welchem Land lebst du?",
+        "country-placeholder": "Gib dein Land ein",
+        "email": "Deine E-Mail-Adresse",
+        "email-placeholder": "Gib deine E-Mail ein",
+        "required": "*"
+      },
+      "days": {
+        "question": "Wie viele Tage nimmst du an deinem Projekt teil?",
+        "note": "ohne Reisetage",
+        "placeholder": "Anzahl der Tage"
+      },
+      "accommodation": {
+        "category-question": "In welcher Art von Unterkunft übernachtest du?",
+        "occupancy-question": "Wie viele Personen teilen sich das Zimmer/Zelt?",
+        "electricity-question": "Welche Art von Energie nutzt deine Unterkunft?",
+        "options": {
+          "camping": "Camping",
+          "hostel": "Hostel",
+          "3star": "3★ Hotel",
+          "4star": "4★ Hotel",
+          "5star": "5★ Hotel",
+          "apartment": "Wohnung",
+          "friends": "Freunde/Familie",
+          "alone": "allein",
+          "2people": "2 Personen",
+          "3people": "3 Personen",
+          "4plus": "4+ Personen",
+          "green": "grüne Energie",
+          "conventional": "konventionelle Energie",
+          "unknown": "konnte es nicht herausfinden"
+        }
+      },
+      "food": {
+        "question": "Wie oft planst du, während deines Projekts Fleisch zu essen?",
+        "options": {
+          "never": "nie",
+          "rarely": "selten",
+          "sometimes": "manchmal",
+          "almost-every-day": "fast jeden Tag",
+          "every-day": "jeden Tag"
+        }
+      },
+      "transport": {
+        "flight-question": "Dein Weg ZUM Projekt: Wie viele Kilometer bist du geflogen?",
+        "boat-question": "Dein Weg ZUM Projekt: Wie viele Kilometer bist du mit dem Boot gefahren?",
+        "train-question": "Dein Weg ZUM Projekt: Wie viele Kilometer bist du mit dem Zug oder der U-Bahn gefahren?",
+        "bus-question": "Dein Weg ZUM Projekt: Wie viele Kilometer bist du mit dem Bus/Van gefahren?",
+        "car-question": "Dein Weg ZUM Projekt: Wie viele Kilometer bist du mit dem Auto gefahren?",
+        "car-type-question": "Welche Art von Auto hast du benutzt?",
+        "car-passengers-question": "Wie viele Teilnehmende (dich eingeschlossen) saßen im Auto?",
+        "placeholder": "0",
+        "car-type": {
+          "conventional": "konventionell (Diesel, Benzin, Gas…)",
+          "electric": "elektrisch"
+        }
+      },
+      "demographics": {
+        "age-question": "Wie alt bist du?",
+        "age-placeholder": "Alter",
+        "gender-question": "Was ist dein Geschlecht?",
+        "gender-options": {
+          "female": "Weiblich",
+          "male": "Männlich",
+          "other": "Andere / Keine Angabe"
+        }
+      },
+      "navigation": {
+        "back": "Zurück",
+        "continue": "Weiter",
+        "complete": "Abschließen"
+      },
+      "results": {
+        "co2-footprint": "CO₂-Fußabdruck",
+        "trees-needed": "Bäume (1 Jahr)",
+        "summary-title": "Deine CO₂-Fußabdruck-Zusammenfassung",
+        "transport": "Transport:",
+        "accommodation": "Unterkunft:",
+        "food": "Essen:",
+        "total": "Gesamt:",
+        "console-note": "Daten wurden in die Konsole protokolliert (siehe Browser-Entwicklertools)"
+      },
+      "impact-modal": {
+        "title": "Dein Einfluss",
+        "total-co2": "Gesamt-CO₂",
+        "kg-co2": "kg CO₂",
+        "trees-needed": "Benötigte Bäume",
+        "to-offset": "zum Ausgleich",
+        "impact": "Einfluss:",
+        "continue": "Weiter",
+        "messages": {
+          "flight-zero": "✅ Super! Kein Flug hält deinen Fußabdruck niedrig!",
+          "flight": "✈️ {km} km Flug fügen {impact} kg CO₂ zu deinem Fußabdruck hinzu",
+          "train-zero": "🚆 Diesmal keine Zugreise",
+          "train": "🚆 Ausgezeichnete Wahl! Zugreisen sind umweltfreundlich (+{impact} kg CO₂)",
+          "bus-zero": "🚌 Keine Busreise",
+          "bus": "🚌 Gute Wahl für öffentliche Verkehrsmittel! (+{impact} kg CO₂)",
+          "boat-zero": "⛴️ Keine Bootsfahrt",
+          "boat": "⛴️ Bootsfahrt fügt {impact} kg CO₂ hinzu",
+          "car-zero": "🚗 Super! Keine Autofahrt hält die Emissionen niedrig!",
+          "car": "🚗 Autofahrt fügt {impact} kg CO₂ hinzu",
+          "food-never": "🌱 Fantastisch! Vegetarische Ernährung für {days} Tage ist umweltfreundlich! (+{impact} kg CO₂)",
+          "food-rarely": "🥗 Tolle Wahl! Geringer Fleischkonsum für {days} Tage (+{impact} kg CO₂)",
+          "food-sometimes": "🍖 Moderater Fleischkonsum für {days} Tage (+{impact} kg CO₂)",
+          "food-almost": "🥩 Hoher Fleischkonsum für {days} Tage hat erhebliche Auswirkungen (+{impact} kg CO₂)",
+          "food-daily": "🥩 Täglicher Fleischkonsum für {days} Tage hat große Umweltauswirkungen (+{impact} kg CO₂)",
+          "electricity-green": "♻️ Ausgezeichnet! {accommodation} mit {energy} für {nights} Nächte, {occupancy} hält die Emissionen bei {impact} kg CO₂ niedrig",
+          "electricity-conventional": "🏨 {accommodation} mit {energy} für {nights} Nächte, {occupancy} fügt {impact} kg CO₂ zu deinem Fußabdruck hinzu",
+          "car-type-electric": "🔋 Ausgezeichnet! Elektroautos haben 75% niedrigere Emissionen!",
+          "car-type-conventional": "⛽ Konventionelles Auto erhöht deinen Fußabdruck",
+          "car-passengers-solo": "🚗 Überlege dir beim nächsten Mal eine Fahrgemeinschaft! Das Teilen von Fahrten kann die Emissionen um bis zu 75% reduzieren.",
+          "car-passengers-shared": "👥 Tolle Fahrgemeinschaft! Du reduzierst Emissionen, indem du mit {count} andere{plural} teilst.",
+          "default-low": "✅ Diese Wahl beeinflusst deinen CO₂-Fußabdruck nicht",
+          "default": "+{impact} kg CO₂ hinzugefügt"
+        }
+      }
     }
   }
 }

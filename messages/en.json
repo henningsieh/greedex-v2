@@ -298,16 +298,39 @@
   },
   "organization": {
     "dashboard": {
+      "title": "Dashboard",
+      "description": "Overview of your organization's statistics, projects, and participants.",
       "welcome-to-your-organizations-dashboard": "Organization management",
       "total-projects": "Total Projects",
       "total-participants": "Total Participants",
       "total-activities": "Total emissions from activities",
+      "coming-soon": "Coming Soon",
       "tabs": {
         "dashboard": "Dashboard",
         "participants": "Participants",
         "projects": "Projects",
         "loading-projects": "Loading projects..."
       }
+    },
+    "projects": {
+      "title": "All Projects",
+      "description": "List of projects of your organization.",
+      "suspense-loading": "Suspense Loading...",
+      "error-message": "Something went wrong."
+    },
+    "team": {
+      "title": "Team Members",
+      "description": "List of team members goes here.",
+      "table": {
+        "member": "Member",
+        "email": "Email",
+        "role": "Role",
+        "joined": "Joined"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "This is the settings page. Settings content will go here."
     }
   },
   "app": {
@@ -320,6 +343,200 @@
     "projects-will-help-you-organize-your-work-and-track-activities-start-by-creating-your-first-project": "Projects will help you organize your work and track activities. Start by creating your first project!",
     "button": {
       "create-project": "Create new project"
+    },
+    "create": {
+      "title": "Create a new Project",
+      "form": {
+        "name": "Project Name",
+        "start-date": "Start Date",
+        "end-date": "End Date",
+        "country": "Country",
+        "location": "Location (optional)",
+        "welcome-message": "Welcome Message (optional)",
+        "organization": "Organization",
+        "select-organization": "Select organization",
+        "creating": "Creating...",
+        "create-project": "Create Project"
+      },
+      "toast": {
+        "success": "Project created successfully",
+        "error": "Failed to create project",
+        "error-generic": "An error occurred"
+      }
+    },
+    "details": {
+      "title": "Project Details",
+      "start-date": "Start Date",
+      "end-date": "End Date",
+      "location": "Location",
+      "welcome-message": "Welcome Message",
+      "participants": "Participants",
+      "participants-description": "Participants will be displayed here.",
+      "activities": "Activities",
+      "activities-description": "Project activities will be displayed here.",
+      "loading": "loading project details...",
+      "error": "Failed to load project details."
+    },
+    "table": {
+      "name": "Name",
+      "country": "Country",
+      "start-date": "Start Date",
+      "created": "Created",
+      "updated": "Updated",
+      "actions": "Actions",
+      "open-menu": "Open menu",
+      "view-details": "View Details",
+      "edit-project": "Edit Project",
+      "delete-project": "Delete Project",
+      "filter-projects": "Filter projects..."
+    },
+    "delete": {
+      "confirm-title": "Are you sure?",
+      "confirm-description": "This will permanently delete the project \"{name}\". This action cannot be undone.",
+      "confirm-button": "Delete",
+      "cancel-button": "Cancel",
+      "toast-success": "Project deleted successfully",
+      "toast-error": "Failed to delete project",
+      "toast-error-generic": "An error occurred while deleting the project"
+    },
+    "edit": {
+      "title": "Edit Project"
+    }
+  },
+  "participation": {
+    "questionnaire": {
+      "header": {
+        "badge": "Greendex 2.0",
+        "title": "Welcome to Greendex",
+        "subtitle": "CO₂ Calculator for Erasmus+ Mobilities",
+        "step-counter": "Step {current} of {total}"
+      },
+      "welcome": {
+        "default-message": "Calculate the carbon footprint of your participation in this Erasmus+ project.",
+        "ready": "Get ready to discover your carbon footprint! 🌱",
+        "every-choice": "Every choice matters on your journey to a greener future!",
+        "fun-message": "We wish you lots of fun and some \"Aha!\" moments on your journey with Greendex! 🌳",
+        "start-button": "Start Greendex"
+      },
+      "participant-info": {
+        "title": "Before we start, please tell us:",
+        "first-name": "Your first name",
+        "first-name-placeholder": "Enter your first name",
+        "country": "In which country do you live?",
+        "country-placeholder": "Enter your country",
+        "email": "Your email address",
+        "email-placeholder": "Enter your email",
+        "required": "*"
+      },
+      "days": {
+        "question": "How many days are you participating on your project?",
+        "note": "without travel days",
+        "placeholder": "Number of days"
+      },
+      "accommodation": {
+        "category-question": "Which type of accommodation are you staying in?",
+        "occupancy-question": "How many people are sharing the room/tent?",
+        "electricity-question": "Which type of energy does your accommodation use?",
+        "options": {
+          "camping": "Camping",
+          "hostel": "Hostel",
+          "3star": "3★ Hotel",
+          "4star": "4★ Hotel",
+          "5star": "5★ Hotel",
+          "apartment": "Apartment",
+          "friends": "Friends/Family",
+          "alone": "alone",
+          "2people": "2 people",
+          "3people": "3 people",
+          "4plus": "4+ people",
+          "green": "green energy",
+          "conventional": "conventional energy",
+          "unknown": "could not find out"
+        }
+      },
+      "food": {
+        "question": "How often do you plan to eat meat on your project?",
+        "options": {
+          "never": "never",
+          "rarely": "rarely",
+          "sometimes": "sometimes",
+          "almost-every-day": "almost every day",
+          "every-day": "every day"
+        }
+      },
+      "transport": {
+        "flight-question": "Your way TO the project: How many kilometres did you fly?",
+        "boat-question": "Your way TO the project: How many kilometres did you go by boat?",
+        "train-question": "Your way TO the project: How many kilometres did you go by train or metro?",
+        "bus-question": "Your way TO the project: How many kilometres did you go by bus/van?",
+        "car-question": "Your way TO the project: How many kilometres did you go by car?",
+        "car-type-question": "What type of car did you use?",
+        "car-passengers-question": "How many participants (including you) were sitting in the car?",
+        "placeholder": "0",
+        "car-type": {
+          "conventional": "conventional (diesel, petrol, gas…)",
+          "electric": "electric"
+        }
+      },
+      "demographics": {
+        "age-question": "How old are you?",
+        "age-placeholder": "Age",
+        "gender-question": "What is your gender?",
+        "gender-options": {
+          "female": "Female",
+          "male": "Male",
+          "other": "Other / Prefer not to say"
+        }
+      },
+      "navigation": {
+        "back": "Back",
+        "continue": "Continue",
+        "complete": "Complete"
+      },
+      "results": {
+        "co2-footprint": "CO₂ Footprint",
+        "trees-needed": "Trees (1 Year)",
+        "summary-title": "Your Carbon Footprint Summary",
+        "transport": "Transport:",
+        "accommodation": "Accommodation:",
+        "food": "Food:",
+        "total": "Total:",
+        "console-note": "Data has been logged to the console (check browser developer tools)"
+      },
+      "impact-modal": {
+        "title": "Your Impact",
+        "total-co2": "Total CO₂",
+        "kg-co2": "kg CO₂",
+        "trees-needed": "Trees Needed",
+        "to-offset": "to offset",
+        "impact": "Impact:",
+        "continue": "Continue",
+        "messages": {
+          "flight-zero": "✅ Great! No flying keeps your footprint low!",
+          "flight": "✈️ Flying {km} km adds {impact} kg CO₂ to your footprint",
+          "train-zero": "🚆 No train travel this time",
+          "train": "🚆 Excellent choice! Train travel is eco-friendly (+{impact} kg CO₂)",
+          "bus-zero": "🚌 No bus travel",
+          "bus": "🚌 Good public transport choice! (+{impact} kg CO₂)",
+          "boat-zero": "⛴️ No boat travel",
+          "boat": "⛴️ Boat travel adds {impact} kg CO₂",
+          "car-zero": "🚗 Great! No car travel keeps emissions low!",
+          "car": "🚗 Car travel adds {impact} kg CO₂",
+          "food-never": "🌱 Amazing! Vegetarian diet for {days} days is planet-friendly! (+{impact} kg CO₂)",
+          "food-rarely": "🥗 Great choice! Low meat consumption for {days} days (+{impact} kg CO₂)",
+          "food-sometimes": "🍖 Moderate meat consumption for {days} days (+{impact} kg CO₂)",
+          "food-almost": "🥩 High meat consumption for {days} days has significant impact (+{impact} kg CO₂)",
+          "food-daily": "🥩 Daily meat for {days} days has major environmental impact (+{impact} kg CO₂)",
+          "electricity-green": "♻️ Excellent! {accommodation} with {energy} for {nights} nights, {occupancy} keeps emissions low at {impact} kg CO₂",
+          "electricity-conventional": "🏨 {accommodation} with {energy} for {nights} nights, {occupancy} adds {impact} kg CO₂ to your footprint",
+          "car-type-electric": "🔋 Excellent! Electric cars have 75% lower emissions!",
+          "car-type-conventional": "⛽ Conventional car increases your footprint",
+          "car-passengers-solo": "🚗 Consider carpooling next time! Sharing rides can cut emissions by up to 75%.",
+          "car-passengers-shared": "👥 Great carpooling! You're reducing emissions by sharing with {count} other{plural}.",
+          "default-low": "✅ This choice doesn't affect your CO₂ footprint",
+          "default": "+{impact} kg CO₂ added"
+        }
+      }
     }
   }
 }

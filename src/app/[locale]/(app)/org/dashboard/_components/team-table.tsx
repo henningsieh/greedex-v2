@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { organizationRoles } from "@/components/features/organizations/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +32,7 @@ interface TeamTableProps {
 }
 
 export function TeamTable({ members }: TeamTableProps) {
+  const t = useTranslations("organization.team.table");
   const roleKeyByValue: Record<string, string> = Object.fromEntries(
     Object.entries(organizationRoles).map(([key, value]) => [value, key]),
   );
@@ -37,10 +41,10 @@ export function TeamTable({ members }: TeamTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Member</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Joined</TableHead>
+            <TableHead>{t("member")}</TableHead>
+            <TableHead>{t("email")}</TableHead>
+            <TableHead>{t("role")}</TableHead>
+            <TableHead>{t("joined")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

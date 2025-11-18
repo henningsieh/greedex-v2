@@ -1,5 +1,5 @@
 import { headers as nextHeaders } from "next/headers";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { TeamTable } from "@/app/[locale]/(app)/org/dashboard/_components/team-table";
 import { auth } from "@/lib/better-auth";
 import { redirect } from "@/lib/i18n/navigation";
@@ -53,11 +53,13 @@ export default async () => {
     ],
   };
 
+  const t = await getTranslations("organization.team");
+
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <h2 className="font-bold text-4xl">Team Members</h2>
-        <p className="text-muted-foreground">List of team members goes here.</p>
+        <h2 className="font-bold text-4xl">{t("title")}</h2>
+        <p className="text-muted-foreground">{t("description")}</p>
       </div>
       <TeamTable members={membersResult.members} />
     </div>
