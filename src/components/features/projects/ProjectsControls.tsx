@@ -1,6 +1,7 @@
 "use client";
 
-import { Grid2X2, TableProperties } from "lucide-react";
+import { ChevronDown, Grid2X2, TableProperties } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -26,31 +27,34 @@ export function ProjectsControls({
   sortBy,
   onSortChange,
 }: ProjectsControlsProps) {
+  const tProject = useTranslations("project");
+  const t = useTranslations("app");
+
   const sortOptions = [
-    { value: SORT_OPTIONS.name, label: "Name" },
-    { value: SORT_OPTIONS.startDate, label: "Start Date" },
-    { value: SORT_OPTIONS.createdAt, label: "Created" },
-    { value: SORT_OPTIONS.updatedAt, label: "Updated" },
+    { value: SORT_OPTIONS.name, label: tProject("table.name") },
+    { value: SORT_OPTIONS.startDate, label: tProject("table.start-date") },
+    { value: SORT_OPTIONS.createdAt, label: tProject("table.created") },
+    { value: SORT_OPTIONS.updatedAt, label: tProject("table.updated") },
   ];
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
         <Button
-          variant={view === "grid" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setView("grid")}
-        >
-          <Grid2X2 className="mr-2 size-4" />
-          Grid
-        </Button>
-        <Button
           variant={view === "table" ? "default" : "outline"}
           size="sm"
           onClick={() => setView("table")}
         >
           <TableProperties className="mr-2 size-4" />
-          Table
+          {t("views.table")}
+        </Button>
+        <Button
+          variant={view === "grid" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setView("grid")}
+        >
+          <Grid2X2 className="mr-2 size-4" />
+          {t("views.grid")}
         </Button>
       </div>
 
@@ -58,12 +62,13 @@ export function ProjectsControls({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm">
-              Sort:{" "}
+              {tProject("sort-label")}{" "}
               {sortOptions.find((option) => option.value === sortBy)?.label}
+              <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Sort Projects</DropdownMenuLabel>
+            <DropdownMenuLabel>{tProject("sort-projects")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {sortOptions.map((option) => (
               <DropdownMenuItem

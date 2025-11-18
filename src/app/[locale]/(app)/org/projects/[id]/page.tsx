@@ -1,5 +1,6 @@
 // src/app/(app)/projects/[id]/page.tsx:
 
+import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import ProjectDetails from "@/components/features/projects/project-details";
@@ -12,6 +13,7 @@ export default async function ProjectsDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const t = await getTranslations("project.details");
 
   // Prefetch the project details data on the server
   const queryClient = getQueryClient();
@@ -20,8 +22,8 @@ export default async function ProjectsDetailsPage({
   );
 
   return (
-    <ErrorBoundary fallback={"Failed to load project details."}>
-      <Suspense fallback="loading project details...">
+    <ErrorBoundary fallback={t("error")}>
+      <Suspense fallback={t("loading")}>
         {/* <HydrateClient client={queryClient}> */}
         <ProjectDetails id={id} />
         {/* </HydrateClient> */}

@@ -13,6 +13,7 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -73,6 +74,7 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
+  const t = useTranslations("app");
 
   return (
     <div className="w-full">
@@ -92,7 +94,7 @@ export function DataTable<TData, TValue>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
+              {t("table.columns")} <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

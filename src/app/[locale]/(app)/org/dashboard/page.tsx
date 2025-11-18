@@ -1,10 +1,12 @@
 import { headers } from "next/headers";
+import { getTranslations } from "next-intl/server";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/react-query/hydration";
 import { DashboardTabs } from "./_components/dashboard-tabs";
 
 export default async function DashboardPage() {
+  const t = await getTranslations("organization.dashboard");
   const queryClient = getQueryClient();
 
   // Prefetch all data using oRPC procedures for client components
@@ -40,11 +42,8 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <h2 className="font-bold text-4xl">Dashboard</h2>
-        <p className="text-muted-foreground">
-          Overview of your organization's statistics, projects, and
-          participants.
-        </p>
+        <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
+        <p className="text-muted-foreground">{t("description")}</p>
       </div>
       <DashboardTabs members={members} />
     </div>

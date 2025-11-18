@@ -8,6 +8,7 @@ import {
   Leaf,
   TreePine,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { Button } from "@/components/ui/button";
@@ -95,6 +96,7 @@ const EMISSION_IMPACT_STEPS = [
 ];
 
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
+  const t = useTranslations("participation.questionnaire");
   const transitionVariants = {
     container: {
       hidden: { opacity: 0 },
@@ -363,14 +365,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-500/20 to-emerald-500/20 px-6 py-2">
           <Leaf className="h-5 w-5 text-teal-400" />
           <span className="font-semibold text-sm text-teal-400">
-            Greendex 2.0
+            {t("header.badge")}
           </span>
         </div>
         <h1 className="mb-1 font-bold text-2xl text-foreground sm:text-4xl md:text-3xl lg:text-4xl">
-          Welcome to Greendex
+          {t("header.title")}
         </h1>
         <h1 className="mb-2 font-bold text-foreground text-xl sm:text-3xl md:text-2xl lg:text-3xl">
-          CO₂ Calculator for Erasmus+ Mobilities
+          {t("header.subtitle")}
         </h1>
         <p className="text-lg text-muted-foreground">{project.name}</p>
       </div>
@@ -385,7 +387,10 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
       {/* Step Counter */}
       <div className="text-center text-muted-foreground text-sm">
-        Step {currentStepDisplay + 1} of {totalSteps}
+        {t("header.step-counter", {
+          current: currentStepDisplay + 1,
+          total: totalSteps,
+        })}
       </div>
 
       {/* Permanent CO₂ and Trees Display - shown from step 2 onwards */}
@@ -400,7 +405,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               {displayEmissions.totalCO2.toFixed(1)} kg
             </div>
             <div className="mt-1 text-foreground text-sm md:text-base lg:text-lg">
-              CO₂ Footprint
+              {t("results.co2-footprint")}
             </div>
           </Card>
 
@@ -413,7 +418,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               {displayEmissions.treesNeeded}
             </div>
             <div className="mt-1 text-foreground text-sm md:text-base lg:text-lg">
-              Trees (1 Year)
+              {t("results.trees-needed")}
             </div>
           </Card>
         </div>
@@ -442,19 +447,17 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         {currentStep === 0 && (
           <div className="space-y-12 text-center">
             <p className="text-lg text-muted-foreground">
-              {project.welcomeMessage ||
-                "Calculate the carbon footprint of your participation in this Erasmus+ project."}
+              {project.welcomeMessage || t("welcome.default-message")}
             </p>
             <AnimatedGroup variants={transitionVariants}>
               <p className="mt-4 text-center text-3xl text-emerald-500">
-                Get ready to discover your carbon footprint! 🌱
+                {t("welcome.ready")}
               </p>
               <p className="mt-4 text-center font-bold text-secondary text-xl">
-                Every choice matters on your journey to a greener future!
+                {t("welcome.every-choice")}
               </p>
               <p className="mx-auto mt-8 max-w-xl text-center font-semibold text-2xl text-foreground">
-                We wish you lots of fun and some "Aha!" moments on your journey
-                with Greendex! 🌳
+                {t("welcome.fun-message")}
               </p>
             </AnimatedGroup>
             <Button
@@ -462,7 +465,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               size="lg"
               className="mt-8 bg-gradient-to-r from-teal-700 to-emerald-600 px-12 py-6 text-xl transition-colors duration-250 hover:from-teal-800 hover:to-emerald-700"
             >
-              Start Greendex
+              {t("welcome.start-button")}
               <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
           </div>
@@ -472,17 +475,20 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         {currentStep === 1 && (
           <div className="space-y-8">
             <h2 className="mb-6 text-center font-bold text-3xl text-foreground">
-              Before we start, please tell us:
+              {t("participant-info.title")}
             </h2>
             <div className="space-y-8">
               <div className="space-y-2">
                 <Label htmlFor="firstName" className="text-foreground">
-                  Your first name <span className="text-red-500">*</span>
+                  {t("participant-info.first-name")}{" "}
+                  <span className="text-red-500">
+                    {t("participant-info.required")}
+                  </span>
                 </Label>
                 <Input
                   id="firstName"
                   type="text"
-                  placeholder="Enter your first name"
+                  placeholder={t("participant-info.first-name-placeholder")}
                   value={answers.firstName || ""}
                   onChange={(e) => updateAnswer("firstName", e.target.value)}
                   className="text-lg"
@@ -490,13 +496,15 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="country" className="text-foreground">
-                  In which country do you live?{" "}
-                  <span className="text-red-500">*</span>
+                  {t("participant-info.country")}{" "}
+                  <span className="text-red-500">
+                    {t("participant-info.required")}
+                  </span>
                 </Label>
                 <Input
                   id="country"
                   type="text"
-                  placeholder="Enter your country"
+                  placeholder={t("participant-info.country-placeholder")}
                   value={answers.country || ""}
                   onChange={(e) => updateAnswer("country", e.target.value)}
                   className="text-lg"
@@ -504,12 +512,15 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-foreground">
-                  Your email address <span className="text-red-500">*</span>
+                  {t("participant-info.email")}{" "}
+                  <span className="text-red-500">
+                    {t("participant-info.required")}
+                  </span>
                 </Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t("participant-info.email-placeholder")}
                   value={answers.email || ""}
                   onChange={(e) => updateAnswer("email", e.target.value)}
                   className="text-lg"
@@ -523,13 +534,13 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         {currentStep === 2 && (
           <div className="space-y-8">
             <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
-              How many days are you participating on your project?
+              {t("days.question")}
             </Label>
-            <p className="text-muted-foreground text-sm">without travel days</p>
+            <p className="text-muted-foreground text-sm">{t("days.note")}</p>
             <Input
               type="number"
               min="1"
-              placeholder="Number of days"
+              placeholder={t("days.placeholder")}
               value={answers.days || ""}
               onChange={(e) =>
                 updateAnswer("days", Number.parseInt(e.target.value, 10))
@@ -843,7 +854,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                 className="flex-1"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back
+                {t("navigation.back")}
               </Button>
             )}
             <Button
@@ -857,11 +868,11 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               {currentStep === 14 ? (
                 <>
                   <CheckCircle2 className="mr-2 h-4 w-4" />
-                  Complete
+                  {t("navigation.complete")}
                 </>
               ) : (
                 <>
-                  Continue
+                  {t("navigation.continue")}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </>
               )}
@@ -875,30 +886,38 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         <Card className="border-teal-500/30 bg-gradient-to-br from-teal-500/20 to-emerald-500/20 p-6">
           <div className="space-y-8">
             <h3 className="text-center font-bold text-3xl text-foreground">
-              Your Carbon Footprint Summary
+              {t("results.summary-title")}
             </h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Transport:</span>
+                <span className="text-muted-foreground">
+                  {t("results.transport")}
+                </span>
                 <span className="font-semibold text-foreground">
                   {emissions.transportCO2.toFixed(1)} kg CO₂
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Accommodation:</span>
+                <span className="text-muted-foreground">
+                  {t("results.accommodation")}
+                </span>
                 <span className="font-semibold text-foreground">
                   {emissions.accommodationCO2.toFixed(1)} kg CO₂
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Food:</span>
+                <span className="text-muted-foreground">
+                  {t("results.food")}
+                </span>
                 <span className="font-semibold text-foreground">
                   {emissions.foodCO2.toFixed(1)} kg CO₂
                 </span>
               </div>
               <div className="border-teal-500/30 border-t pt-3">
                 <div className="flex justify-between text-lg">
-                  <span className="font-bold text-foreground">Total:</span>
+                  <span className="font-bold text-foreground">
+                    {t("results.total")}
+                  </span>
                   <span className="font-bold text-teal-400">
                     {emissions.totalCO2.toFixed(1)} kg CO₂
                   </span>
@@ -906,8 +925,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               </div>
             </div>
             <p className="pt-4 text-center text-muted-foreground text-sm">
-              Data has been logged to the console (check browser developer
-              tools)
+              {t("results.console-note")}
             </p>
           </div>
         </Card>

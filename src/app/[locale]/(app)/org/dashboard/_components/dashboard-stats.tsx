@@ -10,19 +10,19 @@ export function DashboardStats() {
         <div className="font-medium text-muted-foreground text-sm">
           {t("total-projects")}
         </div>
-        <div className="font-bold text-2xl">Coming Soon</div>
+        <div className="font-bold text-2xl">{t("coming-soon")}</div>
       </Card>
       <Card className="p-6">
         <div className="font-medium text-muted-foreground text-sm">
           {t("total-participants")}
         </div>
-        <div className="font-bold text-2xl">Coming Soon</div>
+        <div className="font-bold text-2xl">{t("coming-soon")}</div>
       </Card>
       <Card className="p-6">
         <div className="font-medium text-muted-foreground text-sm">
           {t("total-activities")}
         </div>
-        <div className="font-bold text-2xl">Coming Soon</div>
+        <div className="font-bold text-2xl">{t("coming-soon")}</div>
       </Card>
     </div>
   );

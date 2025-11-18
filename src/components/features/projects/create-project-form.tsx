@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { OrganizationType } from "@/components/features/organizations/types";
@@ -36,6 +36,7 @@ interface CreateProjectFormProps {
 }
 
 function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
+  const t = useTranslations("project.create");
   const {
     register,
     control,
@@ -65,9 +66,9 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     mutationFn: (values: ProjectFormSchemaType) => orpc.project.create(values),
     onSuccess: (result) => {
       if (result.success) {
-        toast.success("Project created successfully");
+        toast.success(t("toast.success"));
       } else {
-        toast.error("Failed to create project");
+        toast.error(t("toast.error"));
       }
       router.push(`/${locale}/org/projects/${result.project.id}`);
       // Invalidate project list
@@ -79,7 +80,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     onError: (err: unknown) => {
       console.error(err);
       const message = err instanceof Error ? err.message : String(err);
-      toast.error(message || "An error occurred");
+      toast.error(message || t("toast.error-generic"));
     },
   });
 
@@ -95,14 +96,16 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldGroup>
           <Field data-invalid={!!errors.name}>
-            <FieldLabel htmlFor="name">Project Name</FieldLabel>
+            <FieldLabel htmlFor="name">{t("form.name")}</FieldLabel>
             <Input id="name" {...register("name")} />
             <FieldError errors={[errors.name]} />
           </Field>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <Field data-invalid={!!errors.startDate}>
-              <FieldLabel htmlFor="startDate">Start Date</FieldLabel>
+              <FieldLabel htmlFor="startDate">
+                {t("form.start-date")}
+              </FieldLabel>
               <Controller
                 control={control}
                 name="startDate"
@@ -118,7 +121,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
             </Field>
 
             <Field data-invalid={!!errors.endDate}>
-              <FieldLabel htmlFor="endDate">End Date</FieldLabel>
+              <FieldLabel htmlFor="endDate">{t("form.end-date")}</FieldLabel>
               <Controller
                 control={control}
                 name="endDate"
@@ -135,32 +138,34 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
           </div>
 
           <Field data-invalid={!!errors.country}>
-            <FieldLabel htmlFor="country">Country</FieldLabel>
+            <FieldLabel htmlFor="country">{t("form.country")}</FieldLabel>
             <Input id="country" {...register("country")} />
             <FieldError errors={[errors.country]} />
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="location">Location (optional)</FieldLabel>
+            <FieldLabel htmlFor="location">{t("form.location")}</FieldLabel>
             <Input id="location" {...register("location")} />
           </Field>
 
           <Field>
             <FieldLabel htmlFor="welcomeMessage">
-              Welcome Message (optional)
+              {t("form.welcome-message")}
             </FieldLabel>
             <Textarea id="welcomeMessage" {...register("welcomeMessage")} />
           </Field>
 
           <Field data-invalid={!!errors.organizationId}>
-            <FieldLabel htmlFor="organizationId">Organization</FieldLabel>
+            <FieldLabel htmlFor="organizationId">
+              {t("form.organization")}
+            </FieldLabel>
             <Controller
               control={control}
               name="organizationId"
               render={({ field }) => (
                 <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger id="organizationId">
-                    <SelectValue placeholder="Select organization" />
+                    <SelectValue placeholder={t("form.select-organization")} />
                   </SelectTrigger>
                   <SelectContent>
                     {userOrganizations.map((org) => (
@@ -176,7 +181,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
           </Field>
 
           <Button type="submit" disabled={isPending} className="w-fit">
-            {isPending ? "Creating..." : "Create Project"}
+            {isPending ? t("form.creating") : t("form.create-project")}
           </Button>
         </FieldGroup>
       </form>
