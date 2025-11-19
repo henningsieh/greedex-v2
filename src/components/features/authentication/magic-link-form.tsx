@@ -2,9 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MailIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type * as z from "zod";
+import { createMagicLinkSchema } from "@/components/features/authentication/login-form";
 import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,13 +18,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { magicLinkSchema } from "@/lib/better-auth/schemas";
 import { cn } from "@/lib/utils";
 
 export function MagicLinkForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
+  const tValidation = useTranslations("authentication.validation");
+  const magicLinkSchema = createMagicLinkSchema(tValidation);
+
   const form = useForm<z.infer<typeof magicLinkSchema>>({
     resolver: zodResolver(magicLinkSchema),
     defaultValues: {
