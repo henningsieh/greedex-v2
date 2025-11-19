@@ -550,7 +550,107 @@
   },
   "authentication": {
     "login": {
-      "last-used": "Zuletzt verwendet"
+      "title": "Bei deinem Konto anmelden",
+      "description": "Gib deine Anmeldedaten ein, um dich bei deinem Konto anzumelden",
+      "last-used": "Zuletzt verwendet",
+      "tabs": {
+        "password": "Passwort",
+        "magicLink": "Magic Link"
+      },
+      "fields": {
+        "email": "E-Mail",
+        "emailPlaceholder": "m@beispiel.de",
+        "password": "Passwort",
+        "forgotPassword": "Passwort vergessen?"
+      },
+      "buttons": {
+        "login": "Anmelden",
+        "signingIn": "Wird angemeldet...",
+        "sendMagicLink": "Magic Link senden",
+        "sending": "Wird gesendet..."
+      },
+      "messages": {
+        "verifyEmail": "Bitte verifiziere deine E-Mail-Adresse, um fortzufahren",
+        "failedSignIn": "Anmeldung fehlgeschlagen",
+        "magicLinkSent": "Magic Link gesendet! Überprüfe dein E-Mail-Postfach.",
+        "failedMagicLink": "Magic Link konnte nicht gesendet werden"
+      },
+      "footer": {
+        "noAccount": "Noch kein Konto?",
+        "signUp": "Registrieren",
+        "orContinueWith": "Oder fortfahren mit"
+      }
+    },
+    "signup": {
+      "title": "Konto erstellen",
+      "description": "Fülle das Formular aus, um dein Konto zu erstellen",
+      "fields": {
+        "fullName": "Vollständiger Name",
+        "fullNamePlaceholder": "Max Mustermann",
+        "email": "E-Mail",
+        "emailPlaceholder": "m@beispiel.de",
+        "emailDescription": "Wir nutzen diese, um dich zu kontaktieren. Wir geben deine E-Mail nicht an Dritte weiter.",
+        "password": "Passwort",
+        "passwordDescription": "Muss mindestens 8 Zeichen lang sein.",
+        "confirmPassword": "Passwort bestätigen",
+        "confirmPasswordDescription": "Bitte bestätige dein Passwort."
+      },
+      "buttons": {
+        "createAccount": "Konto erstellen",
+        "creatingAccount": "Konto wird erstellt..."
+      },
+      "messages": {
+        "failedCreate": "Konto konnte nicht erstellt werden"
+      },
+      "footer": {
+        "haveAccount": "Hast du bereits ein Konto?",
+        "signIn": "Anmelden",
+        "orContinueWith": "Oder fortfahren mit"
+      }
+    },
+    "forgotPassword": {
+      "title": "Passwort vergessen?",
+      "description": "Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.",
+      "fields": {
+        "email": "E-Mail",
+        "emailPlaceholder": "m@beispiel.de"
+      },
+      "buttons": {
+        "sendResetLink": "Zurücksetzungs-Link senden",
+        "sending": "Wird gesendet...",
+        "backToLogin": "Zurück zur Anmeldung"
+      },
+      "messages": {
+        "resetLinkSent": "Link zum Zurücksetzen des Passworts gesendet! Überprüfe dein E-Mail-Postfach.",
+        "failedSend": "Zurücksetzungs-E-Mail konnte nicht gesendet werden"
+      }
+    },
+    "resetPassword": {
+      "title": "Passwort zurücksetzen",
+      "description": "Gib dein neues Passwort ein, um dein Konto-Passwort zurückzusetzen.",
+      "fields": {
+        "newPassword": "Neues Passwort",
+        "newPasswordDescription": "Muss mindestens 8 Zeichen lang sein.",
+        "confirmPassword": "Neues Passwort bestätigen",
+        "confirmPasswordDescription": "Bitte bestätige dein neues Passwort."
+      },
+      "buttons": {
+        "resetPassword": "Passwort zurücksetzen",
+        "resetting": "Wird zurückgesetzt...",
+        "backToLogin": "Zurück zur Anmeldung"
+      },
+      "messages": {
+        "resetSuccess": "Passwort erfolgreich zurückgesetzt! Bitte melde dich an.",
+        "resetFailed": "Passwort konnte nicht zurückgesetzt werden. Der Link ist möglicherweise abgelaufen."
+      }
+    },
+    "validation": {
+      "emailInvalid": "Bitte gib eine gültige E-Mail-Adresse ein.",
+      "passwordRequired": "Passwort ist erforderlich.",
+      "passwordMinLength": "Passwort muss mindestens 8 Zeichen lang sein.",
+      "passwordConfirmRequired": "Bitte bestätige dein Passwort.",
+      "passwordsNoMatch": "Passwörter stimmen nicht überein.",
+      "fullNameRequired": "Vollständiger Name ist erforderlich."
     }
   }
 }

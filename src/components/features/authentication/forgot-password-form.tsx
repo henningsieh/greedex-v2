@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyRoundIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -20,14 +21,20 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-const formSchema = z.object({
-  email: z.string().email("Please enter a valid email address."),
-});
+const createFormSchema = (t: (key: string) => string) =>
+  z.object({
+    email: z.string().email(t("validation.emailInvalid")),
+  });
 
 export function ForgotPasswordForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const t = useTranslations("authentication.forgotPassword");
+  const tValidation = useTranslations("authentication.validation");
+
+  const formSchema = createFormSchema(tValidation);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,42 +50,39 @@ export function ForgotPasswordForm({
       },
       {
         onSuccess: () => {
-          toast.success("Password reset link sent! Please check your email.");
+          toast.success(t("messages.resetLinkSent"));
           form.reset();
         },
         onError: (ctx) => {
-          toast.error(ctx.error.message || "Failed to send reset email");
+          toast.error(ctx.error.message || t("messages.failedSend"));
         },
       },
     );
   };
 
   return (
-    <Card className="mx-auto max-w-lg p-12">
+    <Card className="mx-auto max-w-lg p-4 sm:p-8 md:p-12">
       <div className={cn("flex flex-col gap-6", className)} {...props}>
-        <CardHeader className="flex flex-col items-center gap-4 text-center">
+        <CardHeader className="flex flex-col items-center gap-4 px-0 text-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
             <KeyRoundIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">Forgot Password?</h1>
+            <h1 className="font-bold text-2xl">{t("title")}</h1>
           </CardTitle>
-          <CardDescription>
-            Enter your email address and we'll send you a link to reset your
-            password.
-          </CardDescription>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="px-0">
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup className="gap-4">
               <FormField
                 name="email"
                 control={form.control}
-                label="Email"
+                label={t("fields.email")}
                 id="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder={t("fields.emailPlaceholder")}
                 inputProps={{ disabled: form.formState.isSubmitting }}
               />
 
@@ -88,16 +92,18 @@ export function ForgotPasswordForm({
                 variant="default"
                 disabled={form.formState.isSubmitting}
               >
-                {form.formState.isSubmitting ? "Sending..." : "Send Reset Link"}
+                {form.formState.isSubmitting
+                  ? t("buttons.sending")
+                  : t("buttons.sendResetLink")}
               </Button>
             </FieldGroup>
           </form>
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="px-0">
           <div className="w-full text-center">
             <Button variant="link" className="px-0" asChild>
-              <Link href="/login">Back to Login</Link>
+              <Link href="/login">{t("buttons.backToLogin")}</Link>
             </Button>
           </div>
         </CardFooter>
