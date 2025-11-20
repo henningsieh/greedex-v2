@@ -42,7 +42,7 @@ export const memberSchema = z.object({
   user: z.object({
     id: z.string().uuid(),
     name: z.string(),
-    email: z.string().email(),
+    email: z.email(),
     image: z.string().url().nullable(),
   }),
 });

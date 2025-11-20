@@ -13,7 +13,6 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 
   if (isOrgRoute) {
     request.headers.set("x-org-requested-path", `${pathname}${search}`);
-    console.debug("Set x-org-requested-path header:", `${pathname}${search}`);
   }
 
   return nextIntlMiddleware(request);

@@ -30,7 +30,6 @@ export default async function AppLayout({
   const requestHeaders = await headers();
   const rememberedPath =
     requestHeaders.get("x-org-requested-path") ?? undefined;
-  console.debug("Remembered path from header:", rememberedPath);
   // Ensure the user is authenticated
   const session = await auth.api.getSession({
     headers: requestHeaders,

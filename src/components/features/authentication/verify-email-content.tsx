@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail } from "lucide-react";
+import { MailIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -18,7 +18,7 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-export function VerifyEmailContent({
+export async function VerifyEmailContent({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -86,7 +86,7 @@ export function VerifyEmailContent({
       <Card className={cn("", className)} {...props}>
         <CardHeader className="flex flex-col items-center gap-4 text-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-destructive/10">
-            <Mail className="size-8 text-destructive" />
+            <MailIcon className="size-8 text-destructive" />
           </div>
           <CardTitle>
             <h1 className="font-bold text-2xl">Email Required</h1>
@@ -119,7 +119,7 @@ export function VerifyEmailContent({
     <Card className={cn("", className)} {...props}>
       <CardHeader className="flex flex-col items-center gap-4 text-center">
         <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
-          <Mail className="size-8 text-primary" />
+          <MailIcon className="size-8 text-primary" />
         </div>
         <CardTitle>
           <h1 className="font-bold text-2xl">Verify your email</h1>

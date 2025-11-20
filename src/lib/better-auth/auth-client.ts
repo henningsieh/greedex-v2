@@ -1,5 +1,6 @@
 import {
   inferAdditionalFields,
+  lastLoginMethodClient,
   magicLinkClient,
   organizationClient,
 } from "better-auth/client/plugins";
@@ -21,6 +22,7 @@ export const authClient = createAuthClient({
       },
     }),
     magicLinkClient(),
+    lastLoginMethodClient(),
     inferAdditionalFields<typeof auth>(),
   ],
 });

@@ -75,6 +75,8 @@ SMTP_USER=your-email@example.com
 SMTP_PASSWORD=your-password
 
 # OAuth (optional)
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
 GITHUB_CLIENT_ID=your-github-client-id
 GITHUB_CLIENT_SECRET=your-github-client-secret
 DISCORD_CLIENT_ID=your-discord-client-id

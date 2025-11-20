@@ -547,5 +547,126 @@
         }
       }
     }
+  },
+  "authentication": {
+    "login": {
+      "title": "Sign in to your account",
+      "description": "Enter your credentials below to sign in to your Greendex account",
+      "last-used": "Last Used",
+      "tabs": {
+        "password": "Password",
+        "magicLink": "Magic Link"
+      },
+      "fields": {
+        "email": "Email",
+        "emailPlaceholder": "m@example.com",
+        "password": "Password",
+        "forgotPassword": "Forgot your password?"
+      },
+      "buttons": {
+        "login": "Login",
+        "signingIn": "Signing in...",
+        "sendMagicLink": "Send magic link",
+        "sending": "Sending..."
+      },
+      "messages": {
+        "verifyEmail": "Please verify your email address to continue",
+        "failedSignIn": "Failed to sign in",
+        "magicLinkSent": "Magic link sent! Check your email.",
+        "failedMagicLink": "Failed to send magic link"
+      },
+      "footer": {
+        "noAccount": "Don't have an account?",
+        "signUp": "Sign up",
+        "orContinueWith": "Or continue with"
+      }
+    },
+    "signup": {
+      "title": "Create your account",
+      "description": "Fill in the form below to create your account",
+      "fields": {
+        "fullName": "Full Name",
+        "fullNamePlaceholder": "John Doe",
+        "email": "Email",
+        "emailPlaceholder": "m@example.com",
+        "emailDescription": "We'll use this to contact you. We will not share your email with anyone else.",
+        "password": "Password",
+        "passwordDescription": "Must be at least 8 characters long.",
+        "confirmPassword": "Confirm Password",
+        "confirmPasswordDescription": "Please confirm your password."
+      },
+      "buttons": {
+        "createAccount": "Create Account",
+        "creatingAccount": "Creating Account..."
+      },
+      "messages": {
+        "failedCreate": "Failed to create account"
+      },
+      "footer": {
+        "haveAccount": "Already have an account?",
+        "signIn": "Sign in",
+        "orContinueWith": "Or continue with"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot Password?",
+      "description": "Enter your email address and we'll send you a link to reset your password.",
+      "fields": {
+        "email": "Email",
+        "emailPlaceholder": "m@example.com"
+      },
+      "buttons": {
+        "sendResetLink": "Send Reset Link",
+        "sending": "Sending...",
+        "backToLogin": "Back to Login"
+      },
+      "messages": {
+        "resetLinkSent": "Password reset link sent! Please check your email.",
+        "failedSend": "Failed to send reset email"
+      }
+    },
+    "resetPassword": {
+      "title": "Reset Your Password",
+      "description": "Enter your new password below to reset your account password.",
+      "fields": {
+        "newPassword": "New Password",
+        "newPasswordDescription": "Must be at least 8 characters long.",
+        "confirmPassword": "Confirm New Password",
+        "confirmPasswordDescription": "Please confirm your new password."
+      },
+      "buttons": {
+        "resetPassword": "Reset Password",
+        "resetting": "Resetting...",
+        "backToLogin": "Back to Login"
+      },
+      "messages": {
+        "resetSuccess": "Password reset successfully! Please sign in.",
+        "resetFailed": "Failed to reset password. The link may have expired."
+      }
+    },
+    "validation": {
+      "emailInvalid": "Please enter a valid email address.",
+      "passwordRequired": "Password is required.",
+      "passwordMinLength": "Password must be at least 8 characters long.",
+      "passwordConfirmRequired": "Please confirm your password.",
+      "passwordsNoMatch": "Passwords do not match.",
+      "fullNameRequired": "Full name is required."
+    },
+    "brand": {
+      "badge": "Greendex Climate Lab",
+      "tagline": "Greendex · Climate Lab",
+      "headline": "Bring transparency into your Erasmus+ Project Journeys",
+      "description": "Coordinate your team, celebrate wins, and keep footprints low without juggling spreadsheets.",
+      "values": {
+        "one": "Live mission dashboards with green KPIs",
+        "two": "Share impact stories across every squad",
+        "three": "Automate inviting, inspiring, and improving"
+      },
+      "heroBadge": "Greendex Live",
+      "heroTitle": "See the impact pulse across every team",
+      "heroCaption": "Greendex keeps the climate story visible so you can focus on the work.",
+      "heroStatOne": "24% faster impact reports",
+      "heroStatTwo": "88% planet-positive check-ins"
+    }
   }
 }

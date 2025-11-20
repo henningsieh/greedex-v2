@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,14 +18,17 @@ import { Link, useRouter } from "@/lib/i18n/navigation";
 export function UserSession() {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const handleSignOut = async () => {
+    setIsSigningOut(true);
     await authClient.signOut();
-    router.refresh();
     router.push("/");
+    router.refresh();
   };
 
-  if (isPending) {
+  // Show loading during session check OR sign out
+  if (isPending || isSigningOut) {
     return (
       <div className="flex items-center gap-2">
         <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
@@ -38,9 +42,6 @@ export function UserSession() {
         <Button variant="link" asChild className="px-2">
           <Link href="/login">Sign in</Link>
         </Button>
-        {/* <Button variant="link" asChild className="px-2">
-          <Link href="/signup">Sign up</Link>
-        </Button> */}
       </div>
     );
   }

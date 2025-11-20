@@ -2,10 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import { LastUsedBadge } from "@/components/features/authentication/last-used-badge";
 import SocialButtons from "@/components/features/authentication/social-buttons";
 import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
@@ -29,13 +31,17 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-const credentialsSchema = z.object({
-  email: z.email("Please enter a valid email address."),
-  password: z.string().min(1, "Password is required."),
-});
-export const magicLinkSchema = z.object({
-  email: z.email("Please enter a valid email address."),
-});
+// Schema factory function that takes translation function
+const createCredentialsSchema = (t: (key: string) => string) =>
+  z.object({
+    email: z.email(t("emailInvalid")),
+    password: z.string().min(1, t("passwordRequired")),
+  });
+
+export const createMagicLinkSchema = (t: (key: string) => string) =>
+  z.object({
+    email: z.email(t("emailInvalid")),
+  });
 
 export function LoginForm({
   className,
@@ -43,7 +49,11 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div"> & { nextPageUrl?: string | string[] }) {
   const router = useRouter();
+  const [lastLoginMethod, setLastLoginMethod] = useState<string | null>(null);
+  console.log("Last login method:", lastLoginMethod);
   const locale = useLocale();
+  const tValidation = useTranslations("authentication.validation");
+  const t = useTranslations("authentication.login");
 
   // append the callbackUrl to the env
   const normalizedRedirect =
@@ -55,6 +65,15 @@ export function LoginForm({
   const fallbackRedirect = `/${locale}/org/dashboard`;
   const finalRedirect = normalizedRedirect ?? fallbackRedirect;
   const callbackURL = env.NEXT_PUBLIC_BASE_URL + finalRedirect;
+
+  // Get last login method on component mount
+  useEffect(() => {
+    const method = authClient.getLastUsedLoginMethod();
+    setLastLoginMethod(method);
+  }, []);
+
+  const credentialsSchema = createCredentialsSchema(tValidation);
+  const magicLinkSchema = createMagicLinkSchema(tValidation);
 
   const form = useForm<z.infer<typeof credentialsSchema>>({
     resolver: zodResolver(credentialsSchema),
@@ -81,16 +100,13 @@ export function LoginForm({
       {
         onError: (c) => {
           if (c.error.code === "EMAIL_NOT_VERIFIED") {
-            toast.error("Please verify your email address to continue");
+            toast.error("messages.verifyEmail");
             router.push(
               `/verify-email?email=${encodeURIComponent(data.email)}`,
             );
             return;
           }
-          toast.error(c.error.message || "Failed to sign in");
-        },
-        onSuccess: () => {
-          router.push(finalRedirect);
+          toast.error(c.error.message || t("messages.failedSignIn"));
         },
       },
     );
@@ -104,64 +120,71 @@ export function LoginForm({
       },
       {
         onSuccess: () => {
-          toast.success("Magic link sent! Check your email.");
+          toast.success(t("messages.magicLinkSent"));
         },
         onError: (c) => {
-          toast.error(c.error.message || "Failed to send magic link");
+          toast.error(c.error.message || t("messages.failedMagicLink"));
         },
       },
     );
   };
 
   return (
-    <Card className="mx-auto max-w-lg p-12">
+    <Card className="p-4 sm:p-8 md:p-12">
       <div className={cn("flex flex-col gap-6", className)} {...props}>
-        <CardHeader className="flex flex-col items-center gap-4 text-center">
+        <CardHeader className="flex flex-col items-center gap-4 px-0 text-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
             <LogInIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">Sign in to your account</h1>
+            <h1 className="font-bold text-2xl">{t("title")}</h1>
           </CardTitle>
-          <CardDescription>
-            Enter your credentials below to sign in to your account
-          </CardDescription>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="px-0">
+          {/* Badges are positioned absolute within the relative containers in the top right */}
           <Tabs defaultValue="password" className="w-full space-y-8">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="password">Password</TabsTrigger>
-              <TabsTrigger value="magic-link">Magic Link</TabsTrigger>
+              <TabsTrigger className="relative" value="password">
+                {t("tabs.password")}
+                {(lastLoginMethod === "email" ||
+                  lastLoginMethod === "credential") && (
+                  <LastUsedBadge className="-left-8" />
+                )}
+              </TabsTrigger>
+              <TabsTrigger className="relative" value="magic-link">
+                {t("tabs.magicLink")}
+                {lastLoginMethod === "magic-link" && <LastUsedBadge />}
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="password">
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FieldGroup className="gap-4">
+                <FieldGroup className="">
                   <FormField
                     name="email"
                     control={form.control}
-                    label="Email"
                     id="email"
                     type="email"
-                    placeholder="m@example.com"
+                    label={t("fields.email")}
+                    placeholder={t("fields.emailPlaceholder")}
                     inputProps={{ disabled: form.formState.isSubmitting }}
                   />
                   <FormField
                     name="password"
                     control={form.control}
-                    label="Password"
                     id="password"
                     type="password"
+                    label={t("fields.password")}
                     rightLabel={
-                      <button
-                        type="button"
-                        className="ml-auto text-sm underline-offset-4 hover:underline"
-                        onClick={() => {
-                          // TODO: Implement forgot password functionality
-                        }}
-                      >
-                        Forgot your password?
-                      </button>
+                      <Button variant="link" className="px-0" asChild>
+                        <Link
+                          href="/forgot-password"
+                          className="ml-auto text-sm underline-offset-4 hover:underline"
+                        >
+                          {t("fields.forgotPassword")}
+                        </Link>
+                      </Button>
                     }
                     inputProps={{ disabled: form.formState.isSubmitting }}
                   />
@@ -172,7 +195,9 @@ export function LoginForm({
                     variant="default"
                     disabled={form.formState.isSubmitting}
                   >
-                    {form.formState.isSubmitting ? "Signing in..." : "Login"}
+                    {form.formState.isSubmitting
+                      ? t("buttons.signingIn")
+                      : t("buttons.login")}
                   </Button>
                 </FieldGroup>
               </form>
@@ -183,10 +208,10 @@ export function LoginForm({
                   <FormField
                     name="email"
                     control={magicLinkForm.control}
-                    label="Email"
+                    label={t("fields.email")}
                     id="magic-email"
                     type="email"
-                    placeholder="m@example.com"
+                    placeholder={t("fields.emailPlaceholder")}
                     inputProps={{
                       disabled: magicLinkForm.formState.isSubmitting,
                     }}
@@ -199,8 +224,8 @@ export function LoginForm({
                     disabled={magicLinkForm.formState.isSubmitting}
                   >
                     {magicLinkForm.formState.isSubmitting
-                      ? "Sending..."
-                      : "Send magic link"}
+                      ? t("buttons.sending")
+                      : t("buttons.sendMagicLink")}
                   </Button>
                 </FieldGroup>
               </form>
@@ -208,30 +233,24 @@ export function LoginForm({
           </Tabs>
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="px-0">
           <div className="w-full">
             <Field>
-              {/* <Button
-                type="submit"
-                variant="default"
-                disabled={form.formState.isSubmitting}
-              >
-                {form.formState.isSubmitting ? "Signing in..." : "Login"}
-              </Button> */}
-              <FieldDescription className="text-center">
-                Don&apos;t have an account?{" "}
+              <FieldDescription className="px-6 text-center font-bold">
+                {t("footer.noAccount")}
                 <Button variant="link" className="px-0 pl-1" asChild>
-                  <Link href="/signup">Sign up</Link>
+                  <Link href="/signup">{t("footer.signUp")}</Link>
                 </Button>
               </FieldDescription>
 
               <FieldSeparator className="my-4 font-bold">
-                Or continue with
+                {t("footer.orContinueWith")}
               </FieldSeparator>
 
               <SocialButtons
                 disabled={form.formState.isSubmitting}
                 callbackUrl={callbackURL}
+                lastLoginMethod={lastLoginMethod}
               />
             </Field>
           </div>

@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -26,23 +27,28 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-const formSchema = z
-  .object({
-    name: z.string().min(1, "Full name is required."),
-    email: z.string().email("Please enter a valid email address."),
-    password: z.string().min(8, "Password must be at least 8 characters long."),
-    confirmPassword: z.string().min(1, "Please confirm your password."),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match.",
-    path: ["confirmPassword"],
-  });
+const createFormSchema = (t: (key: string) => string) =>
+  z
+    .object({
+      name: z.string().min(1, t("fullNameRequired")),
+      email: z.email(t("emailInvalid")),
+      password: z.string().min(8, t("passwordMinLength")),
+      confirmPassword: z.string().min(1, t("passwordConfirmRequired")),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t("passwordsNoMatch"),
+      path: ["confirmPassword"],
+    });
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const router = useRouter();
+  const tValidation = useTranslations("authentication.validation");
+  const t = useTranslations("authentication.signup");
+
+  const formSchema = createFormSchema(tValidation);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,7 +69,7 @@ export function SignupForm({
       },
       {
         onError: (c) => {
-          toast.error(c.error.message || "Failed to create account");
+          toast.error(c.error.message || t("messages.failedCreate"));
         },
         onSuccess: () => {
           // Redirect to verify email page after successful signup
@@ -74,92 +80,89 @@ export function SignupForm({
   };
 
   return (
-    <Card className="mx-auto max-w-lg p-12">
+    <Card className="p-4 sm:p-8 md:p-12">
       <form
         className={cn("flex flex-col gap-6", className)}
         {...props}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <CardHeader className="flex flex-col items-center gap-4 text-center">
+        <CardHeader className="flex flex-col items-center gap-4 px-0 text-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
             <UserPlus className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">Create your account</h1>
+            <h1 className="font-bold text-2xl">{t("title")}</h1>
           </CardTitle>
-          <CardDescription>
-            Fill in the form below to create your account
-          </CardDescription>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="px-0">
           <FieldGroup className="gap-4">
             <FormField
               name="name"
               control={form.control}
-              label="Full Name"
+              label={t("fields.fullName")}
               id="name"
               type="text"
-              placeholder="John Doe"
+              placeholder={t("fields.fullNamePlaceholder")}
               inputProps={{ disabled: form.formState.isSubmitting }}
             />
             <FormField
               name="email"
               control={form.control}
-              label="Email"
+              label={t("fields.email")}
               id="email"
               type="email"
-              placeholder="m@example.com"
-              description={
-                "We'll use this to contact you. We will not share your email with anyone else."
-              }
+              placeholder={t("fields.emailPlaceholder")}
+              description={t("fields.emailDescription")}
               inputProps={{ disabled: form.formState.isSubmitting }}
             />
             <FormField
               name="password"
               control={form.control}
-              label="Password"
+              label={t("fields.password")}
               id="password"
               type="password"
-              description={"Must be at least 8 characters long."}
+              description={t("fields.passwordDescription")}
               inputProps={{ disabled: form.formState.isSubmitting }}
             />
             <FormField
               name="confirmPassword"
               control={form.control}
-              label="Confirm Password"
+              label={t("fields.confirmPassword")}
               id="confirm-password"
               type="password"
-              description={"Please confirm your password."}
+              description={t("fields.confirmPasswordDescription")}
               inputProps={{ disabled: form.formState.isSubmitting }}
             />
 
-            <FieldSeparator className="my-4 font-bold">
-              Or continue with
-            </FieldSeparator>
-
-            <SocialButtons disabled={form.formState.isSubmitting} />
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="mt-2"
+            >
+              {form.formState.isSubmitting
+                ? t("buttons.creatingAccount")
+                : t("buttons.createAccount")}
+            </Button>
           </FieldGroup>
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="px-0">
           <div className="w-full">
             <Field>
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="mt-2"
-              >
-                {form.formState.isSubmitting
-                  ? "Creating Account..."
-                  : "Create Account"}
-              </Button>
               <FieldDescription className="px-6 text-center font-bold">
-                Already have an account?{" "}
+                {t("footer.haveAccount")}
                 <Button variant="link" className="px-0 pl-1" asChild>
-                  <Link href="/login">Sign in</Link>
+                  <Link href="/login">{t("footer.signIn")}</Link>
                 </Button>
               </FieldDescription>
+
+              <FieldSeparator className="my-4 font-bold">
+                {t("footer.orContinueWith")}
+              </FieldSeparator>
+
+              <SocialButtons disabled={form.formState.isSubmitting} />
             </Field>
           </div>
         </CardFooter>

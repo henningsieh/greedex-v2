@@ -12,7 +12,7 @@ function Logo({ isScrolled = true }: LogoProps) {
         className={cn(
           "relative h-10 overflow-hidden transition-all duration-600 ease-in-out",
           isScrolled ? "w-18" : "w-0",
-          "hidden sm:inline-block",
+          "hidden sm:inline-block lg:hidden xl:inline-block",
         )}
         aria-hidden={!isScrolled}
       >

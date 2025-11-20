@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import {
+  lastLoginMethod,
   magicLink,
   organization as organizationPlugin,
 } from "better-auth/plugins";
@@ -86,6 +87,16 @@ export const auth = betterAuth({
           html: `<p>Click the link below to sign in:</p><a href="${url}">Sign in</a>`,
           text: `Click the link below to sign in: ${url}`,
         });
+      },
+    }),
+    lastLoginMethod({
+      customResolveMethod: (ctx) => {
+        // Track magic link authentication
+        if (ctx.path === "/magic-link/verify") {
+          return "magic-link";
+        }
+        // Return null to use default logic
+        return null;
       },
     }),
     nextCookies(),
