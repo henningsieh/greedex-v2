@@ -52,8 +52,8 @@ export function LoginForm({
   const [lastLoginMethod, setLastLoginMethod] = useState<string | null>(null);
   console.log("Last login method:", lastLoginMethod);
   const locale = useLocale();
-  const t = useTranslations("authentication.login");
   const tValidation = useTranslations("authentication.validation");
+  const t = useTranslations("authentication.login");
 
   // append the callbackUrl to the env
   const normalizedRedirect =
@@ -130,14 +130,14 @@ export function LoginForm({
   };
 
   return (
-    <Card className="mx-auto max-w-lg p-4 sm:p-8 md:p-12">
+    <Card className="p-4 sm:p-8 md:p-12">
       <div className={cn("flex flex-col gap-6", className)} {...props}>
         <CardHeader className="flex flex-col items-center gap-4 px-0 text-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
             <LogInIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("title")}</h1>
+            <h1 className="font-bold text-xl">{t("title")}</h1>
           </CardTitle>
           <CardDescription>{t("description")}</CardDescription>
         </CardHeader>

@@ -651,6 +651,22 @@
       "passwordConfirmRequired": "Please confirm your password.",
       "passwordsNoMatch": "Passwords do not match.",
       "fullNameRequired": "Full name is required."
+    },
+    "brand": {
+      "badge": "Greendex Climate Lab",
+      "tagline": "Greendex · Climate Lab",
+      "headline": "Bring transparency into your Erasmus+ Project Journeys",
+      "description": "Coordinate your team, celebrate wins, and keep footprints low without juggling spreadsheets.",
+      "values": {
+        "one": "Live mission dashboards with green KPIs",
+        "two": "Share impact stories across every squad",
+        "three": "Automate inviting, inspiring, and improving"
+      },
+      "heroBadge": "Greendex Live",
+      "heroTitle": "See the impact pulse across every team",
+      "heroCaption": "Greendex keeps the climate story visible so you can focus on the work.",
+      "heroStatOne": "24% faster impact reports",
+      "heroStatTwo": "88% planet-positive check-ins"
     }
   }
 }

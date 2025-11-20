@@ -42,8 +42,8 @@ export function ResetPasswordForm({
   ...props
 }: ResetPasswordFormProps) {
   const router = useRouter();
-  const t = useTranslations("authentication.resetPassword");
   const tValidation = useTranslations("authentication.validation");
+  const t = useTranslations("authentication.resetPassword");
 
   const formSchema = createFormSchema(tValidation);
 
@@ -74,7 +74,7 @@ export function ResetPasswordForm({
   };
 
   return (
-    <Card className="mx-auto max-w-lg p-4 sm:p-8 md:p-12">
+    <Card className="p-4 sm:p-8 md:p-12">
       <div className={cn("flex flex-col gap-6", className)} {...props}>
         <CardHeader className="flex flex-col items-center gap-4 px-0 text-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">

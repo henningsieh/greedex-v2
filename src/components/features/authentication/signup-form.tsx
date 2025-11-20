@@ -80,7 +80,7 @@ export function SignupForm({
   };
 
   return (
-    <Card className="mx-auto max-w-lg p-4 sm:p-8 md:p-12">
+    <Card className="p-4 sm:p-8 md:p-12">
       <form
         className={cn("flex flex-col gap-6", className)}
         {...props}

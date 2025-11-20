@@ -56,6 +56,8 @@ export const HeroHeader = () => {
               >
                 <Logo isScrolled={!isScrolled} />
               </Link>
+
+              {/* Mobile burger menu */}
               <div className="flex items-center gap-4 lg:hidden">
                 <LocaleSwitcher className="h-10 rounded-md" />
                 <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
@@ -130,7 +132,7 @@ export const HeroHeader = () => {
             </div>
 
             <div className="inset-0 m-auto hidden size-fit lg:block">
-              <ul className="flex gap-6 text-base xl:text-xl">
+              <ul className="flex gap-4 text-lg xl:gap-6 xl:text-xl">
                 {menuItems.map((item) => (
                   <li key={item.name}>
                     <Link
@@ -148,7 +150,7 @@ export const HeroHeader = () => {
               <LocaleSwitcher className="rounded-md" />
               <div
                 className={cn(
-                  "relative h-8 overflow-hidden transition-all ease-in-out",
+                  "relative hidden h-8 overflow-hidden transition-all ease-in-out xl:inline-block",
                   isScrolled ? "w-0" : "w-fit",
                 )}
                 aria-hidden={isScrolled}
