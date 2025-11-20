@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import BackToHome from "@/components/back-to-home";
+import { cn } from "@/lib/utils";
 import RightSideImage from "./right-side-image";
 
 const highlightKeys = ["one", "two", "three"] as const;
@@ -28,8 +29,15 @@ export default async function AuthFlowLayout({
         <div className="-bottom-10 -translate-x-1/2 absolute left-1/2 h-72 w-72 rounded-full bg-[radial-gradient(circle,_var(--accent)_0%,_transparent_80%)] opacity-25 blur-[140px]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-10 px-4 py-10 sm:px-6 md:px-8 lg:flex-row lg:items-start lg:gap-14">
-        <div className="w-full rounded-[32px] border border-border bg-card p-6 shadow-xl backdrop-blur-sm lg:p-10">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 sm:py-10 md:px-8 lg:flex-row lg:items-stretch lg:gap-14">
+        <div
+          className={cn(
+            "mx-auto w-full max-w-xl",
+            // "rounded-[32px] border border-border bg-card p-6 shadow-xl",
+            "backdrop-blur-sm xl:mx-0 xl:w-1/2 xl:max-w-none",
+            // "sm:p-6 xl:p-10",
+          )}
+        >
           <div className="flex flex-col gap-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <BackToHome label={backLabel ?? "Back to Home"} href={backHref} />

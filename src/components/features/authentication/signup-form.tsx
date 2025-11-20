@@ -45,8 +45,8 @@ export function SignupForm({
   ...props
 }: React.ComponentProps<"form">) {
   const router = useRouter();
-  const t = useTranslations("authentication.signup");
   const tValidation = useTranslations("authentication.validation");
+  const t = useTranslations("authentication.signup");
 
   const formSchema = createFormSchema(tValidation);
 
@@ -136,32 +136,33 @@ export function SignupForm({
               inputProps={{ disabled: form.formState.isSubmitting }}
             />
 
-            <FieldSeparator className="my-4 font-bold">
-              {t("footer.orContinueWith")}
-            </FieldSeparator>
-
-            <SocialButtons disabled={form.formState.isSubmitting} />
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="mt-2"
+            >
+              {form.formState.isSubmitting
+                ? t("buttons.creatingAccount")
+                : t("buttons.createAccount")}
+            </Button>
           </FieldGroup>
         </CardContent>
 
         <CardFooter className="px-0">
           <div className="w-full">
             <Field>
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="mt-2"
-              >
-                {form.formState.isSubmitting
-                  ? t("buttons.creatingAccount")
-                  : t("buttons.createAccount")}
-              </Button>
               <FieldDescription className="px-6 text-center font-bold">
-                {t("footer.haveAccount")}{" "}
+                {t("footer.haveAccount")}
                 <Button variant="link" className="px-0 pl-1" asChild>
                   <Link href="/login">{t("footer.signIn")}</Link>
                 </Button>
               </FieldDescription>
+
+              <FieldSeparator className="my-4 font-bold">
+                {t("footer.orContinueWith")}
+              </FieldSeparator>
+
+              <SocialButtons disabled={form.formState.isSubmitting} />
             </Field>
           </div>
         </CardFooter>

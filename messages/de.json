@@ -551,7 +551,7 @@
   "authentication": {
     "login": {
       "title": "Bei deinem Konto anmelden",
-      "description": "Gib deine Anmeldedaten ein, um dich bei deinem Konto anzumelden",
+      "description": "Gib deine Anmeldedaten ein, um dich bei deinem Greendex-Konto anzumelden",
       "last-used": "Zuletzt verwendet",
       "tabs": {
         "password": "Passwort",

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 type RightSideImageProps = {
   headline: string;
@@ -22,9 +23,14 @@ export default function RightSideImage({
   heroStatTwo,
 }: RightSideImageProps) {
   return (
-    <div className="relative hidden lg:flex lg:w-[480px] xl:w-[540px]">
-      <div className="relative flex-1">
-        <div className="relative flex h-full flex-col gap-8 overflow-hidden rounded-[32px] border border-border bg-card p-6 shadow-xl backdrop-blur lg:p-10">
+    <div className="relative hidden xl:flex xl:w-1/2">
+      <div className="relative flex-1 py-14">
+        <div
+          className={cn(
+            "relative flex h-full flex-col gap-8 overflow-hidden lg:p-10",
+            // "rounded border border-border bg-card p-6 shadow-xl backdrop-blur",
+          )}
+        >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--primary)_0%,_transparent_70%)] opacity-20" />
 
           {/* Brand headline and description */}

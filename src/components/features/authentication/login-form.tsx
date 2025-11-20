@@ -137,7 +137,7 @@ export function LoginForm({
             <LogInIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-xl">{t("title")}</h1>
+            <h1 className="font-bold text-2xl">{t("title")}</h1>
           </CardTitle>
           <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
@@ -236,8 +236,8 @@ export function LoginForm({
         <CardFooter className="px-0">
           <div className="w-full">
             <Field>
-              <FieldDescription className="text-center">
-                {t("footer.noAccount")}{" "}
+              <FieldDescription className="px-6 text-center font-bold">
+                {t("footer.noAccount")}
                 <Button variant="link" className="px-0 pl-1" asChild>
                   <Link href="/signup">{t("footer.signUp")}</Link>
                 </Button>

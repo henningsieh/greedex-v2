@@ -551,7 +551,7 @@
   "authentication": {
     "login": {
       "title": "Sign in to your account",
-      "description": "Enter your credentials below to sign in to your account",
+      "description": "Enter your credentials below to sign in to your Greendex account",
       "last-used": "Last Used",
       "tabs": {
         "password": "Password",
