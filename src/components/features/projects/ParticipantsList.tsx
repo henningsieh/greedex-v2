@@ -99,7 +99,6 @@ export function ParticipantsListSkeleton() {
       <div className="space-y-2">
         {[...Array(3)].map((_, index) => (
           <div
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             key={index}
             className="flex animate-pulse items-center gap-4 rounded-lg border p-4"
           >
