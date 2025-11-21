@@ -36,5 +36,6 @@
     "**/node_modules/@radix-ui": true
   },
   "i18n-ally.sourceLanguage": "en",
-  "i18n-ally.displayLanguage": "de"
+  "i18n-ally.displayLanguage": "de",
+  "i18n-ally.extract.ignored": [" | "]
 }

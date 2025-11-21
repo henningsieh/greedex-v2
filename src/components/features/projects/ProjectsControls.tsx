@@ -27,14 +27,13 @@ export function ProjectsControls({
   sortBy,
   onSortChange,
 }: ProjectsControlsProps) {
-  const tProject = useTranslations("project");
-  const t = useTranslations("app");
+  const t = useTranslations("organization.projects");
 
   const sortOptions = [
-    { value: SORT_OPTIONS.name, label: tProject("table.name") },
-    { value: SORT_OPTIONS.startDate, label: tProject("table.start-date") },
-    { value: SORT_OPTIONS.createdAt, label: tProject("table.created") },
-    { value: SORT_OPTIONS.updatedAt, label: tProject("table.updated") },
+    { value: SORT_OPTIONS.name, label: t("table.name") },
+    { value: SORT_OPTIONS.startDate, label: t("table.start-date") },
+    { value: SORT_OPTIONS.createdAt, label: t("table.created") },
+    { value: SORT_OPTIONS.updatedAt, label: t("table.updated") },
   ];
 
   return (
@@ -62,13 +61,13 @@ export function ProjectsControls({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm">
-              {tProject("sort-label")}{" "}
+              {t("sort-label")}{" "}
               {sortOptions.find((option) => option.value === sortBy)?.label}
               <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{tProject("sort-projects")}</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("sort-projects")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {sortOptions.map((option) => (
               <DropdownMenuItem

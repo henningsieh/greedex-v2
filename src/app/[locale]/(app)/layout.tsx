@@ -92,7 +92,7 @@ export default async function AppLayout({
             </ErrorBoundary>
             <SidebarInset>
               <main className="flex-1 flex-col">
-                <div className="flex h-16 items-center gap-4 border-b py-2 pl-2 md:pl-4 lg:pl-6">
+                <div className="flex h-16 items-center gap-4 border-b py-2 pl-2 md:pl-4 lg:pl-6 xl:pl-8">
                   <SidebarTrigger
                     className={cn(
                       "size-11 border border-secondary/50 ring-secondary transition-colors duration-200",

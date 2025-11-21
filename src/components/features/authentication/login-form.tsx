@@ -35,7 +35,7 @@ import { cn } from "@/lib/utils";
 const createCredentialsSchema = (t: (key: string) => string) =>
   z.object({
     email: z.email(t("emailInvalid")),
-    password: z.string().min(1, t("passwordRequired")),
+    password: z.string().min(6, t("passwordRequired")),
   });
 
 export const createMagicLinkSchema = (t: (key: string) => string) =>

@@ -43,10 +43,14 @@ export const getLocaleData = (): LocaleData[] => {
         select: "official",
       }) ?? locale.label;
 
-    const englishName =
+    let englishName =
       countries.getName(locale.countryCode, "en", {
         select: "official",
       }) ?? locale.label;
+
+    if (englishName === `United Kingdom`) {
+      englishName = `International`;
+    }
 
     const Flag = flagRegistry[locale.countryCode];
 

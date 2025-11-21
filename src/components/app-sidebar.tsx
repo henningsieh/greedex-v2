@@ -84,7 +84,7 @@ export function AppSidebar() {
         </SidebarGroup>
         <div className="grow flex-col" />
         <SidebarGroup>
-          <SidebarGroupLabel>Organisation</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("organization")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {organizationMenuItems.map((item) => (

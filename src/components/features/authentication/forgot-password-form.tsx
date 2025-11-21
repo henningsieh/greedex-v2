@@ -74,7 +74,7 @@ export function ForgotPasswordForm({
         </CardHeader>
 
         <CardContent className="px-0">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
             <FieldGroup className="gap-4">
               <FormField
                 name="email"

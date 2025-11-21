@@ -316,11 +316,35 @@
       "title": "All Projects",
       "description": "List of projects of your organization.",
       "suspense-loading": "Suspense Loading...",
-      "error-message": "Something went wrong."
+      "error-message": "Something went wrong.",
+      "table": {
+        "columns": "Column Selection",
+        "name": "Name",
+        "country": "Country",
+        "start-date": "Start Date",
+        "created": "Created at",
+        "updated": "Updated^at",
+        "actions": "Actions",
+        "open-menu": "Open menu",
+        "view-details": "View Details",
+        "edit-project": "Edit Project",
+        "delete-project": "Delete Project",
+        "filter-projects": "Filter projects..."
+      },
+      "views": {
+        "table": "Table",
+        "grid": "Grid"
+      },
+      "sort-label": "Sort by:",
+      "sort-projects": "Sort Projects",
+      "no-projects-yet": {
+        "title": "No projects yet",
+        "description": "Projects will help you organize your work and track activities. Start by creating your first project!"
+      }
     },
     "team": {
       "title": "Team Members",
-      "description": "List of team members goes here.",
+      "description": "List of all team members in of your organization",
       "table": {
         "member": "Member",
         "email": "Email",
@@ -335,22 +359,11 @@
   },
   "app": {
     "sidebar": {
-      "projects": "Projects"
-    },
-    "views": {
-      "grid": "Grid",
-      "table": "Table"
-    },
-    "table": {
-      "columns": "Column Selection"
+      "projects": "Projects of your organization",
+      "organization": "Your organization"
     }
   },
   "project": {
-    "no-projects-yet": "No projects yet",
-    "projects-will-help-you-organize-your-work-and-track-activities-start-by-creating-your-first-project": "Projects will help you organize your work and track activities. Start by creating your first project!",
-    "button": {
-      "create-project": "New project"
-    },
     "create": {
       "title": "Create a new Project",
       "form": {
@@ -363,7 +376,10 @@
         "organization": "Organization",
         "select-organization": "Select organization",
         "creating": "Creating...",
-        "create-project": "Create Project"
+        "create-project": "Create Project",
+        "submit": {
+          "label": "New project"
+        }
       },
       "toast": {
         "success": "Project created successfully",
@@ -384,21 +400,6 @@
       "loading": "loading project details...",
       "error": "Failed to load project details."
     },
-    "table": {
-      "name": "Name",
-      "country": "Country",
-      "start-date": "Start Date",
-      "created": "Created at",
-      "updated": "Updated^at",
-      "actions": "Actions",
-      "open-menu": "Open menu",
-      "view-details": "View Details",
-      "edit-project": "Edit Project",
-      "delete-project": "Delete Project",
-      "filter-projects": "Filter projects..."
-    },
-    "sort-label": "Sort by:",
-    "sort-projects": "Sort Projects",
     "delete": {
       "confirm-title": "Are you sure?",
       "confirm-description": "This will permanently delete the project \"{name}\". This action cannot be undone.",

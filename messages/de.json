@@ -316,11 +316,35 @@
       "title": "Alle Projekte",
       "description": "Liste der Projekte Ihrer Organisation.",
       "suspense-loading": "Wird geladen...",
-      "error-message": "Es ist ein Fehler aufgetreten."
+      "error-message": "Es ist ein Fehler aufgetreten.",
+      "table": {
+        "columns": "Spaltenauswahl",
+        "name": "Name",
+        "country": "Land",
+        "start-date": "Startdatum",
+        "created": "Erstellt am",
+        "updated": "Aktualisiert am",
+        "actions": "Aktionen",
+        "open-menu": "Menü öffnen",
+        "view-details": "Details anzeigen",
+        "edit-project": "Projekt bearbeiten",
+        "delete-project": "Projekt löschen",
+        "filter-projects": "Projekte filtern..."
+      },
+      "views": {
+        "table": "Tabellenansicht",
+        "grid": "Kachelansicht"
+      },
+      "sort-label": "Sortieren nach:",
+      "sort-projects": "Projekte sortieren",
+      "no-projects-yet": {
+        "title": "Noch keine Projekte",
+        "description": "Mithilfe von Projekten können Sie Ihre Arbeit organisieren und Aktivitäten verfolgen. \nBeginnen Sie mit der Erstellung Ihres ersten Projekts!"
+      }
     },
     "team": {
       "title": "Teammitglieder",
-      "description": "Liste der Teammitglieder.",
+      "description": "Liste aller Teammitglieder in deiner Organisation",
       "table": {
         "member": "Mitglied",
         "email": "E-Mail",
@@ -335,22 +359,11 @@
   },
   "app": {
     "sidebar": {
-      "projects": "Projekte"
-    },
-    "views": {
-      "grid": "Kachelansicht",
-      "table": "Tabellenansicht"
-    },
-    "table": {
-      "columns": "Spaltenauswahl"
+      "projects": "Projekte deiner Organisation",
+      "organization": "Deine Organisation"
     }
   },
   "project": {
-    "no-projects-yet": "Noch keine Projekte",
-    "projects-will-help-you-organize-your-work-and-track-activities-start-by-creating-your-first-project": "Mithilfe von Projekten können Sie Ihre Arbeit organisieren und Aktivitäten verfolgen. \nBeginnen Sie mit der Erstellung Ihres ersten Projekts!",
-    "button": {
-      "create-project": "Neues Projekt"
-    },
     "create": {
       "title": "Neues Projekt erstellen",
       "form": {
@@ -363,7 +376,10 @@
         "organization": "Organisation",
         "select-organization": "Organisation auswählen",
         "creating": "Wird erstellt...",
-        "create-project": "Projekt erstellen"
+        "create-project": "Projekt erstellen",
+        "submit": {
+          "label": "Neues Projekt"
+        }
       },
       "toast": {
         "success": "Projekt erfolgreich erstellt",
@@ -384,21 +400,6 @@
       "loading": "Projektdetails werden geladen...",
       "error": "Fehler beim Laden der Projektdetails."
     },
-    "table": {
-      "name": "Name",
-      "country": "Land",
-      "start-date": "Startdatum",
-      "created": "Erstellt am",
-      "updated": "Aktualisiert am",
-      "actions": "Aktionen",
-      "open-menu": "Menü öffnen",
-      "view-details": "Details anzeigen",
-      "edit-project": "Projekt bearbeiten",
-      "delete-project": "Projekt löschen",
-      "filter-projects": "Projekte filtern..."
-    },
-    "sort-label": "Sortieren nach:",
-    "sort-projects": "Projekte sortieren",
     "delete": {
       "confirm-title": "Sind Sie sicher?",
       "confirm-description": "Dies wird das Projekt \"{name}\" dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",

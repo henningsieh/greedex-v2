@@ -23,7 +23,7 @@ export function CreateProjectButton({
     <Button asChild variant={variant} className={className}>
       <Link href="/org/create-project">
         {showIcon && <PlusIcon />}
-        {t("button.create-project")}
+        {t("create.form.submit.label")}
       </Link>
     </Button>
   );

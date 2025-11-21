@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 const createFormSchema = (t: (key: string) => string) =>
   z
     .object({
-      password: z.string().min(8, t("passwordMinLength")),
+      password: z.string().min(6, t("passwordMinLength")),
       confirmPassword: z.string().min(1, t("passwordConfirmRequired")),
     })
     .refine((data) => data.password === data.confirmPassword, {

@@ -23,7 +23,7 @@ import {
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function ProjectsGrid() {
-  const t = useTranslations("project");
+  const t = useTranslations("organization.projects");
   const [view, setView] = useState<"grid" | "table">("table");
   const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_PROJECT_SORT);
 
@@ -64,11 +64,9 @@ export function ProjectsGrid() {
           <EmptyMedia variant="icon">
             <FolderOpen className="size-6" />
           </EmptyMedia>
-          <EmptyTitle>{t("no-projects-yet")}</EmptyTitle>
+          <EmptyTitle>{t("no-projects-yet.title")}</EmptyTitle>
           <EmptyDescription>
-            {t(
-              "projects-will-help-you-organize-your-work-and-track-activities-start-by-creating-your-first-project",
-            )}
+            {t("no-projects-yet.description")}
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent>

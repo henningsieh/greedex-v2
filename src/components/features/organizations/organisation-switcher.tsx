@@ -109,30 +109,56 @@ export function OrganizationSwitcher() {
                 onSelect={async () => {
                   setIsLoading(true);
 
-                  await authClient.organization.setActive({
-                    organizationId: org.id,
-                  });
+                  try {
+                    // 1. Switch organization on the server (this should trigger your hook)
+                    await authClient.organization.setActive({
+                      organizationId: org.id,
+                    });
 
-                  await Promise.all([
-                    // Invalidate oRPC queries to refresh data after organization switch
-                    queryClient.invalidateQueries(
+                    // 2. Optimistically update local cache
+                    queryClient.setQueryData(
+                      orpcQuery.betterauth.getSession.queryKey(),
+                      (oldData) => {
+                        if (!oldData?.session) return oldData;
+                        return {
+                          ...oldData,
+                          session: {
+                            ...oldData.session,
+                            activeOrganizationId: org.id,
+                            activeProjectId: undefined,
+                          },
+                        };
+                      },
+                    );
+
+                    // 3. Cancel any ongoing queries to prevent race conditions
+                    await queryClient.cancelQueries({
+                      queryKey: orpcQuery.betterauth.getSession.queryKey(),
+                    });
+
+                    // 4. Refetch session to get server state
+                    await queryClient.refetchQueries(
                       orpcQuery.betterauth.getSession.queryOptions(),
-                    ),
-                    queryClient.invalidateQueries(
-                      orpcQuery.project.list.queryOptions(),
-                    ),
+                    );
 
-                    // Prefetch fresh projects data for the new organization
-                    queryClient.prefetchQuery(
-                      orpcQuery.betterauth.getSession.queryOptions(),
-                    ),
-                    queryClient.prefetchQuery(
+                    // 5. Invalidate and refetch projects
+                    await queryClient.invalidateQueries(
                       orpcQuery.project.list.queryOptions(),
-                    ),
-                  ]);
+                    );
 
-                  setActiveOrganization(org);
-                  setIsLoading(false);
+                    // Invalidate participants queries for the previous active project if present
+                    if (session.session.activeProjectId) {
+                      await queryClient.invalidateQueries(
+                        orpcQuery.project.getParticipants.queryOptions({
+                          input: { projectId: session.session.activeProjectId },
+                        }),
+                      );
+                    }
+
+                    setActiveOrganization(org);
+                  } finally {
+                    setIsLoading(false);
+                  }
                 }}
               >
                 {org.name}

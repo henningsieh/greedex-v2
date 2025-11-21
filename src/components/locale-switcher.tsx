@@ -76,10 +76,10 @@ export function LocaleSwitcher({ className }: { className?: string }) {
               )}
               <span className="flex flex-col gap-0.5 leading-tight">
                 <span className="font-semibold text-sm">
-                  {entry.nativeName}
+                  {entry.englishName} | {entry.code}
                 </span>
                 <span className="text-muted-foreground text-xs group-hover:text-accent-foreground">
-                  {entry.englishName}
+                  {entry.label}
                 </span>
               </span>
             </span>

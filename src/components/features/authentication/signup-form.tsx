@@ -32,7 +32,7 @@ const createFormSchema = (t: (key: string) => string) =>
     .object({
       name: z.string().min(1, t("fullNameRequired")),
       email: z.email(t("emailInvalid")),
-      password: z.string().min(8, t("passwordMinLength")),
+      password: z.string().min(6, t("passwordMinLength")),
       confirmPassword: z.string().min(1, t("passwordConfirmRequired")),
     })
     .refine((data) => data.password === data.confirmPassword, {

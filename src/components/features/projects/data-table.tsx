@@ -74,7 +74,7 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
-  const t = useTranslations("app");
+  const t = useTranslations("organization.projects");
 
   return (
     <div className="w-full">
