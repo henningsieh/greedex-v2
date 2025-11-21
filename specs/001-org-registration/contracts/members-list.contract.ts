@@ -7,6 +7,10 @@
  */
 
 import { z } from "zod";
+import {
+  type OrganizationRole,
+  organizationRoles,
+} from "@/components/features/organizations/types";
 
 // ============================================================================
 // Request Schema
@@ -22,7 +26,7 @@ export const listMembersQuerySchema = z
     limit: z.coerce.number().int().min(1).max(100).default(100).optional(),
     offset: z.coerce.number().int().min(0).default(0).optional(),
     // Future filtering
-    role: z.enum(["owner", "admin", "member"]).optional(),
+    role: z.enum(organizationRoles).optional(),
   })
   .optional();
 
@@ -37,7 +41,7 @@ export const memberSchema = z.object({
   id: z.string().uuid(),
   userId: z.string().uuid(),
   organizationId: z.string().uuid(),
-  role: z.enum(["owner", "admin", "member"]),
+  role: z.enum(organizationRoles),
   createdAt: z.date(), // Join date
   user: z.object({
     id: z.string().uuid(),
@@ -341,7 +345,7 @@ export interface TeamTableRow {
   id: string;
   name: string;
   email: string;
-  role: "owner" | "admin" | "member";
+  role: OrganizationRole;
   joinDate: string; // Formatted date string
   avatar: string | null;
 }

@@ -7,7 +7,10 @@
  * Note: For server-side or dynamic role checks, use auth.api.hasPermission instead.
  */
 
-import type { OrganizationRole } from "@/components/features/organizations/types";
+import {
+  type OrganizationRole,
+  organizationRoles,
+} from "@/components/features/organizations/types";
 import { authClient } from "./auth-client";
 import type { ProjectPermission } from "./permissions";
 
@@ -66,7 +69,7 @@ export function useProjectPermissions() {
     authClient.useActiveOrganization();
 
   // Default to least privileged role
-  let role: OrganizationRole = "member";
+  let role: OrganizationRole = organizationRoles.Participant;
 
   // Find current user's role in the active organization
   if (activeOrg && session?.user?.id) {

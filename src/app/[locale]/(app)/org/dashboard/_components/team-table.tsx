@@ -1,7 +1,11 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { organizationRoles } from "@/components/features/organizations/types";
+import {
+  type OrganizationRole,
+  organizationRoles,
+} from "@/components/features/organizations/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,27 +16,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-interface Member {
-  id: string;
-  userId: string;
-  organizationId: string;
-  role: string;
-  createdAt: Date;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    image: string | null | undefined;
-  };
-}
+import { orpcQuery } from "@/lib/orpc/orpc";
 
 interface TeamTableProps {
-  members: Member[];
+  organizationId: string;
+  roles: OrganizationRole[];
 }
 
-export function TeamTable({ members }: TeamTableProps) {
+export function TeamTable({ organizationId, roles }: TeamTableProps) {
   const t = useTranslations("organization.team.table");
+
+  const { data: membersResult } = useSuspenseQuery(
+    orpcQuery.member.list.queryOptions({
+      input: { organizationId, roles },
+    }),
+  );
+
+  const members = membersResult.members;
+
   const roleKeyByValue: Record<string, string> = Object.fromEntries(
     Object.entries(organizationRoles).map(([key, value]) => [value, key]),
   );

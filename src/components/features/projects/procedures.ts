@@ -3,7 +3,9 @@
 import { randomUUID } from "node:crypto";
 import { ORPCError } from "@orpc/server";
 import { and, asc, eq, type SQL, sql } from "drizzle-orm";
+import { headers } from "next/headers";
 import { z } from "zod";
+import { organizationRoles } from "@/components/features/organizations/types";
 import { ProjectParticipantWithUserSchema } from "@/components/features/projects/participant-types";
 import {
   DEFAULT_PROJECT_SORT,
@@ -232,7 +234,15 @@ export const updateProject = authorized
 
     if (!existingProject) {
       throw new ORPCError("NOT_FOUND", {
-        message: "Project not found or you don't have access to it",
+        message: "This Project was not found",
+      });
+    }
+
+    if (
+      existingProject.organizationId !== context.session.activeOrganizationId
+    ) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have permission to update this project",
       });
     }
 
@@ -287,7 +297,15 @@ export const deleteProject = authorized
 
     if (!existingProject) {
       throw new ORPCError("NOT_FOUND", {
-        message: "Project not found or you don't have access to it",
+        message: "This Project was not found",
+      });
+    }
+
+    if (
+      existingProject.organizationId !== context.session.activeOrganizationId
+    ) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have permission to update this project",
       });
     }
 
@@ -316,24 +334,21 @@ export const setActiveProject = authorized
         });
       }
 
-      // Check if user has read permission
-      const hasPermission = await auth.api.hasPermission({
-        headers: context.headers,
-        body: {
-          permissions: {
-            project: ["read"],
-          },
-        },
+      const { role } = await auth.api.getActiveMemberRole({
+        headers: await headers(),
       });
 
-      if (!hasPermission) {
+      if (
+        role !== organizationRoles.Employee &&
+        role !== organizationRoles.Owner
+      ) {
         throw new ORPCError("FORBIDDEN", {
-          message: "You don't have permission to access projects",
+          message: "You don't have permission to set an active project",
         });
       }
 
       // Verify project belongs to user's organization
-      const [project] = await db
+      const [existingProject] = await db
         .select()
         .from(projectTable)
         .where(
@@ -347,9 +362,17 @@ export const setActiveProject = authorized
         )
         .limit(1);
 
-      if (!project) {
+      if (!existingProject) {
         throw new ORPCError("NOT_FOUND", {
-          message: "Project not found or you don't have access to it",
+          message: "This Project was not found",
+        });
+      }
+
+      if (
+        existingProject.organizationId !== context.session.activeOrganizationId
+      ) {
+        throw new ORPCError("FORBIDDEN", {
+          message: "You don't have permission to set this project as active",
         });
       }
     }

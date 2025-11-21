@@ -47,12 +47,13 @@ export const owner = ac.newRole({
 /**
  * Admin Role
  * - Can manage projects and most organization resources
- * - Can create, read, update, delete, and share projects
+ * - Can create, read, update, and share projects
+ * - CANNOT delete projects
  * - Inherits all default admin permissions
  */
 export const admin = ac.newRole({
   ...adminAc.statements,
-  project: ["create", "read", "update", "delete", "share"],
+  project: ["create", "read", "update", "share"],
 });
 
 /**

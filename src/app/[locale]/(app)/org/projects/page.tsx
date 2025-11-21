@@ -1,3 +1,4 @@
+import { MapPinnedIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -17,7 +18,10 @@ export default async function ProjectsPage() {
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
+        <div className="flex items-center justify-start gap-3">
+          <MapPinnedIcon className="mb-1.5 size-9" />
+          <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
+        </div>
         <p className="text-muted-foreground">{t("description")}</p>
       </div>
       <Suspense fallback={<div>{t("suspense-loading")}</div>}>

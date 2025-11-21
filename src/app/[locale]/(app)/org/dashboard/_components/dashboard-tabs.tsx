@@ -5,28 +5,15 @@ import { useQueryState } from "nuqs";
 import { Suspense } from "react";
 import { DashboardStats } from "@/app/[locale]/(app)/org/dashboard/_components/dashboard-stats";
 import { TeamTable } from "@/app/[locale]/(app)/org/dashboard/_components/team-table";
+import { organizationRoles } from "@/components/features/organizations/types";
 import { ProjectsGrid } from "@/components/features/projects/projects-grid";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-interface Member {
-  id: string;
-  userId: string;
-  organizationId: string;
-  role: string;
-  createdAt: Date;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    image: string | null | undefined;
-  };
-}
-
 interface DashboardTabsProps {
-  members: Member[];
+  organizationId: string;
 }
 
-export function DashboardTabs({ members }: DashboardTabsProps) {
+export function DashboardTabs({ organizationId }: DashboardTabsProps) {
   const t = useTranslations("organization.dashboard");
   const [activeTab, setActiveTab] = useQueryState("tab", {
     defaultValue: "dashboard",
@@ -40,7 +27,7 @@ export function DashboardTabs({ members }: DashboardTabsProps) {
     <Tabs
       value={activeTab || "dashboard"}
       onValueChange={setActiveTab}
-      className="w-full"
+      className="w-full space-y-6"
     >
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="dashboard">{t("tabs.dashboard")}</TabsTrigger>
@@ -48,18 +35,21 @@ export function DashboardTabs({ members }: DashboardTabsProps) {
         <TabsTrigger value="participants">{t("tabs.participants")}</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="dashboard" className="mt-6">
+      <TabsContent value="dashboard">
         <DashboardStats />
       </TabsContent>
 
-      <TabsContent value="participants" className="mt-6">
-        <TeamTable members={members} />
-      </TabsContent>
-
-      <TabsContent value="projects" className="mt-6">
+      <TabsContent value="projects">
         <Suspense fallback={<div>{t("tabs.loading-projects")}</div>}>
           <ProjectsGrid />
         </Suspense>
+      </TabsContent>
+
+      <TabsContent value="participants">
+        <TeamTable
+          organizationId={organizationId}
+          roles={[organizationRoles.Participant]}
+        />
       </TabsContent>
     </Tabs>
   );

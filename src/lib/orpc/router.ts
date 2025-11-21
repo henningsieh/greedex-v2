@@ -1,4 +1,7 @@
-import { listOrganizations } from "@/components/features/organizations/procedures";
+import {
+  listOrganizationMembers,
+  listOrganizations,
+} from "@/components/features/organizations/procedures";
 import {
   createProject,
   deleteProject,
@@ -37,6 +40,11 @@ export const router = {
   // Organization namespace
   organization: {
     list: listOrganizations,
+  },
+
+  // Member namespace
+  member: {
+    list: listOrganizationMembers,
   },
 
   // Project namespace
