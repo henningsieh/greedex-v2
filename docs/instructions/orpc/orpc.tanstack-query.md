@@ -52,19 +52,6 @@ import { createTanstackQueryUtils } from '@orpc/tanstack-query'
 export const orpc = createTanstackQueryUtils(client)
 
 orpc.planet.find.queryOptions({ input: { id: 123 } })
-//               ^|
-
-//
-
-//
-
-//
-
-//
-
-//
-
-//
 ```
 
 ::: details Avoiding Query/Mutation Key Conflicts?

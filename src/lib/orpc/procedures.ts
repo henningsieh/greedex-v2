@@ -61,3 +61,14 @@ export const getSession = base.handler(async ({ context }) => {
   });
   return session;
 });
+
+/**
+ * Get full organization details using Better Auth
+ * Uses Better Auth's implicit getFullOrganization endpoint
+ */
+export const getFullOrganization = authorized.handler(async ({ context }) => {
+  const organization = await auth.api.getFullOrganization({
+    headers: context.headers,
+  });
+  return organization;
+});

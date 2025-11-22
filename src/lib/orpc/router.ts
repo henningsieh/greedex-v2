@@ -12,6 +12,7 @@ import {
   updateProject,
 } from "@/components/features/projects/procedures";
 import {
+  getFullOrganization,
   getHealth,
   getProfile,
   getSession,
@@ -39,6 +40,7 @@ export const router = {
 
   // Organization namespace
   organization: {
+    getActiveOrganizationDetails: getFullOrganization,
     list: listOrganizations,
   },
 
