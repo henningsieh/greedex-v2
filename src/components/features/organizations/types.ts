@@ -99,6 +99,9 @@ export const MemberWithUserSchema = MemberSelectSchema.extend({
   }),
 });
 
+// Export a TypeScript type for members with user data inferred from the Zod schema
+export type MemberWithUser = z.infer<typeof MemberWithUserSchema>;
+
 /**
  * Insert schema with validation rules
  * Validates role against organizationRoles constant

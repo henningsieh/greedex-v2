@@ -28,14 +28,19 @@ export const searchMembers = authorized
   .input(
     z.object({
       organizationId: z.string(),
-      filters: z.object({
-        roles: z.array(z.enum(Object.values(memberRoles))).optional(),
-        //TODO: Add more filters easily in the future
-        // search: z.string().optional(),
-        // status: z.enum(["active", "pending", "inactive"]).optional(),
-        // limit: z.number().optional(),
-        // offset: z.number().optional(),
-      }),
+      filters: z
+        .object({
+          roles: z.array(z.enum(Object.values(memberRoles))).optional(),
+          // Simple search string to match against user name or email
+          search: z.string().optional(),
+          // Sorting: a field name (e.g. "createdAt" | "user.name" | "email")
+          sortBy: z.string().optional(),
+          sortDirection: z.enum(["asc", "desc"]).optional(),
+          // limit/offset for pagination
+          limit: z.number().optional(),
+          offset: z.number().optional(),
+        })
+        .optional(),
     }),
   )
   .output(
@@ -48,7 +53,15 @@ export const searchMembers = authorized
     const { organizationId, filters } = input;
 
     const allMembers = [];
-    for (const role of filters.roles || []) {
+    // Ensure filters exist and default values
+    const roles = filters?.roles || [];
+    const search = filters?.search || undefined;
+    const sortBy = filters?.sortBy || undefined;
+    const sortDirection = filters?.sortDirection || undefined;
+    const limit = filters?.limit ?? 10;
+    const offset = filters?.offset ?? 0;
+
+    for (const role of roles) {
       const result = await auth.api.listMembers({
         query: {
           organizationId,
@@ -62,13 +75,41 @@ export const searchMembers = authorized
     }
 
     // Deduplicate members by id in case of overlapping roles
-    const uniqueMembers = allMembers.filter(
+    // Apply search filtering on returned users (server-side if API supports it)
+    const filteredMembers = search
+      ? allMembers.filter((member) => {
+          const lower = search.toLowerCase();
+          return (
+            (member.user?.name || "").toLowerCase().includes(lower) ||
+            (member.user?.email || "").toLowerCase().includes(lower)
+          );
+        })
+      : allMembers;
+
+    // Sorting
+    const sortedMembers = sortBy
+      ? filteredMembers.sort((a, b) => {
+          const dir = sortDirection === "asc" ? 1 : -1;
+          const aVal =
+            sortBy === "createdAt" ? a.createdAt : a.user?.name || "";
+          const bVal =
+            sortBy === "createdAt" ? b.createdAt : b.user?.name || "";
+          if (aVal < bVal) return -1 * dir;
+          if (aVal > bVal) return 1 * dir;
+          return 0;
+        })
+      : filteredMembers.sort((a, b) =>
+          new Date(b.createdAt) > new Date(a.createdAt) ? 1 : -1,
+        );
+    const uniqueMembers = sortedMembers.filter(
       (member, index, self) =>
         index === self.findIndex((m) => m.id === member.id),
     );
 
+    // Apply pagination
+    const paged = uniqueMembers.slice(offset, offset + limit);
     return {
-      members: uniqueMembers,
+      members: paged,
       total: uniqueMembers.length,
     };
   });

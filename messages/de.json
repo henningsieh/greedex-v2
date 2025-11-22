@@ -384,7 +384,11 @@
         "member": "Mitglied",
         "email": "E-Mail",
         "role": "Rolle",
-        "joined": "Beigetreten"
+        "joined": "Beigetreten",
+        "table": {
+          "filter": "Teammitglieder filtern",
+          "clear": "Löschen Sie alle Filter"
+        }
       }
     },
     "settings": {
