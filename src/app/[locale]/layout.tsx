@@ -1,5 +1,4 @@
-// Temporarily disable Google Fonts for build - network restrictions in CI
-// import { Comfortaa, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import { Comfortaa, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
@@ -7,26 +6,25 @@ import Providers from "@/components/providers";
 import { isSupportedLocale } from "@/lib/i18n/locales";
 import { routing } from "@/lib/i18n/routing";
 
-// Temporarily use fallback fonts
-// const comfortaa = Comfortaa({
-//   weight: ["300", "400", "500", "600", "700"],
-//   subsets: ["latin"],
-//   display: "swap",
-//   preload: false,
-//   variable: "--font-sans",
-// });
-// const jetbrainsMono = JetBrains_Mono({
-//   variable: "--font-mono",
-//   subsets: ["latin"],
-//   display: "swap",
-//   preload: false,
-// });
-// const sourceSerif4 = Source_Serif_4({
-//   subsets: ["latin"],
-//   display: "swap",
-//   preload: false,
-//   variable: "--font-serif",
-// });
+const comfortaa = Comfortaa({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+  variable: "--font-sans",
+});
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+});
+const sourceSerif4 = Source_Serif_4({
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+  variable: "--font-serif",
+});
 
 type Props = {
   children: React.ReactNode;
@@ -55,7 +53,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html
       lang={locale}
       suppressHydrationWarning
-      className="scroll-smooth"
+      className={`${comfortaa.variable} ${sourceSerif4.variable} ${jetbrainsMono.variable} scroll-smooth`}
     >
       <head>
         <script
@@ -65,7 +63,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         />
       </head>
       <body
-        className="antialiased"
+        className={`${comfortaa.className} ${jetbrainsMono.variable} antialiased`}
       >
         <Providers>
           <NextIntlClientProvider messages={messages}>

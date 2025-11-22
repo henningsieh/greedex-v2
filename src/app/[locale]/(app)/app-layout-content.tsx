@@ -22,16 +22,16 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
 import { cn } from "@/lib/utils";
 
-export default async function AppLayout({
+export async function AppLayoutContent({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  // Access runtime data FIRST to signal this is a dynamic route
-  // This is required for PPR - runtime APIs must be accessed before any operations
-  const requestHeaders = await headers();
+}) {
+  // Explicitly defer to request time for PPR since this layout requires authentication
   await connection();
+  
   const locale = await getLocale();
+  const requestHeaders = await headers();
   const rememberedPath =
     requestHeaders.get("x-org-requested-path") ?? undefined;
   // Ensure the user is authenticated
@@ -41,7 +41,6 @@ export default async function AppLayout({
 
   if (!session?.user) {
     // Not authenticated -> send to login (auth group).
-    // The (auth) directory is a route group, its login page is at '/login'.
     const fallbackPath = `/${locale}/org/dashboard`;
     const nextPageUrl = rememberedPath ?? fallbackPath;
     redirect({
@@ -63,13 +62,11 @@ export default async function AppLayout({
   }
 
   if (!hasOrgs) {
-    // Authenticated but no orgs -> send to org setup flow (different route group)
+    // Authenticated but no orgs -> send to org setup flow
     redirect({ href: "/org/create", locale });
   }
 
   // Prefetch data for all suspended client components
-  // This enables server-side Suspense without hydration errors
-  // Components using these queries: ActiveProjectBreadcrumb, DashboardHeader, ProjectSwitcher, OrganizationSwitcher
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(
     orpcQuery.betterauth.getSession.queryOptions(),
@@ -79,7 +76,6 @@ export default async function AppLayout({
 
   const defaultOpen = (await cookies()).get("sidebar_state")?.value === "true";
 
-  // Authenticated and has orgs -> allow rendering of the protected app
   return (
     <HydrateClient client={queryClient}>
       <div className="mx-auto max-w-7xl">

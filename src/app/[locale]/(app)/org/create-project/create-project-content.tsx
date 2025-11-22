@@ -1,10 +1,14 @@
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
+import { connection } from "next/server";
 import type { OrganizationType } from "@/components/features/organizations/types";
 import CreateProjectForm from "@/components/features/projects/create-project-form";
 import { auth } from "@/lib/better-auth";
 
 export async function CreateProjectContent() {
+  // Defer to request time for PPR
+  await connection();
+  
   const t = await getTranslations("organization.projects.form.new");
 
   const organizationsData = await auth.api.listOrganizations({
