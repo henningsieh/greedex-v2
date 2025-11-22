@@ -43,7 +43,7 @@ export function ForgotPasswordForm({
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    await authClient.forgetPassword(
+    await authClient.requestPasswordReset(
       {
         email: data.email,
         redirectTo: "/reset-password",

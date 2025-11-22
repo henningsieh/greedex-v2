@@ -1,5 +1,5 @@
-import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
 import {
   lastLoginMethod,
@@ -25,6 +25,11 @@ import { sendEmail } from "@/lib/email/nodemailer";
 
 export const auth = betterAuth({
   appName: "Next WebSocket Server",
+
+  experimental: {
+    joins: true,
+  },
+
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
