@@ -32,6 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import InviteMemberDialog from "./invite-member-dialog";
 
 interface TeamTableProps {
   organizationId: string;
@@ -181,7 +182,14 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-sm"
         />
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-2">
+          <InviteMemberDialog
+            organizationId={organizationId}
+            allowedRoles={roles}
+            onSuccess={() => {
+              setPageIndex(0);
+            }}
+          />
           <Button
             variant="outline"
             size="sm"

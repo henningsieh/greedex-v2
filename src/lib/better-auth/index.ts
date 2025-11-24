@@ -19,6 +19,7 @@ import * as schema from "@/lib/drizzle/schema";
 import { member } from "@/lib/drizzle/schema";
 import {
   sendEmailVerificationEmail,
+  sendOrganizationInvitation,
   sendPasswordResetEmail,
 } from "@/lib/email";
 import { sendEmail } from "@/lib/email/nodemailer";
@@ -83,6 +84,20 @@ export const auth = betterAuth({
         owner,
         admin,
         member: memberRole,
+      },
+      async sendInvitationEmail(data) {
+        try {
+          const inviteLink = `${env.NEXT_PUBLIC_BASE_URL}/accept-invitation/${data.id}`;
+          await sendOrganizationInvitation({
+            email: data.email,
+            inviterName: data.inviter?.user?.name,
+            inviteLink,
+            organizationName: data.organization?.name,
+          });
+        } catch (err) {
+          console.error("Failed to send organization invitation email:", err);
+          throw err;
+        }
       },
     }),
     magicLink({

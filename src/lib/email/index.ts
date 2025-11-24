@@ -1,6 +1,7 @@
 import { render } from "@react-email/components";
 import { sendEmail } from "@/lib/email/nodemailer";
 import { EmailVerification } from "@/lib/email/templates/email-verification";
+import OrganizationInvitation from "@/lib/email/templates/organization-invitation";
 import { PasswordResetEmail } from "@/lib/email/templates/password-reset";
 
 interface User {
@@ -74,6 +75,42 @@ export async function sendEmailVerificationEmail({
     console.log("✅ Verification email sent successfully to:", user.email);
   } catch (error) {
     console.error("❌ Failed to send verification email:", error);
+    throw error;
+  }
+}
+
+interface SendOrganizationInvitationParams {
+  email: string;
+  inviteLink: string;
+  organizationName: string;
+  inviterName?: string;
+}
+
+export async function sendOrganizationInvitation({
+  email,
+  inviteLink,
+  organizationName,
+  inviterName,
+}: SendOrganizationInvitationParams): Promise<void> {
+  try {
+    console.log("📧 Sending organization invitation to:", email);
+    const emailHtml = await render(
+      OrganizationInvitation({
+        organizationName,
+        inviterName,
+        inviteLink,
+      }),
+    );
+
+    await sendEmail({
+      to: email,
+      subject: `You're invited to join ${organizationName}`,
+      html: emailHtml,
+    });
+
+    console.log("✅ Invitation email sent successfully to:", email);
+  } catch (error) {
+    console.error("❌ Failed to send invitation email:", error);
     throw error;
   }
 }
