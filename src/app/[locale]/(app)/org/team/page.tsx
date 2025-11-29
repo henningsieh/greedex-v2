@@ -15,7 +15,9 @@ export default async () => {
   const headers = await nextHeaders();
 
   // Get session and organizations for server-side data
-  const session = await auth.api.getSession({ headers: headers });
+  const session = await auth.api.getSession({
+    headers: headers,
+  });
   const organizations = await auth.api.listOrganizations({
     headers: headers,
   });
@@ -29,7 +31,9 @@ export default async () => {
     orpcQuery.member.search.queryOptions({
       input: {
         organizationId: activeOrganizationId,
-        filters: { roles: [memberRoles.Owner, memberRoles.Employee] },
+        filters: {
+          roles: [memberRoles.Owner, memberRoles.Employee],
+        },
       },
     }),
   );

@@ -1,15 +1,13 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import {
   Building2Icon,
   CheckIcon,
   ChevronsUpDownIcon,
   PlusIcon,
 } from "lucide-react";
-import * as React from "react";
 import CreateOrganizationModal from "@/components/features/organizations/create-organization-modal";
-import type { Organization } from "@/components/features/organizations/types";
 // import type { OrganizationType } from "@/components/features/organizations/types";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
@@ -31,48 +29,26 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
 
 export function OrganizationSwitcher() {
-  const [activeOrganization, setActiveOrganization] = React.useState<
-    Organization | undefined
-  >(undefined);
   const { setIsLoading } = useAppLoading();
   const queryClient = useQueryClient();
 
   // Use oRPC queries for consistency
-  const {
-    data: session,
-    isPending: sessionIsPending,
-    error: sessionError,
-  } = authClient.useSession();
+  const { data: session } = useSuspenseQuery(
+    orpcQuery.betterauth.getSession.queryOptions(),
+  );
 
-  const {
-    data: organizations,
-    isPending: organizationsIsPending,
-    error: organizationsError,
-  } = authClient.useListOrganizations();
+  const { data: organizations } = useSuspenseQuery(
+    orpcQuery.organizations.list.queryOptions(),
+  );
 
-  const activeOrg =
-    organizations?.find(
-      (org) => org.id === session?.session?.activeOrganizationId,
-    ) || organizations?.[0];
-
-  React.useEffect(() => {
-    setActiveOrganization(activeOrg);
-  }, [activeOrg]);
+  const { data: activeOrganization } = useSuspenseQuery(
+    orpcQuery.organizations.getActive.queryOptions(),
+  );
 
   const { isMobile, state } = useSidebar();
 
-  if (sessionError || organizationsError) {
-    return <div>Error loading organizations</div>;
-  }
-
-  if (
-    !session ||
-    !activeOrganization ||
-    !organizations ||
-    sessionIsPending ||
-    organizationsIsPending
-  ) {
-    return <OrganizationSwitcherSkeleton />;
+  if (!session || !activeOrganization || !organizations) {
+    return null;
   }
 
   return (
@@ -84,8 +60,8 @@ export function OrganizationSwitcher() {
               size="lg"
               className={cn(
                 "border border-sidebar-accent/60 ring-sidebar-accent",
-                "hover:bg-sidebar-primary/40 hover:text-sidebar-primary-foreground",
-                "data-[state=open]:bg-sidebar-primary/30 data-[state=open]:text-sidebar-primary-foreground/60",
+                "hover:bg-sidebar-primary/40 hover:text-sidebar-foreground",
+                "data-[state=open]:bg-sidebar-primary/30 data-[state=open]:text-sidebar-foreground/60",
               )}
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary">
@@ -119,39 +95,19 @@ export function OrganizationSwitcher() {
                       organizationId: org.id,
                     });
 
-                    // // 2. Optimistically update local cache
-                    // queryClient.setQueryData(
-                    //   orpcQuery.betterauth.getSession.queryKey(),
-                    //   (oldData) => {
-                    //     if (!oldData?.session) return oldData;
-                    //     return {
-                    //       ...oldData,
-                    //       session: {
-                    //         ...oldData.session,
-                    //         activeOrganizationId: org.id,
-                    //         activeProjectId: undefined,
-                    //       },
-                    //     };
-                    //   },
-                    // );
-
-                    // // 3. Cancel any ongoing queries to prevent race conditions
-                    // await queryClient.cancelQueries({
-                    //   queryKey: orpcQuery.betterauth.getSession.queryKey(),
-                    // });
-
-                    // 4. Refetch session to get server state
-                    await queryClient.refetchQueries(
+                    // Invalidate session to get server state
+                    await queryClient.invalidateQueries(
                       orpcQuery.betterauth.getSession.queryOptions(),
                     );
 
-                    // 5. Invalidate and refetch projects
+                    // Invalidate projects
                     await queryClient.invalidateQueries(
                       orpcQuery.project.list.queryOptions(),
                     );
 
+                    // Invalidate active organization
                     await queryClient.invalidateQueries(
-                      orpcQuery.organization.getActiveOrganization.queryOptions(),
+                      orpcQuery.organizations.getActive.queryOptions(),
                     );
 
                     // // Invalidate participants queries for the previous active project if present
@@ -163,7 +119,11 @@ export function OrganizationSwitcher() {
                     //   );
                     // }
 
-                    setActiveOrganization(org);
+                    // setActiveOrganization(org);
+
+                    // await authClient.organization.setActive({
+                    //   organizationId: org.id,
+                    // });
                   } finally {
                     setIsLoading(false);
                   }

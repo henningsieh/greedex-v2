@@ -5,7 +5,9 @@ import { LOGIN_PATH } from "@/lib/config/app";
 import { redirect } from "@/lib/i18n/navigation";
 
 interface ResetPasswordPageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 }
 
 export default async function ResetPasswordPage({
@@ -17,7 +19,10 @@ export default async function ResetPasswordPage({
 
   // If no token is provided, redirect to forgot password page
   if (!token || typeof token !== "string") {
-    return redirect({ href: LOGIN_PATH, locale });
+    return redirect({
+      href: LOGIN_PATH,
+      locale,
+    });
   }
 
   return (

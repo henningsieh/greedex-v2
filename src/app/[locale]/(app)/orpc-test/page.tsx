@@ -17,11 +17,16 @@ export default function ORPCTestPage() {
   const [helloResponse, setHelloResponse] = useState<string>("");
   const [healthResponse, setHealthResponse] = useState<string>("");
   const [profileResponse, setProfileResponse] = useState<string>("");
-  const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
+  const [loading, setLoading] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   // Test health check on mount
   const testHealth = useCallback(async () => {
-    setLoading((prev) => ({ ...prev, health: true }));
+    setLoading((prev) => ({
+      ...prev,
+      health: true,
+    }));
     try {
       const result = await orpc.health();
       console.log("✅ Health Check Response:", result);
@@ -30,7 +35,10 @@ export default function ORPCTestPage() {
       console.error("❌ Health Check Error:", error);
       setHealthResponse(`Error: ${error}`);
     } finally {
-      setLoading((prev) => ({ ...prev, health: false }));
+      setLoading((prev) => ({
+        ...prev,
+        health: false,
+      }));
     }
   }, []);
 
@@ -39,23 +47,34 @@ export default function ORPCTestPage() {
   }, [testHealth]);
 
   const testHello = async () => {
-    setLoading((prev) => ({ ...prev, hello: true }));
+    setLoading((prev) => ({
+      ...prev,
+      hello: true,
+    }));
     try {
-      const result = await orpc.helloWorld({ name });
+      const result = await orpc.helloWorld({
+        name,
+      });
       console.log("✅ Hello World Response:", result);
       setHelloResponse(JSON.stringify(result, null, 2));
     } catch (error) {
       console.error("❌ Hello World Error:", error);
       setHelloResponse(`Error: ${error}`);
     } finally {
-      setLoading((prev) => ({ ...prev, hello: false }));
+      setLoading((prev) => ({
+        ...prev,
+        hello: false,
+      }));
     }
   };
 
   // (testHealth is defined above with useCallback)
 
   const testProfile = async () => {
-    setLoading((prev) => ({ ...prev, profile: true }));
+    setLoading((prev) => ({
+      ...prev,
+      profile: true,
+    }));
     try {
       const result = await orpc.user.getProfile();
       console.log("✅ Profile Response:", result);
@@ -66,7 +85,10 @@ export default function ORPCTestPage() {
         `Error: ${error instanceof Error ? error.message : String(error)}`,
       );
     } finally {
-      setLoading((prev) => ({ ...prev, profile: false }));
+      setLoading((prev) => ({
+        ...prev,
+        profile: false,
+      }));
     }
   };
 
@@ -166,8 +188,8 @@ export default function ORPCTestPage() {
               parameter
             </li>
             <li>
-              <strong>Health Check:</strong> Public procedure that returns
-              server status
+              <strong>Health Check:</strong> Public procedure that returns server
+              status
             </li>
             <li>
               <strong>Get Profile:</strong> Protected procedure that requires

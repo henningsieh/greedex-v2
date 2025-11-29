@@ -10,8 +10,7 @@ export interface AuthCheckResult {
 export async function checkAuthAndOrgs(): Promise<AuthCheckResult> {
   const headers = require("next/headers").headers;
   const requestHeaders = await headers();
-  const rememberedPath =
-    requestHeaders.get("x-org-requested-path") ?? undefined;
+  const rememberedPath = requestHeaders.get("x-org-requested-path") ?? undefined;
 
   const session = await auth.api.getSession({
     headers: requestHeaders,
@@ -30,7 +29,11 @@ export async function checkAuthAndOrgs(): Promise<AuthCheckResult> {
     }
   }
 
-  return { session, hasOrgs, rememberedPath };
+  return {
+    session,
+    hasOrgs,
+    rememberedPath,
+  };
 }
 
 export function handleUnauthenticatedRedirect(

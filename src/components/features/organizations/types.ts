@@ -119,7 +119,9 @@ const MemberInsertSchema = createInsertSchema(memberTable, {
             val as (typeof memberRoles)[keyof typeof memberRoles],
           ),
         {
-          message: `Member role must be one of: ${Object.values(memberRoles).join(", ")}`,
+          message: `Member role must be one of: ${Object.values(memberRoles).join(
+            ", ",
+          )}`,
         },
       ),
 });

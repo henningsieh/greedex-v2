@@ -16,7 +16,13 @@ const typeParser = createParser({
 export default async function WorkshopsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ type?: string }> | { type?: string };
+  searchParams:
+    | Promise<{
+        type?: string;
+      }>
+    | {
+        type?: string;
+      };
 }) {
   const params = await searchParams;
   const type =

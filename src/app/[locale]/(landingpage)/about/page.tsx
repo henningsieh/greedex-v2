@@ -41,7 +41,9 @@ export default function AboutPage() {
                     alt={`${p.name} logo`}
                     fill
                     sizes="240px"
-                    style={{ objectFit: "contain" }}
+                    style={{
+                      objectFit: "contain",
+                    }}
                     priority={false}
                   />
                 </div>

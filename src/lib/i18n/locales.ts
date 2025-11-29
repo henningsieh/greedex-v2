@@ -8,11 +8,19 @@ countries.registerLocale(enCountries);
 countries.registerLocale(deCountries);
 
 export const SUPPORTED_LOCALE_META = [
-  { code: "en", label: "English", countryCode: "GB" },
-  { code: "de", label: "Deutsch", countryCode: "DE" },
+  {
+    code: "en",
+    label: "English",
+    countryCode: "GB",
+  },
+  {
+    code: "de",
+    label: "Deutsch",
+    countryCode: "DE",
+  },
 ] as const;
 
-export type LocaleMeta = (typeof SUPPORTED_LOCALE_META)[number];
+type LocaleMeta = (typeof SUPPORTED_LOCALE_META)[number];
 export type LocaleCode = LocaleMeta["code"];
 
 export const LOCALE_CODES: LocaleCode[] = SUPPORTED_LOCALE_META.map(

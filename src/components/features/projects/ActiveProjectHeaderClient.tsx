@@ -1,19 +1,35 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CalendarIcon, Edit2Icon, MapPinIcon, Trash2Icon } from "lucide-react";
+import {
+  CalendarIcon,
+  Edit2Icon,
+  MapPinIcon,
+  MapPinnedIcon,
+  Trash2Icon,
+} from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Blockquote, BlockquoteAuthor } from "@/components/block-quote";
 import EditProjectForm from "@/components/features/projects/edit-project-form";
 import type { ProjectType } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { useConfirmDialog } from "@/components/ui/confirm-dialog";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
@@ -41,7 +57,10 @@ export default function ActiveProjectHeaderClient({
   // Delete mutation
   const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
     useMutation({
-      mutationFn: () => orpc.project.delete({ id: activeProject.id }),
+      mutationFn: () =>
+        orpc.project.delete({
+          id: activeProject.id,
+        }),
       onSuccess: (result) => {
         if (result.success) {
           toast.success(t("header.toast.deleteSuccess"));
@@ -81,81 +100,101 @@ export default function ActiveProjectHeaderClient({
 
   return (
     <>
-      <div className="mb-8 space-y-4 rounded-md border border-secondary/70 bg-secondary/10 p-4">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-3">
-            <h1 className="font-bold text-3xl dark:text-secondary-foreground">
-              {activeProject.name}
-            </h1>
+      <Card className="space-y-4 border border-secondary/30 bg-secondary/5 shadow-sm backdrop-blur">
+        <CardHeader className="gap-4">
+          <CardTitle className="text-secondary text-sm">
+            {t("header.contextLabel")}
+          </CardTitle>
+          {/* <CardHeader>
+          <p className="font-medium text-secondary/80 text-xs uppercase tracking-[0.2em]">
+          </p> */}
+          <CardTitle>
+            <CardDescription className="flex items-center gap-3 font-bold text-3xl text-secondary dark:text-secondary-foreground">
+              <span className="rounded-full bg-secondary/20 p-2 text-secondary-foreground">
+                <MapPinnedIcon className="size-5" />
+              </span>
+              <span>{activeProject.name}</span>
+            </CardDescription>
+
+            <div className="font-bold text-3xl text-secondary-foreground"></div>
+          </CardTitle>
+          <CardDescription>
             <div className="flex flex-wrap gap-4 text-muted-foreground text-sm">
               <span className="flex items-center gap-1">
-                <MapPinIcon className="h-4 w-4" />
+                <MapPinIcon className="h-4 w-4 text-secondary" />
                 {activeProject.location}, {activeProject.country}
               </span>
               <span className="flex items-center gap-1">
-                <CalendarIcon className="h-4 w-4" />
-                {activeProject &&
-                  format.dateTime(activeProject.startDate, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}{" "}
+                <CalendarIcon className="h-4 w-4 text-secondary" />
+                {format.dateTime(activeProject.startDate, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}{" "}
                 -{" "}
-                {activeProject &&
-                  format.dateTime(activeProject.endDate, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
+                {format.dateTime(activeProject.endDate, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
               </span>
             </div>
-          </div>
+          </CardDescription>
 
-          <div className="flex flex-wrap gap-2">
-            {canUpdate && (
-              <Button
-                variant="outline"
-                disabled={permissionsPending}
-                onClick={() => setIsEditModalOpen(true)}
-              >
-                <Edit2Icon className="h-4 w-4" />
-                {t("header.edit")}
-              </Button>
-            )}
-            {canDelete && (
-              <Button
-                variant="destructive"
-                onClick={handleDelete}
-                disabled={isDeleting || permissionsPending}
-              >
-                <Trash2Icon className="h-4 w-4" />
-                {t("header.delete")}
-              </Button>
-            )}
-          </div>
-        </div>
+          <CardAction>
+            <div className="flex flex-wrap gap-2">
+              {/* Edit Modal */}
+              {canUpdate && (
+                <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={permissionsPending}
+                      onClick={() => setIsEditModalOpen(true)}
+                    >
+                      <Edit2Icon className="h-4 w-4" />
+                      {/* {t("header.edit")} */}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{t("header.edit")}</DialogTitle>
+                    </DialogHeader>
+                    <EditProjectForm
+                      project={activeProject}
+                      onSuccess={() => setIsEditModalOpen(false)}
+                    />
+                  </DialogContent>
+                </Dialog>
+              )}
+              {/* Delete Button */}
+              {canDelete && (
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  onClick={handleDelete}
+                  disabled={isDeleting || permissionsPending}
+                >
+                  <Trash2Icon className="h-4 w-4" />
+                  {/* {t("header.delete")} */}
+                </Button>
+              )}
+            </div>
+          </CardAction>
+        </CardHeader>
 
         {activeProject.welcomeMessage && (
-          <p className="text-muted-foreground">
-            {activeProject.welcomeMessage}
-          </p>
+          <CardFooter>
+            <Blockquote className="w-full border-l-secondary/60 bg-secondary/10 text-secondary text-xl">
+              {activeProject.welcomeMessage}
+              <BlockquoteAuthor className="font-light font-serif text-muted-foreground/80">
+                Franklin Roosevelt
+              </BlockquoteAuthor>
+            </Blockquote>
+          </CardFooter>
         )}
-      </div>
-
-      {/* Edit Modal */}
-      {activeProject && canUpdate && (
-        <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{t("header.edit")}</DialogTitle>
-            </DialogHeader>
-            <EditProjectForm
-              project={activeProject}
-              onSuccess={() => setIsEditModalOpen(false)}
-            />
-          </DialogContent>
-        </Dialog>
-      )}
+      </Card>
 
       <ConfirmDialogComponent />
     </>
@@ -164,21 +203,23 @@ export default function ActiveProjectHeaderClient({
 
 export function ActiveProjectHeaderClientSkeleton() {
   return (
-    <div className="mb-8 space-y-4">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div className="space-y-1">
-          <div className="h-8 w-64 rounded-md bg-muted" />
-          <div className="flex flex-wrap gap-4 text-sm">
-            <div className="h-5 w-48 rounded-md bg-muted" />
-            <div className="h-5 w-48 rounded-md bg-muted" />
+    <Card className="mb-8 space-y-4">
+      <CardHeader>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="space-y-1">
+            <div className="h-8 w-64 rounded-md bg-muted" />
+            <div className="flex flex-wrap gap-4 text-sm">
+              <div className="h-5 w-48 rounded-md bg-muted" />
+              <div className="h-5 w-48 rounded-md bg-muted" />
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <div className="h-10 w-24 rounded-md bg-muted" />
+            <div className="h-10 w-24 rounded-md bg-muted" />
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <div className="h-10 w-24 rounded-md bg-muted" />
-          <div className="h-10 w-24 rounded-md bg-muted" />
-        </div>
-      </div>
+      </CardHeader>
       <div className="h-5 w-full max-w-3xl rounded-md bg-muted" />
-    </div>
+    </Card>
   );
 }

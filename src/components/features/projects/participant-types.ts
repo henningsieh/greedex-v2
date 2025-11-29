@@ -6,9 +6,7 @@ import { z } from "zod";
 import { projectParticipant } from "@/lib/drizzle/schema";
 
 // Base participant type from schema
-export type ProjectParticipantType = InferSelectModel<
-  typeof projectParticipant
->;
+export type ProjectParticipantType = InferSelectModel<typeof projectParticipant>;
 
 // Schema for participant selection
 export const ProjectParticipantSelectSchema =

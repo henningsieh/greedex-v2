@@ -79,7 +79,10 @@ export const ThemeSwitcher = ({
               <motion.div
                 className="absolute inset-0 rounded-full bg-accent"
                 layoutId="activeTheme"
-                transition={{ type: "spring", duration: 0.5 }}
+                transition={{
+                  type: "spring",
+                  duration: 0.5,
+                }}
               />
             )}
             <Icon

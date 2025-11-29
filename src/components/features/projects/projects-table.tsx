@@ -47,7 +47,12 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   const columns = useMemo(() => getProjectColumns(t), [t]);
 
   // Map the default sort to TanStack format
-  const defaultSorting = [{ id: DEFAULT_PROJECT_SORT, desc: false }];
+  const defaultSorting = [
+    {
+      id: DEFAULT_PROJECT_SORT,
+      desc: false,
+    },
+  ];
 
   const [sorting, setSorting] = useState<SortingState>(defaultSorting);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -80,7 +85,9 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   const { mutateAsync: batchDeleteMutation, isPending: isBatchDeleting } =
     useMutation({
       mutationFn: () =>
-        orpc.project.batchDelete({ projectIds: selectedProjectIds }),
+        orpc.project.batchDelete({
+          projectIds: selectedProjectIds,
+        }),
       onSuccess: (result) => {
         if (result.success) {
           toast.success(
@@ -145,7 +152,9 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
               className="ml-4"
             >
               <Trash2Icon className="mr-2 h-4 w-4" />
-              {t("table.batch-delete", { count: selectedRows.length })}
+              {t("table.batch-delete", {
+                count: selectedRows.length,
+              })}
             </Button>
           )}
           <DropdownMenu>

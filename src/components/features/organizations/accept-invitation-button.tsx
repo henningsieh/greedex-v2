@@ -34,9 +34,7 @@ export default function AcceptInvitationButton({ invitationId }: Props) {
 
             router.push(`/org/dashboard`);
           } catch (err) {
-            toast.error(
-              (err as Error)?.message || "Failed to accept invitation",
-            );
+            toast.error((err as Error)?.message || "Failed to accept invitation");
           } finally {
             setLoading(false);
           }

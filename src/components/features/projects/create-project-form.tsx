@@ -14,9 +14,13 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   Field,
+  FieldContent,
+  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
+  FieldLegend,
+  FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,7 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { getProjectDetailPath } from "@/lib/config/app";
 import { useRouter } from "@/lib/i18n/navigation";
@@ -89,14 +92,17 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   }
 
   return (
-    <div>
-      <Toaster />
-
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FieldSet className="mx-auto max-w-3xl p-2 sm:p-6">
+        <FieldContent>
+          <FieldLegend>{t("legend")}</FieldLegend>
+          {/* <FieldDescription>{t("description")}</FieldDescription> */}
+        </FieldContent>
         <FieldGroup>
           <Field data-invalid={!!errors.name}>
             <FieldLabel htmlFor="name">{t("name")}</FieldLabel>
             <Input id="name" {...register("name")} />
+            <FieldDescription>{t("name-description")}</FieldDescription>
             <FieldError errors={[errors.name]} />
           </Field>
 
@@ -114,6 +120,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
                   />
                 )}
               />
+              <FieldDescription>{t("start-date-description")}</FieldDescription>
               <FieldError errors={[errors.startDate]} />
             </Field>
 
@@ -130,6 +137,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
                   />
                 )}
               />
+              <FieldDescription>{t("end-date-description")}</FieldDescription>
               <FieldError errors={[errors.endDate]} />
             </Field>
           </div>
@@ -137,12 +145,14 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
           <Field data-invalid={!!errors.country}>
             <FieldLabel htmlFor="country">{t("country")}</FieldLabel>
             <Input id="country" {...register("country")} />
+            <FieldDescription>{t("country-description")}</FieldDescription>
             <FieldError errors={[errors.country]} />
           </Field>
 
           <Field>
             <FieldLabel htmlFor="location">{t("location")}</FieldLabel>
             <Input id="location" {...register("location")} />
+            <FieldDescription>{t("location-description")}</FieldDescription>
           </Field>
 
           <Field>
@@ -150,12 +160,13 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
               {t("welcome-message")}
             </FieldLabel>
             <Textarea id="welcomeMessage" {...register("welcomeMessage")} />
+            <FieldDescription>
+              {t("welcome-message-description")}
+            </FieldDescription>
           </Field>
 
           <Field data-invalid={!!errors.organizationId}>
-            <FieldLabel htmlFor="organizationId">
-              {t("organization")}
-            </FieldLabel>
+            <FieldLabel htmlFor="organizationId">{t("organization")}</FieldLabel>
             <Controller
               control={control}
               name="organizationId"
@@ -174,15 +185,21 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
                 </Select>
               )}
             />
+            <FieldDescription>{t("organization-description")}</FieldDescription>
             <FieldError errors={[errors.organizationId]} />
           </Field>
 
-          <Button type="submit" disabled={isPending} className="w-fit">
+          <Button
+            type="submit"
+            variant="secondary"
+            disabled={isPending}
+            className="w-fit"
+          >
             {isPending ? t("creating") : t("create-project")}
           </Button>
         </FieldGroup>
-      </form>
-    </div>
+      </FieldSet>
+    </form>
   );
 }
 

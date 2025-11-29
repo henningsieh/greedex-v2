@@ -36,24 +36,23 @@ export default async function AppLayout({
   if (!session?.user) {
     const fallbackPath = DASHBOARD_PATH;
     const href = handleUnauthenticatedRedirect(rememberedPath, fallbackPath);
-    redirect({ href, locale });
+    redirect({
+      href,
+      locale,
+    });
   }
 
   if (!hasOrgs) {
-    redirect({ href: CREATE_ORG_PATH, locale });
+    redirect({
+      href: CREATE_ORG_PATH,
+      locale,
+    });
   }
-
-  // Prefetch data for all suspended client components
-  // This enables server-side Suspense without hydration errors
-  // Components using these queries: ActiveProjectBreadcrumb, DashboardHeader, ProjectSwitcher, OrganizationSwitcher
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(
-    orpcQuery.betterauth.getSession.queryOptions(),
-  );
-  void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
+
   void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
 
-  const defaultOpen = (await cookies()).get("sidebar_state")?.value === "true";
+  const sidebarisOpen = (await cookies()).get("sidebar_state")?.value === "true";
 
   // Authenticated and has orgs -> allow rendering of the protected app
   return (
@@ -62,7 +61,7 @@ export default async function AppLayout({
         <Navbar />
         <LoadingProvider>
           <SidebarProvider
-            defaultOpen={defaultOpen}
+            defaultOpen={sidebarisOpen}
             className="min-h-[calc(svh-4rem)]"
           >
             <ErrorBoundary fallback={<div>Failed to load sidebar.</div>}>

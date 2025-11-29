@@ -14,7 +14,7 @@ type FormFieldProps<TFieldValues extends Record<string, unknown>> = {
   control: Control<TFieldValues>;
   label: string;
   id?: string;
-  type?: string;
+  type?: React.HTMLInputTypeAttribute;
   placeholder?: string;
   description?: React.ReactNode;
   rightLabel?: React.ReactNode;
@@ -58,7 +58,7 @@ export function FormField<TFieldValues extends Record<string, unknown>>({
               type={type}
               placeholder={placeholder}
               aria-invalid={fieldState.invalid}
-              disabled={Boolean(inputProps?.disabled)}
+              disabled={inputProps?.disabled}
               {...inputProps}
             />
             {description && <FieldDescription>{description}</FieldDescription>}

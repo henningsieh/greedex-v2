@@ -12,7 +12,11 @@ export default async function ProjectsPage() {
   // Prefetch the projects data on the server
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(
-    orpcQuery.project.list.queryOptions({ input: { sort_by: "createdAt" } }),
+    orpcQuery.project.list.queryOptions({
+      input: {
+        sort_by: "createdAt",
+      },
+    }),
   );
 
   return (

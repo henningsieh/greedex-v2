@@ -2,12 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
-import {
-  Edit2Icon,
-  EyeIcon,
-  MoreHorizontalIcon,
-  Trash2Icon,
-} from "lucide-react";
+import { Edit2Icon, EyeIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -176,7 +171,10 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
 
   const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
     useMutation({
-      mutationFn: () => orpc.project.delete({ id: project.id }),
+      mutationFn: () =>
+        orpc.project.delete({
+          id: project.id,
+        }),
       onSuccess: (result) => {
         if (result.success) {
           toast.success(t("form.delete.toast-success"));
@@ -197,7 +195,9 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
   const handleDelete = async () => {
     const confirmed = await confirm({
       title: t("form.delete.confirm-title"),
-      description: t("form.delete.confirm-description", { name: project.name }),
+      description: t("form.delete.confirm-description", {
+        name: project.name,
+      }),
       confirmText: t("form.delete.confirm-button"),
       cancelText: t("form.delete.cancel-button"),
       isDestructive: true,

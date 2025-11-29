@@ -41,7 +41,9 @@ export function LoginForm({
   className,
   nextPageUrl,
   ...props
-}: React.ComponentProps<"div"> & { nextPageUrl?: string | string[] }) {
+}: React.ComponentProps<"div"> & {
+  nextPageUrl?: string | string[];
+}) {
   const [lastLoginMethod, setLastLoginMethod] = useState<string | null>(null);
 
   const router = useRouter();
@@ -99,9 +101,7 @@ export function LoginForm({
         onError: (c) => {
           if (c.error.code === "EMAIL_NOT_VERIFIED") {
             toast.error("messages.verifyEmail");
-            router.push(
-              `/verify-email?email=${encodeURIComponent(data.email)}`,
-            );
+            router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
             return;
           }
           toast.error(c.error.message || t("login.messages.failedSignIn"));
@@ -166,7 +166,9 @@ export function LoginForm({
                     type="email"
                     label={t("login.fields.email")}
                     placeholder={t("login.fields.emailPlaceholder")}
-                    inputProps={{ disabled: form.formState.isSubmitting }}
+                    inputProps={{
+                      disabled: form.formState.isSubmitting,
+                    }}
                   />
                   <FormField
                     name="password"
@@ -184,7 +186,9 @@ export function LoginForm({
                         </Link>
                       </Button>
                     }
-                    inputProps={{ disabled: form.formState.isSubmitting }}
+                    inputProps={{
+                      disabled: form.formState.isSubmitting,
+                    }}
                   />
 
                   <Button
@@ -243,7 +247,9 @@ export function LoginForm({
                       nextPageUrl,
                       DASHBOARD_PATH,
                     );
-                    signupHref += `?nextPageUrl=${encodeURIComponent(normalized)}`;
+                    signupHref += `?nextPageUrl=${encodeURIComponent(
+                      normalized,
+                    )}`;
                   }
                   return (
                     <Button variant="link" className="px-0 pl-1" asChild>

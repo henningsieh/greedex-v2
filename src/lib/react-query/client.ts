@@ -1,7 +1,4 @@
-import {
-  defaultShouldDehydrateQuery,
-  QueryClient,
-} from "@tanstack/react-query";
+import { defaultShouldDehydrateQuery, QueryClient } from "@tanstack/react-query";
 import { serializer } from "../serializer";
 
 export function createQueryClient() {
@@ -10,17 +7,22 @@ export function createQueryClient() {
       queries: {
         queryKeyHashFn(queryKey) {
           const [json, meta] = serializer.serialize(queryKey);
-          return JSON.stringify({ json, meta });
+          return JSON.stringify({
+            json,
+            meta,
+          });
         },
         staleTime: 60 * 1000, // > 0 to prevent immediate refetching on mount
       },
       dehydrate: {
         shouldDehydrateQuery: (query) =>
-          defaultShouldDehydrateQuery(query) ||
-          query.state.status === "pending",
+          defaultShouldDehydrateQuery(query) || query.state.status === "pending",
         serializeData(data) {
           const [json, meta] = serializer.serialize(data);
-          return { json, meta };
+          return {
+            json,
+            meta,
+          };
         },
       },
       hydrate: {

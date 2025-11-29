@@ -25,11 +25,17 @@ export default async function OrgSetupLayout({
   if (!session?.user) {
     const fallbackPath = CREATE_ORG_PATH;
     const href = handleUnauthenticatedRedirect(rememberedPath, fallbackPath);
-    redirect({ href, locale });
+    redirect({
+      href,
+      locale,
+    });
   }
 
   if (hasOrgs) {
-    redirect({ href: DASHBOARD_PATH, locale });
+    redirect({
+      href: DASHBOARD_PATH,
+      locale,
+    });
   }
 
   return <>{children}</>;

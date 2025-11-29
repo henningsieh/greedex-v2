@@ -80,7 +80,9 @@ export function MagicLinkForm({
             id="email"
             type="email"
             placeholder="m@example.com"
-            inputProps={{ disabled: form.formState.isSubmitting }}
+            inputProps={{
+              disabled: form.formState.isSubmitting,
+            }}
           />
         </CardContent>
 

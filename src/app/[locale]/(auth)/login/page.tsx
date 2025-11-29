@@ -2,7 +2,9 @@ import AuthFlowLayout from "@/components/features/authentication/auth-flow-layou
 import { LoginForm } from "@/components/features/authentication/login-form";
 
 interface LoginPageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 }
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {

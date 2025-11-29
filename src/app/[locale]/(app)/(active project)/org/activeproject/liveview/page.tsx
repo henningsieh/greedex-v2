@@ -117,21 +117,26 @@ function generateMockData(): Participant[] {
 
   return names.map((name, index) => {
     const numActivities = Math.floor(Math.random() * 3) + 1;
-    const activities = Array.from({ length: numActivities }, (_, i) => {
-      const type =
-        activityTypeValues[
-          Math.floor(Math.random() * activityTypeValues.length)
-        ];
-      const distanceKm = Math.floor(Math.random() * 1500) + 100;
-      const co2Kg = distanceKm * CO2_FACTORS[type];
+    const activities = Array.from(
+      {
+        length: numActivities,
+      },
+      (_, i) => {
+        const type =
+          activityTypeValues[
+            Math.floor(Math.random() * activityTypeValues.length)
+          ];
+        const distanceKm = Math.floor(Math.random() * 1500) + 100;
+        const co2Kg = distanceKm * CO2_FACTORS[type];
 
-      return {
-        id: `${index}-${i}`,
-        type,
-        distanceKm,
-        co2Kg,
-      };
-    });
+        return {
+          id: `${index}-${i}`,
+          type,
+          distanceKm,
+          co2Kg,
+        };
+      },
+    );
 
     const totalCO2 = activities.reduce(
       (sum, activity) => sum + activity.co2Kg,
@@ -155,7 +160,11 @@ function calculateStats(participants: Participant[]): ProjectStats {
 
   const breakdownByType = activityTypeValues.reduce(
     (acc, type) => {
-      acc[type] = { distance: 0, co2: 0, count: 0 };
+      acc[type] = {
+        distance: 0,
+        co2: 0,
+        count: 0,
+      };
       return acc;
     },
     {} as ProjectStats["breakdownByType"],
@@ -293,8 +302,8 @@ export default function Dashboard() {
           {/* Footer Message */}
           <div className="py-8 text-center">
             <p className="text-muted-foreground text-sm">
-              🌱 Together we're creating a greener future • Every journey counts
-              • Plant trees, offset carbon
+              🌱 Together we're creating a greener future • Every journey counts •
+              Plant trees, offset carbon
             </p>
           </div>
         </div>

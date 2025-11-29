@@ -16,16 +16,18 @@ export default async function DashboardPage() {
   // Data is dehydrated and sent with HTML, then rehydrated on client
   void queryClient.prefetchQuery(
     orpcQuery.project.list.queryOptions({
-      input: { sort_by: DEFAULT_PROJECT_SORT },
+      input: {
+        sort_by: DEFAULT_PROJECT_SORT,
+      },
     }),
   );
-  void queryClient.prefetchQuery(
-    orpcQuery.betterauth.getSession.queryOptions(),
-  );
-  void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
+  void queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions());
+  void queryClient.prefetchQuery(orpcQuery.organizations.list.queryOptions());
 
   // Get session and organizations for server-side data
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const organizations = await auth.api.listOrganizations({
     headers: await headers(),
   });

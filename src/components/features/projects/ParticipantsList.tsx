@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Users2Icon, UsersIcon } from "lucide-react";
 import { useFormatter } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Empty,
   EmptyDescription,
@@ -25,18 +25,31 @@ export default function ParticipantsList({
 
   const { data: participants } = useSuspenseQuery(
     orpcQuery.project.getParticipants.queryOptions({
-      input: { projectId: activeProjectId },
+      input: {
+        projectId: activeProjectId,
+      },
     }),
   );
 
   return (
-    <div className="rounded-md border border-secondary/70 bg-secondary/10 p-4">
-      <div className="mb-4 flex items-center gap-2">
-        <UsersIcon className="h-5 w-5 text-secondary" />
-        <h2 className="font-semibold text-lg">
-          Participants ({participants?.length || 0})
-        </h2>
-      </div>
+    <Card className="border border-border/60 bg-card/80 shadow-sm">
+      <CardHeader>
+        <div className="flex items-center gap-3">
+          <div className="border border-secondary/30 bg-secondary/10 p-2 text-secondary">
+            <UsersIcon className="h-5 w-5" />
+          </div>
+          <div>
+            <CardTitle>
+              <p className="font-medium text-secondary/70 text-xs uppercase tracking-[0.2em]">
+                Participants
+              </p>
+              <h2 className="font-semibold text-lg text-secondary-foreground">
+                {participants?.length || 0} people joined
+              </h2>
+            </CardTitle>
+          </div>
+        </div>
+      </CardHeader>
 
       {!participants || participants.length === 0 ? (
         <Empty>
@@ -51,11 +64,11 @@ export default function ParticipantsList({
           </EmptyHeader>
         </Empty>
       ) : (
-        <Card className="space-y-2">
+        <CardContent>
           {participants.map((participant) => (
             <div
               key={participant.id}
-              className="flex items-center gap-4 rounded-lg border p-4 transition-colors hover:bg-accent/50"
+              className="flex items-center gap-4 rounded-xl border border-secondary/20 bg-background p-4 transition-colors hover:border-secondary/40 hover:bg-secondary/5"
             >
               <Avatar>
                 <AvatarImage
@@ -82,19 +95,21 @@ export default function ParticipantsList({
               </div>
             </div>
           ))}
-        </Card>
+        </CardContent>
       )}
-    </div>
+    </Card>
   );
 }
 
 export function ParticipantsListSkeleton() {
   return (
-    <div className="rounded-md border border-secondary/70 bg-secondary/10 p-4">
-      <div className="mb-4 flex items-center gap-2">
-        <UsersIcon className="h-5 w-5 text-secondary" />
-        <h2 className="font-semibold text-lg">Participants</h2>
-      </div>
+    <Card className="rounded-md border border-secondary/70 bg-secondary/10 p-4">
+      <CardHeader>
+        <div className="mb-4 flex items-center gap-2">
+          <UsersIcon className="h-5 w-5 text-secondary" />
+          <h2 className="font-semibold text-lg">Participants</h2>
+        </div>
+      </CardHeader>
 
       <div className="space-y-2">
         {[...Array(3)].map((_, index) => (
@@ -111,6 +126,6 @@ export function ParticipantsListSkeleton() {
           </div>
         ))}
       </div>
-    </div>
+    </Card>
   );
 }

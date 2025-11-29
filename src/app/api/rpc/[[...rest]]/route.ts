@@ -26,7 +26,12 @@ async function handleRequest(request: Request) {
     },
   });
 
-  return response ?? new Response("Not found", { status: 404 });
+  return (
+    response ??
+    new Response("Not found", {
+      status: 404,
+    })
+  );
 }
 
 // Export all HTTP method handlers required by Next.js

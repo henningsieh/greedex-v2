@@ -63,9 +63,7 @@ export default function CreateOrganizationForm({
       );
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Failed to create organization";
+        error instanceof Error ? error.message : "Failed to create organization";
       toast.error(errorMessage);
     }
   }
@@ -116,9 +114,7 @@ export default function CreateOrganizationForm({
             className="w-full"
             disabled={form.formState.isSubmitting || !form.watch("name")}
           >
-            {form.formState.isSubmitting
-              ? "Creating..."
-              : "Create Organization"}
+            {form.formState.isSubmitting ? "Creating..." : "Create Organization"}
           </Button>
         </div>
       </Form>

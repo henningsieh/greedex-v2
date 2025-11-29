@@ -40,7 +40,10 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true, // Must be true to block login until verified
     sendResetPassword: async ({ user, url }) => {
-      await sendPasswordResetEmail({ user, url });
+      await sendPasswordResetEmail({
+        user,
+        url,
+      });
     },
   },
   emailVerification: {
@@ -48,7 +51,10 @@ export const auth = betterAuth({
     sendOnSignUp: true, // This triggers email verification on signup
     sendOnSignIn: false, // Don't send on every sign-in, only on signup
     sendVerificationEmail: async ({ user, url }) => {
-      await sendEmailVerificationEmail({ user, url });
+      await sendEmailVerificationEmail({
+        user,
+        url,
+      });
     },
   },
   socialProviders: {
@@ -131,7 +137,9 @@ export const auth = betterAuth({
             where: eq(member.userId, userSession.userId),
             // always get the most recent organization membership
             orderBy: desc(member.createdAt),
-            columns: { organizationId: true },
+            columns: {
+              organizationId: true,
+            },
           });
 
           return {

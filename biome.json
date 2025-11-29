@@ -24,13 +24,25 @@
     "lineWidth": 82,
     "indentStyle": "space",
     "indentWidth": 2,
+    "expand": "always",
     "includes": [
       "**",
       "!docs/**",
       "!src/components/ui/**",
       "!src/lib/drizzle/schemas/**",
-      "!src/lib/drizzle/migrations/**"
+      "!src/lib/drizzle/migrations/**",
+      "!specs/**"
     ]
+  },
+  "javascript": {
+    "formatter": {
+      "expand": "auto"
+    }
+  },
+  "json": {
+    "formatter": {
+      "expand": "always"
+    }
   },
   "linter": {
     "enabled": true,
@@ -39,7 +51,8 @@
       "!docs/**",
       "!src/components/ui/**",
       "!src/lib/drizzle/schemas/**",
-      "!src/lib/drizzle/migrations/**"
+      "!src/lib/drizzle/migrations/**",
+      "!specs/**"
     ],
     "rules": {
       "recommended": true,
@@ -71,7 +84,8 @@
       "!docs/**",
       "!src/components/ui/**",
       "!src/lib/drizzle/schemas/**",
-      "!src/lib/drizzle/migrations/**"
+      "!src/lib/drizzle/migrations/**",
+      "!specs/**"
     ],
     "actions": {
       "source": {

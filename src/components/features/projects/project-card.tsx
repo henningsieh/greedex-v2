@@ -50,7 +50,10 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
   // Delete mutation
   const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
     useMutation({
-      mutationFn: () => orpc.project.delete({ id: project.id }),
+      mutationFn: () =>
+        orpc.project.delete({
+          id: project.id,
+        }),
       onSuccess: (result) => {
         if (result.success) {
           toast.success("Project deleted successfully");

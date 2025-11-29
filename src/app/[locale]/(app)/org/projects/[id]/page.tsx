@@ -10,7 +10,9 @@ import { getQueryClient } from "@/lib/react-query/hydration";
 export default async function ProjectsDetailsPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{
+    id: string;
+  }>;
 }) {
   const { id } = await params;
   const t = await getTranslations("project.details");
@@ -18,7 +20,11 @@ export default async function ProjectsDetailsPage({
   // Prefetch the project details data on the server
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(
-    orpcQuery.project.getById.queryOptions({ input: { id } }),
+    orpcQuery.project.getById.queryOptions({
+      input: {
+        id,
+      },
+    }),
   );
 
   return (

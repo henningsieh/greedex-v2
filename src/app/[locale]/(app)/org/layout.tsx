@@ -14,7 +14,7 @@ export default function Layout({
   const queryClient = getQueryClient();
 
   void queryClient.prefetchQuery(
-    orpcQuery.organization.getActiveOrganization.queryOptions(),
+    orpcQuery.organizations.getActive.queryOptions(),
   );
 
   return (

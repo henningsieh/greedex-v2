@@ -45,19 +45,32 @@ export default async function WorkshopsHeroSection() {
 
         <AnimatedGroup
           triggerOnView
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{
+            once: true,
+            amount: 0.35,
+          }}
           variants={{
             container: {
               visible: {
-                transition: { staggerChildren: 0.12, delayChildren: 0.08 },
+                transition: {
+                  staggerChildren: 0.12,
+                  delayChildren: 0.08,
+                },
               },
             },
             item: {
-              hidden: { opacity: 0, y: 18 },
+              hidden: {
+                opacity: 0,
+                y: 18,
+              },
               visible: {
                 opacity: 1,
                 y: 0,
-                transition: { type: "spring", bounce: 0.22, duration: 0.6 },
+                transition: {
+                  type: "spring",
+                  bounce: 0.22,
+                  duration: 0.6,
+                },
               },
             },
           }}

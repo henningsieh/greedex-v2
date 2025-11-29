@@ -53,8 +53,7 @@ export function EmailVerification({
               </Text>
               <Hr className="my-6 border-gray-300" />
               <Text className="text-gray-500 text-sm">
-                If you didn't create an account, you can safely ignore this
-                email.
+                If you didn't create an account, you can safely ignore this email.
               </Text>
               <Text className="mt-4 text-gray-400 text-xs">
                 This verification link will expire in 24 hours.

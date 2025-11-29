@@ -58,9 +58,7 @@ export const ACCOMMODATION_OPTIONS: AccommodationCategory[] = [
   ...ACCOMMODATION_VALUES,
 ];
 
-export const ROOM_OCCUPANCY_OPTIONS: RoomOccupancy[] = [
-  ...ROOM_OCCUPANCY_VALUES,
-];
+export const ROOM_OCCUPANCY_OPTIONS: RoomOccupancy[] = [...ROOM_OCCUPANCY_VALUES];
 
 export const ELECTRICITY_OPTIONS: ElectricityType[] = [...ELECTRICITY_VALUES];
 
@@ -131,10 +129,7 @@ export const CO2_FACTORS = {
 
 // Accommodation CO₂ factors (kg CO₂ per night per person)
 export const ACCOMMODATION_FACTORS: Record<AccommodationCategory, number> =
-  Object.fromEntries(ACCOMMODATION_DATA) as Record<
-    AccommodationCategory,
-    number
-  >;
+  Object.fromEntries(ACCOMMODATION_DATA) as Record<AccommodationCategory, number>;
 
 // Food CO₂ factors (kg CO₂ per day)
 const FOOD_FACTORS: Record<FoodFrequency, number> = Object.fromEntries(
@@ -171,9 +166,7 @@ export function calculateEmissions(
   }
   if (answers.carKm) {
     const carFactor =
-      answers.carType === "electric"
-        ? CO2_FACTORS.electricCar
-        : CO2_FACTORS.car;
+      answers.carType === "electric" ? CO2_FACTORS.electricCar : CO2_FACTORS.car;
     const passengers = answers.carPassengers || 1;
     transportCO2 += (answers.carKm * carFactor) / passengers;
   }

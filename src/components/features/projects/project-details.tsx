@@ -14,7 +14,11 @@ interface ProjectDetailsProps {
 function ProjectDetails({ id }: ProjectDetailsProps) {
   const t = useTranslations("project.details");
   const { data } = useSuspenseQuery(
-    orpcQuery.project.getById.queryOptions({ input: { id } }),
+    orpcQuery.project.getById.queryOptions({
+      input: {
+        id,
+      },
+    }),
   );
   const format = useFormatter();
 

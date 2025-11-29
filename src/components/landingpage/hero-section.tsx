@@ -150,7 +150,10 @@ export default async function HeroSection() {
                       },
                     },
                     item: {
-                      hidden: { opacity: 0, y: 0 },
+                      hidden: {
+                        opacity: 0,
+                        y: 0,
+                      },
                       visible: {
                         opacity: 1,
                         y: 8,
@@ -161,7 +164,9 @@ export default async function HeroSection() {
                             duration: 1.1,
                             ease: "easeInOut",
                           },
-                          opacity: { duration: 0.9 },
+                          opacity: {
+                            duration: 0.9,
+                          },
                         },
                       },
                     },
@@ -236,7 +241,7 @@ export default async function HeroSection() {
               aria-label={t("hero.meetCustomers")}
               className="block text-sm duration-150 hover:opacity-75"
             >
-              <span> {t("hero.meetCustomers")}</span>
+              <span>{t("hero.meetCustomers")}</span>
 
               <ChevronRight className="ml-1 inline-block size-3" />
             </Link>
@@ -250,7 +255,10 @@ export default async function HeroSection() {
                 alt="Nvidia Logo"
                 width={64}
                 height={20}
-                style={{ width: "auto", height: "auto" }}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                }}
               />
             </div>
 
@@ -261,7 +269,10 @@ export default async function HeroSection() {
                 alt="Column Logo"
                 width={64}
                 height={16}
-                style={{ width: 64, height: 16 }}
+                style={{
+                  width: 64,
+                  height: 16,
+                }}
               />
             </div>
             <div className="flex">
@@ -271,7 +282,10 @@ export default async function HeroSection() {
                 alt="GitHub Logo"
                 width={64}
                 height={16}
-                style={{ width: 64, height: 16 }}
+                style={{
+                  width: 64,
+                  height: 16,
+                }}
               />
             </div>
             <div className="flex">
@@ -281,7 +295,10 @@ export default async function HeroSection() {
                 alt="Nike Logo"
                 width={64}
                 height={20}
-                style={{ width: "auto", height: "auto" }}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                }}
               />
             </div>
             <div className="flex">
@@ -291,7 +308,10 @@ export default async function HeroSection() {
                 alt="Lemon Squeezy Logo"
                 width={64}
                 height={20}
-                style={{ width: "auto", height: "auto" }}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                }}
               />
             </div>
             <div className="flex">
@@ -301,7 +321,10 @@ export default async function HeroSection() {
                 alt="Laravel Logo"
                 width={64}
                 height={16}
-                style={{ width: 64, height: 16 }}
+                style={{
+                  width: 64,
+                  height: 16,
+                }}
               />
             </div>
             <div className="flex">
@@ -311,7 +334,10 @@ export default async function HeroSection() {
                 alt="Lilly Logo"
                 width={64}
                 height={28}
-                style={{ width: "auto", height: "auto" }}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                }}
               />
             </div>
 
@@ -322,7 +348,10 @@ export default async function HeroSection() {
                 alt="OpenAI Logo"
                 width={64}
                 height={24}
-                style={{ width: "auto", height: "auto" }}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                }}
               />
             </div>
           </div>

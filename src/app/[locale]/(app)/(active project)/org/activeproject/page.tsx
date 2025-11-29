@@ -13,22 +13,24 @@ export default async function ControlActiveProjectPage() {
   const headers = await nextHeaders();
 
   // Get session for server-side data
-  const session = await auth.api.getSession({ headers: headers });
+  const session = await auth.api.getSession({
+    headers: headers,
+  });
 
   const activeProjectId = session?.session?.activeProjectId;
 
   // Prefetch all necessary data
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(
-    orpcQuery.betterauth.getSession.queryOptions(),
-  );
+  void queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions());
   void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
 
   // Prefetch participants data if we have an active project
   if (activeProjectId) {
     void queryClient.prefetchQuery(
       orpcQuery.project.getParticipants.queryOptions({
-        input: { projectId: activeProjectId },
+        input: {
+          projectId: activeProjectId,
+        },
       }),
     );
   }

@@ -56,7 +56,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const t = useTranslations("participation.questionnaire");
   const transitionVariants = {
     container: {
-      hidden: { opacity: 0 },
+      hidden: {
+        opacity: 0,
+      },
       visible: {
         opacity: 1,
         transition: {
@@ -123,7 +125,10 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     key: K,
     value: ParticipantAnswers[K],
   ) => {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
+    setAnswers((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
   // Get current step key based on step number
@@ -173,10 +178,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     }
 
     // Skip carPassengers impact if no car travel
-    if (
-      stepKey === "carPassengers" &&
-      (!answers.carKm || answers.carKm === 0)
-    ) {
+    if (stepKey === "carPassengers" && (!answers.carKm || answers.carKm === 0)) {
       return false;
     }
 
@@ -188,7 +190,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
     if (stepKey && shouldShowImpact(stepKey)) {
       // Calculate previous CO₂ WITHOUT the current answer(s)
-      const answersWithoutCurrent = { ...answers };
+      const answersWithoutCurrent = {
+        ...answers,
+      };
       if (stepKey === "electricity") {
         // For accommodation, calculate impact as total accommodation CO₂
         // by removing all accommodation-related answers
@@ -300,8 +304,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         return !!answers.carType;
       case 13:
         return (
-          typeof answers.carPassengers === "number" &&
-          answers.carPassengers >= 1
+          typeof answers.carPassengers === "number" && answers.carPassengers >= 1
         );
       case 14:
         return typeof answers.age === "number" && answers.age > 0;
@@ -341,7 +344,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       <div className="relative h-2 overflow-hidden rounded-full bg-gradient-to-r from-teal-800/60 to-secondary/60">
         <div
           className="absolute top-0 left-0 h-full bg-gradient-to-r from-teal-500 to-emerald-500 transition-all duration-500 ease-out"
-          style={{ width: `${progress}%` }}
+          style={{
+            width: `${progress}%`,
+          }}
         />
       </div>
 
@@ -654,8 +659,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         {currentStep === 9 && (
           <div className="space-y-8">
             <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
-              Your way TO the project: How many kilometres did you go by train
-              or metro?
+              Your way TO the project: How many kilometres did you go by train or
+              metro?
             </Label>
             <Input
               type="number"
@@ -675,8 +680,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         {currentStep === 10 && (
           <div className="space-y-8">
             <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
-              Your way TO the project: How many kilometres did you go by
-              bus/van?
+              Your way TO the project: How many kilometres did you go by bus/van?
             </Label>
             <Input
               type="number"
@@ -749,10 +753,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               placeholder="1"
               value={answers.carPassengers || ""}
               onChange={(e) =>
-                updateAnswer(
-                  "carPassengers",
-                  Number.parseInt(e.target.value, 10),
-                )
+                updateAnswer("carPassengers", Number.parseInt(e.target.value, 10))
               }
               className="text-lg"
             />
@@ -866,9 +867,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">
-                  {t("results.food")}
-                </span>
+                <span className="text-muted-foreground">{t("results.food")}</span>
                 <span className="font-semibold text-foreground">
                   {emissions.foodCO2.toFixed(1)} kg CO₂
                 </span>

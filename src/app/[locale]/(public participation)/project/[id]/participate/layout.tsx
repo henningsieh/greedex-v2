@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/correctness/noUnusedFunctionParameters: ongoing work */
 /** biome-ignore-all lint/correctness/noUnusedVariables: ongoing work */
+
 import { headers } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { auth } from "@/lib/better-auth";
@@ -16,7 +17,9 @@ export default async function PublicParticipateLayout({
   children,
   params,
 }: Readonly<{
-  params: Promise<{ id: string }>;
+  params: Promise<{
+    id: string;
+  }>;
   children: React.ReactNode;
 }>) {
   const locale = await getLocale();

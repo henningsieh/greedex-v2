@@ -35,7 +35,9 @@ export function SignupForm({
   className,
   nextPageUrl,
   ...props
-}: React.ComponentProps<"form"> & { nextPageUrl?: string | string[] }) {
+}: React.ComponentProps<"form"> & {
+  nextPageUrl?: string | string[];
+}) {
   const t = useTranslations("authentication");
   const router = useRouter();
 
@@ -68,8 +70,7 @@ export function SignupForm({
   });
 
   const finalRedirect =
-    env.NEXT_PUBLIC_BASE_URL +
-    normalizeRedirectPath(nextPageUrl, DASHBOARD_PATH);
+    env.NEXT_PUBLIC_BASE_URL + normalizeRedirectPath(nextPageUrl, DASHBOARD_PATH);
 
   console.debug("SignupForm onSubmit finalRedirect:", finalRedirect);
 
@@ -120,7 +121,9 @@ export function SignupForm({
               id="name"
               type="text"
               placeholder={t("signup.fields.fullNamePlaceholder")}
-              inputProps={{ disabled: form.formState.isSubmitting }}
+              inputProps={{
+                disabled: form.formState.isSubmitting,
+              }}
             />
             <FormField
               name="email"
@@ -130,7 +133,9 @@ export function SignupForm({
               type="email"
               placeholder={t("signup.fields.emailPlaceholder")}
               description={t("signup.fields.emailDescription")}
-              inputProps={{ disabled: form.formState.isSubmitting }}
+              inputProps={{
+                disabled: form.formState.isSubmitting,
+              }}
             />
             <FormField
               name="password"
@@ -139,7 +144,9 @@ export function SignupForm({
               id="password"
               type="password"
               description={t("signup.fields.passwordDescription")}
-              inputProps={{ disabled: form.formState.isSubmitting }}
+              inputProps={{
+                disabled: form.formState.isSubmitting,
+              }}
             />
             <FormField
               name="confirmPassword"
@@ -148,7 +155,9 @@ export function SignupForm({
               id="confirm-password"
               type="password"
               description={t("signup.fields.confirmPasswordDescription")}
-              inputProps={{ disabled: form.formState.isSubmitting }}
+              inputProps={{
+                disabled: form.formState.isSubmitting,
+              }}
             />
 
             <Button

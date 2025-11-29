@@ -139,9 +139,7 @@ export function VerifyEmailContent({
               <ol className="space-y-1 text-left text-muted-foreground">
                 <li>1. Check your inbox for the verification email</li>
                 <li>2. Click the verification link in the email</li>
-                <li>
-                  3. You&apos;ll be automatically signed in and redirected
-                </li>
+                <li>3. You&apos;ll be automatically signed in and redirected</li>
               </ol>
             </div>
           </div>

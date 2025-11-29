@@ -1,5 +1,7 @@
 {
-  "i18n-ally.localesPaths": ["./messages"],
+  "i18n-ally.localesPaths": [
+    "./messages"
+  ],
   "i18n-ally.keystyle": "nested",
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit",
@@ -7,15 +9,20 @@
   },
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
-  "editor.rulers": [82],
+  "editor.rulers": [
+    82
+  ],
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "typescript.format.enable": false,
-  "javascript.format.enable": false,
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "typescript.format.enable": true,
+  "javascript.format.enable": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "chat.promptFilesRecommendations": {
     "speckit.constitution": true,
@@ -38,5 +45,7 @@
   },
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.displayLanguage": "de",
-  "i18n-ally.extract.ignored": [" | "]
+  "i18n-ally.extract.ignored": [
+    " | "
+  ]
 }

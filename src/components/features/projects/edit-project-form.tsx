@@ -11,12 +11,7 @@ import {
   type ProjectFormSchemaType,
 } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
@@ -68,7 +63,9 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
       });
       queryClient.invalidateQueries({
         queryKey: orpcQuery.project.getById.queryOptions({
-          input: { id: project.id },
+          input: {
+            id: project.id,
+          },
         }).queryKey,
       });
     },

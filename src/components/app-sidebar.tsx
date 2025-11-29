@@ -9,7 +9,11 @@ import {
   UsersIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { OrganizationSwitcher } from "@/components/features/organizations/organisation-switcher";
+import { Suspense } from "react";
+import {
+  OrganizationSwitcher,
+  OrganizationSwitcherSkeleton,
+} from "@/components/features/organizations/organisation-switcher";
 import { ProjectSwitcher } from "@/components/features/projects/project-switcher";
 import {
   Sidebar,
@@ -38,7 +42,11 @@ export function AppSidebar() {
   const t = useTranslations("app.sidebar");
 
   const projectsMenuItems = [
-    { title: t("projects.control"), icon: CogIcon, url: ACTIVE_PROJECT_PATH },
+    {
+      title: t("projects.control"),
+      icon: CogIcon,
+      url: ACTIVE_PROJECT_PATH,
+    },
     {
       title: t("projects.liveView"),
       icon: BarChart3Icon,
@@ -57,7 +65,11 @@ export function AppSidebar() {
       icon: MapPinnedIcon,
       url: PROJECTS_PATH,
     },
-    { title: t("organization.team"), icon: UsersIcon, url: TEAM_PATH },
+    {
+      title: t("organization.team"),
+      icon: UsersIcon,
+      url: TEAM_PATH,
+    },
     {
       title: t("organization.settings"),
       icon: SettingsIcon,
@@ -66,11 +78,7 @@ export function AppSidebar() {
   ];
 
   return (
-    <Sidebar
-      className="h-[calc(svh-4rem)]"
-      variant="sidebar"
-      collapsible="icon"
-    >
+    <Sidebar className="h-[calc(svh-4rem)]" variant="sidebar" collapsible="icon">
       <SidebarHeader>
         <ProjectSwitcher />
       </SidebarHeader>
@@ -97,9 +105,7 @@ export function AppSidebar() {
         </SidebarGroup>
         <div className="grow flex-col" />
         <SidebarGroup>
-          <SidebarGroupLabel>
-            {t("organization.sectionLabel")}
-          </SidebarGroupLabel>
+          <SidebarGroupLabel>{t("organization.sectionLabel")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {organizationMenuItems.map((item) => (
@@ -117,7 +123,9 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <OrganizationSwitcher />
+        <Suspense fallback={<OrganizationSwitcherSkeleton />}>
+          <OrganizationSwitcher />
+        </Suspense>
         {/* <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton>
@@ -133,11 +141,7 @@ export function AppSidebar() {
 
 export function AppSidebarSkeleton() {
   return (
-    <Sidebar
-      className="h-[calc(svh-4rem)]"
-      variant="sidebar"
-      collapsible="icon"
-    >
+    <Sidebar className="h-[calc(svh-4rem)]" variant="sidebar" collapsible="icon">
       <SidebarHeader>
         <div className="h-12 w-full animate-pulse rounded-md bg-muted" />
       </SidebarHeader>

@@ -57,7 +57,9 @@ export function ProjectSwitcher() {
 
   const setActiveProject = useMutation({
     mutationFn: (projectId: string | undefined) =>
-      orpc.project.setActive({ projectId }),
+      orpc.project.setActive({
+        projectId,
+      }),
     onSuccess: async () => {
       // Invalidate oRPC session cache (used throughout app)
       await queryClient.invalidateQueries(

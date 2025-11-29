@@ -383,7 +383,16 @@
           "select-organization": "Organisation auswählen",
           "creating": "Wird erstellt...",
           "create-project": "Projekt erstellen",
-          "title": "Neues Projekt erstellen"
+          "title": "Neues Projekt erstellen",
+          "legend": "Ermögliche deinem Team ein nachhaltiges Erasmus+ Projekt",
+          "description": "Fülle die Details aus, um ein neues Projekt zu erstellen.",
+          "name-description": "Gib den Namen deines Projekts ein.",
+          "start-date-description": "Wähle das Startdatum für das Projekt.",
+          "end-date-description": "Wähle das Enddatum für das Projekt.",
+          "country-description": "Gib das Land an, in dem das Projekt stattfindet.",
+          "location-description": "Optional: Gib zusätzliche Ortsdetails an.",
+          "welcome-message-description": "Optional: Füge eine Willkommensnachricht für Teilnehmende hinzu.",
+          "organization-description": "Wähle die Organisation, die das Projekt besitzt."
         }
       },
       "activeProject": {
@@ -392,6 +401,7 @@
           "description": "Wähle ein Projekt aus, um Teilnehmende anzeigen zu können."
         },
         "header": {
+          "contextLabel": "Aktives Projekt",
           "edit": "Bearbeiten",
           "delete": "Löschen",
           "deleteDialog": {

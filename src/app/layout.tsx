@@ -18,7 +18,11 @@ export const metadata: Metadata = {
     "environmental impact",
     "tree planting",
   ],
-  authors: [{ name: "Greendex" }],
+  authors: [
+    {
+      name: "Greendex",
+    },
+  ],
   openGraph: {
     title: "Greendex - Carbon Footprint Calculator for Erasmus+ Projects",
     description:

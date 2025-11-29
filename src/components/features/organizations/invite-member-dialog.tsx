@@ -97,7 +97,9 @@ export default function InviteMemberDialog({
               orpcQuery.member.search.queryOptions({
                 input: {
                   organizationId,
-                  filters: { roles: [memberRoles.Owner, memberRoles.Employee] },
+                  filters: {
+                    roles: [memberRoles.Owner, memberRoles.Employee],
+                  },
                 },
               }),
             );
@@ -138,7 +140,9 @@ export default function InviteMemberDialog({
                 type="email"
                 placeholder="name@domain.com"
                 description={tInvite("emailDescription")}
-                inputProps={{ disabled: form.formState.isSubmitting }}
+                inputProps={{
+                  disabled: form.formState.isSubmitting,
+                }}
               />
 
               <InputField
@@ -148,7 +152,9 @@ export default function InviteMemberDialog({
                 id="invite-name"
                 type="text"
                 placeholder="Jane Doe"
-                inputProps={{ disabled: form.formState.isSubmitting }}
+                inputProps={{
+                  disabled: form.formState.isSubmitting,
+                }}
               />
 
               <FormField<InviteFormSchema, "role">
@@ -158,14 +164,9 @@ export default function InviteMemberDialog({
                   <FormItem>
                     <FormLabel>{tInvite("roleLabel")}</FormLabel>
                     <FormControl>
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                      >
+                      <Select value={field.value} onValueChange={field.onChange}>
                         <SelectTrigger id="invite-role" size="default">
-                          <SelectValue
-                            placeholder={tInvite("rolePlaceholder")}
-                          />
+                          <SelectValue placeholder={tInvite("rolePlaceholder")} />
                         </SelectTrigger>
                         <SelectContent>
                           {allowedRoles.map((role) => (

@@ -30,12 +30,24 @@ export default function Home() {
 
     // Listen for messages
     socketInstance.on("message", (data: Message) => {
-      setMessages((prev) => [...prev, { ...data, type: "message" }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          ...data,
+          type: "message",
+        },
+      ]);
     });
 
     // Listen for pings
     socketInstance.on("ping", (data: Message) => {
-      setMessages((prev) => [...prev, { ...data, type: "ping" }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          ...data,
+          type: "ping",
+        },
+      ]);
     });
 
     setSocket(socketInstance);

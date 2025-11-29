@@ -32,7 +32,11 @@ export interface ProjectStats {
   averageCO2: number;
   breakdownByType: Record<
     ActivityType,
-    { distance: number; co2: number; count: number }
+    {
+      distance: number;
+      co2: number;
+      count: number;
+    }
   >;
   treesNeeded: number; // Average tree absorbs ~22kg CO₂ per year, ~1 ton in lifetime (~45 years)
 }

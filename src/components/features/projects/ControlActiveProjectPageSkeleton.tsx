@@ -43,7 +43,9 @@ export default function ControlActiveProjectPageSkeleton() {
           <Skeleton className="h-6 w-40" />
         </div>
         <div className="space-y-2">
-          {Array.from({ length: 3 }).map((_, i) => (
+          {Array.from({
+            length: 3,
+          }).map((_, i) => (
             <div
               key={`skeleton-${i}`}
               className="flex items-center gap-4 rounded-lg border p-4"

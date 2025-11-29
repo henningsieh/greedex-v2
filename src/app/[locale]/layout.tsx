@@ -28,11 +28,15 @@ const sourceSerif4 = Source_Serif_4({
 
 type Props = {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{
+    locale: string;
+  }>;
 };
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return routing.locales.map((locale) => ({
+    locale,
+  }));
 }
 
 export default async function LocaleLayout({ children, params }: Props) {

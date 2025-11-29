@@ -9,7 +9,9 @@ import { handleUnauthenticatedRedirect } from "@/lib/utils/auth-utils";
 export default async function AcceptInvitationPage({
   params,
 }: {
-  params: Promise<{ invitationId: string }>;
+  params: Promise<{
+    invitationId: string;
+  }>;
 }) {
   const t = await getTranslations("organization.invitation");
   const locale = await getLocale();
@@ -17,7 +19,9 @@ export default async function AcceptInvitationPage({
   const requestHeaders = await headers();
 
   // Check session first to determine if user is authenticated
-  const session = await auth.api.getSession({ headers: requestHeaders });
+  const session = await auth.api.getSession({
+    headers: requestHeaders,
+  });
 
   // If user is not authenticated, redirect to login with the invitation URL as callback
   if (!session?.user) {
@@ -28,12 +32,17 @@ export default async function AcceptInvitationPage({
       rememberedPath,
       `/accept-invitation/${invitationId}`,
     );
-    redirect({ href, locale });
+    redirect({
+      href,
+      locale,
+    });
   }
 
   // User is authenticated, now we can safely fetch the invitation
   const invitation = await auth.api.getInvitation({
-    query: { id: invitationId },
+    query: {
+      id: invitationId,
+    },
     headers: requestHeaders,
   });
 

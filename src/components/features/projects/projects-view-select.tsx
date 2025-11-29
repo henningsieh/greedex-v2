@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  ChevronDownIcon,
-  Grid2X2Icon,
-  TablePropertiesIcon,
-} from "lucide-react";
+import { ChevronDownIcon, Grid2X2Icon, TablePropertiesIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   SORT_OPTIONS,
@@ -36,10 +32,22 @@ export function ProjectsViewSelect({
   const t = useTranslations("organization.projects");
 
   const sortOptions = [
-    { value: SORT_OPTIONS.name, label: t("table.name") },
-    { value: SORT_OPTIONS.startDate, label: t("table.start-date") },
-    { value: SORT_OPTIONS.createdAt, label: t("table.created") },
-    { value: SORT_OPTIONS.updatedAt, label: t("table.updated") },
+    {
+      value: SORT_OPTIONS.name,
+      label: t("table.name"),
+    },
+    {
+      value: SORT_OPTIONS.startDate,
+      label: t("table.start-date"),
+    },
+    {
+      value: SORT_OPTIONS.createdAt,
+      label: t("table.created"),
+    },
+    {
+      value: SORT_OPTIONS.updatedAt,
+      label: t("table.updated"),
+    },
   ];
 
   return (

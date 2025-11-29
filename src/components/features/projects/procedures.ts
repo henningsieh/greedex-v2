@@ -154,7 +154,11 @@ export const getProjectById = authorized
     summary: "Get project details by ID",
     tags: ["project"],
   })
-  .input(z.object({ id: z.string().describe("Project ID") }))
+  .input(
+    z.object({
+      id: z.string().describe("Project ID"),
+    }),
+  )
   .output(ProjectSelectSchema)
   .handler(async ({ input, context }) => {
     if (!context.session.activeOrganizationId) {
@@ -237,9 +241,7 @@ export const updateProject = authorized
       });
     }
 
-    if (
-      existingProject.organizationId !== context.session.activeOrganizationId
-    ) {
+    if (existingProject.organizationId !== context.session.activeOrganizationId) {
       throw new ORPCError("FORBIDDEN", {
         message: "You don't have permission to update this project",
       });
@@ -273,8 +275,16 @@ export const deleteProject = authorized
     summary: "Delete a project",
     tags: ["project"],
   })
-  .input(z.object({ id: z.string().describe("Project ID") }))
-  .output(z.object({ success: z.boolean() }))
+  .input(
+    z.object({
+      id: z.string().describe("Project ID"),
+    }),
+  )
+  .output(
+    z.object({
+      success: z.boolean(),
+    }),
+  )
   .handler(async ({ input, context }) => {
     if (!context.session.activeOrganizationId) {
       throw new ORPCError("BAD_REQUEST", {
@@ -303,7 +313,9 @@ export const deleteProject = authorized
     // Delete the project
     await db.delete(projectTable).where(eq(projectTable.id, input.id));
 
-    return { success: true };
+    return {
+      success: true,
+    };
   });
 
 /**
@@ -315,14 +327,17 @@ export const deleteProject = authorized
  * - Project must belong to user's active organization (if projectId is provided)
  */
 export const setActiveProject = authorized
-  .input(z.object({ projectId: z.string().optional() }))
+  .input(
+    z.object({
+      projectId: z.string().optional(),
+    }),
+  )
   .handler(async ({ input, context }) => {
     // If projectId is provided, verify user has access to it
     if (input.projectId) {
       if (!context.session.activeOrganizationId) {
         throw new ORPCError("BAD_REQUEST", {
-          message:
-            "No active organization. Please select an organization first.",
+          message: "No active organization. Please select an organization first.",
         });
       }
 
@@ -343,10 +358,7 @@ export const setActiveProject = authorized
         .where(
           and(
             eq(projectTable.id, input.projectId),
-            eq(
-              projectTable.organizationId,
-              context.session.activeOrganizationId,
-            ),
+            eq(projectTable.organizationId, context.session.activeOrganizationId),
           ),
         )
         .limit(1);
@@ -368,10 +380,14 @@ export const setActiveProject = authorized
 
     await db
       .update(sessionTable)
-      .set({ activeProjectId: input.projectId })
+      .set({
+        activeProjectId: input.projectId,
+      })
       .where(eq(sessionTable.id, context.session.id));
 
-    return { success: true };
+    return {
+      success: true,
+    };
   });
 
 /**
@@ -390,7 +406,11 @@ export const getProjectParticipants = authorized
     summary: "Get project participants with user details",
     tags: ["project"],
   })
-  .input(z.object({ projectId: z.string().describe("Project ID") }))
+  .input(
+    z.object({
+      projectId: z.string().describe("Project ID"),
+    }),
+  )
   .output(z.array(ProjectParticipantWithUserSchema))
   .handler(async ({ input, context }) => {
     if (!context.session.activeOrganizationId) {
@@ -456,8 +476,17 @@ export const batchDeleteProjects = authorized
     summary: "Batch delete multiple projects",
     tags: ["project"],
   })
-  .input(z.object({ projectIds: z.array(z.string()).min(1) }))
-  .output(z.object({ success: z.boolean(), deletedCount: z.number() }))
+  .input(
+    z.object({
+      projectIds: z.array(z.string()).min(1),
+    }),
+  )
+  .output(
+    z.object({
+      success: z.boolean(),
+      deletedCount: z.number(),
+    }),
+  )
   .handler(async ({ input, context }) => {
     if (!context.session.activeOrganizationId) {
       throw new ORPCError("BAD_REQUEST", {
@@ -467,7 +496,9 @@ export const batchDeleteProjects = authorized
 
     // Verify all projects belong to user's organization
     const projectsToDelete = await db
-      .select({ id: projectTable.id })
+      .select({
+        id: projectTable.id,
+      })
       .from(projectTable)
       .where(
         and(

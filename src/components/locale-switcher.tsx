@@ -30,7 +30,9 @@ export function LocaleSwitcher({ className }: { className?: string }) {
     }
 
     startTransition(() => {
-      router.replace(pathname, { locale: newLocale });
+      router.replace(pathname, {
+        locale: newLocale,
+      });
     });
   }
 

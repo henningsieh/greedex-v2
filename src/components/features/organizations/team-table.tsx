@@ -145,7 +145,10 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
     columns,
     state: {
       sorting,
-      pagination: { pageIndex, pageSize },
+      pagination: {
+        pageIndex,
+        pageSize,
+      },
     },
     manualPagination: true,
     pageCount: Math.ceil(total / pageSize) || 0,
@@ -158,7 +161,10 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
     onPaginationChange: (updater) => {
       const next =
         typeof updater === "function"
-          ? updater({ pageIndex, pageSize })
+          ? updater({
+              pageIndex,
+              pageSize,
+            })
           : updater;
       setPageIndex(next.pageIndex);
       setPageSize(next.pageSize);
@@ -237,10 +243,7 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -312,7 +315,9 @@ export function TeamTableSkeleton() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {Array.from({
+            length: 5,
+          }).map((_, index) => (
             <TableRow key={index}>
               <TableCell>
                 <Skeleton className="h-8 w-32" />

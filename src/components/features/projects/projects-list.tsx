@@ -13,9 +13,7 @@ function ProjectsList() {
 
   if (error) {
     return (
-      <Alert variant="destructive">
-        Error loading projects: {error.message}
-      </Alert>
+      <Alert variant="destructive">Error loading projects: {error.message}</Alert>
     );
   }
 

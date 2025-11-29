@@ -383,7 +383,16 @@
           "select-organization": "Select organization",
           "creating": "Creating...",
           "create-project": "Create Project",
-          "title": "Create a new Project"
+          "title": "Create a new Project",
+          "legend": "Empower your team with a sustainable Erasmus+ project",
+          "description": "Fill in the details to create a new project.",
+          "name-description": "Enter the name of your project.",
+          "start-date-description": "Select the start date for the project.",
+          "end-date-description": "Select the end date for the project.",
+          "country-description": "Specify the country where the project takes place.",
+          "location-description": "Optional: Provide additional location details.",
+          "welcome-message-description": "Optional: Add a welcome message for participants.",
+          "organization-description": "Choose the organization that owns this project."
         }
       },
       "activeProject": {
@@ -392,6 +401,7 @@
           "description": "Select a project to view participants."
         },
         "header": {
+          "contextLabel": "Active project",
           "edit": "Edit",
           "delete": "Delete",
           "deleteDialog": {

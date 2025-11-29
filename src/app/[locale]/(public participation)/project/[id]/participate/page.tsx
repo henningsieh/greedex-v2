@@ -4,7 +4,9 @@ import { QuestionnaireForm } from "@/components/participate/questionnaire-form";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface ParticipatePageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{
+    id: string;
+  }>;
 }
 
 // Mock project data fetch - replace with actual data fetching later
@@ -23,9 +25,7 @@ async function getProjectData(projectId: string) {
   };
 }
 
-export default async function ParticipatePage({
-  params,
-}: ParticipatePageProps) {
+export default async function ParticipatePage({ params }: ParticipatePageProps) {
   const { id } = await params;
 
   const project = await getProjectData(id);

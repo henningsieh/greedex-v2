@@ -54,10 +54,7 @@ export function TransportBreakdown({ stats }: TransportBreakdownProps) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                    <TransportIcon
-                      type={type}
-                      className="h-5 w-5 text-primary"
-                    />
+                    <TransportIcon type={type} className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">
@@ -79,8 +76,12 @@ export function TransportBreakdown({ stats }: TransportBreakdownProps) {
 
               <div className="relative h-2 overflow-hidden rounded-full bg-secondary">
                 <div
-                  className={`absolute inset-y-0 left-0 ${typeColors[type]} rounded-full transition-all duration-500`}
-                  style={{ width: `${percentage}%` }}
+                  className={`absolute inset-y-0 left-0 ${
+                    typeColors[type]
+                  } rounded-full transition-all duration-500`}
+                  style={{
+                    width: `${percentage}%`,
+                  }}
                 />
               </div>
             </div>

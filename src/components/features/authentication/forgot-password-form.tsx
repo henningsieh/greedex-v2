@@ -87,7 +87,9 @@ export function ForgotPasswordForm({
                 id="email"
                 type="email"
                 placeholder={t("forgotPassword.fields.emailPlaceholder")}
-                inputProps={{ disabled: form.formState.isSubmitting }}
+                inputProps={{
+                  disabled: form.formState.isSubmitting,
+                }}
               />
 
               <Button

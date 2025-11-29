@@ -24,10 +24,16 @@ export default async function AuthLayout({
 
     if (!hasOrgs) {
       // Signed in but no organization -> send to org setup flow
-      redirect({ href: CREATE_ORG_PATH, locale });
+      redirect({
+        href: CREATE_ORG_PATH,
+        locale,
+      });
     } else {
       // Signed in and has orgs -> app dashboard
-      redirect({ href: DASHBOARD_PATH, locale });
+      redirect({
+        href: DASHBOARD_PATH,
+        locale,
+      });
     }
   }
 

@@ -29,7 +29,9 @@ export function ProjectsTab() {
 
   const { data: projects, error } = useSuspenseQuery(
     orpcQuery.project.list.queryOptions({
-      input: { sort_by: DEFAULT_PROJECT_SORT },
+      input: {
+        sort_by: DEFAULT_PROJECT_SORT,
+      },
     }),
   );
 
@@ -65,9 +67,7 @@ export function ProjectsTab() {
             <FolderOpen className="size-6" />
           </EmptyMedia>
           <EmptyTitle>{t("no-projects-yet.title")}</EmptyTitle>
-          <EmptyDescription>
-            {t("no-projects-yet.description")}
-          </EmptyDescription>
+          <EmptyDescription>{t("no-projects-yet.description")}</EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
           <CreateProjectButton />

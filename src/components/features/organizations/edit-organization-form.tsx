@@ -32,14 +32,12 @@ const EditOrganizationFormSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
 });
 
-type EditOrganizationFormSchemaType = z.infer<
-  typeof EditOrganizationFormSchema
->;
+type EditOrganizationFormSchemaType = z.infer<typeof EditOrganizationFormSchema>;
 
 export default function EditOrganizationForm() {
   const queryClient = useQueryClient();
   const { data: organization } = useSuspenseQuery(
-    orpcQuery.organization.getActiveOrganization.queryOptions(),
+    orpcQuery.organizations.getActive.queryOptions(),
   );
 
   const form = useForm<EditOrganizationFormSchemaType>({
@@ -78,16 +76,17 @@ export default function EditOrganizationForm() {
           onSuccess: () => {
             toast.success("Organization updated successfully!");
             queryClient.invalidateQueries(
-              orpcQuery.organization.list.queryOptions(),
+              orpcQuery.organizations.list.queryOptions(),
+            );
+            queryClient.invalidateQueries(
+              orpcQuery.organizations.getActive.queryOptions(),
             );
           },
         },
       );
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Failed to update organization";
+        error instanceof Error ? error.message : "Failed to update organization";
       toast.error(errorMessage);
     }
   }

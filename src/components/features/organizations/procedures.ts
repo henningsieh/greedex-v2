@@ -90,10 +90,8 @@ export const searchMembers = authorized
     const sortedMembers = sortBy
       ? filteredMembers.sort((a, b) => {
           const dir = sortDirection === "asc" ? 1 : -1;
-          const aVal =
-            sortBy === "createdAt" ? a.createdAt : a.user?.name || "";
-          const bVal =
-            sortBy === "createdAt" ? b.createdAt : b.user?.name || "";
+          const aVal = sortBy === "createdAt" ? a.createdAt : a.user?.name || "";
+          const bVal = sortBy === "createdAt" ? b.createdAt : b.user?.name || "";
           if (aVal < bVal) return -1 * dir;
           if (aVal > bVal) return 1 * dir;
           return 0;

@@ -32,13 +32,18 @@ const getImpactMessage = (
 
   switch (stepKey) {
     case "flightKm":
-      if (Number(value) === 0)
+      if (Number(value) === 0) {
         return "✅ Great! No flying keeps your footprint low!";
-      return `✈️ Flying ${value} km adds ${impact.toFixed(1)} kg CO₂ to your footprint`;
+      }
+      return `✈️ Flying ${value} km adds ${impact.toFixed(
+        1,
+      )} kg CO₂ to your footprint`;
 
     case "trainKm":
       if (Number(value) === 0) return "🚆 No train travel this time";
-      return `🚆 Excellent choice! Train travel is eco-friendly (+${impact.toFixed(1)} kg CO₂)`;
+      return `🚆 Excellent choice! Train travel is eco-friendly (+${impact.toFixed(
+        1,
+      )} kg CO₂)`;
 
     case "busKm":
       if (Number(value) === 0) return "🚌 No bus travel";
@@ -49,17 +54,28 @@ const getImpactMessage = (
       return `⛴️ Boat travel adds ${impact.toFixed(1)} kg CO₂`;
 
     case "carKm":
-      if (Number(value) === 0)
+      if (Number(value) === 0) {
         return "🚗 Great! No car travel keeps emissions low!";
+      }
       return `🚗 Car travel adds ${impact.toFixed(1)} kg CO₂`;
 
     case "food": {
       const foodMessages: Record<string, string> = {
-        never: `🌱 Amazing! Vegetarian diet for ${days} days is planet-friendly! (+${impact.toFixed(1)} kg CO₂)`,
-        rarely: `🥗 Great choice! Low meat consumption for ${days} days (+${impact.toFixed(1)} kg CO₂)`,
-        sometimes: `🍖 Moderate meat consumption for ${days} days (+${impact.toFixed(1)} kg CO₂)`,
-        "almost every day": `🥩 High meat consumption for ${days} days has significant impact (+${impact.toFixed(1)} kg CO₂)`,
-        "every day": `🥩 Daily meat for ${days} days has major environmental impact (+${impact.toFixed(1)} kg CO₂)`,
+        never: `🌱 Amazing! Vegetarian diet for ${days} days is planet-friendly! (+${impact.toFixed(
+          1,
+        )} kg CO₂)`,
+        rarely: `🥗 Great choice! Low meat consumption for ${days} days (+${impact.toFixed(
+          1,
+        )} kg CO₂)`,
+        sometimes: `🍖 Moderate meat consumption for ${days} days (+${impact.toFixed(
+          1,
+        )} kg CO₂)`,
+        "almost every day": `🥩 High meat consumption for ${days} days has significant impact (+${impact.toFixed(
+          1,
+        )} kg CO₂)`,
+        "every day": `🥩 Daily meat for ${days} days has major environmental impact (+${impact.toFixed(
+          1,
+        )} kg CO₂)`,
       };
       return (
         foodMessages[value as string] ||
@@ -69,12 +85,18 @@ const getImpactMessage = (
 
     case "electricity": {
       const nights = days ? days - 1 : 0;
-      const baseMessage = `${accommodationCategory || "Accommodation"} with ${value} for ${nights} nights, ${roomOccupancy || "alone"}`;
+      const baseMessage = `${
+        accommodationCategory || "Accommodation"
+      } with ${value} for ${nights} nights, ${roomOccupancy || "alone"}`;
 
       if (value === "green energy") {
-        return `♻️ Excellent! ${baseMessage} keeps emissions low at ${impact.toFixed(1)} kg CO₂`;
+        return `♻️ Excellent! ${baseMessage} keeps emissions low at ${impact.toFixed(
+          1,
+        )} kg CO₂`;
       }
-      return `🏨 ${baseMessage} adds ${impact.toFixed(1)} kg CO₂ to your footprint`;
+      return `🏨 ${baseMessage} adds ${impact.toFixed(
+        1,
+      )} kg CO₂ to your footprint`;
     }
 
     case "carType":
@@ -86,11 +108,14 @@ const getImpactMessage = (
       if (Number(value) === 1) {
         return "🚗 Consider carpooling next time! Sharing rides can cut emissions by up to 75%.";
       }
-      return `👥 Great carpooling! You're reducing emissions by sharing with ${Number(value) - 1} other${Number(value) > 2 ? "s" : ""}.`;
+      return `👥 Great carpooling! You're reducing emissions by sharing with ${
+        Number(value) - 1
+      } other${Number(value) > 2 ? "s" : ""}.`;
 
     default:
-      if (impact < 0.1)
+      if (impact < 0.1) {
         return "✅ This choice doesn't affect your CO₂ footprint";
+      }
       return `+${impact.toFixed(1)} kg CO₂ added`;
   }
 };
@@ -169,9 +194,24 @@ export function ImpactModal({
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={isOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.5 }}
+      initial={{
+        opacity: 0,
+        scale: 0.9,
+      }}
+      animate={
+        isOpen
+          ? {
+              opacity: 1,
+              scale: 1,
+            }
+          : {
+              opacity: 0,
+              scale: 0.9,
+            }
+      }
+      transition={{
+        duration: 0.5,
+      }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-10"
     >
       <div className="w-full max-w-3xl text-center">
@@ -211,9 +251,7 @@ export function ImpactModal({
               <TreePineIcon className="h-8 w-8 text-green-400" />
             </div>
             <div className="mb-2 text-lg text-white/80">Trees Needed</div>
-            <div className="font-bold text-5xl text-green-400">
-              {treesNeeded}
-            </div>
+            <div className="font-bold text-5xl text-green-400">{treesNeeded}</div>
             <div className="mt-2 text-white/60">to offset</div>
           </div>
         </div>

@@ -20,8 +20,8 @@ export default async function CreateProjectPage() {
   );
 
   return (
-    <div className="mx-auto max-w-3xl p-6">
-      <h1 className="mb-4 font-semibold text-2xl">{t("title")}</h1>
+    <div className="p-0">
+      <h1 className="font-semibold text-3xl">{t("title")}</h1>
       <CreateProjectForm userOrganizations={organizations} />
     </div>
   );

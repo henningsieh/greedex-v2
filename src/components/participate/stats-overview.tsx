@@ -65,9 +65,7 @@ export function StatsOverview({ stats }: StatsOverviewProps) {
         <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="mb-1 text-muted-foreground text-sm">
-                Trees to Plant
-              </p>
+              <p className="mb-1 text-muted-foreground text-sm">Trees to Plant</p>
               <p className="font-bold text-3xl text-foreground">
                 {stats.treesNeeded}
               </p>

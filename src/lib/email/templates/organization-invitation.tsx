@@ -22,14 +22,31 @@ export const OrganizationInvitation = ({
   <Html>
     <Head />
     <Body
-      style={{ fontFamily: "Arial, sans-serif", backgroundColor: "#ffffff" }}
+      style={{
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "#ffffff",
+      }}
     >
-      <Container style={{ padding: "24px" }}>
+      <Container
+        style={{
+          padding: "24px",
+        }}
+      >
         <Section>
-          <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 8 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              marginBottom: 8,
+            }}
+          >
             You were invited
           </Text>
-          <Text style={{ marginBottom: 16 }}>
+          <Text
+            style={{
+              marginBottom: 16,
+            }}
+          >
             {inviterName ? `${inviterName} invited you` : "You were invited"} to
             join the organization "{organizationName}".
           </Text>
@@ -44,7 +61,13 @@ export const OrganizationInvitation = ({
             Accept Invitation
           </Button>
 
-          <Text style={{ marginTop: 18, fontSize: 12, color: "#666" }}>
+          <Text
+            style={{
+              marginTop: 18,
+              fontSize: 12,
+              color: "#666",
+            }}
+          >
             If you did not expect this invitation, you can safely ignore this
             email.
           </Text>

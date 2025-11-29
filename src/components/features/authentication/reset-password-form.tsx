@@ -102,7 +102,9 @@ export function ResetPasswordForm({
                 id="password"
                 type="password"
                 description={t("resetPassword.fields.newPasswordDescription")}
-                inputProps={{ disabled: form.formState.isSubmitting }}
+                inputProps={{
+                  disabled: form.formState.isSubmitting,
+                }}
               />
               <FormField
                 name="confirmPassword"
@@ -110,10 +112,10 @@ export function ResetPasswordForm({
                 label={t("resetPassword.fields.confirmPassword")}
                 id="confirm-password"
                 type="password"
-                description={t(
-                  "resetPassword.fields.confirmPasswordDescription",
-                )}
-                inputProps={{ disabled: form.formState.isSubmitting }}
+                description={t("resetPassword.fields.confirmPasswordDescription")}
+                inputProps={{
+                  disabled: form.formState.isSubmitting,
+                }}
               />
 
               <Button

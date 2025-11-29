@@ -53,8 +53,8 @@ export function PasswordResetEmail({
               </Text>
               <Hr className="my-6 border-gray-300" />
               <Text className="text-gray-500 text-sm">
-                If you didn't request a password reset, you can safely ignore
-                this email. Your password will remain unchanged.
+                If you didn't request a password reset, you can safely ignore this
+                email. Your password will remain unchanged.
               </Text>
               <Text className="mt-4 text-gray-400 text-xs">
                 This link will expire in 24 hours for security reasons.

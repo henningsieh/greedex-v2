@@ -64,7 +64,11 @@ export function WorkshopDetails({ type }: { type: CalculatorType }) {
         },
       ],
       plant: [
-        { linkKey: "eForest", href: WORKSHOP_LINKS.eForest, isExternal: true },
+        {
+          linkKey: "eForest",
+          href: WORKSHOP_LINKS.eForest,
+          isExternal: true,
+        },
       ],
       read: [
         {
@@ -102,7 +106,13 @@ export function WorkshopDetails({ type }: { type: CalculatorType }) {
     string,
     {
       title: string;
-      steps: Record<string, { title: string; content: string }>;
+      steps: Record<
+        string,
+        {
+          title: string;
+          content: string;
+        }
+      >;
     }
   >;
 
@@ -130,62 +140,60 @@ export function WorkshopDetails({ type }: { type: CalculatorType }) {
             </CardHeader>
             <CardContent>
               <Accordion type="single" collapsible className="w-full">
-                {Object.entries(section.steps).map(
-                  ([stepKey, step], stepIdx) => {
-                    const links = getStepLinks(stepKey);
+                {Object.entries(section.steps).map(([stepKey, step], stepIdx) => {
+                  const links = getStepLinks(stepKey);
 
-                    return (
-                      <AccordionItem
-                        key={stepKey}
-                        value={`step-${sectionKey}-${stepKey}`}
-                      >
-                        <AccordionTrigger className="text-left">
-                          <div className="flex items-start gap-3">
-                            <CheckCircle2 className="mt-1 size-5 shrink-0 text-primary" />
-                            <span className="font-medium">
-                              {stepIdx + 1}. {step.title}
-                            </span>
+                  return (
+                    <AccordionItem
+                      key={stepKey}
+                      value={`step-${sectionKey}-${stepKey}`}
+                    >
+                      <AccordionTrigger className="text-left">
+                        <div className="flex items-start gap-3">
+                          <CheckCircle2 className="mt-1 size-5 shrink-0 text-primary" />
+                          <span className="font-medium">
+                            {stepIdx + 1}. {step.title}
+                          </span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="pt-2 pl-8">
+                        <div className="space-y-4">
+                          <div className="whitespace-pre-line text-muted-foreground">
+                            {step.content}
                           </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="pt-2 pl-8">
-                          <div className="space-y-4">
-                            <div className="whitespace-pre-line text-muted-foreground">
-                              {step.content}
+                          {links.length > 0 && (
+                            <div className="flex flex-wrap gap-2">
+                              {links.map((link) => (
+                                <Button
+                                  key={link.linkKey}
+                                  asChild
+                                  variant="outline"
+                                  size="sm"
+                                >
+                                  {link.isExternal ? (
+                                    <a
+                                      href={link.href}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-2"
+                                    >
+                                      {t(`links.${link.linkKey}`)}
+                                      <ExternalLink className="size-3" />
+                                    </a>
+                                  ) : (
+                                    <Link href={link.href}>
+                                      {t(`links.${link.linkKey}`)}
+                                    </Link>
+                                  )}
+                                </Button>
+                              ))}
                             </div>
-                            {links.length > 0 && (
-                              <div className="flex flex-wrap gap-2">
-                                {links.map((link) => (
-                                  <Button
-                                    key={link.linkKey}
-                                    asChild
-                                    variant="outline"
-                                    size="sm"
-                                  >
-                                    {link.isExternal ? (
-                                      <a
-                                        href={link.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2"
-                                      >
-                                        {t(`links.${link.linkKey}`)}
-                                        <ExternalLink className="size-3" />
-                                      </a>
-                                    ) : (
-                                      <Link href={link.href}>
-                                        {t(`links.${link.linkKey}`)}
-                                      </Link>
-                                    )}
-                                  </Button>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    );
-                  },
-                )}
+                          )}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
               </Accordion>
             </CardContent>
           </Card>

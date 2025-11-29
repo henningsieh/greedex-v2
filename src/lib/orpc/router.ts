@@ -40,8 +40,8 @@ export const router = {
   },
 
   // Organization namespace
-  organization: {
-    getActiveOrganization: getFullOrganization,
+  organizations: {
+    getActive: getFullOrganization,
     list: listOrganizations,
   },
 

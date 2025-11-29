@@ -32,11 +32,26 @@ export const LandingHeader = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const menuItems = [
-    { name: t("navigation.workshops"), href: WORKSHOPS_ANCHOR },
-    { name: t("navigation.eforest"), href: E_FOREST_PATH },
-    { name: t("navigation.tipsAndTricks"), href: TIPS_AND_TRICKS_PATH },
-    { name: t("navigation.library"), href: LIBRARY_PATH },
-    { name: t("navigation.about"), href: ABOUT_PATH },
+    {
+      name: t("navigation.workshops"),
+      href: WORKSHOPS_ANCHOR,
+    },
+    {
+      name: t("navigation.eforest"),
+      href: E_FOREST_PATH,
+    },
+    {
+      name: t("navigation.tipsAndTricks"),
+      href: TIPS_AND_TRICKS_PATH,
+    },
+    {
+      name: t("navigation.library"),
+      href: LIBRARY_PATH,
+    },
+    {
+      name: t("navigation.about"),
+      href: ABOUT_PATH,
+    },
   ] as const;
 
   React.useEffect(() => {
@@ -77,10 +92,16 @@ export const LandingHeader = () => {
                       className="-m-2.5 -mr-4 relative z-20 block cursor-pointer p-1.5 lg:hidden"
                     >
                       <Menu
-                        className={`m-auto size-6 duration-500 ${menuOpen ? "rotate-180 scale-0 opacity-0" : ""}`}
+                        className={`m-auto size-6 duration-500 ${
+                          menuOpen ? "rotate-180 scale-0 opacity-0" : ""
+                        }`}
                       />
                       <X
-                        className={`-rotate-180 absolute inset-0 m-auto size-6 duration-500 ${menuOpen ? "rotate-0 scale-100 opacity-100" : "scale-0 opacity-0"}`}
+                        className={`-rotate-180 absolute inset-0 m-auto size-6 duration-500 ${
+                          menuOpen
+                            ? "rotate-0 scale-100 opacity-100"
+                            : "scale-0 opacity-0"
+                        }`}
                       />
                     </Button>
                   </DropdownMenuTrigger>
