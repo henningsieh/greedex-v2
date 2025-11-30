@@ -501,6 +501,60 @@
       "activities-description": "Project activities will be displayed here.",
       "loading": "loading project details...",
       "error": "Failed to load project details."
+    },
+    "activities": {
+      "title": "Project Activities",
+      "description": "Travel activities tracked for carbon footprint calculation",
+      "empty": {
+        "title": "No activities yet",
+        "description": "This project doesn't have any activities recorded. Add activities to track the carbon footprint."
+      },
+      "types": {
+        "boat": "Boat",
+        "bus": "Bus",
+        "train": "Train",
+        "car": "Car"
+      },
+      "form": {
+        "title": "Add Activity",
+        "edit-title": "Edit Activity",
+        "activity-type": "Activity Type",
+        "activity-type-placeholder": "Select activity type",
+        "distance": "Distance (km)",
+        "distance-placeholder": "Enter distance in kilometers",
+        "description": "Description (optional)",
+        "description-placeholder": "Add a description for this activity",
+        "activity-date": "Activity Date (optional)",
+        "submit": "Add Activity",
+        "update": "Update Activity",
+        "cancel": "Cancel",
+        "adding": "Adding...",
+        "updating": "Updating..."
+      },
+      "delete": {
+        "confirm-title": "Delete Activity?",
+        "confirm-description": "This will permanently delete this activity. This action cannot be undone.",
+        "confirm-button": "Delete",
+        "cancel-button": "Cancel"
+      },
+      "toast": {
+        "create-success": "Activity added successfully",
+        "create-error": "Failed to add activity",
+        "update-success": "Activity updated successfully",
+        "update-error": "Failed to update activity",
+        "delete-success": "Activity deleted successfully",
+        "delete-error": "Failed to delete activity"
+      },
+      "table": {
+        "type": "Type",
+        "distance": "Distance",
+        "description": "Description",
+        "date": "Date",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "km": "km"
+      }
     }
   },
   "participation": {

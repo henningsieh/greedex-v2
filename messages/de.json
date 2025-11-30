@@ -501,6 +501,60 @@
       "activities-description": "Projektaktivitäten werden hier angezeigt.",
       "loading": "Projektdetails werden geladen...",
       "error": "Fehler beim Laden der Projektdetails."
+    },
+    "activities": {
+      "title": "Projektaktivitäten",
+      "description": "Reiseaktivitäten zur Berechnung des CO₂-Fußabdrucks",
+      "empty": {
+        "title": "Noch keine Aktivitäten",
+        "description": "Für dieses Projekt wurden noch keine Aktivitäten erfasst. Füge Aktivitäten hinzu, um den CO₂-Fußabdruck zu verfolgen."
+      },
+      "types": {
+        "boat": "Boot",
+        "bus": "Bus",
+        "train": "Zug",
+        "car": "Auto"
+      },
+      "form": {
+        "title": "Aktivität hinzufügen",
+        "edit-title": "Aktivität bearbeiten",
+        "activity-type": "Aktivitätstyp",
+        "activity-type-placeholder": "Aktivitätstyp auswählen",
+        "distance": "Entfernung (km)",
+        "distance-placeholder": "Entfernung in Kilometern eingeben",
+        "description": "Beschreibung (optional)",
+        "description-placeholder": "Füge eine Beschreibung für diese Aktivität hinzu",
+        "activity-date": "Aktivitätsdatum (optional)",
+        "submit": "Aktivität hinzufügen",
+        "update": "Aktivität aktualisieren",
+        "cancel": "Abbrechen",
+        "adding": "Wird hinzugefügt...",
+        "updating": "Wird aktualisiert..."
+      },
+      "delete": {
+        "confirm-title": "Aktivität löschen?",
+        "confirm-description": "Diese Aktivität wird dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+        "confirm-button": "Löschen",
+        "cancel-button": "Abbrechen"
+      },
+      "toast": {
+        "create-success": "Aktivität erfolgreich hinzugefügt",
+        "create-error": "Fehler beim Hinzufügen der Aktivität",
+        "update-success": "Aktivität erfolgreich aktualisiert",
+        "update-error": "Fehler beim Aktualisieren der Aktivität",
+        "delete-success": "Aktivität erfolgreich gelöscht",
+        "delete-error": "Fehler beim Löschen der Aktivität"
+      },
+      "table": {
+        "type": "Typ",
+        "distance": "Entfernung",
+        "description": "Beschreibung",
+        "date": "Datum",
+        "actions": "Aktionen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "km": "km"
+      }
     }
   },
   "participation": {

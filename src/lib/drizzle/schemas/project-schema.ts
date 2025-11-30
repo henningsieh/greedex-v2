@@ -48,17 +48,15 @@ export const projectTable = pgTable("project", {
 /**
  * Project Activity table
  * 
- * Tracks travel activities associated with projects for carbon footprint calculation
- * Each activity is associated with a specific project participant and implicitly with the project
+ * Tracks travel activities associated with projects for carbon footprint calculation.
+ * Each activity is associated directly with a project (optional relation).
+ * ProjectActivities are optional - a project without activities is always valid.
  */
 export const projectActivity = pgTable("project_activity", {
   id: text("id").primaryKey(),
   projectId: text("project_id")
     .notNull()
     .references(() => projectTable.id, { onDelete: "cascade" }),
-  participantId: text("participant_id")
-    .notNull()
-    .references(() => projectParticipant.id, { onDelete: "cascade" }),
 
   // type ActivityType = "boat" | "bus" | "train" | "car"
   activityType: text("activity_type", { enum: ["boat", "bus", "train", "car"] as const })
@@ -129,17 +127,13 @@ export const projectActivityRelations = relations(
       fields: [projectActivity.projectId],
       references: [projectTable.id],
     }),
-    participant: one(projectParticipant, {
-      fields: [projectActivity.participantId],
-      references: [projectParticipant.id],
-    }),
   }),
 );
 
 // projectParticipant - relations
 export const projectParticipantRelations = relations(
   projectParticipant,
-  ({ one, many }) => ({
+  ({ one }) => ({
     project: one(projectTable, {
       fields: [projectParticipant.projectId],
       references: [projectTable.id],
@@ -152,6 +146,5 @@ export const projectParticipantRelations = relations(
       fields: [projectParticipant.userId],
       references: [user.id],
     }),
-    activities: many(projectActivity),
   }),
 );

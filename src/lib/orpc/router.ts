@@ -5,12 +5,16 @@ import {
 import {
   batchDeleteProjects,
   createProject,
+  createProjectActivity,
   deleteProject,
+  deleteProjectActivity,
+  getProjectActivities,
   getProjectById,
   getProjectParticipants,
   listProjects,
   setActiveProject,
   updateProject,
+  updateProjectActivity,
 } from "@/components/features/projects/procedures";
 import {
   getFullOrganization,
@@ -60,6 +64,14 @@ export const router = {
     batchDelete: batchDeleteProjects,
     setActive: setActiveProject,
     getParticipants: getProjectParticipants,
+  },
+
+  // Project Activity namespace
+  projectActivity: {
+    list: getProjectActivities,
+    create: createProjectActivity,
+    update: updateProjectActivity,
+    delete: deleteProjectActivity,
   },
 };
 

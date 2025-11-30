@@ -9,6 +9,8 @@ import { memberRoles } from "@/components/features/organizations/types";
 import { ProjectParticipantWithUserSchema } from "@/components/features/projects/participant-types";
 import {
   DEFAULT_PROJECT_SORT,
+  ProjectActivityFormSchema,
+  ProjectActivityWithRelationsSchema,
   ProjectFormSchema,
   ProjectWithRelationsSchema,
   SORT_OPTIONS,
@@ -16,6 +18,7 @@ import {
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";
 import {
+  projectActivity,
   projectParticipant,
   projectTable,
   session as sessionTable,
@@ -560,5 +563,272 @@ export const batchDeleteProjects = authorized
     return {
       success: true,
       deletedCount: result.rowCount || 0,
+    };
+  });
+
+// ============================================================================
+// PROJECT ACTIVITY PROCEDURES
+// ============================================================================
+
+/**
+ * Helper to verify project belongs to user's organization
+ */
+async function verifyProjectAccess(
+  projectId: string,
+  organizationId: string,
+): Promise<boolean> {
+  const [project] = await db
+    .select()
+    .from(projectTable)
+    .where(
+      and(
+        eq(projectTable.id, projectId),
+        eq(projectTable.organizationId, organizationId),
+      ),
+    )
+    .limit(1);
+
+  return !!project;
+}
+
+/**
+ * Get project activities
+ *
+ * Requires:
+ * - Authentication
+ * - "read" permission on project resource
+ * - Project must belong to user's active organization
+ */
+export const getProjectActivities = authorized
+  .use(requireProjectPermissions(["read"]))
+  .route({
+    method: "GET",
+    path: "/projects/:id/activities",
+    summary: "Get project activities",
+    tags: ["project", "activity"],
+  })
+  .input(
+    z.object({
+      projectId: z.string().describe("Project ID"),
+    }),
+  )
+  .output(z.array(ProjectActivityWithRelationsSchema))
+  .handler(async ({ input, context }) => {
+    if (!context.session.activeOrganizationId) {
+      throw new ORPCError("BAD_REQUEST", {
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Verify project belongs to user's organization
+    const hasAccess = await verifyProjectAccess(
+      input.projectId,
+      context.session.activeOrganizationId,
+    );
+
+    if (!hasAccess) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have access to this project",
+      });
+    }
+
+    // Get all activities for this project
+    const activities = await db.query.projectActivity.findMany({
+      where: eq(projectActivity.projectId, input.projectId),
+      orderBy: [asc(projectActivity.createdAt)],
+    });
+
+    return activities;
+  });
+
+/**
+ * Create a new project activity
+ *
+ * Requires:
+ * - Authentication
+ * - "update" permission on project resource (owner/admin only)
+ *   Creating activities is considered an "edit project" operation
+ * - Project must belong to user's active organization
+ */
+export const createProjectActivity = authorized
+  .use(requireProjectPermissions(["update"]))
+  .route({
+    method: "POST",
+    path: "/projects/:id/activities",
+    summary: "Create a new project activity",
+    tags: ["project", "activity"],
+  })
+  .input(ProjectActivityFormSchema)
+  .output(
+    z.object({
+      success: z.boolean(),
+      activity: ProjectActivityWithRelationsSchema,
+    }),
+  )
+  .handler(async ({ input, context }) => {
+    if (!context.session.activeOrganizationId) {
+      throw new ORPCError("BAD_REQUEST", {
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Verify project belongs to user's organization
+    const hasAccess = await verifyProjectAccess(
+      input.projectId,
+      context.session.activeOrganizationId,
+    );
+
+    if (!hasAccess) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have access to this project",
+      });
+    }
+
+    const [newActivity] = await db
+      .insert(projectActivity)
+      .values({
+        id: randomUUID(),
+        ...input,
+      })
+      .returning();
+
+    return {
+      success: true,
+      activity: newActivity,
+    };
+  });
+
+/**
+ * Update a project activity
+ *
+ * Requires:
+ * - Authentication
+ * - "update" permission on project resource (owner/admin only)
+ *   Updating activities is considered an "edit project" operation
+ * - Activity must belong to a project in user's active organization
+ */
+export const updateProjectActivity = authorized
+  .use(requireProjectPermissions(["update"]))
+  .route({
+    method: "PATCH",
+    path: "/projects/:projectId/activities/:id",
+    summary: "Update a project activity",
+    tags: ["project", "activity"],
+  })
+  .input(
+    z.object({
+      id: z.string().describe("Activity ID"),
+      data: ProjectActivityFormSchema.omit({ projectId: true }).partial(),
+    }),
+  )
+  .output(
+    z.object({
+      success: z.boolean(),
+      activity: ProjectActivityWithRelationsSchema,
+    }),
+  )
+  .handler(async ({ input, context }) => {
+    if (!context.session.activeOrganizationId) {
+      throw new ORPCError("BAD_REQUEST", {
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Fetch activity and verify it belongs to user's organization via project
+    const [existingActivity] = await db
+      .select({
+        activity: projectActivity,
+        projectOrgId: projectTable.organizationId,
+      })
+      .from(projectActivity)
+      .innerJoin(projectTable, eq(projectActivity.projectId, projectTable.id))
+      .where(eq(projectActivity.id, input.id))
+      .limit(1);
+
+    if (!existingActivity) {
+      throw new ORPCError("NOT_FOUND", {
+        message: "Activity not found",
+      });
+    }
+
+    if (existingActivity.projectOrgId !== context.session.activeOrganizationId) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have permission to update this activity",
+      });
+    }
+
+    const [updatedActivity] = await db
+      .update(projectActivity)
+      .set(input.data)
+      .where(eq(projectActivity.id, input.id))
+      .returning();
+
+    return {
+      success: true,
+      activity: updatedActivity,
+    };
+  });
+
+/**
+ * Delete a project activity
+ *
+ * Requires:
+ * - Authentication
+ * - "update" permission on project resource (owner/admin only)
+ *   Deleting activities is considered an "edit project" operation
+ * - Activity must belong to a project in user's active organization
+ */
+export const deleteProjectActivity = authorized
+  .use(requireProjectPermissions(["update"]))
+  .route({
+    method: "DELETE",
+    path: "/projects/:projectId/activities/:id",
+    summary: "Delete a project activity",
+    tags: ["project", "activity"],
+  })
+  .input(
+    z.object({
+      id: z.string().describe("Activity ID"),
+    }),
+  )
+  .output(
+    z.object({
+      success: z.boolean(),
+    }),
+  )
+  .handler(async ({ input, context }) => {
+    if (!context.session.activeOrganizationId) {
+      throw new ORPCError("BAD_REQUEST", {
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Fetch activity and verify it belongs to user's organization via project
+    const [existingActivity] = await db
+      .select({
+        activity: projectActivity,
+        projectOrgId: projectTable.organizationId,
+      })
+      .from(projectActivity)
+      .innerJoin(projectTable, eq(projectActivity.projectId, projectTable.id))
+      .where(eq(projectActivity.id, input.id))
+      .limit(1);
+
+    if (!existingActivity) {
+      throw new ORPCError("NOT_FOUND", {
+        message: "Activity not found",
+      });
+    }
+
+    if (existingActivity.projectOrgId !== context.session.activeOrganizationId) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have permission to delete this activity",
+      });
+    }
+
+    await db.delete(projectActivity).where(eq(projectActivity.id, input.id));
+
+    return {
+      success: true,
     };
   });
