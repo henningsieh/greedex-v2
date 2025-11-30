@@ -344,7 +344,12 @@
       },
       "form": {
         "edit": {
-          "title": "Edit Project"
+          "title": "Edit Project",
+          "update": "Update Project",
+          "toast": {
+            "success": "Project updated successfully",
+            "error": "Failed to update project"
+          }
         },
         "delete": {
           "confirm-title": "Are you sure?",
