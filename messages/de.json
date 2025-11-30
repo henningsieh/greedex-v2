@@ -348,7 +348,8 @@
           "update": "Projekt aktualisieren",
           "toast": {
             "success": "Projekt erfolgreich aktualisiert",
-            "error": "Fehler beim Aktualisieren des Projekts"
+            "error": "Fehler beim Aktualisieren des Projekts",
+            "failed-activities": "Fehler beim Verarbeiten von {count, plural, one {# Aktivität} other {# Aktivitäten}}: {activities}"
           }
         },
         "delete": {
@@ -373,7 +374,8 @@
           "toast": {
             "success": "Projekt erfolgreich erstellt",
             "error": "Fehler beim Erstellen des Projekts",
-            "error-generic": "Ein Fehler ist aufgetreten"
+            "error-generic": "Ein Fehler ist aufgetreten",
+            "failed-activities": "Fehler beim Erstellen von {count, plural, one {# Aktivität} other {# Aktivitäten}}: {activities}"
           },
           "submit": {
             "label": "Neues Projekt"
@@ -559,6 +561,9 @@
         "edit": "Bearbeiten",
         "delete": "Löschen",
         "km": "km"
+      },
+      "error": {
+        "load-failed": "Aktivitäten konnten nicht geladen werden. \nBitte versuchen Sie es erneut."
       }
     }
   },

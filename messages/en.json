@@ -348,7 +348,8 @@
           "update": "Update Project",
           "toast": {
             "success": "Project updated successfully",
-            "error": "Failed to update project"
+            "error": "Failed to update project",
+            "failed-activities": "Failed to process {count, plural, one {# activity} other {# activities}}: {activities}"
           }
         },
         "delete": {
@@ -373,7 +374,8 @@
           "toast": {
             "success": "Project created successfully",
             "error": "Failed to create project",
-            "error-generic": "An error occurred"
+            "error-generic": "An error occurred",
+            "failed-activities": "Failed to create {count, plural, one {# activity} other {# activities}}: {activities}"
           },
           "submit": {
             "label": "New project"
@@ -559,6 +561,9 @@
         "edit": "Edit",
         "delete": "Delete",
         "km": "km"
+      },
+      "error": {
+        "load-failed": "Failed to load activities. Please try again."
       }
     }
   },

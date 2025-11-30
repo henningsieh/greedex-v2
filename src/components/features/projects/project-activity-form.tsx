@@ -54,7 +54,7 @@ export function ProjectActivityForm({
     defaultValues: {
       projectId,
       activityType: activity?.activityType ?? undefined,
-      distanceKm: activity?.distanceKm ?? "",
+      distanceKm: activity?.distanceKm ? String(activity.distanceKm) : "0",
       description: activity?.description ?? null,
       activityDate: activity?.activityDate ?? null,
     },
@@ -160,13 +160,20 @@ export function ProjectActivityForm({
 
           <Field data-invalid={!!errors.distanceKm}>
             <FieldLabel htmlFor="distanceKm">{t("form.distance")}</FieldLabel>
-            <Input
-              id="distanceKm"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder={t("form.distance-placeholder")}
-              {...register("distanceKm")}
+            <Controller
+              control={control}
+              name="distanceKm"
+              render={({ field }) => (
+                <Input
+                  id="distanceKm"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder={t("form.distance-placeholder")}
+                  value={field.value || ""}
+                  onChange={(e) => field.onChange(e.target.value)}
+                />
+              )}
             />
             <FieldError errors={[errors.distanceKm]} />
           </Field>

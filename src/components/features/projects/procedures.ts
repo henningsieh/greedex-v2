@@ -688,7 +688,11 @@ export const createProjectActivity = authorized
       .insert(projectActivity)
       .values({
         id: randomUUID(),
-        ...input,
+        projectId: input.projectId,
+        activityType: input.activityType,
+        distanceKm: String(input.distanceKm),
+        description: input.description,
+        activityDate: input.activityDate,
       })
       .returning();
 
@@ -757,9 +761,15 @@ export const updateProjectActivity = authorized
       });
     }
 
+    const { distanceKm, ...restData } = input.data;
+    const updateData: typeof restData & { distanceKm?: string } = { ...restData };
+    if (distanceKm !== undefined) {
+      updateData.distanceKm = String(distanceKm);
+    }
+
     const [updatedActivity] = await db
       .update(projectActivity)
-      .set(input.data)
+      .set(updateData)
       .where(eq(projectActivity.id, input.id))
       .returning();
 

@@ -2,14 +2,13 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  Bike,
-  Bus,
-  Car,
-  Edit,
+  BusIcon,
+  CarIcon,
+  EditIcon,
   PlusIcon,
-  Ship,
-  Train,
-  Trash2,
+  ShipIcon,
+  TrainIcon,
+  Trash2Icon,
 } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
@@ -57,17 +56,21 @@ interface ProjectActivitiesListProps {
 
 // Helper function to get icon for activity type
 function getActivityIcon(type: ActivityType) {
+  const exhaustiveCheck = (_: never): never => {
+    throw new Error(`Unhandled activity type: ${_}`);
+  };
+
   switch (type) {
     case "boat":
-      return <Ship className="h-4 w-4" />;
+      return <ShipIcon className="h-4 w-4" />;
     case "bus":
-      return <Bus className="h-4 w-4" />;
+      return <BusIcon className="h-4 w-4" />;
     case "train":
-      return <Train className="h-4 w-4" />;
+      return <TrainIcon className="h-4 w-4" />;
     case "car":
-      return <Car className="h-4 w-4" />;
+      return <CarIcon className="h-4 w-4" />;
     default:
-      return <Bike className="h-4 w-4" />;
+      return exhaustiveCheck(type);
   }
 }
 
@@ -130,9 +133,7 @@ export function ProjectActivitiesList({
     return (
       <Card>
         <CardContent className="p-6">
-          <p className="text-destructive">
-            Failed to load activities. Please try again.
-          </p>
+          <p className="text-destructive">{t("error.load-failed")}</p>
         </CardContent>
       </Card>
     );
@@ -146,7 +147,7 @@ export function ProjectActivitiesList({
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="flex items-center gap-2">
-              <Bike className="h-5 w-5" />
+              <ShipIcon className="h-5 w-5" />
               {t("title")}
             </CardTitle>
             <p className="mt-1 text-muted-foreground text-sm">
@@ -193,7 +194,7 @@ export function ProjectActivitiesList({
           <Empty className="border">
             <EmptyHeader>
               <EmptyMedia variant="icon">
-                <Bike className="h-6 w-6" />
+                <ShipIcon className="h-6 w-6" />
               </EmptyMedia>
               <EmptyTitle>{t("empty.title")}</EmptyTitle>
               <EmptyDescription>{t("empty.description")}</EmptyDescription>
@@ -260,7 +261,7 @@ export function ProjectActivitiesList({
                             onClick={() => setEditingActivity(activity)}
                             title={t("table.edit")}
                           >
-                            <Edit className="h-4 w-4" />
+                            <EditIcon className="h-4 w-4" />
                           </Button>
                           <Button
                             variant="ghost"
@@ -268,7 +269,7 @@ export function ProjectActivitiesList({
                             onClick={() => setDeletingActivityId(activity.id)}
                             title={t("table.delete")}
                           >
-                            <Trash2 className="h-4 w-4 text-destructive" />
+                            <Trash2Icon className="h-4 w-4 text-destructive" />
                           </Button>
                         </div>
                       </TableCell>

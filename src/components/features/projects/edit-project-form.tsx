@@ -10,9 +10,11 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
+  type ActivityType,
   activityTypeValues,
-  ProjectFormSchema,
+  EditActivityFormItemSchema,
   type ProjectType,
+  ProjectUpdateFormSchema,
 } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,20 +37,9 @@ interface EditProjectFormProps {
   onSuccess?: () => void;
 }
 
-// Activity schema for the form
-const ActivityFormItemSchema = z.object({
-  id: z.string().optional(), // For existing activities
-  activityType: z.enum(activityTypeValues),
-  distanceKm: z.string().min(1, "Distance is required"),
-  description: z.string().nullable().optional(),
-  activityDate: z.date().nullable().optional(),
-  isNew: z.boolean().optional(), // Track if activity is new
-  isDeleted: z.boolean().optional(), // Track if activity should be deleted
-});
-
 // Combined form schema with activities
-const EditProjectWithActivitiesSchema = ProjectFormSchema.extend({
-  activities: z.array(ActivityFormItemSchema).optional(),
+const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
+  activities: z.array(EditActivityFormItemSchema).optional(),
 });
 
 type EditProjectWithActivitiesType = z.infer<
@@ -96,7 +87,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
       const formattedActivities = existingActivities.map((activity) => ({
         id: activity.id,
         activityType: activity.activityType,
-        distanceKm: activity.distanceKm,
+        distanceKm: String(activity.distanceKm),
         description: activity.description,
         activityDate: activity.activityDate
           ? new Date(activity.activityDate)
@@ -140,31 +131,52 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   const { mutateAsync: createActivityMutation } = useMutation({
     mutationFn: (params: {
       projectId: string;
-      activity: z.infer<typeof ActivityFormItemSchema>;
-    }) =>
-      orpc.projectActivity.create({
+      activity: z.infer<typeof EditActivityFormItemSchema>;
+    }) => {
+      const validActivity = EditActivityFormItemSchema.parse(params.activity) as {
+        id: string;
+        activityType: ActivityType;
+        distanceKm: string;
+        description: string | null;
+        activityDate: Date | null;
+        isNew?: boolean;
+        isDeleted?: boolean;
+      };
+
+      return orpc.projectActivity.create({
         projectId: params.projectId,
-        activityType: params.activity.activityType,
-        distanceKm: params.activity.distanceKm,
-        description: params.activity.description ?? null,
-        activityDate: params.activity.activityDate ?? null,
-      }),
+        activityType: validActivity.activityType,
+        distanceKm: validActivity.distanceKm,
+        description: validActivity.description,
+        activityDate: validActivity.activityDate,
+      });
+    },
   });
 
   const { mutateAsync: updateActivityMutation } = useMutation({
     mutationFn: (params: {
       activityId: string;
-      activity: z.infer<typeof ActivityFormItemSchema>;
-    }) =>
-      orpc.projectActivity.update({
+      activity: z.infer<typeof EditActivityFormItemSchema>;
+    }) => {
+      const validActivity = EditActivityFormItemSchema.parse(params.activity) as {
+        id: string;
+        activityType: ActivityType;
+        distanceKm: string;
+        description: string | null;
+        activityDate: Date | null;
+        isNew?: boolean;
+        isDeleted?: boolean;
+      };
+      return orpc.projectActivity.update({
         id: params.activityId,
         data: {
-          activityType: params.activity.activityType,
-          distanceKm: params.activity.distanceKm,
-          description: params.activity.description ?? null,
-          activityDate: params.activity.activityDate ?? null,
+          activityType: validActivity.activityType,
+          distanceKm: validActivity.distanceKm,
+          description: validActivity.description,
+          activityDate: validActivity.activityDate,
         },
-      }),
+      });
+    },
   });
 
   const { mutateAsync: deleteActivityMutation } = useMutation({
@@ -196,6 +208,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
       // Handle activities
       if (values.activities) {
+        const failedActivities: string[] = [];
         for (const activity of values.activities) {
           try {
             if (activity.isDeleted && activity.id) {
@@ -216,7 +229,16 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
             }
           } catch (err) {
             console.error("Failed to process activity:", err);
+            failedActivities.push(activity.activityType || "unknown");
           }
+        }
+        if (failedActivities.length > 0) {
+          toast.error(
+            t("edit.toast.failed-activities", {
+              count: failedActivities.length,
+              activities: failedActivities.join(", "),
+            }),
+          );
         }
       }
 
@@ -243,8 +265,9 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
   const addActivity = () => {
     append({
+      id: `temp-${Date.now()}-${Math.random()}`, // Temporary id for new activities
       activityType: "car",
-      distanceKm: "",
+      distanceKm: "0",
       description: null,
       activityDate: null,
       isNew: true,
@@ -436,15 +459,22 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                             <FieldLabel htmlFor={`activities.${index}.distance`}>
                               {tActivities("form.distance")}
                             </FieldLabel>
-                            <Input
-                              id={`activities.${index}.distance`}
-                              type="number"
-                              step="0.01"
-                              min="0"
-                              placeholder={tActivities(
-                                "form.distance-placeholder",
+                            <Controller
+                              control={control}
+                              name={`activities.${index}.distanceKm`}
+                              render={({ field }) => (
+                                <Input
+                                  id={`activities.${index}.distance`}
+                                  type="number"
+                                  step="0.01"
+                                  min="0"
+                                  placeholder={tActivities(
+                                    "form.distance-placeholder",
+                                  )}
+                                  value={field.value || ""}
+                                  onChange={(e) => field.onChange(e.target.value)}
+                                />
                               )}
-                              {...register(`activities.${index}.distanceKm`)}
                             />
                           </Field>
                         </div>

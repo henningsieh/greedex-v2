@@ -11,6 +11,7 @@ import { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import type { Organization } from "@/components/features/organizations/types";
 import {
+  ActivityFormItemSchema,
   activityTypeValues,
   ProjectFormSchema,
 } from "@/components/features/projects/types";
@@ -43,14 +44,6 @@ interface CreateProjectFormProps {
   userOrganizations: Omit<Organization, "metadata">[];
 }
 
-// Activity schema for the form
-const ActivityFormItemSchema = z.object({
-  activityType: z.enum(activityTypeValues),
-  distanceKm: z.string().min(1, "Distance is required"),
-  description: z.string().nullable().optional(),
-  activityDate: z.date().nullable().optional(),
-});
-
 // Combined form schema with optional activities
 const CreateProjectWithActivitiesSchema = ProjectFormSchema.extend({
   activities: z.array(ActivityFormItemSchema).optional(),
@@ -61,8 +54,8 @@ type CreateProjectWithActivitiesType = z.infer<
 >;
 
 function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
-  const t = useTranslations("organization.projects.form.new");
   const tActivities = useTranslations("project.activities");
+  const t = useTranslations("organization.projects.form.new");
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 2;
 
@@ -118,14 +111,17 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     mutationFn: (params: {
       projectId: string;
       activity: z.infer<typeof ActivityFormItemSchema>;
-    }) =>
-      orpc.projectActivity.create({
+    }) => {
+      const validActivity = ActivityFormItemSchema.parse(params.activity);
+
+      return orpc.projectActivity.create({
         projectId: params.projectId,
-        activityType: params.activity.activityType,
-        distanceKm: params.activity.distanceKm,
-        description: params.activity.description ?? null,
-        activityDate: params.activity.activityDate ?? null,
-      }),
+        activityType: validActivity.activityType,
+        distanceKm: validActivity.distanceKm,
+        description: validActivity.description,
+        activityDate: validActivity.activityDate,
+      });
+    },
   });
 
   async function handleNextStep() {
@@ -154,6 +150,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
 
       // If there are activities, create them
       if (values.activities && values.activities.length > 0) {
+        const failedActivities: string[] = [];
         for (const activity of values.activities) {
           try {
             await createActivityMutation({
@@ -162,8 +159,16 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
             });
           } catch (err) {
             console.error("Failed to create activity:", err);
-            // Continue with other activities even if one fails
+            failedActivities.push(activity.activityType);
           }
+        }
+        if (failedActivities.length > 0) {
+          toast.error(
+            t("toast.failed-activities", {
+              count: failedActivities.length,
+              activities: failedActivities.join(", "),
+            }),
+          );
         }
       }
 
@@ -181,7 +186,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   const addActivity = () => {
     append({
       activityType: "car",
-      distanceKm: "",
+      distanceKm: "0",
       description: null,
       activityDate: null,
     });
@@ -377,13 +382,22 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
                           <FieldLabel htmlFor={`activities.${index}.distance`}>
                             {tActivities("form.distance")}
                           </FieldLabel>
-                          <Input
-                            id={`activities.${index}.distance`}
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            placeholder={tActivities("form.distance-placeholder")}
-                            {...register(`activities.${index}.distanceKm`)}
+                          <Controller
+                            control={control}
+                            name={`activities.${index}.distanceKm`}
+                            render={({ field }) => (
+                              <Input
+                                id={`activities.${index}.distance`}
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                placeholder={tActivities(
+                                  "form.distance-placeholder",
+                                )}
+                                value={field.value || ""}
+                                onChange={(e) => field.onChange(e.target.value)}
+                              />
+                            )}
                           />
                         </Field>
                       </div>

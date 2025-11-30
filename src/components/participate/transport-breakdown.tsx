@@ -1,7 +1,7 @@
 "use client";
 
+import { TransportIcon } from "@/components/features/projects/transport-icon";
 import { activityTypeValues } from "@/components/features/projects/types";
-import { TransportIcon } from "@/components/participate/transport-icon";
 import type { ProjectStats } from "@/components/participate/types";
 import { Card } from "@/components/ui/card";
 

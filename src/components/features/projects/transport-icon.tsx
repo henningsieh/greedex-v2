@@ -1,5 +1,5 @@
 import { Bus, Car, Ship, Train } from "lucide-react";
-import type { ActivityType } from "@/components/participate/types";
+import type { ActivityType } from "@/components/features/projects/types";
 
 interface TransportIconProps {
   type: ActivityType;
@@ -10,6 +10,10 @@ export function TransportIcon({
   type,
   className = "h-5 w-5",
 }: TransportIconProps) {
+  const exhaustiveCheck = (_: never): never => {
+    throw new Error(`Unhandled activity type: ${_}`);
+  };
+
   switch (type) {
     case "car":
       return <Car className={className} />;
@@ -20,6 +24,6 @@ export function TransportIcon({
     case "boat":
       return <Ship className={className} />;
     default:
-      return null;
+      return exhaustiveCheck(type);
   }
 }
