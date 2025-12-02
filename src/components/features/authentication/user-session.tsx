@@ -1,5 +1,6 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -15,10 +16,13 @@ import {
 import { authClient } from "@/lib/better-auth/auth-client";
 import { LOGIN_PATH } from "@/lib/config/app";
 import { Link, useRouter } from "@/lib/i18n/navigation";
+import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function UserSession() {
   const router = useRouter();
-  const { data: session, isPending } = authClient.useSession();
+  const { data: session } = useSuspenseQuery(
+    orpcQuery.betterauth.getSession.queryOptions(),
+  );
   const [isSigningOut, setIsSigningOut] = useState(false);
 
   const handleSignOut = async () => {
@@ -28,13 +32,9 @@ export function UserSession() {
     router.refresh();
   };
 
-  // Show loading during session check OR sign out
-  if (isPending || isSigningOut) {
-    return (
-      <div className="flex items-center gap-2">
-        <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
-      </div>
-    );
+  // Show loading during sign out
+  if (isSigningOut) {
+    return <UserSessionSkeleton />;
   }
 
   if (!session) {
@@ -87,5 +87,13 @@ export function UserSession() {
         <DropdownMenuItem onClick={handleSignOut}>Log out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+export function UserSessionSkeleton() {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
+    </div>
   );
 }

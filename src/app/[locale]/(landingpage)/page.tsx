@@ -4,13 +4,9 @@ import WorkshopsHeroSection from "@/components/landingpage/workshops/workshops-h
 export default function LandingPage() {
   return (
     <main className="relative overflow-hidden">
-      <section>
-        <HeroSection />
-      </section>
+      <HeroSection />
 
-      <section>
-        <WorkshopsHeroSection />
-      </section>
+      <WorkshopsHeroSection />
     </main>
   );
 }

@@ -1,6 +1,10 @@
 "use client";
 
-import { UserSession } from "@/components/features/authentication/user-session";
+import { Suspense } from "react";
+import {
+  UserSession,
+  UserSessionSkeleton,
+} from "@/components/features/authentication/user-session";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import Logo from "@/components/logo";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -17,7 +21,9 @@ export function Navbar() {
           <div className="flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4">
             <LocaleSwitcher />
             <ThemeSwitcher />
-            <UserSession />
+            <Suspense fallback={<UserSessionSkeleton />}>
+              <UserSession />
+            </Suspense>
           </div>
         </div>
       </div>

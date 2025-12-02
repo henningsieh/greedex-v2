@@ -30,9 +30,24 @@ export function DashboardTabs({ organizationId }: DashboardTabsProps) {
       className="w-full space-y-6"
     >
       <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="dashboard">{t("tabs.dashboard")}</TabsTrigger>
-        <TabsTrigger value="projects">{t("tabs.projects")}</TabsTrigger>
-        <TabsTrigger value="participants">{t("tabs.participants")}</TabsTrigger>
+        <TabsTrigger
+          className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"
+          value="dashboard"
+        >
+          {t("tabs.dashboard")}
+        </TabsTrigger>
+        <TabsTrigger
+          className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"
+          value="projects"
+        >
+          {t("tabs.projects")}
+        </TabsTrigger>
+        <TabsTrigger
+          className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"
+          value="participants"
+        >
+          {t("tabs.participants")}
+        </TabsTrigger>
       </TabsList>
 
       <TabsContent value="dashboard">
