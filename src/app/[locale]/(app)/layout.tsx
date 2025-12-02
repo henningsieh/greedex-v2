@@ -50,7 +50,7 @@ export default async function AppLayout({
   }
   const queryClient = getQueryClient();
 
-  void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
+  void queryClient.prefetchQuery(orpcQuery.projects.list.queryOptions());
 
   const sidebarisOpen = (await cookies()).get("sidebar_state")?.value === "true";
 

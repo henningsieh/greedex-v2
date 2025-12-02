@@ -102,7 +102,7 @@ export function OrganizationSwitcher() {
 
                     // Invalidate projects
                     await queryClient.invalidateQueries(
-                      orpcQuery.project.list.queryOptions(),
+                      orpcQuery.projects.list.queryOptions(),
                     );
 
                     // Invalidate active organization

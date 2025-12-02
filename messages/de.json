@@ -344,7 +344,14 @@
       },
       "form": {
         "edit": {
-          "title": "Projekt bearbeiten"
+          "title": "Projekt bearbeiten",
+          "update": "Projekt aktualisieren",
+          "toast": {
+            "success": "Projekt erfolgreich aktualisiert",
+            "error": "Fehler beim Aktualisieren des Projekts",
+            "failed-activities": "Fehler beim Verarbeiten von {count, plural, one {# Aktivität} other {# Aktivitäten}}: {activities}"
+          },
+          "back": "Zurück"
         },
         "delete": {
           "confirm-title": "Sind Sie sicher?",
@@ -368,7 +375,8 @@
           "toast": {
             "success": "Projekt erfolgreich erstellt",
             "error": "Fehler beim Erstellen des Projekts",
-            "error-generic": "Ein Fehler ist aufgetreten"
+            "error-generic": "Ein Fehler ist aufgetreten",
+            "failed-activities": "Fehler beim Erstellen von {count, plural, one {# Aktivität} other {# Aktivitäten}}: {activities}"
           },
           "submit": {
             "label": "Neues Projekt"
@@ -392,7 +400,8 @@
           "country-description": "Gib das Land an, in dem das Projekt stattfindet.",
           "location-description": "Optional: Gib zusätzliche Ortsdetails an.",
           "welcome-message-description": "Optional: Füge eine Willkommensnachricht für Teilnehmende hinzu.",
-          "organization-description": "Wähle die Organisation, die das Projekt besitzt."
+          "organization-description": "Wähle die Organisation, die das Projekt besitzt.",
+          "back": "Zurück"
         }
       },
       "activeProject": {
@@ -501,6 +510,63 @@
       "activities-description": "Projektaktivitäten werden hier angezeigt.",
       "loading": "Projektdetails werden geladen...",
       "error": "Fehler beim Laden der Projektdetails."
+    },
+    "activities": {
+      "title": "Projektaktivitäten",
+      "description": "Reiseaktivitäten zur Berechnung des CO₂-Fußabdrucks",
+      "empty": {
+        "title": "Noch keine Aktivitäten",
+        "description": "Für dieses Projekt wurden noch keine Aktivitäten erfasst. Füge Aktivitäten hinzu, um den CO₂-Fußabdruck zu verfolgen."
+      },
+      "types": {
+        "boat": "Boot",
+        "bus": "Bus",
+        "train": "Zug",
+        "car": "Auto"
+      },
+      "form": {
+        "title": "Aktivität hinzufügen",
+        "edit-title": "Aktivität bearbeiten",
+        "activity-type": "Aktivitätstyp",
+        "activity-type-placeholder": "Aktivitätstyp auswählen",
+        "distance": "Entfernung (km)",
+        "distance-placeholder": "Entfernung in Kilometern eingeben",
+        "description": "Beschreibung (optional)",
+        "description-placeholder": "Füge eine Beschreibung für diese Aktivität hinzu",
+        "activity-date": "Aktivitätsdatum (optional)",
+        "submit": "Aktivität hinzufügen",
+        "update": "Aktivität aktualisieren",
+        "cancel": "Abbrechen",
+        "adding": "Wird hinzugefügt...",
+        "updating": "Wird aktualisiert..."
+      },
+      "delete": {
+        "confirm-title": "Aktivität löschen?",
+        "confirm-description": "Diese Aktivität wird dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+        "confirm-button": "Löschen",
+        "cancel-button": "Abbrechen"
+      },
+      "toast": {
+        "create-success": "Aktivität erfolgreich hinzugefügt",
+        "create-error": "Fehler beim Hinzufügen der Aktivität",
+        "update-success": "Aktivität erfolgreich aktualisiert",
+        "update-error": "Fehler beim Aktualisieren der Aktivität",
+        "delete-success": "Aktivität erfolgreich gelöscht",
+        "delete-error": "Fehler beim Löschen der Aktivität"
+      },
+      "table": {
+        "type": "Typ",
+        "distance": "Entfernung",
+        "description": "Beschreibung",
+        "date": "Datum",
+        "actions": "Aktionen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "km": "km"
+      },
+      "error": {
+        "load-failed": "Aktivitäten konnten nicht geladen werden. \nBitte versuchen Sie es erneut."
+      }
     }
   },
   "participation": {

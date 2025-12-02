@@ -7,7 +7,7 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 
 function ProjectsList() {
   const { data: projects, error } = useSuspenseQuery(
-    orpcQuery.project.list.queryOptions(),
+    orpcQuery.projects.list.queryOptions(),
   );
   const format = useFormatter();
 

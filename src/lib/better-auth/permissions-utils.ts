@@ -11,8 +11,8 @@ import {
   type MemberRole,
   memberRoles,
 } from "@/components/features/organizations/types";
+import type { ProjectPermission } from "@/components/features/projects/permissions";
 import { authClient } from "@/lib/better-auth/auth-client";
-import type { ProjectPermission } from "@/lib/better-auth/permissions";
 
 /**
  * Check if a given role has specific project permissions

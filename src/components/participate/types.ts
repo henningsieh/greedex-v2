@@ -1,6 +1,4 @@
-// Define activity types as a const array (single source of truth)
-export const activityTypeValues = ["boat", "bus", "train", "car"] as const;
-export type ActivityType = (typeof activityTypeValues)[number];
+import type { ActivityType } from "@/components/features/projects/activities/types";
 
 // CO₂ emission factors (kg CO₂ per km per person)
 export const CO2_FACTORS: Record<ActivityType, number> = {

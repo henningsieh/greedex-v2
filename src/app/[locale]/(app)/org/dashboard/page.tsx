@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { DashboardTabs } from "@/components/features/organizations/dashboard-tabs";
 import { memberRoles } from "@/components/features/organizations/types";
-import { DEFAULT_PROJECT_SORT } from "@/components/features/projects/types";
+import { DEFAULT_PROJECT_SORTING_FIELD } from "@/components/features/projects/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
@@ -15,9 +15,9 @@ export default async function DashboardPage() {
   // This enables server-side Suspense without hydration errors
   // Data is dehydrated and sent with HTML, then rehydrated on client
   void queryClient.prefetchQuery(
-    orpcQuery.project.list.queryOptions({
+    orpcQuery.projects.list.queryOptions({
       input: {
-        sort_by: DEFAULT_PROJECT_SORT,
+        sort_by: DEFAULT_PROJECT_SORTING_FIELD,
       },
     }),
   );
@@ -37,7 +37,7 @@ export default async function DashboardPage() {
 
   // Prefetch members data
   void queryClient.prefetchQuery(
-    orpcQuery.member.search.queryOptions({
+    orpcQuery.members.search.queryOptions({
       input: {
         organizationId: activeOrganizationId,
         roles: [memberRoles.Participant],

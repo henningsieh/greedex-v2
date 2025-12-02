@@ -3,25 +3,39 @@
 import { randomUUID } from "node:crypto";
 import { ORPCError } from "@orpc/server";
 import { and, asc, eq, inArray, type SQL, sql } from "drizzle-orm";
+import { createSelectSchema } from "drizzle-zod";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { memberRoles } from "@/components/features/organizations/types";
+import { ProjectActivityFormSchema } from "@/components/features/projects/activities/schemas";
 import { ProjectParticipantWithUserSchema } from "@/components/features/projects/participant-types";
+import { ProjectFormSchema } from "@/components/features/projects/schemas";
 import {
-  DEFAULT_PROJECT_SORT,
-  ProjectFormSchema,
-  ProjectWithRelationsSchema,
-  SORT_OPTIONS,
+  DEFAULT_PROJECT_SORTING_FIELD,
+  PROJECT_SORT_FIELDS,
 } from "@/components/features/projects/types";
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";
 import {
-  projectParticipant,
-  projectTable,
+  organization,
+  projectActivitiesTable,
+  projectParticipantsTable,
+  projectsTable,
   session as sessionTable,
   user,
 } from "@/lib/drizzle/schema";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
+
+const ProjectWithRelationsSchema = createSelectSchema(projectsTable).extend({
+  responsibleUser: createSelectSchema(user),
+  organization: createSelectSchema(organization),
+});
+
+const ProjectActivityWithRelationsSchema = createSelectSchema(
+  projectActivitiesTable,
+).extend({
+  project: createSelectSchema(projectsTable).optional(),
+});
 
 /**
  * Create a new project
@@ -54,7 +68,7 @@ export const createProject = authorized
     }
 
     const newProject = await db
-      .insert(projectTable)
+      .insert(projectsTable)
       .values({
         id: randomUUID(),
         ...input,
@@ -64,8 +78,8 @@ export const createProject = authorized
       .returning();
 
     // Fetch the created project with responsible user
-    const project = await db.query.projectTable.findFirst({
-      where: eq(projectTable.id, newProject[0].id),
+    const project = await db.query.projectsTable.findFirst({
+      where: eq(projectsTable.id, newProject[0].id),
       with: {
         responsibleUser: true,
         organization: true,
@@ -107,8 +121,8 @@ export const listProjects = authorized
     z
       .object({
         sort_by: z
-          .enum(Object.values(SORT_OPTIONS))
-          .default(DEFAULT_PROJECT_SORT)
+          .enum(Object.values(PROJECT_SORT_FIELDS))
+          .default(DEFAULT_PROJECT_SORTING_FIELD)
           .optional(),
       })
       .optional(),
@@ -124,27 +138,27 @@ export const listProjects = authorized
     // Determine sort order
     let orderByClause: SQL<unknown>;
     switch (input?.sort_by) {
-      case SORT_OPTIONS.name:
-        orderByClause = asc(sql`lower(${projectTable.name})`);
+      case PROJECT_SORT_FIELDS.name:
+        orderByClause = asc(sql`lower(${projectsTable.name})`);
         break;
-      case SORT_OPTIONS.startDate:
-        orderByClause = asc(projectTable.startDate);
+      case PROJECT_SORT_FIELDS.startDate:
+        orderByClause = asc(projectsTable.startDate);
         break;
-      case SORT_OPTIONS.createdAt:
-        orderByClause = asc(projectTable.createdAt);
+      case PROJECT_SORT_FIELDS.createdAt:
+        orderByClause = asc(projectsTable.createdAt);
         break;
-      case SORT_OPTIONS.updatedAt:
-        orderByClause = asc(projectTable.updatedAt);
+      case PROJECT_SORT_FIELDS.updatedAt:
+        orderByClause = asc(projectsTable.updatedAt);
         break;
       default:
-        orderByClause = asc(projectTable.createdAt);
+        orderByClause = asc(projectsTable.createdAt);
     }
 
     // Get all projects that belong to the user's active organization
     // Permission check ensures user is a member of the organization
-    const projects = await db.query.projectTable.findMany({
+    const projects = await db.query.projectsTable.findMany({
       where: eq(
-        projectTable.organizationId,
+        projectsTable.organizationId,
         context.session.activeOrganizationId,
       ),
       orderBy: [orderByClause],
@@ -187,10 +201,10 @@ export const getProjectById = authorized
     }
 
     // Fetch project and verify it belongs to user's organization
-    const project = await db.query.projectTable.findFirst({
+    const project = await db.query.projectsTable.findFirst({
       where: and(
-        eq(projectTable.id, input.id),
-        eq(projectTable.organizationId, context.session.activeOrganizationId),
+        eq(projectsTable.id, input.id),
+        eq(projectsTable.organizationId, context.session.activeOrganizationId),
       ),
       with: {
         responsibleUser: true,
@@ -245,11 +259,11 @@ export const updateProject = authorized
     // Verify project belongs to user's organization before updating
     const [existingProject] = await db
       .select()
-      .from(projectTable)
+      .from(projectsTable)
       .where(
         and(
-          eq(projectTable.id, input.id),
-          eq(projectTable.organizationId, context.session.activeOrganizationId),
+          eq(projectsTable.id, input.id),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       )
       .limit(1);
@@ -267,13 +281,13 @@ export const updateProject = authorized
     }
 
     await db
-      .update(projectTable)
+      .update(projectsTable)
       .set(input.data)
-      .where(eq(projectTable.id, input.id));
+      .where(eq(projectsTable.id, input.id));
 
     // Fetch the updated project with responsible user
-    const project = await db.query.projectTable.findFirst({
-      where: eq(projectTable.id, input.id),
+    const project = await db.query.projectsTable.findFirst({
+      where: eq(projectsTable.id, input.id),
       with: {
         responsibleUser: true,
         organization: true,
@@ -328,11 +342,11 @@ export const deleteProject = authorized
     // Verify project exists and belongs to organization
     const [existingProject] = await db
       .select()
-      .from(projectTable)
+      .from(projectsTable)
       .where(
         and(
-          eq(projectTable.id, input.id),
-          eq(projectTable.organizationId, context.session.activeOrganizationId),
+          eq(projectsTable.id, input.id),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       )
       .limit(1);
@@ -344,7 +358,7 @@ export const deleteProject = authorized
     }
 
     // Delete the project
-    await db.delete(projectTable).where(eq(projectTable.id, input.id));
+    await db.delete(projectsTable).where(eq(projectsTable.id, input.id));
 
     return {
       success: true,
@@ -387,11 +401,14 @@ export const setActiveProject = authorized
       // Verify project belongs to user's organization
       const [existingProject] = await db
         .select()
-        .from(projectTable)
+        .from(projectsTable)
         .where(
           and(
-            eq(projectTable.id, input.projectId),
-            eq(projectTable.organizationId, context.session.activeOrganizationId),
+            eq(projectsTable.id, input.projectId),
+            eq(
+              projectsTable.organizationId,
+              context.session.activeOrganizationId,
+            ),
           ),
         )
         .limit(1);
@@ -455,11 +472,11 @@ export const getProjectParticipants = authorized
     // Verify project belongs to user's organization
     const [project] = await db
       .select()
-      .from(projectTable)
+      .from(projectsTable)
       .where(
         and(
-          eq(projectTable.id, input.projectId),
-          eq(projectTable.organizationId, context.session.activeOrganizationId),
+          eq(projectsTable.id, input.projectId),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       )
       .limit(1);
@@ -473,12 +490,12 @@ export const getProjectParticipants = authorized
     // Get all participants for this project with user details
     const participants = await db
       .select({
-        id: projectParticipant.id,
-        projectId: projectParticipant.projectId,
-        memberId: projectParticipant.memberId,
-        userId: projectParticipant.userId,
-        createdAt: projectParticipant.createdAt,
-        updatedAt: projectParticipant.updatedAt,
+        id: projectParticipantsTable.id,
+        projectId: projectParticipantsTable.projectId,
+        memberId: projectParticipantsTable.memberId,
+        userId: projectParticipantsTable.userId,
+        createdAt: projectParticipantsTable.createdAt,
+        updatedAt: projectParticipantsTable.updatedAt,
         user: {
           id: user.id,
           name: user.name,
@@ -486,9 +503,9 @@ export const getProjectParticipants = authorized
           image: user.image,
         },
       })
-      .from(projectParticipant)
-      .innerJoin(user, eq(projectParticipant.userId, user.id))
-      .where(eq(projectParticipant.projectId, input.projectId));
+      .from(projectParticipantsTable)
+      .innerJoin(user, eq(projectParticipantsTable.userId, user.id))
+      .where(eq(projectParticipantsTable.projectId, input.projectId));
 
     return participants;
   });
@@ -530,13 +547,13 @@ export const batchDeleteProjects = authorized
     // Verify all projects belong to user's organization
     const projectsToDelete = await db
       .select({
-        id: projectTable.id,
+        id: projectsTable.id,
       })
-      .from(projectTable)
+      .from(projectsTable)
       .where(
         and(
-          inArray(projectTable.id, input.projectIds),
-          eq(projectTable.organizationId, context.session.activeOrganizationId),
+          inArray(projectsTable.id, input.projectIds),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       );
 
@@ -549,16 +566,301 @@ export const batchDeleteProjects = authorized
 
     // Delete the projects
     const result = await db
-      .delete(projectTable)
+      .delete(projectsTable)
       .where(
         and(
-          inArray(projectTable.id, input.projectIds),
-          eq(projectTable.organizationId, context.session.activeOrganizationId),
+          inArray(projectsTable.id, input.projectIds),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       );
 
     return {
       success: true,
       deletedCount: result.rowCount || 0,
+    };
+  });
+
+// ============================================================================
+// PROJECT ACTIVITY PROCEDURES
+// ============================================================================
+
+/**
+ * Helper to verify project belongs to user's organization
+ */
+async function verifyProjectAccess(
+  projectId: string,
+  organizationId: string,
+): Promise<boolean> {
+  const [project] = await db
+    .select()
+    .from(projectsTable)
+    .where(
+      and(
+        eq(projectsTable.id, projectId),
+        eq(projectsTable.organizationId, organizationId),
+      ),
+    )
+    .limit(1);
+
+  return !!project;
+}
+
+/**
+ * Get project activities
+ *
+ * Requires:
+ * - Authentication
+ * - "read" permission on project resource
+ * - Project must belong to user's active organization
+ */
+export const getProjectActivities = authorized
+  .use(requireProjectPermissions(["read"]))
+  .route({
+    method: "GET",
+    path: "/projects/:id/activities",
+    summary: "Get project activities",
+    tags: ["project", "activity"],
+  })
+  .input(
+    z.object({
+      projectId: z.string().describe("Project ID"),
+    }),
+  )
+  .output(z.array(ProjectActivityWithRelationsSchema))
+  .handler(async ({ input, context }) => {
+    if (!context.session.activeOrganizationId) {
+      throw new ORPCError("BAD_REQUEST", {
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Verify project belongs to user's organization
+    const hasAccess = await verifyProjectAccess(
+      input.projectId,
+      context.session.activeOrganizationId,
+    );
+
+    if (!hasAccess) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have access to this project",
+      });
+    }
+
+    // Get all activities for this project
+    const activities = await db.query.projectActivitiesTable.findMany({
+      where: eq(projectActivitiesTable.projectId, input.projectId),
+      orderBy: [asc(projectActivitiesTable.createdAt)],
+    });
+
+    return activities;
+  });
+
+/**
+ * Create a new project activity
+ *
+ * Requires:
+ * - Authentication
+ * - "update" permission on project resource (owner/admin only)
+ *   Creating activities is considered an "edit project" operation
+ * - Project must belong to user's active organization
+ */
+export const createProjectActivity = authorized
+  .use(requireProjectPermissions(["update"]))
+  .route({
+    method: "POST",
+    path: "/projects/:id/activities",
+    summary: "Create a new project activity",
+    tags: ["project", "activity"],
+  })
+  .input(ProjectActivityFormSchema)
+  .output(
+    z.object({
+      success: z.boolean(),
+      activity: ProjectActivityWithRelationsSchema,
+    }),
+  )
+  .handler(async ({ input, context }) => {
+    if (!context.session.activeOrganizationId) {
+      throw new ORPCError("BAD_REQUEST", {
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Verify project belongs to user's organization
+    const hasAccess = await verifyProjectAccess(
+      input.projectId,
+      context.session.activeOrganizationId,
+    );
+
+    if (!hasAccess) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have access to this project",
+      });
+    }
+
+    const [newActivity] = await db
+      .insert(projectActivitiesTable)
+      .values({
+        id: randomUUID(),
+        projectId: input.projectId,
+        activityType: input.activityType,
+        distanceKm: input.distanceKm.toString(),
+        description: input.description,
+        activityDate: input.activityDate,
+      })
+      .returning();
+
+    return {
+      success: true,
+      activity: newActivity,
+    };
+  });
+
+/**
+ * Update a project activity
+ *
+ * Requires:
+ * - Authentication
+ * - "update" permission on project resource (owner/admin only)
+ *   Updating activities is considered an "edit project" operation
+ * - Activity must belong to a project in user's active organization
+ */
+export const updateProjectActivity = authorized
+  .use(requireProjectPermissions(["update"]))
+  .route({
+    method: "PATCH",
+    path: "/projects/:projectId/activities/:id",
+    summary: "Update a project activity",
+    tags: ["project", "activity"],
+  })
+  .input(
+    z.object({
+      id: z.string().describe("Activity ID"),
+      data: ProjectActivityFormSchema.omit({ projectId: true }).partial(),
+    }),
+  )
+  .output(
+    z.object({
+      success: z.boolean(),
+      activity: ProjectActivityWithRelationsSchema,
+    }),
+  )
+  .handler(async ({ input, context }) => {
+    if (!context.session.activeOrganizationId) {
+      throw new ORPCError("BAD_REQUEST", {
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Fetch activity and verify it belongs to user's organization via project
+    const [existingActivity] = await db
+      .select({
+        activity: projectActivitiesTable,
+        projectOrgId: projectsTable.organizationId,
+      })
+      .from(projectActivitiesTable)
+      .innerJoin(
+        projectsTable,
+        eq(projectActivitiesTable.projectId, projectsTable.id),
+      )
+      .where(eq(projectActivitiesTable.id, input.id))
+      .limit(1);
+
+    if (!existingActivity) {
+      throw new ORPCError("NOT_FOUND", {
+        message: "Activity not found",
+      });
+    }
+
+    if (existingActivity.projectOrgId !== context.session.activeOrganizationId) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have permission to update this activity",
+      });
+    }
+
+    const { distanceKm, ...restData } = input.data;
+    const updateData: typeof restData & { distanceKm?: string } = { ...restData };
+    if (distanceKm !== undefined) {
+      updateData.distanceKm = distanceKm.toString();
+    }
+
+    const [updatedActivity] = await db
+      .update(projectActivitiesTable)
+      .set(updateData)
+      .where(eq(projectActivitiesTable.id, input.id))
+      .returning();
+
+    return {
+      success: true,
+      activity: updatedActivity,
+    };
+  });
+
+/**
+ * Delete a project activity
+ *
+ * Requires:
+ * - Authentication
+ * - "update" permission on project resource (owner/admin only)
+ *   Deleting activities is considered an "edit project" operation
+ * - Activity must belong to a project in user's active organization
+ */
+export const deleteProjectActivity = authorized
+  .use(requireProjectPermissions(["update"]))
+  .route({
+    method: "DELETE",
+    path: "/projects/:projectId/activities/:id",
+    summary: "Delete a project activity",
+    tags: ["project", "activity"],
+  })
+  .input(
+    z.object({
+      id: z.string().describe("Activity ID"),
+    }),
+  )
+  .output(
+    z.object({
+      success: z.boolean(),
+    }),
+  )
+  .handler(async ({ input, context }) => {
+    if (!context.session.activeOrganizationId) {
+      throw new ORPCError("BAD_REQUEST", {
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Fetch activity and verify it belongs to user's organization via project
+    const [existingActivity] = await db
+      .select({
+        activity: projectActivitiesTable,
+        projectOrgId: projectsTable.organizationId,
+      })
+      .from(projectActivitiesTable)
+      .innerJoin(
+        projectsTable,
+        eq(projectActivitiesTable.projectId, projectsTable.id),
+      )
+      .where(eq(projectActivitiesTable.id, input.id))
+      .limit(1);
+
+    if (!existingActivity) {
+      throw new ORPCError("NOT_FOUND", {
+        message: "Activity not found",
+      });
+    }
+
+    if (existingActivity.projectOrgId !== context.session.activeOrganizationId) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have permission to delete this activity",
+      });
+    }
+
+    await db
+      .delete(projectActivitiesTable)
+      .where(eq(projectActivitiesTable.id, input.id));
+
+    return {
+      success: true,
     };
   });

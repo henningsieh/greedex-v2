@@ -1,7 +1,11 @@
 // Test setup file
 // This file runs before all tests
 
+import { config } from "dotenv";
 import { vi } from "vitest";
+
+// Load .env into process.env (prefer existing ENV values if present)
+config();
 
 // Mock the auth client to avoid environment variable validation during tests
 vi.mock("@/lib/better-auth/auth-client", () => ({
@@ -16,7 +20,7 @@ vi.mock("@/lib/better-auth/auth-client", () => ({
 vi.mock("@/env", () => ({
   env: {
     NEXT_PUBLIC_BASE_URL: "http://localhost:3000",
-    DATABASE_URL: "postgresql://test:test@localhost:5432/test",
+    DATABASE_URL: process.env.DATABASE_URL, // Use actual DATABASE_URL from environment (loaded via dotenv)
     BETTER_AUTH_SECRET: "test-secret",
     BETTER_AUTH_URL: "http://localhost:3000",
     GOOGLE_CLIENT_ID: "test-google-client-id",

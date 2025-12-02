@@ -7,13 +7,13 @@ import {
   organization as organizationPlugin,
 } from "better-auth/plugins";
 import { desc, eq } from "drizzle-orm";
-import { env } from "@/env";
 import {
   ac,
   admin,
   member as memberRole,
   owner,
-} from "@/lib/better-auth/permissions";
+} from "@/components/features/projects/permissions";
+import { env } from "@/env";
 import { db } from "@/lib/drizzle/db";
 import * as schema from "@/lib/drizzle/schema";
 import { member } from "@/lib/drizzle/schema";

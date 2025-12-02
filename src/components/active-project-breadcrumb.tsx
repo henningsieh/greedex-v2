@@ -21,7 +21,7 @@ export function ActiveProjectBreadcrumb() {
     orpcQuery.betterauth.getSession.queryOptions(),
   );
   const { data: projects } = useSuspenseQuery(
-    orpcQuery.project.list.queryOptions(),
+    orpcQuery.projects.list.queryOptions(),
   );
 
   const activeProject = projects?.find(

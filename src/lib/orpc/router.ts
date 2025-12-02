@@ -1,3 +1,4 @@
+import type { InferRouterOutputs } from "@orpc/server";
 import {
   listOrganizations,
   searchMembers,
@@ -5,12 +6,16 @@ import {
 import {
   batchDeleteProjects,
   createProject,
+  createProjectActivity,
   deleteProject,
+  deleteProjectActivity,
+  getProjectActivities,
   getProjectById,
   getProjectParticipants,
   listProjects,
   setActiveProject,
   updateProject,
+  updateProjectActivity,
 } from "@/components/features/projects/procedures";
 import {
   getFullOrganization,
@@ -30,7 +35,7 @@ export const router = {
   health: getHealth,
 
   // User namespace for authenticated procedures
-  user: {
+  users: {
     getProfile,
   },
 
@@ -41,19 +46,19 @@ export const router = {
 
   // Organization namespace
   organizations: {
-    getActive: getFullOrganization,
     list: listOrganizations,
+    getActive: getFullOrganization,
   },
 
   // Member namespace
-  member: {
+  members: {
     search: searchMembers,
   },
 
   // Project namespace
-  project: {
-    create: createProject,
+  projects: {
     list: listProjects,
+    create: createProject,
     getById: getProjectById,
     update: updateProject,
     delete: deleteProject,
@@ -61,6 +66,16 @@ export const router = {
     setActive: setActiveProject,
     getParticipants: getProjectParticipants,
   },
+
+  // Project Activity namespace
+  projectActivities: {
+    list: getProjectActivities,
+    create: createProjectActivity,
+    update: updateProjectActivity,
+    delete: deleteProjectActivity,
+  },
 };
 
 export type Router = typeof router;
+
+export type Outputs = InferRouterOutputs<typeof router>;

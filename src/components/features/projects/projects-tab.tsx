@@ -9,8 +9,8 @@ import ProjectsGrid from "@/components/features/projects/projects-grid";
 import { ProjectsTable } from "@/components/features/projects/projects-table";
 import { ProjectsViewSelect } from "@/components/features/projects/projects-view-select";
 import {
-  DEFAULT_PROJECT_SORT,
-  type SortOption,
+  DEFAULT_PROJECT_SORTING_FIELD,
+  type ProjectSortField,
 } from "@/components/features/projects/types";
 import {
   Empty,
@@ -25,12 +25,14 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 export function ProjectsTab() {
   const t = useTranslations("organization.projects");
   const [view, setView] = useState<"grid" | "table">("table");
-  const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_PROJECT_SORT);
+  const [sortBy, setSortBy] = useState<ProjectSortField>(
+    DEFAULT_PROJECT_SORTING_FIELD,
+  );
 
   const { data: projects, error } = useSuspenseQuery(
-    orpcQuery.project.list.queryOptions({
+    orpcQuery.projects.list.queryOptions({
       input: {
-        sort_by: DEFAULT_PROJECT_SORT,
+        sort_by: DEFAULT_PROJECT_SORTING_FIELD,
       },
     }),
   );

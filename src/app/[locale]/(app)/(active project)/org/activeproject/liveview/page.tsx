@@ -70,12 +70,12 @@
 
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { activityTypeValues } from "@/components/features/projects/activities/types";
 import { Leaderboard } from "@/components/participate/leaderboard";
 import { LiveIndicator } from "@/components/participate/live-indicator";
 import { StatsOverview } from "@/components/participate/stats-overview";
 import { TransportBreakdown } from "@/components/participate/transport-breakdown";
 import {
-  activityTypeValues,
   CO2_FACTORS,
   type Participant,
   type ProjectStats,

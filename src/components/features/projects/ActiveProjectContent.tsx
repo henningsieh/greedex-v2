@@ -28,7 +28,7 @@ export default function ActiveProjectContent() {
   );
 
   const { data: projects } = useSuspenseQuery(
-    orpcQuery.project.list.queryOptions(),
+    orpcQuery.projects.list.queryOptions(),
   );
 
   const activeProjectId = session?.session.activeProjectId;

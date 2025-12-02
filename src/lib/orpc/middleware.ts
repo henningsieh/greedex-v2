@@ -1,6 +1,6 @@
 import { ORPCError } from "@orpc/server";
+import type { ProjectPermission } from "@/components/features/projects/permissions";
 import { auth } from "@/lib/better-auth";
-import type { ProjectPermission } from "@/lib/better-auth/permissions";
 import { base } from "@/lib/orpc/context";
 
 /**

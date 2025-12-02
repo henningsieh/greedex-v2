@@ -24,7 +24,7 @@ export default function ParticipantsList({
   const format = useFormatter();
 
   const { data: participants } = useSuspenseQuery(
-    orpcQuery.project.getParticipants.queryOptions({
+    orpcQuery.projects.getParticipants.queryOptions({
       input: {
         projectId: activeProjectId,
       },
