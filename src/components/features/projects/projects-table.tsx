@@ -18,7 +18,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { getProjectColumns } from "@/components/features/projects/columns";
 import type { ProjectType } from "@/components/features/projects/types";
-import { DEFAULT_PROJECT_SORT } from "@/components/features/projects/types";
+import { DEFAULT_PROJECT_SORTING_FIELD } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import { useConfirmDialog } from "@/components/ui/confirm-dialog";
 import {
@@ -49,7 +49,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   // Map the default sort to TanStack format
   const defaultSorting = [
     {
-      id: DEFAULT_PROJECT_SORT,
+      id: DEFAULT_PROJECT_SORTING_FIELD,
       desc: false,
     },
   ];
@@ -85,7 +85,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   const { mutateAsync: batchDeleteMutation, isPending: isBatchDeleting } =
     useMutation({
       mutationFn: () =>
-        orpc.project.batchDelete({
+        orpc.projects.batchDelete({
           projectIds: selectedProjectIds,
         }),
       onSuccess: (result) => {
@@ -96,7 +96,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             }),
           );
           queryClient.invalidateQueries({
-            queryKey: orpcQuery.project.list.queryKey(),
+            queryKey: orpcQuery.projects.list.queryKey(),
           });
           table.resetRowSelection();
         } else {

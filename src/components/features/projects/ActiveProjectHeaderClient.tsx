@@ -14,7 +14,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Blockquote, BlockquoteAuthor } from "@/components/block-quote";
 import EditProjectForm from "@/components/features/projects/edit-project-form";
-import type { ProjectWithRelations } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -34,9 +33,10 @@ import {
 } from "@/components/ui/dialog";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import type { Outputs } from "@/lib/orpc/router";
 
 interface ActiveProjectHeaderClientProps {
-  activeProject: ProjectWithRelations;
+  activeProject: Outputs["projects"]["getById"];
 }
 
 export default function ActiveProjectHeaderClient({
@@ -59,14 +59,14 @@ export default function ActiveProjectHeaderClient({
   const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
     useMutation({
       mutationFn: () =>
-        orpc.project.delete({
+        orpc.projects.delete({
           id: activeProject.id,
         }),
       onSuccess: (result) => {
         if (result.success) {
           toast.success(t("header.toast.deleteSuccess"));
           queryClient.invalidateQueries({
-            queryKey: orpcQuery.project.list.queryKey(),
+            queryKey: orpcQuery.projects.list.queryKey(),
           });
         } else {
           toast.error(t("header.toast.deleteFailure"));

@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import { decimal, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
-import { activityTypeValues, type ActivityType } from "@/lib/activity-types";
+import { activityTypeValues, ActivityType } from "@/components/features/projects/activities/types";
 
 
 // ============================================================================
@@ -19,7 +19,7 @@ import { activityTypeValues, type ActivityType } from "@/lib/activity-types";
  *   - Owners can delete any projects in the organization
  *   - Admins can only delete projects they created (where they are the responsible team member)
  */
-export const projectTable = pgTable("project", {
+export const projectsTable = pgTable("project", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   startDate: timestamp("start_date").notNull(),
@@ -52,11 +52,11 @@ export const projectTable = pgTable("project", {
  * Each activity is associated directly with a project (optional relation).
  * ProjectActivities are optional - a project without activities is always valid.
  */
-export const projectActivity = pgTable("project_activity", {
+export const projectActivitiesTable = pgTable("project_activity", {
   id: text("id").primaryKey(),
   projectId: text("project_id")
     .notNull()
-    .references(() => projectTable.id, { onDelete: "cascade" }),
+    .references(() => projectsTable.id, { onDelete: "cascade" }),
 
   // type ActivityType = "boat" | "bus" | "train" | "car"
   activityType: text("activity_type", { enum: activityTypeValues })
@@ -82,11 +82,11 @@ export const projectActivity = pgTable("project_activity", {
  * 
  * Links project participants (members of the organization) to projects
  */
-export const projectParticipant = pgTable("project_participant", {
+export const projectParticipantsTable = pgTable("project_participant", {
   id: text("id").primaryKey(),
   projectId: text("project_id")
     .notNull()
-    .references(() => projectTable.id, { onDelete: "cascade" }),
+    .references(() => projectsTable.id, { onDelete: "cascade" }),
   memberId: text("member_id")
     .notNull()
     .references(() => member.id, { onDelete: "cascade" }),
@@ -106,44 +106,44 @@ export const projectParticipant = pgTable("project_participant", {
 // ============================================================================
 
 // project - relations
-export const projectRelations = relations(projectTable, ({ one, many }) => ({
+export const projectRelations = relations(projectsTable, ({ one, many }) => ({
   responsibleUser: one(user, {
-    fields: [projectTable.responsibleUserId],
+    fields: [projectsTable.responsibleUserId],
     references: [user.id],
   }),
   organization: one(organization, {
-    fields: [projectTable.organizationId],
+    fields: [projectsTable.organizationId],
     references: [organization.id],
   }),
-  activities: many(projectActivity),
-  participants: many(projectParticipant),
+  activities: many(projectActivitiesTable),
+  participants: many(projectParticipantsTable),
 }));
 
 // projectActivity - relations
 export const projectActivityRelations = relations(
-  projectActivity,
+  projectActivitiesTable,
   ({ one }) => ({
-    project: one(projectTable, {
-      fields: [projectActivity.projectId],
-      references: [projectTable.id],
+    project: one(projectsTable, {
+      fields: [projectActivitiesTable.projectId],
+      references: [projectsTable.id],
     }),
   }),
 );
 
 // projectParticipant - relations
 export const projectParticipantRelations = relations(
-  projectParticipant,
+  projectParticipantsTable,
   ({ one }) => ({
-    project: one(projectTable, {
-      fields: [projectParticipant.projectId],
-      references: [projectTable.id],
+    project: one(projectsTable, {
+      fields: [projectParticipantsTable.projectId],
+      references: [projectsTable.id],
     }),
     member: one(member, {
-      fields: [projectParticipant.memberId],
+      fields: [projectParticipantsTable.memberId],
       references: [member.id],
     }),
     user: one(user, {
-      fields: [projectParticipant.userId],
+      fields: [projectParticipantsTable.userId],
       references: [user.id],
     }),
   }),

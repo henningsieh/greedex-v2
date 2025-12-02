@@ -76,7 +76,7 @@ export default function ORPCTestPage() {
       profile: true,
     }));
     try {
-      const result = await orpc.user.getProfile();
+      const result = await orpc.users.getProfile();
       console.log("✅ Profile Response:", result);
       setProfileResponse(JSON.stringify(result, null, 2));
     } catch (error) {

@@ -27,7 +27,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
   const t = useTranslations("project.details");
   const { canUpdate } = useProjectPermissions();
   const { data } = useSuspenseQuery(
-    orpcQuery.project.getById.queryOptions({
+    orpcQuery.projects.getById.queryOptions({
       input: {
         id,
       },

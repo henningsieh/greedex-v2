@@ -94,17 +94,17 @@ export function ProjectActivitiesList({
     isLoading,
     error,
   } = useQuery(
-    orpcQuery.projectActivity.list.queryOptions({
+    orpcQuery.projectActivities.list.queryOptions({
       input: { projectId },
     }),
   );
 
   const deleteActivityMutation = useMutation({
-    mutationFn: (id: string) => orpc.projectActivity.delete({ id }),
+    mutationFn: (id: string) => orpc.projectActivities.delete({ id }),
     onSuccess: () => {
       toast.success(t("toast.delete-success"));
       queryClient.invalidateQueries({
-        queryKey: orpcQuery.projectActivity.list.queryKey({
+        queryKey: orpcQuery.projectActivities.list.queryKey({
           input: { projectId },
         }),
       });
@@ -119,7 +119,7 @@ export function ProjectActivitiesList({
     setShowAddForm(false);
     setEditingActivity(null);
     queryClient.invalidateQueries({
-      queryKey: orpcQuery.projectActivity.list.queryKey({
+      queryKey: orpcQuery.projectActivities.list.queryKey({
         input: { projectId },
       }),
     });

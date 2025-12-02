@@ -22,12 +22,12 @@ export default async function ControlActiveProjectPage() {
   // Prefetch all necessary data
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions());
-  void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
+  void queryClient.prefetchQuery(orpcQuery.projects.list.queryOptions());
 
   // Prefetch participants data if we have an active project
   if (activeProjectId) {
     void queryClient.prefetchQuery(
-      orpcQuery.project.getParticipants.queryOptions({
+      orpcQuery.projects.getParticipants.queryOptions({
         input: {
           projectId: activeProjectId,
         },

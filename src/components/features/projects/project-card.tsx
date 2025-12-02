@@ -51,7 +51,7 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
   const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
     useMutation({
       mutationFn: () =>
-        orpc.project.delete({
+        orpc.projects.delete({
           id: project.id,
         }),
       onSuccess: (result) => {
@@ -59,7 +59,7 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
           toast.success("Project deleted successfully");
           // Invalidate project list to refresh
           queryClient.invalidateQueries({
-            queryKey: orpcQuery.project.list.queryKey(),
+            queryKey: orpcQuery.projects.list.queryKey(),
           });
         } else {
           toast.error("Failed to delete project");

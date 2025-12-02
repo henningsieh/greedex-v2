@@ -10,11 +10,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import type { Organization } from "@/components/features/organizations/types";
-import {
-  ActivityFormItemSchema,
-  activityTypeValues,
-} from "@/components/features/projects/activities/types";
-import { ProjectFormSchema } from "@/components/features/projects/types";
+import { ProjectActivityFormSchema } from "@/components/features/projects/activities/schemas";
+import { activityTypeValues } from "@/components/features/projects/activities/types";
+import { ProjectFormSchema } from "@/components/features/projects/schemas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -43,6 +41,10 @@ import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 interface CreateProjectFormProps {
   userOrganizations: Omit<Organization, "metadata">[];
 }
+
+const ActivityFormItemSchema = ProjectActivityFormSchema.omit({
+  projectId: true,
+});
 
 // Combined form schema with optional activities
 const CreateProjectWithActivitiesSchema = ProjectFormSchema.extend({
@@ -91,7 +93,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   const { mutateAsync: createProjectMutation, isPending: isCreatingProject } =
     useMutation({
       mutationFn: (values: CreateProjectWithActivitiesType) =>
-        orpc.project.create({
+        orpc.projects.create({
           name: values.name,
           startDate: values.startDate,
           endDate: values.endDate,
@@ -114,7 +116,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     }) => {
       const validActivity = ActivityFormItemSchema.parse(params.activity);
 
-      return orpc.projectActivity.create({
+      return orpc.projectActivities.create({
         projectId: params.projectId,
         activityType: validActivity.activityType,
         distanceKm: validActivity.distanceKm,
@@ -175,7 +177,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
       toast.success(t("toast.success"));
       router.push(getProjectDetailPath(result.project.id));
       queryClient.invalidateQueries({
-        queryKey: orpcQuery.project.list.queryKey(),
+        queryKey: orpcQuery.projects.list.queryKey(),
       });
     } catch (err) {
       console.error(err);

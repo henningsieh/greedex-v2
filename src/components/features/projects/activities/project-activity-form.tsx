@@ -5,11 +5,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
+import type z from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
+import { ProjectActivityFormSchema } from "@/components/features/projects/activities/schemas";
 import {
   activityTypeValues,
-  ProjectActivityFormSchema,
-  type ProjectActivityFormSchemaType,
   type ProjectActivityType,
 } from "@/components/features/projects/activities/types";
 import { Button } from "@/components/ui/button";
@@ -48,7 +48,7 @@ export function ProjectActivityForm({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ProjectActivityFormSchemaType>({
+  } = useForm<z.infer<typeof ProjectActivityFormSchema>>({
     resolver: zodResolver(ProjectActivityFormSchema),
     mode: "onChange",
     defaultValues: {
@@ -61,14 +61,14 @@ export function ProjectActivityForm({
   });
 
   const createMutation = useMutation({
-    mutationFn: (values: ProjectActivityFormSchemaType) =>
-      orpc.projectActivity.create(values),
+    mutationFn: (values: z.infer<typeof ProjectActivityFormSchema>) =>
+      orpc.projectActivities.create(values),
     onSuccess: (result) => {
       if (result.success) {
         toast.success(t("toast.create-success"));
         reset();
         queryClient.invalidateQueries({
-          queryKey: orpcQuery.projectActivity.list.queryKey({
+          queryKey: orpcQuery.projectActivities.list.queryKey({
             input: { projectId },
           }),
         });
@@ -84,11 +84,11 @@ export function ProjectActivityForm({
   });
 
   const updateMutation = useMutation({
-    mutationFn: (values: ProjectActivityFormSchemaType) => {
+    mutationFn: (values: z.infer<typeof ProjectActivityFormSchema>) => {
       if (!activity?.id) {
         throw new Error("Activity ID is required for update");
       }
-      return orpc.projectActivity.update({
+      return orpc.projectActivities.update({
         id: activity.id,
         data: {
           activityType: values.activityType,
@@ -102,7 +102,7 @@ export function ProjectActivityForm({
       if (result.success) {
         toast.success(t("toast.update-success"));
         queryClient.invalidateQueries({
-          queryKey: orpcQuery.projectActivity.list.queryKey({
+          queryKey: orpcQuery.projectActivities.list.queryKey({
             input: { projectId },
           }),
         });
@@ -119,7 +119,7 @@ export function ProjectActivityForm({
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-  async function onSubmit(values: ProjectActivityFormSchemaType) {
+  async function onSubmit(values: z.infer<typeof ProjectActivityFormSchema>) {
     if (isEditing) {
       await updateMutation.mutateAsync(values);
     } else {

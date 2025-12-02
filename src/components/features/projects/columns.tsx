@@ -9,8 +9,8 @@ import { toast } from "sonner";
 import EditProjectForm from "@/components/features/projects/edit-project-form";
 import { SortableHeader } from "@/components/features/projects/sortable-header";
 import {
+  PROJECT_SORT_FIELDS,
   type ProjectType,
-  SORT_OPTIONS,
 } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -74,12 +74,14 @@ export function getProjectColumns(
       enableHiding: false,
     },
     {
-      accessorKey: SORT_OPTIONS.name,
+      accessorKey: PROJECT_SORT_FIELDS.name,
       header: ({ column, table }) => (
         <SortableHeader column={column} table={table} title={t("table.name")} />
       ),
       cell: ({ row }) => (
-        <div className="font-medium">{row.getValue(SORT_OPTIONS.name)}</div>
+        <div className="font-medium">
+          {row.getValue(PROJECT_SORT_FIELDS.name)}
+        </div>
       ),
     },
     {
@@ -87,7 +89,7 @@ export function getProjectColumns(
       header: t("table.country"),
     },
     {
-      accessorKey: SORT_OPTIONS.startDate,
+      accessorKey: PROJECT_SORT_FIELDS.startDate,
       header: ({ column, table }) => (
         <SortableHeader
           column={column}
@@ -97,7 +99,7 @@ export function getProjectColumns(
         />
       ),
       cell: ({ row }) => {
-        const date = row.getValue(SORT_OPTIONS.startDate) as Date;
+        const date = row.getValue(PROJECT_SORT_FIELDS.startDate) as Date;
         return <DateCell date={date} />;
       },
       sortingFn: (rowA, rowB, columnId) => {
@@ -107,7 +109,7 @@ export function getProjectColumns(
       },
     },
     {
-      accessorKey: SORT_OPTIONS.createdAt,
+      accessorKey: PROJECT_SORT_FIELDS.createdAt,
       header: ({ column, table }) => (
         <SortableHeader
           column={column}
@@ -117,7 +119,7 @@ export function getProjectColumns(
         />
       ),
       cell: ({ row }) => {
-        const date = row.getValue(SORT_OPTIONS.createdAt) as Date;
+        const date = row.getValue(PROJECT_SORT_FIELDS.createdAt) as Date;
         return <DateCell date={date} />;
       },
       sortingFn: (rowA, rowB, columnId) => {
@@ -127,7 +129,7 @@ export function getProjectColumns(
       },
     },
     {
-      accessorKey: SORT_OPTIONS.updatedAt,
+      accessorKey: PROJECT_SORT_FIELDS.updatedAt,
       header: ({ column, table }) => (
         <SortableHeader
           column={column}
@@ -137,7 +139,7 @@ export function getProjectColumns(
         />
       ),
       cell: ({ row }) => {
-        const date = row.getValue(SORT_OPTIONS.updatedAt) as Date;
+        const date = row.getValue(PROJECT_SORT_FIELDS.updatedAt) as Date;
         return <DateCell date={date} />;
       },
       sortingFn: (rowA, rowB, columnId) => {
@@ -172,14 +174,14 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
   const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
     useMutation({
       mutationFn: () =>
-        orpc.project.delete({
+        orpc.projects.delete({
           id: project.id,
         }),
       onSuccess: (result) => {
         if (result.success) {
           toast.success(t("form.delete.toast-success"));
           queryClient.invalidateQueries({
-            queryKey: orpcQuery.project.list.queryKey(),
+            queryKey: orpcQuery.projects.list.queryKey(),
           });
         } else {
           toast.error(t("form.delete.toast-error"));

@@ -94,7 +94,7 @@ export default function InviteMemberDialog({
             setOpen(false);
             form.reset();
             void queryClient.invalidateQueries(
-              orpcQuery.member.search.queryOptions({
+              orpcQuery.members.search.queryOptions({
                 input: {
                   organizationId,
                   filters: {

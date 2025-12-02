@@ -3,8 +3,8 @@
 import { ChevronDownIcon, Grid2X2Icon, TablePropertiesIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
-  SORT_OPTIONS,
-  type SortOption,
+  PROJECT_SORT_FIELDS,
+  type ProjectSortField,
 } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,8 +19,8 @@ import {
 interface ProjectsControlsProps {
   view: "grid" | "table";
   setView: (view: "grid" | "table") => void;
-  sortBy?: SortOption;
-  onSortChange?: (sort: SortOption) => void;
+  sortBy?: ProjectSortField;
+  onSortChange?: (sort: ProjectSortField) => void;
 }
 
 export function ProjectsViewSelect({
@@ -33,19 +33,19 @@ export function ProjectsViewSelect({
 
   const sortOptions = [
     {
-      value: SORT_OPTIONS.name,
+      value: PROJECT_SORT_FIELDS.name,
       label: t("table.name"),
     },
     {
-      value: SORT_OPTIONS.startDate,
+      value: PROJECT_SORT_FIELDS.startDate,
       label: t("table.start-date"),
     },
     {
-      value: SORT_OPTIONS.createdAt,
+      value: PROJECT_SORT_FIELDS.createdAt,
       label: t("table.created"),
     },
     {
-      value: SORT_OPTIONS.updatedAt,
+      value: PROJECT_SORT_FIELDS.updatedAt,
       label: t("table.updated"),
     },
   ];

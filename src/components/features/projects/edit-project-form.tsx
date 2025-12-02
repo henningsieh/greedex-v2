@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createUpdateSchema } from "drizzle-zod";
 import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
@@ -9,14 +10,8 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
-import {
-  activityTypeValues,
-  EditActivityFormItemSchema,
-} from "@/components/features/projects/activities/types";
-import {
-  type ProjectType,
-  ProjectUpdateFormSchema,
-} from "@/components/features/projects/types";
+import { activityTypeValues } from "@/components/features/projects/activities/types";
+import type { ProjectType } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -31,12 +26,30 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface EditProjectFormProps {
   project: ProjectType;
   onSuccess?: () => void;
 }
+
+const EditActivityFormItemSchema = createUpdateSchema(projectActivitiesTable)
+  .omit({
+    createdAt: true,
+    updatedAt: true,
+  })
+  .extend({
+    isNew: z.boolean().optional(), // Track if activity is new
+    isDeleted: z.boolean().optional(), // Track if activity should be deleted
+  });
+
+const ProjectUpdateFormSchema = createUpdateSchema(projectsTable).omit({
+  id: true,
+  responsibleUserId: true,
+  createdAt: true,
+  updatedAt: true,
+});
 
 // Combined form schema with activities
 const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
@@ -55,7 +68,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
   // Fetch existing activities
   const { data: existingActivities, isLoading: activitiesLoading } = useQuery(
-    orpcQuery.projectActivity.list.queryOptions({
+    orpcQuery.projectActivities.list.queryOptions({
       input: { projectId: project.id },
     }),
   );
@@ -67,6 +80,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     formState: { errors },
     trigger,
     setValue,
+    getValues,
   } = useForm<EditProjectWithActivitiesType>({
     resolver: zodResolver(EditProjectWithActivitiesSchema),
     mode: "onChange",
@@ -86,7 +100,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   React.useEffect(() => {
     if (existingActivities && existingActivities.length > 0) {
       const formattedActivities = existingActivities.map((activity) => ({
-        id: activity.id,
+        activityId: activity.id,
         activityType: activity.activityType,
         distanceKm: activity.distanceKm,
         description: activity.description,
@@ -100,7 +114,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     }
   }, [existingActivities, setValue]);
 
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "activities",
   });
@@ -110,7 +124,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   const { mutateAsync: updateProjectMutation, isPending: isUpdating } =
     useMutation({
       mutationFn: (data: EditProjectWithActivitiesType) =>
-        orpc.project.update({
+        orpc.projects.update({
           id: project.id,
           data: {
             name: data.name,
@@ -140,7 +154,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
         throw new Error("Activity type and distance are required");
       }
 
-      return orpc.projectActivity.create({
+      return orpc.projectActivities.create({
         projectId: params.projectId,
         activityType: validActivity.activityType,
         distanceKm: validActivity.distanceKm,
@@ -161,7 +175,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
         throw new Error("Activity type and distance are required");
       }
 
-      return orpc.projectActivity.update({
+      return orpc.projectActivities.update({
         id: params.activityId,
         data: {
           activityType: validActivity.activityType,
@@ -175,7 +189,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
   const { mutateAsync: deleteActivityMutation } = useMutation({
     mutationFn: (activityId: string) =>
-      orpc.projectActivity.delete({ id: activityId }),
+      orpc.projectActivities.delete({ id: activityId }),
   });
 
   async function handleNextStep() {
@@ -205,17 +219,22 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
         const failedActivities: string[] = [];
         for (const activity of values.activities) {
           try {
-            if (activity.isDeleted && activity.id) {
-              // Delete removed activities
+            if (
+              activity.isDeleted === true &&
+              activity.isNew === false &&
+              activity.id
+            ) {
               await deleteActivityMutation(activity.id);
-            } else if (activity.isNew) {
-              // Create new activities
+            } else if (activity.isNew === true && activity.isDeleted !== true) {
               await createActivityMutation({
                 projectId: project.id,
                 activity,
               });
-            } else if (activity.id) {
-              // Update existing activities
+            } else if (
+              activity.isNew === false &&
+              activity.isDeleted !== true &&
+              activity.id
+            ) {
               await updateActivityMutation({
                 activityId: activity.id,
                 activity,
@@ -238,15 +257,15 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
       toast.success(t("edit.toast.success") || "Project updated successfully");
       queryClient.invalidateQueries({
-        queryKey: orpcQuery.project.list.queryKey(),
+        queryKey: orpcQuery.projects.list.queryKey(),
       });
       queryClient.invalidateQueries({
-        queryKey: orpcQuery.project.getById.queryOptions({
+        queryKey: orpcQuery.projects.getById.queryOptions({
           input: { id: project.id },
         }).queryKey,
       });
       queryClient.invalidateQueries({
-        queryKey: orpcQuery.projectActivity.list.queryKey({
+        queryKey: orpcQuery.projectActivities.list.queryKey({
           input: { projectId: project.id },
         }),
       });
@@ -259,7 +278,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
   const addActivity = () => {
     append({
-      id: `temp-${Date.now()}-${Math.random()}`, // Temporary id for new activities
+      id: undefined,
       activityType: "car",
       distanceKm: "0",
       description: null,
@@ -270,13 +289,16 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   };
 
   const markActivityDeleted = (index: number) => {
-    const activity = fields[index];
-    if (activity.id) {
-      // Mark existing activity as deleted
-      update(index, { ...activity, isDeleted: true });
-    } else {
-      // Remove new activity from form
+    const activities = getValues("activities") || [];
+    const activity = activities[index]; // Now this is your actual activity data
+
+    if (activity.isNew) {
       remove(index);
+    } else {
+      // Update the form values, not the fields metadata
+      const updatedActivities = [...activities];
+      updatedActivities[index] = { ...activity, isDeleted: true };
+      setValue("activities", updatedActivities);
     }
   };
 

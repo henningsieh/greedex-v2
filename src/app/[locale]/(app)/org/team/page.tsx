@@ -28,7 +28,7 @@ export default async () => {
   // Prefetch team members data
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(
-    orpcQuery.member.search.queryOptions({
+    orpcQuery.members.search.queryOptions({
       input: {
         organizationId: activeOrganizationId,
         filters: {

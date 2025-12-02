@@ -57,7 +57,7 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
   const sortDirection = sorting?.[0]?.desc ? "desc" : "asc";
 
   const { data: membersResult } = useQuery(
-    orpcQuery.member.search.queryOptions({
+    orpcQuery.members.search.queryOptions({
       input: {
         organizationId,
         filters: {
