@@ -93,7 +93,7 @@ export function ProjectSwitcher() {
                 <MapPinnedIcon className="size-6" />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
-                <span className="">
+                <span className="text-nowrap">
                   {activeProject ? activeProject.name : "No active project"}
                 </span>
               </div>

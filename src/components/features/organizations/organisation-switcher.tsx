@@ -68,7 +68,7 @@ export function OrganizationSwitcher() {
                 <Building2Icon className="size-4 text-primary-foreground" />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
-                <span className="">{activeOrganization.name}</span>
+                <span className="text-nowrap">{activeOrganization.name}</span>
               </div>
               <ChevronsUpDownIcon className="ml-auto" />
             </SidebarMenuButton>
