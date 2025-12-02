@@ -225,6 +225,11 @@ export default function Dashboard() {
           co2Kg,
         });
 
+        // Cap activities at 50 per participant to prevent memory leak in mock data
+        if (participant.activities.length > 50) {
+          participant.activities = participant.activities.slice(-50);
+        }
+
         participant.totalCO2 = participant.activities.reduce(
           (sum, a) => sum + a.co2Kg,
           0,

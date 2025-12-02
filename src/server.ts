@@ -20,12 +20,16 @@ app.prepare().then(() => {
     handle(req, res, parsedUrl);
   });
 
-  // Initialize Socket.IO
+  // Initialize Socket.IO with optimized settings
   const io = new Server(httpServer, {
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
     },
+    // Use built-in heartbeat instead of custom intervals
+    pingInterval: 10000, // Send ping every 10s
+    pingTimeout: 5000, // Wait 5s for pong before considering connection dead
+    connectTimeout: 45000, // Disconnect inactive clients to free resources
   });
 
   // Socket.IO connection handler
@@ -47,22 +51,14 @@ app.prepare().then(() => {
       });
     });
 
-    // Send ping every 10 seconds
-    const pingInterval = setInterval(() => {
-      socket.emit("ping", {
-        text: `Ping from server at ${new Date().toLocaleTimeString()}`,
-        timestamp: new Date().toISOString(),
-      });
-    }, 10000);
-
     // Cleanup on disconnect
-    socket.on("disconnect", () => {
-      console.log(`Client disconnected: ${socket.id}`);
-      clearInterval(pingInterval);
+    socket.on("disconnect", (reason) => {
+      console.log(`Client disconnected: ${socket.id}, reason: ${reason}`);
     });
   });
 
   httpServer
+
     .once("error", (err) => {
       console.error(err);
       process.exit(1);

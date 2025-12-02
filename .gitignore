@@ -20,6 +20,9 @@
 # production
 /build
 
+# .next-inspect for testing / debugging
+/.next-inspect/
+
 # misc
 .DS_Store
 *.pem

@@ -30,24 +30,32 @@ export default function Home() {
 
     // Listen for messages
     socketInstance.on("message", (data: Message) => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          ...data,
-          type: "message",
-        },
-      ]);
+      setMessages((prev) => {
+        const newMessages = [
+          ...prev,
+          {
+            ...data,
+            type: "message",
+          },
+        ];
+        // Keep only last 100 messages to prevent memory leak
+        return newMessages.slice(-100);
+      });
     });
 
     // Listen for pings
     socketInstance.on("ping", (data: Message) => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          ...data,
-          type: "ping",
-        },
-      ]);
+      setMessages((prev) => {
+        const newMessages = [
+          ...prev,
+          {
+            ...data,
+            type: "ping",
+          },
+        ];
+        // Keep only last 100 messages to prevent memory leak
+        return newMessages.slice(-100);
+      });
     });
 
     setSocket(socketInstance);
