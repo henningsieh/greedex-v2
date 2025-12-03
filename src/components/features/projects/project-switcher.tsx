@@ -6,6 +6,7 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { CheckIcon, ChevronsUpDownIcon, MapPinnedIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
@@ -37,6 +38,8 @@ export function ProjectSwitcher() {
     // role,
     // isPending: permissionsPending,
   } = useProjectPermissions();
+
+  const t = useTranslations("organization.projects.activeProject");
 
   const { setIsLoading } = useAppLoading();
   const queryClient = useQueryClient();
@@ -94,7 +97,7 @@ export function ProjectSwitcher() {
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="text-nowrap">
-                  {activeProject ? activeProject.name : "No active project"}
+                  {activeProject ? activeProject.name : t("emptyState.title")}
                 </span>
               </div>
               <ChevronsUpDownIcon className="ml-auto" />
