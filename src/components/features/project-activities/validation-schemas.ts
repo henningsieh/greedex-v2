@@ -22,13 +22,7 @@ export const ActivityFormItemSchema = ProjectActivityFormSchema.omit({
 
 // Combined form schema with optional activities
 export const CreateProjectWithActivitiesSchema = ProjectFormSchema.extend({
-  activities: z
-    .array(
-      ProjectActivityFormSchema.omit({
-        projectId: true,
-      }),
-    )
-    .optional(),
+  activities: z.array(ActivityFormItemSchema).optional(),
 });
 
 export type CreateProjectWithActivities = z.infer<

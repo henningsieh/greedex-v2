@@ -30,7 +30,6 @@ export const MemberWithUserSchema = createSelectSchema(memberTable).extend({
 
 export const OrganizationFormSchema = createInsertSchema(organization, {
   name: (schema) => schema.min(1, "Organization name is required"),
-  slug: (schema) => schema.min(1, "Organization slug is required"),
 }).omit({
   id: true,
   slug: true,
