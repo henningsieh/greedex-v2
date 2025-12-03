@@ -10,7 +10,7 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
-import { activityTypeValues } from "@/components/features/projects/activities/types";
+import { activityTypeValues } from "@/components/features/project-activities/types";
 import type { ProjectType } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

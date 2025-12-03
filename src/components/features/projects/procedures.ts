@@ -1,5 +1,3 @@
-// src/components/features/projects/procedures.ts:
-
 import { randomUUID } from "node:crypto";
 import { ORPCError } from "@orpc/server";
 import { and, asc, eq, inArray, type SQL, sql } from "drizzle-orm";
@@ -7,8 +5,8 @@ import { createSelectSchema } from "drizzle-zod";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { memberRoles } from "@/components/features/organizations/types";
-import { ProjectActivityFormSchema } from "@/components/features/projects/activities/schemas";
-import { ProjectParticipantWithUserSchema } from "@/components/features/projects/participant-types";
+import { ProjectParticipantWithUserSchema } from "@/components/features/participants/participants-types";
+import { ProjectActivityFormSchema } from "@/components/features/project-activities/schemas";
 import { ProjectFormSchema } from "@/components/features/projects/schemas";
 import {
   DEFAULT_PROJECT_SORTING_FIELD,

@@ -1,11 +1,11 @@
 import { headers } from "next/headers";
 import { Suspense } from "react";
-import ActiveProjectContent from "@/components/features/projects/ActiveProjectContent";
-import { ActiveProjectHeaderClientSkeleton } from "@/components/features/projects/ActiveProjectHeaderClient";
+import { ActiveProjectHeaderSkeleton } from "@/components/features/active-project/active-project-header";
+import ActiveProjectPage from "@/components/features/active-project/active-project-page";
+import { ParticipationControlsClientSkeleton } from "@/components/features/participants/participants-link-controls";
 import ParticipantsList, {
   ParticipantsListSkeleton,
-} from "@/components/features/projects/ParticipantsList";
-import { ParticipationControlsClientSkeleton } from "@/components/features/projects/ParticipationControlsClient";
+} from "@/components/features/participants/participants-list";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/react-query/hydration";
@@ -43,12 +43,12 @@ export default async function ControlActiveProjectPage() {
       <Suspense
         fallback={
           <>
-            <ActiveProjectHeaderClientSkeleton />
+            <ActiveProjectHeaderSkeleton />
             <ParticipationControlsClientSkeleton />
           </>
         }
       >
-        <ActiveProjectContent />
+        <ActiveProjectPage />
       </Suspense>
       <Suspense fallback={<ParticipantsListSkeleton />}>
         {activeProjectId ? (

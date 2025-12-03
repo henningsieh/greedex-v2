@@ -34,7 +34,7 @@ interface ParticipationControlsClientProps {
   activeProjectId: string;
 }
 
-export default function ParticipationControlsClient({
+export default function ParticipantsLinkControls({
   activeProjectId,
 }: ParticipationControlsClientProps) {
   const t = useTranslations("organization.projects.activeProject");
@@ -185,7 +185,7 @@ export default function ParticipationControlsClient({
 
 export function ParticipationControlsClientSkeleton() {
   return (
-    <Card className="mb-8 space-y-4 rounded-md border border-secondary/70 bg-secondary/10 p-4">
+    <Card className="mb-8 space-y-4 border border-secondary/70 bg-secondary/10 p-4">
       <div className="flex items-center justify-between">
         <div className="mb-4 flex items-center gap-2">
           <div className="h-5 w-5 rounded bg-muted" />

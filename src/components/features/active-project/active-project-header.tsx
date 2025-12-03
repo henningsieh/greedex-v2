@@ -39,7 +39,7 @@ interface ActiveProjectHeaderClientProps {
   activeProject: Outputs["projects"]["getById"];
 }
 
-export default function ActiveProjectHeaderClient({
+export default function ActiveProjectHeader({
   activeProject,
 }: ActiveProjectHeaderClientProps) {
   const t = useTranslations("organization.projects.activeProject");
@@ -205,25 +205,40 @@ export default function ActiveProjectHeaderClient({
   );
 }
 
-export function ActiveProjectHeaderClientSkeleton() {
+export function ActiveProjectHeaderSkeleton() {
   return (
-    <Card className="mb-8 space-y-4">
-      <CardHeader>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-1">
+    <Card className="space-y-4 border border-secondary/30 bg-secondary/10 shadow-sm backdrop-blur">
+      <CardHeader className="gap-4">
+        <CardTitle className="text-secondary text-sm">
+          <div className="h-4 w-32 rounded-md bg-muted" />
+        </CardTitle>
+        <CardTitle>
+          <CardDescription className="flex items-center gap-3 font-bold text-3xl text-secondary dark:text-secondary-foreground">
+            <span className="rounded-full bg-secondary/30 p-2">
+              <div className="h-5 w-5 rounded-md bg-muted" />
+            </span>
             <div className="h-8 w-64 rounded-md bg-muted" />
-            <div className="flex flex-wrap gap-4 text-sm">
+          </CardDescription>
+        </CardTitle>
+        <CardAction>
+          <div className="flex flex-wrap gap-2">
+            <div className="h-10 w-20 rounded-md bg-muted" />
+            <div className="h-10 w-20 rounded-md bg-muted" />
+          </div>
+        </CardAction>
+        <CardDescription>
+          <div className="flex flex-wrap gap-4 text-muted-foreground text-sm">
+            <div className="flex items-center gap-1">
+              <div className="h-4 w-4 rounded-md bg-muted" />
               <div className="h-5 w-48 rounded-md bg-muted" />
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="h-4 w-4 rounded-md bg-muted" />
               <div className="h-5 w-48 rounded-md bg-muted" />
             </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <div className="h-10 w-24 rounded-md bg-muted" />
-            <div className="h-10 w-24 rounded-md bg-muted" />
-          </div>
-        </div>
+        </CardDescription>
       </CardHeader>
-      <div className="h-5 w-full max-w-3xl rounded-md bg-muted" />
     </Card>
   );
 }

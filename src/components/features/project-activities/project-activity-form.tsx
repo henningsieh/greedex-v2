@@ -7,11 +7,11 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type z from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
-import { ProjectActivityFormSchema } from "@/components/features/projects/activities/schemas";
+import { ProjectActivityFormSchema } from "@/components/features/project-activities/schemas";
 import {
   activityTypeValues,
   type ProjectActivityType,
-} from "@/components/features/projects/activities/types";
+} from "@/components/features/project-activities/types";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";

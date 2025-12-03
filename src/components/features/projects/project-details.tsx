@@ -12,7 +12,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import {
   ProjectActivitiesList,
   ProjectActivitiesListSkeleton,
-} from "@/components/features/projects/activities/project-activities-list";
+} from "@/components/features/project-activities/project-activities-list";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";

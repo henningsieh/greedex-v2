@@ -84,7 +84,9 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>{t("projects.sectionLabel")}</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-nowrap">
+            {t("projects.sectionLabel")}
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {projectsMenuItems.map((item) => (

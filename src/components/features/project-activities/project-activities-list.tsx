@@ -16,7 +16,7 @@ import { toast } from "sonner";
 import type {
   ActivityType,
   ProjectActivityType,
-} from "@/components/features/projects/activities/types";
+} from "@/components/features/project-activities/types";
 import {
   AlertDialog,
   AlertDialogAction,
