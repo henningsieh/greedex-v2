@@ -1,8 +1,6 @@
 import { z } from "zod";
-import {
-  MemberWithUserSchema,
-  memberRoles,
-} from "@/components/features/organizations/types";
+import { memberRoles } from "@/components/features/organizations/types";
+import { MemberWithUserSchema } from "@/components/features/organizations/validation-schemas";
 import { auth } from "@/lib/better-auth";
 import { base } from "@/lib/orpc/context";
 import { authorized } from "@/lib/orpc/middleware";

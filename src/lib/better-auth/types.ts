@@ -1,4 +1,3 @@
-import z from "zod";
 import type { auth } from "@/lib/better-auth";
 
 /**
@@ -6,6 +5,9 @@ import type { auth } from "@/lib/better-auth";
  * Includes both session and user objects
  */
 export type SessionResponse = typeof auth.$Infer.Session;
+export type Organization = typeof auth.$Infer.Organization;
+export type Invitation = typeof auth.$Infer.Invitation;
+export type Member = typeof auth.$Infer.Member;
 
 /**
  * Just the session object portion
@@ -16,13 +18,3 @@ export type Session = SessionResponse["session"];
  * Just the user object portion
  */
 export type User = SessionResponse["user"];
-
-/**
- * Minimal validation schema for Better Auth session
- * Actual validation is handled by Better Auth itself
- */
-export const SessionSchema = z
-  .custom<SessionResponse>((val) => {
-    return val === null || (typeof val === "object" && val !== null);
-  })
-  .nullable();

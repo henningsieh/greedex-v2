@@ -1,4 +1,5 @@
 import { relations } from "drizzle-orm";
+import { createId } from "@paralleldrive/cuid2";
 import { decimal, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
 import { activityTypeValues, ActivityType } from "@/components/features/project-activities/types";
@@ -20,7 +21,7 @@ import { activityTypeValues, ActivityType } from "@/components/features/project-
  *   - Admins can only delete projects they created (where they are the responsible team member)
  */
 export const projectsTable = pgTable("project", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => createId()),
   name: text("name").notNull(),
   startDate: timestamp("start_date").notNull(),
   endDate: timestamp("end_date").notNull(),
@@ -53,7 +54,7 @@ export const projectsTable = pgTable("project", {
  * ProjectActivities are optional - a project without activities is always valid.
  */
 export const projectActivitiesTable = pgTable("project_activity", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => createId()),
   projectId: text("project_id")
     .notNull()
     .references(() => projectsTable.id, { onDelete: "cascade" }),
@@ -83,7 +84,7 @@ export const projectActivitiesTable = pgTable("project_activity", {
  * Links project participants (members of the organization) to projects
  */
 export const projectParticipantsTable = pgTable("project_participant", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => createId()),
   projectId: text("project_id")
     .notNull()
     .references(() => projectsTable.id, { onDelete: "cascade" }),

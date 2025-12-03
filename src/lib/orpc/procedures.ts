@@ -1,7 +1,7 @@
 import { ORPCError } from "@orpc/server";
 import { z } from "zod";
 import { auth } from "@/lib/better-auth";
-import { SessionSchema } from "@/lib/better-auth/types";
+import { SessionSchema } from "@/lib/better-auth/validation-schemas";
 import { base } from "@/lib/orpc/context";
 import { authorized } from "@/lib/orpc/middleware";
 
@@ -53,10 +53,6 @@ export const getProfile = authorized.handler(async ({ context }) => {
   };
 });
 
-/**
- * Get current session using Better Auth
- * Returns null if user is not authenticated
- */
 export const getSession = base
   .output(SessionSchema)
   .handler(async ({ context }) => {

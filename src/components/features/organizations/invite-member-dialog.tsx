@@ -7,7 +7,12 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import * as z from "zod";
+import type z from "zod";
+import { InviteFormSchema } from "@/components/features/organizations/validation-schemas";
+// import {
+//   type InviteForm,
+//   InviteFormSchema,
+// } from "@/components/features/organizations/validation-schemas";
 import InputField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,18 +45,6 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 import type { MemberRole } from "./types";
 import { memberRoles } from "./types";
 
-type InviteFormSchema = z.infer<typeof InviteFormSchema>;
-
-const InviteFormSchema = z.object({
-  email: z.string().email("Invalid email"),
-  name: z.string().optional(),
-  role: z
-    .string()
-    .refine((v) => Object.values(memberRoles).includes(v as MemberRole), {
-      message: "Invalid role",
-    }),
-});
-
 interface Props {
   organizationId: string;
   allowedRoles?: MemberRole[];
@@ -68,7 +61,7 @@ export default function InviteMemberDialog({
   const tInvite = useTranslations("organization.team.invite");
   const [open, setOpen] = useState(false);
 
-  const form = useForm<InviteFormSchema>({
+  const form = useForm<z.infer<typeof InviteFormSchema>>({
     resolver: zodResolver(InviteFormSchema),
     defaultValues: {
       email: "",
@@ -77,7 +70,7 @@ export default function InviteMemberDialog({
     },
   });
 
-  async function onSubmit(data: InviteFormSchema) {
+  async function onSubmit(data: z.infer<typeof InviteFormSchema>) {
     try {
       await authClient.organization.inviteMember(
         {
@@ -157,7 +150,7 @@ export default function InviteMemberDialog({
                 }}
               />
 
-              <FormField<InviteFormSchema, "role">
+              <FormField<z.infer<typeof InviteFormSchema>, "role">
                 control={form.control}
                 name="role"
                 render={({ field }) => (

@@ -2,16 +2,19 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createUpdateSchema } from "drizzle-zod";
 import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import { activityTypeValues } from "@/components/features/project-activities/types";
 import type { ProjectType } from "@/components/features/projects/types";
+import {
+  EditActivityFormItemSchema,
+  EditProjectWithActivitiesSchema,
+} from "@/components/features/projects/validation-schemas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -26,40 +29,12 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface EditProjectFormProps {
   project: ProjectType;
   onSuccess?: () => void;
 }
-
-const EditActivityFormItemSchema = createUpdateSchema(projectActivitiesTable)
-  .omit({
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    distanceKm: z.number().min(0, "Distance must be positive"),
-    isNew: z.boolean().optional(), // Track if activity is new
-    isDeleted: z.boolean().optional(), // Track if activity should be deleted
-  });
-
-const ProjectUpdateFormSchema = createUpdateSchema(projectsTable).omit({
-  id: true,
-  responsibleUserId: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-// Combined form schema with activities
-const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
-  activities: z.array(EditActivityFormItemSchema).optional(),
-});
-
-type EditProjectWithActivitiesType = z.infer<
-  typeof EditProjectWithActivitiesSchema
->;
 
 function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   const tActivities = useTranslations("project.activities");
@@ -82,7 +57,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     trigger,
     setValue,
     getValues,
-  } = useForm<EditProjectWithActivitiesType>({
+  } = useForm<z.infer<typeof EditProjectWithActivitiesSchema>>({
     resolver: zodResolver(EditProjectWithActivitiesSchema),
     mode: "onChange",
     defaultValues: {
@@ -124,7 +99,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
   const { mutateAsync: updateProjectMutation, isPending: isUpdating } =
     useMutation({
-      mutationFn: (data: EditProjectWithActivitiesType) =>
+      mutationFn: (data: z.infer<typeof EditProjectWithActivitiesSchema>) =>
         orpc.projects.update({
           id: project.id,
           data: {
@@ -205,7 +180,9 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     }
   }
 
-  async function onSubmit(values: EditProjectWithActivitiesType) {
+  async function onSubmit(
+    values: z.infer<typeof EditProjectWithActivitiesSchema>,
+  ) {
     try {
       // Update the project
       const result = await updateProjectMutation(values);

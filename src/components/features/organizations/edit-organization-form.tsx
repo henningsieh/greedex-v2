@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
-
+import type { z } from "zod";
+import { EditOrganizationFormSchema } from "@/components/features/organizations/validation-schemas";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -28,26 +28,20 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { findAvailableSlug } from "@/lib/utils";
 
-const EditOrganizationFormSchema = z.object({
-  name: z.string().min(1, "Organization name is required"),
-});
-
-type EditOrganizationFormSchemaType = z.infer<typeof EditOrganizationFormSchema>;
-
 export default function EditOrganizationForm() {
   const queryClient = useQueryClient();
   const { data: organization } = useSuspenseQuery(
     orpcQuery.organizations.getActive.queryOptions(),
   );
 
-  const form = useForm<EditOrganizationFormSchemaType>({
+  const form = useForm<z.infer<typeof EditOrganizationFormSchema>>({
     resolver: zodResolver(EditOrganizationFormSchema),
     defaultValues: {
       name: organization?.name || "",
     },
   });
 
-  async function onSubmit(data: EditOrganizationFormSchemaType) {
+  async function onSubmit(data: z.infer<typeof EditOrganizationFormSchema>) {
     if (!organization) {
       toast.error("No organization found");
       return;

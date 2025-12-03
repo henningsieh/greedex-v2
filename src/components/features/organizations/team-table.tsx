@@ -14,10 +14,9 @@ import {
 import { FilterXIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
-import type {
-  MemberRole,
-  MemberWithUser,
-} from "@/components/features/organizations/types";
+import type z from "zod";
+import type { MemberRole } from "@/components/features/organizations/types";
+import type { MemberWithUserSchema } from "@/components/features/organizations/validation-schemas";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -76,6 +75,8 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
 
   const members = membersResult?.members ?? [];
   const total = membersResult?.total ?? 0;
+
+  type MemberWithUser = z.infer<typeof MemberWithUserSchema>;
 
   const columns = React.useMemo<
     ColumnDef<MemberWithUser, string | Date | undefined>[]

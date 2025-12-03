@@ -7,12 +7,15 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import type { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import type { Organization } from "@/components/features/organizations/types";
-import { ProjectActivityFormSchema } from "@/components/features/project-activities/schemas";
 import { activityTypeValues } from "@/components/features/project-activities/types";
-import { ProjectFormSchema } from "@/components/features/projects/schemas";
+import {
+  ActivityFormItemSchema,
+  type CreateProjectWithActivities,
+  CreateProjectWithActivitiesSchema,
+} from "@/components/features/project-activities/validation-schemas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -42,19 +45,6 @@ interface CreateProjectFormProps {
   userOrganizations: Omit<Organization, "metadata">[];
 }
 
-const ActivityFormItemSchema = ProjectActivityFormSchema.omit({
-  projectId: true,
-});
-
-// Combined form schema with optional activities
-const CreateProjectWithActivitiesSchema = ProjectFormSchema.extend({
-  activities: z.array(ActivityFormItemSchema).optional(),
-});
-
-type CreateProjectWithActivitiesType = z.infer<
-  typeof CreateProjectWithActivitiesSchema
->;
-
 function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form.new");
@@ -67,7 +57,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     handleSubmit,
     formState: { errors },
     trigger,
-  } = useForm<CreateProjectWithActivitiesType>({
+  } = useForm<CreateProjectWithActivities>({
     resolver: zodResolver(CreateProjectWithActivitiesSchema),
     mode: "onChange",
     defaultValues: {
@@ -92,7 +82,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
 
   const { mutateAsync: createProjectMutation, isPending: isCreatingProject } =
     useMutation({
-      mutationFn: (values: CreateProjectWithActivitiesType) =>
+      mutationFn: (values: CreateProjectWithActivities) =>
         orpc.projects.create({
           name: values.name,
           startDate: values.startDate,
@@ -140,7 +130,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     }
   }
 
-  async function onSubmit(values: CreateProjectWithActivitiesType) {
+  async function onSubmit(values: CreateProjectWithActivities) {
     try {
       // Create the project first
       const result = await createProjectMutation(values);
