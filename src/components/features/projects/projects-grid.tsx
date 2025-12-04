@@ -8,10 +8,6 @@ import type {
   ProjectSortField,
   ProjectType,
 } from "@/components/features/projects/types";
-import {
-  DEFAULT_PROJECT_SORTING_FIELD,
-  PROJECT_SORT_FIELDS,
-} from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -22,6 +18,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import {
+  DEFAULT_PROJECT_SORTING_FIELD,
+  PROJECT_SORT_FIELDS,
+} from "@/lib/config/registry";
 
 interface ProjectsGridProps {
   projects: Array<ProjectType>;

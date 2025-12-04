@@ -3,8 +3,8 @@ import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { DashboardTabs } from "@/components/features/organizations/dashboard-tabs";
 import { memberRoles } from "@/components/features/organizations/types";
-import { DEFAULT_PROJECT_SORTING_FIELD } from "@/components/features/projects/types";
 import { auth } from "@/lib/better-auth";
+import { DEFAULT_PROJECT_SORTING_FIELD } from "@/lib/config/registry";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
 export default async function DashboardPage() {

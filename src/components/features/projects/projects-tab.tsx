@@ -8,7 +8,6 @@ import { CreateProjectButton } from "@/components/features/projects/create-proje
 import ProjectsGrid from "@/components/features/projects/projects-grid";
 import { ProjectsTable } from "@/components/features/projects/projects-table";
 import { ProjectsViewSelect } from "@/components/features/projects/projects-view-select";
-import { DEFAULT_PROJECT_SORTING_FIELD } from "@/components/features/projects/types";
 import {
   Empty,
   EmptyContent,
@@ -17,6 +16,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
+import { DEFAULT_PROJECT_SORTING_FIELD } from "@/lib/config/registry";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function ProjectsTab() {

@@ -18,6 +18,14 @@ const app = next({
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
+  // Add memory logging here
+  setInterval(() => {
+    const mem = process.memoryUsage();
+    console.log(
+      `[${new Date().toISOString()}] RSS: ${Math.round(mem.rss / 1024 / 1024)}MB, Heap: ${Math.round(mem.heapUsed / 1024 / 1024)}MB`,
+    );
+  }, 60000);
+
   const httpServer = createServer(
     (request: IncomingMessage, response: ServerResponse<IncomingMessage>) => {
       if (!request.url) return;

@@ -10,14 +10,14 @@ import {
   ProjectActivityWithRelationsSchema,
 } from "@/components/features/project-activities/validation-schemas";
 import {
-  DEFAULT_PROJECT_SORTING_FIELD,
-  PROJECT_SORT_FIELDS,
-} from "@/components/features/projects/types";
-import {
   ProjectFormSchema,
   ProjectWithRelationsSchema,
 } from "@/components/features/projects/validation-schemas";
 import { auth } from "@/lib/better-auth";
+import {
+  DEFAULT_PROJECT_SORTING_FIELD,
+  PROJECT_SORT_FIELDS,
+} from "@/lib/config/registry";
 import { db } from "@/lib/drizzle/db";
 import {
   projectActivitiesTable,

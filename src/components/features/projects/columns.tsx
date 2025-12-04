@@ -8,10 +8,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import EditProjectForm from "@/components/features/projects/edit-project-form";
 import { SortableHeader } from "@/components/features/projects/sortable-header";
-import {
-  PROJECT_SORT_FIELDS,
-  type ProjectType,
-} from "@/components/features/projects/types";
+import type { ProjectType } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useConfirmDialog } from "@/components/ui/confirm-dialog";
@@ -30,6 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
+import { PROJECT_SORT_FIELDS } from "@/lib/config/registry";
 import { Link } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { getProjectDetailPath } from "@/lib/utils";
