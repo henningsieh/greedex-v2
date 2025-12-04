@@ -10,8 +10,9 @@ export default async function ProjectsPage() {
   const t = await getTranslations("organization.projects");
 
   // Prefetch the projects data on the server
+  // Using await ensures data is in cache BEFORE dehydration
   const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(
+  await queryClient.prefetchQuery(
     orpcQuery.projects.list.queryOptions({
       input: {
         sort_by: "createdAt",

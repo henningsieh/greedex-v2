@@ -50,12 +50,15 @@ export default async function AppLayout({
   }
   const queryClient = getQueryClient();
 
-  // Prefetch data needed by AppBreadcrumb
-  void queryClient.prefetchQuery(orpcQuery.projects.list.queryOptions());
-  void queryClient.prefetchQuery(
-    orpcQuery.organizations.getActive.queryOptions(),
-  );
-  void queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions());
+  // Prefetch all data needed by client components that use useSuspenseQuery.
+  // Using await ensures data is in cache BEFORE dehydration, preventing hydration mismatches.
+  // Components that need this data: AppBreadcrumb, AppSidebar (ProjectSwitcher, OrganizationSwitcher), Navbar (UserSession)
+  await Promise.all([
+    queryClient.prefetchQuery(orpcQuery.projects.list.queryOptions()),
+    queryClient.prefetchQuery(orpcQuery.organizations.getActive.queryOptions()),
+    queryClient.prefetchQuery(orpcQuery.organizations.list.queryOptions()),
+    queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions()),
+  ]);
 
   const sidebarisOpen = (await cookies()).get("sidebar_state")?.value === "true";
 
