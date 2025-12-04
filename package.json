@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "dev:inspect": "PORT=3001 NEXT_DIST_DIR=.next-inspect node --expose-gc --inspect --import tsx src/server.ts",
+    "dev:inspect": "NODE_OPTIONS='--max-old-space-size=4096' PORT=3001 NEXT_DIST_DIR=.next-inspect node --expose-gc --inspect --import tsx src/server.ts",
     "dev:inspect-brk": "PORT=3001 NEXT_DIST_DIR=.next-inspect node --expose-gc --inspect-brk --import tsx src/server.ts",
     "dev:turbo": "NEXT_DIST_DIR=.next-turbo npx next dev --turbo --port 3000",
     "build": "tsc --project tsconfig.server.json && next build",
