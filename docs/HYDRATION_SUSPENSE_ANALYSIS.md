@@ -351,9 +351,12 @@ const { data: projects } = useSuspenseQuery(...); // Stable
 const queryClient = getQueryClient();
 
 // Prefetch ALL data used in suspended client components
-void queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions());
-void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
-void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
+// IMPORTANT: Must await to ensure data is in cache before dehydrate() is called
+await Promise.all([
+  queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions()),
+  queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions()),
+  queryClient.prefetchQuery(orpcQuery.project.list.queryOptions()),
+]);
 
 return (
   <HydrateClient client={queryClient}>
@@ -362,6 +365,20 @@ return (
     </Suspense>
   </HydrateClient>
 );
+```
+
+**⚠️ Common Mistake: Using `void` instead of `await`**
+
+```typescript
+// BAD: Fire-and-forget prefetch - data may not be ready for dehydrate()
+void queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions());
+void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
+
+// GOOD: Await ensures data is in cache before dehydrate() runs
+await Promise.all([
+  queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions()),
+  queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions()),
+]);
 ```
 
 ### ✅ DO: Use Real-Time Hooks for Client-Only Components
@@ -397,7 +414,7 @@ Is component server-rendered?
 2. **Prefetched queries provide stability** through serialization/deserialization
 3. **Real-time hooks break SSR** because they read fresh data on mount
 4. **Never mix stable and unstable** data sources in the same component
-5. **Always prefetch** before using useSuspenseQuery in SSR
+5. **Always await prefetch** - use `await Promise.all([...])` not `void` to ensure data is in cache before `dehydrate()`
 6. **staleTime protects hydration** by keeping cached data fresh
 7. **Choose the right pattern** based on SSR needs and real-time requirements
 
