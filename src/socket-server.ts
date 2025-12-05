@@ -56,4 +56,7 @@ if (env.NODE_ENV === "development") {
 
 httpServer.listen(socketPort, () => {
   console.log(`Socket.IO server listening on port ${socketPort}`);
+}).on('error', (err) => {
+  console.error('Failed to start Socket.IO server:', err);
+  process.exit(1);
 });

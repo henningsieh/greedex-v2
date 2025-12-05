@@ -75,27 +75,25 @@ Concise, actionable guidance to get AI agents productive quickly in this codebas
 Project snapshot
 
 - Framework: Next.js (App Router) under `src/app` (Next 16, React 19).
-- Custom server: `src/server.ts` creates a Node `http` server and mounts Next's handler — this is the canonical place to attach server-side services (Socket.IO, custom HTTP handlers, instrumentation).
-- WebSockets: `socket.io` + `socket.io-client` are included; a Socket.IO POC lives in `src/server.ts`.
+- WebSockets: Socket.IO runs as a separate service in `src/socket-server.ts` (decoupled from Next.js to prevent memory leaks during development).
 - RPC / API layer: oRPC is used for a type-safe RPC surface. The oRPC route handler is at `src/app/api/rpc/[[...rest]]/route.ts` and the router/client lives under `src/lib/orpc`.
 - Auth: Better Auth is configured under `src/lib/better-auth` and exposed via `src/app/api/auth/[...all]/route.ts`.
 - Database: Drizzle ORM + PostgreSQL; schema, migrations and DB config are under `src/lib/drizzle`.
-- Build flow: server TypeScript is compiled to `out/server.js` via `tsc --project tsconfig.server.json`, then `next build` runs. See `package.json` scripts.
+- Build flow: Standard Next.js build process (`next build` then `next start`).
 - Tooling: `biome` for lint/format, Tailwind/PostCSS for styling, `vitest` for tests.
 
 Key scripts (execute exactly as listed)
 
-- `bun run dev` — runs `tsx watch src/server.ts` (dev server + Next in same process). Use when working on Socket.IO or server code; this is the canonical local dev command.
-- `bun run build` — `tsc --project tsconfig.server.json && next build` (compile server to `out/` then build Next).
-- `bun run start` — `cross-env NODE_ENV=production node out/server.js` (expects compiled server in `out/server.js`).
+- `bun run dev` — runs `concurrently "next dev -p 3000" "tsx watch src/socket-server.ts"` (Next.js + Socket.IO in parallel processes).
+- `bun run build` — `next build` (standard Next.js build).
+- `bun run start` — `concurrently "next start" "cross-env NODE_ENV=production tsx src/socket-server.ts"` (Next.js + Socket.IO in parallel processes).
 - `bun run lint` / `bun run format` — `biome` commands.
 - `bun run test` / `bun run test:run` / `bun run test:coverage` — `vitest` test commands.
 
 Important patterns & conventions
 
 - Source tree: all app code is under `src/` (App Router, components, API routes, server). Favor ESM imports (`package.json` sets `type: "module"`).
-- Custom server is authoritative: production runs `out/server.js` produced by `tsc`. Do not rely on `next dev` for local behavior — use `bun run dev` which runs the custom server.
-- App Router usage: use `src/app/*` routes and `page.tsx`/`layout.tsx` files. Server-only code and Node APIs belong in `src/server.ts` or files only imported by it.
+- App Router usage: use `src/app/*` routes and `page.tsx`/`layout.tsx` files. Server-only code and Node APIs belong in `src/socket-server.ts` or files only imported by it.
 
 oRPC / API layer
 
@@ -105,9 +103,9 @@ oRPC / API layer
 
 WebSockets / Socket.IO (how to integrate)
 
-- Pattern: create the HTTP server, pass it to Next and then attach Socket.IO. See `src/server.ts` for the reference implementation.
-- Dev workflow: modify `src/server.ts` and run `bun run dev` (tsx executes TypeScript directly). Handlers added to `io` are live during development.
-- Production: ensure `tsc` emits `out/server.js` (check `tsconfig.server.json` include globs) so `bun run start` can run produced file.
+- Pattern: Socket.IO runs as a separate service in `src/socket-server.ts` (decoupled from Next.js to prevent memory leaks during development).
+- Dev workflow: modify `src/socket-server.ts` and run `bun run dev` (tsx executes TypeScript directly). Handlers added to `io` are live during development.
+- Production: Socket.IO runs in parallel with Next.js using `concurrently`.
 
 Authentication, DB, and cross-cutting integrations
 
@@ -117,14 +115,13 @@ Authentication, DB, and cross-cutting integrations
 
 Files to reference (quick links)
 
-- `src/server.ts` — custom server wiring (Next + Socket.IO).
+- `src/socket-server.ts` — Socket.IO server (runs separately from Next.js).
 - `src/app/api/rpc/[[...rest]]/route.ts` — oRPC route handler (all RPC calls).
 - `src/lib/orpc/` — router, client, middleware, and README describing SSR optimization.
 - `src/lib/better-auth/index.ts` — Better Auth configuration and plugins (organization plugin, hooks).
 - `src/lib/drizzle/` — DB config, schema, migrations.
 - `src/instrumentation.ts` — place to import server-only instrumentation (e.g., `lib/orpc.server`).
 - `package.json` — scripts and dependencies (important: `dev`, `build`, `start`, `auth:generate`).
-- `tsconfig.server.json` — controls emitted `out/` server build.
 - `next.config.ts` — `reactCompiler: true` enabled; changing it impacts builds.
 
 Note about client-side animated components and locale switching:
@@ -133,19 +130,17 @@ Note about client-side animated components and locale switching:
 
 What NOT to change without asking owner
 
-- `reactCompiler: true` in `next.config.ts` and the two-step server build / start pipeline (`tsc` -> `next build` -> `node out/server.js`).
+- `reactCompiler: true` in `next.config.ts`.
 - `type: "module"` in `package.json` — switching to CommonJS breaks `tsx`/`tsc` ESM expectations.
 
 Agent tasks and quick wins
 
-- If adding Socket.IO, edit `src/server.ts` and test with `bun run dev`.
+- If adding Socket.IO, edit `src/socket-server.ts` and test with `bun run dev`.
 - For oRPC changes: add procedures under `src/lib/orpc/procedures.ts` (or split per domain), update `src/lib/orpc/router.ts` and the route handler will pick them up.
-- When adding server TS code, ensure it compiles under `tsc --project tsconfig.server.json`.
 - Run `bun run lint` and `bun run format` before PRs.
 
 Troubleshooting tips
 
-- If `out/server.js` is missing after `bun run build`, check `tsconfig.server.json` include globs and confirm `tsc` emitted files (no `noEmit`).
 - If SSR oRPC calls fail, ensure `src/instrumentation.ts` imports the server client initializer (e.g., `src/lib/orpc/client.server.ts`) before other server code.
 
 Testing & QA
@@ -155,11 +150,11 @@ Testing & QA
 
 Deployment notes
 
-- Recommended: Vercel for frontend; keep an eye on custom server needs (Socket.IO + custom `out/server.js` flow). For full custom server deployments, run the `bun run build` step in CI and `bun run start` on the target host.
+- Recommended: Vercel for frontend; keep an eye on custom server needs (Socket.IO runs as separate service). For full custom server deployments, run the `bun run build` step in CI and `bun run start` on the target host.
 
 Troublesome changes to avoid
 
-- Do not move `src/server.ts` behavior into Next's built-in dev server without updating the build/start pipeline — the repository relies on compiling `src/server.ts` to `out/server.js`.
+- Do not integrate Socket.IO back into a custom Next.js server without updating the build/start pipeline — the repository relies on decoupled services to prevent memory leaks.
 
 If you'd like, I can:
 
@@ -173,4 +168,4 @@ If you'd like, I can:
 
 ## Recent Changes / Notes
 - The codebase added an oRPC layer with `src/app/api/rpc/[[...rest]]/route.ts` and `src/lib/orpc` to support server-side RPC during SSR and type-safe client calls.
-- `src/server.ts` includes a Socket.IO POC — this is the recommended place for realtime server-side work.
+- Socket.IO has been decoupled from Next.js and runs as a separate service in `src/socket-server.ts` to prevent memory leaks during development.
