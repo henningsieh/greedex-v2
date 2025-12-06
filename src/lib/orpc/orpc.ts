@@ -40,4 +40,3 @@ export const orpc: RouterClient<Router> =
  * Note: This should only be imported in client components
  */
 export const orpcQuery = createTanstackQueryUtils(orpc);
-

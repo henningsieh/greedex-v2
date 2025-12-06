@@ -18,4 +18,3 @@ export type Session = SessionResponse["session"];
  * Just the user object portion
  */
 export type User = SessionResponse["user"];
-

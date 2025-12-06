@@ -6,14 +6,12 @@ import { z } from "zod";
 import { memberRoles } from "@/components/features/organizations/types";
 import { ProjectParticipantWithUserSchema } from "@/components/features/participants/validation-schemas";
 import {
-  ProjectActivityFormSchema,
-  ProjectActivityWithRelationsSchema,
-} from "@/components/features/project-activities/validation-schemas";
-import {
   DEFAULT_PROJECT_SORTING_FIELD,
   PROJECT_SORT_FIELDS,
 } from "@/components/features/projects/types";
 import {
+  ProjectActivityFormSchema,
+  ProjectActivityWithRelationsSchema,
   ProjectFormSchema,
   ProjectWithRelationsSchema,
 } from "@/components/features/projects/validation-schemas";
@@ -855,4 +853,3 @@ export const deleteProjectActivity = authorized
       success: true,
     };
   });
-

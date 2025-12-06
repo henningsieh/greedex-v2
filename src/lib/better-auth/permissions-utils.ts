@@ -124,4 +124,3 @@ export function isReadOnlyMember(role: MemberRole): boolean {
     !checkProjectPermission(role, ["create", "update", "delete"])
   );
 }
-

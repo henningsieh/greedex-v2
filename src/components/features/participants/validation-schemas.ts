@@ -14,4 +14,3 @@ export const ProjectParticipantWithUserSchema = createSelectSchema(
     updatedAt: true,
   }),
 });
-

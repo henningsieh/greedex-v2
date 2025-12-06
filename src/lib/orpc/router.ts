@@ -79,4 +79,3 @@ export const router = {
 export type Router = typeof router;
 
 export type Outputs = InferRouterOutputs<typeof router>;
-

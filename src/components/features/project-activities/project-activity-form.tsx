@@ -10,8 +10,8 @@ import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
   activityTypeValues,
   type ProjectActivityType,
-} from "@/components/features/project-activities/types";
-import { ProjectActivityFormSchema } from "@/components/features/project-activities/validation-schemas";
+} from "@/components/features/projects/types";
+import { ProjectActivityFormSchema } from "@/components/features/projects/validation-schemas";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";

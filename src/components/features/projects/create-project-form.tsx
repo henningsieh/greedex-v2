@@ -10,12 +10,12 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import type { Organization } from "@/components/features/organizations/types";
-import { activityTypeValues } from "@/components/features/project-activities/types";
+import { activityTypeValues } from "@/components/features/projects/types";
 import {
   ActivityFormItemSchema,
   type CreateProjectWithActivities,
   CreateProjectWithActivitiesSchema,
-} from "@/components/features/project-activities/validation-schemas";
+} from "@/components/features/projects/validation-schemas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -178,7 +178,7 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
   const addActivity = () => {
     append({
       activityType: "car",
-      distanceKm: 0,
+      distanceKm: 1,
       description: null,
       activityDate: null,
     });

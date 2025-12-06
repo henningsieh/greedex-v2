@@ -79,4 +79,3 @@ export const findAvailableSlug = async (baseName: string): Promise<string> => {
   // Fallback: use completely random slug
   return randomString(8);
 };
-

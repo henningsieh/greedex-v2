@@ -42,7 +42,7 @@ export const EditActivityFormItemSchema = createUpdateSchema(
     updatedAt: true,
   })
   .extend({
-    distanceKm: z.number().min(0, "Distance must be positive"),
+    distanceKm: z.number().positive("Distance must be greater than zero"),
     isNew: z.boolean().optional(), // Track if activity is new
     isDeleted: z.boolean().optional(), // Track if activity should be deleted
   });
@@ -52,3 +52,34 @@ export const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
   activities: z.array(EditActivityFormItemSchema).optional(),
 });
 
+// Form schema for ProjectActivity with proper number handling for distanceKm
+export const ProjectActivityFormSchema = createInsertSchema(
+  projectActivitiesTable,
+)
+  .omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .extend({
+    distanceKm: z.number().positive("Distance must be greater than zero"),
+  });
+
+export const ActivityFormItemSchema = ProjectActivityFormSchema.omit({
+  projectId: true,
+});
+
+// Combined form schema with optional activities
+export const CreateProjectWithActivitiesSchema = ProjectFormSchema.extend({
+  activities: z.array(ActivityFormItemSchema).optional(),
+});
+
+export type CreateProjectWithActivities = z.infer<
+  typeof CreateProjectWithActivitiesSchema
+>;
+
+export const ProjectActivityWithRelationsSchema = createSelectSchema(
+  projectActivitiesTable,
+).extend({
+  project: createSelectSchema(projectsTable).optional(),
+});

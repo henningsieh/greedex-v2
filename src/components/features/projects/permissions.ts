@@ -73,4 +73,3 @@ export const member = ac.newRole({
  * Export types for use throughout the application
  */
 export type ProjectPermission = (typeof statement)["project"][number];
-

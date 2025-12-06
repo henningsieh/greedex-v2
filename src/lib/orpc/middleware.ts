@@ -73,4 +73,3 @@ export const requireProjectPermissions =
 
     return next();
   };
-

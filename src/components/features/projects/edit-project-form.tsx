@@ -9,8 +9,8 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
-import { activityTypeValues } from "@/components/features/project-activities/types";
 import type { ProjectType } from "@/components/features/projects/types";
+import { activityTypeValues } from "@/components/features/projects/types";
 import {
   EditActivityFormItemSchema,
   EditProjectWithActivitiesSchema,
@@ -126,7 +126,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     }) => {
       const validActivity = EditActivityFormItemSchema.parse(params.activity);
 
-      if (!validActivity.activityType || !validActivity.distanceKm) {
+      if (!validActivity.activityType) {
         throw new Error("Activity type and distance are required");
       }
 
@@ -147,7 +147,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     }) => {
       const validActivity = EditActivityFormItemSchema.parse(params.activity);
 
-      if (!validActivity.activityType || !validActivity.distanceKm) {
+      if (!validActivity.activityType) {
         throw new Error("Activity type and distance are required");
       }
 
@@ -258,7 +258,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     append({
       id: undefined,
       activityType: "car",
-      distanceKm: 0,
+      distanceKm: 1,
       description: null,
       activityDate: null,
       isNew: true,

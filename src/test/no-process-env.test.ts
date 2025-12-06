@@ -32,7 +32,7 @@ describe("no direct process.env usage", () => {
     path.resolve(root, "instrumentation.ts"), // Next.js instrumentation needs runtime check
   ];
 
-  it("should not use process.env in source files (except src/env.ts)", () => {
+  it("should not use process.env in source files (except src/env.ts and src/instrumentation.ts)", () => {
     const offenders: string[] = [];
     const finder = /\bprocess\.env\b/;
     for (const file of files) {
@@ -43,4 +43,3 @@ describe("no direct process.env usage", () => {
     expect(offenders).toEqual([]);
   });
 });
-

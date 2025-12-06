@@ -21,4 +21,3 @@ export const memberRoles = {
 export type MemberRole = (typeof memberRoles)[keyof typeof memberRoles];
 export type Organization = OrganizationType;
 // export type InsertOrganizationType = InferInsertModel<typeof organizationTable>;
-

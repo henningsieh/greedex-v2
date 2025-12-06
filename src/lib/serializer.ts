@@ -5,4 +5,3 @@ export const serializer = new StandardRPCJsonSerializer({
     // put custom serializers here
   ],
 });
-

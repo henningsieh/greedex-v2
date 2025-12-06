@@ -1,6 +1,11 @@
 import type { InferSelectModel } from "drizzle-orm";
-import type { projectsTable } from "@/lib/drizzle/schema";
+import type { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 
+// ============================================================================
+// PROJECT TYPES
+// ============================================================================
+
+// Type inferred from DB schema
 export type ProjectType = InferSelectModel<typeof projectsTable>;
 
 // Sort options for projects
@@ -18,3 +23,13 @@ export type ProjectSortField =
 export const DEFAULT_PROJECT_SORTING_FIELD: ProjectSortField =
   PROJECT_SORT_FIELDS.startDate;
 
+// ============================================================================
+// PROJECT ACTIVITY TYPES
+// ============================================================================
+
+// Single source of truth for activity types
+export const activityTypeValues = ["boat", "bus", "train", "car"] as const;
+export type ActivityType = (typeof activityTypeValues)[number];
+
+// Type inferred from DB schema
+export type ProjectActivityType = InferSelectModel<typeof projectActivitiesTable>;

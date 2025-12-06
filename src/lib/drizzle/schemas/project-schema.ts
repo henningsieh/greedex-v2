@@ -2,7 +2,7 @@ import { relations } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 import { decimal, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
-import { activityTypeValues, ActivityType } from "@/components/features/project-activities/types";
+import { activityTypeValues, ActivityType } from "@/components/features/projects/types";
 
 
 // ============================================================================

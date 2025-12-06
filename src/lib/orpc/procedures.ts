@@ -80,4 +80,3 @@ export const getFullOrganization = authorized.handler(async ({ context }) => {
   });
   return organization;
 });
-

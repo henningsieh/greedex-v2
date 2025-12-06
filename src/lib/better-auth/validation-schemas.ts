@@ -9,4 +9,3 @@ export const SessionSchema = z.custom<SessionResponse | null>(
   (val): val is SessionResponse | null =>
     val === null || (typeof val === "object" && val !== null),
 );
-

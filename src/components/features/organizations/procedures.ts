@@ -109,4 +109,3 @@ export const searchMembers = authorized
       total: uniqueMembers.length,
     };
   });
-
