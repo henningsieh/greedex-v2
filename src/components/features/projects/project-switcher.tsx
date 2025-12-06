@@ -55,7 +55,7 @@ export function ProjectSwitcher() {
   );
 
   const activeProject = projects?.find(
-    (project) => project.id === session?.session?.activeProjectId,
+    (project) => project.id === session?.session.activeProjectId,
   );
 
   const setActiveProject = useMutation({

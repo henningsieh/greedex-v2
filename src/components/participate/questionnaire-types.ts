@@ -144,6 +144,17 @@ export interface EmissionCalculation {
   treesNeeded: number;
 }
 
+/**
+ * Compute CO₂ emissions for transport, accommodation, and food from participant answers and estimate trees required to offset the emissions.
+ *
+ * @param answers - Partial participant responses. Fields used: flightKm, boatKm, trainKm, busKm, carKm, carType, carPassengers, days, accommodationCategory, roomOccupancy, electricity, and food.
+ * @returns An EmissionCalculation containing:
+ * - `transportCO2` — total transport emissions in kilograms CO₂ (includes round trip and per-passenger car sharing),
+ * - `accommodationCO2` — total accommodation emissions in kilograms CO₂ (adjusted by occupancy and electricity type),
+ * - `foodCO2` — total food emissions in kilograms CO₂,
+ * - `totalCO2` — sum of all emissions in kilograms CO₂,
+ * - `treesNeeded` — number of trees required to offset the `totalCO2` (computed as `Math.ceil(totalCO2 / 22)`).
+ */
 export function calculateEmissions(
   answers: Partial<ParticipantAnswers>,
 ): EmissionCalculation {

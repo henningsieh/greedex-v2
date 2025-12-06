@@ -13,6 +13,7 @@ type StripLocale<T> = T extends `/${string}/${infer R}`
     ? "/"
     : T;
 
+// Export the application route type after stripping locale prefix
 export type AppRoute = StripLocale<AppRoutes>;
 
 // Exported route constants - use with next-intl Link component
@@ -46,7 +47,3 @@ export const E_FOREST_PATH: AppRoute = "/e+forest";
 
 // Anchor links (not actual routes)
 export const WORKSHOPS_ANCHOR = "/#workshops";
-
-// Helper for dynamic routes that need parameter replacement
-export const getProjectDetailPath = (projectId: string): AppRoute =>
-  PROJECT_DETAIL_PATH.replace("[id]", projectId) as AppRoute;

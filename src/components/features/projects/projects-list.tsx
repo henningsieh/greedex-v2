@@ -5,7 +5,7 @@ import { useFormatter } from "next-intl";
 import { Alert } from "@/components/ui/alert";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
-function ProjectsList() {
+export function ProjectsList() {
   const { data: projects, error } = useSuspenseQuery(
     orpcQuery.projects.list.queryOptions(),
   );
@@ -52,5 +52,3 @@ function ProjectsList() {
     </div>
   );
 }
-
-export default ProjectsList;

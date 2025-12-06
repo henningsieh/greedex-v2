@@ -15,7 +15,7 @@ interface Props {
   lastLoginMethod?: string | null;
 }
 
-function SocialButtons({ disabled, callbackUrl, lastLoginMethod }: Props) {
+export function SocialButtons({ disabled, callbackUrl, lastLoginMethod }: Props) {
   const handleSocialSignIn = async (provider: SupportedOAuthProvider) => {
     await authClient.signIn.social({
       provider,
@@ -51,5 +51,3 @@ function SocialButtons({ disabled, callbackUrl, lastLoginMethod }: Props) {
     </Field>
   );
 }
-
-export default SocialButtons;

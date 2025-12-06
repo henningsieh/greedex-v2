@@ -1,54 +1,21 @@
 "use client";
 
-import { ChevronDownIcon, Grid2X2Icon, TablePropertiesIcon } from "lucide-react";
+import { Grid2X2Icon, TablePropertiesIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import {
-  PROJECT_SORT_FIELDS,
-  type ProjectSortField,
-} from "@/components/features/projects/types";
+// import { PROJECT_SORT_FIELDS } from "@/components/features/projects/types"; // unused
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
+// Note: Sorting UI moved to `ProjectsGrid` to keep grid sorting internal
 
 interface ProjectsControlsProps {
   view: "grid" | "table";
   setView: (view: "grid" | "table") => void;
-  sortBy?: ProjectSortField;
-  onSortChange?: (sort: ProjectSortField) => void;
 }
 
-export function ProjectsViewSelect({
-  view,
-  setView,
-  sortBy,
-  onSortChange,
-}: ProjectsControlsProps) {
+export function ProjectsViewSelect({ view, setView }: ProjectsControlsProps) {
   const t = useTranslations("organization.projects");
 
-  const sortOptions = [
-    {
-      value: PROJECT_SORT_FIELDS.name,
-      label: t("table.name"),
-    },
-    {
-      value: PROJECT_SORT_FIELDS.startDate,
-      label: t("table.start-date"),
-    },
-    {
-      value: PROJECT_SORT_FIELDS.createdAt,
-      label: t("table.created"),
-    },
-    {
-      value: PROJECT_SORT_FIELDS.updatedAt,
-      label: t("table.updated"),
-    },
-  ];
+  /* Sorting options handled internally by `ProjectsGrid` */
 
   return (
     <div className="flex items-center justify-between">
@@ -58,43 +25,20 @@ export function ProjectsViewSelect({
           size="sm"
           onClick={() => setView("table")}
         >
-          <TablePropertiesIcon className="mr-2 size-4" />
-          {t("views.table")}
+          <TablePropertiesIcon className="size-4" />
+          <p className="hidden sm:inline">{t("views.table")}</p>
         </Button>
         <Button
           variant={view === "grid" ? "default" : "outline"}
           size="sm"
           onClick={() => setView("grid")}
         >
-          <Grid2X2Icon className="mr-2 size-4" />
-          {t("views.grid")}
+          <Grid2X2Icon className="size-4" />
+          <p className="hidden sm:inline">{t("views.grid")}</p>
         </Button>
       </div>
 
-      {view === "grid" && onSortChange && (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              {t("sort-label")}{" "}
-              {sortOptions.find((option) => option.value === sortBy)?.label}
-              <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{t("sort-projects")}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {sortOptions.map((option) => (
-              <DropdownMenuItem
-                key={option.value}
-                onClick={() => onSortChange(option.value)}
-                className={sortBy === option.value ? "bg-accent" : ""}
-              >
-                {option.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+      {/* Sorting moved to ProjectsGrid to keep grid behaviour internal and consistent with ProjectsTable */}
     </div>
   );
 }

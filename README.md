@@ -85,17 +85,17 @@ DISCORD_CLIENT_SECRET=your-discord-client-secret
 
 ### Development
 
-Run the development server with custom server support (includes Socket.IO POC):
+Run the development server with Socket.IO support (decoupled for memory leak prevention):
 ```bash
 bun run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) in your browser. The server watches `src/server.ts` for changes.
+Visit [http://localhost:3000](http://localhost:3000) in your browser. The Socket.IO server runs separately on port 4000.
 
 ### Build & Production
 
 ```bash
-# Build: compile server + Next.js
+# Build: compile Next.js application
 bun run build
 
 # Start: run production server
@@ -193,12 +193,12 @@ Client: `src/lib/better-auth/auth-client.ts`
 
 ## WebSocket & Real-Time (Socket.IO)
 
-A POC for **Socket.IO** integration is included in `src/server.ts`:
-- Custom Node.js HTTP server handles both Next.js and Socket.IO
-- Dev mode runs via `bun run dev` (uses `tsx` watch)
-- Production requires `bun run build` then `bun run start`
+A POC for **Socket.IO** is implemented in `src/socket-server.ts` (decoupled from the Next.js server):
+- Run both servers in dev with `bun run dev` (starts Next.js on 3000 and Socket.IO on 4000)
+- Use `bun run dev:inspect` to run an inspect/dev instance on `3001` and a socket server on `4001` (helps avoid port collisions while debugging)
+- Production requires `bun run build` then `bun run start` (both `out/server.js` and `out/socket-server.js` will be launched)
 
-To add real-time features (e.g., live team updates), attach Socket.IO event handlers in `src/server.ts` and import the client in your React components.
+To add real-time features (e.g., live team updates), attach Socket.IO event handlers in `src/socket-server.ts` and import the client in your React components.
 
 ---
 

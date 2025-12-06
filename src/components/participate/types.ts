@@ -1,4 +1,4 @@
-import type { ActivityType } from "@/components/features/project-activities/types";
+import type { ActivityType } from "@/components/features/projects/types";
 
 // CO₂ emission factors (kg CO₂ per km per person)
 export const CO2_FACTORS: Record<ActivityType, number> = {

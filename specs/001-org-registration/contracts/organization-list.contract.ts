@@ -35,7 +35,7 @@ export const organizationSummarySchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
   slug: z.string(),
-  logo: z.string().url().nullable(),
+  logo: z.url().nullable(),
   createdAt: z.date(),
   role: z.enum(memberRoles), // User's role in this org
   memberCount: z.number().int().min(1), // For future display

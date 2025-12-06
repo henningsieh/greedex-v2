@@ -7,7 +7,8 @@
 import { SettingsIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
-import EditOrganizationForm, {
+import {
+  EditOrganizationForm,
   EditOrganizationFormSkeleton,
 } from "@/components/features/organizations/edit-organization-form";
 

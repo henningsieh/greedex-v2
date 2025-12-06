@@ -24,7 +24,7 @@ interface CreateOrganizationFormProps {
   onSuccess?: () => void;
 }
 
-export default function CreateOrganizationForm({
+export function CreateOrganizationForm({
   onSuccess,
 }: CreateOrganizationFormProps) {
   const router = useRouter();

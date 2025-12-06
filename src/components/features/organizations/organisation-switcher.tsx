@@ -7,8 +7,7 @@ import {
   ChevronsUpDownIcon,
   PlusIcon,
 } from "lucide-react";
-import CreateOrganizationModal from "@/components/features/organizations/create-organization-modal";
-// import type { OrganizationType } from "@/components/features/organizations/types";
+import { CreateOrganizationModal } from "@/components/features/organizations/create-organization-modal";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
   DropdownMenu,

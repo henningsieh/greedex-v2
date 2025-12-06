@@ -116,7 +116,9 @@ export function canDeleteProjects(role: MemberRole): boolean {
 }
 
 /**
- * Check if a user's role can only read projects (member role)
+ * Determine whether a role has read-only project permissions.
+ *
+ * @returns `true` if the role can read projects but cannot create, update, or delete them, `false` otherwise.
  */
 export function isReadOnlyMember(role: MemberRole): boolean {
   return (

@@ -6,7 +6,7 @@ import { Edit2Icon, EyeIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react
 import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import EditProjectForm from "@/components/features/projects/edit-project-form";
+import { EditProjectForm } from "@/components/features/projects/edit-project-form";
 import { SortableHeader } from "@/components/features/projects/sortable-header";
 import {
   PROJECT_SORT_FIELDS,
@@ -30,9 +30,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
-import { getProjectDetailPath } from "@/lib/config/app";
 import { Link } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import { getProjectDetailPath } from "@/lib/utils";
 
 function DateCell({ date }: { date: Date }) {
   const format = useFormatter();
@@ -61,6 +61,7 @@ export function getProjectColumns(
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
+          // onClick={(e) => e.stopPropagation()}
         />
       ),
       cell: ({ row }) => (
@@ -68,6 +69,7 @@ export function getProjectColumns(
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
+          // onClick={(e) => e.stopPropagation()}
         />
       ),
       enableSorting: false,
@@ -79,14 +81,22 @@ export function getProjectColumns(
         <SortableHeader column={column} table={table} title={t("table.name")} />
       ),
       cell: ({ row }) => (
-        <div className="font-medium">
+        <Link
+          href={getProjectDetailPath(row.original.id)}
+          className="block font-medium"
+        >
           {row.getValue(PROJECT_SORT_FIELDS.name)}
-        </div>
+        </Link>
       ),
     },
     {
       accessorKey: "country",
       header: t("table.country"),
+      cell: ({ row }) => (
+        <Link href={getProjectDetailPath(row.original.id)} className="block">
+          {row.getValue("country")}
+        </Link>
+      ),
     },
     {
       accessorKey: PROJECT_SORT_FIELDS.startDate,
@@ -100,7 +110,11 @@ export function getProjectColumns(
       ),
       cell: ({ row }) => {
         const date = row.getValue(PROJECT_SORT_FIELDS.startDate) as Date;
-        return <DateCell date={date} />;
+        return (
+          <Link href={getProjectDetailPath(row.original.id)} className="block">
+            <DateCell date={date} />
+          </Link>
+        );
       },
       sortingFn: (rowA, rowB, columnId) => {
         const dateA = new Date(rowA.getValue(columnId));
@@ -120,7 +134,11 @@ export function getProjectColumns(
       ),
       cell: ({ row }) => {
         const date = row.getValue(PROJECT_SORT_FIELDS.createdAt) as Date;
-        return <DateCell date={date} />;
+        return (
+          <Link href={getProjectDetailPath(row.original.id)} className="block">
+            <DateCell date={date} />
+          </Link>
+        );
       },
       sortingFn: (rowA, rowB, columnId) => {
         const dateA = new Date(rowA.getValue(columnId));
@@ -140,7 +158,11 @@ export function getProjectColumns(
       ),
       cell: ({ row }) => {
         const date = row.getValue(PROJECT_SORT_FIELDS.updatedAt) as Date;
-        return <DateCell date={date} />;
+        return (
+          <Link href={getProjectDetailPath(row.original.id)} className="block">
+            <DateCell date={date} />
+          </Link>
+        );
       },
       sortingFn: (rowA, rowB, columnId) => {
         const dateA = new Date(rowA.getValue(columnId));
@@ -218,7 +240,11 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
+          <Button
+            variant="ghost"
+            className="h-8 w-8 p-0"
+            onClick={(e) => e.stopPropagation()}
+          >
             <span className="sr-only">{t("table.open-menu")}</span>
             <MoreHorizontalIcon className="h-4 w-4" />
           </Button>

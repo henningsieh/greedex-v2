@@ -34,7 +34,7 @@ interface ParticipationControlsClientProps {
   activeProjectId: string;
 }
 
-export default function ParticipantsLinkControls({
+export function ParticipantsLinkControls({
   activeProjectId,
 }: ParticipationControlsClientProps) {
   const t = useTranslations("organization.projects.activeProject");

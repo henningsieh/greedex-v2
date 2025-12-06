@@ -65,5 +65,3 @@ export function EmailVerification({
     </Html>
   );
 }
-
-export default EmailVerification;

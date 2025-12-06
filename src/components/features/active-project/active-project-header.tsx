@@ -13,7 +13,7 @@ import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Blockquote, BlockquoteAuthor } from "@/components/block-quote";
-import EditProjectForm from "@/components/features/projects/edit-project-form";
+import { EditProjectForm } from "@/components/features/projects/edit-project-form";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -39,7 +39,7 @@ interface ActiveProjectHeaderClientProps {
   activeProject: Outputs["projects"]["getById"];
 }
 
-export default function ActiveProjectHeader({
+export function ActiveProjectHeader({
   activeProject,
 }: ActiveProjectHeaderClientProps) {
   const t = useTranslations("organization.projects.activeProject");

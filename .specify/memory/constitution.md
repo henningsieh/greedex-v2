@@ -94,7 +94,7 @@ and role-based permissions for these entities.
 
 ## Technical & Compliance Constraints
 
-- **Stack**: Next.js 16 (App Router), custom server at `src/server.ts`,
+- **Stack**: Next.js 16 (App Router), decoupled Socket.IO server at `src/socket-server.ts`,
 	`Better-Auth` (Drizzle adapter) for authentication, `drizzle` + PostgreSQL for
 	DB, `shadcn` + Tailwind for UI components.
 - **Authentication**: Use `Better-Auth` with the Drizzle/Postgres adapter as the

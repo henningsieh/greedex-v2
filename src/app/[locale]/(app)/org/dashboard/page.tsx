@@ -11,19 +11,6 @@ export default async function DashboardPage() {
   const t = await getTranslations("organization.dashboard");
   const queryClient = getQueryClient();
 
-  // Prefetch all data using oRPC procedures for client components
-  // This enables server-side Suspense without hydration errors
-  // Data is dehydrated and sent with HTML, then rehydrated on client
-  void queryClient.prefetchQuery(
-    orpcQuery.projects.list.queryOptions({
-      input: {
-        sort_by: DEFAULT_PROJECT_SORTING_FIELD,
-      },
-    }),
-  );
-  void queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions());
-  void queryClient.prefetchQuery(orpcQuery.organizations.list.queryOptions());
-
   // Get session and organizations for server-side data
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -35,15 +22,29 @@ export default async function DashboardPage() {
   const activeOrganizationId =
     session?.session?.activeOrganizationId || organizations[0]?.id || "";
 
-  // Prefetch members data
-  void queryClient.prefetchQuery(
-    orpcQuery.members.search.queryOptions({
-      input: {
-        organizationId: activeOrganizationId,
-        roles: [memberRoles.Participant],
-      },
-    }),
-  );
+  // Prefetch all data using oRPC procedures for client components
+  // This enables server-side Suspense without hydration errors
+  // Data is dehydrated and sent with HTML, then rehydrated on client
+  // Using await ensures data is in cache BEFORE dehydration
+  await Promise.all([
+    queryClient.prefetchQuery(
+      orpcQuery.projects.list.queryOptions({
+        input: {
+          sort_by: DEFAULT_PROJECT_SORTING_FIELD,
+        },
+      }),
+    ),
+    queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions()),
+    queryClient.prefetchQuery(orpcQuery.organizations.list.queryOptions()),
+    queryClient.prefetchQuery(
+      orpcQuery.members.search.queryOptions({
+        input: {
+          organizationId: activeOrganizationId,
+          roles: [memberRoles.Participant],
+        },
+      }),
+    ),
+  ]);
 
   return (
     <HydrateClient client={queryClient}>

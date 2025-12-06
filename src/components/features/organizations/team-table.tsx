@@ -31,7 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import InviteMemberDialog from "./invite-member-dialog";
+import { InviteMemberDialog } from "./invite-member-dialog";
 
 interface TeamTableProps {
   organizationId: string;

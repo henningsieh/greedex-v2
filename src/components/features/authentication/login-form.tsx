@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { normalizeRedirectPath } from "@/components/features/authentication/auth-flow-layout";
 import { LastUsedBadge } from "@/components/features/authentication/last-used-badge";
-import SocialButtons from "@/components/features/authentication/social-buttons";
+import { SocialButtons } from "@/components/features/authentication/social-buttons";
 import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import {
