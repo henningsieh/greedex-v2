@@ -6,166 +6,72 @@
 **These rules are MANDATORY for ALL automated AI agents (including Copilot-style 
 agents) that interact with this repository. They are intentionally STRICT to 
 prevent interference with the developer's local workflows and terminal state.**
+```instructions
+# 🚨 CRITICAL: Agent Constitution (short) 🚨
 
-### 🚫 FORBIDDEN COMMANDS - NEVER EXECUTE 🚫
+These rules are MANDATORY for ALL automated AI agents interacting with this repo. They protect the developer's local environment and running processes.
 
-**DEVELOPMENT SERVER:**
-- ❌ **NEVER** run `bun run dev`
-- ❌ **NEVER** run `npm run dev`
-- ❌ **NEVER** run `yarn dev`
-- ❌ **NEVER** start any development server process
+Forbidden (never run):
+- `bun run dev`, `npm run dev`, `yarn dev` (do not start dev servers)
+- `bun run build`, `bun run start`, `npm run build`, `npm run start` (no build/start)
+- Opening new terminal sessions or starting background processes
 
-**BUILD & PRODUCTION COMMANDS:**
-- ❌ **NEVER** run `bun run build`
-- ❌ **NEVER** run `bun run start`
-- ❌ **NEVER** run `npm run build`
-- ❌ **NEVER** run `npm run start`
-- ❌ **NEVER** execute any build or production deployment commands
+Allowed (non-destructive):
+- `bun run lint`, `bun run format` (biome)
+- `bun run test` / `bun run test:run` / `bun run test:coverage` (vitest)
+- Read/write file edits, static analysis, and suggested shell commands (do not execute forbidden commands)
 
-**TERMINAL SESSION MANAGEMENT:**
-- ❌ **NEVER** open multiple terminal windows
-- ❌ **NEVER** create new terminal sessions unnecessarily
-- ✅ **ALWAYS** reuse existing terminal sessions when available
+Core project snapshot (quick):
+- Next.js App Router in `src/app` (Next 16, React 19). Use `page.tsx` / `layout.tsx` patterns.
+- Socket.IO runs as a separate process in `src/socket-server.ts` (decoupled from Next.js).
+- oRPC layer under `src/lib/orpc` with HTTP adapter at `src/app/api/rpc/[[...rest]]/route.ts`.
+- Better Auth integration under `src/lib/better-auth` and mounted at `src/app/api/auth/[...all]/route.ts`.
+- Database: Drizzle ORM in `src/lib/drizzle` (Postgres migrations live under `migrations`).
 
-### 📋 ALLOWED COMMANDS (Limited)
+Important conventions and gotchas:
+- Keep ESM: `package.json` uses `type: "module"` — do not convert to CommonJS.
+- Do not change `reactCompiler: true` in `next.config.ts` without approval.
+- SSR optimization: server-side oRPC client is initialized via `src/instrumentation.ts` (look for `client.server` imports and `globalThis.$client`). Ensure imports preserve initialization order.
+- Socket handlers belong in `src/socket-server.ts` (modify that file for real-time features). The dev workflow for running both Next + socket is manual—agents must not start it.
 
-Only these non-destructive commands are permitted:
-- ✅ `bun run lint` - Code linting
-- ✅ `bun run format` - Code formatting
-- ✅ `bun run test` - Testing (if configured)
-- ✅ Basic file operations and checks
+Where to make common changes:
+- Add oRPC procedures: `src/lib/orpc/procedures.ts` (or split by domain) and register in `src/lib/orpc/router.ts`.
+- Auth hooks & email: `src/lib/better-auth/*` (Better Auth + Nodemailer templates in `src/lib/email`).
+- DB schema/migrations: `src/lib/drizzle`.
 
-### 🎯 PURPOSE
+Quick examples (what you might edit):
+- To add an RPC: create `src/lib/orpc/yourFeature.ts` exporting handlers, then import in `src/lib/orpc/router.ts`.
+- To add a socket event: update `src/socket-server.ts` and export any helper utilities under `src/components/socket` if you need a client abstraction.
 
-These restrictions exist because:
-- **The developer maintains exclusive control** over their local development environment
-- **Dev server processes** must remain under developer management
-- **Build and deployment** are manual developer decisions
-- **Terminal state** must remain predictable and stable
+Testing & formatting:
+- Run `bun run lint` and `bun run format` before opening PRs.
+- Run unit tests with `bun run test`. Use `vitest` config in `vitest.config.ts` for details.
 
-### ⚡ WORKFLOW INTEGRATION
+Agent behavior checklist (must follow):
+1. Do not start dev/build/start processes. Always ask before running any terminal command not listed as allowed.
+2. Prefer small, focused edits; update relevant tests.
+3. Preserve `src/instrumentation.ts` ordering for SSR init of orpc client.
+4. When in doubt, add a clear PR description and testing steps (suggest commands for developer to run locally).
 
-Agents may:
-- ✅ Make code edits and file changes
-- ✅ Run static analysis (lint, format)
-- ✅ Suggest commands for the developer to run manually
-- ✅ Perform non-destructive checks
+Key files to reference:
+- `src/socket-server.ts`
+- `src/app/api/rpc/[[...rest]]/route.ts`
+- `src/lib/orpc/` (router, client, middleware)
+- `src/lib/better-auth/index.ts`
+- `src/lib/drizzle/`
+- `src/instrumentation.ts`
+- `package.json`, `next.config.ts`, `vitest.config.ts`, `biome.json`
 
-Agents must:
-- ❌ Never interfere with running processes
-- ❌ Never change the developer's environment state unexpectedly
-- ❌ Never assume control of development workflow
+Docs Quickmap (high-value docs to read first):
+- `docs/README.md`: repository documentation index and TOC.
+- `docs/orpc/`: oRPC integration guides — read `orpcNextjs.adapter.md`, `orpc.procedure.md`, and `orpc.router.md` to understand server/client patterns and SSR prefetching.
+- `docs/better-auth/`: Better Auth integration notes and examples (`better-auth.options.md`, `better-auth.organizations.md`, `better-auth.credentials.email_password.md`). Use for auth hooks and organization flows.
+- `docs/shadcn/`: UI component patterns and accessible field components (`shadcn-ui.new-field.documentation.md`).
+- `docs/i18n/`: `next-intl` integration and locale handling (`next-intl.internationalization.md`). Helpful for server vs client locale decisions.
+- `docs/react-email/`: email templates and Nodemailer usage for Better Auth flows (`use-Nodemailer.md`, `setup-React_Email.md`).
+- `docs/participate/`: domain-specific flows and testing guidelines for questionnaire/flows used in the app.
+- `docs/permissions/README.md`: permissions and access control design notes.
 
-### 🚨 CONSEQUENCES OF VIOLATION
-
-**Breaking these rules will:**
-- Disrupt the developer's active development session
-- Create unpredictable terminal state
-- Potentially break ongoing work
-- Violate the trust relationship with the developer
-
+If anything here is unclear or you'd like a longer example (socket wiring, client example, or SSR orpc initializer PR), tell me which area to expand and I'll update this file.
+```
 **Remember: The developer is always in control. Agents are assistants, not controllers.**
-
----
-
-# Copilot instructions for this repository
-
-Concise, actionable guidance to get AI agents productive quickly in this codebase.
-
-Project snapshot
-
-- Framework: Next.js (App Router) under `src/app` (Next 16, React 19).
-- WebSockets: Socket.IO runs as a separate service in `src/socket-server.ts` (decoupled from Next.js to prevent memory leaks during development).
-- RPC / API layer: oRPC is used for a type-safe RPC surface. The oRPC route handler is at `src/app/api/rpc/[[...rest]]/route.ts` and the router/client lives under `src/lib/orpc`.
-- Auth: Better Auth is configured under `src/lib/better-auth` and exposed via `src/app/api/auth/[...all]/route.ts`.
-- Database: Drizzle ORM + PostgreSQL; schema, migrations and DB config are under `src/lib/drizzle`.
-- Build flow: Standard Next.js build process (`next build` then `next start`).
-- Tooling: `biome` for lint/format, Tailwind/PostCSS for styling, `vitest` for tests.
-
-Key scripts (execute exactly as listed)
-
-- `bun run dev` — runs `concurrently "next dev -p 3000" "tsx watch src/socket-server.ts"` (Next.js + Socket.IO in parallel processes).
-- `bun run build` — `next build` (standard Next.js build).
-- `bun run start` — `concurrently "next start" "cross-env NODE_ENV=production tsx src/socket-server.ts"` (Next.js + Socket.IO in parallel processes).
-- `bun run lint` / `bun run format` — `biome` commands.
-- `bun run test` / `bun run test:run` / `bun run test:coverage` — `vitest` test commands.
-
-Important patterns & conventions
-
-- Source tree: all app code is under `src/` (App Router, components, API routes, server). Favor ESM imports (`package.json` sets `type: "module"`).
-- App Router usage: use `src/app/*` routes and `page.tsx`/`layout.tsx` files. Server-only code and Node APIs belong in `src/socket-server.ts` or files only imported by it.
-
-oRPC / API layer
-
-- Entry: `src/app/api/rpc/[[...rest]]/route.ts` — exposes the oRPC handler for all RPC calls under `/api/rpc/*`.
-- Server router & client: `src/lib/orpc/*` — contains `router.ts`, `client.ts` (unified client that uses a server-side client during SSR and an HTTP client in the browser), `middleware.ts` and `context.ts` for Better Auth integration.
-- SSR optimization: `client.server.ts` (or `lib/orpc.server.ts`) is imported during server startup (see `src/instrumentation.ts` and `src/app/layout.tsx`) to initialize `globalThis.$client` so server-side code can call procedures without HTTP overhead.
-
-WebSockets / Socket.IO (how to integrate)
-
-- Pattern: Socket.IO runs as a separate service in `src/socket-server.ts` (decoupled from Next.js to prevent memory leaks during development).
-- Dev workflow: modify `src/socket-server.ts` and run `bun run dev` (tsx executes TypeScript directly). Handlers added to `io` are live during development.
-- Production: Socket.IO runs in parallel with Next.js using `concurrently`.
-
-Authentication, DB, and cross-cutting integrations
-
-- Better-Auth integration: configuration and helpers live under `src/lib/better-auth` (see `src/lib/better-auth/index.ts`). The Next.js API route `src/app/api/auth/[...all]/route.ts` mounts the Better Auth handler.
-- Drizzle (DB): DB config, schema and migrations live under `src/lib/drizzle` and `src/lib/drizzle/migrations`.
-- Email: Nodemailer helpers and templates are under `src/lib/email` and invoked from Better Auth hooks.
-
-Files to reference (quick links)
-
-- `src/socket-server.ts` — Socket.IO server (runs separately from Next.js).
-- `src/app/api/rpc/[[...rest]]/route.ts` — oRPC route handler (all RPC calls).
-- `src/lib/orpc/` — router, client, middleware, and README describing SSR optimization.
-- `src/lib/better-auth/index.ts` — Better Auth configuration and plugins (organization plugin, hooks).
-- `src/lib/drizzle/` — DB config, schema, migrations.
-- `src/instrumentation.ts` — place to import server-only instrumentation (e.g., `lib/orpc.server`).
-- `package.json` — scripts and dependencies (important: `dev`, `build`, `start`, `auth:generate`).
-- `next.config.ts` — `reactCompiler: true` enabled; changing it impacts builds.
-
-Note about client-side animated components and locale switching:
-
-- When using cookie-based locale switching together with `router.refresh()` to re-render server components on the client, some client-side animated components (for example `TextEffect` which uses AnimatePresence / motion) will not re-run their entrance animations unless they are remounted. To ensure smooth language switching without a full page reload, key the parent animated container by the current locale (for example: `key={`hero-content-${locale}`}`). This forces an unmount/remount on locale change so animations and other client-only initialization run again.
-
-What NOT to change without asking owner
-
-- `reactCompiler: true` in `next.config.ts`.
-- `type: "module"` in `package.json` — switching to CommonJS breaks `tsx`/`tsc` ESM expectations.
-
-Agent tasks and quick wins
-
-- If adding Socket.IO, edit `src/socket-server.ts` and test with `bun run dev`.
-- For oRPC changes: add procedures under `src/lib/orpc/procedures.ts` (or split per domain), update `src/lib/orpc/router.ts` and the route handler will pick them up.
-- Run `bun run lint` and `bun run format` before PRs.
-
-Troubleshooting tips
-
-- If SSR oRPC calls fail, ensure `src/instrumentation.ts` imports the server client initializer (e.g., `src/lib/orpc/client.server.ts`) before other server code.
-
-Testing & QA
-
-- Unit & integration tests: `vitest` configured — run `bun run test` or `bun run test:run` for CI-friendly runs.
-- UI tests: `bun run test:ui` to open the Vitest UI.
-
-Deployment notes
-
-- Recommended: Vercel for frontend; keep an eye on custom server needs (Socket.IO runs as separate service). For full custom server deployments, run the `bun run build` step in CI and `bun run start` on the target host.
-
-Troublesome changes to avoid
-
-- Do not integrate Socket.IO back into a custom Next.js server without updating the build/start pipeline — the repository relies on decoupled services to prevent memory leaks.
-
-If you'd like, I can:
-
-- add a minimal Socket.IO wiring example to `src/socket-server.ts` (feature-flagged / non-breaking), or
-- add a client example `src/app/socket-client.tsx` that connects with `socket.io-client`, or
-- add a short PR that wires `src/instrumentation.ts` to initialize the oRPC server client for SSR.
-
-# Active Technologies
-- TypeScript 5.x with Next.js 16 (App Router) + Better Auth (organization plugin), React 19, nuqs (URL state), shadcn/ui, Drizzle ORM, Zod
-- oRPC (`@orpc/server`, `@orpc/client`) for a type-safe RPC layer; server-side client is initialized for SSR optimization in `src/lib/orpc`.
-
-## Recent Changes / Notes
-- The codebase added an oRPC layer with `src/app/api/rpc/[[...rest]]/route.ts` and `src/lib/orpc` to support server-side RPC during SSR and type-safe client calls.
-- Socket.IO has been decoupled from Next.js and runs as a separate service in `src/socket-server.ts` to prevent memory leaks during development.

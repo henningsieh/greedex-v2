@@ -1,8 +1,6 @@
 ---
 applyTo: '**'
----
----
-url: /docs/getting-started.md
+url: https://orpc.dev/docs/getting-started.md
 description: Quick guide to oRPC
 ---
 

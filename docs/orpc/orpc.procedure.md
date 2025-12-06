@@ -1,8 +1,6 @@
 ---
 applyTo: '**'
----
----
-url: /docs/procedure.md
+url: https://orpc.dev/docs/procedure.md
 description: Understanding procedures in oRPC
 ---
 

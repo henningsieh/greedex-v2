@@ -1,6 +1,3 @@
----
-applyTo: '**'
----
 # Organization
 
 The organization plugin allows you to manage your organization's members and teams.

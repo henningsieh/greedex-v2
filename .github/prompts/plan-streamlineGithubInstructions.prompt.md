@@ -9,19 +9,19 @@ Plan: Streamline `.github/instructions` files
 
 **Proposal**  
 
-1. **Create `docs/instructions/` structure**:  
+1. **Create `docs/` structure**:  
    - Subfolders:  
-     - `docs/instructions/better-auth`  
-     - `docs/instructions/orpc`  
-     - `docs/instructions/shadcn`  
-     - `docs/instructions/react-email`  
+     - `docs/better-auth`  
+     - `docs/orpc`  
+     - `docs/shadcn`  
+     - `docs/react-email`  
 
-2. **Move detailed files to `docs/instructions/`**:  
+2. **Move detailed files to `docs/`**:  
    - Relocate:  
-     - `orpc.*.instructions.md` → `docs/instructions/orpc/`  
-     - `shadcn-*.instructions.md` → `docs/instructions/shadcn/`  
-     - `react.email/*` → `docs/instructions/react-email/`  
-     - `better-auth.options.instructions.md` and `better-auth.organizations.md.instructions.md` → `docs/instructions/better-auth/`  
+     - `orpc.*.instructions.md` → `docs/orpc/`  
+     - `shadcn-*.instructions.md` → `docs/shadcn/`  
+     - `react.email/*` → `docs/react-email/`  
+     - `better-auth.options.instructions.md` and `better-auth.organizations.md.instructions.md` → `docs/better-auth/`  
    - Retain:  
      - `better-auth.documentation.instructions.md` in `.github/instructions` (canonical entry point).  
 
@@ -52,24 +52,24 @@ Plan: Streamline `.github/instructions` files
 - `README.md` (new index).  
 
 **Migration steps**:  
-1. Create `docs/instructions/` and subfolders.  
+1. Create `docs/` and subfolders.  
 2. Move files to their new locations.  
 3. Add stub files in `.github/instructions`.  
 4. Write `.github/instructions/README.md`.  
 5. Commit changes as a single patch or topic-based commits.  
 
 **Agent-focused README content**:  
-- Purpose: Minimal instruction set for agents; detailed docs in `docs/instructions/`.  
+- Purpose: Minimal instruction set for agents; detailed docs in `docs/`.  
 - Canonical entries: `better-auth.documentation.instructions.md`.  
-- Fetching docs: Copy from `docs/instructions/<topic>/...` as needed.  
-- Maintenance: Prefer `docs/instructions/` for new content unless always-needed by agents.  
+- Fetching docs: Copy from `docs/<topic>/...` as needed.  
+- Maintenance: Prefer `docs/` for new content unless always-needed by agents.  
 
 **Optional sync helper (`scripts/sync-instructions.sh`)**:  
 - Automate staging/unstaging files between `.github/instructions` and `docs/instructions`.  
 
 **Follow-ups**:  
 - Prepare the git patch/PR.  
-- Create `docs/instructions/` structure and stubs without moving files.  
+- Create `docs/` structure and stubs without moving files.  
 - Generate `README.md` text for review.  
 
 **Questions**:  

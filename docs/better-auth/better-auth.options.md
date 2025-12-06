@@ -1,6 +1,3 @@
----
-applyTo: '**'
----
 # Options
 
 Better Auth configuration options reference.

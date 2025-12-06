@@ -1,8 +1,6 @@
 ---
 applyTo: '**'
----
----
-url: /docs/adapters/next.md
+url: https://orpc.dev/docs/adapters/next.md
 description: Use oRPC inside an Next.js project
 ---
 
@@ -192,5 +190,3 @@ import '../lib/orpc.server' // for pre-rendering
 
 // Rest of the code
 ```
-
-:::

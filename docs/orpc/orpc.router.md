@@ -1,8 +1,6 @@
 ---
 applyTo: '**'
----
----
-url: /docs/router.md
+url: https://orpc.dev/docs/router.md
 description: Understanding routers in oRPC
 ---
 

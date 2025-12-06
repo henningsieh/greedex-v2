@@ -214,7 +214,7 @@ import { sendEmail } from "./email"; // your email sending function
 export const auth = betterAuth({
   emailVerification: {
     sendVerificationEmail: async ( { user, url, token }, request) => {
-      await sendEmail({
+      void sendEmail({
         to: user.email,
         subject: "Verify your email address",
         text: `Click the link to verify your email: ${url}`,
@@ -223,6 +223,11 @@ export const auth = betterAuth({
   },
 });
 ```
+
+<Callout type="warn">
+  Avoid awaiting the email sending to prevent
+  timing attacks. On serverless platforms, use `waitUntil` or similar to ensure the email is sent.
+</Callout>
 
 On the client side you can use `sendVerificationEmail` function to send verification link to user. This will trigger the `sendVerificationEmail` function you provided in the `auth` configuration.
 
@@ -295,7 +300,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({user, url, token}, request) => {
-      await sendEmail({
+      void sendEmail({
         to: user.email,
         subject: "Reset your password",
         text: `Click the link to reset your password: ${url}`,
@@ -308,6 +313,11 @@ export const auth = betterAuth({
   },
 });
 ```
+
+<Callout type="warn">
+  Avoid awaiting the email sending to prevent
+  timing attacks. On serverless platforms, use `waitUntil` or similar to ensure the email is sent.
+</Callout>
 
 Additionally, you can provide an `onPasswordReset` callback to execute logic after a password has been successfully reset.
 

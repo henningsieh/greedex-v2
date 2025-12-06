@@ -1,9 +1,6 @@
-````markdown
 ---
 applyTo: '**'
----
----
-url: /docs/integrations/better-auth.md
+url: https://orpc.dev/docs/integrations/better-auth.md
 description: >
   Seamlessly use Better Auth inside your oRPC projects without any extra
   overhead.
@@ -11,15 +8,17 @@ description: >
 
 # Better Auth Integration
 
-::: tip See Also
-For SSR patterns and hydration best practices, see [Better Auth + oRPC SSR Pattern](./orpc.better-auth-ssr-pattern.md)
-:::
-
-[Better Auth](https://better-auth.com/) is a framework-agnostic, universal authentication and authorization framework for TypeScript.
+[Better Auth](https://www.better-auth.com) is a framework-agnostic, universal authentication and authorization framework for TypeScript.
 
 ::: warning
-This documentation assumes you are already familiar with [Better Auth](https://better-auth.com/). If you need a refresher, please review the official Better Auth documentation before proceeding.
+This documentation assumes you are already familiar with Better-Auth. If you need a refresher, please review the official Better Auth documentation before proceeding at [Better Auth Docs](https://www.better-auth.com/llms.txt).
 :::
+
+## Repo-specific: Better Auth + oRPC SSR Pattern
+
+This repository includes an app-specific SSR pattern for Better Auth + oRPC to avoid hydration mismatches; see `/.github/instructions/better-auth.instructions.md` for repository-specific guidance and examples.
+
+---
 
 ## Step 1: Define Context Headers
 

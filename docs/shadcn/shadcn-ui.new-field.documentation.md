@@ -1,7 +1,5 @@
 ---
 applyTo: '**'
----
----
 title: Field
 description: Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
 component: true
