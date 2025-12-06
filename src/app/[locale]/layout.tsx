@@ -2,8 +2,9 @@ import { Comfortaa, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import Providers from "@/components/providers";
+import { NuqsProvider } from "@/components/providers/nuqs-adapter";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { isSupportedLocale } from "@/lib/i18n/locales";
 import { routing } from "@/lib/i18n/routing";
 
@@ -71,13 +72,15 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body
         className={`${comfortaa.className} ${jetbrainsMono.variable} antialiased`}
       >
-        <Providers>
-          <QueryProvider>
-            <NextIntlClientProvider messages={messages}>
-              {children}
-            </NextIntlClientProvider>
-          </QueryProvider>
-        </Providers>
+        <ThemeProvider>
+          <NuqsProvider>
+            <QueryProvider>
+              <NextIntlClientProvider messages={messages}>
+                {children}
+              </NextIntlClientProvider>
+            </QueryProvider>
+          </NuqsProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
