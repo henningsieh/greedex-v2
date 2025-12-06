@@ -70,7 +70,7 @@
 
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { activityTypeValues } from "@/components/features/project-activities/types";
+import { activityTypeValues } from "@/components/features/projects/types";
 import { Leaderboard } from "@/components/participate/leaderboard";
 import { LiveIndicator } from "@/components/participate/live-indicator";
 import { StatsOverview } from "@/components/participate/stats-overview";

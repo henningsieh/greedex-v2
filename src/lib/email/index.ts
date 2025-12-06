@@ -3,6 +3,7 @@ import { sendEmail } from "@/lib/email/nodemailer";
 import { EmailVerification } from "@/lib/email/templates/email-verification";
 import { OrganizationInvitation } from "@/lib/email/templates/organization-invitation";
 import { PasswordResetEmail } from "@/lib/email/templates/password-reset";
+import { maskEmail } from "@/lib/email/utils";
 
 interface User {
   email: string;
@@ -22,7 +23,7 @@ export async function sendPasswordResetEmail({
   url,
 }: SendPasswordResetEmailParams): Promise<void> {
   try {
-    console.log("📧 Sending password reset email to:", user.email);
+    console.log("📧 Sending password reset email to:", maskEmail(user.email));
 
     const emailHtml = await render(
       PasswordResetEmail({
@@ -37,7 +38,10 @@ export async function sendPasswordResetEmail({
       html: emailHtml,
     });
 
-    console.log("✅ Password reset email sent successfully to:", user.email);
+    console.log(
+      "✅ Password reset email sent successfully to:",
+      maskEmail(user.email),
+    );
   } catch (error) {
     console.error("❌ Failed to send password reset email:", error);
     throw error;
@@ -57,7 +61,7 @@ export async function sendEmailVerificationEmail({
   url,
 }: SendEmailVerificationEmailParams): Promise<void> {
   try {
-    console.log("📧 Sending verification email to:", user.email);
+    console.log("📧 Sending verification email to:", maskEmail(user.email));
 
     const emailHtml = await render(
       EmailVerification({
@@ -72,7 +76,10 @@ export async function sendEmailVerificationEmail({
       html: emailHtml,
     });
 
-    console.log("✅ Verification email sent successfully to:", user.email);
+    console.log(
+      "✅ Verification email sent successfully to:",
+      maskEmail(user.email),
+    );
   } catch (error) {
     console.error("❌ Failed to send verification email:", error);
     throw error;
@@ -93,7 +100,7 @@ export async function sendOrganizationInvitation({
   inviterName,
 }: SendOrganizationInvitationParams): Promise<void> {
   try {
-    console.log("📧 Sending organization invitation to:", email);
+    console.log("📧 Sending organization invitation to:", maskEmail(email));
     const emailHtml = await render(
       OrganizationInvitation({
         organizationName,
@@ -108,7 +115,7 @@ export async function sendOrganizationInvitation({
       html: emailHtml,
     });
 
-    console.log("✅ Invitation email sent successfully to:", email);
+    console.log("✅ Invitation email sent successfully to:", maskEmail(email));
   } catch (error) {
     console.error("❌ Failed to send invitation email:", error);
     throw error;

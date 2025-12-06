@@ -1,6 +1,7 @@
 import type { Transporter } from "nodemailer";
 import nodemailer from "nodemailer";
 import { env } from "@/env";
+import { maskEmail } from "@/lib/email/utils";
 
 let transporter: Transporter | null = null;
 
@@ -36,8 +37,12 @@ export async function sendEmail(options: SendEmailOptions): Promise<void> {
   try {
     const transport = getTransporter();
 
+    const maskedTo = Array.isArray(options.to)
+      ? options.to.map(maskEmail)
+      : maskEmail(options.to);
+
     console.log("📮 Attempting to send email:", {
-      to: options.to,
+      to: maskedTo,
       subject: options.subject,
       from: env.SMTP_SENDER,
     });
