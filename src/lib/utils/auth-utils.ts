@@ -43,3 +43,4 @@ export function handleUnauthenticatedRedirect(
   const nextPageUrl = rememberedPath ?? fallbackPath;
   return `/login?nextPageUrl=${encodeURIComponent(nextPageUrl)}`;
 }
+

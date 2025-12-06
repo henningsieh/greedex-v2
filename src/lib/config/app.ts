@@ -47,3 +47,4 @@ export const E_FOREST_PATH: AppRoute = "/e+forest";
 
 // Anchor links (not actual routes)
 export const WORKSHOPS_ANCHOR = "/#workshops";
+

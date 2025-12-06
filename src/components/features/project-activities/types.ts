@@ -11,3 +11,4 @@ export type ActivityType = (typeof activityTypeValues)[number];
 
 // Type inferred from DB schema
 export type ProjectActivityType = InferSelectModel<typeof projectActivitiesTable>;
+

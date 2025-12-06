@@ -17,3 +17,4 @@ export type ProjectSortField =
 // Default sort option
 export const DEFAULT_PROJECT_SORTING_FIELD: ProjectSortField =
   PROJECT_SORT_FIELDS.startDate;
+

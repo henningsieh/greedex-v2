@@ -19,3 +19,4 @@ globalThis.$client = createRouterClient(router, {
     headers: await headers(),
   }),
 });
+

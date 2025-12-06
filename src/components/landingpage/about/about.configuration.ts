@@ -50,3 +50,4 @@ export const PARTNERS: Partner[] = [
       "Is a local, non-profit, and civil law association created in 1993 by a group of young people from Amarante with the aim of promoting healthy lifestyles among the population (especially young people) of Amarante. It currently has more than 400 members and has 3 active sections: Mountain Biking, Canoeing and Fair Trade. In 1999, opened the 1st Portuguese Fair Trade store and, since 2008 runs the Youth Centre/ Hostel (CJ Amarante), through which it has coordinated more than 150 projects, mainly European, and involved around 5,000 young people in volunteering and participation activities. It is therefore very committed to promoting Europe and its values in the local youth community. Pillars of the organisation are hhealthy lifestyles, Sustainable development, education for Human Rights, Initiative and creativity, and Intercultural dialogue.",
   },
 ];
+

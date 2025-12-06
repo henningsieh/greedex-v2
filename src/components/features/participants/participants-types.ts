@@ -5,3 +5,4 @@ import type { projectParticipantsTable } from "@/lib/drizzle/schema";
 export type ProjectParticipantType = InferSelectModel<
   typeof projectParticipantsTable
 >;
+

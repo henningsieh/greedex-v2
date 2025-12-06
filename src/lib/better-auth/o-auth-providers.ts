@@ -28,3 +28,4 @@ export const SUPPORTED_OAUTH_PROVIDER_DETAILS: Record<
     Icon: GitHubIcon,
   },
 };
+

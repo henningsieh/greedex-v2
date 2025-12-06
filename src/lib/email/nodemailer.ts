@@ -56,3 +56,4 @@ export async function sendEmail(options: SendEmailOptions): Promise<void> {
     throw error;
   }
 }
+

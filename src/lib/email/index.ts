@@ -114,3 +114,4 @@ export async function sendOrganizationInvitation({
     throw error;
   }
 }
+

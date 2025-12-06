@@ -29,3 +29,4 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)"],
 };
+

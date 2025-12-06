@@ -56,3 +56,4 @@ export const InviteFormSchema = createInsertSchema(invitation)
 export const EditOrganizationFormSchema = z.object({
   name: z.string().min(1, "Organization name is required"),
 });
+

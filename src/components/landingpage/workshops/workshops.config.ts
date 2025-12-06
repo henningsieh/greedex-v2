@@ -27,3 +27,4 @@ export const WORKSHOPS = [
   { id: "deal", image: "/workshops/workshop-deal.jpg" },
   { id: "day", image: "/workshops/workshop-day.jpg" },
 ] as const;
+

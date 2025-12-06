@@ -34,3 +34,4 @@ export const ProjectActivityWithRelationsSchema = createSelectSchema(
 ).extend({
   project: createSelectSchema(projectsTable).optional(),
 });
+

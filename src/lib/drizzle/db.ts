@@ -23,3 +23,4 @@ const pool = global.__pool;
 export const db: NodePgDatabase<typeof schema> = drizzle(pool, {
   schema,
 });
+

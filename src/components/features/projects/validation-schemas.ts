@@ -51,3 +51,4 @@ export const EditActivityFormItemSchema = createUpdateSchema(
 export const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
   activities: z.array(EditActivityFormItemSchema).optional(),
 });
+
