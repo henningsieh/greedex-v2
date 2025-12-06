@@ -272,9 +272,9 @@ describe("Project Activities Integration Tests", () => {
 
       expect(activities).toHaveLength(2);
       expect(activities[0].activityType).toBe("car");
-      expect(activities[0].distanceKm).toBe("150.50");
+      expect(activities[0].distanceKm).toBe("150.5"); // Rounded to 1 decimal place
       expect(activities[1].activityType).toBe("train");
-      expect(activities[1].distanceKm).toBe("250.00");
+      expect(activities[1].distanceKm).toBe("250.0"); // Rounded to 1 decimal place
     });
   });
 
@@ -338,7 +338,7 @@ describe("Project Activities Integration Tests", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].activityType).toBe(activityData.activityType);
-      expect(result[0].distanceKm).toBe(activityData.distanceKm);
+      expect(result[0].distanceKm).toBe("75.3"); // 75.25 rounded to 1 decimal place
       expect(result[0].description).toBe(activityData.description);
 
       activityId = activityData.id;
@@ -381,7 +381,7 @@ describe("Project Activities Integration Tests", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].activityType).toBe(newType);
-      expect(result[0].distanceKm).toBe(newDistance);
+      expect(result[0].distanceKm).toBe("120.8"); // 120.75 rounded to 1 decimal place
       expect(result[0].description).toBe(newDescription);
     });
 
@@ -450,8 +450,8 @@ describe("Project Activities Integration Tests", () => {
         .limit(1);
 
       expect(result).toHaveLength(1);
-      // Should be rounded to 2 decimal places: 123.46
-      expect(result[0].distanceKm).toBe("123.46");
+      // Should be rounded to 1 decimal place: 123.5 (scale changed from 2 to 1)
+      expect(result[0].distanceKm).toBe("123.5");
     });
   });
 
