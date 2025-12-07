@@ -40,9 +40,10 @@ export function ProjectSwitcher() {
   } = useProjectPermissions();
 
   const t = useTranslations("organization.projects.activeProject");
+  const tLoading = useTranslations("app.loading");
 
   const { startLoading, stopLoading } = useAppLoading({
-    message: "Switching project...",
+    message: tLoading("switchingProject"),
     mode: "project",
   });
   const queryClient = useQueryClient();

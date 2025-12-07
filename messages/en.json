@@ -495,6 +495,11 @@
         "settings": "Settings"
       },
       "collapse": "Collapse Sidebar"
+    },
+    "loading": {
+      "default": "Loading...",
+      "switchingProject": "Switching project...",
+      "switchingOrganization": "Switching organization..."
     }
   },
   "project": {

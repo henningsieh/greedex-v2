@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
@@ -42,6 +43,7 @@ const LoadingContext = React.createContext<LoadingContextType | undefined>(
 );
 
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
+  const t = useTranslations("app.loading");
   const [loadingState, setLoadingState] = React.useState<LoadingState>({
     isLoading: false,
   });
@@ -72,7 +74,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
               className={cn("size-12 animate-spin", modeStyles.textColor)}
             />
             <p className="font-medium text-lg">
-              {loadingState.message ?? "Loading..."}
+              {loadingState.message ?? t("default")}
             </p>
           </div>
         </div>

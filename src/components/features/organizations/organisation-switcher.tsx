@@ -7,6 +7,7 @@ import {
   ChevronsUpDownIcon,
   PlusIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { CreateOrganizationModal } from "@/components/features/organizations/create-organization-modal";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
@@ -28,8 +29,9 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
 
 export function OrganizationSwitcher() {
+  const t = useTranslations("app.loading");
   const { startLoading, stopLoading } = useAppLoading({
-    message: "Switching organization...",
+    message: t("switchingOrganization"),
     mode: "organization",
   });
   const queryClient = useQueryClient();
