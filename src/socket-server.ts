@@ -1,0 +1,72 @@
+import "dotenv/config";
+import { createServer } from "node:http";
+import { Server } from "socket.io";
+import { env } from "@/env";
+
+const socketPort = env.SOCKET_PORT;
+const corsOrigin = env.CORS_ORIGIN;
+
+const httpServer = createServer();
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: corsOrigin,
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+  pingInterval: 10000,
+  pingTimeout: 5000,
+  connectTimeout: 45000,
+});
+
+io.on("connection", (socket) => {
+  console.log(`Client connected: ${socket.id}`);
+
+  socket.emit("message", {
+    text: "Welcome to Socket.IO!",
+    timestamp: new Date().toISOString(),
+  });
+
+  socket.on("client-message", (data) => {
+    console.log("Received from client:", data);
+    socket.emit("message", {
+      text: `Server received: "${data.text}"`,
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  socket.on("disconnect", (reason) => {
+    console.log(`Client disconnected: ${socket.id}, reason: ${reason}`);
+  });
+});
+if (env.NODE_ENV === "development") {
+  const intervalId = setInterval(() => {
+    const mem = process.memoryUsage();
+    console.log(
+      `[${new Date().toISOString()}] RSS: ${Math.round(mem.rss / 1024 / 1024)}MB, Heap: ${Math.round(mem.heapUsed / 1024 / 1024)}MB`,
+    );
+  }, 30_000);
+
+  const stopLogging = () => clearInterval(intervalId);
+  process.on("exit", stopLogging);
+  process.on("SIGINT", stopLogging);
+  process.on("SIGTERM", stopLogging);
+  process.on("beforeExit", stopLogging);
+}
+
+httpServer
+  .listen(socketPort, () => {
+    console.log(`Socket.IO server listening on port ${socketPort}`);
+  })
+  .on("error", (error: NodeJS.ErrnoException) => {
+    console.error(
+      `Failed to start Socket.IO server on port ${socketPort}:`,
+      error,
+    );
+    if (error.code === "EADDRINUSE") {
+      console.error(
+        `Port ${socketPort} is already in use. Please choose a different port.`,
+      );
+    }
+    process.exit(1);
+  });

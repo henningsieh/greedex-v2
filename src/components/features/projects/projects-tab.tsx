@@ -3,15 +3,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { FolderOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
-import ProjectsGrid from "@/components/features/projects/projects-grid";
+import { ProjectsGrid } from "@/components/features/projects/projects-grid";
 import { ProjectsTable } from "@/components/features/projects/projects-table";
 import { ProjectsViewSelect } from "@/components/features/projects/projects-view-select";
-import {
-  DEFAULT_PROJECT_SORTING_FIELD,
-  type ProjectSortField,
-} from "@/components/features/projects/types";
+import { DEFAULT_PROJECT_SORTING_FIELD } from "@/components/features/projects/types";
 import {
   Empty,
   EmptyContent,
@@ -25,9 +22,7 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 export function ProjectsTab() {
   const t = useTranslations("organization.projects");
   const [view, setView] = useState<"grid" | "table">("table");
-  const [sortBy, setSortBy] = useState<ProjectSortField>(
-    DEFAULT_PROJECT_SORTING_FIELD,
-  );
+  // Grid sorting is handled within ProjectsGrid; table keeps its own internal sorting.
 
   const { data: projects, error } = useSuspenseQuery(
     orpcQuery.projects.list.queryOptions({
@@ -37,25 +32,8 @@ export function ProjectsTab() {
     }),
   );
 
-  // Sort projects for grid view
-  const sortedProjects = useMemo(() => {
-    if (view !== "grid" || !projects) return projects || [];
-
-    return [...projects].sort((a, b) => {
-      const aValue = a[sortBy];
-      const bValue = b[sortBy];
-
-      if (aValue instanceof Date && bValue instanceof Date) {
-        return aValue.getTime() - bValue.getTime();
-      }
-
-      if (typeof aValue === "string" && typeof bValue === "string") {
-        return aValue.localeCompare(bValue);
-      }
-
-      return 0;
-    });
-  }, [projects, sortBy, view]);
+  // Grid sorting is handled inside ProjectsGrid to keep sorting logic
+  // consistent with the table view and avoid duplicating `sortedProjects`.
 
   if (error) {
     return <div>Error loading projects: {error.message}</div>;
@@ -81,14 +59,9 @@ export function ProjectsTab() {
   return (
     <div className="space-y-4">
       <div className="flex items-center"></div>
-      <ProjectsViewSelect
-        view={view}
-        setView={setView}
-        sortBy={sortBy}
-        onSortChange={setSortBy}
-      />
+      <ProjectsViewSelect view={view} setView={setView} />
       {view === "grid" ? (
-        <ProjectsGrid sortedProjects={sortedProjects} />
+        <ProjectsGrid projects={projects} />
       ) : (
         <ProjectsTable projects={projects} />
       )}

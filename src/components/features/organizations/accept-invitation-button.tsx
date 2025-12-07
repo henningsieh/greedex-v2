@@ -10,7 +10,7 @@ interface Props {
   invitationId: string;
 }
 
-export default function AcceptInvitationButton({ invitationId }: Props) {
+export function AcceptInvitationButton({ invitationId }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 

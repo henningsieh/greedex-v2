@@ -1,10 +1,15 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { type AppRoute, PROJECT_DETAIL_PATH } from "@/lib/config/app";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+// Helper for dynamic routes that need parameter replacement
+export const getProjectDetailPath = (projectId: string): AppRoute =>
+  PROJECT_DETAIL_PATH.replace("[id]", projectId) as AppRoute;
 
 /**
  * Transform a string into a URL-friendly slug.

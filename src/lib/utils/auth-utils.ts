@@ -36,6 +36,13 @@ export async function checkAuthAndOrgs(): Promise<AuthCheckResult> {
   };
 }
 
+/**
+ * Builds a login URL that redirects the user to a specified next page after authentication.
+ *
+ * @param rememberedPath - Optional path previously requested by the user to return to after login
+ * @param fallbackPath - Path to use when `rememberedPath` is undefined
+ * @returns A login URL string containing an encoded `nextPageUrl` query parameter
+ */
 export function handleUnauthenticatedRedirect(
   rememberedPath: string | undefined,
   fallbackPath: string,

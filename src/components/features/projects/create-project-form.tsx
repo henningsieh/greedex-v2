@@ -10,12 +10,12 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import type { Organization } from "@/components/features/organizations/types";
-import { activityTypeValues } from "@/components/features/project-activities/types";
+import { activityTypeValues } from "@/components/features/projects/types";
 import {
   ActivityFormItemSchema,
   type CreateProjectWithActivities,
   CreateProjectWithActivitiesSchema,
-} from "@/components/features/project-activities/validation-schemas";
+} from "@/components/features/projects/validation-schemas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -37,15 +37,28 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { getProjectDetailPath } from "@/lib/config/app";
 import { useRouter } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import { getProjectDetailPath } from "@/lib/utils";
 
 interface CreateProjectFormProps {
   userOrganizations: Omit<Organization, "metadata">[];
 }
 
-function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
+/**
+ * Render a two-step form to create a project and optional activities.
+ *
+ * The first step collects project details (name, dates, country, location,
+ * welcome message, and organization). The second step allows adding zero or
+ * more activities (type, distance, description, date). Submitting the form
+ * creates the project and any provided activities, shows success or error
+ * toasts, navigates to the created project's detail page on success, and
+ * invalidates the projects list cache.
+ *
+ * @param userOrganizations - Organizations available for the project's organization selector
+ * @returns The CreateProjectForm React element
+ */
+export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form.new");
   const [currentStep, setCurrentStep] = useState(1);
@@ -178,7 +191,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   const addActivity = () => {
     append({
       activityType: "car",
-      distanceKm: 0,
+      distanceKm: 1,
       description: null,
       activityDate: null,
     });
@@ -382,7 +395,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
                                 id={`activities.${index}.distance`}
                                 type="number"
                                 step="0.01"
-                                min="0"
+                                min="1"
                                 placeholder={tActivities(
                                   "form.distance-placeholder",
                                 )}
@@ -456,5 +469,3 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     </form>
   );
 }
-
-export default CreateProjectForm;

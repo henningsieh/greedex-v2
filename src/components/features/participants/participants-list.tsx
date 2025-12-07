@@ -18,9 +18,7 @@ interface ParticipantsListProps {
   activeProjectId: string;
 }
 
-export default function ParticipantsList({
-  activeProjectId,
-}: ParticipantsListProps) {
+export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
   const format = useFormatter();
 
   const { data: participants } = useSuspenseQuery(

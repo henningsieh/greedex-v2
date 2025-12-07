@@ -12,7 +12,7 @@ type RightSideImageProps = {
   heroStatTwo: string;
 };
 
-export default function RightSideImage({
+export function RightSideImage({
   headline,
   description,
   highlights,

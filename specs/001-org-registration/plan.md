@@ -15,7 +15,7 @@ Enable verified users to create their first organization and access a dashboard 
 **Primary Dependencies**: Better Auth (organization plugin), React 19, nuqs (URL state), shadcn/ui, Drizzle ORM, Zod  
 **Storage**: PostgreSQL via Drizzle ORM (schema already includes organization, member, invitation tables)  
 **Testing**: Testing tools (Vitest, Playwright) are referenced for future work; test execution is out-of-scope per product policy.
-**Target Platform**: Web application (Next.js App Router with custom server at src/server.ts)  
+**Target Platform**: Web application (Next.js App Router with decoupled Socket.IO server at src/socket-server.ts)  
 **Project Type**: Web application (frontend + backend in monolithic Next.js structure)  
 **Performance Goals**: No formal performance targets in MVP; no performance testing is in scope  
 **Constraints**: Client-side validation must match server-side (3-50 char limits for name/slug), URL state must be type-safe  

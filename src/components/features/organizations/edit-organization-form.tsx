@@ -28,7 +28,7 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { findAvailableSlug } from "@/lib/utils";
 
-export default function EditOrganizationForm() {
+export function EditOrganizationForm() {
   const queryClient = useQueryClient();
   const { data: organization } = useSuspenseQuery(
     orpcQuery.organizations.getActive.queryOptions(),

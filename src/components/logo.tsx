@@ -5,7 +5,7 @@ interface LogoProps {
   isScrolled?: boolean;
 }
 
-function Logo({ isScrolled = true }: LogoProps) {
+export function Logo({ isScrolled = true }: LogoProps) {
   return (
     <div className="flex items-center gap-3">
       <div
@@ -33,5 +33,3 @@ function Logo({ isScrolled = true }: LogoProps) {
     </div>
   );
 }
-
-export default Logo;

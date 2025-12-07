@@ -9,7 +9,7 @@ type Props = {
   href?: string;
 };
 
-export default function BackToHome({ label = "Back to Home", href }: Props) {
+export function BackToHome({ label = "Back to Home", href }: Props) {
   const defaultHref = "/";
   return (
     <div className="flex justify-start gap-2">

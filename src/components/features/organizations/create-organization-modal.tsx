@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import CreateOrganizationForm from "@/components/features/organizations/create-organization-form";
+import { CreateOrganizationForm } from "@/components/features/organizations/create-organization-form";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,7 +16,7 @@ interface CreateOrganizationModalProps {
   triggerNode?: React.ReactNode;
 }
 
-export default function CreateOrganizationModal({
+export function CreateOrganizationModal({
   label,
   triggerNode,
 }: CreateOrganizationModalProps) {

@@ -66,5 +66,3 @@ export function PasswordResetEmail({
     </Html>
   );
 }
-
-export default PasswordResetEmail;

@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
-import BackToHome from "@/components/back-to-home";
-import RightSideImage from "@/components/features/authentication/right-side-image";
+import { BackToHome } from "@/components/back-to-home";
+import { RightSideImage } from "@/components/features/authentication/right-side-image";
 import { cn } from "@/lib/utils";
 
 const highlightKeys = ["one", "two", "three"] as const;

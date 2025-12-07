@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-import AcceptInvitationButton from "@/components/features/organizations/accept-invitation-button";
+import { AcceptInvitationButton } from "@/components/features/organizations/accept-invitation-button";
 import { auth } from "@/lib/better-auth";
 import { redirect } from "@/lib/i18n/navigation";
 import { handleUnauthenticatedRedirect } from "@/lib/utils/auth-utils";

@@ -7,8 +7,7 @@ import {
   ChevronsUpDownIcon,
   PlusIcon,
 } from "lucide-react";
-import CreateOrganizationModal from "@/components/features/organizations/create-organization-modal";
-// import type { OrganizationType } from "@/components/features/organizations/types";
+import { CreateOrganizationModal } from "@/components/features/organizations/create-organization-modal";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
   DropdownMenu,
@@ -29,7 +28,7 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
 
 export function OrganizationSwitcher() {
-  const { setIsLoading } = useAppLoading();
+  const { setIsLoading } = useAppLoading("Switching organization...");
   const queryClient = useQueryClient();
 
   // Use oRPC queries for consistency

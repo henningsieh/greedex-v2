@@ -134,14 +134,14 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   return (
     <>
       <div className="w-full">
-        <div className="flex items-center gap-2 py-4">
+        <div className="my-auto flex h-14 items-center gap-2">
           <Input
             placeholder={t("table.filter-projects")}
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
-            className="max-w-sm"
+            className="h-8 max-w-sm"
           />
           {selectedRows.length > 0 && (
             <Button
@@ -159,7 +159,11 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
           )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
+              <Button
+                variant="outline"
+                size="sm"
+                className="ml-auto flex w-32 items-center justify-end"
+              >
                 {t("table.columns")} <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -190,13 +194,13 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow
                   key={headerGroup.id}
-                  className="border-b transition-colors hover:bg-muted/50"
+                  className="border-b transition-colors"
                 >
                   {headerGroup.headers.map((header) => {
                     return (
                       <TableHead
                         key={header.id}
-                        className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                        className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:px-2"
                       >
                         {header.isPlaceholder
                           ? null
@@ -216,9 +220,10 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
+                    className="transition-colors hover:bg-accent/40"
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell key={cell.id} className="pl-3">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),

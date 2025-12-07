@@ -191,6 +191,7 @@
 }
 
 body {
+  font-family: var(--font-sans);
   letter-spacing: var(--tracking-normal);
 }
 

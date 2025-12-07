@@ -4,7 +4,7 @@ import { MenuIcon, XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { LocaleSwitcher } from "@/components/locale-switcher";
-import Logo from "@/components/logo";
+import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

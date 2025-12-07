@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import type { Organization } from "@/components/features/organizations/types";
-import CreateProjectForm from "@/components/features/projects/create-project-form";
+import { CreateProjectForm } from "@/components/features/projects/create-project-form";
 import { auth } from "@/lib/better-auth";
 
 export default async function CreateProjectPage() {

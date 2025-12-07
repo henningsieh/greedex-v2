@@ -1,7 +1,7 @@
 /**
- * Next.js instrumentation file
- * Runs once when the server starts (both dev and production)
- * Used to initialize the server-side oRPC client for SSR optimization
+ * Initialize the server-side oRPC client for SSR when running in the Node.js Next.js runtime.
+ *
+ * Performs a dynamic import of the server oRPC client if `process.env.NEXT_RUNTIME === "nodejs"`.
  */
 export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {

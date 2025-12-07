@@ -8,7 +8,11 @@ export const env = createEnv({
       (val) => (typeof val === "string" ? Number(val) : val),
       z.number().int().min(1).max(65535),
     ),
-    DATABASE_URL: z.string().url(),
+    ORPC_DEV_DELAY_MS: z.preprocess(
+      (val) => (typeof val === "string" ? Number(val) : val),
+      z.number().int().min(0),
+    ),
+    DATABASE_URL: z.url(),
     BETTER_AUTH_SECRET: z.string().min(1),
     BETTER_AUTH_URL: z.url(),
     GOOGLE_CLIENT_ID: z
@@ -56,12 +60,12 @@ export const env = createEnv({
         message: "Must be 'true' or 'false'",
       })
       .transform((value) => value === "true"),
-    ORPC_DEV_DELAY_MS: z
-      .preprocess(
-        (val) => (typeof val === "string" ? Number(val) : val),
-        z.number().int().min(0),
-      )
-      .optional(),
+    SOCKET_PORT: z.preprocess(
+      (val) => (typeof val === "string" ? Number(val) : val),
+      z.number().int().min(1).max(65535),
+    ),
+    CORS_ORIGIN: z.url(),
+    NEXT_DIST_DIR: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_BASE_URL: z.url(),
@@ -86,5 +90,8 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     PORT: process.env.PORT,
     ORPC_DEV_DELAY_MS: process.env.ORPC_DEV_DELAY_MS,
+    SOCKET_PORT: process.env.SOCKET_PORT,
+    CORS_ORIGIN: process.env.CORS_ORIGIN,
+    NEXT_DIST_DIR: process.env.NEXT_DIST_DIR,
   },
 });

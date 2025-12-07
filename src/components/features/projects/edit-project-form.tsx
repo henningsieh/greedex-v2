@@ -9,8 +9,8 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
-import { activityTypeValues } from "@/components/features/project-activities/types";
 import type { ProjectType } from "@/components/features/projects/types";
+import { activityTypeValues } from "@/components/features/projects/types";
 import {
   EditActivityFormItemSchema,
   EditProjectWithActivitiesSchema,
@@ -36,7 +36,18 @@ interface EditProjectFormProps {
   onSuccess?: () => void;
 }
 
-function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
+/**
+ * Render an editable two-step form for updating a project and its related activities.
+ *
+ * The form lets the user edit project details (step 1) and manage activity entries (step 2),
+ * then persists changes to the server (update project; create, update, or delete activities).
+ * On successful save, related queries are invalidated and `onSuccess` is invoked if provided.
+ *
+ * @param project - The project object to edit; used to populate initial form values.
+ * @param onSuccess - Optional callback invoked after a successful update and activity processing.
+ * @returns The rendered edit project form UI.
+ */
+export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form");
   const [currentStep, setCurrentStep] = useState(1);
@@ -126,8 +137,8 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     }) => {
       const validActivity = EditActivityFormItemSchema.parse(params.activity);
 
-      if (!validActivity.activityType || !validActivity.distanceKm) {
-        throw new Error("Activity type and distance are required");
+      if (!validActivity.activityType) {
+        throw new Error("Activity type is required");
       }
 
       return orpc.projectActivities.create({
@@ -147,8 +158,8 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     }) => {
       const validActivity = EditActivityFormItemSchema.parse(params.activity);
 
-      if (!validActivity.activityType || !validActivity.distanceKm) {
-        throw new Error("Activity type and distance are required");
+      if (!validActivity.activityType) {
+        throw new Error("Activity type is required");
       }
 
       return orpc.projectActivities.update({
@@ -258,7 +269,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     append({
       id: undefined,
       activityType: "car",
-      distanceKm: 0,
+      distanceKm: 1,
       description: null,
       activityDate: null,
       isNew: true,
@@ -461,7 +472,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                                   id={`activities.${index}.distance`}
                                   type="number"
                                   step="0.01"
-                                  min="0"
+                                  min="1"
                                   placeholder={tActivities(
                                     "form.distance-placeholder",
                                   )}
@@ -535,5 +546,3 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     </div>
   );
 }
-
-export default EditProjectForm;

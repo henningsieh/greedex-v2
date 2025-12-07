@@ -5,6 +5,8 @@ import {
   CogIcon,
   LayoutDashboardIcon,
   MapPinnedIcon,
+  PanelRightCloseIcon,
+  PanelRightOpenIcon,
   SettingsIcon,
   UsersIcon,
 } from "lucide-react";
@@ -26,6 +28,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import {
   ACTIVE_PROJECT_PATH,
@@ -39,6 +43,8 @@ import { Link, usePathname } from "@/lib/i18n/navigation";
 
 export function AppSidebar() {
   const pathname = usePathname();
+
+  const { state, setOpen } = useSidebar();
   const t = useTranslations("app.sidebar");
 
   const projectsMenuItems = [
@@ -78,12 +84,16 @@ export function AppSidebar() {
   ] as const;
 
   return (
-    <Sidebar className="h-[calc(svh-4rem)]" variant="sidebar" collapsible="icon">
+    <Sidebar
+      className="h-[calc(svh-4rem)] overflow-x-hidden"
+      variant="sidebar"
+      collapsible="icon"
+    >
       <SidebarHeader>
         <ProjectSwitcher />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
+        <SidebarGroup className="overflow-x-hidden">
           <SidebarGroupLabel className="text-nowrap">
             {t("projects.sectionLabel")}
           </SidebarGroupLabel>
@@ -106,8 +116,10 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         <div className="grow flex-col" />
-        <SidebarGroup>
-          <SidebarGroupLabel>{t("organization.sectionLabel")}</SidebarGroupLabel>
+        <SidebarGroup className="overflow-x-hidden">
+          <SidebarGroupLabel className="text-nowrap">
+            {t("organization.sectionLabel")}
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {organizationMenuItems.map((item) => (
@@ -125,6 +137,21 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        <SidebarSeparator className="mx-0" />
+        <SidebarMenu>
+          <SidebarMenuItem
+            onClick={() => setOpen(!state || state === "collapsed")}
+          >
+            <SidebarMenuButton
+              variant="outline"
+              className="text-nowrap [&>svg]:size-4"
+            >
+              {state === "expanded" && <PanelRightOpenIcon />}
+              {state === "collapsed" && <PanelRightCloseIcon />}
+              {t("collapse")}
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
         <Suspense fallback={<OrganizationSwitcherSkeleton />}>
           <OrganizationSwitcher />
         </Suspense>

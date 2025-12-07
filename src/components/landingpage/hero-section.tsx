@@ -34,7 +34,7 @@ const BrushStroke = () => (
   />
 );
 
-export default async function HeroSection() {
+export async function HeroSection() {
   const t = await getTranslations("LandingPage");
   return (
     <>

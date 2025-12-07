@@ -25,7 +25,7 @@ export function ActiveProjectBreadcrumb() {
   );
 
   const activeProject = projects?.find(
-    (project) => project.id === session?.session?.activeProjectId,
+    (project) => project.id === session?.session.activeProjectId,
   );
 
   return (

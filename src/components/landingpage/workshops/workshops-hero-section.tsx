@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Link } from "@/lib/i18n/navigation";
 
-export default async function WorkshopsHeroSection() {
+export async function WorkshopsHeroSection() {
   const t = await getTranslations("LandingPage");
   const intro2 = t("workshops.intro2");
   const intro2Parts = intro2.split("workshops");

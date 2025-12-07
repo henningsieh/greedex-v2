@@ -1,16 +1,18 @@
+"use client";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Edit2Icon, EyeIcon, Trash2Icon } from "lucide-react";
+import { Edit2Icon, EyeIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react";
 import { useFormatter } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import EditProjectForm from "@/components/features/projects/edit-project-form";
+import { EditProjectForm } from "@/components/features/projects/edit-project-form";
 import type { ProjectType } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -21,16 +23,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
-import { getProjectDetailPath } from "@/lib/config/app";
 import { Link } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import { getProjectDetailPath } from "@/lib/utils";
 
 interface ProjectDetailCardProps {
   project: ProjectType;
 }
 
-function ProjectCard({ project }: ProjectDetailCardProps) {
+export function ProjectCard({ project }: ProjectDetailCardProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const format = useFormatter();
   const queryClient = useQueryClient();
@@ -93,81 +103,89 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
 
   return (
     <>
-      <Card
-        key={project.id}
-        // className="transition-transform duration-150 hover:scale-[1.01] hover:bg-accent/10 hover:text-accent dark:hover:text-accent-foreground"
-      >
-        <CardHeader>
-          <CardTitle>{project.name}</CardTitle>
-          <CardDescription>
-            {project.location}, {project.country}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2 text-sm">
-            <div>
-              <span className="font-medium">Start:</span>{" "}
-              {format.dateTime(project.startDate, {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </div>
-            <div>
-              <span className="font-medium">End:</span>{" "}
-              {format.dateTime(project.endDate, {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="w-full">
-          <div className="flex w-full flex-col gap-2">
-            <Button
-              asChild
-              className="flex-1 gap-4"
-              variant="outline"
-              // size="sm"
-              disabled={permissionsPending}
+      <DropdownMenu>
+        <Link href={getProjectDetailPath(project.id)} className="block">
+          <Card key={project.id} className="transition-transform duration-150">
+            <CardHeader>
+              <div className="flex-1">
+                <CardTitle className="truncate font-semibold text-lg leading-none">
+                  {project.name}
+                </CardTitle>
+                <CardDescription className="truncate text-muted-foreground text-sm">
+                  {project.location}, {project.country}
+                </CardDescription>
+              </div>
+
+              <CardAction className="">
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8 p-0"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span className="sr-only">Open actions</span>
+                    <MoreHorizontalIcon className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+              </CardAction>
+            </CardHeader>
+
+            <CardContent>
+              <div className="space-y-2 text-sm">
+                <div>
+                  <span className="font-medium">Start:</span>{" "}
+                  {format.dateTime(project.startDate, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </div>
+                <div>
+                  <span className="font-medium">End:</span>{" "}
+                  {format.dateTime(project.endDate, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+          <DropdownMenuItem asChild>
+            <Link
+              href={getProjectDetailPath(project.id)}
+              className="flex items-center gap-2"
             >
-              <Link href={getProjectDetailPath(project.id)}>
-                <EyeIcon />
-                View Details
-              </Link>
-            </Button>
-
-            {canUpdate && (
-              <Button
-                className="flex-1 gap-4"
-                variant="outline"
-                // size="sm"
-                onClick={() => {
-                  setIsEditModalOpen(true);
-                }}
-                disabled={permissionsPending}
-              >
-                <Edit2Icon />
-                Edit Project
-              </Button>
-            )}
-
-            {canDelete && (
-              <Button
-                className="flex-1 gap-4"
-                variant="destructive"
-                // size="sm"
+              <EyeIcon className="mr-2 h-4 w-4" />
+              <span>View Details</span>
+            </Link>
+          </DropdownMenuItem>
+          {canUpdate && (
+            <DropdownMenuItem onClick={() => setIsEditModalOpen(true)}>
+              <Edit2Icon className="mr-2 h-4 w-4" />
+              Edit Project
+            </DropdownMenuItem>
+          )}
+          {canDelete && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
                 onClick={handleDelete}
                 disabled={isDeleting || permissionsPending}
+                className="text-destructive"
               >
-                <Trash2Icon />
+                <Trash2Icon className="mr-2 h-4 w-4" />
                 Delete Project
-              </Button>
-            )}
-          </div>
-        </CardFooter>
-      </Card>
+              </DropdownMenuItem>
+            </>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       {canUpdate && (
         <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
@@ -187,5 +205,3 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
     </>
   );
 }
-
-export default ProjectCard;

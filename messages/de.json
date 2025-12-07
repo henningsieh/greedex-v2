@@ -318,7 +318,7 @@
       "suspense-loading": "Wird geladen...",
       "error-message": "Es ist ein Fehler aufgetreten.",
       "table": {
-        "columns": "Spaltenauswahl",
+        "columns": "Spalten",
         "name": "Name",
         "country": "Land",
         "start-date": "Startdatum",
@@ -336,7 +336,7 @@
         "table": "Tabellenansicht",
         "grid": "Kachelansicht"
       },
-      "sort-label": "Sortieren nach:",
+      "sort-label": "Sortieren",
       "sort-projects": "Projekte sortieren",
       "no-projects-yet": {
         "title": "Noch keine Projekte",
@@ -493,7 +493,8 @@
         "projects": "Projekte",
         "team": "Team",
         "settings": "Einstellungen"
-      }
+      },
+      "collapse": "Seitenleiste einklappen"
     }
   },
   "project": {

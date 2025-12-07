@@ -3,8 +3,8 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { MapPinnedIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import ActiveProjectHeader from "@/components/features/active-project/active-project-header";
-import ParticipantsLinkControls from "@/components/features/participants/participants-link-controls";
+import { ActiveProjectHeader } from "@/components/features/active-project/active-project-header";
+import { ParticipantsLinkControls } from "@/components/features/participants/participants-link-controls";
 import {
   Empty,
   EmptyDescription,

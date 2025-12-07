@@ -47,7 +47,7 @@ export const organizationSchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
   slug: z.string(),
-  logo: z.string().url().nullable(),
+  logo: z.url().nullable(),
   createdAt: z.date(),
   metadata: z.record(z.string(), z.unknown()).nullable(),
 });
