@@ -23,7 +23,6 @@ vi.mock("@/env", () => ({
     DATABASE_URL:
       process.env.DATABASE_URL || "postgresql://test:test@localhost:5432/test",
     BETTER_AUTH_SECRET: "test-secret",
-    BETTER_AUTH_URL: "http://localhost:3000",
     GOOGLE_CLIENT_ID: "123456789012-test-google-client-id",
     GOOGLE_CLIENT_SECRET: "GOCSPX-test-google-client-secret",
     DISCORD_CLIENT_ID: "1234567890123456789",
@@ -40,7 +39,6 @@ vi.mock("@/env", () => ({
     PORT: 3000,
     ORPC_DEV_DELAY_MS: 0,
     SOCKET_PORT: 4000,
-    CORS_ORIGIN: "http://localhost:3000",
     NEXT_DIST_DIR: ".next",
   },
 }));

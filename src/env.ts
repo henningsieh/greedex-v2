@@ -14,7 +14,6 @@ export const env = createEnv({
     ),
     DATABASE_URL: z.url(),
     BETTER_AUTH_SECRET: z.string().min(1),
-    BETTER_AUTH_URL: z.url(),
     GOOGLE_CLIENT_ID: z
       .string()
       .refine((value) => value.endsWith("apps.googleusercontent.com"), {
@@ -64,7 +63,6 @@ export const env = createEnv({
       (val) => (typeof val === "string" ? Number(val) : val),
       z.number().int().min(1).max(65535),
     ),
-    CORS_ORIGIN: z.url(),
     NEXT_DIST_DIR: z.string().min(1),
   },
   client: {
@@ -74,7 +72,6 @@ export const env = createEnv({
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
-    BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
@@ -91,7 +88,6 @@ export const env = createEnv({
     PORT: process.env.PORT,
     ORPC_DEV_DELAY_MS: process.env.ORPC_DEV_DELAY_MS,
     SOCKET_PORT: process.env.SOCKET_PORT,
-    CORS_ORIGIN: process.env.CORS_ORIGIN,
     NEXT_DIST_DIR: process.env.NEXT_DIST_DIR,
   },
 });

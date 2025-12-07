@@ -66,7 +66,6 @@ DATABASE_URL=postgresql://user:password@localhost:5432/greendex
 
 # Authentication (Better Auth)
 BETTER_AUTH_SECRET=your-secret-key
-BETTER_AUTH_URL=http://localhost:3000
 
 # Email (Nodemailer)
 SMTP_HOST=smtp.example.com

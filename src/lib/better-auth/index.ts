@@ -26,6 +26,7 @@ import { sendEmail } from "@/lib/email/nodemailer";
 
 export const auth = betterAuth({
   appName: "Next WebSocket Server",
+  baseURL: env.NEXT_PUBLIC_BASE_URL,
 
   experimental: {
     joins: true,

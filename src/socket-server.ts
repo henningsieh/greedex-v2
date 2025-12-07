@@ -4,7 +4,7 @@ import { Server } from "socket.io";
 import { env } from "@/env";
 
 const socketPort = env.SOCKET_PORT;
-const corsOrigin = env.CORS_ORIGIN;
+const corsOrigin = env.NEXT_PUBLIC_BASE_URL;
 
 const httpServer = createServer();
 
