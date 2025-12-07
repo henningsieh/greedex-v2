@@ -2,11 +2,18 @@
 
 import { Loader2Icon } from "lucide-react";
 import * as React from "react";
+import { cn } from "@/lib/utils";
+
+type LoadingMode = "project" | "organization";
+interface LoadingState {
+  isLoading: boolean;
+  message?: string;
+  mode?: LoadingMode;
+}
 
 interface LoadingContextType {
-  isLoading: boolean;
-  setIsLoading: (loading: boolean, message?: string) => void;
-  loadingMessage?: string | undefined;
+  loadingState: LoadingState;
+  setLoading: (_: Partial<LoadingState>) => void;
 }
 
 const LoadingContext = React.createContext<LoadingContextType | undefined>(
@@ -14,40 +21,57 @@ const LoadingContext = React.createContext<LoadingContextType | undefined>(
 );
 
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [loadingMessage, setLoadingMessage] = React.useState<string | undefined>(
-    undefined,
-  );
+  const [loadingState, setLoadingState] = React.useState<LoadingState>({
+    isLoading: false,
+  });
 
-  const setAppLoading = React.useCallback(
-    (loading: boolean, message?: string) => {
-      setIsLoading(loading);
-      if (loading) {
-        if (typeof message !== "undefined") {
-          setLoadingMessage(message);
-        }
-      } else {
-        setLoadingMessage(undefined);
-      }
-    },
-    [],
-  );
+  const setLoading = React.useCallback((updates: Partial<LoadingState>) => {
+    setLoadingState((prev) => ({ ...prev, ...updates }));
+  }, []);
+
+  const getModeStyles = (mode?: LoadingMode) => {
+    switch (mode) {
+      case "project":
+        return {
+          containerClassName: `border-2 border-secondary bg-secondary/20`,
+          textColor: "text-secondary",
+        };
+      case "organization":
+        return {
+          containerClassName: `border-2 border-accent bg-accent/20`,
+          textColor: "text-accent",
+        };
+      default:
+        return {
+          containerClassName: "",
+          textColor: "text-primary",
+        };
+    }
+  };
+
+  const modeStyles = getModeStyles(loadingState.mode);
 
   return (
     <LoadingContext.Provider
       value={{
-        isLoading: isLoading,
-        setIsLoading: setAppLoading,
-        loadingMessage,
+        loadingState,
+        setLoading,
       }}
     >
       {children}
-      {isLoading && (
+      {loadingState.isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/50 backdrop-blur-sm">
-          <div className="flex flex-col items-center gap-4 rounded-lg bg-accent/50 p-8 shadow-lg">
-            <Loader2Icon className="size-12 animate-spin text-primary" />
+          <div
+            className={cn(
+              "flex flex-col items-center gap-4 rounded-lg bg-accent/50 p-8 shadow-lg",
+              modeStyles.containerClassName,
+            )}
+          >
+            <Loader2Icon
+              className={cn("size-12 animate-spin", modeStyles.textColor)}
+            />
             <p className="font-medium text-lg">
-              {loadingMessage ?? "Switching organization..."}
+              {loadingState.message ?? "Loading..."}
             </p>
           </div>
         </div>
@@ -56,26 +80,25 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function useAppLoading(defaultMessage?: string) {
+export function useAppLoading(options?: {
+  message?: string;
+  mode?: "project" | "organization";
+}) {
   const context = React.useContext(LoadingContext);
   if (!context) {
-    throw new Error("useAppLoading must be used within LoadingProvider");
+    throw new Error(`useAppLoading must be used within LoadingProvider`);
   }
 
-  const { isLoading, setIsLoading } = context;
-
-  const setIsLoadingWithDefault = React.useCallback(
-    (loading: boolean, message?: string) => {
-      setIsLoading(
-        loading,
-        typeof message === "undefined" ? defaultMessage : message,
-      );
-    },
-    [setIsLoading, defaultMessage],
-  );
+  const { loadingState, setLoading } = context;
 
   return {
-    isLoading,
-    setIsLoading: setIsLoadingWithDefault,
+    isLoading: loadingState.isLoading,
+    startLoading: () =>
+      setLoading({
+        isLoading: true,
+        message: options?.message,
+        mode: options?.mode,
+      }),
+    stopLoading: () => setLoading({ isLoading: false }),
   } as const;
 }

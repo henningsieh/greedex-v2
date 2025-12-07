@@ -28,7 +28,10 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
 
 export function OrganizationSwitcher() {
-  const { setIsLoading } = useAppLoading("Switching organization...");
+  const { startLoading, stopLoading } = useAppLoading({
+    message: "Switching organization...",
+    mode: "organization",
+  });
   const queryClient = useQueryClient();
 
   // Use oRPC queries for consistency
@@ -86,7 +89,7 @@ export function OrganizationSwitcher() {
               <DropdownMenuItem
                 key={org.id}
                 onSelect={async () => {
-                  setIsLoading(true);
+                  startLoading();
 
                   try {
                     // 1. Switch organization on the server (this should trigger your hook)
@@ -108,7 +111,7 @@ export function OrganizationSwitcher() {
                       ),
                     ]);
                   } finally {
-                    setIsLoading(false);
+                    stopLoading();
                   }
                 }}
               >
