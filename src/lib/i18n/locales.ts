@@ -3,18 +3,18 @@ import countries from "i18n-iso-countries";
 import deCountries from "i18n-iso-countries/langs/de.json";
 import enCountries from "i18n-iso-countries/langs/en.json";
 import type { ComponentType, SVGProps } from "react";
-import { SUPPORTED_LOCALES, type SupportedLocale } from "./config";
+import { SUPPORTED_LOCALES, type SupportedLocale } from "../config/Languages";
 
 countries.registerLocale(enCountries);
 countries.registerLocale(deCountries);
 
 // Re-export for backward compatibility
-export type { LocaleCode } from "./config";
+export type { LocaleCode } from "../config/Languages";
 export {
   DEFAULT_LOCALE,
   isSupportedLocale,
   LOCALE_CODES,
-} from "./config";
+} from "../config/Languages";
 
 export type LocaleData = SupportedLocale & {
   nativeName: string;

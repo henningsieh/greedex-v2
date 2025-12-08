@@ -15,7 +15,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
-import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/lib/config/app";
+import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/lib/config/AppRoutes";
 import { redirect } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 import {

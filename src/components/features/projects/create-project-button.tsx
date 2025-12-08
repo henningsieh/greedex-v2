@@ -4,7 +4,7 @@ import type { VariantProps } from "class-variance-authority";
 import { MapPinPlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { CREATE_PROJECT_PATH } from "@/lib/config/app";
+import { CREATE_PROJECT_PATH } from "@/lib/config/AppRoutes";
 import { Link } from "@/lib/i18n/navigation";
 
 interface CreateProjectButtonProps {

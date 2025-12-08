@@ -9,6 +9,8 @@ import type z from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
   activityTypeValues,
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
   type ProjectActivityType,
 } from "@/components/features/projects/types";
 import { ProjectActivityFormSchema } from "@/components/features/projects/validation-schemas";
@@ -23,7 +25,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/lib/constants/distance";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface ProjectActivityFormProps {

@@ -7,14 +7,14 @@ import z from "zod";
 import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
-  validateDistanceStep,
-} from "@/lib/constants/distance";
+} from "@/components/features/projects/types";
 import {
   organization,
   projectActivitiesTable,
   projectsTable,
   user,
 } from "@/lib/drizzle/schema";
+import { validateDistanceStep } from "@/lib/utils/distance-utils";
 
 // Form schema (only user-provided fields)
 export const ProjectFormSchema = createInsertSchema(projectsTable).omit({

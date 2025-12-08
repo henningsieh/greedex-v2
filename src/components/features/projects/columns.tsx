@@ -32,7 +32,7 @@ import {
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import { getProjectDetailPath } from "@/lib/utils";
+import { getProjectDetailPath } from "@/lib/utils/project-utils";
 
 function DateCell({ date }: { date: Date }) {
   const format = useFormatter();

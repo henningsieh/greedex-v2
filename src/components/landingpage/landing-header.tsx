@@ -22,7 +22,7 @@ import {
   SIGNUP_PATH,
   TIPS_AND_TRICKS_PATH,
   WORKSHOPS_ANCHOR,
-} from "@/lib/config/app";
+} from "@/lib/config/AppRoutes";
 import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils/index";
 

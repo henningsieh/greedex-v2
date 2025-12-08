@@ -33,7 +33,7 @@ import {
   DASHBOARD_PATH,
   FORGOT_PASSWORD_PATH,
   SIGNUP_PATH,
-} from "@/lib/config/app";
+} from "@/lib/config/AppRoutes";
 import { Link, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 

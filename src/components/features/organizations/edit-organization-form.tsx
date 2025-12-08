@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { findAvailableSlug } from "@/lib/utils";
+import { findAvailableSlug } from "@/lib/utils/organization-utils";
 
 export function EditOrganizationForm() {
   const queryClient = useQueryClient();

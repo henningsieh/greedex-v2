@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/field";
 import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { DASHBOARD_PATH, LOGIN_PATH } from "@/lib/config/app";
+import { DASHBOARD_PATH, LOGIN_PATH } from "@/lib/config/AppRoutes";
 import { Link, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 

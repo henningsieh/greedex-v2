@@ -7,7 +7,7 @@ import {
   SUPPORTED_OAUTH_PROVIDERS,
   type SupportedOAuthProvider,
 } from "@/lib/better-auth/o-auth-providers";
-import { DASHBOARD_PATH } from "@/lib/config/app";
+import { DASHBOARD_PATH } from "@/lib/config/AppRoutes";
 
 interface Props {
   disabled?: boolean;

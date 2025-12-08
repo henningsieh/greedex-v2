@@ -38,7 +38,7 @@ import {
   PROJECTS_PATH,
   SETTINGS_PATH,
   TEAM_PATH,
-} from "@/lib/config/app";
+} from "@/lib/config/AppRoutes";
 import { Link, usePathname } from "@/lib/i18n/navigation";
 
 export function AppSidebar() {

@@ -22,7 +22,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { DASHBOARD_PATH } from "@/lib/config/app";
+import { DASHBOARD_PATH } from "@/lib/config/AppRoutes";
 import { Link } from "@/lib/i18n/navigation";
 
 export function WorkshopDetails({ type }: { type: CalculatorType }) {

@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CREATE_PROJECT_PATH } from "@/lib/config/app";
+import { CREATE_PROJECT_PATH } from "@/lib/config/AppRoutes";
 import { usePathname } from "@/lib/i18n/navigation";
 import { orpcQuery } from "@/lib/orpc/orpc";
 

@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { LOGIN_PATH, RESET_PASSWORD_PATH } from "@/lib/config/app";
+import { LOGIN_PATH, RESET_PASSWORD_PATH } from "@/lib/config/AppRoutes";
 import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 

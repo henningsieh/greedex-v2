@@ -17,7 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { DASHBOARD_PATH } from "@/lib/config/app";
+import { DASHBOARD_PATH } from "@/lib/config/AppRoutes";
 import { cn } from "@/lib/utils";
 
 export function MagicLinkForm({

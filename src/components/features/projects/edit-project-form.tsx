@@ -10,7 +10,11 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import type { ProjectType } from "@/components/features/projects/types";
-import { activityTypeValues } from "@/components/features/projects/types";
+import {
+  activityTypeValues,
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
+} from "@/components/features/projects/types";
 import {
   EditActivityFormItemSchema,
   EditProjectWithActivitiesSchema,
@@ -29,7 +33,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/lib/constants/distance";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface EditProjectFormProps {

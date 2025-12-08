@@ -10,7 +10,11 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import type { Organization } from "@/components/features/organizations/types";
-import { activityTypeValues } from "@/components/features/projects/types";
+import {
+  activityTypeValues,
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
+} from "@/components/features/projects/types";
 import {
   ActivityFormItemSchema,
   type CreateProjectWithActivities,
@@ -37,10 +41,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/lib/constants/distance";
 import { useRouter } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import { getProjectDetailPath } from "@/lib/utils";
+import { getProjectDetailPath } from "@/lib/utils/project-utils";
 
 interface CreateProjectFormProps {
   userOrganizations: Omit<Organization, "metadata">[];
