@@ -11,6 +11,7 @@ import { authorized } from "@/lib/orpc/middleware";
  * Simple demonstration of a basic oRPC procedure
  */
 export const helloWorld = base
+  .route({ method: "POST" })
   .input(
     z.object({
       name: z.string().optional().default("World"),
@@ -27,7 +28,7 @@ export const helloWorld = base
  * Public health check procedure
  * Returns server status and uptime
  */
-export const getHealth = base.handler(async () => {
+export const getHealth = base.route({ method: "GET" }).handler(async () => {
   return {
     status: "ok",
     timestamp: new Date().toISOString(),
@@ -40,21 +41,28 @@ export const getHealth = base.handler(async () => {
  * Protected procedure example
  * Requires authentication and returns user info
  */
-export const getProfile = authorized.handler(async ({ context }) => {
-  return {
-    user: {
-      id: context.user.id,
-      name: context.user.name,
-      email: context.user.email,
-    },
-    session: {
-      id: context.session.id,
-      expiresAt: context.session.expiresAt,
-    },
-  };
-});
+export const getProfile = authorized
+  .route({ method: "GET", path: "/users/profile", summary: "Get user profile" })
+  .handler(async ({ context }) => {
+    return {
+      user: {
+        id: context.user.id,
+        name: context.user.name,
+        email: context.user.email,
+      },
+      session: {
+        id: context.session.id,
+        expiresAt: context.session.expiresAt,
+      },
+    };
+  });
 
 export const getSession = base
+  .route({
+    method: "GET",
+    path: "/auth/session",
+    summary: "Get authentication session",
+  })
   .output(SessionSchema)
   .handler(async ({ context }) => {
     try {
@@ -74,9 +82,15 @@ export const getSession = base
  * Get full organization details using Better Auth
  * Uses Better Auth's implicit getFullOrganization endpoint
  */
-export const getFullOrganization = authorized.handler(async ({ context }) => {
-  const organization = await auth.api.getFullOrganization({
-    headers: context.headers,
+export const getFullOrganization = authorized
+  .route({
+    method: "GET",
+    path: "/organizations/active",
+    summary: "Get active organization details",
+  })
+  .handler(async ({ context }) => {
+    const organization = await auth.api.getFullOrganization({
+      headers: context.headers,
+    });
+    return organization;
   });
-  return organization;
-});

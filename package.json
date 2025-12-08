@@ -28,6 +28,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@orpc/client": "^1.12.2",
+    "@orpc/openapi": "^1.12.2",
     "@orpc/server": "^1.12.2",
     "@orpc/tanstack-query": "^1.12.2",
     "@paralleldrive/cuid2": "^3.0.4",
