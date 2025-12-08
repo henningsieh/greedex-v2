@@ -364,6 +364,12 @@ export const deleteProject = authorized
  * - Project must belong to user's active organization (if projectId is provided)
  */
 export const setActiveProject = authorized
+  .route({
+    method: "POST",
+    path: "/projects/active",
+    summary: "Set active project",
+    tags: ["project"],
+  })
   .input(
     z.object({
       projectId: z.string().optional(),

@@ -9,12 +9,18 @@ import { authorized } from "@/lib/orpc/middleware";
  * List user's organizations using Better Auth
  * Uses Better Auth's implicit organization.list endpoint
  */
-export const listOrganizations = base.handler(async ({ context }) => {
-  const organizations = await auth.api.listOrganizations({
-    headers: context.headers,
+export const listOrganizations = base
+  .route({
+    method: "GET",
+    path: "/organizations",
+    summary: "List user's organizations",
+  })
+  .handler(async ({ context }) => {
+    const organizations = await auth.api.listOrganizations({
+      headers: context.headers,
+    });
+    return organizations || [];
   });
-  return organizations || [];
-});
 
 export const searchMembers = authorized
   .route({
