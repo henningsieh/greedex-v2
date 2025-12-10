@@ -61,7 +61,7 @@ export default async function AuthFlowLayout({
           <div
             className={cn(
               "mx-auto w-full max-w-xl",
-              "flex flex-col rounded-3xl border border-border/40 bg-card/40 p-6 shadow-2xl backdrop-blur-xl",
+              "flex flex-col border border-border/40 bg-card/40 p-6 backdrop-blur-xl",
               "lg:mx-0 lg:w-1/2 lg:max-w-none",
               "lg:p-8",
             )}

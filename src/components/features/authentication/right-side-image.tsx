@@ -30,7 +30,7 @@ export function RightSideImage({
     <div className="relative hidden w-full max-w-xl lg:flex lg:w-1/2 lg:max-w-none">
       <AnimatedGroup
         className={cn(
-          "relative flex h-full w-full flex-col gap-6 overflow-hidden rounded-3xl border border-border/40 bg-card/30 p-6 shadow-2xl backdrop-blur-xl lg:p-8",
+          "relative flex h-full w-full flex-col gap-6 overflow-hidden border border-border/40 bg-card/30 p-6 backdrop-blur-xl lg:p-8",
         )}
         variants={{
           container: {
@@ -92,7 +92,7 @@ export function RightSideImage({
         <motion.div
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.4 }}
-          className="relative z-10 h-40 w-full overflow-hidden rounded-3xl border border-border/50 bg-muted/30 shadow-lg"
+          className="relative z-10 h-44 w-full overflow-hidden rounded-3xl border border-border/50 bg-muted/30 shadow-lg"
         >
           <Image
             src="/Greendex-hero-banner.png"
