@@ -13,7 +13,7 @@ import {
   projectsTable,
   user,
 } from "@/lib/drizzle/schema";
-import type { CountryCode } from "@/lib/i18n/countries";
+import type { CountryCode } from "@/lib/i18n/country-i18n";
 
 // Test data constants
 const TEST_USER = {

@@ -14,7 +14,7 @@ import {
   projectsTable,
   user,
 } from "@/lib/drizzle/schema";
-import { EU_COUNTRY_CODES } from "@/lib/i18n/countries";
+import { EU_COUNTRY_CODES } from "@/lib/i18n/country-i18n";
 import { validateDistanceStep } from "@/lib/utils/distance-utils";
 
 // Common form field extensions with custom error messages

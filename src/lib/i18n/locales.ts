@@ -72,12 +72,6 @@ export const getLocaleData = (): LocaleData[] => {
   });
 };
 
-export {
-  LOCALE_CODES,
-  type LocaleCode,
-  type SupportedLocale,
-} from "../../config/Languages";
-
 export const isSupportedLocale = (
   value: string | undefined,
 ): value is LocaleCode => !!value && LOCALE_CODES.includes(value as LocaleCode);

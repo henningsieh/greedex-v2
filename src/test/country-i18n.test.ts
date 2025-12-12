@@ -6,7 +6,7 @@ import {
   getCountryFlag,
   getEUCountries,
   isEUCountry,
-} from "../lib/i18n/countries";
+} from "../lib/i18n/country-i18n";
 
 describe("countries utilities", () => {
   describe("EU_COUNTRY_CODES", () => {

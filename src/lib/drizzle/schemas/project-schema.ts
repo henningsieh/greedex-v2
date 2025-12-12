@@ -3,7 +3,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { decimal, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
 import { activityTypeValues, ActivityType } from "@/components/features/projects/types";
-import type { CountryCode } from "@/lib/i18n/countries";
+import type { CountryCode } from "@/lib/i18n/country-i18n";
 
 
 // ============================================================================

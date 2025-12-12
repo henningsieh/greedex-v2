@@ -14,7 +14,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { getAllCountries, getEUCountries } from "@/lib/i18n/countries";
+import { getAllCountries, getEUCountries } from "@/lib/i18n/country-i18n";
 import { cn } from "@/lib/utils";
 
 interface CountrySelectProps {

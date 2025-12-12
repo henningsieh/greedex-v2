@@ -3,6 +3,7 @@
 import { AnimatedGroup } from "@/components/animated-group";
 import { Globe } from "@/components/ui/globe";
 import { EU_CAPITAL_CITIES } from "@/config/eu-cities";
+import { EU_MEMBER_COUNT, type EUCountryCode } from "@/config/eu-countries";
 
 const transitionVariants = {
   item: {
@@ -60,14 +61,16 @@ export function GlobeSection() {
               </h2>
 
               <p className="text-lg text-muted-foreground leading-relaxed md:text-xl">
-                Greendex connects organizations across all 27 EU member states,
-                creating a unified network dedicated to environmental
-                sustainability and green initiatives.
+                Greendex connects organizations across all {EU_MEMBER_COUNT} EU
+                member states, creating a unified network dedicated to
+                environmental sustainability and green initiatives.
               </p>
 
               <div className="grid gap-6 pt-4 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <div className="font-bold text-4xl text-primary">27</div>
+                  <div className="font-bold text-4xl text-primary">
+                    {EU_MEMBER_COUNT}
+                  </div>
                   <p className="text-muted-foreground text-sm">
                     EU Member States
                   </p>
@@ -81,25 +84,33 @@ export function GlobeSection() {
               </div>
 
               <div className="flex flex-wrap gap-3 pt-4">
-                {[
-                  "Austria",
-                  "Belgium",
-                  "Germany",
-                  "France",
-                  "Italy",
-                  "Spain",
-                  "Poland",
-                  "Netherlands",
-                ].map((country) => (
-                  <span
-                    key={country}
-                    className="rounded-full border border-border bg-muted/50 px-3 py-1 text-xs"
-                  >
-                    {country}
-                  </span>
-                ))}
+                {(
+                  [
+                    "AT", // Austria
+                    "BE", // Belgium
+                    "DE", // Germany
+                    "FR", // France
+                    "IT", // Italy
+                    "ES", // Spain
+                    "PL", // Poland
+                    "NL", // Netherlands
+                  ] satisfies EUCountryCode[]
+                ).map((countryCode) => {
+                  const city = EU_CAPITAL_CITIES.find(
+                    (c) => c.countryCode === countryCode,
+                  );
+                  if (!city) return null;
+                  return (
+                    <span
+                      key={countryCode}
+                      className="rounded-full border border-border bg-muted/50 px-3 py-1 text-xs"
+                    >
+                      {city.name}
+                    </span>
+                  );
+                })}
                 <span className="rounded-full border border-primary/50 bg-primary/10 px-3 py-1 font-semibold text-primary text-xs">
-                  +19 more
+                  +{EU_MEMBER_COUNT - 8} more
                 </span>
               </div>
             </div>
