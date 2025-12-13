@@ -17,17 +17,19 @@ describe("OpenAPI REST Endpoint", () => {
 
   // Check if server is available before running tests
   beforeAll(async () => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1000);
+
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 1000);
       await fetch(baseUrl, { signal: controller.signal });
-      clearTimeout(timeout);
       serverAvailable = true;
     } catch {
       serverAvailable = false;
       console.warn(
         "⚠️  OpenAPI server not running, skipping integration tests",
       );
+    } finally {
+      clearTimeout(timeout);
     }
   });
 
@@ -144,17 +146,19 @@ describe("OpenAPI Specification", () => {
   let serverAvailable = false;
 
   beforeAll(async () => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 1000);
+
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 1000);
       await fetch(specUrl, { signal: controller.signal });
-      clearTimeout(timeout);
       serverAvailable = true;
     } catch {
       serverAvailable = false;
       console.warn(
         "⚠️  OpenAPI spec endpoint not running, skipping specification tests",
       );
+    } finally {
+      clearTimeout(timeout);
     }
   });
 
