@@ -24,7 +24,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PROJECTS_PATH } from "@/config/AppRoutes";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +37,7 @@ export function OrganizationSwitcher() {
     mode: "organization",
   });
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   // Use oRPC queries for consistency
   const { data: session } = useSuspenseQuery(
@@ -112,6 +115,9 @@ export function OrganizationSwitcher() {
                         orpcQuery.organizations.getActive.queryOptions(),
                       ),
                     ]);
+
+                    // Redirect to projects list to prevent staying on invalid project page
+                    router.push(PROJECTS_PATH);
                   } finally {
                     stopLoading();
                   }

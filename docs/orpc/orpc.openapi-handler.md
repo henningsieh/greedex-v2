@@ -1,11 +1,11 @@
 ---
-url: /docs/openapi/openapi-handler.md
+url: https://orpc.dev/docs/openapi/openapi-handler.md
 description: Comprehensive Guide to the OpenAPIHandler in oRPC
 ---
 
 # OpenAPI Handler
 
-The `OpenAPIHandler` enables communication with clients over RESTful APIs, adhering to the OpenAPI specification. It is fully compatible with [OpenAPILink](/docs/openapi/client/openapi-link) and the [OpenAPI Specification](/docs/openapi/openapi-specification).
+The `OpenAPIHandler` enables communication with clients over RESTful APIs, adhering to the OpenAPI specification. It is fully compatible with [OpenAPILink](orpc.openapi-link.md) and the [OpenAPI Specification](orpc.openapi-specification.md).
 
 ## Supported Data Types
 
@@ -26,14 +26,14 @@ The `OpenAPIHandler` enables communication with clients over RESTful APIs, adher
 * **Map** (`Map` → `array`)
 * **Blob** (unsupported in `AsyncIteratorObject`)
 * **File** (unsupported in `AsyncIteratorObject`)
-* **AsyncIteratorObject** (only at the root level; powers the [Event Iterator](/docs/event-iterator))
+* **AsyncIteratorObject** (only at the root level; powers the [Event Iterator](https://orpc.dev/docs/event-iterator.md))
 
 ::: warning
-If a payload contains `Blob` or `File` outside the root level, it must use `multipart/form-data`. In such cases, oRPC applies [Bracket Notation](/docs/openapi/bracket-notation) and converts other types to strings (exclude `null` and `undefined` will not be represented).
+If a payload contains `Blob` or `File` outside the root level, it must use `multipart/form-data`. In such cases, oRPC applies [Bracket Notation](https://orpc.dev/docs/openapi/bracket-notation.md) and converts other types to strings (exclude `null` and `undefined` will not be represented).
 :::
 
 :::tip
-You can extend the list of supported types by [creating a custom serializer](/docs/openapi/advanced/openapi-json-serializer#extending-native-data-types).
+You can extend the list of supported types by [creating a custom serializer](https://orpc.dev/docs/openapi/advanced/openapi-json-serializer#extending-native-data-types).
 :::
 
 ## Installation

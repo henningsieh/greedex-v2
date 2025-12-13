@@ -5,7 +5,7 @@ import { AnimatedGradientCTA } from "@/components/animated-cta";
 import { AnimatedGroup } from "@/components/animated-group";
 import { TextEffect } from "@/components/ui/text-effect";
 import { DASHBOARD_PATH } from "@/config/AppRoutes";
-import { Link } from "@/lib/i18n/navigation";
+import { Link } from "@/lib/i18n/routing";
 
 const transitionVariants = {
   item: {

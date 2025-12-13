@@ -1,5 +1,5 @@
-import { RPCHandler } from "@orpc/server/fetch";
 import { onError } from "@orpc/server";
+import { RPCHandler } from "@orpc/server/fetch";
 import { CORSPlugin } from "@orpc/server/plugins";
 import { router } from "@/lib/orpc/router";
 

@@ -39,7 +39,7 @@ import {
   SETTINGS_PATH,
   TEAM_PATH,
 } from "@/config/AppRoutes";
-import { Link, usePathname } from "@/lib/i18n/navigation";
+import { Link, usePathname } from "@/lib/i18n/routing";
 
 export function AppSidebar() {
   const pathname = usePathname();

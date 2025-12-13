@@ -39,7 +39,7 @@ deno add npm:@orpc/tanstack-query@latest
 
 ## Setup
 
-Before you begin, ensure you have already configured a [server-side client](/docs/client/server-side) or a [client-side client](/docs/client/client-side).
+Before you begin, ensure you have already configured a [server-side client](orpc.server-side.md) or a [client-side client](https://orpc.dev/docs/client/client-side.md).
 
 ```ts twoslash
 import { router } from './shared/planet'

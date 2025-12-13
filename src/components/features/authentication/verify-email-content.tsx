@@ -16,7 +16,7 @@ import {
 import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import { LOGIN_PATH, SIGNUP_PATH } from "@/config/AppRoutes";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { Link } from "@/lib/i18n/navigation";
+import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function VerifyEmailContent({

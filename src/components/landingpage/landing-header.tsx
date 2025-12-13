@@ -23,7 +23,7 @@ import {
   TIPS_AND_TRICKS_PATH,
   WORKSHOPS_ANCHOR,
 } from "@/config/AppRoutes";
-import { Link } from "@/lib/i18n/navigation";
+import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils/index";
 
 export const LandingHeader = () => {

@@ -28,7 +28,7 @@ import {
 import { DASHBOARD_PATH, LOGIN_PATH } from "@/config/AppRoutes";
 import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { Link, useRouter } from "@/lib/i18n/navigation";
+import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function SignupForm({

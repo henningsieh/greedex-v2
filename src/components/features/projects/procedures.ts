@@ -192,8 +192,19 @@ export const getProjectById = authorized
       });
     }
 
+    // First, check if project exists at all
+    const projectExists = await db.query.projectsTable.findFirst({
+      where: eq(projectsTable.id, input.id),
+    });
+
+    if (!projectExists) {
+      throw new ORPCError("NOT_FOUND", {
+        message: "Project not found",
+      });
+    }
+
     // Fetch project and verify it belongs to user's organization
-    const project = await db.query.projectsTable.findFirst({
+    const existingProject = await db.query.projectsTable.findFirst({
       where: and(
         eq(projectsTable.id, input.id),
         eq(projectsTable.organizationId, context.session.activeOrganizationId),
@@ -204,13 +215,13 @@ export const getProjectById = authorized
       },
     });
 
-    if (!project) {
-      throw new ORPCError("NOT_FOUND", {
-        message: "Project not found or you don't have access to it",
+    if (!existingProject) {
+      throw new ORPCError("FORBIDDEN", {
+        message: "You don't have access to this project",
       });
     }
 
-    return project;
+    return existingProject;
   });
 
 /**

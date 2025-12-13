@@ -1,6 +1,7 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { ORPCError } from "@orpc/client";
+import { useQuery } from "@tanstack/react-query";
 import {
   Calendar,
   Globe,
@@ -8,7 +9,9 @@ import {
   MessageSquare,
   Users,
 } from "lucide-react";
+import { notFound } from "next/navigation";
 import { useFormatter, useTranslations } from "next-intl";
+import { toast } from "sonner";
 import {
   ProjectActivitiesList,
   ProjectActivitiesListSkeleton,
@@ -16,7 +19,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PROJECTS_PATH } from "@/config/AppRoutes";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
+import { useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 interface ProjectDetailsProps {
@@ -25,8 +30,9 @@ interface ProjectDetailsProps {
 
 export function ProjectDetails({ id }: ProjectDetailsProps) {
   const t = useTranslations("project.details");
+  const router = useRouter();
   const { canUpdate } = useProjectPermissions();
-  const { data } = useSuspenseQuery(
+  const { data, error } = useQuery(
     orpcQuery.projects.getById.queryOptions({
       input: {
         id,
@@ -34,6 +40,20 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
     }),
   );
   const format = useFormatter();
+
+  if (error && error instanceof ORPCError) {
+    if (error.code === "NOT_FOUND") {
+      notFound();
+    } else if (error.code === "FORBIDDEN") {
+      toast.error("You don't have access to this project");
+      router.push(PROJECTS_PATH);
+    }
+    return null;
+  }
+
+  if (!data) {
+    return <ProjectDetailsSkeleton />;
+  }
 
   return (
     <div className="mx-auto max-w-5xl space-y-8">

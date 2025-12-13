@@ -42,7 +42,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useRouter } from "@/lib/i18n/navigation";
+import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { getProjectDetailPath } from "@/lib/utils/project-utils";
 
