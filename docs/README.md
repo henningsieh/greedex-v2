@@ -42,6 +42,9 @@
 #### Advanced
 - [Optimize Server-Side Rendering (SSR)](orpc/orpc.Optimize-Server-Side-Rendering.SSR.md)
 
+### instructions/tanstack-query/
+- [SSR - Server Rendering and Hydration](instructions/tanstack-query/SSR%20-%20Server%20Rendering%20and%20Hydration.md)
+
 ### permissions/
 - [README.md](permissions/README.md)
 

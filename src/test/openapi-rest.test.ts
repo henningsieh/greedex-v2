@@ -11,28 +11,85 @@ import { beforeAll, describe, expect, it } from "vitest";
  *
  * Note: These tests require a running server and are skipped in CI if the server is not available.
  */
-describe("OpenAPI REST Endpoint", () => {
-  const baseUrl = "http://localhost:3000/api/openapi";
-  let serverAvailable = false;
+const baseUrl = "http://localhost:3000/api/openapi";
+let serverAvailable = false;
 
-  // Check if server is available before running tests
-  beforeAll(async () => {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 1000);
+// Check if server is available before running tests
+beforeAll(async () => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 1000);
 
-    try {
-      await fetch(baseUrl, { signal: controller.signal });
+  try {
+    console.log(`Checking server availability at: ${baseUrl}/health`);
+    const response = await fetch(`${baseUrl}/health`, { signal: controller.signal });
+    console.log(`Server response status: ${response.status}`);
+    if (response.ok) {
       serverAvailable = true;
-    } catch {
+      console.log("✅ Server is available");
+    } else {
       serverAvailable = false;
-      console.warn("⚠️  OpenAPI server not running, skipping integration tests");
-    } finally {
-      clearTimeout(timeout);
+      console.log("❌ Server responded but not OK");
     }
+  } catch (error) {
+    serverAvailable = false;
+    console.warn("⚠️  OpenAPI server not running, skipping integration tests", error);
+  } finally {
+    clearTimeout(timeout);
+  }
+});
+
+describe("OpenAPI REST Endpoint", () => {
+  describe("SSR oRPC client", () => {
+    it("uses server-side client during SSR and doesn't call /api/rpc", async () => {
+      // Programmatically attach a server-side router client to globalThis
+      const { createRouterClient } = await import("@orpc/server");
+      const { router } = await import("@/lib/orpc/router");
+
+      // Snap-in a server client for SSR (no network)
+      globalThis.$client = createRouterClient(router, {
+        context: async () => ({ headers: new Headers() }),
+      });
+
+      // Patch global fetch to fail if /api/rpc is called
+      const g = globalThis as unknown as {
+        fetch?: (...args: unknown[]) => Promise<unknown>;
+        $client?: unknown;
+      };
+      const originalFetch = g.fetch;
+      g.fetch = (...args: unknown[]) => {
+        const resource = args[0] as string | { url?: string } | undefined;
+        const url = typeof resource === "string" ? resource : resource?.url;
+        if (typeof url === "string" && url.includes("/api/rpc")) {
+          throw new Error("RPCLink network call detected during SSR");
+        }
+        if (typeof originalFetch === "function") {
+          return (originalFetch as (...a: unknown[]) => Promise<unknown>)(
+            ...args,
+          );
+        }
+        return Promise.reject(new Error("No fetch available"));
+      };
+
+      try {
+        const { orpc } = await import("@/lib/orpc/orpc");
+        const result = await orpc.health();
+        expect(result).toBeDefined();
+        // If the server client was not used, network fetch would have thrown
+      } finally {
+        // cleanup
+        const g2 = globalThis as unknown as {
+          fetch?: (...args: unknown[]) => Promise<unknown>;
+          $client?: unknown;
+        };
+        g2.fetch = originalFetch;
+        delete g2.$client;
+      }
+    });
   });
 
-  describe.skipIf(!serverAvailable)("Public Endpoints", () => {
+  describe("Public Endpoints", () => {
     it("should return health status via GET /health", async () => {
+      if (!serverAvailable) throw new Error("Server not available");
       const response = await fetch(`${baseUrl}/health`, {
         method: "GET",
       });
@@ -47,6 +104,7 @@ describe("OpenAPI REST Endpoint", () => {
     });
 
     it("should handle hello world via POST /helloWorld", async () => {
+      if (!serverAvailable) throw new Error("Server not available");
       const response = await fetch(`${baseUrl}/helloWorld`, {
         method: "POST",
         headers: {
@@ -64,6 +122,7 @@ describe("OpenAPI REST Endpoint", () => {
     });
 
     it("should use default name when name not provided", async () => {
+      if (!serverAvailable) throw new Error("Server not available");
       const response = await fetch(`${baseUrl}/helloWorld`, {
         method: "POST",
         headers: {
@@ -79,8 +138,9 @@ describe("OpenAPI REST Endpoint", () => {
     });
   });
 
-  describe.skipIf(!serverAvailable)("Protected Endpoints", () => {
+  describe("Protected Endpoints", () => {
     it("should return 401 for protected endpoints without auth", async () => {
+      if (!serverAvailable) throw new Error("Server not available");
       const response = await fetch(`${baseUrl}/users/profile`, {
         method: "GET",
       });
@@ -90,6 +150,7 @@ describe("OpenAPI REST Endpoint", () => {
     });
 
     it("should return session info when requesting /auth/session", async () => {
+      if (!serverAvailable) throw new Error("Server not available");
       const response = await fetch(`${baseUrl}/auth/session`, {
         method: "GET",
       });
@@ -103,19 +164,21 @@ describe("OpenAPI REST Endpoint", () => {
     });
   });
 
-  describe.skipIf(!serverAvailable)("Error Handling", () => {
+  describe("Error Handling", () => {
     it("should return 404 for non-existent endpoints", async () => {
+      if (!serverAvailable) throw new Error("Server not available");
       const response = await fetch(`${baseUrl}/non-existent-endpoint`, {
         method: "GET",
       });
 
       expect(response.status).toBe(404);
 
-      const error = await response.json();
-      expect(error).toHaveProperty("message");
+      const text = await response.text();
+      expect(text).toBe("Not found");
     });
 
     it("should handle invalid JSON input gracefully", async () => {
+      if (!serverAvailable) throw new Error("Server not available");
       const response = await fetch(`${baseUrl}/helloWorld`, {
         method: "POST",
         headers: {
@@ -129,55 +192,50 @@ describe("OpenAPI REST Endpoint", () => {
     });
   });
 
-  describe.skipIf(!serverAvailable)("CORS Headers", () => {
+  describe("CORS Headers", () => {
     it("should include proper CORS headers", async () => {
+      if (!serverAvailable) throw new Error("Server not available");
       const response = await fetch(`${baseUrl}/health`, {
         method: "GET",
+        headers: {
+          Origin: "http://localhost:3000",
+        },
       });
 
-      expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
+      expect(response.headers.get("Access-Control-Allow-Origin")).toBe("http://localhost:3000");
       expect(response.headers.get("Access-Control-Allow-Methods")).toBeDefined();
+      expect(response.headers.get("Access-Control-Allow-Headers")).toBeDefined();
+      expect(response.headers.get("Access-Control-Allow-Credentials")).toBe("true");
+      // Required for OpenAPILink file detection
+      expect(response.headers.get("Access-Control-Expose-Headers")).toContain("Content-Disposition");
     });
 
     it("should handle CORS preflight requests", async () => {
+      if (!serverAvailable) throw new Error("Server not available");
       const response = await fetch(`${baseUrl}/health`, {
         method: "OPTIONS",
         headers: {
-          Origin: "http://example.com",
+          Origin: "http://localhost:3000",
           "Access-Control-Request-Method": "GET",
         },
       });
 
       expect(response.status).toBe(204); // or 200
-      expect(response.headers.get("Access-Control-Allow-Methods")).toContain(
-        "GET",
-      );
+      expect(response.headers.get("Access-Control-Allow-Origin")).toBe("http://localhost:3000");
+      expect(response.headers.get("Access-Control-Allow-Methods")).toContain("GET");
+      expect(response.headers.get("Access-Control-Allow-Headers")).toBeDefined();
+      expect(response.headers.get("Access-Control-Allow-Credentials")).toBe("true");
+      // Required for OpenAPILink file detection
+      expect(response.headers.get("Access-Control-Expose-Headers")).toContain("Content-Disposition");
     });
   });
 });
 
 describe("OpenAPI Specification", () => {
   const specUrl = "http://localhost:3000/api/openapi-spec";
-  let serverAvailable = false;
 
-  beforeAll(async () => {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 1000);
-
-    try {
-      await fetch(specUrl, { signal: controller.signal });
-      serverAvailable = true;
-    } catch {
-      serverAvailable = false;
-      console.warn(
-        "⚠️  OpenAPI spec endpoint not running, skipping specification tests",
-      );
-    } finally {
-      clearTimeout(timeout);
-    }
-  });
-
-  it.skipIf(!serverAvailable)("should serve OpenAPI specification", async () => {
+  it("should serve OpenAPI specification", async () => {
+    if (!serverAvailable) throw new Error("Server not available");
     const response = await fetch(specUrl);
     expect(response.status).toBe(200);
 

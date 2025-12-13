@@ -12,7 +12,12 @@ import { router } from "@/lib/orpc/router";
  * - Third-party integrations
  */
 const handler = new OpenAPIHandler(router, {
-  plugins: [new CORSPlugin()],
+  plugins: [new CORSPlugin({
+    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    exposeHeaders: ['Content-Disposition'], // Required for OpenAPILink file detection
+    credentials: true,
+  })],
   interceptors: [
     onError((error) => {
       console.error("[OpenAPI Error]", error);
@@ -48,3 +53,4 @@ export const PUT = handleRequest;
 export const PATCH = handleRequest;
 export const DELETE = handleRequest;
 export const HEAD = handleRequest;
+export const OPTIONS = handleRequest;

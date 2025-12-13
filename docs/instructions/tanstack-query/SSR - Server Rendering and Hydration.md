@@ -13,6 +13,47 @@ If you just want to see some code, you can skip ahead to the [Full Next.js pages
 
 ## Server Rendering & React Query
 
+### Server-aware oRPC client split
+
+For this repository we use oRPC with an SSR-aware client split to avoid the server making HTTP requests to itself during SSR. The pattern is:
+
+- `src/lib/orpc/client.server.ts` — creates a server-side oRPC client (`createRouterClient(router)`) and attaches it to `globalThis.$client`.
+- `src/lib/orpc/orpc.ts` — exports `orpc` which uses the server client during SSR (`globalThis.$client`) and falls back to `createORPCClient(RPCLink)` in the browser.
+- `src/app/layout.tsx` & `src/instrumentation.ts` import `client.server.ts` to initialize the server-side client during SSR.
+
+This ensures Type-safe, in-process procedure calls during SSR and efficient RPCLink usage in the browser.
+
+Examples:
+
+```ts
+// src/lib/orpc/client.server.ts
+import "server-only";
+import { createRouterClient } from '@orpc/server';
+import { headers } from 'next/headers';
+import { router } from '@/lib/orpc/router';
+
+globalThis.$client = createRouterClient(router, {
+  context: async () => ({ headers: await headers() }),
+});
+```
+
+```ts
+// src/lib/orpc/orpc.ts
+import { createORPCClient } from '@orpc/client';
+import { RPCLink } from '@orpc/client/fetch';
+import type { RouterClient } from '@orpc/server';
+import type { Router } from '@/lib/orpc/router';
+
+declare global { var $client: RouterClient<Router> | undefined }
+
+const link = new RPCLink({ url: () => `${window.location.origin}/api/rpc` });
+export const orpc: RouterClient<Router> = globalThis.$client ?? createORPCClient(link);
+```
+
+See `src/lib/orpc/README.md` and `docs/orpc/orpc.Optimize-Server-Side-Rendering.SSR.md` for more details.
+
+
+
 So what is server rendering anyway? The rest of this guide will assume you are familiar with the concept, but let's spend some time to look at how it relates to React Query. Server rendering is the act of generating the initial html on the server, so that the user has some content to look at as soon as the page loads. This can happen on demand when a page is requested (SSR). It can also happen ahead of time either because a previous request was cached, or at build time (SSG).
 
 If you've read the Request Waterfalls guide, you might remember this:
