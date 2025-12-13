@@ -33,7 +33,8 @@ The application uses **two separate endpoints** for different purposes:
 ### Documentation UI
 
 Access the interactive API documentation at:
-```
+
+```text
 http://localhost:3000/api/docs
 ```
 

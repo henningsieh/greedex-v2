@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeAll } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 /**
  * REST API Integration Tests for OpenAPI Endpoint
@@ -25,9 +25,7 @@ describe("OpenAPI REST Endpoint", () => {
       serverAvailable = true;
     } catch {
       serverAvailable = false;
-      console.warn(
-        "⚠️  OpenAPI server not running, skipping integration tests",
-      );
+      console.warn("⚠️  OpenAPI server not running, skipping integration tests");
     } finally {
       clearTimeout(timeout);
     }
@@ -112,6 +110,9 @@ describe("OpenAPI REST Endpoint", () => {
       });
 
       expect(response.status).toBe(404);
+
+      const error = await response.json();
+      expect(error).toHaveProperty("message");
     });
 
     it("should handle invalid JSON input gracefully", async () => {
@@ -129,14 +130,28 @@ describe("OpenAPI REST Endpoint", () => {
   });
 
   describe.skipIf(!serverAvailable)("CORS Headers", () => {
-    it("should include CORS headers in responses", async () => {
+    it("should include proper CORS headers", async () => {
       const response = await fetch(`${baseUrl}/health`, {
         method: "GET",
       });
 
-      // Check for CORS headers (CORSPlugin should add these)
-      const corsHeader = response.headers.get("Access-Control-Allow-Origin");
-      expect(corsHeader).toBeDefined();
+      expect(response.headers.get("Access-Control-Allow-Origin")).toBe("*");
+      expect(response.headers.get("Access-Control-Allow-Methods")).toBeDefined();
+    });
+
+    it("should handle CORS preflight requests", async () => {
+      const response = await fetch(`${baseUrl}/health`, {
+        method: "OPTIONS",
+        headers: {
+          Origin: "http://example.com",
+          "Access-Control-Request-Method": "GET",
+        },
+      });
+
+      expect(response.status).toBe(204); // or 200
+      expect(response.headers.get("Access-Control-Allow-Methods")).toContain(
+        "GET",
+      );
     });
   });
 });
@@ -162,28 +177,25 @@ describe("OpenAPI Specification", () => {
     }
   });
 
-  it.skipIf(!serverAvailable)(
-    "should serve OpenAPI specification",
-    async () => {
-      const response = await fetch(specUrl);
-      expect(response.status).toBe(200);
+  it.skipIf(!serverAvailable)("should serve OpenAPI specification", async () => {
+    const response = await fetch(specUrl);
+    expect(response.status).toBe(200);
 
-      const spec = await response.json();
+    const spec = await response.json();
 
-      // Verify it's a valid OpenAPI spec
-      expect(spec).toHaveProperty("openapi");
-      expect(spec.openapi).toMatch(/^3\.\d+\.\d+$/); // Should be OpenAPI 3.x.x
+    // Verify it's a valid OpenAPI spec
+    expect(spec).toHaveProperty("openapi");
+    expect(spec.openapi).toMatch(/^3\.\d+\.\d+$/); // Should be OpenAPI 3.x.x
 
-      expect(spec).toHaveProperty("info");
-      expect(spec.info).toHaveProperty("title");
-      expect(spec.info).toHaveProperty("version");
+    expect(spec).toHaveProperty("info");
+    expect(spec.info).toHaveProperty("title");
+    expect(spec.info).toHaveProperty("version");
 
-      expect(spec).toHaveProperty("paths");
-      expect(typeof spec.paths).toBe("object");
+    expect(spec).toHaveProperty("paths");
+    expect(typeof spec.paths).toBe("object");
 
-      // Check that some of our endpoints are documented
-      expect(spec.paths).toHaveProperty("/health");
-      expect(spec.paths).toHaveProperty("/helloWorld");
-    },
-  );
+    // Check that some of our endpoints are documented
+    expect(spec.paths).toHaveProperty("/health");
+    expect(spec.paths).toHaveProperty("/helloWorld");
+  });
 });

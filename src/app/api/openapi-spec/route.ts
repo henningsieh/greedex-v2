@@ -25,5 +25,9 @@ export async function GET() {
     ],
   });
 
-  return NextResponse.json(spec);
+  return NextResponse.json(spec, {
+    headers: {
+      "Cache-Control": "public, max-age=3600, s-maxage=3600",
+    },
+  });
 }
