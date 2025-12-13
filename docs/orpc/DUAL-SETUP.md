@@ -241,7 +241,7 @@ import { orpc } from "@/lib/orpc/orpc";
 **Solution**: Check that the route is registered in the router and uses `.route()` metadata.
 
 ### Issue: SSR not working
-**Solution**: Verify `instrumentation.ts` imports `client.server.ts` and it's running in Node.js runtime.
+**Solution**: Verify `instrumentation.ts` imports `@/lib/orpc/client.server` and it's running in Node.js runtime.
 
 ### Issue: OpenAPI spec not showing procedures
 **Solution**: Add `.route({ method, path })` metadata to your procedures.
