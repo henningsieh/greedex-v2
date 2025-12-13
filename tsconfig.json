@@ -22,14 +22,13 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
       ],
       "#next-routes/*": [
-        ".next/dev/types/*",
-        ".next/types/*"
+        "./.next/dev/types/*",
+        "./.next/types/*"
       ]
     }
   },
