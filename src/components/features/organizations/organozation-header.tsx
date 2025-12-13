@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CREATE_PROJECT_PATH } from "@/config/AppRoutes";
-import { usePathname } from "@/lib/i18n/navigation";
+import { usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function OrganizationHeader() {

@@ -49,7 +49,7 @@ import {
   TEAM_PATH,
 } from "@/config/AppRoutes";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
-import { Link, usePathname } from "@/lib/i18n/navigation";
+import { Link, usePathname } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
 

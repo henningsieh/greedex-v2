@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/config/AppRoutes";
-import { redirect } from "@/lib/i18n/navigation";
+import { redirect } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 import {
   checkAuthAndOrgs,

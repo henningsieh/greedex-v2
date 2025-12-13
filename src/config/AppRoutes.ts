@@ -3,6 +3,7 @@
 
 // Import Next.js generated route types
 // Path resolves to .next/dev/types/routes in dev, .next/types/routes in production
+// see "paths" field in tsconfig.json
 import type { AppRoutes } from "#next-routes/routes";
 
 // Transform generated routes to remove locale prefix for next-intl compatibility
