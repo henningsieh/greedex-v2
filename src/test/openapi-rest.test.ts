@@ -18,7 +18,10 @@ describe("OpenAPI REST Endpoint", () => {
   // Check if server is available before running tests
   beforeAll(async () => {
     try {
-      await fetch(baseUrl, { signal: AbortSignal.timeout(1000) });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 1000);
+      await fetch(baseUrl, { signal: controller.signal });
+      clearTimeout(timeout);
       serverAvailable = true;
     } catch {
       serverAvailable = false;
@@ -142,7 +145,10 @@ describe("OpenAPI Specification", () => {
 
   beforeAll(async () => {
     try {
-      await fetch(specUrl, { signal: AbortSignal.timeout(1000) });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 1000);
+      await fetch(specUrl, { signal: controller.signal });
+      clearTimeout(timeout);
       serverAvailable = true;
     } catch {
       serverAvailable = false;

@@ -5,6 +5,11 @@ import { NextResponse } from "next/server";
  * Provides an interactive Swagger-like UI for the OpenAPI specification
  *
  * Access this page at /api/docs to explore and test the API
+ *
+ * Note: Uses CDN version of Scalar for simplicity. For production, consider:
+ * - Adding SRI (Subresource Integrity) hash
+ * - Hosting the script locally
+ * - Using a specific version instead of latest
  */
 export async function GET() {
   const html = `
@@ -36,6 +41,7 @@ export async function GET() {
         searchHotKey: "k",
       })}'
     ></script>
+    <!-- TODO: Consider adding SRI hash or hosting locally for production -->
     <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
   </body>
 </html>
