@@ -20,7 +20,7 @@ export type AppRoute = StripLocale<AppRoutes>;
 // Exported route constants - use with next-intl Link component
 // The Link component from next-intl automatically adds locale prefix
 export const DASHBOARD_PATH: AppRoute = "/org/dashboard";
-export const ACTIVE_PROJECT_PATH: AppRoute = "/org/activeproject";
+// Note: ACTIVE_PROJECT_PATH removed - users now navigate directly to project details via /org/projects/[id]
 export const LIVE_VIEW_PATH: AppRoute = "/org/activeproject/liveview";
 export const PROJECTS_PATH: AppRoute = "/org/projects";
 export const TEAM_PATH: AppRoute = "/org/team";

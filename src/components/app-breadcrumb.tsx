@@ -40,7 +40,6 @@ import {
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  ACTIVE_PROJECT_PATH,
   CREATE_PROJECT_PATH,
   DASHBOARD_PATH,
   LIVE_VIEW_PATH,
@@ -73,12 +72,8 @@ const orgRouteKeyToIcon: Record<
 type BreadcrumbLevel = "organization" | "project";
 
 function getBreadcrumbLevel(pathname: string): BreadcrumbLevel {
-  // Active project routes are under /org/activeproject/*
-  if (
-    pathname.startsWith("/org/activeproject") ||
-    pathname === ACTIVE_PROJECT_PATH ||
-    pathname === LIVE_VIEW_PATH
-  ) {
+  // Liveview route is project-specific
+  if (pathname === LIVE_VIEW_PATH || pathname.startsWith("/org/activeproject/liveview")) {
     return "project";
   }
   return "organization";
@@ -225,10 +220,10 @@ export function AppBreadcrumb() {
               <BreadcrumbItem>
                 {activeProject ? (
                   isLiveView ? (
-                    // If on liveview, project name is a link
+                    // If on liveview, project name is a link to project details
                     <BreadcrumbLink asChild>
                       <Link
-                        href={ACTIVE_PROJECT_PATH}
+                        href={`/org/projects/${activeProject.id}` as "/org/projects/[id]"}
                         className={cn(
                           "flex items-center gap-2 transition-colors duration-300",
                           primaryColorClasses,
@@ -241,7 +236,7 @@ export function AppBreadcrumb() {
                       </Link>
                     </BreadcrumbLink>
                   ) : (
-                    // If on active project page, project name is current page
+                    // Project name as current page (shouldn't happen anymore, but keeping as fallback)
                     <BreadcrumbPage
                       className={cn("flex items-center gap-2", pageColorClasses)}
                     >

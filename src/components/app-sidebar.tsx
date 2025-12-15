@@ -2,7 +2,6 @@
 
 import {
   BarChart3Icon,
-  CogIcon,
   LayoutDashboardIcon,
   MapPinnedIcon,
   PanelRightCloseIcon,
@@ -32,7 +31,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
-  ACTIVE_PROJECT_PATH,
   DASHBOARD_PATH,
   LIVE_VIEW_PATH,
   PROJECTS_PATH,
@@ -48,11 +46,6 @@ export function AppSidebar() {
   const t = useTranslations("app.sidebar");
 
   const projectsMenuItems = [
-    {
-      title: t("projects.control"),
-      icon: CogIcon,
-      url: ACTIVE_PROJECT_PATH,
-    },
     {
       title: t("projects.liveView"),
       icon: BarChart3Icon,
