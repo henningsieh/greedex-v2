@@ -519,7 +519,20 @@
       "error": "Fehler beim Laden der Projektdetails.",
       "people-joined": "Leute sind bereits beigetreten",
       "no-participants-yet": "Noch keine Teilnehmer",
-      "share-the-participation-link": "Teilen Sie den Teilnahmelink, um Personen zu diesem Projekt einzuladen."
+      "share-the-participation-link": "Teilen Sie den Teilnahmelink, um Personen zu diesem Projekt einzuladen.",
+      "tabs": {
+        "details": "Projektdetails",
+        "activities": "Aktivitäten",
+        "participants": "Teilnehmende"
+      },
+      "statistics": {
+        "participants": "Teilnehmende",
+        "activities": "Aktivitäten",
+        "total-distance": "Gesamtstrecke",
+        "duration": "Dauer",
+        "km": "km",
+        "days": "Tage"
+      }
     },
     "activities": {
       "title": "Projektaktivitäten",

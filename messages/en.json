@@ -519,7 +519,20 @@
       "error": "Failed to load project details.",
       "people-joined": "people have already joined",
       "no-participants-yet": "No participants yet",
-      "share-the-participation-link": "Share the participation link to invite people to this project."
+      "share-the-participation-link": "Share the participation link to invite people to this project.",
+      "tabs": {
+        "details": "Project Details",
+        "activities": "Activities",
+        "participants": "Participants"
+      },
+      "statistics": {
+        "participants": "Participants",
+        "activities": "Activities",
+        "total-distance": "Total Distance",
+        "duration": "Duration",
+        "km": "km",
+        "days": "days"
+      }
     },
     "activities": {
       "title": "Project Activities",
