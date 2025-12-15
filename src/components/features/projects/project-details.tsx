@@ -122,7 +122,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
 
               return (
                 <Badge
-                  variant="outline"
+                  variant="secondaryOutline"
                   className="inline-flex items-center gap-3 py-1.5 px-3"
                   title={`${countryName}${project.location ? ` | ${project.location}` : ""}`}>
                   {Flag ? (

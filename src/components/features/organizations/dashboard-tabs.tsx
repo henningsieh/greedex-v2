@@ -43,13 +43,14 @@ export function DashboardTabs({ organizationId }: DashboardTabsProps) {
           className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"
           value="projects"
         >
-          <PROJECT_ICONS.projects className="mr-2 h-4 w-4" />
+          <PROJECT_ICONS.projects className="h-4 w-4" />
           {t("tabs.projects")}
         </TabsTrigger>
         <TabsTrigger
           className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"
           value="participants"
         >
+          <PROJECT_ICONS.participants className="h-4 w-4" />
           {t("tabs.participants")}
         </TabsTrigger>
       </TabsList>

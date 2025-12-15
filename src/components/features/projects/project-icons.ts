@@ -3,7 +3,7 @@
  * Use these icons consistently across the application
  */
 
-import { MapIcon, MapPinnedIcon, WaypointsIcon } from "lucide-react";
+import { BabyIcon, MapIcon, MapPinnedIcon, Users2Icon, UsersIcon, WaypointsIcon } from "lucide-react";
 
 export const PROJECT_ICONS = {
   /** Icon for projects list/plural (dashboard tabs, sidebar, etc.) */
@@ -14,4 +14,7 @@ export const PROJECT_ICONS = {
   
   /** Icon for project activities (routes, trips, movements) */
   activities: WaypointsIcon,
+
+  /** Icon for project participants */
+  participants: BabyIcon
 } as const;
