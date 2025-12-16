@@ -424,7 +424,8 @@
             "deleteSuccess": "Projekt erfolgreich gelöscht",
             "deleteFailure": "Fehler beim Löschen des Projekts",
             "deleteFailureGeneric": "Fehler beim Löschen des Projekts"
-          }
+          },
+          "noSelection": "Du hast kein Projekt ausgewählt"
         },
         "participation": {
           "title": "Teilnahmelink",
@@ -532,7 +533,8 @@
         "km": "km",
         "days": "Tage",
         "co2-emissions": "Projektemissionen"
-      }
+      },
+      "joined-on": "beigetreten am"
     },
     "errors": {
       "default-error": "Fehler beim Laden der Projektdetails.",

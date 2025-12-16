@@ -167,7 +167,7 @@ export function calculateEmissions(
 
   // Calculate transport emissions (round trip: TO and FROM project)
   if (answers.flightKm) {
-    transportCO2 += answers.flightKm * CO2_FACTORS.flight;
+    transportCO2 += answers.flightKm * CO2_FACTORS.plane;
   }
   if (answers.boatKm) {
     transportCO2 += answers.boatKm * CO2_FACTORS.boat;

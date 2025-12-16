@@ -3,7 +3,7 @@
 import { CopyIcon, ExternalLinkIcon, Link2Icon, QrCodeIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import QRCode from "qrcode";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,20 +49,26 @@ export function ParticipantsLinkControls({
   // Input ref to focus & select URL for easy copying
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // Auto-focus and select the URL when it's available (select without scrolling to the end)
+  // Helper function to select URL text and scroll to start
+  const selectUrlText = useCallback(
+    (input: HTMLInputElement) => {
+      input.setSelectionRange(0, participationUrl.length);
+      requestAnimationFrame(() => {
+        input.scrollLeft = 0;
+      });
+    },
+    [participationUrl],
+  );
+
+  // Auto-focus and select the URL when it's available
   useEffect(() => {
     const input = inputRef.current;
     if (participationUrl && input) {
       // focus without scrolling the page
       input.focus?.({ preventScroll: true } as FocusOptions);
-      // select entire value but anchor at the start so the beginning stays visible
-      input.setSelectionRange(0, participationUrl.length);
-      // ensure horizontal scroll shows the start
-      requestAnimationFrame(() => {
-        input.scrollLeft = 0;
-      });
+      selectUrlText(input);
     }
-  }, [participationUrl]);
+  }, [participationUrl, selectUrlText]);
 
   // Generate QR code when modal opens
   useEffect(() => {
@@ -157,11 +163,7 @@ export function ParticipantsLinkControls({
               value={participationUrl}
               readOnly
               onFocus={(e) => {
-                const target = e.currentTarget;
-                target.setSelectionRange(0, target.value.length);
-                requestAnimationFrame(() => {
-                  target.scrollLeft = 0;
-                });
+                selectUrlText(e.currentTarget);
               }}
               className="truncate border-0 font-mono text-muted-foreground text-sm selection:bg-secondary selection:text-secondary-foreground"
               title={t("participation.linkLabel")}

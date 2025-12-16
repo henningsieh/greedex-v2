@@ -2,7 +2,6 @@
 
 import {
   useMutation,
-  useQuery,
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query";
@@ -134,12 +133,15 @@ export function AppBreadcrumb() {
     (project) => project.id === session?.session.activeProjectId,
   );
 
-  const { data: projectFromPath } = useQuery({
-    ...orpcQuery.projects.getById.queryOptions({
-      input: { id: projectIdFromPath ?? "" },
+  if (!activeProject) {
+    throw new Error("Active project not found");
+  }
+
+  const { data: projectFromPath } = useSuspenseQuery(
+    orpcQuery.projects.getById.queryOptions({
+      input: { id: projectIdFromPath || activeProject.id },
     }),
-    enabled: Boolean(projectIdFromPath),
-  });
+  );
 
   const currentProject = projectFromPath ?? activeProject;
 
@@ -163,7 +165,7 @@ export function AppBreadcrumb() {
     useMutation({
       mutationFn: () =>
         orpc.projects.delete({
-          id: currentProject?.id ?? "",
+          id: currentProject.id,
         }),
       onSuccess: (result) => {
         if (result.success) {
@@ -366,7 +368,7 @@ export function AppBreadcrumb() {
                 onClick={async () => {
                   const confirmed = await confirm({
                     title: "Delete project",
-                    description: `Delete project ${currentProject?.name}?`,
+                    description: `Delete project ${currentProject.name}?`,
                     confirmText: "Delete",
                     cancelText: "Cancel",
                     isDestructive: true,

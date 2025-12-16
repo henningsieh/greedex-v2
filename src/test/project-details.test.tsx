@@ -8,6 +8,7 @@
  */
 
 import { describe, expect, it } from "vitest";
+import { MILLISECONDS_PER_DAY } from "@/lib/utils/project-utils";
 
 describe("Project Details Statistics", () => {
   describe("Duration Calculation", () => {
@@ -15,7 +16,7 @@ describe("Project Details Statistics", () => {
       const startDate = new Date("2024-01-01");
       const endDate = new Date("2024-01-10");
       const duration = Math.ceil(
-        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+        (endDate.getTime() - startDate.getTime()) / MILLISECONDS_PER_DAY,
       );
       expect(duration).toBe(9);
     });
@@ -24,7 +25,7 @@ describe("Project Details Statistics", () => {
       const startDate = new Date("2024-01-01");
       const endDate = new Date("2024-01-01");
       const duration = Math.ceil(
-        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+        (endDate.getTime() - startDate.getTime()) / MILLISECONDS_PER_DAY,
       );
       expect(duration).toBe(0);
     });
@@ -33,7 +34,7 @@ describe("Project Details Statistics", () => {
       const startDate = new Date("2024-01-01");
       const endDate = new Date("2024-03-15");
       const duration = Math.ceil(
-        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
+        (endDate.getTime() - startDate.getTime()) / MILLISECONDS_PER_DAY,
       );
       expect(duration).toBe(74);
     });
@@ -142,7 +143,7 @@ describe("Project Details Statistics", () => {
       }, 0);
       const duration = Math.ceil(
         (projectEndDate.getTime() - projectStartDate.getTime()) /
-          (1000 * 60 * 60 * 24),
+          MILLISECONDS_PER_DAY,
       );
 
       // Verify all statistics
@@ -166,7 +167,7 @@ describe("Project Details Statistics", () => {
       }, 0);
       const duration = Math.ceil(
         (projectEndDate.getTime() - projectStartDate.getTime()) /
-          (1000 * 60 * 60 * 24),
+          MILLISECONDS_PER_DAY,
       );
 
       expect(participantsCount).toBe(0);

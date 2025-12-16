@@ -15,7 +15,9 @@ import { ERROR_CODES, type ErrorCode } from "@/lib/orpc/router";
 function isDefinedORPCError(
   error: unknown,
 ): error is ORPCError<ErrorCode, unknown> {
-  return error instanceof ORPCError;
+  return (
+    error instanceof ORPCError && ERROR_CODES.includes(error.code as ErrorCode)
+  );
 }
 
 describe("oRPC Error Type Safety", () => {

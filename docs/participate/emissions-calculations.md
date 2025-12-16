@@ -7,11 +7,11 @@ This document contains all numeric factors, formulas, example calculations, and 
 ### Transport CO₂ (kg CO₂ per km per person)
 ```ts
 const CO2_FACTORS = {
-  flight: 0.255,
-  boat: 0.115,
-  train: 0.041,
-  bus: 0.089,
   car: 0.192,
+  boat: 0.115,
+  bus: 0.089,
+  train: 0.041,
+  plane: 0.255,
   electricCar: 0.053,
 };
 ```

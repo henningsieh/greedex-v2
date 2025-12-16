@@ -1,7 +1,6 @@
 "use client";
 
 import { ORPCError } from "@orpc/client";
-import { notFound } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { PROJECTS_PATH } from "@/config/AppRoutes";
@@ -25,7 +24,8 @@ export function ErrorFallback({ error }: { error: Error }) {
     console.error("ORPC Error in Project Details Page:", error);
     if (error.code === "NOT_FOUND") {
       toast.error(t("project-not-found"));
-      notFound();
+      router.push(PROJECTS_PATH);
+      return null;
     } else if (error.code === "FORBIDDEN") {
       toast.error(t("project-access-denied"));
       router.push(PROJECTS_PATH);

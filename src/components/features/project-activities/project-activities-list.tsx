@@ -7,7 +7,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import type {
-  ActivityType,
+  ActivityValueType,
   ProjectActivityType,
 } from "@/components/features/projects/types";
 import {
@@ -55,7 +55,7 @@ interface ProjectActivitiesListProps {
 }
 
 // Use a single, consistent icon to avoid visual noise across activity types
-function getActivityIcon(_: ActivityType) {
+function getActivityIcon(_: ActivityValueType) {
   const Icon = PROJECT_ICONS.activities;
   return <Icon className="h-4 w-4" />;
 }

@@ -25,14 +25,17 @@ export async function getProjectData(projectId: string) {
   }
 }
 
+export const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+
 // CO₂ emission factors (kg CO₂ per km per person)
 export const CO2_FACTORS = {
-  flight: 0.255,
   car: 0.192,
   boat: 0.115,
   bus: 0.089,
-  electricCar: 0.053,
   train: 0.041,
+  // Reserved for participant questionnaire calculations:
+  plane: 0.255,
+  electricCar: 0.053,
 };
 
 /**

@@ -10,7 +10,7 @@ import { CO2_FACTORS, calculateActivitiesCO2 } from "@/lib/utils/project-utils";
 describe("Questionnaire Types and Calculations", () => {
   describe("CO₂ Emission Factors", () => {
     it("should have correct transport emission factors", () => {
-      expect(CO2_FACTORS.flight).toBe(0.255);
+      expect(CO2_FACTORS.plane).toBe(0.255);
       expect(CO2_FACTORS.boat).toBe(0.115);
       expect(CO2_FACTORS.train).toBe(0.041);
       expect(CO2_FACTORS.bus).toBe(0.089);

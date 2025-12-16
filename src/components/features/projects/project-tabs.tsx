@@ -23,7 +23,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { getCountryData } from "@/lib/i18n/country-i18n";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { calculateActivitiesCO2 } from "@/lib/utils/project-utils";
+import {
+  calculateActivitiesCO2,
+  MILLISECONDS_PER_DAY,
+} from "@/lib/utils/project-utils";
 
 interface ProjectDetailsProps {
   id: string;
@@ -61,13 +64,21 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
   const activitiesCount = activities?.length ?? 0;
   const totalDistance =
     activities?.reduce((sum, activity) => {
-      return sum + Number.parseFloat(activity.distanceKm);
+      const distanceAsNumber = Number.parseFloat(activity.distanceKm);
+      return sum + (Number.isFinite(distanceAsNumber) ? distanceAsNumber : 0);
     }, 0) ?? 0;
-  const duration = Math.ceil(
-    (new Date(project.endDate).getTime() -
-      new Date(project.startDate).getTime()) /
-      (1000 * 60 * 60 * 24),
-  );
+  const startDate = new Date(project.startDate);
+  const endDate = new Date(project.endDate);
+  const duration = (() => {
+    if (
+      !Number.isFinite(startDate.getTime()) ||
+      !Number.isFinite(endDate.getTime())
+    ) {
+      return 0;
+    }
+    const diffInMs = endDate.getTime() - startDate.getTime();
+    return Math.max(0, Math.ceil(diffInMs / MILLISECONDS_PER_DAY));
+  })();
 
   // Calculate CO2 emissions from project activities
   const projectActivitiesCO2 = calculateActivitiesCO2(activities);

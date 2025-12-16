@@ -424,7 +424,8 @@
             "deleteSuccess": "Project deleted successfully",
             "deleteFailure": "Failed to delete project",
             "deleteFailureGeneric": "An error occurred while deleting the project"
-          }
+          },
+          "noSelection": "You have not selected a project"
         },
         "participation": {
           "title": "Participation Link",
@@ -537,7 +538,8 @@
         "default-error": "Failed to load project details.",
         "project-not-found": "The project you are looking for does not exist.",
         "project-access-denied": "You do not have access to this project."
-      }
+      },
+      "joined-on": "joined on"
     },
     "activities": {
       "title": "Project Activities",
@@ -872,5 +874,6 @@
       "signup": "Sign Up",
       "openMenu": "Open Menu"
     }
-  }
+  },
+  "joined-on": "joined on"
 }

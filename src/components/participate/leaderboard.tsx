@@ -3,7 +3,7 @@
 import { Leaf, Trophy } from "lucide-react";
 import type { Participant } from "@/components/participate/types";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils/index";
+import { cn } from "@/lib/utils";
 
 interface LeaderboardProps {
   participants: Participant[];

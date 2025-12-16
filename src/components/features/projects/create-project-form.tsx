@@ -11,7 +11,7 @@ import type { z } from "zod";
 import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
-  activityTypeValues,
+  activityValues,
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@/components/features/projects/types";
@@ -366,7 +366,7 @@ export function CreateProjectForm({
                                   />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  {activityTypeValues.map((type) => (
+                                  {activityValues.map((type) => (
                                     <SelectItem key={type} value={type}>
                                       {tActivities(`types.${type}`)}
                                     </SelectItem>

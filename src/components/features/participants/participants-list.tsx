@@ -83,7 +83,7 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
                 </p>
               </div>
               <div className="text-muted-foreground text-sm">
-                Joined{" "}
+                {t("joined-on")}{" "}
                 {format.dateTime(participant.createdAt, {
                   year: "numeric",
                   month: "short",
@@ -99,6 +99,7 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
 }
 
 export function ParticipantsListSkeleton() {
+  const t = useTranslations("project.details");
   return (
     <Card className="border border-border/60 bg-card/80 shadow-sm">
       <CardHeader>
@@ -108,7 +109,7 @@ export function ParticipantsListSkeleton() {
           </div>
           <div>
             <div className="animate-pulse font-medium text-secondary/70 text-xs uppercase tracking-[0.2em]">
-              Participants
+              {t("participants")}
             </div>
             <div className="mt-1 h-6 w-32 animate-pulse rounded bg-secondary/50"></div>
           </div>

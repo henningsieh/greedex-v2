@@ -2,7 +2,7 @@ import { relations } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
 import { decimal, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
-import { activityTypeValues, ActivityType } from "@/components/features/projects/types";
+import { activityValues, ActivityValueType } from "@/components/features/projects/types";
 import type { CountryCode } from "@/lib/i18n/country-i18n";
 
 
@@ -61,8 +61,8 @@ export const projectActivitiesTable = pgTable("project_activity", {
     .references(() => projectsTable.id, { onDelete: "cascade" }),
 
   // type ActivityType = "boat" | "bus" | "train" | "car"
-  activityType: text("activity_type", { enum: activityTypeValues })
-    .$type<ActivityType>()
+  activityType: text("activity_type", { enum: activityValues })
+    .$type<ActivityValueType>()
     .notNull(),
 
   // Distance in kilometers (scale 1 supports 0.1 km increments)

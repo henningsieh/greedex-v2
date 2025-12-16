@@ -47,7 +47,7 @@ src/components/participate/
 - Choices: never, rarely, sometimes, almost every day, every day
 
 ### Steps 6–10: Transport (TO the project)
-- Step 6: Flight distance (km)
+- Step 6: Plane distance (km)
 - Step 7: Boat distance (km)
 - Step 8: Train distance (km)
 - Step 9: Bus distance (km)

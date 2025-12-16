@@ -25,7 +25,7 @@ import {
   WORKSHOPS_ANCHOR,
 } from "@/config/AppRoutes";
 import { Link } from "@/lib/i18n/routing";
-import { cn } from "@/lib/utils/index";
+import { cn } from "@/lib/utils";
 
 export const LandingHeader = () => {
   const t = useTranslations("header");

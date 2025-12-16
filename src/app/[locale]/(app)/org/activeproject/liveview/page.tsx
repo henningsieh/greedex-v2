@@ -70,13 +70,13 @@
 
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { activityTypeValues } from "@/components/features/projects/types";
+import { activityValues } from "@/components/features/projects/types";
 import { Leaderboard } from "@/components/participate/leaderboard";
 import { LiveIndicator } from "@/components/participate/live-indicator";
 import { StatsOverview } from "@/components/participate/stats-overview";
 import { TransportBreakdown } from "@/components/participate/transport-breakdown";
 import type { Participant, ProjectStats } from "@/components/participate/types";
-import { CO2_FACTORS } from "@/config/CO2Calculator";
+import { CO2_FACTORS } from "@/lib/utils/project-utils";
 
 /**
  * Create an array of mock Participant records for the demo/live-view UI.
@@ -130,9 +130,7 @@ function generateMockData(): Participant[] {
       },
       (_, i) => {
         const type =
-          activityTypeValues[
-            Math.floor(Math.random() * activityTypeValues.length)
-          ];
+          activityValues[Math.floor(Math.random() * activityValues.length)];
         const distanceKm = Math.floor(Math.random() * 1500) + 100;
         const co2Kg = distanceKm * CO2_FACTORS[type];
 
@@ -170,7 +168,7 @@ function calculateStats(participants: Participant[]): ProjectStats {
   const totalCO2 = participants.reduce((sum, p) => sum + p.totalCO2, 0);
   const averageCO2 = totalParticipants > 0 ? totalCO2 / totalParticipants : 0;
 
-  const breakdownByType = activityTypeValues.reduce(
+  const breakdownByType = activityValues.reduce(
     (acc, type) => {
       acc[type] = {
         distance: 0,
@@ -224,9 +222,7 @@ export default function Dashboard() {
 
         // Add a new activity
         const type =
-          activityTypeValues[
-            Math.floor(Math.random() * activityTypeValues.length)
-          ];
+          activityValues[Math.floor(Math.random() * activityValues.length)];
         const distanceKm = Math.floor(Math.random() * 500) + 50;
         const co2Kg = distanceKm * CO2_FACTORS[type];
 

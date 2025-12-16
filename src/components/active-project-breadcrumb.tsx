@@ -2,6 +2,7 @@
 
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { TriangleAlertIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import {
   Breadcrumb,
@@ -15,6 +16,8 @@ import { Link, usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function ActiveProjectBreadcrumb() {
+  const t = useTranslations("organization.projects");
+
   // Use oRPC queries instead of authClient.useSession() to enable:
   // 1. Server-side prefetching for optimal performance
   // 2. Stable hydration (no SSR/client mismatch)
@@ -65,7 +68,7 @@ export function ActiveProjectBreadcrumb() {
             <span className="flex items-center gap-2 text-rose-500/80">
               <TriangleAlertIcon className="size-4" />
               <span className="font-bold italic">
-                You have not selected an project
+                {t("activeProject.header.noSelection")}
               </span>
             </span>
           )}
