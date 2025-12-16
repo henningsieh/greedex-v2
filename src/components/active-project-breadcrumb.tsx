@@ -11,8 +11,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpcQuery } from "@/lib/orpc/orpc";
 import { Link, usePathname } from "@/lib/i18n/routing";
+import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function ActiveProjectBreadcrumb() {
   // Use oRPC queries instead of authClient.useSession() to enable:

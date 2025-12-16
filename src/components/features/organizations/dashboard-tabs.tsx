@@ -7,8 +7,8 @@ import { Suspense } from "react";
 import { DashboardStats } from "@/components/features/organizations/dashboard-stats";
 import { TeamTable } from "@/components/features/organizations/team-table";
 import { memberRoles } from "@/components/features/organizations/types";
+import { ProjectsTab } from "@/components/features/projects/dashboard/projects-tab";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
-import { ProjectsTab } from "@/components/features/projects/projects-tab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface DashboardTabsProps {

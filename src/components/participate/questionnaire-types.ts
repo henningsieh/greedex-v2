@@ -4,6 +4,7 @@ import type {
   ProjectActivityType,
   ProjectWithActivitiesType,
 } from "@/components/features/projects/types";
+import { CO2_FACTORS, calculateActivitiesCO2 } from "@/lib/utils/project-utils";
 
 const ACCOMMODATION_DATA = [
   ["Camping", 1.5],
@@ -122,16 +123,6 @@ export interface ParticipantAnswers {
   gender: Gender;
 }
 
-// CO₂ emission factors (kg CO₂ per km per person)
-export const CO2_FACTORS = {
-  flight: 0.255,
-  car: 0.192,
-  boat: 0.115,
-  bus: 0.089,
-  electricCar: 0.053,
-  train: 0.041,
-};
-
 // Accommodation CO₂ factors (kg CO₂ per night per person)
 export const ACCOMMODATION_FACTORS: Record<AccommodationCategory, number> =
   Object.fromEntries(ACCOMMODATION_DATA) as Record<AccommodationCategory, number>;
@@ -151,43 +142,6 @@ export interface EmissionCalculation {
   projectActivitiesCO2: number;
   totalCO2: number;
   treesNeeded: number;
-}
-
-/**
- * Calculate CO₂ emissions from project activities.
- * These are activities configured at the project level that all participants share.
- * This is the baseline CO₂ that applies to all participants.
- *
- * @param activities - Project activities from database (transport modes and distances)
- * @returns Total CO₂ emissions from project activities in kilograms
- */
-export function calculateProjectActivitiesCO2(
-  activities: ProjectActivityType[],
-): number {
-  let activitiesCO2 = 0;
-
-  for (const activity of activities) {
-    const distanceKm = Number(activity.distanceKm);
-    if (Number.isNaN(distanceKm) || distanceKm <= 0) continue;
-
-    switch (activity.activityType) {
-      case "boat":
-        activitiesCO2 += distanceKm * CO2_FACTORS.boat;
-        break;
-      case "bus":
-        activitiesCO2 += distanceKm * CO2_FACTORS.bus;
-        break;
-      case "train":
-        activitiesCO2 += distanceKm * CO2_FACTORS.train;
-        break;
-      case "car":
-        // Use conventional car factor for project activities
-        activitiesCO2 += distanceKm * CO2_FACTORS.car;
-        break;
-    }
-  }
-
-  return activitiesCO2;
 }
 
 /**
@@ -272,7 +226,7 @@ export function calculateEmissions(
 
   // Calculate project activities emissions (baseline CO₂)
   const projectActivitiesCO2 = projectActivities
-    ? calculateProjectActivitiesCO2(projectActivities)
+    ? calculateActivitiesCO2(projectActivities)
     : 0;
 
   const totalCO2 =

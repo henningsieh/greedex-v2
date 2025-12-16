@@ -2,10 +2,10 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { EditIcon, PlusIcon, Trash2Icon } from "lucide-react";
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import type {
   ActivityType,
   ProjectActivityType,
@@ -21,7 +21,14 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Empty,
   EmptyContent,
@@ -123,27 +130,23 @@ export function ProjectActivitiesList({
   return (
     <Card className="shadow-lg">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <PROJECT_ICONS.activities className="h-5 w-5" />
-              {t("title")}
-            </CardTitle>
-            <p className="mt-1 text-muted-foreground text-sm">
-              {t("description")}
-            </p>
-          </div>
-          {canEdit && !showAddForm && !editingActivity && (
+        <CardTitle className="flex items-center gap-2">
+          <PROJECT_ICONS.activities className="h-5 w-5 text-secondary" />
+          {t("title")}
+        </CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
+        {canEdit && !showAddForm && !editingActivity && (
+          <CardAction>
             <Button
-              variant="outline"
+              variant="secondaryoutline"
               size="sm"
               onClick={() => setShowAddForm(true)}
             >
-              <PlusIcon className="mr-2 h-4 w-4" />
-              {t("form.title")}
+              <PlusIcon className="h-4 w-4" />
+              <p className="hidden sm:inline-flex">{t("form.title")}</p>
             </Button>
-          )}
-        </div>
+          </CardAction>
+        )}
       </CardHeader>
       <CardContent>
         {showAddForm && (

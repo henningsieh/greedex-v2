@@ -1,12 +1,12 @@
 // src/app/(app)/projects/[id]/page.tsx:
 
-import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallback } from "@/components/features/projects/error-fallback";
 import {
-  ProjectDetails,
   ProjectDetailsSkeleton,
-} from "@/components/features/projects/project-details";
+  ProjectTabs,
+} from "@/components/features/projects/project-tabs";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/react-query/hydration";
 
@@ -18,11 +18,10 @@ export default async function ProjectsDetailsPage({
   }>;
 }) {
   const { id } = await params;
-  const t = await getTranslations("project.details");
 
   // Prefetch project details, participants, and activities for SSR
   const queryClient = getQueryClient();
-  
+
   await Promise.all([
     queryClient.prefetchQuery(
       orpcQuery.projects.getById.queryOptions({
@@ -42,9 +41,9 @@ export default async function ProjectsDetailsPage({
   ]);
 
   return (
-    <ErrorBoundary fallback={t("error")}>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<ProjectDetailsSkeleton />}>
-        <ProjectDetails id={id} />
+        <ProjectTabs id={id} />
       </Suspense>
     </ErrorBoundary>
   );

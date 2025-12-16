@@ -3,7 +3,6 @@
 import {
   BarChart3Icon,
   LayoutDashboardIcon,
-  MapPinnedIcon,
   PanelRightCloseIcon,
   PanelRightOpenIcon,
   SettingsIcon,
@@ -15,6 +14,7 @@ import {
   OrganizationSwitcher,
   OrganizationSwitcherSkeleton,
 } from "@/components/features/organizations/organisation-switcher";
+import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { ProjectSwitcher } from "@/components/features/projects/project-switcher";
 import {
   Sidebar,
@@ -38,7 +38,6 @@ import {
   TEAM_PATH,
 } from "@/config/AppRoutes";
 import { Link, usePathname } from "@/lib/i18n/routing";
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 
 export function AppSidebar() {
   const pathname = usePathname();

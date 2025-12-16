@@ -1,3 +1,4 @@
+import type { ProjectActivityType } from "@/components/features/projects/types";
 import { type AppRoute, PROJECT_DETAIL_PATH } from "@/config/AppRoutes";
 import { orpc } from "@/lib/orpc/orpc";
 
@@ -22,4 +23,54 @@ export async function getProjectData(projectId: string) {
     console.error("Failed to fetch project data:", error);
     return null;
   }
+}
+
+// CO₂ emission factors (kg CO₂ per km per person)
+export const CO2_FACTORS = {
+  flight: 0.255,
+  car: 0.192,
+  boat: 0.115,
+  bus: 0.089,
+  electricCar: 0.053,
+  train: 0.041,
+};
+
+/**
+ * Calculate CO₂ emissions from activities.
+ * This method transparently calculates emissions for both participant's and project's activities.
+ *
+ * @param activities - Activities from database (transport modes and distances)
+ * @returns Total CO₂ emissions from activities in kilograms
+ */
+export function calculateActivitiesCO2(
+  activities: ProjectActivityType[],
+): number {
+  let activitiesCO2 = 0;
+
+  if (!activities || activities.length === 0) {
+    return activitiesCO2;
+  }
+
+  for (const activity of activities) {
+    const distanceKm = Number(activity.distanceKm);
+    if (Number.isNaN(distanceKm) || distanceKm <= 0) continue;
+
+    switch (activity.activityType) {
+      case "boat":
+        activitiesCO2 += distanceKm * CO2_FACTORS.boat;
+        break;
+      case "bus":
+        activitiesCO2 += distanceKm * CO2_FACTORS.bus;
+        break;
+      case "train":
+        activitiesCO2 += distanceKm * CO2_FACTORS.train;
+        break;
+      case "car":
+        // Use conventional car factor for activities
+        activitiesCO2 += distanceKm * CO2_FACTORS.car;
+        break;
+    }
+  }
+
+  return activitiesCO2;
 }

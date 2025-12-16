@@ -2,11 +2,9 @@
 
 import { Factory, Leaf } from "lucide-react";
 import { useTranslations } from "next-intl";
-import {
-  calculateProjectActivitiesCO2,
-  type Project,
-} from "@/components/participate/questionnaire-types";
+import type { Project } from "@/components/participate/questionnaire-types";
 import { Card } from "@/components/ui/card";
+import { calculateActivitiesCO2 } from "@/lib/utils/project-utils";
 
 interface ParticipateHeaderProps {
   project: Project;
@@ -14,7 +12,7 @@ interface ParticipateHeaderProps {
 
 export function ParticipateHeader({ project }: ParticipateHeaderProps) {
   const t = useTranslations("participation.questionnaire");
-  const projectActivitiesCO2 = calculateProjectActivitiesCO2(project.activities);
+  const projectActivitiesCO2 = calculateActivitiesCO2(project.activities);
 
   return (
     <div className="space-y-6 pb-6">

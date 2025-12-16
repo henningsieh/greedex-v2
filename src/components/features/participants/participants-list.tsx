@@ -4,7 +4,13 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { Users2Icon, UsersIcon } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Empty,
   EmptyDescription,
@@ -33,21 +39,13 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
   return (
     <Card className="border border-border/60 bg-card/80 shadow-sm">
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="border border-secondary/30 bg-secondary/10 p-2 text-secondary">
-            <UsersIcon className="h-5 w-5" />
-          </div>
-          <div>
-            <CardTitle>
-              <p className="font-medium text-secondary/70 text-xs uppercase tracking-[0.2em]">
-                {t('participants')}
-              </p>
-              <h2 className="font-semibold text-lg text-secondary-foreground">
-                {participants?.length || 0} {t('people-joined')}
-              </h2>
-            </CardTitle>
-          </div>
-        </div>
+        <CardTitle className="flex items-center gap-2">
+          <UsersIcon className="h-5 w-5 text-secondary" />
+          {t("participants")}
+        </CardTitle>
+        <CardDescription>
+          {participants?.length || 0} {t("people-joined")}
+        </CardDescription>
       </CardHeader>
 
       {!participants || participants.length === 0 ? (
@@ -56,9 +54,9 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
             <EmptyMedia variant="icon">
               <Users2Icon className="h-12 w-12" />
             </EmptyMedia>
-            <EmptyTitle>{t('no-participants-yet')}</EmptyTitle>
+            <EmptyTitle>{t("no-participants-yet")}</EmptyTitle>
             <EmptyDescription>
-              {t('share-the-participation-link')}
+              {t("share-the-participation-link")}
             </EmptyDescription>
           </EmptyHeader>
         </Empty>

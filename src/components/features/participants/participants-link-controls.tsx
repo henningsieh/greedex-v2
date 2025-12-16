@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import QRCode from "qrcode";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,6 +12,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import {
   Dialog,
@@ -91,28 +91,26 @@ export function ParticipantsLinkControls({
   };
 
   return (
-    <Card className="mb-8 border border-border/60 bg-card/80 shadow-sm">
-      <CardHeader className="gap-6">
-        <Badge className="inline-flex items-center gap-2 border border-secondary/30 bg-secondary/10 px-3 py-1 font-medium text-secondary text-sm [&>svg]:size-5">
-          <Link2Icon className="shrink-0" />
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Link2Icon className="h-5 w-5 text-secondary" />
           {t("participation.title")}
-        </Badge>
-        <CardDescription className="text-muted-foreground text-sm">
-          {t("participation.description")}
-        </CardDescription>
+        </CardTitle>
+        <CardDescription>{t("participation.description")}</CardDescription>
 
         <CardAction>
           {/* QR Code Modal */}
           <Dialog open={isQrModalOpen} onOpenChange={setIsQrModalOpen}>
             <DialogTrigger asChild>
               <Button
-                variant="outline"
+                variant="secondaryoutline"
                 className="size-10 border-secondary/40 text-secondary hover:bg-secondary/10 hover:text-secondary sm:size-fit dark:border-secondary/40"
                 onClick={() => setIsQrModalOpen(true)}
               >
                 <QrCodeIcon className="size-6" />
-                <span className="font hidden text-lg sm:inline">
-                  {t("participation.qrButton")}
+                <span className="hidden sm:inline">
+                  {t("participation.qrButtonLabel")}
                 </span>
               </Button>
             </DialogTrigger>
@@ -185,8 +183,8 @@ export function ParticipantsLinkControls({
           {/* Button open link external */}
           <Button
             size="icon"
-            variant="secondaryghost"
-            className="border-secondary/40 text-secondary sm:w-36"
+            variant="secondary"
+            className="sm:w-36"
             asChild
             rel={`noopener noreferrer`}
           >

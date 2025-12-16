@@ -2,11 +2,10 @@ import { describe, expect, it } from "vitest";
 import type { ProjectActivityType } from "@/components/features/projects/types";
 import {
   ACCOMMODATION_FACTORS,
-  CO2_FACTORS,
   calculateEmissions,
-  calculateProjectActivitiesCO2,
   type ParticipantAnswers,
 } from "@/components/participate/questionnaire-types";
+import { CO2_FACTORS, calculateActivitiesCO2 } from "@/lib/utils/project-utils";
 
 describe("Questionnaire Types and Calculations", () => {
   describe("CO₂ Emission Factors", () => {
@@ -163,7 +162,7 @@ describe("Questionnaire Types and Calculations", () => {
         },
       ];
 
-      const activitiesCO2 = calculateProjectActivitiesCO2(activities);
+      const activitiesCO2 = calculateActivitiesCO2(activities);
 
       // Bus: 50 * 0.089 = 4.45
       // Train: 100 * 0.041 = 4.1
@@ -256,7 +255,7 @@ describe("Questionnaire Types and Calculations", () => {
         },
       ];
 
-      const activitiesCO2 = calculateProjectActivitiesCO2(activities);
+      const activitiesCO2 = calculateActivitiesCO2(activities);
 
       // Boat: 20 * 0.115 = 2.3
       // Bus: 40 * 0.089 = 3.56
@@ -268,7 +267,7 @@ describe("Questionnaire Types and Calculations", () => {
 
     it("should handle empty project activities", () => {
       const activities: ProjectActivityType[] = [];
-      const activitiesCO2 = calculateProjectActivitiesCO2(activities);
+      const activitiesCO2 = calculateActivitiesCO2(activities);
       expect(activitiesCO2).toBe(0);
     });
 
@@ -316,7 +315,7 @@ describe("Questionnaire Types and Calculations", () => {
         },
       ];
 
-      const activitiesCO2 = calculateProjectActivitiesCO2(activities);
+      const activitiesCO2 = calculateActivitiesCO2(activities);
 
       // Only boat should be counted: 50 * 0.115 = 5.75
       expect(activitiesCO2).toBeCloseTo(5.75, 2);
