@@ -8,7 +8,12 @@ import { useRouter } from "@/lib/i18n/routing";
 import type { ErrorCode } from "@/lib/orpc/router";
 
 /**
- * Type guard to check if error is an ORPCError with defined error codes
+ * Determines whether a value is an ORPCError with a known ErrorCode.
+ *
+ * Narrows the input to `ORPCError<ErrorCode, unknown>` when true.
+ *
+ * @param error - The value to test
+ * @returns `true` if `error` is an `ORPCError` whose code is part of `ErrorCode`, `false` otherwise.
  */
 function isDefinedORPCError(
   error: unknown,
@@ -16,6 +21,12 @@ function isDefinedORPCError(
   return error instanceof ORPCError;
 }
 
+/**
+ * Render an error UI for the project details view and handle specific ORPC errors by showing a localized toast and navigating away.
+ *
+ * @param error - The Error instance encountered while rendering project details.
+ * @returns A JSX element with a localized default error message, or `null` when navigation is performed for ORPC `NOT_FOUND` or `FORBIDDEN` errors.
+ */
 export function ErrorFallback({ error }: { error: Error }) {
   const router = useRouter();
   const t = useTranslations("project.errors");

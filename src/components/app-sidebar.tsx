@@ -39,6 +39,13 @@ import {
 } from "@/config/AppRoutes";
 import { Link, usePathname } from "@/lib/i18n/routing";
 
+/**
+ * Renders the application sidebar containing project and organization navigation, a project switcher, a collapse control, and an organization switcher.
+ *
+ * The sidebar groups menu items into "Projects" and "Organization", highlights the active item based on the current pathname, and exposes a footer control to toggle the sidebar expanded/collapsed state.
+ *
+ * @returns The Sidebar element with grouped navigation menus, a collapse toggle in the footer, and an OrganizationSwitcher wrapped with a skeleton fallback.
+ */
 export function AppSidebar() {
   const pathname = usePathname();
 

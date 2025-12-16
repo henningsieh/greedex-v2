@@ -15,6 +15,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Link, usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
+/**
+ * Render a breadcrumb item for the currently active project or a project identified from the URL path.
+ *
+ * When a project is found, displays its icon and name linked to /org/projects/{id}; when no project is available, shows a warning state with a translated "no selection" message.
+ *
+ * @returns A breadcrumb JSX element showing the project link and separator, or a warning display when no project is selected.
+ */
 export function ActiveProjectBreadcrumb() {
   const t = useTranslations("organization.projects");
 

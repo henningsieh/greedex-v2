@@ -32,6 +32,12 @@ interface ProjectDetailsProps {
   id: string;
 }
 
+/**
+ * Renders a tabbed project overview with header, statistics, participation controls, and three tabbed sections (details, activities, participants).
+ *
+ * @param id - The project identifier used to fetch project details, participants, and activities
+ * @returns The rendered project overview UI containing the header, statistics grid, participation controls, and tabs
+ */
 export function ProjectTabs({ id }: ProjectDetailsProps) {
   const t = useTranslations("project.details");
   const { canUpdate } = useProjectPermissions();
@@ -251,6 +257,11 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
   );
 }
 
+/**
+ * Renders a skeleton placeholder UI that mirrors the ProjectTabs layout for the project details view.
+ *
+ * @returns A JSX element containing skeleton placeholders for the header, statistics grid, participation controls, tabs, and tab content used while project data is loading.
+ */
 export function ProjectDetailsSkeleton() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">

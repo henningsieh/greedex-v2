@@ -71,6 +71,12 @@ const orgRouteKeyToIcon: Record<
  */
 type BreadcrumbLevel = "organization" | "project";
 
+/**
+ * Determine whether a given pathname maps to a project-level or organization-level breadcrumb.
+ *
+ * @param pathname - The current URL pathname to classify.
+ * @returns `"project"` if the pathname corresponds to a project or live-view route, `"organization"` otherwise.
+ */
 function getBreadcrumbLevel(pathname: string): BreadcrumbLevel {
   // Liveview route is project-specific
   if (
@@ -104,6 +110,12 @@ function getOrganizationRouteKey(
   return null;
 }
 
+/**
+ * Render the application breadcrumb and right-aligned action toolbar that adapt to organization vs. project routes and live view context.
+ *
+ * @returns The breadcrumb and action toolbar JSX element.
+ * @throws Error when an active project cannot be determined.
+ */
 export function AppBreadcrumb() {
   const pathname = usePathname();
   const t = useTranslations("app.sidebar");

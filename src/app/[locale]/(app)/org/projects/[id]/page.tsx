@@ -10,6 +10,12 @@ import {
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/react-query/hydration";
 
+/**
+ * Render the project details tabs for a given project while ensuring server-side query data for the project, its participants, and activities is prefetched into the React Query cache.
+ *
+ * @param params - A promise that resolves to the route parameters object containing the `id` of the project to render
+ * @returns The React element that displays the project's tabs wrapped in error and suspense boundaries
+ */
 export default async function ProjectsDetailsPage({
   params,
 }: {

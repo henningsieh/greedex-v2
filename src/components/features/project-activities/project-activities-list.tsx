@@ -54,12 +54,29 @@ interface ProjectActivitiesListProps {
   canEdit?: boolean;
 }
 
-// Use a single, consistent icon to avoid visual noise across activity types
+/**
+ * Render a consistent activity icon for any activity type.
+ *
+ * @param _ - The activity type (ignored); all activity types use the same icon.
+ * @returns The JSX element for the activity icon.
+ */
 function getActivityIcon(_: ActivityValueType) {
   const Icon = PROJECT_ICONS.activities;
   return <Icon className="h-4 w-4" />;
 }
 
+/**
+ * Render a card showing a project's activities, with optional UI for adding, editing, and deleting items.
+ *
+ * Displays a loading skeleton while fetching, an error card on fetch failure, an empty state when there are no activities,
+ * and a table of activities when data is available. When `canEdit` is true, in-card forms for creating/editing and a
+ * delete confirmation dialog are provided. Successful deletions and form submissions refresh the list; delete operations
+ * also surface success/error toasts.
+ *
+ * @param projectId - ID of the project whose activities should be displayed
+ * @param canEdit - When true, show controls for adding, editing, and deleting activities
+ * @returns A React element containing the activities list card for the specified project
+ */
 export function ProjectActivitiesList({
   projectId,
   canEdit = false,

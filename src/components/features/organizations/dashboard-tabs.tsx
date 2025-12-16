@@ -15,6 +15,12 @@ interface DashboardTabsProps {
   organizationId: string;
 }
 
+/**
+ * Renders a three-tab organization dashboard ("dashboard", "projects", "participants") and synchronizes the active tab with the "tab" query parameter.
+ *
+ * @param organizationId - Identifier of the organization; passed to the Participants tab to scope member data.
+ * @returns The tabs-based dashboard UI for the given organization.
+ */
 export function DashboardTabs({ organizationId }: DashboardTabsProps) {
   const t = useTranslations("organization.dashboard");
   const [activeTab, setActiveTab] = useQueryState("tab", {

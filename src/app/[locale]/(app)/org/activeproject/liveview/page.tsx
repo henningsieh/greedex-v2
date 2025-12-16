@@ -163,6 +163,17 @@ function generateMockData(): Participant[] {
   });
 }
 
+/**
+ * Compute aggregate project statistics from a list of participants.
+ *
+ * @param participants - Array of participant records whose activities will be aggregated
+ * @returns An object containing:
+ *  - `totalParticipants`: number of participants,
+ *  - `totalCO2`: sum of all participants' `totalCO2`,
+ *  - `averageCO2`: `totalCO2` divided by `totalParticipants` (0 if no participants),
+ *  - `breakdownByType`: per-activity-type totals with `distance` (sum of kilometers), `co2` (sum of kilograms), and `count` (number of activities),
+ *  - `treesNeeded`: ceiling of `totalCO2 / 1000` representing approximate trees required
+ */
 function calculateStats(participants: Participant[]): ProjectStats {
   const totalParticipants = participants.length;
   const totalCO2 = participants.reduce((sum, p) => sum + p.totalCO2, 0);
@@ -200,6 +211,13 @@ function calculateStats(participants: Participant[]): ProjectStats {
   };
 }
 
+/**
+ * Client-side mock live dashboard that generates demo participant data, simulates periodic activity updates, and renders project statistics and related UI.
+ *
+ * Initializes with generated mock participants and recalculates aggregated stats as data changes; the simulated updates are intended to mimic real-time feeds for demonstration purposes.
+ *
+ * @returns The dashboard's rendered JSX element containing header, live indicator, stats overview, leaderboard, and transport breakdown.
+ */
 export default function Dashboard() {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [stats, setStats] = useState<ProjectStats | null>(null);

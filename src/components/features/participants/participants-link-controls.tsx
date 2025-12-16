@@ -34,6 +34,12 @@ interface ParticipationControlsClientProps {
   activeProjectId: string;
 }
 
+/**
+ * Render controls for sharing a project's participation link, including copy, open-in-new-tab, and a QR code modal.
+ *
+ * @param activeProjectId - The active project's identifier used to construct the participation URL.
+ * @returns A card containing the participation URL input, copy/open actions, and a QR code modal; returns `null` when `activeProjectId` is not provided.
+ */
 export function ParticipantsLinkControls({
   activeProjectId,
 }: ParticipationControlsClientProps) {

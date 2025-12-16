@@ -8,6 +8,12 @@ interface ProjectDetailsProps {
   project: ProjectType;
 }
 
+/**
+ * Render a card showing key details for a project.
+ *
+ * @param project - The project object whose details will be displayed
+ * @returns A card element containing the project's start and end dates, country, optional location, and optional welcome message
+ */
 export function ProjectDetails({ project }: ProjectDetailsProps) {
   const t = useTranslations("project.details");
   const format = useFormatter();

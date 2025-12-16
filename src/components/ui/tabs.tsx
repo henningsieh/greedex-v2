@@ -5,6 +5,13 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Renders the Tabs root element with standardized layout classes and forwards all other props.
+ *
+ * @param className - Additional CSS class names merged with the default "flex flex-col gap-2" layout classes
+ * @param props - Other props forwarded to the underlying Tabs primitive
+ * @returns The rendered Tabs root element
+ */
 function Tabs({
   className,
   ...props

@@ -24,6 +24,12 @@ interface ParticipantsListProps {
   activeProjectId: string;
 }
 
+/**
+ * Render a card displaying participants for the specified project.
+ *
+ * @param activeProjectId - The project identifier used to fetch and display its participants.
+ * @returns A React element showing a participants card with a header (title and count), an empty state when there are no participants, or a list of participant rows including avatar, name, email, and joined date.
+ */
 export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
   const format = useFormatter();
   const t = useTranslations("project.details");
@@ -98,6 +104,11 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
   );
 }
 
+/**
+ * Renders a skeleton placeholder UI for the participants list used while participant data is loading.
+ *
+ * @returns A React element showing an animated card with placeholder rows that mimic participant entries.
+ */
 export function ParticipantsListSkeleton() {
   const t = useTranslations("project.details");
   return (

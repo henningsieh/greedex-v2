@@ -9,6 +9,12 @@ interface TransportBreakdownProps {
   stats: ProjectStats;
 }
 
+/**
+ * Render a card showing CO₂ emissions broken down by transport type.
+ *
+ * @param stats - Project statistics; expected shape includes `breakdownByType` mapping each transport type to an object with `co2`, `distance`, and `count` metrics
+ * @returns A JSX element displaying each transport type's CO₂ (kg), trip count, distance (km), and a proportional progress bar
+ */
 export function TransportBreakdown({ stats }: TransportBreakdownProps) {
   const maxCO2 = Math.max(
     ...activityValues.map((type) => stats.breakdownByType[type]?.co2 || 0),

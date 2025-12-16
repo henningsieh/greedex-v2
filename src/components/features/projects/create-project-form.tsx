@@ -51,15 +51,13 @@ interface CreateProjectFormProps {
 }
 
 /**
- * Render a two-step form to create a project and optional activities.
+ * Render a two-step form for creating a project and optional activities.
  *
- * The first step collects project details (name, dates, country, location,
- * welcome message). The second step allows adding zero or more activities
- * (type, distance, description, date). Submitting the form creates the project
- * and any provided activities, shows success or error toasts, navigates to the
- * created project's detail page on success, and invalidates the projects list cache.
+ * Step 1 collects project details (name, dates, country, location, welcome message).
+ * Step 2 collects zero or more activities (type, distance, description, date).
+ * Submitting creates the project and any provided activities, shows success or error toasts, navigates to the created project's detail page on success, and invalidates the projects list cache.
  *
- * @param activeOrganizationId - The ID of the active organization for the project
+ * @param activeOrganizationId - ID of the active organization used as the project's organizationId default
  * @returns The CreateProjectForm React element
  */
 export function CreateProjectForm({

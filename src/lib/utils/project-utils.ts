@@ -11,10 +11,10 @@ export const getProjectDetailPath = (projectId: string): AppRoute =>
   PROJECT_DETAIL_PATH.replace("[id]", projectId) as AppRoute;
 
 /**
- * Retrieve a project's data and its activities by project ID.
+ * Retrieves project data and associated activities for the given project ID.
  *
  * @param projectId - The project's unique identifier
- * @returns The project data including its activities, or `null` if an error occurs while fetching
+ * @returns The project data including its activities, or `null` if fetching fails
  */
 export async function getProjectData(projectId: string) {
   try {
@@ -39,11 +39,12 @@ export const CO2_FACTORS = {
 };
 
 /**
- * Calculate CO₂ emissions from activities.
- * This method transparently calculates emissions for both participant's and project's activities.
+ * Compute total CO₂ emissions for a list of transport activities.
  *
- * @param activities - Activities from database (transport modes and distances)
- * @returns Total CO₂ emissions from activities in kilograms
+ * Ignores activities whose `distanceKm` is not a positive number and skips activity types other than `car`, `boat`, `bus`, and `train`.
+ *
+ * @param activities - Array of activities containing `activityType` and `distanceKm` (kilometers)
+ * @returns Total CO₂ emissions in kilograms
  */
 export function calculateActivitiesCO2(
   activities: ProjectActivityType[],
