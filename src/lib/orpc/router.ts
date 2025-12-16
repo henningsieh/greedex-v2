@@ -81,3 +81,10 @@ export const router = {
 export type Router = typeof router;
 
 export type Outputs = InferRouterOutputs<typeof router>;
+
+/**
+ * Type-safe error codes inferred from the base context's .errors() definition
+ * This is automatically derived and should not be manually maintained
+ */
+export type { BaseErrorCode as ErrorCode } from "@/lib/orpc/context";
+export { ERROR_CODES } from "@/lib/orpc/context";

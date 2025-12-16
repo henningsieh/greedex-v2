@@ -1,6 +1,6 @@
 /**
  * Tests for the refactored project details page
- * 
+ *
  * This test suite validates:
  * - Statistics calculation logic
  * - Data integration with activities and participants

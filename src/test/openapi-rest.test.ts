@@ -17,7 +17,7 @@ let serverAvailable = false;
 // Check if server is available before running tests
 beforeAll(async () => {
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 1000);
+  const timeout = setTimeout(() => controller.abort(), 10000);
 
   try {
     console.log(`Checking server availability at: ${baseUrl}/health`);

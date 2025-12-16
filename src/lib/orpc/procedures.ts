@@ -43,7 +43,10 @@ export const getHealth = base.route({ method: "GET" }).handler(async () => {
  */
 export const getProfile = authorized
   .route({ method: "GET", path: "/users/profile", summary: "Get user profile" })
-  .handler(async ({ context }) => {
+  .handler(async ({ context, errors }) => {
+    if (!context.user || !context.session) {
+      throw errors.UNAUTHORIZED();
+    }
     return {
       user: {
         id: context.user.id,
@@ -57,6 +60,10 @@ export const getProfile = authorized
     };
   });
 
+/**
+ * Get authentication session using Better Auth
+ * Returns session and user info if authenticated
+ */
 export const getSession = base
   .route({
     method: "GET",
@@ -64,14 +71,14 @@ export const getSession = base
     summary: "Get authentication session",
   })
   .output(SessionSchema)
-  .handler(async ({ context }) => {
+  .handler(async ({ context, errors }) => {
     try {
       const session = await auth.api.getSession({
         headers: context.headers,
       });
       return session;
     } catch (error) {
-      throw new ORPCError("INTERNAL_SERVER_ERROR", {
+      throw errors.INTERNAL_SERVER_ERROR({
         message: "Failed to fetch session",
         cause: error,
       });
@@ -88,9 +95,37 @@ export const getFullOrganization = authorized
     path: "/organizations/active",
     summary: "Get active organization details",
   })
-  .handler(async ({ context }) => {
-    const organization = await auth.api.getFullOrganization({
-      headers: context.headers,
-    });
-    return organization;
+  .handler(async ({ context, errors }) => {
+    // Validate active organization first (no try-catch needed for our own throws)
+    if (!context.session.activeOrganizationId) {
+      throw errors.FORBIDDEN({
+        message: "No active organization. Please select an organization first.",
+      });
+    }
+
+    // Handle Better Auth API call with proper error handling
+    try {
+      const organization = await auth.api.getFullOrganization({
+        headers: context.headers,
+      });
+
+      if (!organization) {
+        throw errors.NOT_FOUND({
+          message: "Organization not found",
+        });
+      }
+
+      return organization;
+    } catch (error) {
+      // If it's already an ORPC error, re-throw it
+      if (error instanceof ORPCError) {
+        throw error;
+      }
+
+      // Handle Better Auth specific errors
+      console.error("Failed to fetch organization:", error);
+      throw errors.INTERNAL_SERVER_ERROR({
+        message: "Failed to retrieve organization details",
+      });
+    }
   });
