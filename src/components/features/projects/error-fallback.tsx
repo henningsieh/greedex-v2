@@ -19,18 +19,18 @@ function isDefinedORPCError(
 
 export function ErrorFallback({ error }: { error: Error }) {
   const router = useRouter();
-  const t = useTranslations("project.details");
+  const t = useTranslations("project.errors");
 
   if (isDefinedORPCError(error)) {
     console.error("ORPC Error in Project Details Page:", error);
-    // Now error.code is type-safe!
     if (error.code === "NOT_FOUND") {
+      toast.error(t("project-not-found"));
       notFound();
     } else if (error.code === "FORBIDDEN") {
-      toast.error("You don't have access to this project");
+      toast.error(t("project-access-denied"));
       router.push(PROJECTS_PATH);
       return null;
     }
   }
-  return <div>{t("error")}</div>;
+  return <div>{t("default-error")}</div>;
 }

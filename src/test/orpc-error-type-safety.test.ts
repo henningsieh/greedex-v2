@@ -7,7 +7,7 @@
 
 import { ORPCError } from "@orpc/client";
 import { describe, expect, it } from "vitest";
-import type { ErrorCode } from "@/lib/orpc/router";
+import { ERROR_CODES, type ErrorCode } from "@/lib/orpc/router";
 
 /**
  * Type guard to check if error is an ORPCError with defined error codes
@@ -28,13 +28,9 @@ describe("oRPC Error Type Safety", () => {
       // ✅ These should compile without errors
       expect(error.code).toBe("NOT_FOUND");
 
-      // Test all valid error codes can be checked
-      const validCodes: ErrorCode[] = [
-        "NOT_FOUND",
-        "FORBIDDEN",
-        "BAD_REQUEST",
-        "UNAUTHORIZED",
-      ];
+      // Use runtime list exported from router to avoid duplicating the allowed codes
+      // and ensure tests stay in sync with the source-of-truth.
+      const validCodes = ERROR_CODES;
       expect(validCodes.includes(error.code)).toBe(true);
     }
   });
@@ -79,6 +75,9 @@ describe("oRPC Error Type Safety", () => {
       new ORPCError("FORBIDDEN", { message: "Forbidden" }),
       new ORPCError("BAD_REQUEST", { message: "Bad request" }),
       new ORPCError("UNAUTHORIZED", { message: "Unauthorized" }),
+      new ORPCError("INTERNAL_SERVER_ERROR", {
+        message: "Internal server error",
+      }),
     ];
 
     for (const error of errors) {
@@ -88,11 +87,16 @@ describe("oRPC Error Type Safety", () => {
         const isForbidden = error.code === "FORBIDDEN";
         const isBadRequest = error.code === "BAD_REQUEST";
         const isUnauthorized = error.code === "UNAUTHORIZED";
+        const isInternalServerError = error.code === "INTERNAL_SERVER_ERROR";
 
         // At least one should be true
-        expect(isNotFound || isForbidden || isBadRequest || isUnauthorized).toBe(
-          true,
-        );
+        expect(
+          isNotFound ||
+            isForbidden ||
+            isBadRequest ||
+            isUnauthorized ||
+            isInternalServerError,
+        ).toBe(true);
       }
     }
   });

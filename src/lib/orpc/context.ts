@@ -65,3 +65,9 @@ export const base = rawBase.use(delayMiddleware);
  * that all oRPC builders expose for type inference
  */
 export type BaseErrorCode = keyof (typeof rawBase)["~orpc"]["errorMap"];
+
+// Runtime list of allowed error codes derived from the oRPC builder's error map.
+// This is useful for tests and any runtime checks that need to enumerate valid codes.
+export const ERROR_CODES: BaseErrorCode[] = Object.keys(
+  rawBase["~orpc"].errorMap,
+) as BaseErrorCode[];
