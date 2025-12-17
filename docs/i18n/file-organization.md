@@ -13,7 +13,7 @@ src/
 │
 └── lib/i18n/
     ├── locales.ts             # Locale utilities (flag resolution, locale data)
-    └── country-i18n.ts        # Country i18n utilities (localized names, flags)
+    └── countries.ts           # Country i18n utilities (localized names, flags)
 ```
 
 ## File Purposes
@@ -141,8 +141,8 @@ export const getLocaleData = (): LocaleData[] => {
 
 ---
 
-#### `country-i18n.ts`
-**Purpose:** Internationalization utilities for country data (formerly `countries.ts`).
+#### `countries.ts`
+**Purpose:** Internationalization utilities for country data (formerly `country-i18n.ts`).
 
 **Contains:**
 - `getEUCountries(locale)` - Get EU countries with localized names
@@ -159,7 +159,7 @@ export const getLocaleData = (): LocaleData[] => {
 
 **Example:**
 ```typescript
-import { getEUCountries, getCountryFlag } from '@/lib/i18n/country-i18n';
+import { getEUCountries, getCountryFlag } from '@/lib/i18n/countries';
 
 // Get countries with German names
 const countries = getEUCountries('de');
@@ -180,10 +180,10 @@ const Flag = getCountryFlag('DE');
 - Defines **language** settings and metadata
 - More intuitive for developers adding new languages
 
-### Why `country-i18n.ts` (not `countries.ts`)?
-- Clarifies it's an **i18n utility layer**, not raw data
-- Distinguishes from `eu-countries.ts` (the data source)
-- Indicates it provides localization/translation features
+### Why `countries.ts` (not `country-i18n.ts`)?
+- Clarifies it's the **main country utilities file**, not just i18n
+- More intuitive and shorter filename
+- Contains all country-related functions including validation and data access
 
 ### Why `eu-countries.ts` (not `countries.ts`)?
 - Explicitly shows it's **EU-specific** data
@@ -223,7 +223,7 @@ const Flag = getCountryFlag('DE');
          ├──────────────────────────────┐
          ↓                              ↓
 ┌─────────────────┐          ┌─────────────────────┐
-│  eu-cities.ts   │          │  country-i18n.ts   │
+│  eu-cities.ts   │          │    countries.ts    │
 │ (Globe data)    │          │  (i18n utilities)  │
 └────────┬────────┘          └──────────┬──────────┘
          │                              │
@@ -238,10 +238,10 @@ const Flag = getCountryFlag('DE');
 ## When to Use Which File
 
 ### Adding a new language?
-→ Edit `Languages.ts` and optionally register locale in `country-i18n.ts`
+→ Edit `Languages.ts` and optionally register locale in `countries.ts`
 
 ### Need localized country names in a dropdown?
-→ Use `getEUCountries(locale)` from `country-i18n.ts`
+→ Use `getEUCountries(locale)` from `countries.ts`
 
 ### Building a globe visualization?
 → Use `EU_CAPITAL_CITIES` from `eu-cities.ts`
@@ -289,16 +289,16 @@ const Flag = getCountryFlag('DE');
 ## Migration Notes
 
 ### Breaking Changes
-- `src/lib/i18n/countries.ts` → `src/lib/i18n/country-i18n.ts`
-- `src/test/countries.test.ts` → `src/test/country-i18n.test.ts`
+- `src/lib/i18n/country-i18n.ts` → `src/lib/i18n/countries.ts`
+- `src/__tests__/country-i18n.test.ts` → `src/__tests__/countries.test.ts` (if renamed)
 
 ### Update Imports
 ```typescript
 // OLD
-import { getEUCountries } from '@/lib/i18n/countries';
+import { getEUCountries } from '@/lib/i18n/country-i18n';
 
 // NEW
-import { getEUCountries } from '@/lib/i18n/country-i18n';
+import { getEUCountries } from '@/lib/i18n/countries';
 ```
 
 All existing functionality remains the same - only the file name changed for clarity.

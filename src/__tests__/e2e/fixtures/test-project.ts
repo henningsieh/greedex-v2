@@ -94,11 +94,6 @@ export class TestProjectFixture {
 
   async teardown() {
     try {
-      // Delete project activities
-      await db
-        .delete(projectActivitiesTable)
-        .where(eq(projectActivitiesTable.projectId, this.projectId));
-
       // Delete project
       await db.delete(projectsTable).where(eq(projectsTable.id, this.projectId));
 
@@ -111,7 +106,8 @@ export class TestProjectFixture {
       // Delete user
       await db.delete(user).where(eq(user.id, this.userId));
     } catch (error) {
-      console.warn("E2E test cleanup failed:", error);
+      console.error("E2E test cleanup failed:", error);
+      throw error; // Fail fast to surface cleanup issues
     }
   }
 }

@@ -100,7 +100,7 @@ console.log(`There are ${EU_MEMBER_COUNT} EU member states`); // 27
 
 ### i18n Localization
 
-The configuration integrates with the i18n system in [src/lib/i18n/country-i18n.ts](../../src/lib/i18n/country-i18n.ts):
+The configuration integrates with the i18n system in [src/lib/i18n/countries.ts](../../src/lib/i18n/countries.ts):
 
 ```typescript
 import { EU_COUNTRY_CODES, type EUCountryCode } from '@/config/eu-countries';
@@ -109,7 +109,7 @@ import { EU_COUNTRY_CODES, type EUCountryCode } from '@/config/eu-countries';
 export { EU_COUNTRY_CODES, type EUCountryCode };
 ```
 
-**Note:** The file was renamed from `countries.ts` to `country-i18n.ts` to better reflect its purpose as an internationalization utility layer.
+**Note:** The file was renamed from `country-i18n.ts` to `countries.ts` to better reflect its purpose as the main country utilities file.
 
 ### Globe Visualization
 

@@ -149,7 +149,8 @@ test.describe("Questionnaire Form E2E Tests", () => {
       timeout: 3000,
     });
     await page.getByRole("button", { name: /continue/i }).click();
-    await page.waitForTimeout(500); // Wait for navigation to next step
+    // Wait for next step content to be visible
+    await expect(page.locator("text=car").first()).toBeVisible({ timeout: 3000 });
 
     // Step 11: Car km - test with value > 0 to trigger conditional steps
     await expect(page.locator("text=car").first()).toBeVisible({
@@ -165,7 +166,10 @@ test.describe("Questionnaire Form E2E Tests", () => {
 
     // Step 12: Car Type (conditional - only shown if carKm > 0) - Select Electric
     await expect(page.locator("text=type of car").first()).toBeVisible();
-    await page.waitForTimeout(500); // Wait for impact modal animation to complete
+    // Wait for the electric button to be stable/clickable
+    await expect(page.getByRole("button", { name: /electric/i })).toBeEnabled({
+      timeout: 3000,
+    });
     await page.getByRole("button", { name: /electric/i }).click();
     await page.getByRole("button", { name: /continue/i }).click();
 
