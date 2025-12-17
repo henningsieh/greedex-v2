@@ -494,7 +494,8 @@
         "dashboard": "Dashboard",
         "projects": "Projekte",
         "team": "Team",
-        "settings": "Einstellungen"
+        "settings": "Einstellungen",
+        "createproject": "Projekt erstellen"
       },
       "collapse": "Seitenleiste einklappen"
     },

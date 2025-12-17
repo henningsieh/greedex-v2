@@ -24,7 +24,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PROJECTS_PATH } from "@/config/AppRoutes";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
@@ -115,9 +114,6 @@ export function OrganizationSwitcher() {
                         orpcQuery.organizations.getActive.queryOptions(),
                       ),
                     ]);
-
-                    // Redirect to projects list to prevent staying on invalid project page
-                    router.push(PROJECTS_PATH);
                     router.refresh(); // Force immediate refresh to ensure navigation completes
                   } catch (error) {
                     console.error("Failed to switch organization:", error);

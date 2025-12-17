@@ -5,7 +5,7 @@ description: Learn how to handle errors in a type-safe way in oRPC clients.
 
 # Error Handling in oRPC Clients
 
-This guide explains how to handle type-safe errors in oRPC clients using [type-safe error handling](/docs/error-handling#type‐safe-error-handling). Both [server-side](/docs/client/server-side) and [client-side](/docs/client/client-side) clients are supported.
+This guide explains how to handle type-safe errors in oRPC clients using [type-safe error handling](/docs/error-handling#type-safe-error-handling). Both [server-side](/docs/client/server-side) and [client-side](/docs/client/client-side) clients are supported.
 
 ## Using `safe` and `isDefinedError`
 

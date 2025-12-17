@@ -494,7 +494,8 @@
         "dashboard": "Dashboard",
         "projects": "Projects",
         "team": "Team Members",
-        "settings": "Settings"
+        "settings": "Settings",
+        "createproject": "Create Project"
       },
       "collapse": "Collapse Sidebar"
     },
