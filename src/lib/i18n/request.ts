@@ -1,6 +1,6 @@
 import { getRequestConfig } from "next-intl/server";
 import { DEFAULT_LOCALE } from "@/config/Languages";
-import { isSupportedLocale } from "./locales";
+import { isSupportedLocale } from "@/lib/i18n/locales";
 
 export default getRequestConfig(async ({ requestLocale }) => {
   // This typically corresponds to the `[locale]` segment
@@ -13,6 +13,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: (await import(`../../../messages/${locale}.json`)).default,
+    messages: (await import(`@/lib/i18n/translations/${locale}.json`)).default,
   };
 });

@@ -1,4 +1,6 @@
+import "dotenv/config";
 import { beforeAll, describe, expect, it } from "vitest";
+import { env } from "@/env";
 
 /**
  * REST API Integration Tests for OpenAPI Endpoint
@@ -11,7 +13,7 @@ import { beforeAll, describe, expect, it } from "vitest";
  *
  * Note: These tests require a running server and are skipped in CI if the server is not available.
  */
-const baseUrl = "http://localhost:3000/api/openapi";
+const baseUrl = `${env.NEXT_PUBLIC_BASE_URL}/api/openapi`;
 let serverAvailable = false;
 
 // Check if server is available before running tests
@@ -203,12 +205,12 @@ describe("OpenAPI REST Endpoint", () => {
       const response = await fetch(`${baseUrl}/health`, {
         method: "GET",
         headers: {
-          Origin: "http://localhost:3000",
+          Origin: env.NEXT_PUBLIC_BASE_URL,
         },
       });
 
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe(
-        "http://localhost:3000",
+        env.NEXT_PUBLIC_BASE_URL,
       );
       expect(response.headers.get("Access-Control-Allow-Methods")).toBeDefined();
       expect(response.headers.get("Access-Control-Allow-Headers")).toBeDefined();
@@ -226,14 +228,14 @@ describe("OpenAPI REST Endpoint", () => {
       const response = await fetch(`${baseUrl}/health`, {
         method: "OPTIONS",
         headers: {
-          Origin: "http://localhost:3000",
+          Origin: env.NEXT_PUBLIC_BASE_URL,
           "Access-Control-Request-Method": "GET",
         },
       });
 
       expect(response.status).toBe(204); // or 200
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe(
-        "http://localhost:3000",
+        env.NEXT_PUBLIC_BASE_URL,
       );
       expect(response.headers.get("Access-Control-Allow-Methods")).toContain(
         "GET",
@@ -251,7 +253,7 @@ describe("OpenAPI REST Endpoint", () => {
 });
 
 describe("OpenAPI Specification", () => {
-  const specUrl = "http://localhost:3000/api/openapi-spec";
+  const specUrl = `${env.NEXT_PUBLIC_BASE_URL}/api/openapi-spec`;
 
   it("should serve OpenAPI specification", async () => {
     if (!serverAvailable) throw new Error("Server not available");

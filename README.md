@@ -89,7 +89,7 @@ Run the development server with Socket.IO support (decoupled for memory leak pre
 bun run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) in your browser. The Socket.IO server runs separately on port 4000.
+Visit your configured `NEXT_PUBLIC_BASE_URL` in your browser. The Socket.IO server runs separately on port 4000.
 
 ### Build & Production
 

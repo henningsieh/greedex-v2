@@ -21,7 +21,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
-import { getCountryData } from "@/lib/i18n/country-i18n";
+import { getCountryData } from "@/lib/i18n/countries";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import {
   calculateActivitiesCO2,

@@ -40,7 +40,7 @@
     "**/node_modules/@radix-ui": true
   },
   "i18n-ally.localesPaths": [
-    "./messages"
+    "./src/lib/i18n/translations"
   ],
   "i18n-ally.keystyle": "nested",
   "i18n-ally.sourceLanguage": "en",

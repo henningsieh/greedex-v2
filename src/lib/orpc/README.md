@@ -13,8 +13,8 @@ oRPC (OpenAPI Remote Procedure Call) provides a type-safe way to define and call
 - **[SSR Client Split docs](/docs/orpc/orpc.Optimize-Server-Side-Rendering.SSR.md)** - How server-side clients and client-side RPC link split are implemented to avoid server-side HTTP calls.
 
 - **[Dual Setup Documentation](./DUAL-SETUP.md)** - Understanding the RPC and OpenAPI architecture
-- **[Interactive API Docs](http://localhost:3000/api/docs)** - Swagger-like UI (when server is running)
-- **[OpenAPI Specification](http://localhost:3000/api/openapi-spec)** - JSON spec (when server is running)
+- **[Interactive API Docs]({NEXT_PUBLIC_BASE_URL}/api/docs)** - Swagger-like UI (when server is running)
+- **[OpenAPI Specification]({NEXT_PUBLIC_BASE_URL}/api/openapi-spec)** - JSON spec (when server is running)
 
 ## Architecture
 
@@ -49,7 +49,7 @@ const health = await orpc.health();
 ### 2. `/api/openapi` - For External Integrations (REST API)
 ```bash
 # Standard HTTP REST calls
-curl http://localhost:3000/api/openapi/health
+curl {NEXT_PUBLIC_BASE_URL}/api/openapi/health
 ```
 
 See [DUAL-SETUP.md](./DUAL-SETUP.md) for why we have this architecture.
