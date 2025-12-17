@@ -147,7 +147,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       return false;
     }
 
-    return EMISSION_IMPACT_STEPS.includes(stepKey);
+    // Type-safe check for emission impact steps
+    return (EMISSION_IMPACT_STEPS as readonly string[]).includes(stepKey);
   };
 
   const handleNext = () => {
@@ -282,7 +283,11 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   };
 
   const emissions = calculateEmissions(answers, project.activities);
-  // Adjust step display when car questions are skipped
+  /**
+   * Adjust step display number when car questions are conditionally skipped.
+   * If user enters 0 car km, we skip CAR_TYPE and CAR_PASSENGERS steps,
+   * so when at AGE step, display it as if at CAR_TYPE step for progress bar.
+   */
   const currentStepDisplay =
     currentStep === QUESTIONNAIRE_STEPS.AGE &&
     (!answers.carKm || answers.carKm === 0)
