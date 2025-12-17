@@ -16,6 +16,10 @@ import {
   MIN_DISTANCE_KM,
 } from "@/components/features/projects/types";
 import {
+  PROJECT_FORM_STEPS,
+  PROJECT_FORM_TOTAL_STEPS,
+} from "@/components/features/projects/form-constants";
+import {
   ActivityFormItemSchema,
   type CreateProjectWithActivities,
   CreateProjectWithActivitiesSchema,
@@ -75,8 +79,8 @@ export function CreateProjectForm({
 }: CreateProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form.new");
-  const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 2;
+  const [currentStep, setCurrentStep] = useState(PROJECT_FORM_STEPS.PROJECT_DETAILS);
+  const totalSteps = PROJECT_FORM_TOTAL_STEPS;
 
   const {
     register,

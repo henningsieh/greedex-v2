@@ -17,6 +17,10 @@ import {
   MIN_DISTANCE_KM,
 } from "@/components/features/projects/types";
 import {
+  PROJECT_FORM_STEPS,
+  PROJECT_FORM_TOTAL_STEPS,
+} from "@/components/features/projects/form-constants";
+import {
   EditActivityFormItemSchema,
   EditProjectWithActivitiesSchema,
 } from "@/components/features/projects/validation-schemas";
@@ -56,8 +60,8 @@ interface EditProjectFormProps {
 export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form");
-  const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 2;
+  const [currentStep, setCurrentStep] = useState(PROJECT_FORM_STEPS.PROJECT_DETAILS);
+  const totalSteps = PROJECT_FORM_TOTAL_STEPS;
 
   // Fetch existing activities
   const { data: existingActivities, isLoading: activitiesLoading } = useQuery(
