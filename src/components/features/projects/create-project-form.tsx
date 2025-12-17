@@ -79,7 +79,7 @@ export function CreateProjectForm({
 }: CreateProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form.new");
-  const [currentStep, setCurrentStep] = useState(
+  const [currentStep, setCurrentStep] = useState<number>(
     PROJECT_FORM_STEPS.PROJECT_DETAILS,
   );
   const totalSteps = PROJECT_FORM_TOTAL_STEPS;
@@ -165,7 +165,7 @@ export function CreateProjectForm({
       "country",
     ]);
     if (isStepValid) {
-      setCurrentStep(2);
+      setCurrentStep(PROJECT_FORM_STEPS.PROJECT_ACTIVITIES);
     }
   }
 
@@ -234,7 +234,7 @@ export function CreateProjectForm({
         </FieldContent>
 
         {/* Step 1: Project Details */}
-        {currentStep === 1 && (
+        {currentStep === PROJECT_FORM_STEPS.PROJECT_DETAILS && (
           <FieldGroup>
             <FormField
               control={control}
@@ -327,7 +327,7 @@ export function CreateProjectForm({
         )}
 
         {/* Step 2: Activities (Optional) */}
-        {currentStep === 2 && (
+        {currentStep === PROJECT_FORM_STEPS.PROJECT_ACTIVITIES && (
           <FieldGroup>
             <Card>
               <CardHeader>
@@ -456,7 +456,7 @@ export function CreateProjectForm({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setCurrentStep(1)}
+                onClick={() => setCurrentStep(PROJECT_FORM_STEPS.PROJECT_DETAILS)}
                 className="w-fit"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />

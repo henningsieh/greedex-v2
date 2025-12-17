@@ -49,7 +49,7 @@ interface QuestionnaireFormProps {
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const t = useTranslations("participation.questionnaire");
 
-  const [currentStep, setCurrentStep] = useState(QUESTIONNAIRE_STEPS.WELCOME);
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const [answers, setAnswers] = useState<Partial<ParticipantAnswers>>({
     firstName: "",
     country: "",
