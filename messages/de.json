@@ -432,14 +432,14 @@
           "description": "Teile diesen Link mit Teilnehmenden, damit sie dem Projekt beitreten und ihre Aktivitäten melden können.",
           "qrButtonLabel": "QR-Code anzeigen",
           "openLink": "Link öffnen",
-          "copySuccess": "Teilnahmelink wurde in die Zwischenablage kopiert!",
           "qrError": "QR-Code konnte nicht generiert werden",
           "modalTitle": "Teilnahme-QR-Code",
           "modalDescription": "Scanne diesen QR-Code, um auf die Teilnahme-Seite zu gelangen",
           "linkLabel": "Teilnahme-URL",
-          "copyClipboard": "Teilnahme-URL in die Zwischenablage kopieren"
-        },
-        "copyFailure": "Kopieren in die Zwischenablage fehlgeschlagen"
+          "copyClipboard": "Teilnahme-URL in die Zwischenablage kopieren",
+          "copySuccess": "Teilnahmelink wurde in die Zwischenablage kopiert!",
+          "copyFailure": "Fehler beim Kopieren in die Zwischenablage"
+        }
       }
     },
     "team": {
@@ -521,7 +521,7 @@
       "loading": "Projektdetails werden geladen...",
       "people-joined": "Leute sind bereits beigetreten",
       "no-participants-yet": "Noch keine Teilnehmer",
-      "share-the-participation-link": "Teilen Sie den Teilnahmelink, um Personen zu diesem Projekt einzuladen.",
+      "share-the-participation-link": "Teile den Teilnahmelink, um Personen zu diesem Projekt einzuladen.",
       "tabs": {
         "details": "Projektdetails",
         "activities": "Projektaktivitäten",
@@ -539,7 +539,7 @@
       "errors": {
         "default-error": "Fehler beim Laden der Projektdetails.",
         "project-not-found": "Das Projekt konnte nicht gefunden werden.",
-        "project-access-denied": "Sie haben keinen Zugriff auf dieses Projekt."
+        "project-access-denied": "Du hast keinen Zugriff auf dieses Projekt."
       },
       "joined-on": "beigetreten am"
     },

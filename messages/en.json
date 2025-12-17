@@ -432,14 +432,14 @@
           "description": "Share this link with participants to allow them to join the project and submit their travel activities.",
           "qrButtonLabel": "Show QR Code",
           "openLink": "Open Link",
-          "copySuccess": "Participation link copied to clipboard!",
           "qrError": "Failed to generate QR code",
           "modalTitle": "Participation QR Code",
           "modalDescription": "Scan this QR code to access the participation page",
           "linkLabel": "Participation URL",
-          "copyClipboard": "Copy participation URL to clipboard"
-        },
-        "copyFailure": "Failed to copy to clipboard"
+          "copyClipboard": "Copy participation URL to clipboard",
+          "copySuccess": "Participation link copied to clipboard!",
+          "copyFailure": "Failed to copy to clipboard"
+        }
       }
     },
     "team": {
@@ -876,6 +876,5 @@
       "signup": "Sign Up",
       "openMenu": "Open Menu"
     }
-  },
-  "copyFailure": "Failed to copy to clipboard"
+  }
 }

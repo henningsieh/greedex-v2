@@ -101,7 +101,7 @@ export function ParticipantsLinkControls({
     navigator.clipboard
       .writeText(participationUrl)
       .then(() => toast.success(t("participation.copySuccess")))
-      .catch(() => toast.error(t("copyFailure")));
+      .catch(() => toast.error(t("participation.copyFailure")));
   };
 
   return (
