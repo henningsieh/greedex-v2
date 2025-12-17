@@ -11,14 +11,14 @@ import type { z } from "zod";
 import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
+  PROJECT_FORM_STEPS,
+  PROJECT_FORM_TOTAL_STEPS,
+} from "@/components/features/projects/form-constants";
+import {
   activityValues,
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@/components/features/projects/types";
-import {
-  PROJECT_FORM_STEPS,
-  PROJECT_FORM_TOTAL_STEPS,
-} from "@/components/features/projects/form-constants";
 import {
   ActivityFormItemSchema,
   type CreateProjectWithActivities,
@@ -79,7 +79,9 @@ export function CreateProjectForm({
 }: CreateProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form.new");
-  const [currentStep, setCurrentStep] = useState(PROJECT_FORM_STEPS.PROJECT_DETAILS);
+  const [currentStep, setCurrentStep] = useState(
+    PROJECT_FORM_STEPS.PROJECT_DETAILS,
+  );
   const totalSteps = PROJECT_FORM_TOTAL_STEPS;
 
   const {

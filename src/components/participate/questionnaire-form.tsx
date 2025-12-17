@@ -14,6 +14,11 @@ import { AnimatedGroup } from "@/components/animated-group";
 import { CountrySelect } from "@/components/country-select";
 import { ImpactModal } from "@/components/participate/impact-modal";
 import {
+  EMISSION_IMPACT_STEPS,
+  QUESTIONNAIRE_STEPS,
+  QUESTIONNAIRE_TOTAL_STEPS,
+} from "@/components/participate/questionnaire-constants";
+import {
   ACCOMMODATION_OPTIONS,
   CAR_TYPE_OPTIONS,
   calculateEmissions,
@@ -36,11 +41,6 @@ import {
   isPositiveNumber,
   isTruthy,
 } from "@/lib/utils/form-validation-utils";
-import {
-  EMISSION_IMPACT_STEPS,
-  QUESTIONNAIRE_STEPS,
-  QUESTIONNAIRE_TOTAL_STEPS,
-} from "@/components/participate/questionnaire-constants";
 
 interface QuestionnaireFormProps {
   project: Project;
@@ -247,11 +247,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       case QUESTIONNAIRE_STEPS.WELCOME:
         return true;
       case QUESTIONNAIRE_STEPS.PARTICIPANT_INFO:
-        return areAllNonEmpty(
-          answers.firstName,
-          answers.country,
-          answers.email,
-        );
+        return areAllNonEmpty(answers.firstName, answers.country, answers.email);
       case QUESTIONNAIRE_STEPS.DAYS:
         return isPositiveNumber(answers.days);
       case QUESTIONNAIRE_STEPS.ACCOMMODATION_CATEGORY:
@@ -287,7 +283,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const emissions = calculateEmissions(answers, project.activities);
   const currentStepDisplay =
-    currentStep === QUESTIONNAIRE_STEPS.AGE && (!answers.carKm || answers.carKm === 0)
+    currentStep === QUESTIONNAIRE_STEPS.AGE &&
+    (!answers.carKm || answers.carKm === 0)
       ? QUESTIONNAIRE_STEPS.CAR_TYPE // Show as step 12 if we skipped car questions
       : currentStep;
 
