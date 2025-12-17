@@ -46,6 +46,16 @@ import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { getProjectDetailPath } from "@/lib/utils/project-utils";
 
+/**
+ * Default project duration in days when creating a new project.
+ */
+const DEFAULT_PROJECT_DURATION_DAYS = 30;
+
+/**
+ * Milliseconds in one day, used for date calculations.
+ */
+const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
+
 interface CreateProjectFormProps {
   activeOrganizationId: string;
 }
@@ -80,7 +90,9 @@ export function CreateProjectForm({
     defaultValues: {
       name: "",
       startDate: new Date(),
-      endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      endDate: new Date(
+        Date.now() + DEFAULT_PROJECT_DURATION_DAYS * MILLISECONDS_PER_DAY,
+      ),
       country: undefined,
       location: undefined,
       welcomeMessage: undefined,

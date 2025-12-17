@@ -6,6 +6,46 @@ import type {
 } from "@/components/features/projects/types";
 import { CO2_FACTORS, calculateActivitiesCO2 } from "@/lib/utils/project-utils";
 
+// Constants for emission calculations
+
+/**
+ * Number of people in room affects CO₂ emissions due to shared resources.
+ * These factors reduce emissions proportionally when rooms are shared.
+ */
+const ROOM_OCCUPANCY_FACTORS = {
+  alone: 1.0, // Full emissions - single occupancy
+  "2 people": 0.6, // 40% reduction when sharing with 1 person
+  "3 people": 0.4, // 60% reduction when sharing with 2 people
+  "4+ people": 0.3, // 70% reduction when sharing with 3+ people
+} as const;
+
+/**
+ * Green energy sources reduce accommodation emissions.
+ * Factor represents the percentage of emissions remaining (75% = 25% reduction).
+ */
+const GREEN_ENERGY_REDUCTION_FACTOR = 0.75;
+
+/**
+ * Standard electricity (conventional) has no emission reduction.
+ */
+const CONVENTIONAL_ENERGY_FACTOR = 1.0;
+
+/**
+ * Number of kilograms of CO₂ that one tree absorbs per year.
+ * Used to calculate how many trees are needed to offset total emissions.
+ */
+const CO2_PER_TREE_PER_YEAR = 22;
+
+/**
+ * Round trip multiplier - participants travel TO and FROM the project.
+ */
+const ROUND_TRIP_MULTIPLIER = 2;
+
+/**
+ * Default number of passengers when not specified (driver only).
+ */
+const DEFAULT_CAR_PASSENGERS = 1;
+
 const ACCOMMODATION_DATA = [
   ["Camping", 1.5],
   ["Hostel", 3.0],
@@ -145,6 +185,32 @@ export interface EmissionCalculation {
 }
 
 /**
+ * Get the emission reduction factor for a given room occupancy.
+ *
+ * @param occupancy - The room occupancy type
+ * @returns The occupancy factor (1.0 = full emissions, <1.0 = reduced emissions)
+ */
+function getOccupancyFactor(occupancy: RoomOccupancy | undefined): number {
+  if (!occupancy) {
+    return ROOM_OCCUPANCY_FACTORS.alone;
+  }
+  return ROOM_OCCUPANCY_FACTORS[occupancy];
+}
+
+/**
+ * Get the emission factor for electricity type.
+ *
+ * @param electricity - The electricity type used
+ * @returns The electricity factor (0.75 for green energy, 1.0 otherwise)
+ */
+function getElectricityFactor(electricity: ElectricityType | undefined): number {
+  if (electricity === "green energy") {
+    return GREEN_ENERGY_REDUCTION_FACTOR;
+  }
+  return CONVENTIONAL_ENERGY_FACTOR;
+}
+
+/**
  * Compute CO₂ emissions from participant responses and estimate the number of trees required to offset the total.
  *
  * @param answers - Partial participant responses; fields used: `flightKm`, `boatKm`, `trainKm`, `busKm`, `carKm`, `carType`, `carPassengers`, `days`, `accommodationCategory`, `roomOccupancy`, `electricity`, and `food`
@@ -181,39 +247,18 @@ export function calculateEmissions(
   if (answers.carKm) {
     const carFactor =
       answers.carType === "electric" ? CO2_FACTORS.electricCar : CO2_FACTORS.car;
-    const passengers = answers.carPassengers || 1;
+    const passengers = answers.carPassengers || DEFAULT_CAR_PASSENGERS;
     transportCO2 += (answers.carKm * carFactor) / passengers;
   }
 
   // Double transport emissions for round trip (to and from project)
-  transportCO2 *= 2;
+  transportCO2 *= ROUND_TRIP_MULTIPLIER;
 
   // Calculate accommodation emissions
   if (answers.days && answers.accommodationCategory) {
     const baseFactor = ACCOMMODATION_FACTORS[answers.accommodationCategory];
-
-    // Adjust for room occupancy
-    let occupancyFactor = 1.0;
-    switch (answers.roomOccupancy) {
-      case "alone":
-        occupancyFactor = 1.0;
-        break;
-      case "2 people":
-        occupancyFactor = 0.6;
-        break;
-      case "3 people":
-        occupancyFactor = 0.4;
-        break;
-      case "4+ people":
-        occupancyFactor = 0.3;
-        break;
-    }
-
-    // Adjust for electricity type (green energy reduces emissions by 25%)
-    let electricityFactor = 1.0;
-    if (answers.electricity === "green energy") {
-      electricityFactor = 0.75;
-    }
+    const occupancyFactor = getOccupancyFactor(answers.roomOccupancy);
+    const electricityFactor = getElectricityFactor(answers.electricity);
 
     accommodationCO2 =
       answers.days * baseFactor * occupancyFactor * electricityFactor;
@@ -231,7 +276,7 @@ export function calculateEmissions(
 
   const totalCO2 =
     transportCO2 + accommodationCO2 + foodCO2 + projectActivitiesCO2;
-  const treesNeeded = Math.ceil(totalCO2 / 22); // 22kg CO₂ per tree per year
+  const treesNeeded = Math.ceil(totalCO2 / CO2_PER_TREE_PER_YEAR);
 
   return {
     transportCO2,
