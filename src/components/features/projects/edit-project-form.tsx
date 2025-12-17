@@ -10,6 +10,10 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
+import {
+  PROJECT_FORM_STEPS,
+  PROJECT_FORM_TOTAL_STEPS,
+} from "@/components/features/projects/form-constants";
 import type { ProjectType } from "@/components/features/projects/types";
 import {
   activityValues,
@@ -56,8 +60,10 @@ interface EditProjectFormProps {
 export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form");
-  const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 2;
+  const [currentStep, setCurrentStep] = useState<number>(
+    PROJECT_FORM_STEPS.PROJECT_DETAILS,
+  );
+  const totalSteps = PROJECT_FORM_TOTAL_STEPS;
 
   // Fetch existing activities
   const { data: existingActivities, isLoading: activitiesLoading } = useQuery(
@@ -195,7 +201,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
       "country",
     ]);
     if (isStepValid) {
-      setCurrentStep(2);
+      setCurrentStep(PROJECT_FORM_STEPS.PROJECT_ACTIVITIES);
     }
   }
 
@@ -319,7 +325,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
         </p>
 
         {/* Step 1: Project Details */}
-        {currentStep === 1 && (
+        {currentStep === PROJECT_FORM_STEPS.PROJECT_DETAILS && (
           <FieldGroup>
             <FormField control={control} name="name" label={t("new.name")} />
 
@@ -400,7 +406,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
         )}
 
         {/* Step 2: Activities */}
-        {currentStep === 2 && (
+        {currentStep === PROJECT_FORM_STEPS.PROJECT_ACTIVITIES && (
           <FieldGroup>
             <Card>
               <CardHeader>
@@ -540,7 +546,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setCurrentStep(1)}
+                onClick={() => setCurrentStep(PROJECT_FORM_STEPS.PROJECT_DETAILS)}
                 className="w-fit"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />

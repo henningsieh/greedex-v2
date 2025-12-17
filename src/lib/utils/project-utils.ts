@@ -36,12 +36,55 @@ export const CO2_FACTORS = {
   // Reserved for participant questionnaire calculations:
   plane: 0.255,
   electricCar: 0.053,
-};
+} as const;
+
+/**
+ * Type for valid activity types that can be used in CO2 calculations.
+ */
+type ValidActivityType = keyof typeof CO2_FACTORS;
+
+/**
+ * Check if an activity type has a known CO2 factor.
+ *
+ * @param activityType - The activity type to check
+ * @returns true if the activity type has a known CO2 factor
+ */
+function hasValidCO2Factor(
+  activityType: string,
+): activityType is ValidActivityType {
+  return activityType in CO2_FACTORS;
+}
+
+/**
+ * Calculate CO₂ emissions for a single activity.
+ *
+ * @param activityType - Type of transport activity
+ * @param distanceKm - Distance traveled in kilometers
+ * @returns CO₂ emissions in kilograms, or 0 if invalid
+ */
+function calculateSingleActivityCO2(
+  activityType: string,
+  distanceKm: number,
+): number {
+  // Validate distance
+  if (Number.isNaN(distanceKm) || distanceKm <= 0) {
+    return 0;
+  }
+
+  // Check if activity type has a known CO2 factor
+  if (!hasValidCO2Factor(activityType)) {
+    console.error(`Unknown activity type: ${activityType}`);
+    return 0;
+  }
+
+  // Calculate emissions based on activity type
+  return distanceKm * CO2_FACTORS[activityType];
+}
 
 /**
  * Compute total CO₂ emissions for a list of transport activities.
  *
- * Ignores activities whose `distanceKm` is not a positive number and skips activity types other than `car`, `boat`, `bus`, and `train`.
+ * Ignores activities whose `distanceKm` is not a positive number and skips activity types without known CO2 factors.
  *
  * @param activities - Array of activities containing `activityType` and `distanceKm` (kilometers)
  * @returns Total CO₂ emissions in kilograms
@@ -49,36 +92,16 @@ export const CO2_FACTORS = {
 export function calculateActivitiesCO2(
   activities: ProjectActivityType[],
 ): number {
-  let activitiesCO2 = 0;
-
   if (!activities || activities.length === 0) {
-    return activitiesCO2;
+    return 0;
   }
 
-  for (const activity of activities) {
+  return activities.reduce((total, activity) => {
     const distanceKm = Number(activity.distanceKm);
-    if (Number.isNaN(distanceKm) || distanceKm <= 0) continue;
-
-    switch (activity.activityType) {
-      case "boat":
-        activitiesCO2 += distanceKm * CO2_FACTORS.boat;
-        break;
-      case "bus":
-        activitiesCO2 += distanceKm * CO2_FACTORS.bus;
-        break;
-      case "train":
-        activitiesCO2 += distanceKm * CO2_FACTORS.train;
-        break;
-      case "car":
-        // Use conventional car factor for activities
-        activitiesCO2 += distanceKm * CO2_FACTORS.car;
-        break;
-      default:
-        // Unknown activity type; skip calculation
-        console.error(`Unknown activity type: ${activity.activityType}`);
-        break;
-    }
-  }
-
-  return activitiesCO2;
+    const emissions = calculateSingleActivityCO2(
+      activity.activityType,
+      distanceKm,
+    );
+    return total + emissions;
+  }, 0);
 }

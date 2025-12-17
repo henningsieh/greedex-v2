@@ -11,6 +11,10 @@ import type { z } from "zod";
 import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
+  PROJECT_FORM_STEPS,
+  PROJECT_FORM_TOTAL_STEPS,
+} from "@/components/features/projects/form-constants";
+import {
   activityValues,
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
@@ -46,6 +50,16 @@ import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { getProjectDetailPath } from "@/lib/utils/project-utils";
 
+/**
+ * Default project duration in days when creating a new project.
+ */
+const DEFAULT_PROJECT_DURATION_DAYS = 30;
+
+/**
+ * Milliseconds in one day, used for date calculations.
+ */
+const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
+
 interface CreateProjectFormProps {
   activeOrganizationId: string;
 }
@@ -65,8 +79,10 @@ export function CreateProjectForm({
 }: CreateProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form.new");
-  const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 2;
+  const [currentStep, setCurrentStep] = useState<number>(
+    PROJECT_FORM_STEPS.PROJECT_DETAILS,
+  );
+  const totalSteps = PROJECT_FORM_TOTAL_STEPS;
 
   const {
     register,
@@ -80,7 +96,9 @@ export function CreateProjectForm({
     defaultValues: {
       name: "",
       startDate: new Date(),
-      endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      endDate: new Date(
+        Date.now() + DEFAULT_PROJECT_DURATION_DAYS * MILLISECONDS_PER_DAY,
+      ),
       country: undefined,
       location: undefined,
       welcomeMessage: undefined,
@@ -147,7 +165,7 @@ export function CreateProjectForm({
       "country",
     ]);
     if (isStepValid) {
-      setCurrentStep(2);
+      setCurrentStep(PROJECT_FORM_STEPS.PROJECT_ACTIVITIES);
     }
   }
 
@@ -216,7 +234,7 @@ export function CreateProjectForm({
         </FieldContent>
 
         {/* Step 1: Project Details */}
-        {currentStep === 1 && (
+        {currentStep === PROJECT_FORM_STEPS.PROJECT_DETAILS && (
           <FieldGroup>
             <FormField
               control={control}
@@ -309,7 +327,7 @@ export function CreateProjectForm({
         )}
 
         {/* Step 2: Activities (Optional) */}
-        {currentStep === 2 && (
+        {currentStep === PROJECT_FORM_STEPS.PROJECT_ACTIVITIES && (
           <FieldGroup>
             <Card>
               <CardHeader>
@@ -438,7 +456,7 @@ export function CreateProjectForm({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setCurrentStep(1)}
+                onClick={() => setCurrentStep(PROJECT_FORM_STEPS.PROJECT_DETAILS)}
                 className="w-fit"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
