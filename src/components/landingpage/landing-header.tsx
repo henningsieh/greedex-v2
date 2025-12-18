@@ -181,7 +181,7 @@ export const LandingHeader = () => {
             </div>
 
             <div className="hidden items-center gap-3 lg:flex">
-              <ThemeSwitcher />
+                <ThemeSwitcher className="rounded-md" />
               <LocaleSwitcher className="rounded-md" />
 
               <Button
