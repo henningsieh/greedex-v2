@@ -1,8 +1,4 @@
 {
-  "i18n-ally.localesPaths": [
-    "./messages"
-  ],
-  "i18n-ally.keystyle": "nested",
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit",
     "source.fixAll.biome": "always"
@@ -43,9 +39,19 @@
   "search.exclude": {
     "**/node_modules/@radix-ui": true
   },
+  "i18n-ally.localesPaths": [
+    "./src/lib/i18n/translations"
+  ],
+  "i18n-ally.keystyle": "nested",
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.displayLanguage": "de",
   "i18n-ally.extract.ignored": [
     " | "
+  ],
+  "i18n-ally.extract.ignoredByFiles": {
+    "src/test/orpc-error-type-safety.test.ts": true
+  },
+  "i18n-ally.ignoreFiles": [
+    "src/test/**"
   ]
 }

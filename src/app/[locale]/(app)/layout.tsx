@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/config/AppRoutes";
-import { redirect } from "@/lib/i18n/navigation";
+import { redirect } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
 import { cn } from "@/lib/utils";
@@ -89,11 +89,17 @@ export default async function AppLayout({
                       "hover:bg-secondary hover:text-secondary-foreground dark:hover:bg-secondary/50",
                     )}
                   />
-                  <Suspense fallback={<AppBreadcrumbSkeleton />}>
-                    <AppBreadcrumb />
-                  </Suspense>
+                  <ErrorBoundary
+                    fallback={<div>Unable to load project breadcrumb</div>}
+                  >
+                    <Suspense fallback={<AppBreadcrumbSkeleton />}>
+                      <AppBreadcrumb />
+                    </Suspense>
+                  </ErrorBoundary>
                 </div>
-                <div className="space-y-8 p-2 md:p-4 lg:p-6 xl:p-8">{children}</div>
+                <div className="space-y-8 p-2 md:p-4 lg:p-6 xl:p-8">
+                  {children}
+                </div>
               </main>
             </SidebarInset>
           </SidebarProvider>

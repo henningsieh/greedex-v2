@@ -8,7 +8,8 @@ function walkDir(dir: string, extensions: string[] = [".ts", ".tsx"]): string[] 
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name === "test") continue; // skip tests directory
+      if (entry.name === "test") continue; // skip old tests directory
+      if (entry.name === "__tests__") continue; // skip tests directory
       if (
         entry.name === "node_modules" ||
         entry.name === ".next" ||

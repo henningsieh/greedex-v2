@@ -11,10 +11,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { LocaleCode } from "@/config/Languages";
 import { getLocaleData } from "@/lib/i18n/locales";
-import { usePathname, useRouter } from "@/lib/i18n/navigation";
+import { usePathname, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
-import { LocaleCode } from "@/config/Languages";
 
 export function LocaleSwitcher({ className }: { className?: string }) {
   const locale = useLocale();

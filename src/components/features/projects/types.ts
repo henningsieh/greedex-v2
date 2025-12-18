@@ -41,8 +41,8 @@ export const DEFAULT_PROJECT_SORTING_FIELD: ProjectSortField =
 // ============================================================================
 
 // Single source of truth for activity types
-export const activityTypeValues = ["boat", "bus", "train", "car"] as const;
-export type ActivityType = (typeof activityTypeValues)[number];
+export const activityValues = ["boat", "bus", "train", "car"] as const;
+export type ActivityValueType = (typeof activityValues)[number];
 
 // Type inferred from DB schema
 export type ProjectActivityType = InferSelectModel<typeof projectActivitiesTable>;

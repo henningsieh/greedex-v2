@@ -2,7 +2,7 @@ import { getLocale } from "next-intl/server";
 import AuthFlowLayout from "@/components/features/authentication/auth-flow-layout";
 import { ResetPasswordForm } from "@/components/features/authentication/reset-password-form";
 import { LOGIN_PATH } from "@/config/AppRoutes";
-import { redirect } from "@/lib/i18n/navigation";
+import { redirect } from "@/lib/i18n/routing";
 
 interface ResetPasswordPageProps {
   searchParams: Promise<{

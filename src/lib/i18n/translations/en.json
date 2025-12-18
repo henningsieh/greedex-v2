@@ -424,19 +424,21 @@
             "deleteSuccess": "Project deleted successfully",
             "deleteFailure": "Failed to delete project",
             "deleteFailureGeneric": "An error occurred while deleting the project"
-          }
+          },
+          "noSelection": "You have not selected a project"
         },
         "participation": {
           "title": "Participation Link",
           "description": "Share this link with participants to allow them to join the project and submit their travel activities.",
-          "qrButton": "QR Code",
+          "qrButtonLabel": "Show QR Code",
           "openLink": "Open Link",
-          "copySuccess": "Participation link copied to clipboard!",
           "qrError": "Failed to generate QR code",
           "modalTitle": "Participation QR Code",
           "modalDescription": "Scan this QR code to access the participation page",
           "linkLabel": "Participation URL",
-          "copyClipboard": "Copy participation URL to clipboard"
+          "copyClipboard": "Copy participation URL to clipboard",
+          "copySuccess": "Participation link copied to clipboard!",
+          "copyFailure": "Failed to copy to clipboard"
         }
       }
     },
@@ -493,7 +495,8 @@
         "dashboard": "Dashboard",
         "projects": "Projects",
         "team": "Team Members",
-        "settings": "Settings"
+        "settings": "Settings",
+        "createproject": "Create Project"
       },
       "collapse": "Collapse Sidebar"
     },
@@ -516,7 +519,29 @@
       "activities": "Activities",
       "activities-description": "Project activities will be displayed here.",
       "loading": "loading project details...",
-      "error": "Failed to load project details."
+      "people-joined": "people have already joined",
+      "no-participants-yet": "No participants yet",
+      "share-the-participation-link": "Share the participation link to invite people to this project.",
+      "tabs": {
+        "details": "Project Details",
+        "activities": "Project Activities",
+        "participants": "Participants"
+      },
+      "statistics": {
+        "participants": "Participants",
+        "activities": "Project Activities",
+        "total-distance": "Total Distance",
+        "duration": "Project Duration",
+        "km": "km",
+        "days": "days",
+        "co2-emissions": "Project Emissions"
+      },
+      "errors": {
+        "default-error": "Failed to load project details.",
+        "project-not-found": "The project you are looking for does not exist.",
+        "project-access-denied": "You do not have access to this project."
+      },
+      "joined-on": "joined on"
     },
     "activities": {
       "title": "Project Activities",

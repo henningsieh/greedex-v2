@@ -29,13 +29,13 @@ const loggingMiddleware = rootBase.middleware(async ({ next, path }) => {
  * Middleware that validates authentication using Better Auth
  * Adds session and user to the context for protected procedures
  */
-const authMiddleware = rootBase.middleware(async ({ context, next }) => {
+const authMiddleware = rootBase.middleware(async ({ context, next, errors }) => {
   const sessionData = await auth.api.getSession({
     headers: context.headers,
   });
 
   if (!sessionData?.session || !sessionData?.user) {
-    throw new ORPCError("UNAUTHORIZED");
+    throw errors.UNAUTHORIZED();
   }
 
   // Add session and user to context
@@ -70,9 +70,10 @@ export const requireProjectPermissions =
   async ({
     context,
     next,
+    errors,
   }: Parameters<Parameters<typeof authorized.use>[0]>[0]) => {
     if (!context.session.activeOrganizationId) {
-      throw new ORPCError("FORBIDDEN", {
+      throw errors.FORBIDDEN({
         message: "No active organization. Please select an organization first.",
       });
     }
@@ -88,7 +89,7 @@ export const requireProjectPermissions =
     });
 
     if (!hasPermission) {
-      throw new ORPCError("FORBIDDEN", {
+      throw errors.FORBIDDEN({
         message: `Missing required permissions: ${permissions.join(", ")}`,
       });
     }

@@ -24,8 +24,8 @@ import {
   TIPS_AND_TRICKS_PATH,
   WORKSHOPS_ANCHOR,
 } from "@/config/AppRoutes";
-import { Link } from "@/lib/i18n/navigation";
-import { cn } from "@/lib/utils/index";
+import { Link } from "@/lib/i18n/routing";
+import { cn } from "@/lib/utils";
 
 export const LandingHeader = () => {
   const t = useTranslations("header");

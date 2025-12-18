@@ -19,7 +19,7 @@ vi.mock("@/lib/better-auth/auth-client", () => ({
 // Mock the env module to avoid environment variable validation
 vi.mock("@/env", () => ({
   env: {
-    NEXT_PUBLIC_BASE_URL: "http://localhost:3000",
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
     DATABASE_URL:
       process.env.DATABASE_URL || "postgresql://test:test@localhost:5432/test",
     BETTER_AUTH_SECRET: "test-secret",

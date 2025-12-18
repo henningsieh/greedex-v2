@@ -2,9 +2,15 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Users2Icon, UsersIcon } from "lucide-react";
-import { useFormatter } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Empty,
   EmptyDescription,
@@ -18,8 +24,15 @@ interface ParticipantsListProps {
   activeProjectId: string;
 }
 
+/**
+ * Render a card displaying participants for the specified project.
+ *
+ * @param activeProjectId - The project identifier used to fetch and display its participants.
+ * @returns A React element showing a participants card with a header (title and count), an empty state when there are no participants, or a list of participant rows including avatar, name, email, and joined date.
+ */
 export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
   const format = useFormatter();
+  const t = useTranslations("project.details");
 
   const { data: participants } = useSuspenseQuery(
     orpcQuery.projects.getParticipants.queryOptions({
@@ -32,21 +45,13 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
   return (
     <Card className="border border-border/60 bg-card/80 shadow-sm">
       <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="border border-secondary/30 bg-secondary/10 p-2 text-secondary">
-            <UsersIcon className="h-5 w-5" />
-          </div>
-          <div>
-            <CardTitle>
-              <p className="font-medium text-secondary/70 text-xs uppercase tracking-[0.2em]">
-                Participants
-              </p>
-              <h2 className="font-semibold text-lg text-secondary-foreground">
-                {participants?.length || 0} people joined
-              </h2>
-            </CardTitle>
-          </div>
-        </div>
+        <CardTitle className="flex items-center gap-2">
+          <UsersIcon className="h-5 w-5 text-secondary" />
+          {t("participants")}
+        </CardTitle>
+        <CardDescription>
+          {participants?.length || 0} {t("people-joined")}
+        </CardDescription>
       </CardHeader>
 
       {!participants || participants.length === 0 ? (
@@ -55,9 +60,9 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
             <EmptyMedia variant="icon">
               <Users2Icon className="h-12 w-12" />
             </EmptyMedia>
-            <EmptyTitle>No participants yet</EmptyTitle>
+            <EmptyTitle>{t("no-participants-yet")}</EmptyTitle>
             <EmptyDescription>
-              Share the participation link to invite people to this project.
+              {t("share-the-participation-link")}
             </EmptyDescription>
           </EmptyHeader>
         </Empty>
@@ -84,7 +89,7 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
                 </p>
               </div>
               <div className="text-muted-foreground text-sm">
-                Joined{" "}
+                {t("joined-on")}{" "}
                 {format.dateTime(participant.createdAt, {
                   year: "numeric",
                   month: "short",
@@ -99,7 +104,13 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
   );
 }
 
+/**
+ * Renders a skeleton placeholder UI for the participants list used while participant data is loading.
+ *
+ * @returns A React element showing an animated card with placeholder rows that mimic participant entries.
+ */
 export function ParticipantsListSkeleton() {
+  const t = useTranslations("project.details");
   return (
     <Card className="border border-border/60 bg-card/80 shadow-sm">
       <CardHeader>
@@ -109,7 +120,7 @@ export function ParticipantsListSkeleton() {
           </div>
           <div>
             <div className="animate-pulse font-medium text-secondary/70 text-xs uppercase tracking-[0.2em]">
-              Participants
+              {t("participants")}
             </div>
             <div className="mt-1 h-6 w-32 animate-pulse rounded bg-secondary/50"></div>
           </div>

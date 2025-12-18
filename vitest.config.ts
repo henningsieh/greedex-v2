@@ -9,7 +9,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true,
-    setupFiles: ["./src/test/setup.ts"],
+    setupFiles: ["./src/__tests__/setup.ts"],
     // Only include explicit test patterns (optional), and explicitly exclude docs/clickdummy
     include: [
       "src/**/*.{test,spec}.{ts,tsx,js,jsx}",
@@ -24,6 +24,7 @@ export default defineConfig({
       "docs/greendex-clickdummy/**",
       "docs/clickdummy/**",
       "docs/greendex-clickdummy/build/**",
+      "src/__tests__/e2e/**", // Exclude Playwright e2e tests
     ],
   },
   // Prevent Vite's file watcher from watching the large docs folder (improves watch performance)

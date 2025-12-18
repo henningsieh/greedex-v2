@@ -31,10 +31,11 @@ import {
   DASHBOARD_PATH,
   FORGOT_PASSWORD_PATH,
   SIGNUP_PATH,
+  VERIFY_EMAIL_PATH,
 } from "@/config/AppRoutes";
 import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { Link, useRouter } from "@/lib/i18n/navigation";
+import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function LoginForm({
@@ -101,7 +102,9 @@ export function LoginForm({
         onError: (c) => {
           if (c.error.code === "EMAIL_NOT_VERIFIED") {
             toast.error("messages.verifyEmail");
-            router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
+            router.push(
+              `${VERIFY_EMAIL_PATH}?email=${encodeURIComponent(data.email)}`,
+            );
             return;
           }
           toast.error(c.error.message || t("login.messages.failedSignIn"));

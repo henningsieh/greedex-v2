@@ -3,6 +3,7 @@
 
 // Import Next.js generated route types
 // Path resolves to .next/dev/types/routes in dev, .next/types/routes in production
+// see "paths" field in tsconfig.json
 import type { AppRoutes } from "#next-routes/routes";
 
 // Transform generated routes to remove locale prefix for next-intl compatibility
@@ -19,7 +20,7 @@ export type AppRoute = StripLocale<AppRoutes>;
 // Exported route constants - use with next-intl Link component
 // The Link component from next-intl automatically adds locale prefix
 export const DASHBOARD_PATH: AppRoute = "/org/dashboard";
-export const ACTIVE_PROJECT_PATH: AppRoute = "/org/activeproject";
+// Note: ACTIVE_PROJECT_PATH removed - owner and admins now navigate directly to project details via /org/projects/[id]
 export const LIVE_VIEW_PATH: AppRoute = "/org/activeproject/liveview";
 export const PROJECTS_PATH: AppRoute = "/org/projects";
 export const TEAM_PATH: AppRoute = "/org/team";

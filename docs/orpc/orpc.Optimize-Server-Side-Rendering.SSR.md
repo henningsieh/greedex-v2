@@ -23,7 +23,7 @@ Ideally, during SSR, the server should fetch data by directly invoking the relev
 
 ![Optimized SSR: Server calls API logic directly.](/images/optimized-ssr-diagram.svg)
 
-Fortunately, oRPC provides both a [server-side client](/docs/client/server-side) and [client-side client](/docs/client/client-side), so you can leverage the former during SSR and automatically fall back to the latter in the browser.
+Fortunately, oRPC provides both a [server-side client](orpc.server-side.md) and [client-side client](https://orpc.dev/docs/client/client-side) so you can leverage the former during SSR and automatically fall back to the latter in the browser.
 
 ## Conceptual approach
 
@@ -90,7 +90,7 @@ globalThis.$client = createRouterClient(router, {
 :::
 
 ::: details `OpenAPILink` support?
-When you use [OpenAPILink](/docs/openapi/client/openapi-link), its `JsonifiedClient` turns native values (like Date or URL) into plain JSON, so your client types no longer match the output of `createRouterClient`. To fix this, oRPC offers `createJsonifiedRouterClient`, which builds a router client that matches the output of OpenAPILink.
+When you use [OpenAPILink](https://orpc.dev/docs/openapi/client/openapi-link.md), its `JsonifiedClient` turns native values (like Date or URL) into plain JSON, so your client types no longer match the output of `createRouterClient`. To fix this, oRPC offers `createJsonifiedRouterClient`, which builds a router client that matches the output of OpenAPILink.
 
 ::: code-group
 

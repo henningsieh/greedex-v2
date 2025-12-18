@@ -10,14 +10,14 @@ The application uses `next-intl` for translations and `i18n-iso-countries` with 
 - **Languages config**: `src/config/Languages.ts` - Defines supported locales (language codes, labels, display regions)
 - **Locale utilities**: `src/lib/i18n/locales.ts` - Locale data with flags and country name resolution
 - **EU countries config**: `src/config/eu-countries.ts` - Single source of truth for EU member states, capitals, and coordinates
-- **Country i18n utilities**: `src/lib/i18n/country-i18n.ts` - Internationalization wrappers for country data (localized names, flags)
+- **Country i18n utilities**: `src/lib/i18n/countries.ts` - Internationalization wrappers for country data (localized names, flags)
 
 ## Documentation Files
 
 ### [file-organization.md](./file-organization.md)
 **Complete guide to file structure and organization.** Clarifies the purpose and relationship between:
 - `Languages.ts` vs `locales.ts`
-- `eu-countries.ts` vs `country-i18n.ts`
+- `eu-countries.ts` vs `countries.ts`
 - Configuration files vs utility files
 - Data flow and when to use which file
 
@@ -58,10 +58,10 @@ Locales are defined in `src/lib/i18n/locales.ts` and use ISO 3166-1 country code
 
 ### Country Selection
 
-Country utilities are available in `src/lib/i18n/country-i18n.ts`:
+Country utilities are available in `src/lib/i18n/countries.ts`:
 
 ```typescript
-import { getEUCountries, getCountryFlag, isEUCountry } from '@/lib/i18n/country-i18n';
+import { getEUCountries, getCountryFlag, isEUCountry } from '@/lib/i18n/countries';
 
 // Get all EU countries with flags and localized names
 const euCountries = getEUCountries('en');
@@ -119,7 +119,7 @@ export function MyComponent() {
 
 ### i18n Utilities
 - **Locale utilities**: `src/lib/i18n/locales.ts` - Locale data with flags
-- **Country i18n utilities**: `src/lib/i18n/country-i18n.ts` - Localized country names and flags
+- **Country i18n utilities**: `src/lib/i18n/countries.ts` - Localized country names and flags
 - **i18n routing**: `src/lib/i18n/request.ts` - Locale routing logic
 
 ### UI & Data
@@ -129,10 +129,10 @@ export function MyComponent() {
 
 ## Testing
 
-Tests for country utilities are in `src/test/country-i18n.test.ts`. Run them with:
+Tests for country utilities are in `src/__tests__/country-i18n.test.ts`. Run them with:
 
 ```bash
-bun run test src/test/country-i18n.test.ts
+bun run test src/__tests__/country-i18n.test.ts
 ```
 
 ## Adding New Features
@@ -164,7 +164,7 @@ export const SUPPORTED_LOCALES = [
 ] as const;
 ```
 
-#### 2. **Register Country Locale** (`src/lib/i18n/country-i18n.ts`)
+#### 2. **Register Country Locale** (`src/lib/i18n/countries.ts`)
 If the new language needs country name translations, register its locale data:
 
 ```typescript
@@ -204,7 +204,7 @@ The locale registration is already handled automatically through the config impo
 
 #### Files Modified When Adding a Language:
 - ✅ `src/config/Languages.ts` - Add locale configuration
-- ✅ `src/lib/i18n/country-i18n.ts` - Register country locale (if needed)
+- ✅ `src/lib/i18n/countries.ts` - Register country locale (if needed)
 - ✅ `messages/[locale].json` - Add translation file
 - ✅ `src/lib/i18n/locales.ts` - Automatically updated via config import
 

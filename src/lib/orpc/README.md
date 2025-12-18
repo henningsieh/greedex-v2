@@ -6,6 +6,16 @@ This document describes the end-to-end type-safe API layer implementation using 
 
 oRPC (OpenAPI Remote Procedure Call) provides a type-safe way to define and call remote procedures between the client and server. This implementation integrates seamlessly with Better Auth for authentication and includes SSR optimization.
 
+**New**: This application uses a **dual setup** with both RPC and OpenAPI endpoints. See [DUAL-SETUP.md](./DUAL-SETUP.md) for complete details.
+
+## Quick Links
+
+- **[SSR Client Split docs](/docs/orpc/orpc.Optimize-Server-Side-Rendering.SSR.md)** - How server-side clients and client-side RPC link split are implemented to avoid server-side HTTP calls.
+
+- **[Dual Setup Documentation](./DUAL-SETUP.md)** - Understanding the RPC and OpenAPI architecture
+- **[Interactive API Docs]({NEXT_PUBLIC_BASE_URL}/api/docs)** - Swagger-like UI (when server is running)
+- **[OpenAPI Specification]({NEXT_PUBLIC_BASE_URL}/api/openapi-spec)** - JSON spec (when server is running)
+
 ## Architecture
 
 ### Directory Structure
@@ -16,10 +26,33 @@ src/lib/orpc/
 ├── middleware.ts        # Better Auth authentication middleware
 ├── procedures.ts        # Example procedures (hello world, health, profile)
 ├── router.ts           # Main router definition
-├── client.ts           # Unified client (server-side during SSR, client-side in browser)
+├── orpc.ts             # Unified client (server-side during SSR, client-side in browser)
 ├── client.server.ts    # Server-side client initialization
-└── index.ts            # Public exports
+└── README.md           # This file
+
+src/app/api/
+├── rpc/[[...rest]]/route.ts       # RPC endpoint (for application use)
+├── openapi/[[...rest]]/route.ts   # REST API endpoint (for external use)
+├── openapi-spec/route.ts          # OpenAPI specification generator
+└── docs/route.ts                  # Interactive API documentation (Scalar UI)
 ```
+
+## Two Endpoints for Two Purposes
+
+### 1. `/api/rpc` - For Application Code (RPC Protocol)
+```typescript
+// Client components and server components use this
+import { orpc } from "@/lib/orpc/orpc";
+const health = await orpc.health();
+```
+
+### 2. `/api/openapi` - For External Integrations (REST API)
+```bash
+# Standard HTTP REST calls
+curl {NEXT_PUBLIC_BASE_URL}/api/openapi/health
+```
+
+See [DUAL-SETUP.md](./DUAL-SETUP.md) for why we have this architecture.
 
 ### Key Components
 

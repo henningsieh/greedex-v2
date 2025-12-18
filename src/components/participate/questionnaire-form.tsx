@@ -14,6 +14,11 @@ import { AnimatedGroup } from "@/components/animated-group";
 import { CountrySelect } from "@/components/country-select";
 import { ImpactModal } from "@/components/participate/impact-modal";
 import {
+  EMISSION_IMPACT_STEPS,
+  QUESTIONNAIRE_STEPS,
+  QUESTIONNAIRE_TOTAL_STEPS,
+} from "@/components/participate/questionnaire-constants";
+import {
   ACCOMMODATION_OPTIONS,
   CAR_TYPE_OPTIONS,
   calculateEmissions,
@@ -29,26 +34,22 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
+import {
+  areAllNonEmpty,
+  isNonNegativeNumber,
+  isNumberAtLeast,
+  isPositiveNumber,
+  isTruthy,
+} from "@/lib/utils/form-validation-utils";
 
 interface QuestionnaireFormProps {
   project: Project;
 }
 
-// Steps that trigger impact modal when answered
-const EMISSION_IMPACT_STEPS = [
-  "electricity",
-  "food",
-  "flightKm",
-  "boatKm",
-  "trainKm",
-  "busKm",
-  "carPassengers",
-];
-
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const t = useTranslations("participation.questionnaire");
 
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const [answers, setAnswers] = useState<Partial<ParticipantAnswers>>({
     firstName: "",
     country: "",
@@ -79,9 +80,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     treesNeeded: number;
   } | null>(null);
 
-  // Total steps: 1 welcome form + 1 participant info + 14 questions = 16 total
-  // Steps 12-13 are conditional based on carKm (car type and passengers)
-  const totalSteps = 16;
+  const totalSteps = QUESTIONNAIRE_TOTAL_STEPS;
   const progress = ((currentStep + 1) / totalSteps) * 100;
 
   const updateAnswer = <K extends keyof ParticipantAnswers>(
@@ -119,8 +118,11 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const proceedToNextStep = () => {
     // Skip car questions if no car travel
-    if (currentStep === 11 && (!answers.carKm || answers.carKm === 0)) {
-      setCurrentStep(14); // Skip to age
+    if (
+      currentStep === QUESTIONNAIRE_STEPS.CAR_KM &&
+      (!answers.carKm || answers.carKm === 0)
+    ) {
+      setCurrentStep(QUESTIONNAIRE_STEPS.AGE); // Skip to age
       return;
     }
 
@@ -145,7 +147,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       return false;
     }
 
-    return EMISSION_IMPACT_STEPS.includes(stepKey);
+    // Type-safe check for emission impact steps
+    return (EMISSION_IMPACT_STEPS as readonly string[]).includes(stepKey);
   };
 
   const handleNext = () => {
@@ -200,13 +203,16 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const handleBack = () => {
     // Handle back navigation with conditional steps
-    if (currentStep === 14 && (!answers.carKm || answers.carKm === 0)) {
-      // Jump back to step 11 (carKm) if we skipped car questions
-      setCurrentStep(11);
+    if (
+      currentStep === QUESTIONNAIRE_STEPS.AGE &&
+      (!answers.carKm || answers.carKm === 0)
+    ) {
+      // Jump back to carKm step if we skipped car questions
+      setCurrentStep(QUESTIONNAIRE_STEPS.CAR_KM);
       return;
     }
 
-    if (currentStep > 0) {
+    if (currentStep > QUESTIONNAIRE_STEPS.WELCOME) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -239,53 +245,53 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const canProceed = (): boolean => {
     switch (currentStep) {
-      case 0:
-        return true; // Welcome
-      case 1:
-        return (
-          !!answers.firstName?.trim() &&
-          !!answers.country?.trim() &&
-          !!answers.email?.trim()
-        );
-      case 2:
-        return typeof answers.days === "number" && answers.days > 0;
-      case 3:
-        return !!answers.accommodationCategory;
-      case 4:
-        return !!answers.roomOccupancy;
-      case 5:
-        return !!answers.electricity;
-      case 6:
-        return !!answers.food;
-      case 7:
-        return typeof answers.flightKm === "number" && answers.flightKm >= 0;
-      case 8:
-        return typeof answers.boatKm === "number" && answers.boatKm >= 0;
-      case 9:
-        return typeof answers.trainKm === "number" && answers.trainKm >= 0;
-      case 10:
-        return typeof answers.busKm === "number" && answers.busKm >= 0;
-      case 11:
-        return typeof answers.carKm === "number" && answers.carKm >= 0;
-      case 12:
-        return !!answers.carType;
-      case 13:
-        return (
-          typeof answers.carPassengers === "number" && answers.carPassengers >= 1
-        );
-      case 14:
-        return typeof answers.age === "number" && answers.age > 0;
-      case 15:
-        return !!answers.gender;
+      case QUESTIONNAIRE_STEPS.WELCOME:
+        return true;
+      case QUESTIONNAIRE_STEPS.PARTICIPANT_INFO:
+        return areAllNonEmpty(answers.firstName, answers.country, answers.email);
+      case QUESTIONNAIRE_STEPS.DAYS:
+        return isPositiveNumber(answers.days);
+      case QUESTIONNAIRE_STEPS.ACCOMMODATION_CATEGORY:
+        return isTruthy(answers.accommodationCategory);
+      case QUESTIONNAIRE_STEPS.ROOM_OCCUPANCY:
+        return isTruthy(answers.roomOccupancy);
+      case QUESTIONNAIRE_STEPS.ELECTRICITY:
+        return isTruthy(answers.electricity);
+      case QUESTIONNAIRE_STEPS.FOOD:
+        return isTruthy(answers.food);
+      case QUESTIONNAIRE_STEPS.FLIGHT_KM:
+        return isNonNegativeNumber(answers.flightKm);
+      case QUESTIONNAIRE_STEPS.BOAT_KM:
+        return isNonNegativeNumber(answers.boatKm);
+      case QUESTIONNAIRE_STEPS.TRAIN_KM:
+        return isNonNegativeNumber(answers.trainKm);
+      case QUESTIONNAIRE_STEPS.BUS_KM:
+        return isNonNegativeNumber(answers.busKm);
+      case QUESTIONNAIRE_STEPS.CAR_KM:
+        return isNonNegativeNumber(answers.carKm);
+      case QUESTIONNAIRE_STEPS.CAR_TYPE:
+        return isTruthy(answers.carType);
+      case QUESTIONNAIRE_STEPS.CAR_PASSENGERS:
+        return isNumberAtLeast(answers.carPassengers, 1);
+      case QUESTIONNAIRE_STEPS.AGE:
+        return isPositiveNumber(answers.age);
+      case QUESTIONNAIRE_STEPS.GENDER:
+        return isTruthy(answers.gender);
       default:
         return false;
     }
   };
 
   const emissions = calculateEmissions(answers, project.activities);
+  /**
+   * Adjust step display number when car questions are conditionally skipped.
+   * If user enters 0 car km, we skip CAR_TYPE and CAR_PASSENGERS steps,
+   * so when at AGE step, display it as if at CAR_TYPE step for progress bar.
+   */
   const currentStepDisplay =
-    currentStep === 14 && (!answers.carKm || answers.carKm === 0)
-      ? 12 // Show as step 12 if we skipped car questions
+    currentStep === QUESTIONNAIRE_STEPS.AGE &&
+    (!answers.carKm || answers.carKm === 0)
+      ? QUESTIONNAIRE_STEPS.CAR_TYPE
       : currentStep;
 
   return (

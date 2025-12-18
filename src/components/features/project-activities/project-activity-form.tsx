@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import type z from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
-  activityTypeValues,
+  activityValues,
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
   type ProjectActivityType,
@@ -166,7 +166,7 @@ export function ProjectActivityForm({
                     />
                   </SelectTrigger>
                   <SelectContent>
-                    {activityTypeValues.map((type) => (
+                    {activityValues.map((type) => (
                       <SelectItem key={type} value={type}>
                         {t(`types.${type}`)}
                       </SelectItem>

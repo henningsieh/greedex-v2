@@ -6,7 +6,7 @@ import { memberRoles } from "@/components/features/organizations/types";
 import { DEFAULT_PROJECT_SORTING_FIELD } from "@/components/features/projects/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
+import { getQueryClient } from "@/lib/react-query/hydration";
 export default async function DashboardPage() {
   const t = await getTranslations("organization.dashboard");
   const queryClient = getQueryClient();
@@ -47,17 +47,15 @@ export default async function DashboardPage() {
   ]);
 
   return (
-    <HydrateClient client={queryClient}>
-      <div className="space-y-8">
-        <div className="space-y-4">
-          <div className="flex items-center justify-start gap-3">
-            <LayoutDashboardIcon className="mb-1.5 size-9" />
-            <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
-          </div>
-          <p className="text-muted-foreground">{t("description")}</p>
+    <div className="space-y-8">
+      <div className="space-y-4">
+        <div className="flex items-center justify-start gap-3">
+          <LayoutDashboardIcon className="mb-1.5 size-9" />
+          <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
         </div>
-        <DashboardTabs organizationId={activeOrganizationId} />
+        <p className="text-muted-foreground">{t("description")}</p>
       </div>
-    </HydrateClient>
+      <DashboardTabs organizationId={activeOrganizationId} />
+    </div>
   );
 }

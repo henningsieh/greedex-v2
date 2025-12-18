@@ -2,7 +2,7 @@
 
 import { ChevronLeftIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/lib/i18n/navigation";
+import { Link } from "@/lib/i18n/routing";
 
 type Props = {
   label?: string;

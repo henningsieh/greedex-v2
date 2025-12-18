@@ -70,13 +70,13 @@
 
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { activityTypeValues } from "@/components/features/projects/types";
+import { activityValues } from "@/components/features/projects/types";
 import { Leaderboard } from "@/components/participate/leaderboard";
 import { LiveIndicator } from "@/components/participate/live-indicator";
 import { StatsOverview } from "@/components/participate/stats-overview";
 import { TransportBreakdown } from "@/components/participate/transport-breakdown";
 import type { Participant, ProjectStats } from "@/components/participate/types";
-import { CO2_FACTORS } from "@/config/CO2Calculator";
+import { CO2_FACTORS } from "@/lib/utils/project-utils";
 
 /**
  * Create an array of mock Participant records for the demo/live-view UI.
@@ -130,9 +130,7 @@ function generateMockData(): Participant[] {
       },
       (_, i) => {
         const type =
-          activityTypeValues[
-            Math.floor(Math.random() * activityTypeValues.length)
-          ];
+          activityValues[Math.floor(Math.random() * activityValues.length)];
         const distanceKm = Math.floor(Math.random() * 1500) + 100;
         const co2Kg = distanceKm * CO2_FACTORS[type];
 
@@ -165,12 +163,23 @@ function generateMockData(): Participant[] {
   });
 }
 
+/**
+ * Compute aggregate project statistics from a list of participants.
+ *
+ * @param participants - Array of participant records whose activities will be aggregated
+ * @returns An object containing:
+ *  - `totalParticipants`: number of participants,
+ *  - `totalCO2`: sum of all participants' `totalCO2`,
+ *  - `averageCO2`: `totalCO2` divided by `totalParticipants` (0 if no participants),
+ *  - `breakdownByType`: per-activity-type totals with `distance` (sum of kilometers), `co2` (sum of kilograms), and `count` (number of activities),
+ *  - `treesNeeded`: ceiling of `totalCO2 / 1000` representing approximate trees required
+ */
 function calculateStats(participants: Participant[]): ProjectStats {
   const totalParticipants = participants.length;
   const totalCO2 = participants.reduce((sum, p) => sum + p.totalCO2, 0);
   const averageCO2 = totalParticipants > 0 ? totalCO2 / totalParticipants : 0;
 
-  const breakdownByType = activityTypeValues.reduce(
+  const breakdownByType = activityValues.reduce(
     (acc, type) => {
       acc[type] = {
         distance: 0,
@@ -202,6 +211,13 @@ function calculateStats(participants: Participant[]): ProjectStats {
   };
 }
 
+/**
+ * Client-side mock live dashboard that generates demo participant data, simulates periodic activity updates, and renders project statistics and related UI.
+ *
+ * Initializes with generated mock participants and recalculates aggregated stats as data changes; the simulated updates are intended to mimic real-time feeds for demonstration purposes.
+ *
+ * @returns The dashboard's rendered JSX element containing header, live indicator, stats overview, leaderboard, and transport breakdown.
+ */
 export default function Dashboard() {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [stats, setStats] = useState<ProjectStats | null>(null);
@@ -224,9 +240,7 @@ export default function Dashboard() {
 
         // Add a new activity
         const type =
-          activityTypeValues[
-            Math.floor(Math.random() * activityTypeValues.length)
-          ];
+          activityValues[Math.floor(Math.random() * activityValues.length)];
         const distanceKm = Math.floor(Math.random() * 500) + 50;
         const co2Kg = distanceKm * CO2_FACTORS[type];
 

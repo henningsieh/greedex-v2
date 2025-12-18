@@ -2,9 +2,7 @@
 
 import {
   BarChart3Icon,
-  CogIcon,
   LayoutDashboardIcon,
-  MapPinnedIcon,
   PanelRightCloseIcon,
   PanelRightOpenIcon,
   SettingsIcon,
@@ -16,6 +14,7 @@ import {
   OrganizationSwitcher,
   OrganizationSwitcherSkeleton,
 } from "@/components/features/organizations/organisation-switcher";
+import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { ProjectSwitcher } from "@/components/features/projects/project-switcher";
 import {
   Sidebar,
@@ -32,15 +31,21 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
-  ACTIVE_PROJECT_PATH,
   DASHBOARD_PATH,
   LIVE_VIEW_PATH,
   PROJECTS_PATH,
   SETTINGS_PATH,
   TEAM_PATH,
 } from "@/config/AppRoutes";
-import { Link, usePathname } from "@/lib/i18n/navigation";
+import { Link, usePathname } from "@/lib/i18n/routing";
 
+/**
+ * Renders the application sidebar containing project and organization navigation, a project switcher, a collapse control, and an organization switcher.
+ *
+ * The sidebar groups menu items into "Projects" and "Organization", highlights the active item based on the current pathname, and exposes a footer control to toggle the sidebar expanded/collapsed state.
+ *
+ * @returns The Sidebar element with grouped navigation menus, a collapse toggle in the footer, and an OrganizationSwitcher wrapped with a skeleton fallback.
+ */
 export function AppSidebar() {
   const pathname = usePathname();
 
@@ -48,11 +53,6 @@ export function AppSidebar() {
   const t = useTranslations("app.sidebar");
 
   const projectsMenuItems = [
-    {
-      title: t("projects.control"),
-      icon: CogIcon,
-      url: ACTIVE_PROJECT_PATH,
-    },
     {
       title: t("projects.liveView"),
       icon: BarChart3Icon,
@@ -68,7 +68,7 @@ export function AppSidebar() {
     },
     {
       title: t("organization.projects"),
-      icon: MapPinnedIcon,
+      icon: PROJECT_ICONS.projects,
       url: PROJECTS_PATH,
     },
     {

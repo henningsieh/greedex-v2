@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { DASHBOARD_PATH } from "@/config/AppRoutes";
-import { Link } from "@/lib/i18n/navigation";
+import { Link } from "@/lib/i18n/routing";
 
 export function WorkshopDetails({ type }: { type: CalculatorType }) {
   const t = useTranslations("LandingPage.workshops");

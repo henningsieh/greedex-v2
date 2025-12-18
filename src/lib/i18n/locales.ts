@@ -8,7 +8,7 @@ import {
   type LocaleCode,
   SUPPORTED_LOCALES,
   type SupportedLocale,
-} from "../../config/Languages";
+} from "@/config/Languages";
 
 countries.registerLocale(enCountries);
 countries.registerLocale(deCountries);

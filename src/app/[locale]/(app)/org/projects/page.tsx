@@ -2,7 +2,7 @@ import { MapPinnedIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ProjectsTab } from "@/components/features/projects/projects-tab";
+import { ProjectsTab } from "@/components/features/projects/dashboard/projects-tab";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/react-query/hydration";
 

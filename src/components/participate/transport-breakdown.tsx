@@ -1,7 +1,7 @@
 "use client";
 
 import { TransportIcon } from "@/components/features/project-activities/transport-icon";
-import { activityTypeValues } from "@/components/features/projects/types";
+import { activityValues } from "@/components/features/projects/types";
 import type { ProjectStats } from "@/components/participate/types";
 import { Card } from "@/components/ui/card";
 
@@ -9,9 +9,15 @@ interface TransportBreakdownProps {
   stats: ProjectStats;
 }
 
+/**
+ * Render a card showing CO₂ emissions broken down by transport type.
+ *
+ * @param stats - Project statistics; expected shape includes `breakdownByType` mapping each transport type to an object with `co2`, `distance`, and `count` metrics
+ * @returns A JSX element displaying each transport type's CO₂ (kg), trip count, distance (km), and a proportional progress bar
+ */
 export function TransportBreakdown({ stats }: TransportBreakdownProps) {
   const maxCO2 = Math.max(
-    ...activityTypeValues.map((type) => stats.breakdownByType[type]?.co2 || 0),
+    ...activityValues.map((type) => stats.breakdownByType[type]?.co2 || 0),
   );
 
   const typeLabels = {
@@ -40,7 +46,7 @@ export function TransportBreakdown({ stats }: TransportBreakdownProps) {
       </div>
 
       <div className="space-y-6 p-6">
-        {activityTypeValues.map((type) => {
+        {activityValues.map((type) => {
           const data = stats.breakdownByType[type];
           const co2 = data?.co2 || 0;
           const distance = data?.distance || 0;
