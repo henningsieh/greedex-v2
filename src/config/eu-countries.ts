@@ -16,8 +16,8 @@
  * LARGE: Emphasized size for major capitals
  */
 export const MARKER_SIZE = {
-  DEFAULT: 0.08,
-  LARGE: 1.2,
+  DEFAULT: 0.05,
+  LARGE: 0.08,
 } as const;
 
 /**

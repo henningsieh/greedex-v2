@@ -121,18 +121,19 @@ export function GlobeSection() {
                 {/* Glow effect behind globe */}
                 <div className="-z-10 absolute inset-0 rounded-full bg-gradient-to-br from-emerald-400/20 via-teal-500/20 to-cyan-400/20 blur-3xl dark:from-emerald-500/30 dark:via-teal-600/30 dark:to-cyan-500/30" />
 
-                {/* Globe component */}
+                {/* Globe component (CSS glow removed to avoid double halo) */}
                 <Globe
                   className="mx-auto"
                   cities={EU_CAPITAL_CITIES}
-                  width={500}
-                  height={500}
-                  phi={0.5}
-                  theta={0.3}
-                  mapSamples={24000}
-                  mapBrightness={5}
-                  autoRotate={true}
-                  autoRotateSpeed={0.003}
+                  width={800}
+                  height={800}
+                  phi={4.5}
+                  theta={0.6}
+                  mapSamples={44000}
+                  mapBrightness={3}
+                  autoRotate={false}
+                  // autoRotateSpeed={0.03}
+                  markerColor={[0.15, 0.65, 0.4]}
                 />
               </div>
             </div>
