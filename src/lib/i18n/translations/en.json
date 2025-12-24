@@ -10,6 +10,11 @@
       "scrollDown": "Scroll down",
       "meetCustomers": "Meet Our Customers"
     },
+    "footer": {
+      "explore": "Explore",
+      "company": "Company",
+      "app": "App"
+    },
     "workshops": {
       "headingPrefix": "Hello, fellow",
       "headingEmphasis": "Earth walker",

@@ -1,3 +1,4 @@
+import FooterSection from "@/components/footer";
 import { LandingHeader } from "@/components/landingpage/landing-header";
 import { LandingPageGradients } from "@/components/landingpage/landing-page-gradients";
 
@@ -12,6 +13,7 @@ export default function LandingPageLayout({
       <div className="relative z-10">
         <LandingHeader />
         {children}
+        <FooterSection />
       </div>
     </div>
   );

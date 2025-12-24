@@ -70,7 +70,7 @@ export const LandingHeader = () => {
           className={cn(
             "mx-auto mt-2 max-w-7xl px-4 transition-all duration-300 ease-in-out sm:px-6 lg:px-10",
             isScrolled &&
-              "max-w-5xl rounded-2xl border bg-background/40 shadow-lg backdrop-blur-lg",
+              "max-w-6xl rounded-2xl border bg-background/60 shadow-lg backdrop-blur-lg",
           )}
         >
           <div className="relative flex items-center justify-between gap-2 py-3 lg:gap-6 lg:py-4">
@@ -163,14 +163,14 @@ export const LandingHeader = () => {
               <ul
                 className={cn(
                   "flex gap-4 text-lg transition-all duration-300",
-                  isScrolled && "gap-3 text-base",
+                  isScrolled && "gap-5 text-base",
                 )}
               >
                 {menuItems.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="block whitespace-nowrap font-bold text-muted-foreground hover:text-accent"
+                      className="block whitespace-nowrap font-bold text-muted-foreground hover:text-foreground"
                     >
                       <span>{item.name}</span>
                     </Link>

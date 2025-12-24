@@ -10,6 +10,11 @@
       "scrollDown": "Nach unten scrollen",
       "meetCustomers": "Lerne unsere Partner kennen"
     },
+    "footer": {
+      "explore": "Entdecken",
+      "company": "Unternehmen",
+      "app": "App"
+    },
     "workshops": {
       "headingPrefix": "Hallo, liebe*r",
       "headingEmphasis": "Erdenwanderer*in",
