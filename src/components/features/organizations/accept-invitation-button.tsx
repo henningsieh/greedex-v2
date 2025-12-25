@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { DASHBOARD_PATH } from "@/config/AppRoutes";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { useRouter } from "@/lib/i18n/navigation";
+import { useRouter } from "@/lib/i18n/routing";
 
 interface Props {
   invitationId: string;
@@ -32,7 +33,7 @@ export function AcceptInvitationButton({ invitationId }: Props) {
             }
             toast.success("Invitation accepted!");
 
-            router.push(`/org/dashboard`);
+            router.push(DASHBOARD_PATH);
           } catch (err) {
             toast.error((err as Error)?.message || "Failed to accept invitation");
           } finally {

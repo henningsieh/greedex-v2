@@ -1,13 +1,14 @@
-import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { onError } from "@orpc/server";
+import { RPCHandler } from "@orpc/server/fetch";
 import { CORSPlugin } from "@orpc/server/plugins";
 import { router } from "@/lib/orpc/router";
 
 /**
- * oRPC OpenAPI handler for Next.js route handlers
- * Handles OpenAPI REST requests as per oRPC documentation
+ * oRPC RPC handler for Next.js route handlers
+ * Handles efficient RPC protocol requests (used by the Next.js app)
+ * This matches with RPCLink on the client side for optimal performance
  */
-const handler = new OpenAPIHandler(router, {
+const handler = new RPCHandler(router, {
   plugins: [new CORSPlugin()],
   interceptors: [
     onError((error) => {
@@ -18,23 +19,17 @@ const handler = new OpenAPIHandler(router, {
 
 /**
  * Universal request handler for all HTTP methods
- * Handles requests using OpenAPI handler as per oRPC documentation
+ * Handles RPC requests from the client-side RPCLink
  */
 async function handleRequest(request: Request) {
-  const { matched, response } = await handler.handle(request, {
+  const { response } = await handler.handle(request, {
     prefix: "/api/rpc",
     context: {
       headers: request.headers,
     },
   });
 
-  if (matched) {
-    return response;
-  }
-
-  return new Response("Not found", {
-    status: 404,
-  });
+  return response ?? new Response("Not found", { status: 404 });
 }
 
 // Export all HTTP method handlers required by Next.js

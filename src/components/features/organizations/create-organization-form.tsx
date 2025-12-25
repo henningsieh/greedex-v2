@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { DASHBOARD_PATH } from "@/config/AppRoutes";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { useRouter } from "@/lib/i18n/navigation";
+import { useRouter } from "@/lib/i18n/routing";
 import { findAvailableSlug } from "@/lib/utils/organization-utils";
 
 interface CreateOrganizationFormProps {

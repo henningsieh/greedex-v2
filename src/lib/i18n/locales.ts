@@ -8,7 +8,7 @@ import {
   type LocaleCode,
   SUPPORTED_LOCALES,
   type SupportedLocale,
-} from "../../config/Languages";
+} from "@/config/Languages";
 
 countries.registerLocale(enCountries);
 countries.registerLocale(deCountries);
@@ -71,12 +71,6 @@ export const getLocaleData = (): LocaleData[] => {
     return entry;
   });
 };
-
-export {
-  LOCALE_CODES,
-  type LocaleCode,
-  type SupportedLocale,
-} from "../../config/Languages";
 
 export const isSupportedLocale = (
   value: string | undefined,

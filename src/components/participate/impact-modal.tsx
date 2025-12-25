@@ -5,6 +5,31 @@ import { animate, motion, useMotionValue } from "motion/react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
+/**
+ * Threshold for negligible impact (below this value, impact is considered insignificant).
+ */
+const NEGLIGIBLE_IMPACT_THRESHOLD = 0.1;
+
+/**
+ * CO₂ impact thresholds for color coding (in kg).
+ */
+const CO2_THRESHOLDS = {
+  LOW: 1, // Green: impact < 1 kg
+  MODERATE: 20, // Yellow: impact < 20 kg
+  HIGH: 100, // Orange: impact < 100 kg
+  // Above 100: Red (very high)
+} as const;
+
+/**
+ * Total CO₂ thresholds for color coding (in kg).
+ */
+const TOTAL_CO2_THRESHOLDS = {
+  LOW: 50, // Green: total <= 50 kg
+  MODERATE: 150, // Yellow: total <= 150 kg
+  HIGH: 300, // Orange: total <= 300 kg
+  // Above 300: Red (very high)
+} as const;
+
 interface ImpactModalProps {
   isOpen: boolean;
   previousCO2: number;
@@ -113,7 +138,7 @@ const getImpactMessage = (
       } other${Number(value) > 2 ? "s" : ""}.`;
 
     default:
-      if (impact < 0.1) {
+      if (impact < NEGLIGIBLE_IMPACT_THRESHOLD) {
         return "✅ This choice doesn't affect your CO₂ footprint";
       }
       return `+${impact.toFixed(1)} kg CO₂ added`;
@@ -121,16 +146,16 @@ const getImpactMessage = (
 };
 
 const getImpactColor = (impact: number): string => {
-  if (impact < 1) return "text-green-500";
-  if (impact < 20) return "text-yellow-500";
-  if (impact < 100) return "text-orange-500";
+  if (impact < CO2_THRESHOLDS.LOW) return "text-green-500";
+  if (impact < CO2_THRESHOLDS.MODERATE) return "text-yellow-500";
+  if (impact < CO2_THRESHOLDS.HIGH) return "text-orange-500";
   return "text-red-500";
 };
 
 const getCO2Color = (co2: number): string => {
-  if (co2 <= 50) return "text-green-500";
-  if (co2 <= 150) return "text-yellow-500";
-  if (co2 <= 300) return "text-orange-500";
+  if (co2 <= TOTAL_CO2_THRESHOLDS.LOW) return "text-green-500";
+  if (co2 <= TOTAL_CO2_THRESHOLDS.MODERATE) return "text-yellow-500";
+  if (co2 <= TOTAL_CO2_THRESHOLDS.HIGH) return "text-orange-500";
   return "text-red-500";
 };
 
@@ -265,7 +290,7 @@ export function ImpactModal({
           <div className={`font-semibold text-2xl ${getImpactColor(impact)}`}>
             {impactMessage}
           </div>
-          {impact > 0.1 && (
+          {impact > NEGLIGIBLE_IMPACT_THRESHOLD && (
             <div className="mt-4 text-lg text-white/80">
               Impact:{" "}
               <span className="font-bold">+{impact.toFixed(1)} kg CO₂</span>

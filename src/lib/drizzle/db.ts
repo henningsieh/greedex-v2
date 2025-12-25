@@ -11,6 +11,8 @@ declare global {
 }
 
 // Reuse existing pool in development to prevent memory leaks
+// SSL Configuration: DATABASE_URL must include ?sslmode=require&uselibpqcompat=true
+// for Coolify's "require (secure)" SSL mode. See docs/database/coolify-ssl-connection.md
 if (!global.__pool) {
   global.__pool = new Pool({
     connectionString: env.DATABASE_URL,

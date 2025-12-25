@@ -3,10 +3,9 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { AnimatedGradientCTA } from "@/components/animated-cta";
 import { AnimatedGroup } from "@/components/animated-group";
-import { BackgroundAnimations } from "@/components/background-animations";
 import { TextEffect } from "@/components/ui/text-effect";
 import { DASHBOARD_PATH } from "@/config/AppRoutes";
-import { Link } from "@/lib/i18n/navigation";
+import { Link } from "@/lib/i18n/routing";
 
 const transitionVariants = {
   item: {
@@ -45,21 +44,34 @@ export async function HeroSection() {
           src="/herobg.jpg"
           alt="hero background"
           fill
-          className="object-cover opacity-70 dark:opacity-20"
+          className="object-cover opacity-50 dark:opacity-15"
           priority
         />
       </div>
 
-      <BackgroundAnimations />
+      <section className="relative md:min-h-svh">
+        <div
+          aria-hidden
+          className="-z-10 absolute inset-0 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--color-background)_75%)]"
+        />
+        <div className="relative flex h-full flex-col justify-between gap-8 pt-24 pb-8 md:pb-12">
+          {/* CTA placed at the top */}
+          <div className="relative mx-auto flex max-w-7xl shrink-0 justify-center px-4">
+            <Link
+              href={DASHBOARD_PATH}
+              title={t("launchButtonAria")}
+              aria-label={t("launchButtonAria")}
+              className="inline-block"
+            >
+              <AnimatedGradientCTA leftEmoji={"🌳"}>
+                {t("launchButton")}
+              </AnimatedGradientCTA>
+            </Link>
+          </div>
 
-      <section>
-        <div className="relative pt-20">
-          <div
-            aria-hidden
-            className="-z-10 absolute inset-0 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--color-background)_75%)]"
-          />
-
+          {/* Hero Image */}
           <AnimatedGroup
+            // className="flex min-h-0 flex-1 flex-col [&>div]:flex [&>div]:min-h-0 [&>div]:flex-1 [&>div]:flex-col"
             variants={{
               container: {
                 visible: {
@@ -72,25 +84,12 @@ export async function HeroSection() {
               ...transitionVariants,
             }}
           >
+            {/* Hero Image Container */}
             <div
               id="herobanner"
-              className="mask-b-from-55% relative mb-16 overflow-hidden px-2 sm:mr-0"
+              className="mask-b-from-55% relative flex h-full w-full items-center justify-center overflow-hidden px-2 sm:mr-0"
             >
-              {/* CTA placed at the top, centered above the hero image */}
-              <div className="relative z-20 mx-auto mb-6 flex max-w-7xl justify-center px-4">
-                <Link
-                  href={DASHBOARD_PATH}
-                  title={t("launchButtonAria")}
-                  aria-label={t("launchButtonAria")}
-                  className="inline-block"
-                >
-                  <AnimatedGradientCTA leftEmoji={"🌳"}>
-                    {t("launchButton")}
-                  </AnimatedGradientCTA>
-                </Link>
-              </div>
-
-              <div className="relative inset-shadow-2xs mx-auto aspect-video max-w-6xl overflow-hidden rounded-3xl border border-border/40 bg-card/30 p-4 shadow-2xl shadow-primary/10 ring-1 ring-background backdrop-blur-xl dark:inset-shadow-white/20">
+              <div className="relative inset-shadow-2xs mx-auto aspect-video max-h-full w-full max-w-6xl overflow-hidden rounded-3xl border border-border/40 bg-card/30 object-contain p-4 shadow-2xl shadow-primary/10 ring-1 ring-background backdrop-blur-xl dark:inset-shadow-white/20">
                 <Image
                   className="relative hidden aspect-15/8 rounded-2xl bg-background object-cover dark:block"
                   src="/Greendex-hero-banner.png"
@@ -109,7 +108,8 @@ export async function HeroSection() {
             </div>
           </AnimatedGroup>
 
-          <div className="mx-auto mt-16 mb-32 hidden items-center justify-center md:flex">
+          {/* Scroll down trigger */}
+          <div className="mx-auto hidden shrink-0 animate-bounce items-center justify-center md:flex">
             <a
               href="#hero-text"
               aria-label={t("hero.scrollDown")}
@@ -129,60 +129,59 @@ export async function HeroSection() {
               </div>
             </a>
           </div>
+        </div>
+      </section>
 
-          <div
-            id="hero-text"
-            className="mx-auto max-w-7xl scroll-mt-32 px-6 pb-40"
-          >
-            <div className="text-center sm:mx-auto lg:mt-0 lg:mr-auto">
-              <AnimatedGroup variants={transitionVariants}>
-                <TextEffect
-                  preset="fade-in-blur"
-                  speedSegment={0.3}
-                  as="h1"
-                  className="mx-auto mt-8 text-balance font-semibold text-5xl tracking-tight max-md:font-semibold md:text-6xl lg:mt-14 xl:text-7xl"
-                >
-                  {t("hero.missionTitle")}
-                </TextEffect>
+      <section>
+        <div id="hero-text" className="mx-auto max-w-7xl scroll-mt-32 px-6 py-20">
+          <div className="text-center sm:mx-auto lg:mt-0 lg:mr-auto">
+            <AnimatedGroup variants={transitionVariants}>
+              <TextEffect
+                preset="fade-in-blur"
+                speedSegment={0.3}
+                as="h1"
+                className="mx-auto mt-8 text-balance font-semibold text-5xl tracking-tight max-md:font-semibold md:text-6xl lg:mt-14 xl:text-7xl"
+              >
+                {t("hero.missionTitle")}
+              </TextEffect>
 
-                <BrushStroke />
+              <BrushStroke />
 
-                <TextEffect
-                  per="line"
-                  preset="fade-in-blur"
-                  speedSegment={0.5}
-                  delay={0.2}
-                  as="p"
-                  className="mx-auto mt-6 max-w-7xl text-balance text-base text-foreground/90 leading-relaxed md:text-lg"
-                >
-                  {t("hero.missionText")}
-                </TextEffect>
+              <TextEffect
+                per="line"
+                preset="fade-in-blur"
+                speedSegment={0.5}
+                delay={0.2}
+                as="p"
+                className="mx-auto mt-6 max-w-7xl text-balance text-base text-foreground/90 leading-relaxed md:text-lg"
+              >
+                {t("hero.missionText")}
+              </TextEffect>
 
-                <TextEffect
-                  per="line"
-                  preset="fade-in-blur"
-                  speedSegment={0.3}
-                  delay={0.5}
-                  as="h2"
-                  className="mx-auto mt-8 text-balance font-semibold text-4xl tracking-tight max-md:font-semibold md:text-5xl lg:mt-14 xl:text-6xl"
-                >
-                  {t("hero.visionTitle")}
-                </TextEffect>
+              <TextEffect
+                per="line"
+                preset="fade-in-blur"
+                speedSegment={0.3}
+                delay={0.5}
+                as="h2"
+                className="mx-auto mt-8 text-balance font-semibold text-4xl tracking-tight max-md:font-semibold md:text-5xl lg:mt-14 xl:text-6xl"
+              >
+                {t("hero.visionTitle")}
+              </TextEffect>
 
-                <BrushStroke />
+              <BrushStroke />
 
-                <TextEffect
-                  per="line"
-                  preset="fade-in-blur"
-                  speedSegment={0.5}
-                  delay={0.7}
-                  as="p"
-                  className="mx-auto mt-6 max-w-7xl text-balance text-base text-foreground/90 leading-relaxed md:text-lg"
-                >
-                  {t("hero.visionText")}
-                </TextEffect>
-              </AnimatedGroup>
-            </div>
+              <TextEffect
+                per="line"
+                preset="fade-in-blur"
+                speedSegment={0.5}
+                delay={0.7}
+                as="p"
+                className="mx-auto mt-6 max-w-7xl text-balance text-base text-foreground/90 leading-relaxed md:text-lg"
+              >
+                {t("hero.visionText")}
+              </TextEffect>
+            </AnimatedGroup>
           </div>
         </div>
       </section>

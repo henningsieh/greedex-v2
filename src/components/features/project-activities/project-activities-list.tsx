@@ -1,20 +1,13 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  BusIcon,
-  CarIcon,
-  EditIcon,
-  PlusIcon,
-  ShipIcon,
-  TrainIcon,
-  Trash2Icon,
-} from "lucide-react";
+import { EditIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import type {
-  ActivityType,
+  ActivityValueType,
   ProjectActivityType,
 } from "@/components/features/projects/types";
 import {
@@ -28,7 +21,14 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Empty,
   EmptyContent,
@@ -54,26 +54,29 @@ interface ProjectActivitiesListProps {
   canEdit?: boolean;
 }
 
-// Helper function to get icon for activity type
-function getActivityIcon(type: ActivityType) {
-  const exhaustiveCheck = (_: never): never => {
-    throw new Error(`Unhandled activity type: ${_}`);
-  };
-
-  switch (type) {
-    case "boat":
-      return <ShipIcon className="h-4 w-4" />;
-    case "bus":
-      return <BusIcon className="h-4 w-4" />;
-    case "train":
-      return <TrainIcon className="h-4 w-4" />;
-    case "car":
-      return <CarIcon className="h-4 w-4" />;
-    default:
-      return exhaustiveCheck(type);
-  }
+/**
+ * Render a consistent activity icon for any activity type.
+ *
+ * @param _ - The activity type (ignored); all activity types use the same icon.
+ * @returns The JSX element for the activity icon.
+ */
+function getActivityIcon(_: ActivityValueType) {
+  const Icon = PROJECT_ICONS.activities;
+  return <Icon className="h-4 w-4" />;
 }
 
+/**
+ * Render a card showing a project's activities, with optional UI for adding, editing, and deleting items.
+ *
+ * Displays a loading skeleton while fetching, an error card on fetch failure, an empty state when there are no activities,
+ * and a table of activities when data is available. When `canEdit` is true, in-card forms for creating/editing and a
+ * delete confirmation dialog are provided. Successful deletions and form submissions refresh the list; delete operations
+ * also surface success/error toasts.
+ *
+ * @param projectId - ID of the project whose activities should be displayed
+ * @param canEdit - When true, show controls for adding, editing, and deleting activities
+ * @returns A React element containing the activities list card for the specified project
+ */
 export function ProjectActivitiesList({
   projectId,
   canEdit = false,
@@ -144,27 +147,23 @@ export function ProjectActivitiesList({
   return (
     <Card className="shadow-lg">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <ShipIcon className="h-5 w-5" />
-              {t("title")}
-            </CardTitle>
-            <p className="mt-1 text-muted-foreground text-sm">
-              {t("description")}
-            </p>
-          </div>
-          {canEdit && !showAddForm && !editingActivity && (
+        <CardTitle className="flex items-center gap-2">
+          <PROJECT_ICONS.activities className="h-5 w-5 text-secondary" />
+          {t("title")}
+        </CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
+        {canEdit && !showAddForm && !editingActivity && (
+          <CardAction>
             <Button
-              variant="outline"
+              variant="secondaryoutline"
               size="sm"
               onClick={() => setShowAddForm(true)}
             >
-              <PlusIcon className="mr-2 h-4 w-4" />
-              {t("form.title")}
+              <PlusIcon className="h-4 w-4" />
+              <p className="hidden sm:inline-flex">{t("form.title")}</p>
             </Button>
-          )}
-        </div>
+          </CardAction>
+        )}
       </CardHeader>
       <CardContent>
         {showAddForm && (
@@ -194,7 +193,7 @@ export function ProjectActivitiesList({
           <Empty className="border">
             <EmptyHeader>
               <EmptyMedia variant="icon">
-                <ShipIcon className="h-6 w-6" />
+                <PROJECT_ICONS.activities className="h-6 w-6" />
               </EmptyMedia>
               <EmptyTitle>{t("empty.title")}</EmptyTitle>
               <EmptyDescription>{t("empty.description")}</EmptyDescription>

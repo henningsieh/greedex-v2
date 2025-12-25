@@ -27,96 +27,92 @@ export function RightSideImage({
   heroStatTwo,
 }: RightSideImageProps) {
   return (
-    <div className="relative hidden xl:flex xl:w-1/2">
-      <div className="relative flex-1 py-14">
-        <AnimatedGroup
-          className={cn(
-            "relative flex h-full flex-col gap-8 overflow-hidden rounded-3xl border border-border/40 bg-card/30 p-10 shadow-2xl backdrop-blur-xl",
-          )}
-          variants={{
-            container: {
-              visible: {
-                transition: {
-                  staggerChildren: 0.1,
-                  delayChildren: 0.2,
-                },
+    <div className="relative hidden w-full max-w-xl lg:flex lg:w-1/2 lg:max-w-none">
+      <AnimatedGroup
+        className={cn(
+          "relative flex h-full w-full flex-col gap-6 overflow-hidden border border-border/40 bg-card/30 p-6 backdrop-blur-xl lg:p-8",
+        )}
+        variants={{
+          container: {
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.2,
               },
             },
-            item: {
-              hidden: { opacity: 0, x: 20, filter: "blur(4px)" },
-              visible: {
-                opacity: 1,
-                x: 0,
-                filter: "blur(0px)",
-                transition: {
-                  duration: 0.6,
-                  ease: "easeOut",
-                },
+          },
+          item: {
+            hidden: { opacity: 0, x: 20, filter: "blur(4px)" },
+            visible: {
+              opacity: 1,
+              x: 0,
+              filter: "blur(0px)",
+              transition: {
+                duration: 0.6,
+                ease: "easeOut",
               },
             },
-          }}
+          },
+        }}
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--primary)_0%,_transparent_60%)] opacity-20" />
+
+        {/* Brand headline and description */}
+        <div className="relative z-10 flex flex-col gap-4">
+          <h1 className="font-semibold text-2xl text-foreground leading-tight lg:text-3xl">
+            {headline}
+          </h1>
+          <p className="text-muted-foreground text-sm">{description}</p>
+        </div>
+
+        {/* Highlights list */}
+        <ul className="relative z-10 grid gap-2 text-sm">
+          {highlights.map((value, index) => (
+            <li
+              key={`${value}-${index}`}
+              className="flex items-center gap-3 rounded-2xl border border-border/50 bg-muted/30 px-3 py-2 font-medium text-sm backdrop-blur-sm"
+            >
+              <span className="h-2 w-2 flex-shrink-0 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
+              <span className="text-foreground">{value}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Hero section */}
+        <div className="relative z-10 space-y-2">
+          <div className="flex items-center gap-3 font-semibold text-primary text-xs uppercase tracking-[0.4em]">
+            <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
+            <span>{heroBadge}</span>
+          </div>
+          <h3 className="font-semibold text-foreground text-xl">{heroTitle}</h3>
+          <p className="text-muted-foreground text-sm">{heroCaption}</p>
+        </div>
+
+        {/* Hero image */}
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.4 }}
+          className="relative z-10 h-52 w-full overflow-hidden rounded-3xl border border-border/50 bg-muted/30 shadow-lg"
         >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--primary)_0%,_transparent_60%)] opacity-20" />
+          <Image
+            src="/Greendex-hero-banner.png"
+            alt="Greendex dashboards"
+            fill
+            sizes="(max-width: 1024px) 100vw, 540px"
+            className="object-cover"
+          />
+        </motion.div>
 
-          {/* Brand headline and description */}
-          <div className="relative z-10 flex flex-col gap-5">
-            <h1 className="font-semibold text-3xl text-foreground leading-tight lg:text-4xl">
-              {headline}
-            </h1>
-            <p className="text-base text-muted-foreground">{description}</p>
-          </div>
-
-          {/* Highlights list */}
-          <ul className="relative z-10 grid gap-3 text-sm">
-            {highlights.map((value, index) => (
-              <li
-                key={`${value}-${index}`}
-                className="flex items-center gap-3 rounded-2xl border border-border/50 bg-muted/30 px-4 py-2 font-medium text-sm backdrop-blur-sm"
-              >
-                <span className="h-2 w-2 flex-shrink-0 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
-                <span className="text-foreground">{value}</span>
-              </li>
-            ))}
-          </ul>
-
-          {/* Hero section */}
-          <div className="relative z-10 space-y-3">
-            <div className="flex items-center gap-3 font-semibold text-primary text-xs uppercase tracking-[0.4em]">
-              <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
-              <span>{heroBadge}</span>
-            </div>
-            <h3 className="font-semibold text-2xl text-foreground">
-              {heroTitle}
-            </h3>
-            <p className="text-muted-foreground text-sm">{heroCaption}</p>
-          </div>
-
-          {/* Hero image */}
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.4 }}
-            className="relative z-10 h-48 w-full overflow-hidden rounded-3xl border border-border/50 bg-muted/30 shadow-lg"
-          >
-            <Image
-              src="/Greendex-hero-banner.png"
-              alt="Greendex dashboards"
-              fill
-              sizes="(max-width: 1024px) 100vw, 540px"
-              className="object-cover"
-            />
-          </motion.div>
-
-          {/* Stats */}
-          <div className="relative z-10 grid gap-3 text-[0.65rem] uppercase tracking-[0.4em] sm:grid-cols-2">
-            <span className="rounded-2xl border border-primary/50 bg-primary/10 px-3 py-2 text-center text-primary backdrop-blur-sm">
-              {heroStatOne}
-            </span>
-            <span className="rounded-2xl border border-border/50 bg-muted/30 px-3 py-2 text-center text-muted-foreground backdrop-blur-sm">
-              {heroStatTwo}
-            </span>
-          </div>
-        </AnimatedGroup>
-      </div>
+        {/* Stats */}
+        <div className="relative z-10 grid gap-2 text-[0.65rem] uppercase tracking-[0.4em] sm:grid-cols-2">
+          <span className="rounded-2xl border border-primary/50 bg-primary/10 px-3 py-2 text-center text-primary backdrop-blur-sm">
+            {heroStatOne}
+          </span>
+          <span className="rounded-2xl border border-border/50 bg-muted/30 px-3 py-2 text-center text-muted-foreground backdrop-blur-sm">
+            {heroStatTwo}
+          </span>
+        </div>
+      </AnimatedGroup>
     </div>
   );
 }

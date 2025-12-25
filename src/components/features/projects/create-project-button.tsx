@@ -5,7 +5,7 @@ import { MapPinPlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { CREATE_PROJECT_PATH } from "@/config/AppRoutes";
-import { Link } from "@/lib/i18n/navigation";
+import { Link } from "@/lib/i18n/routing";
 
 interface CreateProjectButtonProps {
   variant?: VariantProps<typeof Button>["variant"];

@@ -9,7 +9,7 @@ import {
 import { memberRoles } from "@/components/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient } from "@/lib/react-query/hydration";
+import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
 
 export default async () => {
   const headers = await nextHeaders();

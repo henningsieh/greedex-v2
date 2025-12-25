@@ -1,8 +1,8 @@
 import { BusIcon, CarIcon, ShipIcon, TrainIcon } from "lucide-react";
-import type { ActivityType } from "@/components/features/projects/types";
+import type { ActivityValueType } from "@/components/features/projects/types";
 
 interface TransportIconProps {
-  type: ActivityType;
+  type: ActivityValueType;
   className?: string;
 }
 

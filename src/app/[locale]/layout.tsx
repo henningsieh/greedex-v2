@@ -8,8 +8,6 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { env } from "@/env";
 import { isSupportedLocale } from "@/lib/i18n/locales";
 import { routing } from "@/lib/i18n/routing";
-import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
 
 const comfortaa = Comfortaa({
   variable: "--font-sans",
@@ -60,36 +58,32 @@ export default async function LocaleLayout({ children, params }: Props) {
   // Providing all messages to the client side is the easiest way to get started
   const messages = await getMessages();
 
-  // Prefetch all data needed by client components that use useSuspenseQuery.
-  // Using await ensures data is in cache BEFORE dehydration, preventing hydration mismatches.
-  // Components that need this data: AppBreadcrumb, AppSidebar (ProjectSwitcher, OrganizationSwitcher), Navbar (UserSession)
-  const queryClient = getQueryClient();
-
-  // First, fetch the session to check authentication status
-  const session = await queryClient.fetchQuery(
-    orpcQuery.betterauth.getSession.queryOptions(),
-  );
-
-  // Only prefetch protected data if user is authenticated
-  if (session?.user) {
-    const prefetches = [
-      queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions()),
-      queryClient.prefetchQuery(orpcQuery.projects.list.queryOptions()),
-      queryClient.prefetchQuery(orpcQuery.organizations.list.queryOptions()),
-      queryClient.prefetchQuery(orpcQuery.organizations.getActive.queryOptions()),
-    ];
-
-    await Promise.all(prefetches);
-  }
-
   return (
     <html
       lang={locale}
       suppressHydrationWarning
-      style={{ scrollBehavior: "smooth" }}
-      className={`${comfortaa.variable} ${jetbrainsMono.variable} ${sourceSerif4.variable}`}
+      data-scroll-behavior="smooth"
+      className={`${comfortaa.variable} ${jetbrainsMono.variable} ${sourceSerif4.variable} scroll-smooth`}
     >
       <head>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/favicon/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/favicon/site.webmanifest" />
         {env.NODE_ENV === "development" && (
           <script
             async
@@ -102,11 +96,9 @@ export default async function LocaleLayout({ children, params }: Props) {
         <ThemeProvider>
           <NuqsProvider>
             <QueryProvider>
-              <HydrateClient client={queryClient}>
-                <NextIntlClientProvider messages={messages}>
-                  {children}
-                </NextIntlClientProvider>
-              </HydrateClient>
+              <NextIntlClientProvider messages={messages}>
+                {children}
+              </NextIntlClientProvider>
             </QueryProvider>
           </NuqsProvider>
         </ThemeProvider>

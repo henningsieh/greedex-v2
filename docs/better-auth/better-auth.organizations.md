@@ -342,6 +342,7 @@ export const auth = betterAuth({
 Control invitation lifecycle:
 
 ```ts title="auth.ts"
+import { MILLISECONDS_PER_DAY } from "@/lib/utils/project-utils";
 export const auth = betterAuth({
   plugins: [
     organization({
@@ -354,7 +355,7 @@ export const auth = betterAuth({
         }) => {
           // Custom validation or expiration logic
           const customExpiration = new Date(
-            Date.now() + 1000 * 60 * 60 * 24 * 7
+            Date.now() + MILLISECONDS_PER_DAY * 7
           ); // 7 days
 
           return {

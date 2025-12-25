@@ -53,7 +53,7 @@ export function FormField<TFieldValues extends Record<string, unknown>>({
             </div>
             <Input
               {...field}
-              value={inputValue}
+              value={inputValue ?? ""}
               id={inputId}
               type={type}
               placeholder={placeholder}

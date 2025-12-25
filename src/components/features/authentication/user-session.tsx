@@ -13,9 +13,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LOGIN_PATH } from "@/config/AppRoutes";
+import { HOME_PATH, LOGIN_PATH } from "@/config/AppRoutes";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { Link, useRouter } from "@/lib/i18n/navigation";
+import { Link, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function UserSession() {
@@ -28,7 +28,7 @@ export function UserSession() {
   const handleSignOut = async () => {
     setIsSigningOut(true);
     await authClient.signOut();
-    router.push("/");
+    router.push(HOME_PATH);
     router.refresh();
   };
 

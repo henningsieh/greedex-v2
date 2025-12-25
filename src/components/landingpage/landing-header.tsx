@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import * as React from "react";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Logo } from "@/components/logo";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -23,8 +24,8 @@ import {
   TIPS_AND_TRICKS_PATH,
   WORKSHOPS_ANCHOR,
 } from "@/config/AppRoutes";
-import { Link } from "@/lib/i18n/navigation";
-import { cn } from "@/lib/utils/index";
+import { Link } from "@/lib/i18n/routing";
+import { cn } from "@/lib/utils";
 
 export const LandingHeader = () => {
   const t = useTranslations("header");
@@ -67,12 +68,12 @@ export const LandingHeader = () => {
       <nav className="fixed z-20 w-full px-2">
         <div
           className={cn(
-            "mx-auto mt-2 max-w-7xl px-6 transition-all lg:px-12",
+            "mx-auto mt-2 max-w-7xl px-4 transition-all duration-300 ease-in-out sm:px-6 lg:px-10",
             isScrolled &&
-              "max-w-6xl rounded-2xl border bg-background/50 backdrop-blur-lg lg:px-5",
+              "max-w-6xl rounded-2xl border bg-background/60 shadow-lg backdrop-blur-lg",
           )}
         >
-          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:flex-nowrap lg:gap-0 lg:py-4">
+          <div className="relative flex items-center justify-between gap-2 py-3 lg:gap-6 lg:py-4">
             <div className="flex w-full items-center justify-between lg:w-auto">
               <Link
                 href={HOME_PATH}
@@ -83,14 +84,15 @@ export const LandingHeader = () => {
               </Link>
 
               {/* Mobile burger menu */}
-              <div className="flex items-center gap-4 lg:hidden">
-                <LocaleSwitcher className="rounded-md has-[>svg]:px-2" />
+              <div className="flex items-center gap-2 lg:hidden">
+                <ThemeSwitcher className="rounded-md" />
+                <LocaleSwitcher className="h-8 rounded-md has-[>svg]:px-2" />
                 <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
                   <DropdownMenuTrigger asChild>
                     <Button
                       size="lg"
                       aria-label={t("navigation.openMenu")}
-                      className="relative z-20 block h-10 cursor-pointer p-1.5 lg:hidden"
+                      className="relative z-20 block h-8 cursor-pointer items-center bg-accent ring-1 ring-primary lg:hidden"
                     >
                       <MenuIcon
                         className={`m-auto size-6 duration-500 ${
@@ -107,7 +109,7 @@ export const LandingHeader = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
-                    className="rounded-3xl border bg-background p-4 shadow-2xl shadow-zinc-300/20"
+                    className="border bg-background p-4 shadow-2xl shadow-zinc-300/20"
                     align="end"
                   >
                     <ul className="space-y-6 text-base">
@@ -125,21 +127,10 @@ export const LandingHeader = () => {
                     <DropdownMenuSeparator />
                     <div className="flex w-full items-center justify-end gap-3">
                       <div
-                        className={cn(
-                          "relative h-8 overflow-hidden transition-[max-width] duration-300 ease-in-out",
-                          isScrolled ? "max-w-0" : "max-w-[7.5rem]",
-                        )}
+                        className={cn("relative h-8 overflow-hidden")}
                         aria-hidden={isScrolled}
                       >
-                        <Button
-                          asChild
-                          variant="outline"
-                          size="sm"
-                          className={cn(
-                            "transition-opacity ease-in-out",
-                            isScrolled ? "opacity-0" : "opacity-100",
-                          )}
-                        >
+                        <Button asChild variant="outline" size="sm">
                           <Link href={LOGIN_PATH}>
                             <span>{t("navigation.login")}</span>
                           </Link>
@@ -163,13 +154,23 @@ export const LandingHeader = () => {
               </div>
             </div>
 
-            <div className="inset-0 m-auto hidden size-fit lg:block">
-              <ul className="flex gap-4 text-lg">
+            <div
+              className={cn(
+                "inset-0 m-auto hidden size-fit transition-all duration-300 lg:block",
+                isScrolled && "scale-95",
+              )}
+            >
+              <ul
+                className={cn(
+                  "flex gap-4 text-lg transition-all duration-300",
+                  isScrolled && "gap-5 text-base",
+                )}
+              >
                 {menuItems.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="block font-bold text-muted-foreground hover:text-accent"
+                      className="block whitespace-nowrap font-bold text-muted-foreground hover:text-foreground"
                     >
                       <span>{item.name}</span>
                     </Link>
@@ -179,28 +180,8 @@ export const LandingHeader = () => {
             </div>
 
             <div className="hidden items-center gap-3 lg:flex">
+              <ThemeSwitcher className="rounded-md" />
               <LocaleSwitcher className="rounded-md" />
-              {/* <div
-                className={cn(
-                  "relative hidden h-8 overflow-hidden transition-[max-width] duration-300 ease-in-out xl:inline-block",
-                  isScrolled ? "max-w-0" : "max-w-[9rem]",
-                )}
-              >
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className={cn(
-                    "transition-opacity ease-in-out",
-                    isScrolled ? "opacity-0" : "opacity-100",
-                  )}
-                  aria-hidden={isScrolled}
-                >
-                  <Link href="/login">
-                    <span>Login</span>
-                  </Link>
-                </Button>
-              </div> */}
 
               <Button
                 asChild

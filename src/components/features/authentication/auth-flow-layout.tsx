@@ -49,60 +49,69 @@ export default async function AuthFlowLayout({
     <div className="relative min-h-svh overflow-hidden bg-background">
       <BackgroundAnimations />
 
-      <div className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col justify-center gap-10 p-4 sm:px-6 sm:py-10 md:px-8 lg:flex-row lg:items-center lg:gap-14">
-        <div
-          className={cn(
-            "mx-auto w-full max-w-xl",
-            "rounded-3xl border border-border/40 bg-card/40 p-8 shadow-2xl backdrop-blur-xl",
-            "xl:mx-0 xl:w-1/2 xl:max-w-none",
-            "xl:p-12",
-          )}
-        >
-          <AnimatedGroup
-            className="flex flex-col gap-6"
-            variants={{
-              container: {
-                visible: {
-                  transition: {
-                    staggerChildren: 0.1,
-                  },
-                },
-              },
-              item: {
-                hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  filter: "blur(0px)",
-                  transition: {
-                    duration: 0.5,
-                    ease: "easeOut",
-                  },
-                },
-              },
-            }}
-          >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <BackToHome label={backLabel ?? "Back to Home"} href={backHref} />
-              <span className="rounded-full border border-primary/50 bg-primary/10 px-4 py-1 font-semibold text-primary text-xs uppercase tracking-[0.4em]">
-                {t("badge")}
-              </span>
-            </div>
-
-            <div className="space-y-8">{children}</div>
-          </AnimatedGroup>
+      <div className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col justify-center gap-6 p-4 sm:px-6 sm:py-8 md:px-8">
+        {/* Back to Home button positioned outside cards */}
+        <div className="mx-auto w-full max-w-7xl">
+          <BackToHome label={backLabel ?? "Back to Home"} href={backHref} />
         </div>
 
-        <RightSideImage
-          headline={t("headline")}
-          description={t("description")}
-          highlights={highlights}
-          heroBadge={t("heroBadge")}
-          heroTitle={t("heroTitle")}
-          heroCaption={t("heroCaption")}
-          heroStatOne={t("heroStatOne")}
-          heroStatTwo={t("heroStatTwo")}
-        />
+        {/* Cards container with equal heights */}
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-6">
+          {/* Left card - Form content */}
+          <div
+            className={cn(
+              "mx-auto w-full max-w-xl",
+              "flex flex-col border border-border/40 bg-card/40 p-4 backdrop-blur-xl",
+              "lg:mx-0 lg:w-1/2 lg:max-w-none",
+              "lg:p-6",
+            )}
+          >
+            <AnimatedGroup
+              className="flex flex-col gap-2"
+              variants={{
+                container: {
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.1,
+                    },
+                  },
+                },
+                item: {
+                  hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                    transition: {
+                      duration: 0.5,
+                      ease: "easeOut",
+                    },
+                  },
+                },
+              }}
+            >
+              <div className="flex items-center justify-end">
+                <span className="rounded-full border border-primary/50 bg-primary/10 px-4 py-1 font-semibold text-primary text-xs uppercase tracking-[0.4em]">
+                  {t("badge")}
+                </span>
+              </div>
+
+              <div className="space-y-4">{children}</div>
+            </AnimatedGroup>
+          </div>
+
+          {/* Right card - Hero image with equal height */}
+          <RightSideImage
+            headline={t("headline")}
+            description={t("description")}
+            highlights={highlights}
+            heroBadge={t("heroBadge")}
+            heroTitle={t("heroTitle")}
+            heroCaption={t("heroCaption")}
+            heroStatOne={t("heroStatOne")}
+            heroStatTwo={t("heroStatTwo")}
+          />
+        </div>
       </div>
     </div>
   );

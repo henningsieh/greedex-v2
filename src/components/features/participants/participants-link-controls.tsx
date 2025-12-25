@@ -3,9 +3,8 @@
 import { CopyIcon, ExternalLinkIcon, Link2Icon, QrCodeIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import QRCode from "qrcode";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,6 +12,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import {
   Dialog,
@@ -34,6 +34,12 @@ interface ParticipationControlsClientProps {
   activeProjectId: string;
 }
 
+/**
+ * Render controls for sharing a project's participation link, including copy, open-in-new-tab, and a QR code modal.
+ *
+ * @param activeProjectId - The active project's identifier used to construct the participation URL.
+ * @returns A card containing the participation URL input, copy/open actions, and a QR code modal; returns `null` when `activeProjectId` is not provided.
+ */
 export function ParticipantsLinkControls({
   activeProjectId,
 }: ParticipationControlsClientProps) {
@@ -45,6 +51,30 @@ export function ParticipantsLinkControls({
   const participationUrl = activeProjectId
     ? `${env.NEXT_PUBLIC_BASE_URL}/project/${activeProjectId}/participate`
     : "";
+
+  // Input ref to focus & select URL for easy copying
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  // Helper function to select URL text and scroll to start
+  const selectUrlText = useCallback(
+    (input: HTMLInputElement) => {
+      input.setSelectionRange(0, participationUrl.length);
+      requestAnimationFrame(() => {
+        input.scrollLeft = 0;
+      });
+    },
+    [participationUrl],
+  );
+
+  // Auto-focus and select the URL when it's available
+  useEffect(() => {
+    const input = inputRef.current;
+    if (participationUrl && input) {
+      // focus without scrolling the page
+      input.focus?.({ preventScroll: true });
+      selectUrlText(input);
+    }
+  }, [participationUrl, selectUrlText]);
 
   // Generate QR code when modal opens
   useEffect(() => {
@@ -68,34 +98,33 @@ export function ParticipantsLinkControls({
   }
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(participationUrl);
-    toast.success(t("participation.copySuccess"));
+    navigator.clipboard
+      .writeText(participationUrl)
+      .then(() => toast.success(t("participation.copySuccess")))
+      .catch(() => toast.error(t("participation.copyFailure")));
   };
 
   return (
-    <Card className="mb-8 border border-border/60 bg-card/80 shadow-sm">
-      <CardHeader className="gap-6">
-        <Badge className="inline-flex items-center gap-2 border border-secondary/30 bg-secondary/10 px-3 py-1 font-medium text-secondary text-sm [&>svg]:size-5">
-          <Link2Icon className="shrink-0" />
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Link2Icon className="h-5 w-5 text-secondary" />
           {t("participation.title")}
-        </Badge>
-        <CardDescription className="text-muted-foreground text-sm">
-          {t("participation.description")}
-        </CardDescription>
+        </CardTitle>
+        <CardDescription>{t("participation.description")}</CardDescription>
 
         <CardAction>
           {/* QR Code Modal */}
           <Dialog open={isQrModalOpen} onOpenChange={setIsQrModalOpen}>
             <DialogTrigger asChild>
               <Button
-                // size="lg"
-                variant="outline"
+                variant="secondaryoutline"
                 className="size-10 border-secondary/40 text-secondary hover:bg-secondary/10 hover:text-secondary sm:size-fit dark:border-secondary/40"
                 onClick={() => setIsQrModalOpen(true)}
               >
                 <QrCodeIcon className="size-6" />
-                <span className="font hidden text-lg sm:inline">
-                  {t("participation.qrButton")}
+                <span className="hidden sm:inline">
+                  {t("participation.qrButtonLabel")}
                 </span>
               </Button>
             </DialogTrigger>
@@ -137,10 +166,14 @@ export function ParticipantsLinkControls({
         <div className="mt-6 flex flex-wrap gap-3">
           <InputGroup className="flex-1 border border-secondary/30 bg-background has-[[data-slot=input-group-control]:focus-visible]:border-secondary has-[[data-slot=input-group-control]:focus-visible]:ring-secondary/40">
             <InputGroupInput
+              ref={inputRef}
               type="text"
               value={participationUrl}
               readOnly
-              className="truncate border-0 font-mono text-secondary-foreground text-sm selection:bg-secondary selection:text-secondary-foreground"
+              onFocus={(e) => {
+                selectUrlText(e.currentTarget);
+              }}
+              className="truncate border-0 font-mono text-muted-foreground text-sm selection:bg-secondary selection:text-secondary-foreground"
               title={t("participation.linkLabel")}
             />
             <InputGroupAddon>
@@ -158,13 +191,7 @@ export function ParticipantsLinkControls({
           </InputGroup>
 
           {/* Button open link external */}
-          <Button
-            size="icon"
-            variant="secondaryghost"
-            className="border-secondary/40 text-secondary sm:w-36"
-            asChild
-            rel={`noopener noreferrer`}
-          >
+          <Button size="icon" variant="secondary" className="sm:w-36" asChild>
             <a
               className="flex items-center gap-2"
               href={participationUrl}

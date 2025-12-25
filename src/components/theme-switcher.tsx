@@ -25,28 +25,41 @@ const themes = [
 ];
 
 export type ThemeSwitcherProps = {
-  // value?: "light" | "dark" | "system";
-  // onChange?: (theme: "light" | "dark" | "system") => void;
-  // defaultValue?: "light" | "dark" | "system";
+  value?: "light" | "dark" | "system";
+  onChange?: (theme: "light" | "dark" | "system") => void;
+  defaultValue?: "light" | "dark" | "system";
   className?: string;
 };
 
 export const ThemeSwitcher = ({
-  // value,
-  // onChange,
-  // defaultValue = "system",
+  value,
+  onChange,
+  defaultValue = "system",
   className,
 }: ThemeSwitcherProps) => {
   const [mounted, setMounted] = useState(false);
 
   const { theme, setTheme } = useTheme();
 
+  const currentTheme = value !== undefined ? value : theme;
+
   const handleThemeClick = useCallback(
     (themeKey: "light" | "dark" | "system") => {
-      setTheme(themeKey);
+      if (onChange) {
+        onChange(themeKey);
+      } else {
+        setTheme(themeKey);
+      }
     },
-    [setTheme],
+    [onChange, setTheme],
   );
+
+  // Set default theme if not already set
+  useEffect(() => {
+    if (defaultValue && !theme && mounted) {
+      setTheme(defaultValue);
+    }
+  }, [defaultValue, theme, setTheme, mounted]);
 
   // Prevent hydration mismatch
   useEffect(() => {
@@ -60,35 +73,36 @@ export const ThemeSwitcher = ({
   return (
     <div
       className={cn(
-        "relative isolate flex h-8 rounded-full bg-background p-1 ring-1 ring-border",
+        "relative isolate flex h-8 rounded-full bg-background p-1 ring-1 ring-border dark:bg-background/40",
         className,
       )}
     >
+      <motion.div
+        className="absolute left-0 h-6 w-6 rounded-full bg-accent"
+        style={{ top: "calc(50% - 11.5px)" }}
+        animate={{
+          x: [3.8, 26.8, 50][themes.findIndex((t) => t.key === currentTheme)],
+        }}
+        transition={{
+          type: "spring",
+          duration: 0.3,
+        }}
+      />
       {themes.map(({ key, icon: Icon, label }) => {
-        const isActive = theme === key;
+        const isActive = currentTheme === key;
 
         return (
           <button
             aria-label={label}
-            className="relative h-6 w-6 rounded-full"
+            className="relative size-6 rounded-full outline-none hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-[2px] focus-visible:ring-ring/50"
             key={key}
             onClick={() => handleThemeClick(key as "light" | "dark" | "system")}
             type="button"
           >
-            {isActive && (
-              <motion.div
-                className="absolute inset-0 rounded-full bg-accent"
-                layoutId="activeTheme"
-                transition={{
-                  type: "spring",
-                  duration: 0.5,
-                }}
-              />
-            )}
             <Icon
               strokeWidth="2.6"
               className={cn(
-                "relative z-10 m-auto h-4 w-4",
+                "relative m-auto h-4 w-4",
                 isActive ? "text-accent-foreground" : "text-muted-foreground",
               )}
             />

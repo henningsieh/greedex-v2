@@ -7,11 +7,27 @@ This folder contains documentation for internationalization features in the appl
 The application uses `next-intl` for translations and `i18n-iso-countries` with `country-flag-icons` for country data and flag display.
 
 **Configuration Structure:**
-- **Central config**: `src/lib/i18n/config.ts` - Defines supported locales
-- **Locale logic**: `src/lib/i18n/locales.ts` - Locale utilities and data
-- **Country logic**: `src/lib/i18n/countries.ts` - Country utilities and data
+- **Languages config**: `src/config/Languages.ts` - Defines supported locales (language codes, labels, display regions)
+- **Locale utilities**: `src/lib/i18n/locales.ts` - Locale data with flags and country name resolution
+- **EU countries config**: `src/config/eu-countries.ts` - Single source of truth for EU member states, capitals, and coordinates
+- **Country i18n utilities**: `src/lib/i18n/countries.ts` - Internationalization wrappers for country data (localized names, flags)
 
 ## Documentation Files
+
+### [file-organization.md](./file-organization.md)
+**Complete guide to file structure and organization.** Clarifies the purpose and relationship between:
+- `Languages.ts` vs `locales.ts`
+- `eu-countries.ts` vs `countries.ts`
+- Configuration files vs utility files
+- Data flow and when to use which file
+
+### [eu-countries-configuration.md](./eu-countries-configuration.md)
+**Single source of truth** for EU countries, capitals, and coordinates. This central configuration serves:
+- i18n localization (country codes, names)
+- Globe visualization (coordinates, city markers)
+- Country selection dropdowns
+- Type-safe country code validation
+- Marker size constants
 
 ### [next-intl.internationalization.md](./next-intl.internationalization.md)
 Complete guide to the next-intl setup in this project, including:
@@ -47,10 +63,10 @@ Country utilities are available in `src/lib/i18n/countries.ts`:
 ```typescript
 import { getEUCountries, getCountryFlag, isEUCountry } from '@/lib/i18n/countries';
 
-// Get all EU countries with flags
+// Get all EU countries with flags and localized names
 const euCountries = getEUCountries('en');
 
-// Get a specific country's flag
+// Get a specific country's flag component
 const GermanyFlag = getCountryFlag('DE');
 
 // Check if a country is in the EU
@@ -97,20 +113,26 @@ export function MyComponent() {
 
 ## File Locations
 
-- **i18n configuration**: `src/lib/i18n/config.ts` *(central locale definitions)*
-- **Locale utilities**: `src/lib/i18n/locales.ts`
-- **Country utilities**: `src/lib/i18n/countries.ts`
-- **i18n routing**: `src/lib/i18n/request.ts`
+### Core Configuration
+- **Languages config**: `src/config/Languages.ts` - Locale codes and display settings
+- **EU countries config**: `src/config/eu-countries.ts` - Single source of truth for EU data
+
+### i18n Utilities
+- **Locale utilities**: `src/lib/i18n/locales.ts` - Locale data with flags
+- **Country i18n utilities**: `src/lib/i18n/countries.ts` - Localized country names and flags
+- **i18n routing**: `src/lib/i18n/request.ts` - Locale routing logic
+
+### UI & Data
 - **Translation messages**: `messages/` (en.json, de.json, etc.)
 - **Locale switcher**: `src/components/locale-switcher.tsx`
 - **Country select**: `src/components/ui/country-select.tsx`
 
 ## Testing
 
-Tests for country utilities are in `src/lib/i18n/countries.test.ts`. Run them with:
+Tests for country utilities are in `src/__tests__/country-i18n.test.ts`. Run them with:
 
 ```bash
-bun run test src/lib/i18n/countries.test.ts
+bun run test src/__tests__/country-i18n.test.ts
 ```
 
 ## Adding New Features
@@ -181,7 +203,7 @@ The locale registration is already handled automatically through the config impo
 - Run tests: `bun run test`
 
 #### Files Modified When Adding a Language:
-- ✅ `src/lib/i18n/config.ts` - Add locale configuration
+- ✅ `src/config/Languages.ts` - Add locale configuration
 - ✅ `src/lib/i18n/countries.ts` - Register country locale (if needed)
 - ✅ `messages/[locale].json` - Add translation file
 - ✅ `src/lib/i18n/locales.ts` - Automatically updated via config import

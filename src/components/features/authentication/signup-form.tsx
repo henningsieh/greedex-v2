@@ -28,7 +28,7 @@ import {
 import { DASHBOARD_PATH, LOGIN_PATH } from "@/config/AppRoutes";
 import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { Link, useRouter } from "@/lib/i18n/navigation";
+import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function SignupForm({
@@ -96,24 +96,26 @@ export function SignupForm({
   };
 
   return (
-    <Card className="p-4 sm:p-8 md:p-12">
+    <Card className="p-3 sm:p-5 md:p-6">
       <form
-        className={cn("flex flex-col gap-6", className)}
+        className={cn("flex flex-col gap-4", className)}
         {...props}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <CardHeader className="flex flex-col items-center gap-4 px-0 text-center">
-          <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
-            <UserPlus className="size-8 text-primary" />
+        <CardHeader className="flex flex-col items-center gap-3 px-0 text-center">
+          <div className="flex size-14 items-center justify-center rounded-full bg-primary/10">
+            <UserPlus className="size-7 text-primary" />
           </div>
-          <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("signup.title")}</h1>
+          <CardTitle className="space-y-1">
+            <h1 className="font-bold text-xl">{t("signup.title")}</h1>
           </CardTitle>
-          <CardDescription>{t("signup.description")}</CardDescription>
+          <CardDescription className="text-sm">
+            {t("signup.description")}
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="px-0">
-          <FieldGroup className="gap-4">
+          <FieldGroup className="gap-3">
             <FormField
               name="name"
               control={form.control}

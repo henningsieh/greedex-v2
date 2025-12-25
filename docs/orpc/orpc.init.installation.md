@@ -165,7 +165,7 @@ const link = new RPCLink({
 export const orpc: RouterClient<typeof router> = createORPCClient(link)
 ```
 
-Supports both [client-side clients](/docs/client/client-side) and [server-side clients](/docs/client/server-side).
+Supports both [client-side clients](https://orpc.dev/docs/client/client-side.md) and [server-side clients](orpc.server-side.md).
 
 ## Call Procedure
 
@@ -182,4 +182,4 @@ orpc.planet.create
 
 ## Next Steps
 
-This guide introduced the RPC aspects of oRPC. To explore OpenAPI integration, visit the [OpenAPI Guide](/docs/openapi/getting-started).
+This guide introduced the RPC aspects of oRPC. To explore OpenAPI integration, visit the [OpenAPI Guide](orpc.openapi-specification.md).

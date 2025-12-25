@@ -31,10 +31,11 @@ import {
   DASHBOARD_PATH,
   FORGOT_PASSWORD_PATH,
   SIGNUP_PATH,
+  VERIFY_EMAIL_PATH,
 } from "@/config/AppRoutes";
 import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
-import { Link, useRouter } from "@/lib/i18n/navigation";
+import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function LoginForm({
@@ -101,7 +102,9 @@ export function LoginForm({
         onError: (c) => {
           if (c.error.code === "EMAIL_NOT_VERIFIED") {
             toast.error("messages.verifyEmail");
-            router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
+            router.push(
+              `${VERIFY_EMAIL_PATH}?email=${encodeURIComponent(data.email)}`,
+            );
             return;
           }
           toast.error(c.error.message || t("login.messages.failedSignIn"));
@@ -128,21 +131,23 @@ export function LoginForm({
   };
 
   return (
-    <Card className="p-4 sm:p-8 md:p-12">
-      <div className={cn("flex flex-col gap-6", className)} {...props}>
-        <CardHeader className="flex flex-col items-center gap-4 px-0 text-center">
-          <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
-            <LogInIcon className="size-8 text-primary" />
+    <Card className="p-3 sm:p-5 md:p-6">
+      <div className={cn("flex flex-col gap-4", className)} {...props}>
+        <CardHeader className="flex flex-col items-center gap-3 px-0 text-center">
+          <div className="flex size-14 items-center justify-center rounded-full bg-primary/10">
+            <LogInIcon className="size-7 text-primary" />
           </div>
-          <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("login.title")}</h1>
+          <CardTitle className="space-y-1">
+            <h1 className="font-bold text-xl">{t("login.title")}</h1>
           </CardTitle>
-          <CardDescription>{t("login.description")}</CardDescription>
+          <CardDescription className="text-sm">
+            {t("login.description")}
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="px-0">
           {/* Badges are positioned absolute within the relative containers in the top right */}
-          <Tabs defaultValue="password" className="w-full space-y-8">
+          <Tabs defaultValue="password" className="w-full space-y-5">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger className="relative" value="password">
                 {t("login.tabs.password")}

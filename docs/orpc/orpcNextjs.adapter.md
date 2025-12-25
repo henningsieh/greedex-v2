@@ -50,7 +50,7 @@ export const DELETE = handleRequest
 :::
 
 ::: info
-The `handler` can be any supported oRPC handler, such as [RPCHandler](/docs/rpc-handler), [OpenAPIHandler](/docs/openapi/openapi-handler), or another custom handler.
+The `handler` can be any supported oRPC handler, such as [RPCHandler](https://orpc.dev/docs/rpc-handler.md), [OpenAPIHandler](orpc.openapi-handler.md), or another custom handler.
 :::
 
 ::: details Pages Router Support?
@@ -89,7 +89,7 @@ export default async (req, res) => {
 ```
 
 ::: warning
-Next.js [body parser](https://nextjs.org/docs/pages/building-your-application/routing/api-routes#custom-config) may handle common request body types, and oRPC will use the parsed body if available. However, it doesn't support features like [Bracket Notation](/docs/openapi/bracket-notation), and in case you upload a file with `application/json`, it may be parsed as plain JSON instead of a `File`. To avoid these issues, disable the body parser:
+Next.js [body parser](https://nextjs.org/docs/pages/building-your-application/routing/api-routes#custom-config) may handle common request body types, and oRPC will use the parsed body if available. However, it doesn't support features like [Bracket Notation](https://orpc.dev/docs/openapi/bracket-notation.md), and in case you upload a file with `application/json`, it may be parsed as plain JSON instead of a `File`. To avoid these issues, disable the body parser:
 
 ```ts
 export const config = {
@@ -122,12 +122,12 @@ const link = new RPCLink({
 ```
 
 :::info
-This only shows how to configure the link. For full client examples, see [Client-Side Clients](/docs/client/client-side).
+This only shows how to configure the link. For full client examples, see [Client-Side Clients](https://orpc.dev/docs/client/client-side.md).
 :::
 
 ## Optimize SSR
 
-To reduce HTTP requests and improve latency during SSR, you can utilize a [Server-Side Client](/docs/client/server-side) during SSR. Below is a quick setup, see [Optimize SSR](/docs/best-practices/optimize-ssr) for more details.
+To reduce HTTP requests and improve latency during SSR, you can utilize a [Server-Side Client](orpc.server-side.md) during SSR. Below is a quick setup, see [Optimize SSR](orpc.Optimize-Server-Side-Rendering.SSR.md) for more details.
 
 ::: code-group
 

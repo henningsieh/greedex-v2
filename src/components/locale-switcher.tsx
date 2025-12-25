@@ -11,8 +11,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getLocaleData, type LocaleCode } from "@/lib/i18n/locales";
-import { usePathname, useRouter } from "@/lib/i18n/navigation";
+import type { LocaleCode } from "@/config/Languages";
+import { getLocaleData } from "@/lib/i18n/locales";
+import { usePathname, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function LocaleSwitcher({ className }: { className?: string }) {
@@ -43,7 +44,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
           variant="ghost"
           size="sm"
           className={cn(
-            "gap-2 rounded-full bg-background p-1 ring-1 ring-border dark:hover:bg-accent/20",
+            "gap-2 rounded-full bg-background p-1 ring-1 ring-border dark:bg-background/20 dark:hover:bg-background/30",
             isPending ? "opacity-70" : "",
             className,
           )}

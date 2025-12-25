@@ -3,6 +3,11 @@ import countries from "i18n-iso-countries";
 import deCountries from "i18n-iso-countries/langs/de.json";
 import enCountries from "i18n-iso-countries/langs/en.json";
 import type { ComponentType, SVGProps } from "react";
+import {
+  EU_COUNTRY_CODES,
+  type EUCountryCode,
+  isEUCountry as isEUCountryBase,
+} from "@/config/eu-countries";
 import { SUPPORTED_LOCALES } from "@/config/Languages";
 
 // Register country locales for supported languages
@@ -10,40 +15,9 @@ countries.registerLocale(enCountries);
 countries.registerLocale(deCountries);
 
 /**
- * List of EU country codes (ISO 3166-1 alpha-2)
- * Updated as of 2024 - 27 member states
+ * Re-export EU country codes and type from the central configuration
  */
-export const EU_COUNTRY_CODES = [
-  "AT", // Austria
-  "BE", // Belgium
-  "BG", // Bulgaria
-  "HR", // Croatia
-  "CY", // Cyprus
-  "CZ", // Czech Republic
-  "DK", // Denmark
-  "EE", // Estonia
-  "FI", // Finland
-  "FR", // France
-  "DE", // Germany
-  "GR", // Greece
-  "HU", // Hungary
-  "IE", // Ireland
-  "IT", // Italy
-  "LV", // Latvia
-  "LT", // Lithuania
-  "LU", // Luxembourg
-  "MT", // Malta
-  "NL", // Netherlands
-  "PL", // Poland
-  "PT", // Portugal
-  "RO", // Romania
-  "SK", // Slovakia
-  "SI", // Slovenia
-  "ES", // Spain
-  "SE", // Sweden
-] as const;
-
-export type EUCountryCode = (typeof EU_COUNTRY_CODES)[number];
+export { EU_COUNTRY_CODES, type EUCountryCode };
 
 /**
  * Type alias for country codes - using EU countries for type safety
@@ -136,12 +110,11 @@ export const getCountryData = (
 
 /**
  * Check if a country code is an EU member state
+ * Re-exported from central configuration
  * @param countryCode ISO 3166-1 alpha-2 country code
  * @returns true if the country is an EU member state
  */
-export const isEUCountry = (countryCode: string): boolean => {
-  return EU_COUNTRY_CODES.includes(countryCode.toUpperCase() as EUCountryCode);
-};
+export const isEUCountry = isEUCountryBase;
 
 /**
  * Get the default EU country code for forms and UI elements
