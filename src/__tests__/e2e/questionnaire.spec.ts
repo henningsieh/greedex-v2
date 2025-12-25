@@ -87,6 +87,8 @@ test.describe("Questionnaire Form E2E Tests", () => {
 
     // Step 2: Days
     await expect(page.locator("text=days").first()).toBeVisible();
+    // Wait for animation to complete
+    await page.waitForTimeout(500);
     let numberInput = page.locator('input[type="number"]').first();
     await numberInput.click();
     await numberInput.pressSequentially("7", { delay: 50 });
@@ -428,17 +430,17 @@ test.describe("Questionnaire Form E2E Tests", () => {
     await page.getByRole("button", { name: BUTTON_REGEX.start }).click();
 
     // Check initial step counter (should show step 2 of 16)
-    await expect(page.locator("text=TEXT_REGEX.step2").first()).toBeVisible();
+    await expect(page.locator("text=Step 2 of 16").first()).toBeVisible();
 
     // Fill and continue
     await page.locator('input[id="firstName"]').fill("Test");
     await page.locator('[role="combobox"]').first().click();
-    await page.getByRole("option", { name: COUNTRY_REGEX.austria }).click();
-    await page.locator('input[id="email"]').fill("test@test.com");
+    await page.getByRole("option", { name: COUNTRY_REGEX.germany }).click();
+    await page.locator('input[id="email"]').fill("test@example.com");
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
 
     // Should show step 3 of 16
-    await expect(page.locator("text=TEXT_REGEX.step3").first()).toBeVisible();
+    await expect(page.locator("text=Step 3 of 16").first()).toBeVisible();
 
     // Progress bar should exist
     await expect(page.locator('[role="progressbar"]')).toBeVisible();
