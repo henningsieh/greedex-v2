@@ -1,0 +1,64 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["ultracite/core", "ultracite/next"],
+  "files": {
+    "ignoreUnknown": true,
+    "includes": [
+      "!node_modules",
+      "!.next",
+      "!dist",
+      "!build",
+      "!docs",
+      "!src/lib/drizzle/migrations",
+      "!src/lib/drizzle/schemas",
+      "!src/components/ui"
+    ]
+  },
+  "formatter": {
+    "includes": [
+      "**",
+      "!docs/**",
+      "!src/components/ui/**",
+      "!src/lib/drizzle/schemas/**",
+      "!src/lib/drizzle/migrations/**",
+      "!specs/**"
+    ]
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "linter": {
+    "rules": {
+      "style": {
+        "useConsistentArrayType": "off"
+      },
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off"
+      }
+    },
+    "includes": [
+      "**",
+      "!docs/**",
+      "!src/components/ui/**",
+      "!src/lib/drizzle/schemas/**",
+      "!src/lib/drizzle/migrations/**",
+      "!specs/**"
+    ]
+  },
+  "assist": {
+    "includes": [
+      "**",
+      "!docs/**",
+      "!src/components/ui/**",
+      "!src/lib/drizzle/schemas/**",
+      "!src/lib/drizzle/migrations/**",
+      "!specs/**"
+    ]
+  }
+}

@@ -12,8 +12,8 @@
     "build": "next build",
     "start": "concurrently \"next start\" \"cross-env NODE_ENV=production tsx src/socket-server.ts\"",
     "start:clickdummy": "bunx http-server docs/greendex-clickdummy/build -p 5000",
-    "format": "bunx @biomejs/biome check --write --unsafe",
-    "lint": "bunx @biomejs/biome check && bunx tsc --noEmit",
+    "format": "bunx ultracite fix --unsafe",
+    "lint": "bunx ultracite check && bunx tsc --noEmit",
     "test": "bun run test:run",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
@@ -106,7 +106,7 @@
     "zod": "^4.2.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.0",
+    "@biomejs/biome": "2.3.10",
     "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^20.19.27",
@@ -126,6 +126,7 @@
     "tsx": "^4.21.0",
     "tw-animate-css": "^1.4.0",
     "typescript": "^5.9.3",
+    "ultracite": "^6.5.0",
     "vitest": "^4.0.16"
   }
 }

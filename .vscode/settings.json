@@ -1,13 +1,11 @@
 {
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit",
-    "source.fixAll.biome": "always"
+    "source.fixAll.biome": "explicit"
   },
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
-  "editor.rulers": [
-    82
-  ],
+  "editor.rulers": [82],
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
@@ -39,19 +37,31 @@
   "search.exclude": {
     "**/node_modules/@radix-ui": true
   },
-  "i18n-ally.localesPaths": [
-    "./src/lib/i18n/translations"
-  ],
+  "i18n-ally.localesPaths": ["./src/lib/i18n/translations"],
   "i18n-ally.keystyle": "nested",
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.displayLanguage": "de",
-  "i18n-ally.extract.ignored": [
-    " | "
-  ],
+  "i18n-ally.extract.ignored": [" | "],
   "i18n-ally.extract.ignoredByFiles": {
     "src/test/orpc-error-type-safety.test.ts": true
   },
-  "i18n-ally.ignoreFiles": [
-    "src/test/**"
-  ]
+  "i18n-ally.ignoreFiles": ["src/test/**"],
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[graphql]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.formatOnPaste": true,
+  "emmet.showExpandedAbbreviation": "never"
 }
