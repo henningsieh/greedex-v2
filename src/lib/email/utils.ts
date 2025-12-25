@@ -14,7 +14,8 @@ export function maskEmail(email?: string): string {
   }
   const [local, domain] = String(email).split("@");
   if (!domain) {
-    return email;
+    // Return empty string for malformed emails to avoid leaking invalid data
+    return "";
   }
   const firstChar = local?.[0] || "";
   return `${firstChar}***@${domain}`;

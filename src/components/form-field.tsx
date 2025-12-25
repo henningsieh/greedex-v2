@@ -45,6 +45,16 @@ export function FormField<TFieldValues extends Record<string, unknown>>({
           | readonly string[]
           | undefined;
 
+        // Prevent inputProps from overriding critical attributes
+        const {
+          id: _id,
+          placeholder: _placeholder,
+          type: _type,
+          value: _value,
+          disabled: _disabled,
+          ...safeInputProps
+        } = inputProps || {};
+
         return (
           <Field data-invalid={fieldState.invalid}>
             <div className="flex items-center">
@@ -59,7 +69,7 @@ export function FormField<TFieldValues extends Record<string, unknown>>({
               placeholder={placeholder}
               type={type}
               value={inputValue ?? ""}
-              {...inputProps}
+              {...safeInputProps}
             />
             {description && <FieldDescription>{description}</FieldDescription>}
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

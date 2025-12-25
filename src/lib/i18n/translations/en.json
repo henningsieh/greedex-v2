@@ -766,6 +766,7 @@
       },
       "buttons": {
         "login": "Login",
+        "logOut": "Log out",
         "signingIn": "Signing in...",
         "sendMagicLink": "Send magic link",
         "sending": "Sending..."
@@ -797,8 +798,8 @@
         "confirmPasswordDescription": "Please confirm your password."
       },
       "buttons": {
-        "createAccount": "Create Account",
-        "creatingAccount": "Creating Account..."
+        "signUp": "Create Account",
+        "signingUp": "Creating Account..."
       },
       "messages": {
         "failedCreate": "Failed to create account"
@@ -875,6 +876,7 @@
         "description": "No email address was provided. Please sign up or log in again.",
         "goToSignUp": "Go to Sign Up"
       },
+      "backToLogin": "Back to Login",
       "title": "Verify your email",
       "description": "We've sent a verification email to",
       "steps": {

@@ -45,10 +45,6 @@ export function ProjectsGrid({ projects }: ProjectsGridProps) {
   ];
 
   const sortedProjects = useMemo(() => {
-    if (!projects) {
-      return [];
-    }
-
     const filtered = projects.filter((p) =>
       (p.name || "").toLowerCase().includes(filter.toLowerCase()),
     );

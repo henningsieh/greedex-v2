@@ -52,7 +52,7 @@ export default async function AppLayout({
     });
   }
 
-  const sidebarisOpen =
+  const sidebarStateIsOpen =
     (await cookies()).get("sidebar_state")?.value === "true";
 
   // Prefetch all data needed by client components that use useSuspenseQuery.
@@ -77,7 +77,7 @@ export default async function AppLayout({
         <LoadingProvider>
           <SidebarProvider
             className="min-h-[calc(svh-4rem)]"
-            defaultOpen={sidebarisOpen}
+            defaultOpen={sidebarStateIsOpen}
           >
             <ErrorBoundary fallback={<div>Failed to load sidebar.</div>}>
               <Suspense fallback={<AppSidebarSkeleton />}>

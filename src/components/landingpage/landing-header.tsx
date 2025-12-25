@@ -91,16 +91,16 @@ export const LandingHeader = () => {
                   <DropdownMenuTrigger asChild>
                     <Button
                       aria-label={t("navigation.openMenu")}
-                      className="relative z-20 block cursor-pointer items-center bg-accent ring-1 ring-primary lg:hidden"
+                      className="relative z-20 flex cursor-pointer items-center bg-accent ring-1 ring-primary lg:hidden"
                       size="sm"
                     >
                       <MenuIcon
-                        className={`m-auto size-6 duration-500 ${
+                        className={`m-auto size-6 duration-300 ${
                           menuOpen ? "rotate-180 scale-0 opacity-0" : ""
                         }`}
                       />
                       <XIcon
-                        className={`absolute inset-0 m-auto size-6 -rotate-180 duration-500 ${
+                        className={`absolute inset-0 m-auto size-6 -rotate-180 duration-300 ${
                           menuOpen
                             ? "rotate-0 scale-100 opacity-100"
                             : "scale-0 opacity-0"

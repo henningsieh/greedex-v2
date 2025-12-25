@@ -766,6 +766,7 @@
       },
       "buttons": {
         "login": "Anmelden",
+        "logOut": "Abmelden",
         "signingIn": "Wird angemeldet...",
         "sendMagicLink": "Magic Link senden",
         "sending": "Wird gesendet..."
@@ -797,8 +798,8 @@
         "confirmPasswordDescription": "Bitte bestätige dein Passwort."
       },
       "buttons": {
-        "createAccount": "Konto erstellen",
-        "creatingAccount": "Konto wird erstellt..."
+        "signUp": "Konto erstellen",
+        "signingUp": "Konto wird erstellt..."
       },
       "messages": {
         "failedCreate": "Konto konnte nicht erstellt werden"
@@ -875,6 +876,7 @@
         "description": "Keine E-Mail-Adresse wurde angegeben. Bitte melde dich an oder registriere dich erneut.",
         "goToSignUp": "Zur Registrierung"
       },
+      "backToLogin": "Zurück zur Anmeldung",
       "title": "E-Mail verifizieren",
       "description": "Wir haben eine Bestätigungs-E-Mail gesendet an",
       "steps": {

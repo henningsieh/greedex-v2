@@ -44,7 +44,7 @@ export const LIBRARY_PATH: AppRoute = "/library";
 export const TIPS_AND_TRICKS_PATH: AppRoute = "/tips-and-tricks";
 export const ORPC_TEST_PATH: AppRoute = "/orpc-test";
 export const ABOUT_PATH: AppRoute = "/about";
-export const E_FOREST_PATH: AppRoute = "/e+forest";
+export const E_FOREST_PATH: AppRoute = "/e-forest";
 
 // Anchor links (not actual routes)
 export const WORKSHOPS_ANCHOR = "/#workshops";

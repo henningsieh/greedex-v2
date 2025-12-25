@@ -1,4 +1,4 @@
-// biome-ignore lint/performance/noNamespaceImport: <the list of country flags is flexible and will chqange based on supported locales>
+// biome-ignore lint/performance/noNamespaceImport: <the list of country flags is flexible and will change based on supported locales>
 import * as Flags from "country-flag-icons/react/3x2";
 import countries from "i18n-iso-countries";
 import deCountries from "i18n-iso-countries/langs/de.json";

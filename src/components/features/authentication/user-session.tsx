@@ -2,6 +2,7 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ import { Link, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function UserSession() {
+  const t = useTranslations("authentication.login.buttons");
   const router = useRouter();
   const { data: session } = useSuspenseQuery(
     orpcQuery.betterauth.getSession.queryOptions(),
@@ -41,7 +43,7 @@ export function UserSession() {
     return (
       <div className="flex items-center">
         <Button asChild className="px-2" variant="link">
-          <Link href={LOGIN_PATH}>Sign in</Link>
+          <Link href={LOGIN_PATH}>{t("login")}</Link>
         </Button>
       </div>
     );
@@ -84,7 +86,9 @@ export function UserSession() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSignOut}>Log out</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSignOut}>
+          {t("logOut")}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

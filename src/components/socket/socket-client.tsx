@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { io, type Socket } from "socket.io-client";
+import { Empty, EmptyTitle } from "@/components/ui/empty";
 
 interface Message {
   text: string;
@@ -110,7 +111,9 @@ export default function SocketClient({ socketUrl }: Props) {
         <div className="h-96 overflow-y-auto rounded-lg border border-gray-300 p-4 dark:border-gray-700">
           <h2 className="mb-4 font-semibold text-xl">Messages</h2>
           {messages.length === 0 ? (
-            <p className="text-gray-500">No messages yet...</p>
+            <Empty>
+              <EmptyTitle>No messages yet...</EmptyTitle>
+            </Empty>
           ) : (
             <div className="space-y-2">
               {messages.map((msg) => (

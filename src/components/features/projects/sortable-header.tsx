@@ -52,8 +52,22 @@ export function SortableHeader<TData, TValue>({
     return <ArrowUpDown className="ml-2 h-4 w-4 opacity-50" />;
   };
 
+  // Compute accessible sort state
+  let sortDirection: "ascending" | "descending" | "none";
+  if (sortState === "asc") {
+    sortDirection = "ascending";
+  } else if (sortState === "desc") {
+    sortDirection = "descending";
+  } else {
+    sortDirection = "none";
+  }
+
   return (
     <Button
+      aria-label={
+        sortDirection === "none" ? title : `${title}, sorted ${sortDirection}`
+      }
+      aria-sort={sortDirection}
       className={cn(
         "-ml-4 h-8 hover:bg-transparent",
         sortState && "sorted font-medium text-foreground",

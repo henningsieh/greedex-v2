@@ -92,27 +92,41 @@ export const searchMembers = authorized
 
     // Sorting
     const sortedMembers = sortBy
-      ? filteredMembers.sort((a, b) => {
-          const dir = sortDirection === "asc" ? 1 : -1;
-          const aVal =
-            sortBy === "createdAt"
-              ? new Date(a.createdAt).getTime()
-              : a.user?.name || "";
-          const bVal =
-            sortBy === "createdAt"
-              ? new Date(b.createdAt).getTime()
-              : b.user?.name || "";
-          if (aVal < bVal) {
-            return -1 * dir;
-          }
-          if (aVal > bVal) {
-            return 1 * dir;
-          }
-          return 0;
-        })
-      : filteredMembers.sort((a, b) =>
-          new Date(b.createdAt) > new Date(a.createdAt) ? 1 : -1,
-        );
+      ? (() => {
+          const membersWithKeys = filteredMembers.map((member) => {
+            let sortKey: string | number;
+            if (sortBy === "createdAt") {
+              const time = new Date(member.createdAt).getTime();
+              sortKey = Number.isNaN(time) ? 0 : time;
+            } else if (sortBy === "user.name") {
+              sortKey = (member.user?.name || "").toLowerCase();
+            } else if (sortBy === "email") {
+              sortKey = (member.user?.email || "").toLowerCase();
+            } else {
+              // Fallback to name for unsupported sortBy values
+              sortKey = (member.user?.name || "").toLowerCase();
+            }
+            return { member, sortKey };
+          });
+          membersWithKeys.sort((a, b) => {
+            const dir = sortDirection === "asc" ? 1 : -1;
+            if (a.sortKey < b.sortKey) {
+              return -1 * dir;
+            }
+            if (a.sortKey > b.sortKey) {
+              return 1 * dir;
+            }
+            return 0;
+          });
+          return membersWithKeys.map((item) => item.member);
+        })()
+      : filteredMembers.sort((a, b) => {
+          const aTime = new Date(a.createdAt).getTime();
+          const bTime = new Date(b.createdAt).getTime();
+          const aVal = Number.isNaN(aTime) ? 0 : aTime;
+          const bVal = Number.isNaN(bTime) ? 0 : bTime;
+          return bVal - aVal; // desc
+        });
     const uniqueMembers = sortedMembers.filter(
       (member, index, self) =>
         index === self.findIndex((m) => m.id === member.id),

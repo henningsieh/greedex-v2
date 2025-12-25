@@ -169,8 +169,8 @@ export function SignupForm({
               type="submit"
             >
               {form.formState.isSubmitting
-                ? t("signup.buttons.creatingAccount")
-                : t("signup.buttons.createAccount")}
+                ? t("signup.buttons.signingUp")
+                : t("signup.buttons.signUp")}
             </Button>
           </FieldGroup>
         </CardContent>

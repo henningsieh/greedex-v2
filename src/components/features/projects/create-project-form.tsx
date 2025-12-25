@@ -412,18 +412,25 @@ export function CreateProjectForm({
                               <Input
                                 id={`activities.${index}.distance`}
                                 min={MIN_DISTANCE_KM}
-                                onChange={(e) =>
-                                  field.onChange(
-                                    Number.parseFloat(e.target.value) ||
-                                      MIN_DISTANCE_KM,
-                                  )
-                                }
+                                onChange={(e) => {
+                                  const raw = e.target.value;
+                                  if (raw === "") {
+                                    field.onChange(undefined);
+                                  } else {
+                                    const num = Number.parseFloat(raw);
+                                    if (Number.isFinite(num)) {
+                                      field.onChange(num);
+                                    } else {
+                                      field.onChange(undefined);
+                                    }
+                                  }
+                                }}
                                 placeholder={tActivities(
                                   "form.distance-placeholder",
                                 )}
                                 step={DISTANCE_KM_STEP}
                                 type="number"
-                                value={field.value || ""}
+                                value={field.value ?? ""}
                               />
                             )}
                           />
