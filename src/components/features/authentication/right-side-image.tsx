@@ -99,7 +99,7 @@ export function RightSideImage({
           whileHover={{ scale: 1.02 }}
         >
           <Image
-            alt="Greendex"
+            alt="Greendex hero banner showcasing environmental impact calculation platform with focus on eu earasmus projects"
             className="object-cover"
             fill
             sizes="(max-width: 1024px) 100vw, 540px"

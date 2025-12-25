@@ -32,7 +32,7 @@ export function SortableHeader<TData, TValue>({
     sortState = currentSort.desc ? "desc" : "asc";
   }
 
-  const getSortIcon = (state: string | false, numeric: boolean) => {
+  const getSortIcon = (state: "asc" | "desc" | false, numeric: boolean) => {
     if (state === "asc") {
       return numeric ? (
         <ArrowUp01 className="ml-2 h-4 w-4 text-primary" />

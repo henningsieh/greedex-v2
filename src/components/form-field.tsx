@@ -51,7 +51,11 @@ export function FormField<TFieldValues extends Record<string, unknown>>({
           placeholder: _placeholder,
           type: _type,
           value: _value,
-          disabled: _disabled,
+          disabled: inputDisabled,
+          onChange: _onChange,
+          onBlur: _onBlur,
+          name: _name,
+          ref: _ref,
           ...safeInputProps
         } = inputProps || {};
 
@@ -64,7 +68,7 @@ export function FormField<TFieldValues extends Record<string, unknown>>({
             <Input
               {...field}
               aria-invalid={fieldState.invalid}
-              disabled={inputProps?.disabled}
+              disabled={inputDisabled}
               id={inputId}
               placeholder={placeholder}
               type={type}

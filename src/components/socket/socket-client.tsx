@@ -5,6 +5,7 @@ import { io, type Socket } from "socket.io-client";
 import { Empty, EmptyTitle } from "@/components/ui/empty";
 
 interface Message {
+  id: string;
   text: string;
   timestamp: string;
   type?: "message" | "ping";
@@ -119,7 +120,7 @@ export default function SocketClient({ socketUrl }: Props) {
               {messages.map((msg) => (
                 <div
                   className="rounded-lg bg-gray-100 p-3 dark:bg-gray-800"
-                  key={msg.timestamp}
+                  key={msg.id}
                 >
                   <p className="text-sm">{msg.text}</p>
                   <p className="mt-1 text-gray-500 text-xs">

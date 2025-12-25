@@ -28,11 +28,14 @@ interface ProjectsGridProps {
   sortBy?: ProjectSortField;
 }
 
-export function ProjectsGrid({ projects }: ProjectsGridProps) {
+export function ProjectsGrid({
+  projects,
+  sortBy: initialSortBy,
+}: ProjectsGridProps) {
   const t = useTranslations("organization.projects");
 
   const [sortBy, setSortBy] = useState<ProjectSortField>(
-    DEFAULT_PROJECT_SORTING_FIELD,
+    initialSortBy ?? DEFAULT_PROJECT_SORTING_FIELD,
   );
   const [sortDesc, setSortDesc] = useState(false);
   const [filter, setFilter] = useState("");

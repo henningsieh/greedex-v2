@@ -23,6 +23,7 @@ io.on("connection", (socket) => {
   console.log(`Client connected: ${socket.id}`);
 
   socket.emit("message", {
+    id: crypto.randomUUID(),
     text: "Welcome to Socket.IO!",
     timestamp: new Date().toISOString(),
   });
@@ -30,6 +31,7 @@ io.on("connection", (socket) => {
   socket.on("client-message", (data) => {
     console.log("Received from client:", data);
     socket.emit("message", {
+      id: crypto.randomUUID(),
       text: `Server received: "${data.text}"`,
       timestamp: new Date().toISOString(),
     });

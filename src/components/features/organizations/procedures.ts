@@ -5,6 +5,23 @@ import { auth } from "@/lib/better-auth";
 import { base } from "@/lib/orpc/context";
 import { authorized } from "@/lib/orpc/middleware";
 
+function getSortKey(
+  member: z.infer<typeof MemberWithUserSchema>,
+  sortBy: string,
+): string | number {
+  if (sortBy === "createdAt") {
+    const time = new Date(member.createdAt).getTime();
+    return Number.isNaN(time) ? 0 : time;
+  }
+  if (sortBy === "user.name") {
+    return (member.user?.name || "").toLowerCase();
+  }
+  if (sortBy === "email") {
+    return (member.user?.email || "").toLowerCase();
+  }
+  return (member.user?.name || "").toLowerCase();
+}
+
 /**
  * List user's organizations using Better Auth
  * Uses Better Auth's implicit organization.list endpoint
@@ -92,35 +109,19 @@ export const searchMembers = authorized
 
     // Sorting
     const sortedMembers = sortBy
-      ? (() => {
-          const membersWithKeys = filteredMembers.map((member) => {
-            let sortKey: string | number;
-            if (sortBy === "createdAt") {
-              const time = new Date(member.createdAt).getTime();
-              sortKey = Number.isNaN(time) ? 0 : time;
-            } else if (sortBy === "user.name") {
-              sortKey = (member.user?.name || "").toLowerCase();
-            } else if (sortBy === "email") {
-              sortKey = (member.user?.email || "").toLowerCase();
-            } else {
-              // Fallback to name for unsupported sortBy values
-              sortKey = (member.user?.name || "").toLowerCase();
-            }
-            return { member, sortKey };
-          });
-          membersWithKeys.sort((a, b) => {
-            const dir = sortDirection === "asc" ? 1 : -1;
-            if (a.sortKey < b.sortKey) {
-              return -1 * dir;
-            }
-            if (a.sortKey > b.sortKey) {
-              return 1 * dir;
-            }
-            return 0;
-          });
-          return membersWithKeys.map((item) => item.member);
-        })()
-      : filteredMembers.sort((a, b) => {
+      ? [...filteredMembers].sort((a, b) => {
+          const dir = sortDirection === "asc" ? 1 : -1;
+          const aKey = getSortKey(a, sortBy);
+          const bKey = getSortKey(b, sortBy);
+          if (aKey < bKey) {
+            return -1 * dir;
+          }
+          if (aKey > bKey) {
+            return 1 * dir;
+          }
+          return 0;
+        })
+      : [...filteredMembers].sort((a, b) => {
           const aTime = new Date(a.createdAt).getTime();
           const bTime = new Date(b.createdAt).getTime();
           const aVal = Number.isNaN(aTime) ? 0 : aTime;
