@@ -12,7 +12,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { FilterXIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import type z from "zod";
 import type {
@@ -37,6 +37,11 @@ import {
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { InviteMemberDialog } from "./invite-member-dialog";
 
+// Helper function with type predicate for sort field validation
+function isValidSortField(value: string | undefined): value is SortField {
+  return value !== undefined && validSortFields.includes(value as SortField);
+}
+
 interface TeamTableProps {
   organizationId: string;
   roles: MemberRole[];
@@ -45,6 +50,7 @@ interface TeamTableProps {
 export function TeamTable({ organizationId, roles }: TeamTableProps) {
   const tRoles = useTranslations("organization.roles");
   const t = useTranslations("organization.team.table");
+  const locale = useLocale();
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [search, setSearch] = useState("");
@@ -63,8 +69,8 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
   let procedureSortBy: SortField | undefined;
   if (sortBy === "member") {
     procedureSortBy = "user.name";
-  } else if (sortBy && validSortFields.includes(sortBy as SortField)) {
-    procedureSortBy = sortBy as SortField;
+  } else if (isValidSortField(sortBy)) {
+    procedureSortBy = sortBy;
   } else {
     procedureSortBy = undefined;
   }
@@ -146,7 +152,7 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
             return "";
           }
           const date = typeof val === "string" ? new Date(val) : (val as Date);
-          return new Intl.DateTimeFormat("en-US", {
+          return new Intl.DateTimeFormat(locale, {
             year: "numeric",
             month: "short",
             day: "numeric",
@@ -154,7 +160,7 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
         },
       },
     ],
-    [t, tRoles],
+    [t, tRoles, locale],
   );
 
   const table = useReactTable({
@@ -225,38 +231,53 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
           <TableHeader className="border-b bg-muted/50">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow className="border-b" key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {(() => {
-                      if (header.isPlaceholder) {
-                        return null;
+                {headerGroup.headers.map((header) => {
+                  const sortState = header.column.getIsSorted();
+                  let ariaSort: "ascending" | "descending" | "none" = "none";
+                  if (sortState === "asc") {
+                    ariaSort = "ascending";
+                  } else if (sortState === "desc") {
+                    ariaSort = "descending";
+                  }
+
+                  return (
+                    <TableHead
+                      aria-sort={
+                        header.column.getCanSort() ? ariaSort : undefined
                       }
-                      if (header.column.getCanSort()) {
-                        return (
-                          <button
-                            className="inline-flex items-center gap-2"
-                            onClick={() => header.column.toggleSorting()}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" || e.key === " ") {
-                                header.column.toggleSorting();
-                              }
-                            }}
-                            type="button"
-                          >
-                            {flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
-                          </button>
+                      key={header.id}
+                    >
+                      {(() => {
+                        if (header.isPlaceholder) {
+                          return null;
+                        }
+                        if (header.column.getCanSort()) {
+                          return (
+                            <button
+                              className="inline-flex items-center gap-2"
+                              onClick={() => header.column.toggleSorting()}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  header.column.toggleSorting();
+                                }
+                              }}
+                              type="button"
+                            >
+                              {flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                            </button>
+                          );
+                        }
+                        return flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
                         );
-                      }
-                      return flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      );
-                    })()}
-                  </TableHead>
-                ))}
+                      })()}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             ))}
           </TableHeader>
@@ -276,7 +297,10 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
               ))
             ) : (
               <TableRow>
-                <TableCell className="h-24 text-center" colSpan={4}>
+                <TableCell
+                  className="h-24 text-center"
+                  colSpan={columns.length}
+                >
                   {t("noResults")}
                 </TableCell>
               </TableRow>
