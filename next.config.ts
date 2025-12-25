@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "tailus.io",
+        hostname: "html.tailus.io",
         pathname: "/blocks/**",
       },
       {

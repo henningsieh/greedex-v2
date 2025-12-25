@@ -21,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Empty, EmptyDescription } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 
 interface ProjectsGridProps {
@@ -123,9 +124,15 @@ export function ProjectsGrid({
         </div>
       </div>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {sortedProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
+        {sortedProjects.length > 0 ? (
+          sortedProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))
+        ) : (
+          <Empty className="col-span-full">
+            <EmptyDescription>{t("no-projects-yet.title")}</EmptyDescription>
+          </Empty>
+        )}
       </div>
     </>
   );

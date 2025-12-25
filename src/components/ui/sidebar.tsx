@@ -32,6 +32,10 @@ const SIDEBAR_WIDTH_MOBILE = "18rem"
 const SIDEBAR_WIDTH_ICON = "3rem"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
+/**
+ * Props for the SidebarContext.
+ * Note: isMobile can be undefined during SSR/initial render, so callers must handle it explicitly.
+ */
 interface SidebarContextProps {
   state: "expanded" | "collapsed"
   open: boolean
@@ -180,7 +184,7 @@ function Sidebar({
     )
   }
 
-  if (isMobile) {
+  if (isMobile === true) {
     return (
       <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
         <SheetContent
@@ -538,7 +542,7 @@ function SidebarMenuButton({
       <TooltipContent
         side="right"
         align="center"
-        hidden={state !== "collapsed" || isMobile}
+        hidden={state !== "collapsed" || isMobile === true}
         {...tooltip}
       />
     </Tooltip>

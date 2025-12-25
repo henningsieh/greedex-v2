@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { memberRoles } from "@/components/features/organizations/types";
+import {
+  memberRoles,
+  type SortField,
+  validSortFields,
+} from "@/components/features/organizations/types";
 import { MemberWithUserSchema } from "@/components/features/organizations/validation-schemas";
 import { auth } from "@/lib/better-auth";
 import { base } from "@/lib/orpc/context";
@@ -7,7 +11,7 @@ import { authorized } from "@/lib/orpc/middleware";
 
 function getSortKey(
   member: z.infer<typeof MemberWithUserSchema>,
-  sortBy: string,
+  sortBy: SortField,
 ): string | number {
   if (sortBy === "createdAt") {
     const time = new Date(member.createdAt).getTime();
@@ -19,7 +23,8 @@ function getSortKey(
   if (sortBy === "email") {
     return (member.user?.email || "").toLowerCase();
   }
-  return (member.user?.name || "").toLowerCase();
+  // This should never happen due to the enum constraint, but TypeScript requires it
+  throw new Error(`Invalid sortBy field: ${sortBy}`);
 }
 
 /**
@@ -55,7 +60,7 @@ export const searchMembers = authorized
           // Simple search string to match against user name or email
           search: z.string().optional(),
           // Sorting: a field name (e.g. "createdAt" | "user.name" | "email")
-          sortBy: z.string().optional(),
+          sortBy: z.enum(validSortFields).optional(),
           sortDirection: z.enum(["asc", "desc"]).optional(),
           // limit/offset for pagination
           limit: z.number().optional(),

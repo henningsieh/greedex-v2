@@ -15,7 +15,11 @@ import { FilterXIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import type z from "zod";
-import type { MemberRole } from "@/components/features/organizations/types";
+import type {
+  MemberRole,
+  SortField,
+} from "@/components/features/organizations/types";
+import { validSortFields } from "@/components/features/organizations/types";
 import type { MemberWithUserSchema } from "@/components/features/organizations/validation-schemas";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -55,6 +59,16 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
   const sortBy = sorting?.[0]?.id ?? undefined;
   const sortDirection = sorting?.[0]?.desc ? "desc" : "asc";
 
+  // Map table column IDs to procedure sort fields
+  let procedureSortBy: SortField | undefined;
+  if (sortBy === "member") {
+    procedureSortBy = "user.name";
+  } else if (sortBy && validSortFields.includes(sortBy as SortField)) {
+    procedureSortBy = sortBy as SortField;
+  } else {
+    procedureSortBy = undefined;
+  }
+
   const { data: membersResult } = useQuery(
     orpcQuery.members.search.queryOptions({
       input: {
@@ -62,7 +76,7 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
         filters: {
           roles,
           search: debouncedSearch || undefined,
-          sortBy,
+          sortBy: procedureSortBy,
           sortDirection,
           limit: pageSize,
           offset: pageIndex * pageSize,
