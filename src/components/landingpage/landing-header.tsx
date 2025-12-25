@@ -68,12 +68,12 @@ export const LandingHeader = () => {
       <nav className="fixed z-20 w-full px-2">
         <div
           className={cn(
-            "mx-auto mt-2 max-w-7xl px-4 transition-all duration-300 ease-in-out sm:px-6 lg:px-12",
+            "mx-auto mt-2 max-w-7xl px-4 transition-all duration-300 ease-in-out sm:px-6 lg:px-10",
             isScrolled &&
-              "max-w-6xl rounded-2xl border bg-background/40 backdrop-blur-lg lg:px-8",
+              "max-w-6xl rounded-2xl border bg-background/60 shadow-lg backdrop-blur-lg",
           )}
         >
-          <div className="relative flex flex-wrap items-center justify-between gap-4 py-3 lg:flex-nowrap lg:gap-6 lg:py-4">
+          <div className="relative flex items-center justify-between gap-2 py-3 lg:gap-6 lg:py-4">
             <div className="flex w-full items-center justify-between lg:w-auto">
               <Link
                 href={HOME_PATH}
@@ -154,13 +154,23 @@ export const LandingHeader = () => {
               </div>
             </div>
 
-            <div className="inset-0 m-auto hidden size-fit lg:block">
-              <ul className="flex gap-4 text-lg">
+            <div
+              className={cn(
+                "inset-0 m-auto hidden size-fit transition-all duration-300 lg:block",
+                isScrolled && "scale-95",
+              )}
+            >
+              <ul
+                className={cn(
+                  "flex gap-4 text-lg transition-all duration-300",
+                  isScrolled && "gap-5 text-base",
+                )}
+              >
                 {menuItems.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="block font-bold text-muted-foreground hover:text-accent"
+                      className="block whitespace-nowrap font-bold text-muted-foreground hover:text-foreground"
                     >
                       <span>{item.name}</span>
                     </Link>

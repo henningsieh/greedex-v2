@@ -92,7 +92,7 @@ export function RightSideImage({
         <motion.div
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.4 }}
-          className="relative z-10 h-44 w-full overflow-hidden rounded-3xl border border-border/50 bg-muted/30 shadow-lg"
+          className="relative z-10 h-52 w-full overflow-hidden rounded-3xl border border-border/50 bg-muted/30 shadow-lg"
         >
           <Image
             src="/Greendex-hero-banner.png"

@@ -73,7 +73,7 @@ export const ThemeSwitcher = ({
   return (
     <div
       className={cn(
-        "relative isolate flex h-8 rounded-full bg-background p-1 ring-1 ring-border",
+        "relative isolate flex h-8 rounded-full bg-background p-1 ring-1 ring-border dark:bg-background/40",
         className,
       )}
     >
@@ -85,7 +85,7 @@ export const ThemeSwitcher = ({
         }}
         transition={{
           type: "spring",
-          duration: 0.5,
+          duration: 0.3,
         }}
       />
       {themes.map(({ key, icon: Icon, label }) => {
@@ -94,7 +94,7 @@ export const ThemeSwitcher = ({
         return (
           <button
             aria-label={label}
-            className="relative h-6 w-6 rounded-full outline-none focus-visible:border-ring focus-visible:ring-[2px] focus-visible:ring-ring/50"
+            className="relative size-6 rounded-full outline-none hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-[2px] focus-visible:ring-ring/50"
             key={key}
             onClick={() => handleThemeClick(key as "light" | "dark" | "system")}
             type="button"

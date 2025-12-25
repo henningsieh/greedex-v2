@@ -56,18 +56,18 @@ export default async function AuthFlowLayout({
         </div>
 
         {/* Cards container with equal heights */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-8">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:gap-6">
           {/* Left card - Form content */}
           <div
             className={cn(
               "mx-auto w-full max-w-xl",
-              "flex flex-col border border-border/40 bg-card/40 p-6 backdrop-blur-xl",
+              "flex flex-col border border-border/40 bg-card/40 p-4 backdrop-blur-xl",
               "lg:mx-0 lg:w-1/2 lg:max-w-none",
-              "lg:p-8",
+              "lg:p-6",
             )}
           >
             <AnimatedGroup
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-2"
               variants={{
                 container: {
                   visible: {

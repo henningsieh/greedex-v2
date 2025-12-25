@@ -131,8 +131,8 @@ export function GlobeSection() {
                   theta={0.6}
                   mapSamples={44000}
                   mapBrightness={3}
-                  autoRotate={false}
-                  // autoRotateSpeed={0.03}
+                  autoRotate={true}
+                  autoRotateSpeed={0.001}
                   markerColor={[0.15, 0.65, 0.4]}
                 />
               </div>

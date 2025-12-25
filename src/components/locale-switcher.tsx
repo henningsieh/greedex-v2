@@ -44,7 +44,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
           variant="ghost"
           size="sm"
           className={cn(
-            "gap-2 rounded-full bg-background p-1 ring-1 ring-border dark:hover:bg-accent/50",
+            "gap-2 rounded-full bg-background p-1 ring-1 ring-border dark:bg-background/20 dark:hover:bg-background/30",
             isPending ? "opacity-70" : "",
             className,
           )}

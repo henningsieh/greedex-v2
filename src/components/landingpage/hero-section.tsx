@@ -49,13 +49,12 @@ export async function HeroSection() {
         />
       </div>
 
-      <section className="md:max-h-svh">
+      <section className="relative md:min-h-svh">
+        <div
+          aria-hidden
+          className="-z-10 absolute inset-0 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--color-background)_75%)]"
+        />
         <div className="relative flex h-full flex-col justify-between gap-8 pt-24 pb-8 md:pb-12">
-          <div
-            aria-hidden
-            className="-z-10 absolute inset-0 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--color-background)_75%)]"
-          />
-
           {/* CTA placed at the top */}
           <div className="relative mx-auto flex max-w-7xl shrink-0 justify-center px-4">
             <Link
