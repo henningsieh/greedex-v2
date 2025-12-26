@@ -1,8 +1,10 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
+import type { LucideIcon } from "lucide-react";
 import { Building2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import {
@@ -14,10 +16,60 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DASHBOARD_PATH, PROJECTS_PATH } from "@/config/app-routes";
+import {
+  DASHBOARD_PATH,
+  PARTICIPANTS_PATH,
+  PROJECTS_ARCHIVE_PATH,
+  PROJECTS_PATH,
+  SETTINGS_PATH,
+  TEAM_PATH,
+} from "@/config/app-routes";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link, usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
+
+/**
+ * Get the current section info based on pathname
+ */
+function getCurrentSection(
+  pathname: string,
+  translate: (key: string) => string,
+): { label: string; icon?: LucideIcon } | null {
+  switch (pathname) {
+    case DASHBOARD_PATH:
+      return {
+        label: translate("organization.dashboard"),
+        icon: ORGANIZATION_ICONS.dashboard,
+      };
+    case TEAM_PATH:
+      return {
+        label: translate("organization.team"),
+        icon: ORGANIZATION_ICONS.team,
+      };
+    case SETTINGS_PATH:
+      return {
+        label: translate("organization.settings"),
+        icon: ORGANIZATION_ICONS.settings,
+      };
+    case PROJECTS_PATH:
+      return {
+        label: translate("organization.projects"),
+        icon: PROJECT_ICONS.projects,
+      };
+    case PROJECTS_ARCHIVE_PATH:
+      return {
+        label: translate("projects.archive"),
+        icon: PROJECT_ICONS.archive,
+      };
+    case PARTICIPANTS_PATH:
+      return {
+        label: translate("projects.participants"),
+        icon: PROJECT_ICONS.participants,
+      };
+    default:
+      return null;
+  }
+}
 
 /**
  * Render the application breadcrumb navigation.
@@ -45,7 +97,8 @@ export function AppBreadcrumb() {
  * Breadcrumb for organization-level routes (no project needed)
  */
 function OrgBreadcrumb() {
-  const _t = useTranslations("app.sidebar");
+  const t = useTranslations("app.sidebar");
+  const pathname = usePathname();
 
   // Fetch active organization
   const { data: activeOrganization } = useSuspenseQuery(
@@ -53,6 +106,9 @@ function OrgBreadcrumb() {
   );
 
   const { canCreate } = useProjectPermissions();
+
+  // Determine current section based on pathname
+  const currentSection = getCurrentSection(pathname, t);
 
   return (
     <div className="flex w-full items-center justify-between">
@@ -74,6 +130,21 @@ function OrgBreadcrumb() {
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
+
+          {/* Current section */}
+          {currentSection && (
+            <>
+              <BreadcrumbSeparator className="text-primary/50" />
+              <BreadcrumbItem>
+                <BreadcrumbPage className="flex items-center gap-2 text-primary dark:text-primary-foreground">
+                  {currentSection.icon && (
+                    <currentSection.icon className="size-4" />
+                  )}
+                  <span className="font-semibold">{currentSection.label}</span>
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </>
+          )}
         </BreadcrumbList>
       </Breadcrumb>
 

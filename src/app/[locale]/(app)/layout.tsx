@@ -9,11 +9,7 @@ import {
 import { AppSidebar, AppSidebarSkeleton } from "@/components/app-sidebar";
 import { Navbar } from "@/components/navbar";
 import { LoadingProvider } from "@/components/providers/loading-provider";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/config/app-routes";
 import { redirect } from "@/lib/i18n/routing";
@@ -22,7 +18,6 @@ import {
   getQueryClient,
   HydrateClient,
 } from "@/lib/tanstack-react-query/hydration";
-import { cn } from "@/lib/utils";
 import {
   checkAuthAndOrgs,
   handleUnauthenticatedRedirect,
@@ -87,12 +82,12 @@ export default async function AppLayout({
             <SidebarInset>
               <main className="flex-1 flex-col">
                 <div className="flex h-16 items-center gap-4 border-b py-2 pr-4 pl-2 md:pl-4 lg:pl-6 xl:pl-8">
-                  <SidebarTrigger
+                  {/* <SidebarTrigger
                     className={cn(
                       "size-11 border border-secondary/50 ring-secondary transition-colors duration-200",
                       "hover:bg-secondary hover:text-secondary-foreground dark:hover:bg-secondary/50",
                     )}
-                  />
+                  /> */}
                   <ErrorBoundary
                     fallback={<div>Unable to load project breadcrumb</div>}
                   >

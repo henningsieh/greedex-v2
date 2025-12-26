@@ -311,10 +311,10 @@
       "total-activities": "Total emissions from activities",
       "coming-soon": "Coming Soon",
       "tabs": {
-        "dashboard": "Dashboard",
         "participants": "Participants",
         "projects": "Projects",
-        "loading-projects": "Loading projects..."
+        "loading-projects": "Loading projects...",
+        "statistics": "Statistics"
       }
     },
     "projects": {
@@ -500,7 +500,7 @@
       }
     },
     "participants": {
-      "title": "Participants",
+      "title": "All Participants",
       "description": "List of all project participants in your organization",
       "emptyState": {
         "description": "No project's participants found",
@@ -509,7 +509,7 @@
     },
     "projectsArchive": {
       "title": "Archived Projects",
-      "description": "View and restore archived projects",
+      "description": "View and restore all archived projects",
       "suspense-loading": "Loading archived projects...",
       "error-message": "Error loading archived projects.",
       "no-archived-projects": {
@@ -529,13 +529,13 @@
   "app": {
     "sidebar": {
       "projects": {
-        "groupLabel": "Projects",
+        "groupLabel": "Projects Area",
         "projects": "Projects",
         "participants": "Participants",
         "archive": "Archive"
       },
       "organization": {
-        "groupLabel": "Organization",
+        "groupLabel": "Organization Area",
         "dashboard": "Dashboard",
         "projects": "Projects",
         "team": "Team Members",

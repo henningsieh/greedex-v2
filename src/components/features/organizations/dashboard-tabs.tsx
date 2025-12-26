@@ -1,10 +1,10 @@
 "use client";
 
-import { LayoutDashboardIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { Suspense } from "react";
 import { DashboardStats } from "@/components/features/organizations/dashboard-stats";
+import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
 import { memberRoles } from "@/components/features/organizations/types";
 import { UsersTable } from "@/components/features/organizations/users-table";
 import { ProjectsTab } from "@/components/features/projects/dashboard/projects-tab";
@@ -42,8 +42,8 @@ export function DashboardTabs({ organizationId }: DashboardTabsProps) {
           className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"
           value="dashboard"
         >
-          <LayoutDashboardIcon className="h-4 w-4" />
-          {t("dashboard.tabs.dashboard")}
+          <ORGANIZATION_ICONS.statistics className="h-4 w-4" />
+          {t("dashboard.tabs.statistics")}
         </TabsTrigger>
         <TabsTrigger
           className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"

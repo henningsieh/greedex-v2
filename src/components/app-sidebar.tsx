@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ArchiveIcon,
   LayoutDashboardIcon,
   PanelRightCloseIcon,
   PanelRightOpenIcon,
@@ -81,12 +80,12 @@ export function AppSidebar() {
     },
     {
       title: t("projects.participants"),
-      icon: UsersIcon,
+      icon: PROJECT_ICONS.participants,
       url: PARTICIPANTS_PATH,
     },
     {
       title: t("projects.archive"),
-      icon: ArchiveIcon,
+      icon: PROJECT_ICONS.archive,
       url: PROJECTS_ARCHIVE_PATH,
     },
   ] as const;

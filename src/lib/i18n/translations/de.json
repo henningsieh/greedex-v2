@@ -307,14 +307,14 @@
       "description": "Überblick über die Statistiken, Projekte und Teilnehmenden Ihrer Organisation.",
       "welcome-to-your-organizations-dashboard": "Organisationsmanagement",
       "total-projects": "Gesamtanzahl der Projekte",
-      "total-participants": "Gesamtzahl der Teilnehmer",
+      "total-participants": "Gesamtzahl der Teilnehmenden",
       "total-activities": "Gesamtemissionen durch Aktivitäten",
       "coming-soon": "Demnächst verfügbar",
       "tabs": {
-        "dashboard": "Übersicht",
         "participants": "Teilnehmende",
         "projects": "Projekte",
-        "loading-projects": "Projekte werden geladen..."
+        "loading-projects": "Projekte werden geladen...",
+        "statistics": "Statistiken"
       }
     },
     "projects": {
@@ -500,16 +500,16 @@
       }
     },
     "participants": {
-      "title": "Teilnehmer",
-      "description": "Liste aller Projektteilnehmer in deiner Organisation",
+      "title": "Alle Teilnehmende",
+      "description": "Liste aller Projektteilnehmenden in deiner Organisation",
       "emptyState": {
-        "description": "Keine Projektteilnehmer gefunden",
-        "title": "Kein Projektteilnehmer entspricht deinen Suchkriterien. \nVersuche, deine Filter anzupassen oder sende den „Teilnahmelink“ an den gewünschten Teilnehmer."
+        "description": "Keine Projektteilnehmende gefunden",
+        "title": "Keine Projektteilnehmenden entsprechen deinen Suchkriterien. \nVersuche, deine Filter anzupassen oder sende den „Teilnahmelink“ an die teilnehmende Person."
       }
     },
     "projectsArchive": {
       "title": "Archivierte Projekte",
-      "description": "Archivierte Projekte anzeigen und wiederherstellen",
+      "description": "Alle archivierte Projekte anzeigen und wiederherstellen",
       "suspense-loading": "Archivierte Projekte werden geladen...",
       "error-message": "Fehler beim Laden der archivierten Projekte.",
       "no-archived-projects": {
@@ -529,13 +529,13 @@
   "app": {
     "sidebar": {
       "projects": {
-        "groupLabel": "Projekte",
+        "groupLabel": "Projektbereich",
         "projects": "Projekte",
-        "participants": "Teilnehmer",
+        "participants": "Teilnehmende",
         "archive": "Archiv"
       },
       "organization": {
-        "groupLabel": "Organisation",
+        "groupLabel": "Organisationsbereich",
         "dashboard": "Dashboard",
         "projects": "Projekte",
         "team": "Team",
@@ -564,7 +564,7 @@
       "activities-description": "Projektaktivitäten werden hier angezeigt.",
       "loading": "Projektdetails werden geladen...",
       "people-joined": "Leute sind bereits beigetreten",
-      "no-participants-yet": "Noch keine Teilnehmer",
+      "no-participants-yet": "Noch keine Teilnehmenden",
       "share-the-participation-link": "Teile den Teilnahmelink, um Personen zu diesem Projekt einzuladen.",
       "tabs": {
         "details": "Projektdetails",

@@ -3,7 +3,12 @@
  * Use these icons consistently across the application
  */
 
-import { LayoutDashboardIcon, SettingsIcon, UsersIcon } from "lucide-react";
+import {
+  ChartColumnBigIcon,
+  LayoutDashboardIcon,
+  SettingsIcon,
+  UsersIcon,
+} from "lucide-react";
 
 export const ORGANIZATION_ICONS = {
   /** Icon for Organization Dashboard */
@@ -14,4 +19,7 @@ export const ORGANIZATION_ICONS = {
 
   /** Icon for Organization Settings */
   settings: SettingsIcon,
+
+  /** Icon for Organization Statistics */
+  statistics: ChartColumnBigIcon,
 } as const;
