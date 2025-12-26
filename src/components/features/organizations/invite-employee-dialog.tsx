@@ -47,7 +47,7 @@ interface Props {
   onSuccess?: () => void;
 }
 
-export function InviteMemberDialog({
+export function InviteEmployeeDialog({
   organizationId,
   allowedRoles = Object.values(memberRoles),
   onSuccess,

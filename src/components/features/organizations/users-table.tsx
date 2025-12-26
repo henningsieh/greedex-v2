@@ -44,7 +44,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { InviteMemberDialog } from "./invite-member-dialog";
+import { InviteEmployeeDialog } from "./invite-employee-dialog";
 
 // Helper function with type predicate for sort field validation
 function _isValidSortField(value: string | undefined): value is SortField {
@@ -232,7 +232,7 @@ export function UsersTable({ organizationId, roles }: TeamTableProps) {
           </Button>
         </div>
         <div className="ml-auto">
-          <InviteMemberDialog
+          <InviteEmployeeDialog
             allowedRoles={roles}
             onSuccess={() => {
               setPageIndex(0);
