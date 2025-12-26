@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { Suspense } from "react";
-import { DashboardStats } from "@/components/features/organizations/dashboard-stats";
+import { OrganizationDashboardStats } from "@/components/features/organizations/organization-dashboard-stats";
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
 import { memberRoles } from "@/components/features/organizations/types";
 import { UsersTable } from "@/components/features/organizations/users-table";
@@ -64,7 +64,7 @@ export function OrganizationDashboard({
       </TabsList>
 
       <TabsContent value="dashboard">
-        <DashboardStats />
+        <OrganizationDashboardStats />
       </TabsContent>
 
       <TabsContent value="projects">

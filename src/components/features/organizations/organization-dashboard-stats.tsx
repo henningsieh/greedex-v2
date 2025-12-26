@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 
-export function DashboardStats() {
+export function OrganizationDashboardStats() {
   const t = useTranslations("organization.dashboard");
 
   return (
