@@ -1,6 +1,6 @@
 ---
 applyTo: '**'
-url: https://tanstack.com/query/v5/docs/framework/react/guides/prefetching
+url: https://tanstack.com/query/v5/docs/framework/react/guides/prefetching.md
 description: Learn how to use prefetching to populate the cache ahead of time and integrate with routers.
 ---
 

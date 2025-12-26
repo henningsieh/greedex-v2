@@ -1,6 +1,6 @@
 ---
 applyTo: '**'
-url: https://tanstack.com/query/v5/docs/framework/react/guides/ssr
+url: https://tanstack.com/query/v5/docs/framework/react/guides/ssr.md
 description: Learn how to use React Query with server rendering and hydration.
 ---
 

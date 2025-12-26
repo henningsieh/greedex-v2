@@ -1,6 +1,6 @@
 ---
 applyTo: '**'
-url: https://tanstack.com/query/v5/docs/framework/react/guides/advanced-ssr
+url: https://tanstack.com/query/v5/docs/framework/react/guides/advanced-ssr.md
 description: Learn about using React Query with streaming, Server Components and the Next.js app router.
 ---
 
