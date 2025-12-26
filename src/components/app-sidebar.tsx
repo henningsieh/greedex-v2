@@ -12,7 +12,7 @@ import { Suspense } from "react";
 import {
   OrganizationSwitcher,
   OrganizationSwitcherSkeleton,
-} from "@/components/features/organizations/organisation-switcher";
+} from "@/components/features/organizations/organization-switcher";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import {
   Sidebar,
