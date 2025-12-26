@@ -22,21 +22,14 @@ export function ArchivedProjectsTab() {
   const t = useTranslations("organization.projectsArchive");
   const [view, setView] = useState<"grid" | "table">("table");
 
-  const { data: allProjects, error } = useSuspenseQuery(
+  const { data: projects } = useSuspenseQuery(
     orpcQuery.projects.list.queryOptions({
       input: {
         sort_by: DEFAULT_PROJECT_SORTING_FIELD,
+        archived: true,
       },
     }),
   );
-
-  // Filter for archived projects only
-  const projects =
-    allProjects?.filter((project) => project.archived === true) || [];
-
-  if (error) {
-    return <div>Error loading archived projects: {error.message}</div>;
-  }
 
   if (!projects || projects.length === 0) {
     return (
@@ -57,7 +50,6 @@ export function ArchivedProjectsTab() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center" />
       <ProjectsViewSelect setView={setView} view={view} />
       {view === "grid" ? (
         <ProjectsGrid projects={projects} />

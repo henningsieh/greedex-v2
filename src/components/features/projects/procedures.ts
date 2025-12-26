@@ -114,6 +114,7 @@ export const listProjects = authorized
           .enum(Object.values(PROJECT_SORT_FIELDS))
           .default(DEFAULT_PROJECT_SORTING_FIELD)
           .optional(),
+        archived: z.boolean().optional(),
       })
       .optional(),
   )
@@ -146,11 +147,16 @@ export const listProjects = authorized
 
     // Get all projects that belong to the user's active organization
     // Permission check ensures user is a member of the organization
+    const conditions = [
+      eq(projectsTable.organizationId, context.session.activeOrganizationId),
+    ];
+    if (input?.archived !== undefined) {
+      conditions.push(eq(projectsTable.archived, input.archived));
+    }
+    const whereClause = and(...conditions);
+
     const projects = await db.query.projectsTable.findMany({
-      where: eq(
-        projectsTable.organizationId,
-        context.session.activeOrganizationId,
-      ),
+      where: whereClause,
       orderBy: [orderByClause],
       with: {
         responsibleUser: true,
