@@ -42,8 +42,8 @@ export function LocaleSwitcher({ className }: { className?: string }) {
       <DropdownMenuTrigger asChild className="border border-muted">
         <Button
           className={cn(
-            "gap-2 rounded-full bg-background p-1 ring-1 ring-border dark:bg-background/20 dark:hover:bg-background/30",
-            isPending ? "opacity-70" : "",
+            "gap-2 rounded-full border-none bg-background p-1 ring-1 ring-border hover:ring-primary",
+            isPending && "opacity-70",
             className,
           )}
           disabled={isPending}
@@ -53,9 +53,6 @@ export function LocaleSwitcher({ className }: { className?: string }) {
           {currentLocale?.Flag && (
             <currentLocale.Flag className="size-6 rounded-sm border-none" />
           )}
-          {/* <span className="font-semibold text-sm">
-            {currentLocale?.nativeName ?? currentLocale?.label}
-          </span> */}
           <ChevronDown
             aria-hidden
             className={cn("size-4", isPending && "animate-pulse")}
