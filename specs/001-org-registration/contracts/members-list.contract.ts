@@ -6,11 +6,8 @@
  * Authentication: Required (must be member of the organization)
  */
 
+import { MEMBER_ROLES, MemberRole } from "@/components/features/organizations/types";
 import { z } from "zod";
-import {
-  type MemberRole,
-  memberRoles,
-} from "@/components/features/organizations/types";
 
 // ============================================================================
 // Request Schema
@@ -26,7 +23,7 @@ export const listMembersQuerySchema = z
     limit: z.coerce.number().int().min(1).max(100).default(100).optional(),
     offset: z.coerce.number().int().min(0).default(0).optional(),
     // Future filtering
-    role: z.enum(memberRoles).optional(),
+    role: z.enum(MEMBER_ROLES).optional(),
   })
   .optional();
 
@@ -41,7 +38,7 @@ export const memberSchema = z.object({
   id: z.string().uuid(),
   userId: z.string().uuid(),
   organizationId: z.string().uuid(),
-  role: z.enum(memberRoles),
+  role: z.enum(MEMBER_ROLES),
   createdAt: z.date(), // Join date
   user: z.object({
     id: z.string().uuid(),

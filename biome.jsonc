@@ -32,14 +32,18 @@
   },
   "linter": {
     "rules": {
-      "style": {
-        "useConsistentArrayType": "off"
-      },
       "complexity": {
         "noExcessiveCognitiveComplexity": "off"
       },
+      "performance": {
+        "noBarrelFile": "off"
+      },
       "suspicious": {
         "noArrayIndexKey": "off"
+      },
+      "style": {
+        "useConsistentArrayType": "off"
+        // "noExportedImports": "off"
       }
     },
     "includes": [

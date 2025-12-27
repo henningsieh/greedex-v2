@@ -15,11 +15,6 @@ import {
   PROJECT_FORM_TOTAL_STEPS,
 } from "@/components/features/projects/form-constants";
 import {
-  activityValues,
-  DISTANCE_KM_STEP,
-  MIN_DISTANCE_KM,
-} from "@/components/features/projects/types";
-import {
   ActivityFormItemSchema,
   type CreateProjectWithActivities,
   CreateProjectWithActivitiesSchema,
@@ -46,6 +41,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  ACTIVITY_VALUES,
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
+} from "@/config/activities";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { getProjectDetailPath } from "@/lib/utils/project-utils";
@@ -386,7 +386,7 @@ export function CreateProjectForm({
                                   />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  {activityValues.map((type) => (
+                                  {ACTIVITY_VALUES.map((type) => (
                                     <SelectItem key={type} value={type}>
                                       {tActivities(`types.${type}`)}
                                     </SelectItem>

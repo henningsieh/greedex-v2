@@ -23,6 +23,8 @@ export const DASHBOARD_PATH: AppRoute = "/org/dashboard";
 // Note: ACTIVE_PROJECT_PATH removed - owner and admins now navigate directly to project details via /org/projects/[id]
 export const LIVE_VIEW_PATH: AppRoute = "/org/activeproject/liveview";
 export const PROJECTS_PATH: AppRoute = "/org/projects";
+export const PROJECTS_ARCHIVE_PATH: AppRoute = "/org/projects-archive";
+export const PARTICIPANTS_PATH: AppRoute = "/org/participants";
 export const TEAM_PATH: AppRoute = "/org/team";
 export const SETTINGS_PATH: AppRoute = "/org/settings";
 export const CREATE_PROJECT_PATH: AppRoute = "/org/create-project";

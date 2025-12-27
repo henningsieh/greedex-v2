@@ -1,4 +1,4 @@
-import { EU_COUNTRIES } from "./eu-countries";
+import { EU_COUNTRIES } from "../../config/eu-countries";
 
 /**
  * EU Capital Cities with coordinates

@@ -1,37 +1,25 @@
-import type { Organization as OrganizationType } from "better-auth/plugins";
+// ============================================================================
+// MEMBER ROLES
+// ============================================================================
 
-// ============================================================================
-// CONSTANTS
-// ============================================================================
+import type { MEMBER_SORT_FIELDS } from "@/config/organizations";
 
 /**
- * Organization role definitions
- * Must be defined before schemas that reference them
+ * Organization member role definitions
+ * Maps display names to database role values
  */
-export const memberRoles = {
+export const MEMBER_ROLES = {
   Owner: "owner", // Full access, can invite Employees/Admins
   Employee: "admin", // Team members with admin privileges
   Participant: "member", // Project participants
 } as const;
 
-// ============================================================================
-// SORTING - Types
-// ============================================================================
+/**
+ * Type for member role values
+ */
+export type MemberRole = (typeof MEMBER_ROLES)[keyof typeof MEMBER_ROLES];
 
 /**
- * Valid sort fields for member search operations
+ * Type for member sort field values
  */
-export const validSortFields = ["createdAt", "user.name", "email"] as const;
-
-/**
- * Type for valid sort fields
- */
-export type SortField = (typeof validSortFields)[number];
-
-// ============================================================================
-// ORGANIZATION - Types
-// ============================================================================
-
-export type MemberRole = (typeof memberRoles)[keyof typeof memberRoles];
-export type Organization = OrganizationType;
-// export type InsertOrganizationType = InferInsertModel<typeof organizationTable>;
+export type MemberSortField = (typeof MEMBER_SORT_FIELDS)[number];

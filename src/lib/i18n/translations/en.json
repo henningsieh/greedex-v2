@@ -311,10 +311,11 @@
       "total-activities": "Total emissions from activities",
       "coming-soon": "Coming Soon",
       "tabs": {
-        "dashboard": "Dashboard",
         "participants": "Participants",
         "projects": "Projects",
-        "loading-projects": "Loading projects..."
+        "loading-projects": "Loading projects...",
+        "statistics": "Statistics",
+        "loading-stats": "The statistics are currently gettingloaded."
       }
     },
     "projects": {
@@ -375,6 +376,21 @@
           "toast-success": "{count} projects deleted successfully",
           "toast-error": "Failed to delete projects",
           "toast-error-generic": "An error occurred while deleting the projects"
+        },
+        "archive": {
+          "archive": "Archive",
+          "unarchive": "Unarchive",
+          "confirm-title": "Archive this project?",
+          "confirm-description": "This will archive the project \"{name}\". You can restore it later from the archive.",
+          "unarchive-title": "Restore this project?",
+          "unarchive-description": "This will restore the project \"{name}\" from the archive.",
+          "confirm-button": "Archive Project",
+          "unarchive-button": "Restore Project",
+          "cancel-button": "Cancel",
+          "toast-success": "Project archived successfully",
+          "toast-unarchive-success": "Project restored successfully",
+          "toast-error": "Failed to archive project",
+          "toast-error-generic": "An error occurred while archiving the project"
         },
         "new": {
           "toast": {
@@ -457,10 +473,6 @@
         "clear": "Clear all filters"
       },
       "loading": "Loading team members...",
-      "emptyState": {
-        "title": "No team members found",
-        "description": "No team members match your search criteria. Try adjusting your filters or invite new members to your organization."
-      },
       "noResults": "No results.",
       "rowsSelected": "{selected} of {total} row(s) selected.",
       "previous": "Previous",
@@ -482,6 +494,28 @@
         "sendingButton": "Sending...",
         "sendButton": "Send Invite",
         "successToast": "Team member invited successfully."
+      },
+      "emptyState": {
+        "title": "No team members found",
+        "description": "No team members match your search criteria. Try adjusting your filters or invite new team members to your organization."
+      }
+    },
+    "participants": {
+      "title": "All Participants",
+      "description": "List of all project participants in your organization",
+      "emptyState": {
+        "description": "No project's participants found",
+        "title": "No project's participants match your search criteria. Try adjusting your filters or send the \"participation link\" to the desired participant."
+      }
+    },
+    "projectsArchive": {
+      "title": "Archived Projects",
+      "description": "View and restore all archived projects",
+      "suspense-loading": "Loading archived projects...",
+      "error-message": "Error loading archived projects.",
+      "no-archived-projects": {
+        "title": "No archived projects",
+        "description": "You haven't archived any projects yet. Archived projects appear here and can be restored anytime."
       }
     },
     "settings": {
@@ -496,12 +530,13 @@
   "app": {
     "sidebar": {
       "projects": {
-        "groupLabel": "Projects of your organization",
-        "control": "Control",
-        "liveView": "Live view"
+        "groupLabel": "Projects Area",
+        "projects": "Projects",
+        "participants": "Participants",
+        "archive": "Archive"
       },
       "organization": {
-        "groupLabel": "Your organization",
+        "groupLabel": "Organization Area",
         "dashboard": "Dashboard",
         "projects": "Projects",
         "team": "Team Members",

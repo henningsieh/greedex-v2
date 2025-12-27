@@ -1,9 +1,10 @@
 import { LayoutDashboardIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
-import { DashboardTabs } from "@/components/features/organizations/dashboard-tabs";
-import { memberRoles } from "@/components/features/organizations/types";
-import { DEFAULT_PROJECT_SORTING_FIELD } from "@/components/features/projects/types";
+import { OrganizationDashboard } from "@/components/features/organizations/organization-dashboard";
+import { MEMBER_ROLES } from "@/components/features/organizations/types";
+import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
+import { DEFAULT_PROJECT_SORTING_FIELD } from "@/config/projects";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
@@ -23,9 +24,6 @@ export default async function DashboardPage() {
     session?.session?.activeOrganizationId || organizations[0]?.id || "";
 
   // Prefetch all data using oRPC procedures for client components
-  // This enables server-side Suspense without hydration errors
-  // Data is dehydrated and sent with HTML, then rehydrated on client
-  // Using await ensures data is in cache BEFORE dehydration
   await Promise.all([
     queryClient.prefetchQuery(
       orpcQuery.projects.list.queryOptions({
@@ -40,7 +38,21 @@ export default async function DashboardPage() {
       orpcQuery.members.search.queryOptions({
         input: {
           organizationId: activeOrganizationId,
-          roles: [memberRoles.Participant],
+          filters: {
+            roles: [MEMBER_ROLES.Participant],
+            search: undefined,
+            sortBy: undefined,
+            sortDirection: "asc",
+            limit: DEFAULT_PAGE_SIZE,
+            offset: 0,
+          },
+        },
+      }),
+    ),
+    queryClient.prefetchQuery(
+      orpcQuery.organizations.getStats.queryOptions({
+        input: {
+          organizationId: activeOrganizationId,
         },
       }),
     ),
@@ -55,7 +67,7 @@ export default async function DashboardPage() {
         </div>
         <p className="text-muted-foreground">{t("description")}</p>
       </div>
-      <DashboardTabs organizationId={activeOrganizationId} />
+      <OrganizationDashboard organizationId={activeOrganizationId} />
     </div>
   );
 }

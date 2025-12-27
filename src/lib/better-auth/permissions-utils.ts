@@ -7,10 +7,8 @@
  * Note: For server-side or dynamic role checks, use auth.api.hasPermission instead.
  */
 
-import {
-  type MemberRole,
-  memberRoles,
-} from "@/components/features/organizations/types";
+import type { MemberRole } from "@/components/features/organizations/types";
+import { MEMBER_ROLES } from "@/components/features/organizations/types";
 import type { ProjectPermission } from "@/components/features/projects/permissions";
 import { authClient } from "@/lib/better-auth/auth-client";
 
@@ -69,7 +67,7 @@ export function useProjectPermissions() {
     authClient.useActiveOrganization();
 
   // Default to least privileged role
-  let role: MemberRole = memberRoles.Participant;
+  let role: MemberRole = MEMBER_ROLES.Participant;
 
   // Find current user's role in the active organization
   if (activeOrg && session?.user?.id) {
@@ -90,7 +88,7 @@ export function useProjectPermissions() {
     canRead: checkProjectPermission(role, ["read"]),
     canUpdate: checkProjectPermission(role, ["update"]),
     canDelete: checkProjectPermission(role, ["delete"]),
-    canShare: checkProjectPermission(role, ["share"]),
+    canArchive: checkProjectPermission(role, ["archive"]),
   };
 }
 
@@ -109,10 +107,10 @@ export function canUpdateProjects(role: MemberRole): boolean {
 }
 
 /**
- * Check if a user's role can delete projects
+ * Check if a user's role can archive projects
  */
-export function canDeleteProjects(role: MemberRole): boolean {
-  return checkProjectPermission(role, ["delete"]);
+export function canArchiveProjects(role: MemberRole): boolean {
+  return checkProjectPermission(role, ["archive"]);
 }
 
 /**

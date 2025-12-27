@@ -307,14 +307,15 @@
       "description": "Überblick über die Statistiken, Projekte und Teilnehmenden Ihrer Organisation.",
       "welcome-to-your-organizations-dashboard": "Organisationsmanagement",
       "total-projects": "Gesamtanzahl der Projekte",
-      "total-participants": "Gesamtzahl der Teilnehmer",
+      "total-participants": "Gesamtzahl der Teilnehmenden",
       "total-activities": "Gesamtemissionen durch Aktivitäten",
       "coming-soon": "Demnächst verfügbar",
       "tabs": {
-        "dashboard": "Übersicht",
         "participants": "Teilnehmende",
         "projects": "Projekte",
-        "loading-projects": "Projekte werden geladen..."
+        "loading-projects": "Projekte werden geladen...",
+        "statistics": "Statistiken",
+        "loading-stats": "Die Statistiken werden gerade geladen."
       }
     },
     "projects": {
@@ -375,6 +376,21 @@
           "toast-success": "{count} Projekte erfolgreich gelöscht",
           "toast-error": "Fehler beim Löschen der Projekte",
           "toast-error-generic": "Fehler beim Löschen der Projekte"
+        },
+        "archive": {
+          "archive": "Archivieren",
+          "unarchive": "Wiederherstellen",
+          "confirm-title": "Projekt archivieren?",
+          "confirm-description": "Dies wird das Projekt \"{name}\" archivieren. Sie können es später aus dem Archiv wiederherstellen.",
+          "unarchive-title": "Projekt wiederherstellen?",
+          "unarchive-description": "Dies wird das Projekt \"{name}\" aus dem Archiv wiederherstellen.",
+          "confirm-button": "Projekt archivieren",
+          "unarchive-button": "Projekt wiederherstellen",
+          "cancel-button": "Abbrechen",
+          "toast-success": "Projekt erfolgreich archiviert",
+          "toast-unarchive-success": "Projekt erfolgreich wiederhergestellt",
+          "toast-error": "Fehler beim Archivieren des Projekts",
+          "toast-error-generic": "Fehler beim Archivieren des Projekts"
         },
         "new": {
           "toast": {
@@ -457,10 +473,6 @@
         "clear": "Löschen Sie alle Filter"
       },
       "loading": "Teammitglieder werden geladen...",
-      "emptyState": {
-        "title": "Keine Teammitglieder gefunden",
-        "description": "Keine Teammitglieder entsprechen Ihren Suchkriterien. Versuchen Sie, Ihre Filter anzupassen oder laden Sie neue Mitglieder zu Ihrer Organisation ein."
-      },
       "noResults": "Keine Ergebnisse.",
       "rowsSelected": "{selected} von {total} Zeile(n) ausgewählt.",
       "previous": "Zurück",
@@ -482,6 +494,28 @@
         "sendingButton": "Wird gesendet...",
         "sendButton": "Einladung senden",
         "successToast": "Teammitglied erfolgreich eingeladen."
+      },
+      "emptyState": {
+        "title": "Keine Teammitglieder gefunden",
+        "description": "Kein Teammitglied entspricht deinen Suchkriterien. \nVersuche, deine Filter anzupassen oder neue Teammitglieder in die Organisation einzuladen."
+      }
+    },
+    "participants": {
+      "title": "Alle Teilnehmende",
+      "description": "Liste aller Projektteilnehmenden in deiner Organisation",
+      "emptyState": {
+        "description": "Keine Projektteilnehmende gefunden",
+        "title": "Keine Projektteilnehmenden entsprechen deinen Suchkriterien. \nVersuche, deine Filter anzupassen oder sende den „Teilnahmelink“ an die teilnehmende Person."
+      }
+    },
+    "projectsArchive": {
+      "title": "Archivierte Projekte",
+      "description": "Alle archivierte Projekte anzeigen und wiederherstellen",
+      "suspense-loading": "Archivierte Projekte werden geladen...",
+      "error-message": "Fehler beim Laden der archivierten Projekte.",
+      "no-archived-projects": {
+        "title": "Keine archivierten Projekte",
+        "description": "Du hast noch keine Projekte archiviert. Archivierte Projekte erscheinen hier und können jederzeit wiederhergestellt werden."
       }
     },
     "settings": {
@@ -496,9 +530,10 @@
   "app": {
     "sidebar": {
       "projects": {
-        "groupLabel": "Projekte deiner Organisation",
-        "control": "Steuerung",
-        "liveView": "Live-Ansicht"
+        "groupLabel": "Projektbereich",
+        "projects": "Projekte",
+        "participants": "Teilnehmende",
+        "archive": "Archiv"
       },
       "organization": {
         "groupLabel": "Organisationsbereich",
@@ -530,7 +565,7 @@
       "activities-description": "Projektaktivitäten werden hier angezeigt.",
       "loading": "Projektdetails werden geladen...",
       "people-joined": "Leute sind bereits beigetreten",
-      "no-participants-yet": "Noch keine Teilnehmer",
+      "no-participants-yet": "Noch keine Teilnehmenden",
       "share-the-participation-link": "Teile den Teilnahmelink, um Personen zu diesem Projekt einzuladen.",
       "tabs": {
         "details": "Projektdetails",

@@ -7,12 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type z from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
-import {
-  activityValues,
-  DISTANCE_KM_STEP,
-  MIN_DISTANCE_KM,
-  type ProjectActivityType,
-} from "@/components/features/projects/types";
+import type { ProjectActivityType } from "@/components/features/projects/types";
 import {
   CreateActivityInputSchema,
   type UpdateActivityInputSchema,
@@ -33,6 +28,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  ACTIVITY_VALUES,
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
+} from "@/config/activities";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface ProjectActivityFormProps {
@@ -178,7 +178,7 @@ export function ProjectActivityForm({
                     />
                   </SelectTrigger>
                   <SelectContent>
-                    {activityValues.map((type) => (
+                    {ACTIVITY_VALUES.map((type) => (
                       <SelectItem key={type} value={type}>
                         {t(`types.${type}`)}
                       </SelectItem>

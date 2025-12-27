@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-import { memberRoles } from "@/components/features/organizations/types";
+import { MEMBER_ROLES } from "@/components/features/organizations/types";
 import {
   invitation,
   member as memberTable,
@@ -50,7 +50,7 @@ export const InviteFormSchema = createInsertSchema(invitation)
   .extend({
     name: z.string().optional(),
     // Refine role to only allow valid member roles
-    role: z.enum(Object.values(memberRoles)),
+    role: z.enum(Object.values(MEMBER_ROLES)),
   });
 
 export const EditOrganizationFormSchema = z.object({

@@ -1,14 +1,29 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { CalendarDaysIcon, GlobeIcon, LeafIcon } from "lucide-react";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import {
+  ArchiveIcon,
+  CalendarDaysIcon,
+  Edit2Icon,
+  GlobeIcon,
+  LeafIcon,
+  Trash2Icon,
+} from "lucide-react";
 import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
+import { toast } from "sonner";
 import { ParticipantsLinkControls } from "@/components/features/participants/participants-link-controls";
 import { ParticipantsList } from "@/components/features/participants/participants-list";
 import { ProjectActivitiesList } from "@/components/features/project-activities/project-activities-list";
+import { EditProjectForm } from "@/components/features/projects/edit-project-form";
 import { ProjectDetails } from "@/components/features/projects/project-details";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardAction,
@@ -18,11 +33,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useConfirmDialog } from "@/components/ui/confirm-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { getCountryData } from "@/lib/i18n/countries";
-import { orpcQuery } from "@/lib/orpc/orpc";
+import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import {
   calculateActivitiesCO2,
   MILLISECONDS_PER_DAY,
@@ -40,9 +62,17 @@ interface ProjectDetailsProps {
  */
 export function ProjectTabs({ id }: ProjectDetailsProps) {
   const t = useTranslations("project.details");
-  const { canUpdate } = useProjectPermissions();
+  const tProject = useTranslations("organization.projects");
+  const {
+    canUpdate,
+    canDelete,
+    isPending: permissionsPending,
+  } = useProjectPermissions();
   const format = useFormatter();
   const locale = useLocale();
+  const queryClient = useQueryClient();
+  const { confirm, ConfirmDialogComponent } = useConfirmDialog();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // Fetch project details
   const { data: project } = useSuspenseQuery(
@@ -50,6 +80,16 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
       input: { id },
     }),
   );
+
+  // Fetch session to check archive permissions
+  const { data: session } = useSuspenseQuery(
+    orpcQuery.betterauth.getSession.queryOptions(),
+  );
+
+  // Check if user can archive (owner OR responsible employee)
+  const canArchive =
+    session?.user?.id === project.responsibleUserId ||
+    session?.session.activeOrganizationId === project.organizationId;
 
   // Fetch participants
   const { data: participants } = useSuspenseQuery(
@@ -91,6 +131,64 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
   // Calculate CO2 emissions from project activities
   const projectActivitiesCO2 = calculateActivitiesCO2(activities);
 
+  // Delete project mutation
+  const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
+    useMutation({
+      mutationFn: () =>
+        orpc.projects.delete({
+          id: project.id,
+        }),
+      onSuccess: (result) => {
+        if (result.success) {
+          toast.success(tProject("form.delete.toast-success"));
+          queryClient.invalidateQueries({
+            queryKey: orpcQuery.projects.list.queryKey(),
+          });
+        } else {
+          toast.error(tProject("form.delete.toast-error"));
+        }
+      },
+      onError: (err: unknown) => {
+        console.error(err);
+        const message = err instanceof Error ? err.message : String(err);
+        toast.error(message || tProject("form.delete.toast-error-generic"));
+      },
+    });
+
+  // Archive project mutation
+  const { mutateAsync: archiveProjectMutation, isPending: isArchiving } =
+    useMutation({
+      mutationFn: (archived: boolean) =>
+        orpc.projects.archive({
+          id: project.id,
+          archived,
+        }),
+      onSuccess: (result) => {
+        if (result.success) {
+          toast.success(
+            result.project.archived
+              ? tProject("form.archive.toast-success")
+              : tProject("form.archive.toast-unarchive-success"),
+          );
+          queryClient.invalidateQueries({
+            queryKey: orpcQuery.projects.list.queryKey(),
+          });
+          queryClient.invalidateQueries({
+            queryKey: orpcQuery.projects.getById.queryKey({
+              input: { id: project.id },
+            }),
+          });
+        } else {
+          toast.error(tProject("form.archive.toast-error"));
+        }
+      },
+      onError: (err: unknown) => {
+        console.error(err);
+        const message = err instanceof Error ? err.message : String(err);
+        toast.error(message || tProject("form.archive.toast-error-generic"));
+      },
+    });
+
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       {/* Project Header with Statistics */}
@@ -121,6 +219,95 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
           </div>
 
           <CardAction className="flex flex-col items-end gap-2">
+            {/* Action buttons for mobile-friendly placement */}
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              {canUpdate && (
+                <Button
+                  className="border-secondary/40 text-secondary"
+                  disabled={permissionsPending}
+                  onClick={() => setIsEditModalOpen(true)}
+                  size="sm"
+                  variant="secondaryghost"
+                >
+                  <Edit2Icon className="h-4 w-4" />
+                  <span className="ml-1 hidden sm:inline">
+                    {tProject("table.edit-project")}
+                  </span>
+                </Button>
+              )}
+              {canArchive && (
+                <Button
+                  disabled={isArchiving || permissionsPending}
+                  onClick={async () => {
+                    const isCurrentlyArchived = project.archived ?? false;
+                    const confirmed = await confirm({
+                      title: isCurrentlyArchived
+                        ? tProject("form.archive.unarchive-title")
+                        : tProject("form.archive.confirm-title"),
+                      description: isCurrentlyArchived
+                        ? tProject("form.archive.unarchive-description", {
+                            name: project.name,
+                          })
+                        : tProject("form.archive.confirm-description", {
+                            name: project.name,
+                          }),
+                      confirmText: isCurrentlyArchived
+                        ? tProject("form.archive.unarchive-button")
+                        : tProject("form.archive.confirm-button"),
+                      cancelText: tProject("form.archive.cancel-button"),
+                      isDestructive: false,
+                    });
+                    if (confirmed) {
+                      try {
+                        await archiveProjectMutation(!isCurrentlyArchived);
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }
+                  }}
+                  size="sm"
+                  variant="outline"
+                >
+                  <ArchiveIcon className="h-4 w-4" />
+                  <span className="ml-1 hidden sm:inline">
+                    {project.archived
+                      ? tProject("form.archive.unarchive")
+                      : tProject("form.archive.archive")}
+                  </span>
+                </Button>
+              )}
+              {canDelete && (
+                <Button
+                  disabled={isDeleting || permissionsPending}
+                  onClick={async () => {
+                    const confirmed = await confirm({
+                      title: tProject("form.delete.confirm-title"),
+                      description: tProject("form.delete.confirm-description", {
+                        name: project.name,
+                      }),
+                      confirmText: tProject("form.delete.confirm-button"),
+                      cancelText: tProject("form.delete.cancel-button"),
+                      isDestructive: true,
+                    });
+                    if (confirmed) {
+                      try {
+                        await deleteProjectMutation();
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }
+                  }}
+                  size="sm"
+                  variant="destructive"
+                >
+                  <Trash2Icon className="h-4 w-4" />
+                  <span className="ml-1 hidden sm:inline">
+                    {tProject("table.delete-project")}
+                  </span>
+                </Button>
+              )}
+            </div>
+
             {/* Consolidated location badge: Flag + localized country name + city */}
             {(() => {
               const countryData = getCountryData(project.country, locale);
@@ -257,6 +444,24 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
           <ParticipantsList activeProjectId={id} />
         </TabsContent>
       </Tabs>
+
+      {/* Edit Project Dialog */}
+      {canUpdate && (
+        <Dialog onOpenChange={setIsEditModalOpen} open={isEditModalOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{tProject("form.edit.title")}</DialogTitle>
+            </DialogHeader>
+            <EditProjectForm
+              onSuccess={() => setIsEditModalOpen(false)}
+              project={project}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Confirm Dialog Component */}
+      <ConfirmDialogComponent />
     </div>
   );
 }

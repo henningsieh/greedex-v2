@@ -57,7 +57,7 @@ export class ValibotToJsonSchemaConverter implements ConditionalSchemaConverter 
 
   convert(schema: AnySchema | undefined, _options: SchemaConvertOptions): [required: boolean, jsonSchema: Exclude<JSONSchema, boolean>] {
     // Most JSON schema converters do not convert the `required` property separately, so returning `true` is acceptable here.
-    return [true, toJsonSchema(schema as any)]
+    return [true, toJsonSchema(schema)]
   }
 }
 ```

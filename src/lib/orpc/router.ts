@@ -1,9 +1,11 @@
 import type { InferRouterOutputs } from "@orpc/server";
 import {
+  getOrganizationStats,
   listOrganizations,
   searchMembers,
 } from "@/components/features/organizations/procedures";
 import {
+  archiveProject,
   batchDeleteProjects,
   createProject,
   createProjectActivity,
@@ -49,6 +51,7 @@ export const router = {
   organizations: {
     list: listOrganizations,
     getActive: getFullOrganization,
+    getStats: getOrganizationStats,
   },
 
   // Member namespace
@@ -64,6 +67,7 @@ export const router = {
     getForParticipation: getProjectForParticipation,
     update: updateProject,
     delete: deleteProject,
+    archive: archiveProject,
     batchDelete: batchDeleteProjects,
     setActive: setActiveProject,
     getParticipants: getProjectParticipants,

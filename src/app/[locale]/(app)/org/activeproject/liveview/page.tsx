@@ -70,12 +70,12 @@
 
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { activityValues } from "@/components/features/projects/types";
 import { Leaderboard } from "@/components/participate/leaderboard";
 import { LiveIndicator } from "@/components/participate/live-indicator";
 import { StatsOverview } from "@/components/participate/stats-overview";
 import { TransportBreakdown } from "@/components/participate/transport-breakdown";
 import type { Participant, ProjectStats } from "@/components/participate/types";
+import { ACTIVITY_VALUES } from "@/config/activities";
 import { CO2_FACTORS } from "@/lib/utils/project-utils";
 
 /**
@@ -130,7 +130,7 @@ function generateMockData(): Participant[] {
       },
       (_, i) => {
         const type =
-          activityValues[Math.floor(Math.random() * activityValues.length)];
+          ACTIVITY_VALUES[Math.floor(Math.random() * ACTIVITY_VALUES.length)];
         const distanceKm = Math.floor(Math.random() * 1500) + 100;
         const co2Kg = distanceKm * CO2_FACTORS[type];
 
@@ -179,7 +179,7 @@ function calculateStats(participants: Participant[]): ProjectStats {
   const totalCO2 = participants.reduce((sum, p) => sum + p.totalCO2, 0);
   const averageCO2 = totalParticipants > 0 ? totalCO2 / totalParticipants : 0;
 
-  const breakdownByType = activityValues.reduce(
+  const breakdownByType = ACTIVITY_VALUES.reduce(
     (acc, type) => {
       acc[type] = {
         distance: 0,
@@ -240,7 +240,7 @@ export default function Dashboard() {
 
         // Add a new activity
         const type =
-          activityValues[Math.floor(Math.random() * activityValues.length)];
+          ACTIVITY_VALUES[Math.floor(Math.random() * ACTIVITY_VALUES.length)];
         const distanceKm = Math.floor(Math.random() * 500) + 50;
         const co2Kg = distanceKm * CO2_FACTORS[type];
 

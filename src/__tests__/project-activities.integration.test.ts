@@ -169,6 +169,7 @@ describe("Project Activities Integration Tests", () => {
         organizationId: orgId,
         createdAt: new Date(),
         updatedAt: new Date(),
+        archived: false,
       } satisfies ProjectType;
 
       // Insert project directly
@@ -200,6 +201,7 @@ describe("Project Activities Integration Tests", () => {
         organizationId: orgId,
         createdAt: new Date(),
         updatedAt: new Date(),
+        archived: false,
       } satisfies ProjectType;
 
       // Insert project
@@ -462,6 +464,7 @@ describe("Project Activities Integration Tests", () => {
         organizationId: orgId,
         createdAt: new Date(),
         updatedAt: new Date(),
+        archived: false,
       } satisfies ProjectType;
 
       // Create project

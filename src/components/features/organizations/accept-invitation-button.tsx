@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { DASHBOARD_PATH } from "@/config/app-routes";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { useRouter } from "@/lib/i18n/routing";
+import { DASHBOARD_PATH } from "@/lib/utils/app-routes";
 
 interface Props {
   invitationId: string;

@@ -18,7 +18,6 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { getProjectColumns } from "@/components/features/projects/columns";
 import type { ProjectType } from "@/components/features/projects/types";
-import { DEFAULT_PROJECT_SORTING_FIELD } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import { useConfirmDialog } from "@/components/ui/confirm-dialog";
 import {
@@ -36,6 +35,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DEFAULT_PROJECT_SORTING_FIELD } from "@/config/projects";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
@@ -188,7 +188,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="rounded-md border">
+        <div className="overflow-x-auto rounded-md border">
           <Table>
             <TableHeader className="border-b bg-muted/50">
               {table.getHeaderGroups().map((headerGroup) => (

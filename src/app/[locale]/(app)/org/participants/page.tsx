@@ -1,12 +1,10 @@
-import { UsersIcon } from "lucide-react";
 import { headers as nextHeaders } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { MEMBER_ROLES } from "@/components/features/organizations/types";
-import {
-  TeamTableSkeleton,
-  UsersTable,
-} from "@/components/features/organizations/users-table";
+import { TeamTableSkeleton } from "@/components/features/organizations/users-table";
+import { ParticipantsTable } from "@/components/features/participants/participants-table";
+import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
@@ -26,7 +24,7 @@ export default async () => {
   const activeOrganizationId =
     session?.session?.activeOrganizationId || organizations[0]?.id || "";
 
-  // Prefetch team members data
+  // Prefetch participants data (members with "member" role)
   // Using await ensures data is in cache BEFORE dehydration
   const queryClient = getQueryClient();
   await queryClient.prefetchQuery(
@@ -34,7 +32,7 @@ export default async () => {
       input: {
         organizationId: activeOrganizationId,
         filters: {
-          roles: [MEMBER_ROLES.Owner, MEMBER_ROLES.Employee],
+          roles: [MEMBER_ROLES.Participant],
           search: undefined,
           sortBy: undefined,
           sortDirection: "asc",
@@ -45,25 +43,19 @@ export default async () => {
     }),
   );
 
-  const t = await getTranslations("organization.team");
+  const t = await getTranslations("organization.participants");
 
   return (
     <div className="space-y-8">
       <div className="space-y-4">
         <div className="flex items-center justify-start gap-3">
-          <UsersIcon className="mb-1.5 size-9" />
+          <PROJECT_ICONS.participants className="size-10" />
           <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
         </div>
         <p className="text-muted-foreground">{t("description")}</p>
       </div>
       <Suspense fallback={<TeamTableSkeleton />}>
-        <UsersTable
-          emptyDescription={t("emptyState.description")}
-          emptyTitle={t("emptyState.title")}
-          organizationId={activeOrganizationId}
-          roles={[MEMBER_ROLES.Owner, MEMBER_ROLES.Employee]}
-          showInviteButton={true}
-        />
+        <ParticipantsTable organizationId={activeOrganizationId} />
       </Suspense>
     </div>
   );

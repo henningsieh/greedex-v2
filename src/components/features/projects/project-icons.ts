@@ -4,6 +4,7 @@
  */
 
 import {
+  ArchiveIcon,
   BabyIcon,
   MapIcon,
   MapPinnedIcon,
@@ -27,4 +28,7 @@ export const PROJECT_ICONS = {
 
   /** Icon for project participants */
   participants: BabyIcon,
+
+  /** Icon for archived projects */
+  archive: ArchiveIcon,
 } as const;

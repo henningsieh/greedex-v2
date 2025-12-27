@@ -1,9 +1,9 @@
 "use client";
 
 import { TransportIcon } from "@/components/features/project-activities/transport-icon";
-import { activityValues } from "@/components/features/projects/types";
 import type { ProjectStats } from "@/components/participate/types";
 import { Card } from "@/components/ui/card";
+import { ACTIVITY_VALUES } from "@/config/activities";
 
 interface TransportBreakdownProps {
   stats: ProjectStats;
@@ -17,7 +17,7 @@ interface TransportBreakdownProps {
  */
 export function TransportBreakdown({ stats }: TransportBreakdownProps) {
   const maxCO2 = Math.max(
-    ...activityValues.map((type) => stats.breakdownByType[type]?.co2 || 0),
+    ...ACTIVITY_VALUES.map((type) => stats.breakdownByType[type]?.co2 || 0),
   );
 
   const typeLabels = {
@@ -46,7 +46,7 @@ export function TransportBreakdown({ stats }: TransportBreakdownProps) {
       </div>
 
       <div className="space-y-6 p-6">
-        {activityValues.map((type) => {
+        {ACTIVITY_VALUES.map((type) => {
           const data = stats.breakdownByType[type];
           const co2 = data?.co2 || 0;
           const distance = data?.distance || 0;

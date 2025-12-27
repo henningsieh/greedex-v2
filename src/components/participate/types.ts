@@ -1,10 +1,10 @@
 import type { z } from "zod";
 import type { ParticipantSchema } from "@/components/features/participants/validation-schemas";
-import { activityValues } from "@/components/features/projects/types";
+import { ACTIVITY_VALUES } from "@/config/activities";
 
 // Participant activities extend project activities with plane and electric car
 const participantActivityValues = [
-  ...activityValues,
+  ...ACTIVITY_VALUES,
   "plane",
   "electricCar",
 ] as const;

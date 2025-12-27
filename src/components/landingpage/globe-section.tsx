@@ -2,8 +2,8 @@
 
 import { AnimatedGroup } from "@/components/animated-group";
 import { Globe } from "@/components/ui/globe";
-import { EU_CAPITAL_CITIES } from "@/config/eu-cities";
 import { EU_MEMBER_COUNT, type EUCountryCode } from "@/config/eu-countries";
+import { EU_CAPITAL_CITIES } from "@/lib/i18n/eu-cities";
 
 const transitionVariants = {
   item: {

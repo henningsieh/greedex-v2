@@ -3,7 +3,7 @@
 import createGlobe from "cobe";
 import { useCallback, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
-import type { CityLocation } from "@/config/eu-cities";
+import type { CityLocation } from "@/lib/i18n/eu-cities";
 
 export interface GlobeProps {
   className?: string;

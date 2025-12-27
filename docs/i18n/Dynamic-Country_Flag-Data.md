@@ -121,7 +121,7 @@ export default getRequestConfig(async () => {
   let locale = cookieStore.get('NEXT_LOCALE')?.value;
   
   // Fallback to 'en' if not found or not supported
-  if (!locale || !locales.includes(locale as any)) {
+  if (!locale || !locales.includes(locale)) {
     locale = 'en';
   }
 

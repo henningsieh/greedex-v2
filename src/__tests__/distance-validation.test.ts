@@ -1,12 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
-  DISTANCE_KM_STEP,
-  MIN_DISTANCE_KM,
-} from "@/components/features/projects/types";
-import {
   CreateActivityInputSchema,
   EditActivityFormItemSchema,
 } from "@/components/features/projects/validation-schemas";
+import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/config/activities";
 import {
   isMultipleOfStep,
   validateDistanceStep,

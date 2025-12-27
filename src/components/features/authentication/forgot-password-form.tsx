@@ -18,10 +18,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
-import { LOGIN_PATH, RESET_PASSWORD_PATH } from "@/config/app-routes";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
+import { LOGIN_PATH, RESET_PASSWORD_PATH } from "@/lib/utils/app-routes";
 
 export function ForgotPasswordForm({
   className,

@@ -16,11 +16,6 @@ import {
 } from "@/components/features/projects/form-constants";
 import type { ProjectType } from "@/components/features/projects/types";
 import {
-  activityValues,
-  DISTANCE_KM_STEP,
-  MIN_DISTANCE_KM,
-} from "@/components/features/projects/types";
-import {
   EditActivityFormItemSchema,
   EditProjectWithActivitiesSchema,
 } from "@/components/features/projects/validation-schemas";
@@ -44,6 +39,11 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  ACTIVITY_VALUES,
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
+} from "@/config/activities";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface EditProjectFormProps {
@@ -367,7 +367,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                       />
                     </SelectTrigger>
                     <SelectContent>
-                      {activityValues.map((type) => (
+                      {ACTIVITY_VALUES.map((type) => (
                         <SelectItem key={type} value={type}>
                           {tActivities(`types.${type}`)}
                         </SelectItem>

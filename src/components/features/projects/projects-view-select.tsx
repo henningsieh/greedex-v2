@@ -2,7 +2,6 @@
 
 import { Grid2X2Icon, TablePropertiesIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-// import { PROJECT_SORT_FIELDS } from "@/components/features/projects/types"; // unused
 import { Button } from "@/components/ui/button";
 
 // Note: Sorting UI moved to `ProjectsGrid` to keep grid sorting internal

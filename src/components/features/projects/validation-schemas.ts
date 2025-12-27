@@ -4,10 +4,7 @@ import {
   createUpdateSchema,
 } from "drizzle-zod";
 import z from "zod";
-import {
-  DISTANCE_KM_STEP,
-  MIN_DISTANCE_KM,
-} from "@/components/features/projects/types";
+import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/config/activities";
 import { EU_COUNTRY_CODES } from "@/config/eu-countries";
 import {
   organization,

@@ -1,6 +1,6 @@
 import type { ProjectActivityType } from "@/components/features/projects/types";
-import { type AppRoute, PROJECT_DETAIL_PATH } from "@/config/app-routes";
 import { orpc } from "@/lib/orpc/orpc";
+import { type AppRoute, PROJECT_DETAIL_PATH } from "@/lib/utils/app-routes";
 
 /**
  * Get the project detail path for a given project ID

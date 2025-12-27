@@ -1,17 +1,24 @@
+import { and, count, countDistinct, eq } from "drizzle-orm";
 import { z } from "zod";
 import {
-  memberRoles,
-  type SortField,
-  validSortFields,
+  MEMBER_ROLES,
+  type MemberSortField,
 } from "@/components/features/organizations/types";
 import { MemberWithUserSchema } from "@/components/features/organizations/validation-schemas";
+import { MEMBER_SORT_FIELDS } from "@/config/organizations";
 import { auth } from "@/lib/better-auth";
+import { db } from "@/lib/drizzle/db";
+import {
+  projectActivitiesTable,
+  projectParticipantsTable,
+  projectsTable,
+} from "@/lib/drizzle/schemas/project-schema";
 import { base } from "@/lib/orpc/context";
 import { authorized } from "@/lib/orpc/middleware";
 
 function getSortKey(
   member: z.infer<typeof MemberWithUserSchema>,
-  sortBy: SortField,
+  sortBy: MemberSortField,
 ): string | number {
   if (sortBy === "createdAt") {
     const time = new Date(member.createdAt).getTime();
@@ -56,11 +63,11 @@ export const searchMembers = authorized
       organizationId: z.string(),
       filters: z
         .object({
-          roles: z.array(z.enum(Object.values(memberRoles))).optional(),
+          roles: z.array(z.enum(Object.values(MEMBER_ROLES))).optional(),
           // Simple search string to match against user name or email
           search: z.string().optional(),
           // Sorting: a field name (e.g. "createdAt" | "user.name" | "email")
-          sortBy: z.enum(validSortFields).optional(),
+          sortBy: z.enum(MEMBER_SORT_FIELDS).optional(),
           sortDirection: z.enum(["asc", "desc"]).optional(),
           // limit/offset for pagination
           limit: z.number().optional(),
@@ -147,5 +154,86 @@ export const searchMembers = authorized
     return {
       members: paged,
       total: sortedMembers.length,
+    };
+  });
+
+/**
+ * Get organization statistics
+ * Returns total projects, participants, and activities for an organization
+ */
+export const getOrganizationStats = authorized
+  .route({
+    method: "POST",
+    path: "/organizations/stats",
+    description:
+      "Get organization statistics including total projects, participants, and activities",
+    tags: ["Organizations"],
+  })
+  .input(
+    z.object({
+      organizationId: z.string(),
+    }),
+  )
+  .output(
+    z.object({
+      totalProjects: z.number(),
+      totalParticipants: z.number(),
+      totalActivities: z.number(),
+    }),
+  )
+  .handler(async ({ input }) => {
+    const { organizationId } = input;
+
+    // Count total projects for the organization (excluding archived)
+    const projectsResult = await db
+      .select({ count: count() })
+      .from(projectsTable)
+      .where(
+        and(
+          eq(projectsTable.organizationId, organizationId),
+          eq(projectsTable.archived, false),
+        ),
+      );
+
+    const totalProjects = projectsResult[0]?.count ?? 0;
+
+    // Count unique participants across all projects in the organization
+    const participantsResult = await db
+      .select({ count: countDistinct(projectParticipantsTable.userId) })
+      .from(projectParticipantsTable)
+      .innerJoin(
+        projectsTable,
+        eq(projectParticipantsTable.projectId, projectsTable.id),
+      )
+      .where(
+        and(
+          eq(projectsTable.organizationId, organizationId),
+          eq(projectsTable.archived, false),
+        ),
+      );
+
+    const totalParticipants = participantsResult[0]?.count ?? 0;
+
+    // Count total activities across all projects in the organization
+    const activitiesResult = await db
+      .select({ count: count() })
+      .from(projectActivitiesTable)
+      .innerJoin(
+        projectsTable,
+        eq(projectActivitiesTable.projectId, projectsTable.id),
+      )
+      .where(
+        and(
+          eq(projectsTable.organizationId, organizationId),
+          eq(projectsTable.archived, false),
+        ),
+      );
+
+    const totalActivities = activitiesResult[0]?.count ?? 0;
+
+    return {
+      totalProjects,
+      totalParticipants,
+      totalActivities,
     };
   });

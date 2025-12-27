@@ -6,8 +6,9 @@
  * Authentication: Required
  */
 
+import { MEMBER_ROLES } from "@/components/features/organizations/types";
 import { z } from "zod";
-import { memberRoles } from "@/components/features/organizations/types";
+// import { MEMBER_ROLES } from "@/components/features/organizations/types";
 
 // ============================================================================
 // Request Schema
@@ -37,7 +38,7 @@ export const organizationSummarySchema = z.object({
   slug: z.string(),
   logo: z.url().nullable(),
   createdAt: z.date(),
-  role: z.enum(memberRoles), // User's role in this org
+  role: z.enum(MEMBER_ROLES), // User's role in this org
   memberCount: z.number().int().min(1), // For future display
 });
 
@@ -145,9 +146,3 @@ export const listOrganizationsExamples = {
     },
   },
 };
-
-// ============================================================================
-// Contract Tests (SPEC ONLY — execution out-of-scope)
-// NOTE: No automated test harness is included in this repository for these
-// contracts. The contract definitions are specification artifacts; execution
-// and implementation of test harnesses are out-of-scope per product policy.

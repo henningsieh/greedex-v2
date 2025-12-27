@@ -8,6 +8,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import {
+  MEMBER_ROLES,
+  type MemberRole,
+} from "@/components/features/organizations/types";
 import { InviteFormSchema } from "@/components/features/organizations/validation-schemas";
 import InputField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
@@ -38,8 +42,6 @@ import {
 } from "@/components/ui/select";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import type { MemberRole } from "./types";
-import { memberRoles } from "./types";
 
 interface Props {
   organizationId: string;
@@ -49,7 +51,7 @@ interface Props {
 
 export function InviteEmployeeDialog({
   organizationId,
-  allowedRoles = Object.values(memberRoles),
+  allowedRoles = Object.values(MEMBER_ROLES),
   onSuccess,
 }: Props) {
   const queryClient = useQueryClient();
@@ -62,7 +64,7 @@ export function InviteEmployeeDialog({
     defaultValues: {
       email: "",
       name: "",
-      role: memberRoles.Employee,
+      role: MEMBER_ROLES.Employee,
     },
   });
 
@@ -87,7 +89,7 @@ export function InviteEmployeeDialog({
                 input: {
                   organizationId,
                   filters: {
-                    roles: [memberRoles.Owner, memberRoles.Employee],
+                    roles: [MEMBER_ROLES.Owner, MEMBER_ROLES.Employee],
                   },
                 },
               }),
@@ -107,7 +109,7 @@ export function InviteEmployeeDialog({
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button className="ml-auto" variant="default">
+        <Button className="" variant="default">
           <UserPlusIcon className="size-5" />
           {tInvite("button")}
         </Button>

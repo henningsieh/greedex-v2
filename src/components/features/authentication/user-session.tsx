@@ -14,10 +14,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { HOME_PATH, LOGIN_PATH } from "@/config/app-routes";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { HOME_PATH, LOGIN_PATH } from "@/lib/utils/app-routes";
 
 export function UserSession() {
   const t = useTranslations("authentication.login.buttons");

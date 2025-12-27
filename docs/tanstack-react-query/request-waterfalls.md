@@ -1,6 +1,6 @@
 ---
 applyTo: '**'
-url: https://tanstack.com/query/v5/docs/framework/react/guides/request-waterfalls
+url: https://tanstack.com/query/v5/docs/framework/react/guides/request-waterfalls.md
 description: Learn about request waterfalls and how to avoid them for better performance with React Query.
 ---
 
