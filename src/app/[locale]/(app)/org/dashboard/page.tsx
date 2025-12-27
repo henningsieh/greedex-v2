@@ -24,9 +24,6 @@ export default async function DashboardPage() {
     session?.session?.activeOrganizationId || organizations[0]?.id || "";
 
   // Prefetch all data using oRPC procedures for client components
-  // This enables server-side Suspense without hydration errors
-  // Data is dehydrated and sent with HTML, then rehydrated on client
-  // Using await ensures data is in cache BEFORE dehydration
   await Promise.all([
     queryClient.prefetchQuery(
       orpcQuery.projects.list.queryOptions({

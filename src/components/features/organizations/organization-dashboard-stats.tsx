@@ -21,7 +21,7 @@ export function OrganizationDashboardStats({
   );
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-3">
       <Card className="p-6">
         <div className="font-medium text-muted-foreground text-sm">
           {t("total-projects")}
