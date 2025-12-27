@@ -22,8 +22,8 @@ WORKDIR /app
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
 
-# Copy .env file for Next.js build (NEXT_PUBLIC_* vars are baked into client bundle)
-COPY .env .env
+# Copy .env if it exists (for local builds)
+COPY .env* ./
 
 # Copy source code
 COPY . .
@@ -33,7 +33,13 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Build Next.js application
+# Next.js will automatically read NEXT_PUBLIC_* vars from:
+# 1. .env file (local builds)
+# 2. Build ARGs from Coolify (available as process.env during build)
 RUN bun run build
+
+# Remove standalone .env to prevent runtime override
+RUN rm -f .next/standalone/.env
 
 # Production dependencies only
 FROM base AS prod-deps
