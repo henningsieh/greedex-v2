@@ -1,47 +1,78 @@
-import { env } from "@/env";
 import "./globals.css"; // Global CSS import
 import "@/lib/orpc/client.server"; // Initialize server-side oRPC client for pre-rendering
 
 import type { Metadata } from "next";
+import {
+  ANDROID_PACKAGE,
+  APP_NAME,
+  BASE_URL,
+  DESCRIPTION,
+  FACEBOOK_APP_ID,
+  IOS_APP_STORE_ID,
+  KEYWORDS,
+  TITLE,
+} from "@/config/metadata";
+
+const LOGO_PATH = "/greendex_logo.png";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL || "https://greendex.world"),
-  title: "Greendex - Carbon Footprint Calculator for Erasmus+ Projects",
-  description:
-    "Specialized carbon footprint calculator for Erasmus+ youth exchanges, training courses, and meetings. Calculate CO₂ emissions and discover how many trees are needed to offset your project's environmental impact.",
-  keywords: [
-    "carbon footprint",
-    "Erasmus+",
-    "youth exchange",
-    "sustainability",
-    "CO₂ calculator",
-    "environmental impact",
-    "tree planting",
-  ],
+  applicationName: APP_NAME,
+  metadataBase: new URL(BASE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  keywords: KEYWORDS,
   authors: [
     {
-      name: "Greendex",
+      name: APP_NAME,
+      url: BASE_URL,
     },
   ],
   openGraph: {
-    title: "Greendex - Carbon Footprint Calculator for Erasmus+ Projects",
-    description:
-      "Calculate and offset the carbon footprint of your Erasmus+ projects with our specialized CO₂ calculator.",
-    url: "https://greendex.world/",
-    siteName: "Greendex",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: BASE_URL,
+    siteName: APP_NAME,
     type: "website",
-    images: ["/greendex_logo.png"],
+    images: [LOGO_PATH],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Greendex - Carbon Footprint Calculator for Erasmus+ Projects",
-    description:
-      "Calculate and offset the carbon footprint of your Erasmus+ projects with our specialized CO₂ calculator.",
-    images: ["/greendex_logo.png"],
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [LOGO_PATH],
+  },
+  facebook:
+    FACEBOOK_APP_ID && FACEBOOK_APP_ID.length > 0
+      ? { appId: FACEBOOK_APP_ID }
+      : undefined,
+  appLinks: {
+    ios:
+      !!IOS_APP_STORE_ID &&
+      (typeof IOS_APP_STORE_ID === "number" ||
+        (typeof IOS_APP_STORE_ID === "string" && IOS_APP_STORE_ID.length > 0))
+        ? {
+            url: BASE_URL,
+            app_name: APP_NAME,
+            app_store_id: IOS_APP_STORE_ID,
+          }
+        : undefined,
+    android:
+      ANDROID_PACKAGE && ANDROID_PACKAGE.length > 0
+        ? {
+            url: BASE_URL,
+            app_name: APP_NAME,
+            package: ANDROID_PACKAGE,
+          }
+        : undefined,
   },
   icons: {
-    icon: "/greendex_logo_small.png",
+    icon: [
+      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/favicon/apple-touch-icon.png",
   },
+  manifest: "/favicon/site.webmanifest",
 };
 
 export default function RootLayout({
