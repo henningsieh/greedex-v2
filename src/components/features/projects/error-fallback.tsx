@@ -29,7 +29,7 @@ function isDefinedORPCError(
  */
 export function ErrorFallback({ error }: { error: Error }) {
   const router = useRouter();
-  const t = useTranslations("project.errors");
+  const t = useTranslations("project.details.errors");
 
   if (isDefinedORPCError(error)) {
     console.error("ORPC Error in Project Details Page:", error);
