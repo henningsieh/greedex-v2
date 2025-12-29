@@ -50,51 +50,51 @@ interface QuestionnaireFormProps {
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const t = useTranslations("participation.questionnaire");
 
+  const getDefaultAnswers = (
+    project: Project,
+  ): Partial<ParticipantAnswers> => ({
+    firstName: "",
+    country: "",
+    email: "",
+    days: calculateProjectDuration(project.startDate, project.endDate),
+    flightKm: 0,
+    boatKm: 0,
+    trainKm: 0,
+    busKm: 0,
+    carKm: 0,
+    carPassengers: 1,
+    age: 0,
+  });
+
   const [answers, setAnswers] = useState<Partial<ParticipantAnswers>>(() => {
     if (typeof window === "undefined") {
       // Server-side rendering, return default values
-      return {
-        firstName: "",
-        country: "",
-        email: "",
-        days: calculateProjectDuration(project.startDate, project.endDate),
-        flightKm: 0,
-        boatKm: 0,
-        trainKm: 0,
-        busKm: 0,
-        carKm: 0,
-        carPassengers: 1,
-        age: 0,
-      };
+      return getDefaultAnswers(project);
     }
 
     const key = `questionnaire-${project.id}`;
     const stored = localStorage.getItem(key);
     if (stored) {
-      const parsed = JSON.parse(stored);
-      const savedAnswers = parsed.answers || {};
-      // Only set default days if not already saved
-      if (!savedAnswers.days) {
-        savedAnswers.days = calculateProjectDuration(
-          project.startDate,
-          project.endDate,
+      try {
+        const parsed = JSON.parse(stored);
+        const savedAnswers = parsed.answers || {};
+        // Only set default days if not already saved
+        if (!savedAnswers.days) {
+          savedAnswers.days = getDefaultAnswers(project).days;
+        }
+        return savedAnswers;
+      } catch (error) {
+        console.warn(
+          `Invalid JSON in localStorage for key ${key}, falling back to defaults`,
+          error,
         );
+        localStorage.removeItem(key);
+        const savedAnswers: Partial<ParticipantAnswers> = {};
+        savedAnswers.days = getDefaultAnswers(project).days;
+        return savedAnswers;
       }
-      return savedAnswers;
     }
-    return {
-      firstName: "",
-      country: "",
-      email: "",
-      days: calculateProjectDuration(project.startDate, project.endDate),
-      flightKm: 0,
-      boatKm: 0,
-      trainKm: 0,
-      busKm: 0,
-      carKm: 0,
-      carPassengers: 1,
-      age: 0,
-    };
+    return getDefaultAnswers(project);
   });
 
   const [currentStep, setCurrentStep] = useState<number>(() => {
@@ -104,14 +104,39 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
     const key = `questionnaire-${project.id}`;
     const stored = localStorage.getItem(key);
-    return stored ? JSON.parse(stored).currentStep || 0 : 0;
+    if (stored) {
+      try {
+        return JSON.parse(stored).currentStep || 0;
+      } catch (error) {
+        console.warn(
+          `Invalid JSON in localStorage for key ${key}, falling back to step 0`,
+          error,
+        );
+        localStorage.removeItem(key);
+        return 0;
+      }
+    }
+    return 0;
   });
 
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
     const key = `questionnaire-${project.id}`;
-    localStorage.setItem(key, JSON.stringify({ answers, currentStep }));
+    try {
+      localStorage.setItem(key, JSON.stringify({ answers, currentStep }));
+    } catch (error) {
+      console.error(
+        `Failed to save questionnaire data to localStorage for key ${key}:`,
+        error,
+      );
+      // Optionally clear the key if it exists to free up space
+      try {
+        localStorage.removeItem(key);
+      } catch (removeError) {
+        console.error(`Failed to remove localStorage key ${key}:`, removeError);
+      }
+    }
   }, [answers, currentStep, project.id]);
 
   useEffect(() => {
@@ -862,17 +887,15 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Navigation */}
             {renderedStep > 0 && (
               <div className="mt-8 flex gap-3">
-                {renderedStep > 0 && (
-                  <Button
-                    className="h-12 flex-1 text-base"
-                    onClick={handleBack}
-                    type="button"
-                    variant="outline"
-                  >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    {t("navigation.back")}
-                  </Button>
-                )}
+                <Button
+                  className="h-12 flex-1 text-base"
+                  onClick={handleBack}
+                  type="button"
+                  variant="outline"
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  {t("navigation.back")}
+                </Button>
                 <Button
                   className={`h-12 flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-base text-white transition-all duration-250 hover:from-teal-600 hover:to-emerald-600 hover:shadow-md ${
                     renderedStep === 0 ? "w-full" : ""

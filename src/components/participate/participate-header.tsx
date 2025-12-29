@@ -58,13 +58,21 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
         <div className="flex flex-1 items-center justify-start p-6">
           <h1 className="text-center font-bold text-2xl text-foreground leading-tight tracking-tight sm:text-3xl md:text-4xl">
             {project.name}
-            <ProjectLocation
-              className="ml-2 md:hidden"
-              locale={locale}
-              project={project}
-              showFlag
-              variant="inline"
-            />
+            <h1 className="text-center font-bold text-2xl text-foreground leading-tight tracking-tight sm:text-3xl md:text-4xl">
+              {project.name}
+              <h1 className="text-center font-bold text-2xl text-foreground leading-tight tracking-tight sm:text-3xl md:text-4xl">
+                {project.name}
+                {project.location && (
+                  <ProjectLocation
+                    className="ml-2 md:hidden"
+                    locale={locale}
+                    project={project}
+                    showFlag
+                    variant="inline"
+                  />
+                )}
+              </h1>
+            </h1>
           </h1>
         </div>
 
