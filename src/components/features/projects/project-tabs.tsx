@@ -9,8 +9,8 @@ import {
   ArchiveIcon,
   CalendarDaysIcon,
   Edit2Icon,
-  GlobeIcon,
   LeafIcon,
+  MoreHorizontalIcon,
   Trash2Icon,
 } from "lucide-react";
 import { useFormatter, useLocale, useTranslations } from "next-intl";
@@ -22,7 +22,7 @@ import { ProjectActivitiesList } from "@/components/features/project-activities/
 import { EditProjectForm } from "@/components/features/projects/edit-project-form";
 import { ProjectDetails } from "@/components/features/projects/project-details";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
-import { Badge } from "@/components/ui/badge";
+import { ProjectLocation } from "@/components/project-location";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,10 +40,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
-import { getCountryData } from "@/lib/i18n/countries";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import {
   calculateActivitiesCO2,
@@ -61,11 +67,12 @@ interface ProjectDetailsProps {
  * @returns The rendered project overview UI containing the header, statistics grid, participation controls, and tabs
  */
 export function ProjectTabs({ id }: ProjectDetailsProps) {
-  const t = useTranslations("project.details");
   const tProject = useTranslations("organization.projects");
+  const t = useTranslations("project.details");
   const {
     canUpdate,
     canDelete,
+    canArchive,
     isPending: permissionsPending,
   } = useProjectPermissions();
   const format = useFormatter();
@@ -80,16 +87,6 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
       input: { id },
     }),
   );
-
-  // Fetch session to check archive permissions
-  const { data: session } = useSuspenseQuery(
-    orpcQuery.betterauth.getSession.queryOptions(),
-  );
-
-  // Check if user can archive (owner OR responsible employee)
-  const canArchive =
-    session?.user?.id === project.responsibleUserId ||
-    session?.session.activeOrganizationId === project.organizationId;
 
   // Fetch participants
   const { data: participants } = useSuspenseQuery(
@@ -194,11 +191,9 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
       {/* Project Header with Statistics */}
       <Card className="shadow-md">
         <CardHeader>
-          <div>
-            <CardTitle className="text-2xl sm:text-3xl">
-              {project.name}
-            </CardTitle>
-            <CardDescription>
+          <CardTitle className="text-2xl sm:text-3xl">{project.name}</CardTitle>
+          <CardDescription>
+            <div className="flex justify-between">
               <div className="inline-flex items-center gap-3 text-muted-foreground text-sm">
                 <CalendarDaysIcon className="h-4 w-4" />
                 <span>
@@ -206,8 +201,8 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
                     year: "numeric",
                     month: "short",
                     day: "numeric",
-                  })}{" "}
-                  -{" "}
+                  })}
+                  {" - "}
                   {format.dateTime(project.endDate, {
                     year: "numeric",
                     month: "short",
@@ -215,129 +210,106 @@ export function ProjectTabs({ id }: ProjectDetailsProps) {
                   })}
                 </span>
               </div>
-            </CardDescription>
-          </div>
+            </div>
+          </CardDescription>
 
           <CardAction className="flex flex-col items-end gap-2">
-            {/* Action buttons for mobile-friendly placement */}
-            <div className="flex flex-wrap items-center justify-end gap-2">
-              {canUpdate && (
-                <Button
-                  className="border-secondary/40 text-secondary"
-                  disabled={permissionsPending}
-                  onClick={() => setIsEditModalOpen(true)}
-                  size="sm"
-                  variant="secondaryghost"
-                >
-                  <Edit2Icon className="h-4 w-4" />
-                  <span className="ml-1 hidden sm:inline">
-                    {tProject("table.edit-project")}
-                  </span>
+            {/* Action buttons in dropdown menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="icon" variant="secondaryoutline">
+                  <MoreHorizontalIcon className="h-4 w-4" />
                 </Button>
-              )}
-              {canArchive && (
-                <Button
-                  disabled={isArchiving || permissionsPending}
-                  onClick={async () => {
-                    const isCurrentlyArchived = project.archived ?? false;
-                    const confirmed = await confirm({
-                      title: isCurrentlyArchived
-                        ? tProject("form.archive.unarchive-title")
-                        : tProject("form.archive.confirm-title"),
-                      description: isCurrentlyArchived
-                        ? tProject("form.archive.unarchive-description", {
-                            name: project.name,
-                          })
-                        : tProject("form.archive.confirm-description", {
-                            name: project.name,
-                          }),
-                      confirmText: isCurrentlyArchived
-                        ? tProject("form.archive.unarchive-button")
-                        : tProject("form.archive.confirm-button"),
-                      cancelText: tProject("form.archive.cancel-button"),
-                      isDestructive: false,
-                    });
-                    if (confirmed) {
-                      try {
-                        await archiveProjectMutation(!isCurrentlyArchived);
-                      } catch (err) {
-                        console.error(err);
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {canUpdate && (
+                  <DropdownMenuItem
+                    disabled={permissionsPending}
+                    onSelect={() => setIsEditModalOpen(true)}
+                  >
+                    <Edit2Icon className="mr-2 h-4 w-4" />
+                    {tProject("table.edit-project")}
+                  </DropdownMenuItem>
+                )}
+                {canArchive && (
+                  <DropdownMenuItem
+                    disabled={isArchiving || permissionsPending}
+                    onSelect={async () => {
+                      const isCurrentlyArchived = project.archived ?? false;
+                      const confirmed = await confirm({
+                        title: isCurrentlyArchived
+                          ? tProject("form.archive.unarchive-title")
+                          : tProject("form.archive.confirm-title"),
+                        description: isCurrentlyArchived
+                          ? tProject("form.archive.unarchive-description", {
+                              name: project.name,
+                            })
+                          : tProject("form.archive.confirm-description", {
+                              name: project.name,
+                            }),
+                        confirmText: isCurrentlyArchived
+                          ? tProject("form.archive.unarchive-button")
+                          : tProject("form.archive.confirm-button"),
+                        cancelText: tProject("form.archive.cancel-button"),
+                        isDestructive: false,
+                      });
+                      if (confirmed) {
+                        try {
+                          await archiveProjectMutation(!isCurrentlyArchived);
+                        } catch (err) {
+                          console.error(err);
+                        }
                       }
-                    }
-                  }}
-                  size="sm"
-                  variant="outline"
-                >
-                  <ArchiveIcon className="h-4 w-4" />
-                  <span className="ml-1 hidden sm:inline">
+                    }}
+                  >
+                    <ArchiveIcon className="mr-2 h-4 w-4" />
                     {project.archived
                       ? tProject("form.archive.unarchive")
                       : tProject("form.archive.archive")}
-                  </span>
-                </Button>
-              )}
-              {canDelete && (
-                <Button
-                  disabled={isDeleting || permissionsPending}
-                  onClick={async () => {
-                    const confirmed = await confirm({
-                      title: tProject("form.delete.confirm-title"),
-                      description: tProject("form.delete.confirm-description", {
-                        name: project.name,
-                      }),
-                      confirmText: tProject("form.delete.confirm-button"),
-                      cancelText: tProject("form.delete.cancel-button"),
-                      isDestructive: true,
-                    });
-                    if (confirmed) {
-                      try {
-                        await deleteProjectMutation();
-                      } catch (err) {
-                        console.error(err);
-                      }
-                    }
-                  }}
-                  size="sm"
-                  variant="destructive"
-                >
-                  <Trash2Icon className="h-4 w-4" />
-                  <span className="ml-1 hidden sm:inline">
-                    {tProject("table.delete-project")}
-                  </span>
-                </Button>
-              )}
-            </div>
+                  </DropdownMenuItem>
+                )}
+                {canDelete && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      disabled={isDeleting || permissionsPending}
+                      onSelect={async () => {
+                        const confirmed = await confirm({
+                          title: tProject("form.delete.confirm-title"),
+                          description: tProject(
+                            "form.delete.confirm-description",
+                            {
+                              name: project.name,
+                            },
+                          ),
+                          confirmText: tProject("form.delete.confirm-button"),
+                          cancelText: tProject("form.delete.cancel-button"),
+                          isDestructive: true,
+                        });
+                        if (confirmed) {
+                          try {
+                            await deleteProjectMutation();
+                          } catch (err) {
+                            console.error(err);
+                          }
+                        }
+                      }}
+                      variant="destructive"
+                    >
+                      <Trash2Icon className="mr-2 h-4 w-4" />
+                      {tProject("table.delete-project")}
+                    </DropdownMenuItem>
+                  </>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-            {/* Consolidated location badge: Flag + localized country name + city */}
-            {(() => {
-              const countryData = getCountryData(project.country, locale);
-              const ProjectCountryFlag = countryData?.Flag;
-              const countryName = countryData?.name ?? project.country;
-
-              return (
-                <Badge
-                  title={`${countryName}${project.location ? ` | ${project.location}` : ""}`}
-                  variant="secondaryoutline"
-                >
-                  <div className="flex h-8 items-center gap-3 overflow-hidden whitespace-nowrap">
-                    <span className="truncate font-semibold text-muted-foreground text-sm">
-                      {project.location}
-                    </span>
-                    {/* <span>{` | `}</span> */}
-                    <div className="flex items-center gap-1.5">
-                      {ProjectCountryFlag ? (
-                        <ProjectCountryFlag className="size-6 shrink-0 rounded-sm" />
-                      ) : (
-                        <GlobeIcon className="h-4 w-4" />
-                      )}
-                      <span className="truncate font-medium text-muted-foreground text-sm">
-                        {countryName}
-                      </span>
-                    </div>
-                  </div>
-                </Badge>
-              );
-            })()}
+            <ProjectLocation
+              locale={locale}
+              project={project}
+              showFlag
+              variant="badge"
+            />
           </CardAction>
         </CardHeader>
 

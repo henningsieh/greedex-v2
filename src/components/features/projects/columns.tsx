@@ -194,12 +194,9 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
   const {
     canUpdate,
     canDelete,
+    canArchive,
     isPending: permissionsPending,
   } = useProjectPermissions();
-
-  // TODO: Check actual archive permission based on owner OR responsible employee
-  // For now, using canUpdate as proxy
-  const canArchive = canUpdate;
 
   const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
     useMutation({
