@@ -23,10 +23,10 @@ interface ParticipateHeaderProps {
 }
 
 /**
- * Render the participation header for a project, showing title, badge, project name and optional location, and an activities CO₂ baseline when applicable.
+ * Render the participation header for a project, showing a badge, localized titles, the project name with optional location, and an activities CO₂ baseline when present.
  *
- * @param project - Project object to display; uses `project.name`, `project.location`, `project.country`, and `project.activities`
- * @returns A header JSX element containing the badge, translated titles, project name/location, and — if the calculated activities CO₂ is greater than zero — a card showing the baseline CO₂ value formatted with one decimal place (prefixed with `+` and suffixed with `kg CO₂`).
+ * @param project - Project to display; this component reads `project.name`, optional `project.location`, and `project.activities` to compute and present the emissions baseline.
+ * @returns The header JSX element containing the badge, title/subtitle, project name (and inline or badge location) and, when activities produce CO₂, a card showing the calculated baseline value and per-activity breakdown.
  */
 export function ParticipateHeader({ project }: ParticipateHeaderProps) {
   const tActivities = useTranslations("project.activities");

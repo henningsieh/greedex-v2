@@ -47,6 +47,19 @@ interface QuestionnaireFormProps {
   project: Project;
 }
 
+/**
+ * Render an interactive questionnaire UI for a specific project.
+ *
+ * Renders a multi-step form that collects participant answers, calculates emissions
+ * from inputs and project activities, shows step-by-step progress and optional
+ * impact modals for emission-affecting answers, and displays a final emissions summary.
+ * The component persists form state (answers and current step) to localStorage per
+ * project.id and clears that data on submission.
+ *
+ * @param project - Project data (dates, activities, welcome message, id) used to
+ *   initialize defaults, compute project duration, and calculate emissions.
+ * @returns The questionnaire UI as a JSX element.
+ */
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const t = useTranslations("participation.questionnaire");
 
