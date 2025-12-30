@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently --kill-others \"bun run dev:next\" \"bun run dev:socket\"",
     "predev": "bunx kill-port 3000 4000 || true",
+    "dev": "concurrently --kill-others \"bun run dev:next\" \"bun run dev:socket\"",
     "dev:next": "next dev",
     "dev:socket": "bun --watch src/socket-server.ts",
     "dev:inspect": "PORT=3001 NEXT_DIST_DIR=.next-inspect NEXT_PUBLIC_BASE_URL=http://localhost:3001 concurrently --kill-others \"SOCKET_PORT=4001 next dev -p 3001\" \"SOCKET_PORT=4001 bun --watch src/socket-server.ts\"",
