@@ -4,8 +4,8 @@ import type { VariantProps } from "class-variance-authority";
 import { useTranslations } from "next-intl";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Button } from "@/components/ui/button";
-import { CREATE_PROJECT_PATH } from "@/lib/i18n/routes";
 import { Link } from "@/lib/i18n/routing";
+import { CREATE_PROJECT_PATH } from "@/lib/utils/app-routes";
 
 interface CreateProjectButtonProps {
   variant?: VariantProps<typeof Button>["variant"];

@@ -11,13 +11,13 @@ import { Navbar } from "@/components/navbar";
 import { LoadingProvider } from "@/components/providers/loading-provider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
-import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/lib/i18n/routes";
 import { redirect } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import {
   getQueryClient,
   HydrateClient,
 } from "@/lib/tanstack-react-query/hydration";
+import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/lib/utils/app-routes";
 import {
   checkAuthAndOrgs,
   handleUnauthenticatedRedirect,

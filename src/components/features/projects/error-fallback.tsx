@@ -3,9 +3,9 @@
 import { ORPCError } from "@orpc/client";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { PROJECTS_PATH } from "@/lib/i18n/routes";
 import { useRouter } from "@/lib/i18n/routing";
 import type { ErrorCode } from "@/lib/orpc/context";
+import { PROJECTS_PATH } from "@/lib/utils/app-routes";
 
 /**
  * Determines whether a value is an ORPCError with a known ErrorCode.

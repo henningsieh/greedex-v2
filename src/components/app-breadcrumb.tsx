@@ -4,7 +4,6 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import type { LucideIcon } from "lucide-react";
 import { Building2Icon } from "lucide-react";
 
-import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
@@ -19,6 +18,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
+import { Link, usePathname } from "@/lib/i18n/routing";
+import { orpcQuery } from "@/lib/orpc/orpc";
 import {
   DASHBOARD_PATH,
   PARTICIPANTS_PATH,
@@ -26,9 +27,7 @@ import {
   PROJECTS_PATH,
   SETTINGS_PATH,
   TEAM_PATH,
-} from "@/lib/i18n/routes";
-import { Link } from "@/lib/i18n/routing";
-import { orpcQuery } from "@/lib/orpc/orpc";
+} from "@/lib/utils/app-routes";
 
 /**
  * Get the current section info based on pathname
@@ -55,7 +54,7 @@ function getCurrentSection(
       };
     case PROJECTS_PATH:
       return {
-        label: translate("organization.projects"),
+        label: translate("projects.projects"),
         icon: PROJECT_ICONS.projects,
       };
     case PROJECTS_ARCHIVE_PATH:

@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { AnimatedGradientCTA } from "@/components/animated-cta";
 import { Logo } from "@/components/logo";
+import { Link } from "@/lib/i18n/routing";
 import {
   ABOUT_PATH,
   DASHBOARD_PATH,
@@ -11,8 +12,7 @@ import {
   SIGNUP_PATH,
   TIPS_AND_TRICKS_PATH,
   WORKSHOPS_ANCHOR,
-} from "@/lib/i18n/routes";
-import { Link } from "@/lib/i18n/routing";
+} from "@/lib/utils/app-routes";
 
 export default async function FooterSection() {
   const tLanding = await getTranslations("LandingPage");

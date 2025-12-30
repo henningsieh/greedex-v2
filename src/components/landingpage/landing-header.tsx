@@ -14,6 +14,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "@/lib/i18n/routing";
+import { cn } from "@/lib/utils";
 import {
   ABOUT_PATH,
   E_FOREST_PATH,
@@ -23,9 +25,7 @@ import {
   SIGNUP_PATH,
   TIPS_AND_TRICKS_PATH,
   WORKSHOPS_ANCHOR,
-} from "@/lib/i18n/routes";
-import { Link } from "@/lib/i18n/routing";
-import { cn } from "@/lib/utils";
+} from "@/lib/utils/app-routes";
 
 export const LandingHeader = () => {
   const t = useTranslations("header");

@@ -22,8 +22,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { DASHBOARD_PATH } from "@/lib/i18n/routes";
 import { Link } from "@/lib/i18n/routing";
+import { DASHBOARD_PATH } from "@/lib/utils/app-routes";
 
 export function WorkshopDetails({ type }: { type: CalculatorType }) {
   const t = useTranslations("LandingPage.workshops");

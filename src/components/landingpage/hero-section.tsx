@@ -4,8 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { AnimatedGradientCTA } from "@/components/animated-cta";
 import { AnimatedGroup } from "@/components/animated-group";
 import { TextEffect } from "@/components/ui/text-effect";
-import { DASHBOARD_PATH } from "@/lib/i18n/routes";
 import { Link } from "@/lib/i18n/routing";
+import { DASHBOARD_PATH } from "@/lib/utils/app-routes";
 
 const transitionVariants = {
   item: {
