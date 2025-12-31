@@ -86,6 +86,96 @@ export const getSession = base
   });
 
 /**
+ * Sign in with email and password using Better Auth
+ * Returns session and user info on successful authentication
+ */
+export const signIn = base
+  .route({
+    method: "POST",
+    path: "/auth/sign-in",
+    summary: "Sign in with email and password",
+  })
+  .input(
+    z.object({
+      email: z.string().email(),
+      password: z.string().min(1),
+    }),
+  )
+  .output(z.custom<Awaited<ReturnType<typeof auth.api.signInEmail>>>())
+  .handler(async ({ input, context, errors }) => {
+    try {
+      const result = await auth.api.signInEmail({
+        body: input,
+        headers: context.headers,
+      });
+      return result;
+    } catch (error) {
+      throw errors.INTERNAL_SERVER_ERROR({
+        message: "Failed to sign in",
+        cause: error,
+      });
+    }
+  });
+
+/**
+ * Sign up with email and password using Better Auth
+ * Returns session and user info on successful registration
+ */
+export const signUp = base
+  .route({
+    method: "POST",
+    path: "/auth/sign-up",
+    summary: "Sign up with email and password",
+  })
+  .input(
+    z.object({
+      name: z.string().min(1),
+      email: z.string().email(),
+      password: z.string().min(8),
+    }),
+  )
+  .output(z.custom<Awaited<ReturnType<typeof auth.api.signUpEmail>>>())
+  .handler(async ({ input, context, errors }) => {
+    try {
+      const result = await auth.api.signUpEmail({
+        body: input,
+        headers: context.headers,
+      });
+      return result;
+    } catch (error) {
+      throw errors.INTERNAL_SERVER_ERROR({
+        message: "Failed to sign up",
+        cause: error,
+      });
+    }
+  });
+
+/**
+ * Sign out using Better Auth
+ * Invalidates the current session
+ */
+export const signOut = base
+  .route({
+    method: "POST",
+    path: "/auth/sign-out",
+    summary: "Sign out and invalidate session",
+  })
+  .output(z.custom<Awaited<ReturnType<typeof auth.api.signOut>>>())
+  .handler(async ({ context, errors }) => {
+    try {
+      const result = await auth.api.signOut({
+        headers: context.headers,
+      });
+      return result;
+    } catch (error) {
+      throw errors.INTERNAL_SERVER_ERROR({
+        message: "Failed to sign out",
+        cause: error,
+      });
+    }
+  });
+
+/**
  * Get full organization details using Better Auth
  * Uses Better Auth's implicit getFullOrganization endpoint
  */

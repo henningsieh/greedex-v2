@@ -24,8 +24,9 @@ export const MemberWithUserSchema = createSelectSchema(memberTable).extend({
       updatedAt: true,
     })
     .extend({
-      image: z.string().optional(),
-    }),
+      image: z.string().nullable().optional(), // Allow null and undefined values
+    })
+    .loose(), // Allow additional fields from Better Auth
 });
 
 export const OrganizationFormSchema = createInsertSchema(organization, {

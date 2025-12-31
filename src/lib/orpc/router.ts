@@ -26,6 +26,9 @@ import {
   getProfile,
   getSession,
   helloWorld,
+  signIn,
+  signOut,
+  signUp,
 } from "@/lib/orpc/procedures";
 
 /**
@@ -45,6 +48,9 @@ export const router = {
   // Auth namespace for Better Auth procedures
   betterauth: {
     getSession,
+    signIn,
+    signUp,
+    signOut,
   },
 
   // Organization namespace

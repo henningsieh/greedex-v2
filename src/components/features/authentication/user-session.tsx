@@ -20,7 +20,7 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 import { HOME_PATH, LOGIN_PATH } from "@/lib/utils/app-routes";
 
 export function UserSession() {
-  const t = useTranslations("authentication.login.buttons");
+  const t = useTranslations("authentication.login");
   const router = useRouter();
   const { data: session } = useSuspenseQuery(
     orpcQuery.betterauth.getSession.queryOptions(),
@@ -43,7 +43,7 @@ export function UserSession() {
     return (
       <div className="flex items-center">
         <Button asChild className="px-2" variant="link">
-          <Link href={LOGIN_PATH}>{t("login")}</Link>
+          <Link href={LOGIN_PATH}>{t("loginButton")}</Link>
         </Button>
       </div>
     );
