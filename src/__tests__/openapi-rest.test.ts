@@ -546,15 +546,19 @@ describe("API Documentation UI", () => {
     }
 
     // Check that the aria-label is added after JavaScript loads
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({
+      headless: process.env.HEADED !== "true",
+    });
     try {
       const page = await browser.newPage();
+      const OpenAPIDocumentationString =
+        "Open API Documentation for Greedex Calculator API";
       await page.goto(docsUrl);
       await page.waitForSelector(
-        'main[aria-label="Open API Documentation for Greedex Calculator API"]',
+        `main[aria-label="${OpenAPIDocumentationString}"]`,
       );
       const element = page.locator(
-        'main[aria-label="Open API Documentation for Greedex Calculator API"]',
+        `main[aria-label="${OpenAPIDocumentationString}"]`,
       );
       expect(await element.isVisible()).toBe(true);
     } finally {

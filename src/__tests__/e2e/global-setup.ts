@@ -8,7 +8,9 @@ import { env } from "@/env";
  */
 async function globalSetup(config: FullConfig) {
   // Verify server is running
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({
+    headless: process.env.HEADED !== "true",
+  });
   const page = await browser.newPage();
 
   try {

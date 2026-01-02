@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-const SIGN_IN_TITLE_REGEX = /Sign in to your account/;
+const SIGN_IN_TITLE_REGEX = /Welcome back, Greendexer!/;
 const SIGN_IN_TEXT_REGEX =
-  /Enter your credentials below to sign in to your Greendex account/;
+  /Login to your account to continue your Greendex Erasmus\+ Project Work/;
 
 test.describe("Database Connection Verification", () => {
   test("app can connect to database and load sign-in page", async ({

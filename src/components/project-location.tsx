@@ -7,39 +7,70 @@ import { Badge } from "@/components/ui/badge";
 import { getCountryData } from "@/lib/i18n/countries";
 import { cn } from "@/lib/utils";
 
-interface BaseProjectLocationProps {
-  /** Object containing `location` (city/area) and `country` (country code or name). */
-  project: {
-    location?: string;
-    country: string;
-  };
-  /** Visual style: 'badge' for a contained chip, 'inline' for standard text that flows within paragraphs/headers. */
-  variant?: "inline" | "badge";
-  /** Structure of elements: 'unified' ([Flag] City, Country) or 'split' (City | [Flag] Country). */
-  layout?: "unified" | "split";
-  /** If true, renders only the flag icon with the location details as a tooltip. */
-  flagOnly?: boolean;
-  /** Format for displaying country: 'name' for full country name, 'code' for country code. */
-  countryFormat?: "name" | "code";
-  /** Optional CSS classes for custom container styling. */
-  className?: string;
-}
-
-interface ProjectLocationPropsWithFlag extends BaseProjectLocationProps {
-  /** Whether to render the country flag icon. Requires 'locale'. */
-  showFlag: true;
-  locale: string;
-}
-
-interface ProjectLocationPropsWithoutFlag extends BaseProjectLocationProps {
-  /** Whether to render the country flag icon. Does not require 'locale'. */
-  showFlag?: false;
-  locale?: string;
-}
-
 type ProjectLocationProps =
-  | ProjectLocationPropsWithFlag
-  | ProjectLocationPropsWithoutFlag;
+  | {
+      /** Object containing `location` (city/area) and `country` (country code or name). */
+      project: {
+        location?: string;
+        country: string;
+      };
+      /** Visual style: 'badge' for a contained chip, 'inline' for standard text that flows within paragraphs/headers. */
+      variant?: "inline" | "badge";
+      /** Structure of elements: 'unified' ([Flag] City, Country) or 'split' (City | [Flag] Country). */
+      layout?: "unified" | "split";
+      /** If true, renders only the flag icon with the location details as a tooltip. */
+      flagOnly?: boolean;
+      /** Format for displaying country: 'code' for country code. */
+      countryFormat: "code";
+      /** Whether to render the country flag icon. */
+      showFlag?: false;
+      /** Optional locale for country data (not required for 'code' format). */
+      locale?: string;
+      /** Optional CSS classes for custom container styling. */
+      className?: string;
+    }
+  | {
+      /** Object containing `location` (city/area) and `country` (country code or name). */
+      project: {
+        location?: string;
+        country: string;
+      };
+      /** Visual style: 'badge' for a contained chip, 'inline' for standard text that flows within paragraphs/headers. */
+      variant?: "inline" | "badge";
+      /** Structure of elements: 'unified' ([Flag] City, Country) or 'split' (City | [Flag] Country). */
+      layout?: "unified" | "split";
+      /** If true, renders only the flag icon with the location details as a tooltip. */
+      flagOnly?: boolean;
+      /** Format for displaying country: 'name' for full country name (requires locale). */
+      countryFormat: "name";
+      /** Whether to render the country flag icon. */
+      showFlag?: false;
+      /** Locale required for resolving country names. */
+      locale: string;
+      /** Optional CSS classes for custom container styling. */
+      className?: string;
+    }
+  | {
+      /** Object containing `location` (city/area) and `country` (country code or name). */
+      project: {
+        location?: string;
+        country: string;
+      };
+      /** Visual style: 'badge' for a contained chip, 'inline' for standard text that flows within paragraphs/headers. */
+      variant?: "inline" | "badge";
+      /** Structure of elements: 'unified' ([Flag] City, Country) or 'split' (City | [Flag] Country). */
+      layout?: "unified" | "split";
+      /** If true, renders only the flag icon with the location details as a tooltip. */
+      flagOnly?: boolean;
+      /** Format for displaying country: 'name' for full country name, 'code' for country code. */
+      countryFormat?: "name" | "code";
+      /** Whether to render the country flag icon. Requires 'locale'. */
+      showFlag: true;
+      /** Locale used for fetching flag and country names. */
+      locale: string;
+      /** Optional CSS classes for custom container styling. */
+      className?: string;
+    };
 
 /**
  * Reusable component to display project location with optional flag and different variants.
