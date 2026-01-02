@@ -4,7 +4,7 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
-import { ParticipateHeader } from "@/components/participate/participate-header";
+import { ParticipateHeader } from "@/components/participate/components/participate-header";
 import { auth } from "@/lib/better-auth";
 import { getProjectData } from "@/lib/utils/project-utils";
 

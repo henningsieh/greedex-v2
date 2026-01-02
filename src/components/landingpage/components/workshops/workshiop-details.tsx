@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import {
   type CalculatorType,
   WORKSHOP_LINKS,
-} from "@/components/landingpage/workshops/workshops.config";
+} from "@/components/landingpage/components/workshops/workshops.config";
 import {
   Accordion,
   AccordionContent,

@@ -12,13 +12,13 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { AnimatedGroup } from "@/components/animated-group";
 import { CountrySelect } from "@/components/country-select";
-import { ImpactModal } from "@/components/participate/impact-modal";
+import { ImpactModal } from "@/components/participate/components/impact-modal";
 import {
   EMISSION_IMPACT_STEPS,
   QUESTIONNAIRE_STEPS,
   QUESTIONNAIRE_TOTAL_STEPS,
 } from "@/components/participate/questionnaire-constants";
-import { calculateEmissions } from "@/components/participate/questionnaire-utils";
+import { calculateEmissions } from "@/components/participate/utils";
 import type {
   ParticipantAnswers,
   Project,

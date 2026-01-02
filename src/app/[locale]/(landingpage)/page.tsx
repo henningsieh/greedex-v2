@@ -1,6 +1,6 @@
-import { GlobeSection } from "@/components/landingpage/globe-section";
-import { HeroSection } from "@/components/landingpage/hero-section";
-import { WorkshopsHeroSection } from "@/components/landingpage/workshops/workshops-hero-section";
+import { GlobeSection } from "@/components/landingpage/components/globe-section";
+import { HeroSection } from "@/components/landingpage/components/hero-section";
+import { WorkshopsHeroSection } from "@/components/landingpage/components/workshops/workshops-hero-section";
 
 export default function LandingPage() {
   return (

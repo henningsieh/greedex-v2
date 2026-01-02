@@ -2,7 +2,7 @@ import Image from "next/image";
 import {
   PARTNERS,
   PARTNERS_HEADLINE,
-} from "@/components/landingpage/about/about.configuration";
+} from "@/components/landingpage/components/about/about.configuration";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,

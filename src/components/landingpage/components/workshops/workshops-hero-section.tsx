@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { AnimatedGroup } from "@/components/animated-group";
 import { BackgroundAnimations } from "@/components/background-animations";
-import { WORKSHOPS } from "@/components/landingpage/workshops/workshops.config";
+import { WORKSHOPS } from "@/components/landingpage/components/workshops/workshops.config";
 import {
   Card,
   CardContent,

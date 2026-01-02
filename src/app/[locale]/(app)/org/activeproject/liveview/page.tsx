@@ -70,10 +70,10 @@
 
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Leaderboard } from "@/components/participate/leaderboard";
-import { LiveIndicator } from "@/components/participate/live-indicator";
-import { StatsOverview } from "@/components/participate/stats-overview";
-import { TransportBreakdown } from "@/components/participate/transport-breakdown";
+import { Leaderboard } from "@/components/participate/components/leaderboard";
+import { LiveIndicator } from "@/components/participate/components/live-indicator";
+import { StatsOverview } from "@/components/participate/components/stats-overview";
+import { TransportBreakdown } from "@/components/participate/components/transport-breakdown";
 import type { Participant, ProjectStats } from "@/components/participate/types";
 import { ACTIVITY_VALUES } from "@/config/activities";
 import { CO2_FACTORS } from "@/lib/utils/project-utils";
