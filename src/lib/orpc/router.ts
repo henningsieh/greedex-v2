@@ -1,12 +1,5 @@
 import type { InferRouterOutputs } from "@orpc/server";
 import {
-	getFullOrganization,
-	getOrganizationRole,
-	getOrganizationStats,
-	listOrganizations,
-	searchMembers,
-} from "@/components/features/organizations/procedures";
-import {
 	createProjectActivity,
 	deleteProjectActivity,
 	updateProjectActivity,
@@ -24,6 +17,13 @@ import {
 	setActiveProject,
 	updateProject,
 } from "@/features/projects";
+import {
+	getFullOrganization,
+	getOrganizationRole,
+	getOrganizationStats,
+	listOrganizations,
+	searchMembers,
+} from "@/features/organizations";
 import {
 	getHealth,
 	getProfile,
