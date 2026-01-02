@@ -1,16 +1,16 @@
 import type { z } from "zod";
 import type { ParticipantSchema } from "@/components/features/participants/validation-schemas";
 import type { ProjectWithActivitiesType } from "@/components/features/projects/types";
-import { ACTIVITY_VALUES } from "@/config/activities";
+import type { ParticipantActivityValueType } from "@/config/activities";
 import {
-  ACCOMMODATION_DATA,
-  type ACCOMMODATION_VALUES,
-  type CAR_TYPE_VALUES,
-  type ELECTRICITY_VALUES,
-  FOOD_DATA,
-  type FOOD_VALUES,
-  type GENDER_VALUES,
-  type ROOM_OCCUPANCY_VALUES,
+	ACCOMMODATION_DATA,
+	type ACCOMMODATION_VALUES,
+	type CAR_TYPE_VALUES,
+	type ELECTRICITY_VALUES,
+	FOOD_DATA,
+	type FOOD_VALUES,
+	type GENDER_VALUES,
+	type ROOM_OCCUPANCY_VALUES,
 } from "@/config/questionnaire";
 
 // ============================================================================
@@ -143,15 +143,9 @@ export type Project = ProjectWithActivitiesType;
 // ============================================================================
 
 /**
- * Participant activities extend project activities with plane and electric car
+ * Re-export participant activity value type from config
  */
-const participantActivityValues = [
-  ...ACTIVITY_VALUES,
-  "plane",
-  "electricCar",
-] as const;
-export type ParticipantActivityValueType =
-  (typeof participantActivityValues)[number];
+export type { ParticipantActivityValueType } from "@/config/activities";
 
 /**
  * Participation activity type - computed values for UI display
@@ -159,10 +153,10 @@ export type ParticipantActivityValueType =
  * Not stored in database, computed at runtime for display purposes
  */
 export interface ParticipantActivity {
-  id: string;
-  type: ParticipantActivityValueType; // Includes all transport modes: boat, bus, train, car, plane, electricCar
-  distanceKm: number;
-  co2Kg: number;
+	id: string;
+	type: ParticipantActivityValueType; // Includes all transport modes: boat, bus, train, car, plane, electricCar
+	distanceKm: number;
+	co2Kg: number;
 }
 
 // Computed fields type for participant statistics

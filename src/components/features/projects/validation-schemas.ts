@@ -1,18 +1,16 @@
 import {
-  createInsertSchema,
-  createSelectSchema,
-  createUpdateSchema,
+	createInsertSchema,
+	createSelectSchema,
+	createUpdateSchema,
 } from "drizzle-zod";
-import z from "zod";
-import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/config/activities";
+import { z } from "zod";
 import { EU_COUNTRY_CODES } from "@/config/eu-countries";
 import {
-  organization,
-  projectActivitiesTable,
-  projectsTable,
-  user,
-} from "@/lib/drizzle/schema";
-import { validateDistanceStep } from "@/lib/utils/distance-utils";
+	ActivityFormItemSchema,
+	EditActivityFormItemSchema,
+	ProjectActivityWithRelationsSchema,
+} from "@/features/project-activities";
+import { organization, projectsTable, user } from "@/lib/drizzle/schema";
 import { PROJECT_SORT_FIELDS } from "./types";
 
 // Common form field extensions with custom error messages
@@ -46,112 +44,65 @@ export const ProjectWithRelationsSchema = createSelectSchema(
 });
 
 export const ProjectUpdateFormSchema = createUpdateSchema(projectsTable)
-  .omit({
-    id: true,
-    responsibleUserId: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    ...projectFormExtensions,
-    country: projectFormExtensions.country.optional(),
-  });
+	.omit({
+		id: true,
+		responsibleUserId: true,
+		createdAt: true,
+		updatedAt: true,
+	})
+	.extend({
+		...projectFormExtensions,
+		country: projectFormExtensions.country.optional(),
+	});
 
-// Activity-related schemas (moved here to break circular dependency)
-export const EditActivityFormItemSchema = createUpdateSchema(
-  projectActivitiesTable,
-)
-  .omit({
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    id: z.string(), // Required for existing activities to identify them
-    projectId: z.string(), // Required for activities
-    distanceKm: z
-      .number()
-      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
-      .refine(
-        validateDistanceStep,
-        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
-      ),
-    isNew: z.boolean().optional(), // Track if activity is new
-    isDeleted: z.boolean().optional(), // Track if activity should be deleted
-  });
+// ============================================================================
+// COMBINED SCHEMAS WITH ACTIVITIES
+// ============================================================================
 
-// Combined form schema with activities
+/**
+ * Re-export activity schemas from project-activities feature
+ * These are imported for use in project forms
+ */
+export {
+	ActivityFormItemSchema,
+	CreateActivityInputSchema,
+	EditActivityFormItemSchema,
+	UpdateActivityInputSchema,
+} from "@/features/project-activities";
+
+/**
+ * Combined form schema with activities for editing projects
+ */
 export const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
-  activities: z.array(EditActivityFormItemSchema).optional(),
+	activities: z.array(EditActivityFormItemSchema).optional(),
 });
 
-// Schema for creating activities from forms/client (omits userId, server provides it from context)
-export const CreateActivityInputSchema = createInsertSchema(
-  projectActivitiesTable,
-)
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    distanceKm: z
-      .number()
-      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
-      .refine(
-        validateDistanceStep,
-        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
-      ),
-  });
-
-// Schema for updating activities from client (omits userId, cannot be changed)
-export const UpdateActivityInputSchema = createUpdateSchema(
-  projectActivitiesTable,
-)
-  .omit({
-    id: true,
-    projectId: true, // Cannot change which project the activity belongs to
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    distanceKm: z
-      .number()
-      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
-      .refine(
-        validateDistanceStep,
-        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
-      )
-      .optional(),
-  });
-
-export const ActivityFormItemSchema = CreateActivityInputSchema.omit({
-  projectId: true,
-});
-
-// Combined form schema with optional activities
-export const CreateProjectWithActivitiesSchema = ProjectCreateFormSchema.extend(
-  {
-    activities: z.array(ActivityFormItemSchema).optional(),
-  },
-);
+/**
+ * Combined form schema with optional activities for creating projects
+ */
+export const CreateProjectWithActivitiesSchema =
+	ProjectCreateFormSchema.extend({
+		activities: z.array(ActivityFormItemSchema).optional(),
+	});
 
 export type CreateProjectWithActivities = z.infer<
-  typeof CreateProjectWithActivitiesSchema
+	typeof CreateProjectWithActivitiesSchema
 >;
 
-export const ProjectActivityWithRelationsSchema = createSelectSchema(
-  projectActivitiesTable,
-).extend({
-  project: createSelectSchema(projectsTable).optional(),
-});
+/**
+ * Re-export ProjectActivityWithRelationsSchema for use in project queries
+ */
+export { ProjectActivityWithRelationsSchema };
 
-// Schema for Project with Activities included
+/**
+ * Schema for Project with Activities included
+ */
 export const ProjectWithActivitiesSchema = createSelectSchema(
-  projectsTable,
+	projectsTable,
 ).extend({
-  responsibleUser: createSelectSchema(user),
-  organization: createSelectSchema(organization),
-  // Ensure `country` is properly typed as enum
-  country: z.enum(EU_COUNTRY_CODES),
-  activities: z.array(ProjectActivityWithRelationsSchema),
+	responsibleUser: createSelectSchema(user),
+	organization: createSelectSchema(organization),
+	// Ensure `country` is properly typed as enum
+	country: z.enum(EU_COUNTRY_CODES),
+	activities: z.array(ProjectActivityWithRelationsSchema),
 });
