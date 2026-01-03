@@ -10,7 +10,7 @@ import { config } from "dotenv";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import type { ActivityValueType } from "@/components/features/projects/types";
+import type { ActivityValueType } from "@/features/projects";
 // biome-ignore lint/performance/noNamespaceImport: <import all schemes from a single entry point>
 import * as schema from "@/lib/drizzle/schema";
 import {

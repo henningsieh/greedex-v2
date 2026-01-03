@@ -8,11 +8,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import {
-  MEMBER_ROLES,
-  type MemberRole,
-} from "@/components/features/organizations/types";
-import { InviteFormSchema } from "@/components/features/organizations/validation-schemas";
 import InputField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,6 +35,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  InviteFormSchema,
+  MEMBER_ROLES,
+  type MemberRole,
+} from "@/features/organizations";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
 

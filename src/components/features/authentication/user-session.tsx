@@ -4,6 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { HOME_PATH, LOGIN_PATH } from "@/app/routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +18,6 @@ import {
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { HOME_PATH, LOGIN_PATH } from "@/lib/utils/app-routes";
 
 export function UserSession() {
   const t = useTranslations("authentication.login");

@@ -12,12 +12,12 @@ This document clarifies the purpose and relationship between the various configu
 ```
 src/
 ├── config/
-│   ├── Languages.ts          # Locale configuration (language codes, labels)
+│   ├── languages.ts          # Locale configuration (language codes, labels)
 │   ├── eu-countries.ts        # EU countries data (single source of truth)
-│   └── eu-cities.ts           # Derived city data for globe visualization
 │
 └── lib/i18n/
     ├── locales.ts             # Locale utilities (flag resolution, locale data)
+    │── eu-cities.ts           # Derived city data for globe visualization
     └── countries.ts           # Country i18n utilities (localized names, flags)
 ```
 

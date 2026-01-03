@@ -15,11 +15,6 @@ import { FilterXIcon } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import type z from "zod";
-import type {
-  MemberRole,
-  MemberSortField,
-} from "@/components/features/organizations/types";
-import type { MemberWithUserSchema } from "@/components/features/organizations/validation-schemas";
 import { SortableHeader } from "@/components/features/projects/sortable-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -44,6 +39,11 @@ import {
 } from "@/components/ui/table";
 import { MEMBER_SORT_FIELDS } from "@/config/organizations";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
+import type {
+  MemberRole,
+  MemberSortField,
+  MemberWithUserSchema,
+} from "@/features/organizations";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { InviteEmployeeDialog } from "./invite-employee-dialog";
 

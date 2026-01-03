@@ -18,11 +18,6 @@ import {
   PROJECT_FORM_STEPS,
   PROJECT_FORM_TOTAL_STEPS,
 } from "@/components/features/projects/form-constants";
-import type { ProjectType } from "@/components/features/projects/types";
-import {
-  EditActivityFormItemSchema,
-  EditProjectWithActivitiesSchema,
-} from "@/components/features/projects/validation-schemas";
 import { FormField } from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -55,6 +50,11 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@/config/activities";
+import type { ProjectType } from "@/features/projects";
+import {
+  EditActivityFormItemSchema,
+  EditProjectWithActivitiesSchema,
+} from "@/features/projects";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface EditProjectFormProps {

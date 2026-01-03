@@ -208,7 +208,7 @@ export function ProjectLocation({
   return (
     <span
       className={cn(
-        "ml-2 inline-flex items-center gap-2 align-baseline text-sm",
+        "inline-flex items-center gap-2 align-baseline text-sm",
         className,
       )}
     >

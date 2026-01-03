@@ -5,14 +5,17 @@ import {
   getOrganizationStats,
   listOrganizations,
   searchMembers,
-} from "@/components/features/organizations/procedures";
+} from "@/features/organizations/procedures";
+import {
+  createProjectActivity,
+  deleteProjectActivity,
+  updateProjectActivity,
+} from "@/features/project-activities/procedures";
 import {
   archiveProject,
   batchDeleteProjects,
   createProject,
-  createProjectActivity,
   deleteProject,
-  deleteProjectActivity,
   getProjectActivities,
   getProjectById,
   getProjectForParticipation,
@@ -20,8 +23,7 @@ import {
   listProjects,
   setActiveProject,
   updateProject,
-  updateProjectActivity,
-} from "@/components/features/projects/procedures";
+} from "@/features/projects/procedures";
 import {
   getHealth,
   getProfile,

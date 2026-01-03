@@ -5,7 +5,6 @@ import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { EditOrganizationFormSchema } from "@/components/features/organizations/validation-schemas";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,9 +23,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { EditOrganizationFormSchema } from "@/features/organizations";
+import { findAvailableSlug } from "@/features/organizations/utils";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { findAvailableSlug } from "@/lib/utils/organization-utils";
 
 export function EditOrganizationForm() {
   const queryClient = useQueryClient();

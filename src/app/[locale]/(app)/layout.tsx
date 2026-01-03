@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/app/routes";
 import {
   AppBreadcrumb,
   AppBreadcrumbSkeleton,
@@ -10,17 +11,16 @@ import { AppSidebar, AppSidebarSkeleton } from "@/components/app-sidebar";
 import { LoadingProvider } from "@/components/providers/loading-provider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import {
+  checkAuthAndOrgs,
+  handleUnauthenticatedRedirect,
+} from "@/features/authentication/utils";
 import { redirect } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import {
   getQueryClient,
   HydrateClient,
 } from "@/lib/tanstack-react-query/hydration";
-import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/lib/utils/app-routes";
-import {
-  checkAuthAndOrgs,
-  handleUnauthenticatedRedirect,
-} from "@/lib/utils/auth-utils";
 
 export default async function AppLayout({
   children,

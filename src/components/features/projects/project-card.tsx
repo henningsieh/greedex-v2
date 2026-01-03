@@ -15,7 +15,6 @@ import {
   EditProjectForm,
   EditProjectFormSkeleton,
 } from "@/components/features/projects/edit-project-form";
-import type { ProjectType } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -39,10 +38,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { ProjectType } from "@/features/projects";
+import { getProjectDetailPath } from "@/features/projects/utils";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import { getProjectDetailPath } from "@/lib/utils/project-utils";
 
 interface ProjectDetailCardProps {
   project: ProjectType;

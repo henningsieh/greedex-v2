@@ -1,8 +1,8 @@
 import type { Column, Table } from "@tanstack/react-table";
 import {
-  ArrowDown10,
+  ArrowDown10Icon,
   ArrowDownZAIcon,
-  ArrowUp01,
+  ArrowUp01Icon,
   ArrowUpAZIcon,
   ArrowUpDown,
 } from "lucide-react";
@@ -20,17 +20,17 @@ interface SortableHeaderProps<TData, TValue> {
 const getSortIcon = (state: "asc" | "desc" | false, numeric: boolean) => {
   if (state === "asc") {
     return numeric ? (
-      <ArrowUp01 className="ml-2 h-4 w-4 text-primary" />
+      <ArrowUp01Icon className="ml-2 size-5 text-secondary group-hover:text-foreground" />
     ) : (
-      <ArrowUpAZIcon className="ml-2 h-4 w-4 text-primary" />
+      <ArrowUpAZIcon className="ml-2 size-5 text-secondary group-hover:text-foreground" />
     );
   }
 
   if (state === "desc") {
     return numeric ? (
-      <ArrowDown10 className="ml-2 h-4 w-4 text-primary" />
+      <ArrowDown10Icon className="ml-2 size-5 text-secondary group-hover:text-foreground" />
     ) : (
-      <ArrowDownZAIcon className="ml-2 h-4 w-4 text-primary" />
+      <ArrowDownZAIcon className="ml-2 size-5 text-secondary group-hover:text-foreground" />
     );
   }
 
@@ -69,12 +69,12 @@ export function SortableHeader<TData, TValue>({
       }
       aria-sort={sortDirection}
       className={cn(
-        "-ml-4 h-8 hover:bg-transparent",
-        sortState && "sorted font-medium text-foreground",
+        "group -ml-4 h-8",
+        sortState && "font-medium text-foreground",
         className,
       )}
       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      variant="ghost"
+      variant="secondaryghost"
     >
       {title}
       {getSortIcon(sortState, isNumeric)}

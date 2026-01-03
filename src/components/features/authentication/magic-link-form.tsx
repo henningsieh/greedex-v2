@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { DASHBOARD_PATH } from "@/app/routes";
 import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +19,6 @@ import {
 } from "@/components/ui/card";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { cn } from "@/lib/utils";
-import { DASHBOARD_PATH } from "@/lib/utils/app-routes";
 
 export function MagicLinkForm({
   className,

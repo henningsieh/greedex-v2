@@ -5,8 +5,15 @@ import type { LucideIcon } from "lucide-react";
 import { Building2Icon } from "lucide-react";
 
 import { useTranslations } from "next-intl";
+import {
+  DASHBOARD_PATH,
+  PARTICIPANTS_PATH,
+  PROJECTS_ARCHIVE_PATH,
+  PROJECTS_PATH,
+  SETTINGS_PATH,
+  TEAM_PATH,
+} from "@/app/routes";
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
-import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import {
   Breadcrumb,
@@ -17,17 +24,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link, usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import {
-  DASHBOARD_PATH,
-  PARTICIPANTS_PATH,
-  PROJECTS_ARCHIVE_PATH,
-  PROJECTS_PATH,
-  SETTINGS_PATH,
-  TEAM_PATH,
-} from "@/lib/utils/app-routes";
 
 /**
  * Get the current section info based on pathname
@@ -106,60 +104,45 @@ function OrgBreadcrumb() {
     orpcQuery.organizations.getActive.queryOptions(),
   );
 
-  const { canCreate } = useProjectPermissions();
-
   // Determine current section based on pathname
   const currentSection = getCurrentSection(pathname, t);
 
   return (
-    <div className="flex w-full items-center justify-between">
-      <Breadcrumb>
-        <BreadcrumbList>
-          {/* Organization name */}
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link
-                className="flex items-center gap-2 text-primary transition-colors duration-300 hover:text-primary-foreground"
-                href={DASHBOARD_PATH}
-              >
-                <span className="rounded-full bg-primary/40 p-1.5 text-primary-foreground">
-                  <Building2Icon className="size-4" />
-                </span>
-                <span className="font-semibold text-base">
-                  {activeOrganization?.name ?? "Organization"}
-                </span>
-              </Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
+    <Breadcrumb>
+      <BreadcrumbList>
+        {/* Organization name */}
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link
+              className="flex items-center gap-2 text-primary transition-colors duration-300 hover:text-primary-foreground"
+              href={DASHBOARD_PATH}
+            >
+              <span className="rounded-full bg-primary/40 p-1.5 text-primary-foreground">
+                <Building2Icon className="size-4" />
+              </span>
+              <span className="font-semibold text-base">
+                {activeOrganization?.name ?? "Organization"}
+              </span>
+            </Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
 
-          {/* Current section */}
-          {currentSection && (
-            <>
-              <BreadcrumbSeparator className="text-primary/50" />
-              <BreadcrumbItem>
-                <BreadcrumbPage className="flex items-center gap-2 text-primary dark:text-primary-foreground">
-                  {currentSection.icon && (
-                    <currentSection.icon className="size-4" />
-                  )}
-                  <span className="font-semibold">{currentSection.label}</span>
-                </BreadcrumbPage>
-              </BreadcrumbItem>
-            </>
-          )}
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      {/* Action toolbar */}
-      <div className="flex items-center gap-2">
-        {canCreate && (
-          <CreateProjectButton
-            className="hidden sm:inline-flex"
-            showIcon={true}
-            variant="secondary"
-          />
+        {/* Current section */}
+        {currentSection && (
+          <>
+            <BreadcrumbSeparator className="text-primary/50" />
+            <BreadcrumbItem>
+              <BreadcrumbPage className="flex items-center gap-2 text-primary dark:text-primary-foreground">
+                {currentSection.icon && (
+                  <currentSection.icon className="size-4" />
+                )}
+                <span className="font-semibold">{currentSection.label}</span>
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </>
         )}
-      </div>
-    </div>
+      </BreadcrumbList>
+    </Breadcrumb>
   );
 }
 

@@ -10,7 +10,6 @@ import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
-import type { ProjectActivityType } from "@/components/features/projects/types";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,8 +46,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import type { ProjectActivityType } from "@/features/project-activities";
+import { getProjectActivityIcon } from "@/features/projects/utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import { getProjectActivityIcon } from "@/lib/utils/project-utils";
 import { ProjectActivityDialog } from "./project-activity-dialog";
 
 interface ProjectActivitiesTableProps {

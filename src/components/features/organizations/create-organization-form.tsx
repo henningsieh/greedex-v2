@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type z from "zod";
-import { OrganizationFormSchema } from "@/components/features/organizations/validation-schemas";
+import { DASHBOARD_PATH } from "@/app/routes";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,10 +15,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { OrganizationFormSchema } from "@/features/organizations";
+import { findAvailableSlug } from "@/features/organizations/utils";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { useRouter } from "@/lib/i18n/routing";
-import { DASHBOARD_PATH } from "@/lib/utils/app-routes";
-import { findAvailableSlug } from "@/lib/utils/organization-utils";
 
 interface CreateOrganizationFormProps {
   onSuccess?: () => void;

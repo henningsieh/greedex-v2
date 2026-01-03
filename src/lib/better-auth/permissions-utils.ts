@@ -7,9 +7,8 @@
  * Note: For server-side or dynamic role checks, use auth.api.hasPermission instead.
  */
 
-import type { MemberRole } from "@/components/features/organizations/types";
-import { MEMBER_ROLES } from "@/components/features/organizations/types";
-import type { ProjectPermission } from "@/components/features/projects/permissions";
+import { MEMBER_ROLES, type MemberRole } from "@/features/organizations";
+import type { ProjectPermission } from "@/features/projects/permissions";
 import { authClient } from "@/lib/better-auth/auth-client";
 
 /**
@@ -28,7 +27,7 @@ import { authClient } from "@/lib/better-auth/auth-client";
  * const canManage = checkProjectPermission("owner", ["update", "delete"]);
  * ```
  */
-export function checkProjectPermission(
+function checkProjectPermission(
   role: MemberRole,
   permissions: ProjectPermission[],
 ): boolean {

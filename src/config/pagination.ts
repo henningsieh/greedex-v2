@@ -5,7 +5,7 @@
 
 /**
  * Default page size for tables and lists
- * Used across UsersTable, MembersTable, and other paginated components
+ * Used across ProjectsTable, UsersTable, MembersTable, and other paginated components
  */
 export const DEFAULT_PAGE_SIZE = 5;
 

@@ -1,3 +1,4 @@
+import { DASHBOARD_PATH } from "@/app/routes";
 import { LastUsedBadge } from "@/components/features/authentication/last-used-badge";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
@@ -7,7 +8,6 @@ import {
   SUPPORTED_OAUTH_PROVIDERS,
   type SupportedOAuthProvider,
 } from "@/lib/better-auth/o-auth-providers";
-import { DASHBOARD_PATH } from "@/lib/utils/app-routes";
 
 interface Props {
   disabled?: boolean;

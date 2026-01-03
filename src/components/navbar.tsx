@@ -5,8 +5,8 @@ import {
   UserSession,
   UserSessionSkeleton,
 } from "@/components/features/authentication/user-session";
+import { Logo } from "@/components/features/landingpage/logo";
 import { LocaleSwitcher } from "@/components/locale-switcher";
-import { Logo } from "@/components/logo";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Link } from "@/lib/i18n/routing";
 

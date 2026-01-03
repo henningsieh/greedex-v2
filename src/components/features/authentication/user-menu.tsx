@@ -13,6 +13,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useState, useTransition } from "react";
+import { HOME_PATH, LOGIN_PATH } from "@/app/routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -37,7 +38,6 @@ import { getLocaleData } from "@/lib/i18n/locales";
 import { Link, usePathname, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
-import { HOME_PATH, LOGIN_PATH } from "@/lib/utils/app-routes";
 
 const themes = [
   {

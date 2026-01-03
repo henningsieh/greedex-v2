@@ -8,7 +8,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { MILLISECONDS_PER_DAY } from "@/lib/utils/project-utils";
+import { MILLISECONDS_PER_DAY } from "@/config/projects";
 
 describe("Project Details Statistics", () => {
   describe("Duration Calculation", () => {

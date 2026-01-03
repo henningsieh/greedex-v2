@@ -3,12 +3,12 @@
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import { DASHBOARD_PATH } from "@/app/routes";
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
-import { DASHBOARD_PATH } from "@/lib/utils/app-routes";
 
 interface Props {
   invitationId: string;
