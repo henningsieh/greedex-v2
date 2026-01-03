@@ -2,8 +2,8 @@ import type { InferSelectModel } from "drizzle-orm";
 import type { z } from "zod";
 import type { projectParticipantsTable } from "@/lib/drizzle/schema";
 import type {
-	ParticipantSchema,
-	ProjectParticipantWithUserSchema,
+  ParticipantSchema,
+  ProjectParticipantWithUserSchema,
 } from "./validation-schemas";
 
 // ============================================================================
@@ -14,14 +14,14 @@ import type {
  * Project participant type inferred from DB schema
  */
 export type ProjectParticipantType = InferSelectModel<
-	typeof projectParticipantsTable
+  typeof projectParticipantsTable
 >;
 
 /**
  * Participant with user details
  */
 export type ProjectParticipantWithUser = z.infer<
-	typeof ProjectParticipantWithUserSchema
+  typeof ProjectParticipantWithUserSchema
 >;
 
 /**

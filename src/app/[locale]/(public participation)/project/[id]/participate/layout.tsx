@@ -4,9 +4,9 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
-import { ParticipateHeader } from "@/components/participate/components/participate-header";
+import { ParticipateHeader } from "@/components/features/questionnaire/participate-header";
+import { getProjectData } from "@/features/projects/utils";
 import { auth } from "@/lib/better-auth";
-import { getProjectData } from "@/lib/utils/project-utils";
 
 /**
  * Public Project Participation Layout

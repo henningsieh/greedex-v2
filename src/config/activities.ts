@@ -3,6 +3,10 @@
  * Single source of truth for activity types, distance settings, and emission factors
  */
 
+import type { ParticipantActivityValueType } from "@/features/questionnaire/types";
+
+// import type { ParticipantActivityValueType } from "@/components/participate";
+
 // ============================================================================
 // ACTIVITY TYPES
 // ============================================================================
@@ -22,17 +26,11 @@ export type ActivityValueType = (typeof ACTIVITY_VALUES)[number];
  * Participant activities extend project activities with plane and electric car
  * These additional transport modes are specific to participant questionnaires
  */
-const PARTICIPANT_ACTIVITY_VALUES = [
-	...ACTIVITY_VALUES,
-	"plane",
-	"electricCar",
+export const PARTICIPANT_ACTIVITY_VALUES = [
+  ...ACTIVITY_VALUES,
+  "plane",
+  "electricCar",
 ] as const;
-
-/**
- * Type for participant activity values (includes plane and electricCar)
- */
-export type ParticipantActivityValueType =
-	(typeof PARTICIPANT_ACTIVITY_VALUES)[number];
 
 // ============================================================================
 // DISTANCE CONFIGURATIONS
@@ -72,15 +70,15 @@ export const DECIMAL_SCALE = 1;
  * Based on European Environment Agency averages
  */
 export const ACTIVITY_EMISSION_FACTORS: Record<
-	ParticipantActivityValueType,
-	number
+  ParticipantActivityValueType,
+  number
 > = {
-	plane: 0.255, // Average commercial flight
-	boat: 0.02, // Ferry/boat
-	train: 0.014, // Electric train average
-	bus: 0.089, // Long-distance bus
-	car: 0.192, // Conventional car (diesel/petrol)
-	electricCar: 0.053, // Electric car (EU average grid mix)
+  plane: 0.255, // Average commercial flight
+  boat: 0.02, // Ferry/boat
+  train: 0.014, // Electric train average
+  bus: 0.089, // Long-distance bus
+  car: 0.192, // Conventional car (diesel/petrol)
+  electricCar: 0.053, // Electric car (EU average grid mix)
 } as const;
 
 // ============================================================================
@@ -92,13 +90,13 @@ export const ACTIVITY_EMISSION_FACTORS: Record<
  * Used as placeholders in forms
  */
 export const ACTIVITY_DEFAULT_DISTANCES: Record<
-	ParticipantActivityValueType,
-	number
+  ParticipantActivityValueType,
+  number
 > = {
-	plane: 0,
-	boat: 0,
-	train: 0,
-	bus: 0,
-	car: 0,
-	electricCar: 0,
+  plane: 0,
+  boat: 0,
+  train: 0,
+  bus: 0,
+  car: 0,
+  electricCar: 0,
 } as const;

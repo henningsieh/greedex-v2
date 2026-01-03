@@ -1,6 +1,6 @@
-import FooterSection from "@/components/footer";
-import { LandingHeader } from "@/components/landingpage/components/landing-header";
-import { LandingPageGradients } from "@/components/landingpage/components/landing-page-gradients";
+import FooterSection from "@/components/features/landingpage/footer";
+import { LandingHeader } from "@/components/features/landingpage/landing-header";
+import { LandingPageGradients } from "@/components/features/landingpage/landing-page-gradients";
 
 export default function LandingPageLayout({
   children,

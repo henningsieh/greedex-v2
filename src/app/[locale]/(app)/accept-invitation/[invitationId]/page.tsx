@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { HandleInvitation } from "@/components/handle-invitation";
+import { HandleInvitation } from "@/components/features/authentication/handle-invitation";
 import { auth } from "@/lib/better-auth";
 
 export default async function AcceptInvitationPage({

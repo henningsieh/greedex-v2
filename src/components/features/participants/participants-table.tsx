@@ -2,11 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import { Suspense } from "react";
-import { MEMBER_ROLES } from "@/components/features/organizations/types";
 import {
   TeamTableSkeleton,
   UsersTable,
 } from "@/components/features/organizations/users-table";
+import { MEMBER_ROLES } from "@/features/organizations";
 
 interface ParticipantsTableProps {
   organizationId: string;

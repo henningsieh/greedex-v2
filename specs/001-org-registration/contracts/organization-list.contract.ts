@@ -6,7 +6,7 @@
  * Authentication: Required
  */
 
-import { MEMBER_ROLES } from "@/components/features/organizations/types";
+import { MEMBER_ROLES } from "@/features/organizations";
 import { z } from "zod";
 // import { MEMBER_ROLES } from "@/components/features/organizations/types";
 

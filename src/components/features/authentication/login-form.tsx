@@ -7,6 +7,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import {
+  DASHBOARD_PATH,
+  FORGOT_PASSWORD_PATH,
+  SIGNUP_PATH,
+  VERIFY_EMAIL_PATH,
+} from "@/app/routes";
 import { normalizeRedirectPath } from "@/components/features/authentication/auth-flow-layout";
 import { LastUsedBadge } from "@/components/features/authentication/last-used-badge";
 import { SocialButtons } from "@/components/features/authentication/social-buttons";
@@ -31,12 +37,6 @@ import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
-import {
-  DASHBOARD_PATH,
-  FORGOT_PASSWORD_PATH,
-  SIGNUP_PATH,
-  VERIFY_EMAIL_PATH,
-} from "@/lib/utils/app-routes";
 
 export function LoginForm({
   className,

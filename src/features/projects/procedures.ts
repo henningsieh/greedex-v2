@@ -1,26 +1,27 @@
-import { and, asc, eq, inArray, type SQL, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, type SQL, sql } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
-import { MEMBER_ROLES } from "@/components/features/organizations/types";
+import { MEMBER_ROLES } from "@/features/organizations";
 import { ProjectParticipantWithUserSchema } from "@/features/participants";
 import { ProjectActivityWithRelationsSchema } from "@/features/project-activities";
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";
 import {
-	projectActivitiesTable,
-	projectParticipantsTable,
-	projectsTable,
-	session as sessionTable,
-	user,
+  projectActivitiesTable,
+  projectParticipantsTable,
+  projectsTable,
+  session as sessionTable,
+  user,
 } from "@/lib/drizzle/schema";
 import { base } from "@/lib/orpc/context";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
+import { DEFAULT_PROJECT_SORTING } from "./types";
 import {
-	ProjectCreateFormSchema,
-	ProjectSortFieldSchema,
-	ProjectUpdateFormSchema,
-	ProjectWithActivitiesSchema,
-	ProjectWithRelationsSchema,
+  ProjectCreateFormSchema,
+  ProjectSortFieldSchema,
+  ProjectUpdateFormSchema,
+  ProjectWithActivitiesSchema,
+  ProjectWithRelationsSchema,
 } from "./validation-schemas";
 
 /**
@@ -118,23 +119,38 @@ export const listProjects = authorized
       });
     }
 
-    // Determine sort order
+    // Determine sort order using DEFAULT_PROJECT_SORTING as source of truth
     let orderByClause: SQL<unknown>;
-    switch (input?.sort_by) {
+    const sortField = input?.sort_by ?? DEFAULT_PROJECT_SORTING[0].id;
+    const sortConfig = DEFAULT_PROJECT_SORTING.find((s) => s.id === sortField);
+    const sortDesc = sortConfig?.desc ?? false;
+
+    switch (sortField) {
       case "name":
-        orderByClause = asc(sql`lower(${projectsTable.name})`);
+        orderByClause = sortDesc
+          ? desc(sql`lower(${projectsTable.name})`)
+          : asc(sql`lower(${projectsTable.name})`);
         break;
       case "startDate":
-        orderByClause = asc(projectsTable.startDate);
+        orderByClause = sortDesc
+          ? desc(projectsTable.startDate)
+          : asc(projectsTable.startDate);
         break;
       case "createdAt":
-        orderByClause = asc(projectsTable.createdAt);
+        orderByClause = sortDesc
+          ? desc(projectsTable.createdAt)
+          : asc(projectsTable.createdAt);
         break;
       case "updatedAt":
-        orderByClause = asc(projectsTable.updatedAt);
+        orderByClause = sortDesc
+          ? desc(projectsTable.updatedAt)
+          : asc(projectsTable.updatedAt);
         break;
       default:
-        orderByClause = asc(projectsTable.startDate);
+        // fallback to configured default
+        orderByClause = DEFAULT_PROJECT_SORTING[0].desc
+          ? desc(projectsTable.startDate)
+          : asc(projectsTable.startDate);
     }
 
     // Get all projects that belong to the user's active organization
@@ -817,8 +833,8 @@ export const getProjectActivities = authorized
       orderBy: [asc(projectActivitiesTable.createdAt)],
     });
 
-		return activities;
-	});
+    return activities;
+  });
 
 // ============================================================================
 // PUBLIC PROCEDURES (NO AUTH REQUIRED)

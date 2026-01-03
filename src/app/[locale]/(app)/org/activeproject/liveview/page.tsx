@@ -70,13 +70,13 @@
 
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Leaderboard } from "@/components/participate/components/leaderboard";
-import { LiveIndicator } from "@/components/participate/components/live-indicator";
-import { StatsOverview } from "@/components/participate/components/stats-overview";
-import { TransportBreakdown } from "@/components/participate/components/transport-breakdown";
-import type { Participant, ProjectStats } from "@/components/participate/types";
+import { Leaderboard } from "@/components/features/questionnaire/leaderboard";
+import { LiveIndicator } from "@/components/features/questionnaire/live-indicator";
+import { StatsOverview } from "@/components/features/questionnaire/stats-overview";
+import { TransportBreakdown } from "@/components/features/questionnaire/transport-breakdown";
 import { ACTIVITY_VALUES } from "@/config/activities";
-import { CO2_FACTORS } from "@/lib/utils/project-utils";
+import { CO2_FACTORS } from "@/features/projects/utils";
+import type { Participant, ProjectStats } from "@/features/questionnaire/types";
 
 /**
  * Create an array of mock Participant records for the demo/live-view UI.

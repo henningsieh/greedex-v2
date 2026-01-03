@@ -4,6 +4,14 @@ import { PanelRightCloseIcon, PanelRightOpenIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Suspense } from "react";
 import {
+  DASHBOARD_PATH,
+  PARTICIPANTS_PATH,
+  PROJECTS_ARCHIVE_PATH,
+  PROJECTS_PATH,
+  SETTINGS_PATH,
+  TEAM_PATH,
+} from "@/app/routes";
+import {
   UserMenu,
   UserMenuSkeleton,
 } from "@/components/features/authentication/user-menu";
@@ -28,14 +36,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Link, usePathname } from "@/lib/i18n/routing";
-import {
-  DASHBOARD_PATH,
-  PARTICIPANTS_PATH,
-  PROJECTS_ARCHIVE_PATH,
-  PROJECTS_PATH,
-  SETTINGS_PATH,
-  TEAM_PATH,
-} from "@/lib/utils/app-routes";
 
 /**
  * Renders the application sidebar containing organization and project navigation.

@@ -52,12 +52,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MILLISECONDS_PER_DAY } from "@/config/projects";
+import { calculateActivitiesCO2 } from "@/features/projects/utils";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import {
-  calculateActivitiesCO2,
-  MILLISECONDS_PER_DAY,
-} from "@/lib/utils/project-utils";
 
 interface ProjectDetailsProps {
   id: string;

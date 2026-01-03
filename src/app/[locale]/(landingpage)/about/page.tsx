@@ -1,8 +1,5 @@
 import Image from "next/image";
-import {
-  PARTNERS,
-  PARTNERS_HEADLINE,
-} from "@/components/landingpage/components/about/about.configuration";
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -12,15 +9,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PARTNERS } from "@/config/about";
 
 export default function AboutPage() {
+  const t = useTranslations("about");
+
   return (
     <main className="relative min-h-screen py-28">
       <div className="container relative z-10 mx-auto max-w-6xl space-y-12 px-6">
         <header className="space-y-5 text-center">
           <h1 className="font-semibold text-5xl">About Greendex</h1>
           <p className="mx-auto max-w-5xl text-lg text-muted-foreground">
-            {PARTNERS_HEADLINE}
+            {t("partnersHeadline")}
           </p>
         </header>
 

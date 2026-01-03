@@ -1,14 +1,14 @@
 import {
-	createInsertSchema,
-	createSelectSchema,
-	createUpdateSchema,
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
 } from "drizzle-zod";
 import { z } from "zod";
 import { EU_COUNTRY_CODES } from "@/config/eu-countries";
 import {
-	ActivityFormItemSchema,
-	EditActivityFormItemSchema,
-	ProjectActivityWithRelationsSchema,
+  ActivityFormItemSchema,
+  EditActivityFormItemSchema,
+  ProjectActivityWithRelationsSchema,
 } from "@/features/project-activities";
 import { organization, projectsTable, user } from "@/lib/drizzle/schema";
 import { PROJECT_SORT_FIELDS } from "./types";
@@ -44,16 +44,16 @@ export const ProjectWithRelationsSchema = createSelectSchema(
 });
 
 export const ProjectUpdateFormSchema = createUpdateSchema(projectsTable)
-	.omit({
-		id: true,
-		responsibleUserId: true,
-		createdAt: true,
-		updatedAt: true,
-	})
-	.extend({
-		...projectFormExtensions,
-		country: projectFormExtensions.country.optional(),
-	});
+  .omit({
+    id: true,
+    responsibleUserId: true,
+    createdAt: true,
+    updatedAt: true,
+  })
+  .extend({
+    ...projectFormExtensions,
+    country: projectFormExtensions.country.optional(),
+  });
 
 // ============================================================================
 // COMBINED SCHEMAS WITH ACTIVITIES
@@ -64,45 +64,41 @@ export const ProjectUpdateFormSchema = createUpdateSchema(projectsTable)
  * These are imported for use in project forms
  */
 export {
-	ActivityFormItemSchema,
-	CreateActivityInputSchema,
-	EditActivityFormItemSchema,
-	UpdateActivityInputSchema,
+  ActivityFormItemSchema,
+  CreateActivityInputSchema,
+  EditActivityFormItemSchema,
+  UpdateActivityInputSchema,
 } from "@/features/project-activities";
 
 /**
  * Combined form schema with activities for editing projects
  */
 export const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
-	activities: z.array(EditActivityFormItemSchema).optional(),
+  activities: z.array(EditActivityFormItemSchema).optional(),
 });
 
 /**
  * Combined form schema with optional activities for creating projects
  */
-export const CreateProjectWithActivitiesSchema =
-	ProjectCreateFormSchema.extend({
-		activities: z.array(ActivityFormItemSchema).optional(),
-	});
+export const CreateProjectWithActivitiesSchema = ProjectCreateFormSchema.extend(
+  {
+    activities: z.array(ActivityFormItemSchema).optional(),
+  },
+);
 
 export type CreateProjectWithActivities = z.infer<
-	typeof CreateProjectWithActivitiesSchema
+  typeof CreateProjectWithActivitiesSchema
 >;
-
-/**
- * Re-export ProjectActivityWithRelationsSchema for use in project queries
- */
-export { ProjectActivityWithRelationsSchema };
 
 /**
  * Schema for Project with Activities included
  */
 export const ProjectWithActivitiesSchema = createSelectSchema(
-	projectsTable,
+  projectsTable,
 ).extend({
-	responsibleUser: createSelectSchema(user),
-	organization: createSelectSchema(organization),
-	// Ensure `country` is properly typed as enum
-	country: z.enum(EU_COUNTRY_CODES),
-	activities: z.array(ProjectActivityWithRelationsSchema),
+  responsibleUser: createSelectSchema(user),
+  organization: createSelectSchema(organization),
+  // Ensure `country` is properly typed as enum
+  country: z.enum(EU_COUNTRY_CODES),
+  activities: z.array(ProjectActivityWithRelationsSchema),
 });

@@ -9,7 +9,7 @@ import type { projectActivitiesTable } from "@/lib/drizzle/schema";
  * Project activity type inferred from DB schema
  */
 export type ProjectActivityType = InferSelectModel<
-	typeof projectActivitiesTable
+  typeof projectActivitiesTable
 >;
 
 /**

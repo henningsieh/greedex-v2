@@ -320,12 +320,12 @@
     },
     "projects": {
       "title": "All Projects",
-      "description": "List of projects of your organization.",
+      "description": "List of all non-archived projects of your organization.",
       "error-message": "Something went wrong.",
       "table": {
-        "columns": "Columns",
+        "columns": "Select columns",
         "name": "Name",
-        "country": "Country (Location)",
+        "country": "City, Country",
         "start-date": "Start Date",
         "created": "Created at",
         "updated": "Updated^at",
@@ -340,7 +340,8 @@
         "search-by-name": "Search by project name",
         "filter-all-countries": "All countries",
         "previous": "Previous",
-        "next": "Next"
+        "next": "Next",
+        "rows-per-page": "Rows per page"
       },
       "views": {
         "table": "Table",
@@ -427,7 +428,7 @@
           "welcome-message-description": "Optional: Add a welcome message for participants.",
           "organization-description": "Choose the organization that owns this project.",
           "back": "Back",
-          "country-placeholder": "Country where the project takes place"
+          "country-placeholder": "Select the country"
         }
       },
       "activeProject": {
@@ -467,7 +468,7 @@
         }
       },
       "filter-by-country": "Filter by country",
-      "row-s-selected": "Row(s) selected",
+      "rows-selected": "Row(s) selected",
       "noResults": "No projects found"
     },
     "userstable": {
@@ -951,5 +952,8 @@
       "signup": "Sign Up",
       "openMenu": "Open Menu"
     }
+  },
+  "about": {
+    "partnersHeadline": "Project Greendex is a strategic partnership funded by Erasmus+ that researches sustainability, develops educational resources and runs hands-on activities to build environmental awareness and long-term impact."
   }
 }

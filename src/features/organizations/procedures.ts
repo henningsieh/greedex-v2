@@ -1,15 +1,12 @@
 import { ORPCError } from "@orpc/server";
 import { and, count, countDistinct, eq } from "drizzle-orm";
 import { z } from "zod";
-import {
-  MEMBER_ROLES,
-  type MemberSortField,
-} from "@/components/features/organizations/types";
+import { MEMBER_SORT_FIELDS } from "@/config/organizations";
 import {
   MemberRoleSchema,
+  type MemberSortField,
   MemberWithUserSchema,
-} from "@/components/features/organizations/validation-schemas";
-import { MEMBER_SORT_FIELDS } from "@/config/organizations";
+} from "@/features/organizations";
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";
 import {
@@ -165,7 +162,7 @@ export const searchMembers = authorized
       organizationId: z.string(),
       filters: z
         .object({
-          roles: z.array(z.enum(Object.values(MEMBER_ROLES))).optional(),
+          roles: z.array(MemberRoleSchema).optional(),
           // Simple search string to match against user name or email
           search: z.string().optional(),
           // Sorting: a field name (e.g. "createdAt" | "user.name" | "email")

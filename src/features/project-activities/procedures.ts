@@ -1,15 +1,12 @@
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/lib/drizzle/db";
-import {
-	projectActivitiesTable,
-	projectsTable,
-} from "@/lib/drizzle/schema";
+import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
 import {
-	CreateActivityInputSchema,
-	ProjectActivityWithRelationsSchema,
-	UpdateActivityInputSchema,
+  CreateActivityInputSchema,
+  ProjectActivityWithRelationsSchema,
+  UpdateActivityInputSchema,
 } from "./validation-schemas";
 
 // ============================================================================
@@ -20,14 +17,14 @@ import {
  * Verify that a project belongs to the given organization
  */
 async function verifyProjectAccess(
-	projectId: string,
-	organizationId: string,
+  projectId: string,
+  organizationId: string,
 ): Promise<boolean> {
-	const project = await db.query.projectsTable.findFirst({
-		where: eq(projectsTable.id, projectId),
-	});
+  const project = await db.query.projectsTable.findFirst({
+    where: eq(projectsTable.id, projectId),
+  });
 
-	return project?.organizationId === organizationId;
+  return project?.organizationId === organizationId;
 }
 
 // ============================================================================
@@ -44,55 +41,55 @@ async function verifyProjectAccess(
  * - Project must belong to user's active organization
  */
 export const createProjectActivity = authorized
-	.use(requireProjectPermissions(["update"]))
-	.route({
-		method: "POST",
-		path: "/projects/:id/activities",
-		summary: "Create a new project activity",
-		tags: ["project", "activity"],
-	})
-	.input(CreateActivityInputSchema)
-	.output(
-		z.object({
-			success: z.boolean(),
-			activity: ProjectActivityWithRelationsSchema,
-		}),
-	)
-	.handler(async ({ input, context, errors }) => {
-		if (!context.session.activeOrganizationId) {
-			throw errors.BAD_REQUEST({
-				message: "No active organization. Please select an organization first.",
-			});
-		}
+  .use(requireProjectPermissions(["update"]))
+  .route({
+    method: "POST",
+    path: "/projects/:id/activities",
+    summary: "Create a new project activity",
+    tags: ["project", "activity"],
+  })
+  .input(CreateActivityInputSchema)
+  .output(
+    z.object({
+      success: z.boolean(),
+      activity: ProjectActivityWithRelationsSchema,
+    }),
+  )
+  .handler(async ({ input, context, errors }) => {
+    if (!context.session.activeOrganizationId) {
+      throw errors.BAD_REQUEST({
+        message: "No active organization. Please select an organization first.",
+      });
+    }
 
-		// Verify project belongs to user's organization
-		const hasAccess = await verifyProjectAccess(
-			input.projectId,
-			context.session.activeOrganizationId,
-		);
+    // Verify project belongs to user's organization
+    const hasAccess = await verifyProjectAccess(
+      input.projectId,
+      context.session.activeOrganizationId,
+    );
 
-		if (!hasAccess) {
-			throw errors.FORBIDDEN({
-				message: "You don't have access to this project",
-			});
-		}
+    if (!hasAccess) {
+      throw errors.FORBIDDEN({
+        message: "You don't have access to this project",
+      });
+    }
 
-		const [newActivity] = await db
-			.insert(projectActivitiesTable)
-			.values({
-				projectId: input.projectId,
-				activityType: input.activityType,
-				distanceKm: input.distanceKm.toString(),
-				description: input.description,
-				activityDate: input.activityDate,
-			})
-			.returning();
+    const [newActivity] = await db
+      .insert(projectActivitiesTable)
+      .values({
+        projectId: input.projectId,
+        activityType: input.activityType,
+        distanceKm: input.distanceKm.toString(),
+        description: input.description,
+        activityDate: input.activityDate,
+      })
+      .returning();
 
-		return {
-			success: true,
-			activity: newActivity,
-		};
-	});
+    return {
+      success: true,
+      activity: newActivity,
+    };
+  });
 
 /**
  * Update a project activity
@@ -104,79 +101,79 @@ export const createProjectActivity = authorized
  * - Activity must belong to a project in user's active organization
  */
 export const updateProjectActivity = authorized
-	.use(requireProjectPermissions(["update"]))
-	.route({
-		method: "PATCH",
-		path: "/projects/:projectId/activities/:id",
-		summary: "Update a project activity",
-		tags: ["project", "activity"],
-	})
-	.input(
-		z.object({
-			id: z.string().describe("Activity ID"),
-			data: UpdateActivityInputSchema,
-		}),
-	)
-	.output(
-		z.object({
-			success: z.boolean(),
-			activity: ProjectActivityWithRelationsSchema,
-		}),
-	)
-	.handler(async ({ input, context, errors }) => {
-		if (!context.session.activeOrganizationId) {
-			throw errors.BAD_REQUEST({
-				message: "No active organization. Please select an organization first.",
-			});
-		}
+  .use(requireProjectPermissions(["update"]))
+  .route({
+    method: "PATCH",
+    path: "/projects/:projectId/activities/:id",
+    summary: "Update a project activity",
+    tags: ["project", "activity"],
+  })
+  .input(
+    z.object({
+      id: z.string().describe("Activity ID"),
+      data: UpdateActivityInputSchema,
+    }),
+  )
+  .output(
+    z.object({
+      success: z.boolean(),
+      activity: ProjectActivityWithRelationsSchema,
+    }),
+  )
+  .handler(async ({ input, context, errors }) => {
+    if (!context.session.activeOrganizationId) {
+      throw errors.BAD_REQUEST({
+        message: "No active organization. Please select an organization first.",
+      });
+    }
 
-		// Fetch activity and verify it belongs to user's organization via project
-		const [existingActivity] = await db
-			.select({
-				activity: projectActivitiesTable,
-				projectOrgId: projectsTable.organizationId,
-			})
-			.from(projectActivitiesTable)
-			.innerJoin(
-				projectsTable,
-				eq(projectActivitiesTable.projectId, projectsTable.id),
-			)
-			.where(eq(projectActivitiesTable.id, input.id))
-			.limit(1);
+    // Fetch activity and verify it belongs to user's organization via project
+    const [existingActivity] = await db
+      .select({
+        activity: projectActivitiesTable,
+        projectOrgId: projectsTable.organizationId,
+      })
+      .from(projectActivitiesTable)
+      .innerJoin(
+        projectsTable,
+        eq(projectActivitiesTable.projectId, projectsTable.id),
+      )
+      .where(eq(projectActivitiesTable.id, input.id))
+      .limit(1);
 
-		if (!existingActivity) {
-			throw errors.NOT_FOUND({
-				message: "Activity not found",
-			});
-		}
+    if (!existingActivity) {
+      throw errors.NOT_FOUND({
+        message: "Activity not found",
+      });
+    }
 
-		if (
-			existingActivity.projectOrgId !== context.session.activeOrganizationId
-		) {
-			throw errors.FORBIDDEN({
-				message: "You don't have permission to update this activity",
-			});
-		}
+    if (
+      existingActivity.projectOrgId !== context.session.activeOrganizationId
+    ) {
+      throw errors.FORBIDDEN({
+        message: "You don't have permission to update this activity",
+      });
+    }
 
-		const { distanceKm, ...restData } = input.data;
-		const updateData: typeof restData & { distanceKm?: string } = {
-			...restData,
-		};
-		if (distanceKm !== undefined) {
-			updateData.distanceKm = distanceKm.toString();
-		}
+    const { distanceKm, ...restData } = input.data;
+    const updateData: typeof restData & { distanceKm?: string } = {
+      ...restData,
+    };
+    if (distanceKm !== undefined) {
+      updateData.distanceKm = distanceKm.toString();
+    }
 
-		const [updatedActivity] = await db
-			.update(projectActivitiesTable)
-			.set(updateData)
-			.where(eq(projectActivitiesTable.id, input.id))
-			.returning();
+    const [updatedActivity] = await db
+      .update(projectActivitiesTable)
+      .set(updateData)
+      .where(eq(projectActivitiesTable.id, input.id))
+      .returning();
 
-		return {
-			success: true,
-			activity: updatedActivity,
-		};
-	});
+    return {
+      success: true,
+      activity: updatedActivity,
+    };
+  });
 
 /**
  * Delete a project activity
@@ -188,63 +185,63 @@ export const updateProjectActivity = authorized
  * - Activity must belong to a project in user's active organization
  */
 export const deleteProjectActivity = authorized
-	.use(requireProjectPermissions(["update"]))
-	.route({
-		method: "DELETE",
-		path: "/projects/:projectId/activities/:id",
-		summary: "Delete a project activity",
-		tags: ["project", "activity"],
-	})
-	.input(
-		z.object({
-			id: z.string().describe("Activity ID"),
-		}),
-	)
-	.output(
-		z.object({
-			success: z.boolean(),
-		}),
-	)
-	.handler(async ({ input, context, errors }) => {
-		if (!context.session.activeOrganizationId) {
-			throw errors.BAD_REQUEST({
-				message: "No active organization. Please select an organization first.",
-			});
-		}
+  .use(requireProjectPermissions(["update"]))
+  .route({
+    method: "DELETE",
+    path: "/projects/:projectId/activities/:id",
+    summary: "Delete a project activity",
+    tags: ["project", "activity"],
+  })
+  .input(
+    z.object({
+      id: z.string().describe("Activity ID"),
+    }),
+  )
+  .output(
+    z.object({
+      success: z.boolean(),
+    }),
+  )
+  .handler(async ({ input, context, errors }) => {
+    if (!context.session.activeOrganizationId) {
+      throw errors.BAD_REQUEST({
+        message: "No active organization. Please select an organization first.",
+      });
+    }
 
-		// Fetch activity and verify it belongs to user's organization via project
-		const [existingActivity] = await db
-			.select({
-				activity: projectActivitiesTable,
-				projectOrgId: projectsTable.organizationId,
-			})
-			.from(projectActivitiesTable)
-			.innerJoin(
-				projectsTable,
-				eq(projectActivitiesTable.projectId, projectsTable.id),
-			)
-			.where(eq(projectActivitiesTable.id, input.id))
-			.limit(1);
+    // Fetch activity and verify it belongs to user's organization via project
+    const [existingActivity] = await db
+      .select({
+        activity: projectActivitiesTable,
+        projectOrgId: projectsTable.organizationId,
+      })
+      .from(projectActivitiesTable)
+      .innerJoin(
+        projectsTable,
+        eq(projectActivitiesTable.projectId, projectsTable.id),
+      )
+      .where(eq(projectActivitiesTable.id, input.id))
+      .limit(1);
 
-		if (!existingActivity) {
-			throw errors.NOT_FOUND({
-				message: "Activity not found",
-			});
-		}
+    if (!existingActivity) {
+      throw errors.NOT_FOUND({
+        message: "Activity not found",
+      });
+    }
 
-		if (
-			existingActivity.projectOrgId !== context.session.activeOrganizationId
-		) {
-			throw errors.FORBIDDEN({
-				message: "You don't have permission to delete this activity",
-			});
-		}
+    if (
+      existingActivity.projectOrgId !== context.session.activeOrganizationId
+    ) {
+      throw errors.FORBIDDEN({
+        message: "You don't have permission to delete this activity",
+      });
+    }
 
-		await db
-			.delete(projectActivitiesTable)
-			.where(eq(projectActivitiesTable.id, input.id));
+    await db
+      .delete(projectActivitiesTable)
+      .where(eq(projectActivitiesTable.id, input.id));
 
-		return {
-			success: true,
-		};
-	});
+    return {
+      success: true,
+    };
+  });

@@ -4,9 +4,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import {
   ArchiveIcon,
+  Columns3CogIcon,
   Edit2Icon,
+  EllipsisVerticalIcon,
   EyeIcon,
-  MoreHorizontalIcon,
   Trash2Icon,
 } from "lucide-react";
 import { useFormatter, useLocale, useTranslations } from "next-intl";
@@ -18,8 +19,6 @@ import {
   EditProjectFormSkeleton,
 } from "@/components/features/projects/edit-project-form";
 import { SortableHeader } from "@/components/features/projects/sortable-header";
-import type { ProjectType } from "@/components/features/projects/types";
-
 import { ProjectLocation } from "@/components/project-location";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -31,19 +30,21 @@ import {
 } from "@/components/ui/dialog";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
-import { Link } from "@/lib/i18n/routing";
-import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import type { ProjectType } from "@/features/projects";
 import {
   getColumnDisplayName,
   getProjectDetailPath,
-} from "@/lib/utils/project-utils";
+} from "@/features/projects/utils";
+import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
+import { Link } from "@/lib/i18n/routing";
+import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 function DateCell({ date }: { date: Date }) {
   const format = useFormatter();
@@ -61,16 +62,14 @@ function DateCell({ date }: { date: Date }) {
 function CountryCell({ project }: { project: ProjectType }) {
   const locale = useLocale();
   return (
-    <Link className="block" href={getProjectDetailPath(project.id)}>
-      <ProjectLocation
-        countryFormat="code"
-        layout="unified"
-        locale={locale}
-        project={{ location: project.location, country: project.country }}
-        showFlag={true}
-        variant="inline"
-      />
-    </Link>
+    <ProjectLocation
+      countryFormat="code"
+      layout="unified"
+      locale={locale}
+      project={{ location: project.location, country: project.country }}
+      showFlag={true}
+      variant="inline"
+    />
   );
 }
 
@@ -99,6 +98,7 @@ export function ProjectTableColumns(
           aria-label="Select row"
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onClick={(e) => e.stopPropagation()}
         />
       ),
       enableSorting: false,
@@ -114,12 +114,7 @@ export function ProjectTableColumns(
         />
       ),
       cell: ({ row }) => (
-        <Link
-          className="block font-medium"
-          href={getProjectDetailPath(row.original.id)}
-        >
-          {row.getValue("name")}
-        </Link>
+        <div className="font-medium">{row.getValue("name")}</div>
       ),
     },
     {
@@ -132,6 +127,11 @@ export function ProjectTableColumns(
         />
       ),
       cell: ({ row }) => <CountryCell project={row.original} />,
+      sortingFn: (rowA, rowB, _columnId) => {
+        const locationA = rowA.original.location;
+        const locationB = rowB.original.location;
+        return locationA.localeCompare(locationB);
+      },
     },
     {
       accessorKey: "startDate",
@@ -145,11 +145,7 @@ export function ProjectTableColumns(
       ),
       cell: ({ row }) => {
         const date = row.getValue("startDate") as Date;
-        return (
-          <Link className="block" href={getProjectDetailPath(row.original.id)}>
-            <DateCell date={date} />
-          </Link>
-        );
+        return <DateCell date={date} />;
       },
       sortingFn: (rowA, rowB, columnId) => {
         const dateA = new Date(rowA.getValue(columnId));
@@ -169,11 +165,7 @@ export function ProjectTableColumns(
       ),
       cell: ({ row }) => {
         const date = row.getValue("createdAt") as Date;
-        return (
-          <Link className="block" href={getProjectDetailPath(row.original.id)}>
-            <DateCell date={date} />
-          </Link>
-        );
+        return <DateCell date={date} />;
       },
       sortingFn: (rowA, rowB, columnId) => {
         const dateA = new Date(rowA.getValue(columnId));
@@ -193,11 +185,7 @@ export function ProjectTableColumns(
       ),
       cell: ({ row }) => {
         const date = row.getValue("updatedAt") as Date;
-        return (
-          <Link className="block" href={getProjectDetailPath(row.original.id)}>
-            <DateCell date={date} />
-          </Link>
-        );
+        return <DateCell date={date} />;
       },
       sortingFn: (rowA, rowB, columnId) => {
         const dateA = new Date(rowA.getValue(columnId));
@@ -208,6 +196,37 @@ export function ProjectTableColumns(
     {
       id: "actions",
       enableHiding: false,
+      header: ({ table }) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="p-0" size="icon-sm" variant="secondaryghost">
+              <Columns3CogIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="border-secondary">
+            <DropdownMenuLabel className="text-xs">
+              {t("table.columns")}
+            </DropdownMenuLabel>
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    checked={column.getIsVisible()}
+                    className="capitalize focus:bg-secondary/40 focus:text-secondary-foreground"
+                    key={column.id}
+                    onCheckedChange={(value: boolean) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {getColumnDisplayName(column.id, t)}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
       cell: ({ row }) => {
         const project = row.original;
         return <ProjectActionsCell project={project} />;
@@ -332,10 +351,10 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
           <Button
             className="h-8 w-8 p-0"
             onClick={(e) => e.stopPropagation()}
-            variant="ghost"
+            variant="secondaryghost"
           >
             <span className="sr-only">{t("table.open-menu")}</span>
-            <MoreHorizontalIcon className="h-4 w-4" />
+            <EllipsisVerticalIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">

@@ -7,11 +7,6 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type z from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
-import type { ProjectActivityType } from "@/components/features/projects/types";
-import {
-  CreateActivityInputSchema,
-  type UpdateActivityInputSchema,
-} from "@/components/features/projects/validation-schemas";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -33,6 +28,11 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@/config/activities";
+import type { ProjectActivityType } from "@/features/project-activities";
+import {
+  CreateActivityInputSchema,
+  type UpdateActivityInputSchema,
+} from "@/features/project-activities";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { PROJECT_ACTIVITIES_ICONS } from "./activities-icons";
 

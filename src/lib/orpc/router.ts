@@ -1,37 +1,37 @@
 import type { InferRouterOutputs } from "@orpc/server";
 import {
-	createProjectActivity,
-	deleteProjectActivity,
-	updateProjectActivity,
-} from "@/features/project-activities";
+  getFullOrganization,
+  getOrganizationRole,
+  getOrganizationStats,
+  listOrganizations,
+  searchMembers,
+} from "@/features/organizations/procedures";
 import {
-	archiveProject,
-	batchDeleteProjects,
-	createProject,
-	deleteProject,
-	getProjectActivities,
-	getProjectById,
-	getProjectForParticipation,
-	getProjectParticipants,
-	listProjects,
-	setActiveProject,
-	updateProject,
-} from "@/features/projects";
+  createProjectActivity,
+  deleteProjectActivity,
+  updateProjectActivity,
+} from "@/features/project-activities/procedures";
 import {
-	getFullOrganization,
-	getOrganizationRole,
-	getOrganizationStats,
-	listOrganizations,
-	searchMembers,
-} from "@/features/organizations";
+  archiveProject,
+  batchDeleteProjects,
+  createProject,
+  deleteProject,
+  getProjectActivities,
+  getProjectById,
+  getProjectForParticipation,
+  getProjectParticipants,
+  listProjects,
+  setActiveProject,
+  updateProject,
+} from "@/features/projects/procedures";
 import {
-	getHealth,
-	getProfile,
-	getSession,
-	helloWorld,
-	signIn,
-	signOut,
-	signUp,
+  getHealth,
+  getProfile,
+  getSession,
+  helloWorld,
+  signIn,
+  signOut,
+  signUp,
 } from "@/lib/orpc/procedures";
 
 /**

@@ -7,7 +7,6 @@ import { useState } from "react";
 import { ProjectsGrid } from "@/components/features/projects/dashboard/projects-grid";
 import { ProjectsTable } from "@/components/features/projects/dashboard/projects-table";
 import { ProjectsViewSelect } from "@/components/features/projects/projects-view-select";
-import { DEFAULT_PROJECT_SORTING } from "@/components/features/projects/types";
 import {
   Empty,
   EmptyContent,
@@ -17,6 +16,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DEFAULT_PROJECT_SORTING } from "@/features/projects";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function ArchivedProjectsTab() {

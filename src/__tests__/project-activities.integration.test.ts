@@ -1,8 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { eq, like, sql } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import type { ProjectType } from "@/components/features/projects/types";
 import type { EUCountryCode } from "@/config/eu-countries";
+import type { ProjectActivityType, ProjectType } from "@/features/projects";
 import { db } from "@/lib/drizzle/db";
 import {
   member,
@@ -11,7 +11,6 @@ import {
   projectsTable,
   user,
 } from "@/lib/drizzle/schema";
-import type { ProjectActivityType } from "../components/features/projects/types";
 
 // Test data constants
 const TEST_USER = {

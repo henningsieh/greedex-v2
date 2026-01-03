@@ -320,12 +320,12 @@
     },
     "projects": {
       "title": "Alle Projekte",
-      "description": "Liste der Projekte deiner Organisation.",
+      "description": "Liste aller nicht archivierten Projekte deiner Organisation.",
       "error-message": "Es ist ein Fehler aufgetreten.",
       "table": {
-        "columns": "Spalten",
+        "columns": "Spalten auswählen",
         "name": "Name",
-        "country": "Land (Ort)",
+        "country": "Ort, Land",
         "start-date": "Startdatum",
         "created": "Erstellt am",
         "updated": "Aktualisiert am",
@@ -340,7 +340,8 @@
         "search-by-name": "Nach Projektname suchen",
         "filter-all-countries": "Alle Länder",
         "previous": "Vorherige",
-        "next": "Nächste"
+        "next": "Nächste",
+        "rows-per-page": "Zeilen pro Seite"
       },
       "views": {
         "table": "Tabellenansicht",
@@ -427,7 +428,7 @@
           "welcome-message-description": "Optional: Füge eine Willkommensnachricht für Teilnehmende hinzu.",
           "organization-description": "Wähle die Organisation, die das Projekt besitzt.",
           "back": "Zurück",
-          "country-placeholder": "Land, in dem das Projekt stattfindet"
+          "country-placeholder": "Wähle das Land aus"
         }
       },
       "activeProject": {
@@ -467,7 +468,7 @@
         }
       },
       "filter-by-country": "Nach Land filtern",
-      "row-s-selected": "Zeile(n) ausgewählt",
+      "rows-selected": "Zeile(n) ausgewählt",
       "noResults": "Keine Projekte gefunden"
     },
     "userstable": {
@@ -951,5 +952,8 @@
       "signup": "Registrieren",
       "openMenu": "Menü öffnen"
     }
+  },
+  "about": {
+    "partnersHeadline": "Project Greendex ist eine strategische Partnerschaft, die von Erasmus+ finanziert wird und Nachhaltigkeit erforscht, Bildungsressourcen entwickelt und praktische Aktivitäten durchführt, um Umweltbewusstsein und langfristige Auswirkungen aufzubauen."
   }
 }

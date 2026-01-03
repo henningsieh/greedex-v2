@@ -1,8 +1,9 @@
 import { MessageSquareIcon } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
+import { Blockquote, BlockquoteAuthor } from "@/components/block-quote";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
-import type { ProjectType } from "@/components/features/projects/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { ProjectType } from "@/features/projects";
 
 interface ProjectDetailsProps {
   project: ProjectType;
@@ -77,9 +78,10 @@ export function ProjectDetailsTab({ project }: ProjectDetailsProps) {
               <MessageSquareIcon className="h-4 w-4 text-secondary" />
               <p className="font-medium text-sm">{t("welcome-message")}</p>
             </div>
-            <blockquote className="border-secondary/30 border-l-4 pl-4 text-muted-foreground italic">
+            <Blockquote>
               {project.welcomeMessage}
-            </blockquote>
+              <BlockquoteAuthor>— {project.responsibleUserId}</BlockquoteAuthor>
+            </Blockquote>
           </div>
         )}
       </CardContent>

@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { AnimatedGroup } from "@/components/animated-group";
-import { BackToHome } from "@/components/back-to-home";
 import { BackgroundAnimations } from "@/components/background-animations";
+import { BackToHome } from "@/components/features/authentication/back-to-home";
 import { RightSideImage } from "@/components/features/authentication/right-side-image";
 import { cn } from "@/lib/utils";
 

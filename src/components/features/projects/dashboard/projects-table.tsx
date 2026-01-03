@@ -16,31 +16,31 @@ import {
   useReactTable,
   type VisibilityState,
 } from "@tanstack/react-table";
-import { ChevronDown, FunnelXIcon, Trash2Icon } from "lucide-react";
+import {
+  FunnelXIcon,
+  SheetIcon,
+  TablePropertiesIcon,
+  Trash2Icon,
+} from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useConfirmDialog } from "@/components/confirm-dialog";
-import { MEMBER_ROLES } from "@/components/features/organizations/types";
 import { ProjectTableColumns } from "@/components/features/projects/dashboard/projects-table-columns";
-import type { ProjectType } from "@/components/features/projects/types";
-import { DEFAULT_PROJECT_SORTING } from "@/components/features/projects/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -49,13 +49,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from "@/config/pagination";
+import { MEMBER_ROLES } from "@/features/organizations";
+import type { ProjectType } from "@/features/projects";
+import { DEFAULT_PROJECT_SORTING } from "@/features/projects";
+import { getProjectDetailPath } from "@/features/projects/utils";
 import { getCountryData } from "@/lib/i18n/countries";
+import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import { getColumnDisplayName } from "@/lib/utils/project-utils";
 
 export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   const t = useTranslations("organization.projects");
   const locale = useLocale();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { confirm, ConfirmDialogComponent } = useConfirmDialog();
 
@@ -83,6 +89,10 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
     updatedAt: false,
   });
   const [rowSelection, setRowSelection] = useState({});
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: DEFAULT_PAGE_SIZE,
+  });
 
   const table = useReactTable({
     data: projects,
@@ -95,11 +105,13 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onPaginationChange: setPagination,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination,
     },
   });
 
@@ -158,7 +170,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
         <div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
             <Input
-              className="h-8 w-full border-secondary focus-visible:border-secondary focus-visible:ring-[3px] focus-visible:ring-secondary sm:w-[250px] lg:w-[300px]"
+              className="h-8 w-full border-secondary placeholder:text-sm focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary sm:w-[250px] lg:w-[300px]"
               id="project-name-filter"
               onChange={(event) =>
                 table.getColumn("name")?.setFilterValue(event.target.value)
@@ -182,22 +194,24 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                 }
                 value={
                   (columnFilters.find((f) => f.id === "country")
-                    ?.value as string) || "all"
+                    ?.value as string) || ""
                 }
               >
                 <SelectTrigger
-                  className="w-[180px] focus-visible:border-secondary focus-visible:ring-[3px] focus-visible:ring-secondary"
+                  className="w-[180px] focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary"
                   size="sm"
                 >
                   <SelectValue placeholder={t("filter-by-country")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem
-                    className="focus:bg-secondary focus:text-secondary-foreground"
-                    value="all"
-                  >
-                    {t("table.filter-all-countries")}
-                  </SelectItem>
+                  {columnFilters.some((f) => f.id === "country") && (
+                    <SelectItem
+                      className="focus:bg-secondary focus:text-secondary-foreground"
+                      value="all"
+                    >
+                      {t("table.filter-all-countries")}
+                    </SelectItem>
+                  )}
                   {uniqueCountries.map((code) => {
                     const data = getCountryData(code, locale);
                     if (!data) {
@@ -231,36 +245,6 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                 })}
               </Button>
             )}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  className="ml-auto flex h-8 w-32 items-center justify-end"
-                  size="sm"
-                  variant="secondaryoutline"
-                >
-                  {t("table.columns")} <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="border-secondary">
-                {table
-                  .getAllColumns()
-                  .filter((column) => column.getCanHide())
-                  .map((column) => {
-                    return (
-                      <DropdownMenuCheckboxItem
-                        checked={column.getIsVisible()}
-                        className="capitalize focus:bg-secondary/80 focus:text-secondary-foreground"
-                        key={column.id}
-                        onCheckedChange={(value) =>
-                          column.toggleVisibility(!!value)
-                        }
-                      >
-                        {getColumnDisplayName(column.id, t)}
-                      </DropdownMenuCheckboxItem>
-                    );
-                  })}
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         </div>
         {columnFilters.length > 0 && (
@@ -325,7 +309,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                   {headerGroup.headers.map((header) => {
                     return (
                       <TableHead
-                        className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:px-2"
+                        className="h-12 px-3 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:px-2"
                         key={header.id}
                       >
                         {header.isPlaceholder
@@ -344,9 +328,21 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
-                    className="transition-colors hover:bg-accent/40"
+                    className="cursor-pointer transition-colors hover:bg-secondary/40"
                     data-state={row.getIsSelected() && "selected"}
                     key={row.id}
+                    onClick={(e) => {
+                      // Don't navigate if clicking on checkbox or action buttons
+                      const target = e.target as HTMLElement;
+                      if (
+                        target.closest('[role="checkbox"]') ||
+                        target.closest("button") ||
+                        target.closest('[role="menuitem"]')
+                      ) {
+                        return;
+                      }
+                      router.push(getProjectDetailPath(row.original.id));
+                    }}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell className="pl-3" key={cell.id}>
@@ -371,13 +367,49 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-muted-foreground text-sm">
+        <div className="flex items-center justify-between gap-3 py-4">
+          <div className="min-w-0 flex-1 truncate text-muted-foreground text-sm">
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} {t("row-s-selected")}
+            {table.getFilteredRowModel().rows.length} {t("rows-selected")}
           </div>
-          <div className="space-x-2">
+
+          <div className="flex flex-shrink-0 items-center gap-2">
+            {/* desktop-only label for rows-per-page */}
+            <Label
+              className="mr-1 hidden text-muted-foreground text-sm sm:inline"
+              htmlFor="projects-rows-per-page"
+            >
+              {t("table.rows-per-page")}
+            </Label>
+
+            <Select
+              onValueChange={(value) =>
+                setPagination({ pageIndex: 0, pageSize: Number(value) })
+              }
+              value={pagination.pageSize.toString()}
+            >
+              <SelectTrigger
+                aria-label={t("table.rows-per-page")}
+                className="h-8 w-[56px] flex-shrink-0 focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary sm:w-[72px]"
+                id="projects-rows-per-page"
+                size="sm"
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>{t("table.rows-per-page")}</SelectLabel>
+                  {PAGE_SIZE_OPTIONS.map((size) => (
+                    <SelectItem key={size} value={size.toString()}>
+                      {size}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
             <Button
+              className="h-8 flex-shrink-0 px-2"
               disabled={!table.getCanPreviousPage()}
               onClick={() => table.previousPage()}
               size="sm"
@@ -385,7 +417,9 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             >
               {t("table.previous")}
             </Button>
+
             <Button
+              className="h-8 flex-shrink-0 px-2"
               disabled={!table.getCanNextPage()}
               onClick={() => table.nextPage()}
               size="sm"
@@ -398,5 +432,96 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
       </div>
       <ConfirmDialogComponent />
     </>
+  );
+}
+
+/**
+ * Skeleton component for ProjectsTab loading state
+ */
+export function ProjectsTabSkeleton() {
+  const t = useTranslations("organization.projects");
+
+  return (
+    <div className="space-y-0">
+      <div className="space-y-4">
+        {/* View selector skeleton */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Skeleton className="flex h-8 w-8 items-center justify-center gap-1.5 border-1 border-secondary/60 bg-secondary/40 sm:w-42">
+              <TablePropertiesIcon className="size-5 shrink-0 text-muted-foreground" />
+              <p className="hidden font-medium text-muted-foreground text-sm sm:inline">
+                {t("views.table")}
+              </p>
+            </Skeleton>
+            <Skeleton className="flex h-8 w-8 items-center justify-center gap-1.5 border-1 border-secondary/60 bg-secondary/40 sm:w-42">
+              <SheetIcon className="size-5 shrink-0 text-muted-foreground" />
+              <p className="hidden font-medium text-muted-foreground text-sm sm:inline">
+                {t("views.grid")}
+              </p>
+            </Skeleton>
+          </div>
+        </div>
+
+        {/* Search + actions skeleton (separate row under view selector) */}
+        <div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
+            <Skeleton className="h-8 w-full rounded-md border-1 border-secondary bg-secondary/10 sm:w-[250px] lg:w-[300px]" />
+            <div className="hidden items-center sm:flex">
+              <Skeleton className="h-8 w-[180px] rounded-md border-secondary/60 bg-secondary/40" />
+            </div>
+          </div>
+
+          {/* Right side action skeleton (Create button / batch delete) */}
+          {/* <div className="flex items-center gap-2">
+            <Skeleton className="h-8 w-20 rounded-md border-secondary/60 bg-secondary/40" />
+          </div> */}
+        </div>
+      </div>
+
+      {/* Table skeleton */}
+      <div className="max-w-full overflow-x-auto rounded-md border">
+        <div className="mb-4 w-full sm:mb-0">
+          {/* Table header skeleton */}
+          <div className="border-b bg-muted/50">
+            <div className="flex h-12 items-center px-3">
+              <Skeleton className="h-4 w-4 flex-shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="ml-9 h-4 w-64 flex-shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="ml-4 h-4 w-40 flex-shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="ml-4 h-4 w-36 flex-shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="ml-4 h-4 w-36 flex-shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="mr-7 ml-auto size-6 flex-shrink-0 border-1 border-muted-foreground/40 bg-background" />
+            </div>
+          </div>
+
+          {/* Table body skeleton */}
+          <div className="space-y-0 py-1.5">
+            {Array.from({ length: 10 }, (_, i) => (
+              <div
+                className="flex h-12 items-center border-b border-b-muted px-3 last:border-0"
+                key={i}
+              >
+                <Skeleton className="h-4 w-4 flex-shrink-0 bg-muted/60" />
+                <Skeleton className="ml-10 h-4 w-64 flex-shrink-0 bg-muted/60" />
+                <Skeleton className="ml-4 h-4 w-40 flex-shrink-0 bg-muted/60" />
+                <Skeleton className="ml-4 h-4 w-36 flex-shrink-0 bg-muted/60" />
+                <Skeleton className="ml-4 h-4 w-36 flex-shrink-0 bg-muted/60" />
+                <Skeleton className="mr-7 ml-auto size-6 flex-shrink-0 border-1 border-secondary/40 bg-background" />
+              </div>
+            ))}
+          </div>
+
+          {/* Footer skeleton (compact, matches responsive layout) */}
+          <div className="flex items-center justify-between py-4">
+            <Skeleton className="h-4 w-[180px] bg-muted/20" />
+            <div className="flex items-center gap-2">
+              <Skeleton className="hidden h-4 w-20 bg-muted/20 sm:block" />
+              <Skeleton className="h-8 w-[72px] rounded-md bg-muted/20" />
+              <Skeleton className="h-8 w-[100px] rounded-md bg-muted/20" />
+              <Skeleton className="h-8 w-[100px] rounded-md bg-muted/20" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

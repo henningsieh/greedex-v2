@@ -4,11 +4,6 @@ import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { ProjectCard } from "@/components/features/projects/project-card";
-import {
-  PROJECT_SORT_FIELDS,
-  type ProjectSortField,
-  type ProjectType,
-} from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,6 +15,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Empty, EmptyDescription } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
+import {
+  PROJECT_SORT_FIELDS,
+  type ProjectSortField,
+  type ProjectType,
+} from "@/features/projects";
 
 interface ProjectsGridProps {
   projects: Array<ProjectType>;

@@ -14,11 +14,6 @@ import {
   PROJECT_FORM_STEPS,
   PROJECT_FORM_TOTAL_STEPS,
 } from "@/components/features/projects/form-constants";
-import {
-  ActivityFormItemSchema,
-  type CreateProjectWithActivities,
-  CreateProjectWithActivitiesSchema,
-} from "@/components/features/projects/validation-schemas";
 import { FormField } from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -46,19 +41,18 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@/config/activities";
+import {
+  DEFAULT_PROJECT_DURATION_DAYS,
+  MILLISECONDS_PER_DAY,
+} from "@/config/projects";
+import {
+  ActivityFormItemSchema,
+  type CreateProjectWithActivities,
+  CreateProjectWithActivitiesSchema,
+} from "@/features/projects";
+import { getProjectDetailPath } from "@/features/projects/utils";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import { getProjectDetailPath } from "@/lib/utils/project-utils";
-
-/**
- * Default project duration in days when creating a new project.
- */
-const DEFAULT_PROJECT_DURATION_DAYS = 30;
-
-/**
- * Milliseconds in one day, used for date calculations.
- */
-const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 
 interface CreateProjectFormProps {
   activeOrganizationId: string;

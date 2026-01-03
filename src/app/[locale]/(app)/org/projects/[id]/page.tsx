@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "@/components/features/projects/error-fallback";
 import {
   ProjectDetails,
   ProjectDetailsSkeleton,
 } from "@/components/features/projects/project-details";
+import { ErrorFallback } from "@/components/features/projects/project-error-fallback";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
 

@@ -3,6 +3,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Building2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { CREATE_PROJECT_PATH } from "@/app/routes";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import {
   Card,
@@ -14,7 +15,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { CREATE_PROJECT_PATH } from "@/lib/utils/app-routes";
 
 export function OrganizationHeader() {
   const t = useTranslations("organization.dashboard");

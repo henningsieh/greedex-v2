@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { LOGIN_PATH } from "@/app/routes";
 import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,6 @@ import { FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
-import { LOGIN_PATH } from "@/lib/utils/app-routes";
 
 interface ResetPasswordFormProps extends React.ComponentProps<"div"> {
   token: string;

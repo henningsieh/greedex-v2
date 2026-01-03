@@ -5,13 +5,8 @@ import {
   organizationClient,
 } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
-import {
-  ac,
-  admin,
-  member,
-  owner,
-} from "@/components/features/projects/permissions";
 import { env } from "@/env";
+import { ac, admin, member, owner } from "@/features/projects/permissions";
 import type { auth } from "@/lib/better-auth";
 
 const clientBaseURL = env.NEXT_PUBLIC_BASE_URL;
