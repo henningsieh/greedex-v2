@@ -1,7 +1,7 @@
 "use client";
 
 import { parseAsStringLiteral, useQueryState } from "nuqs";
-import { WorkshopDetails } from "@/components/features/landingpage/workshops/workshiop-details";
+import { WorkshopDetails } from "@/components/features/landingpage/workshops/workshop-details";
 import type { CalculatorType } from "@/components/features/landingpage/workshops/workshops.config";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
