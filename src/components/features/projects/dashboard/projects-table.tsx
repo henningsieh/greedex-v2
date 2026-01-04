@@ -63,8 +63,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from "@/config/pagination";
-import { MEMBER_ROLES } from "@/features/organizations";
-import type { ProjectType } from "@/features/projects";
+import { MEMBER_ROLES } from "@/features/organizations/types";
+import type { ProjectType } from "@/features/projects/types";
 import {
   getProjectDetailPath,
   getProjectsDefaultSorting,

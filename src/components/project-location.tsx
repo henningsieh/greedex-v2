@@ -1,7 +1,6 @@
 "use client";
 
 import { GlobeIcon } from "lucide-react";
-import type React from "react";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Badge } from "@/components/ui/badge";
 import { getCountryData } from "@/lib/i18n/countries";
@@ -100,21 +99,20 @@ export function ProjectLocation({
       ? project.country
       : (countryData?.name ?? project.country);
 
-  let flagElement: React.ReactNode = null;
-  if (showFlag) {
-    if (ProjectCountryFlag) {
-      flagElement = (
-        <ProjectCountryFlag
-          aria-label={countryDisplay}
-          className="h-[1em] w-auto rounded-[2px] object-cover shadow-sm"
-        />
-      );
-    } else {
-      flagElement = (
-        <GlobeIcon className="h-[1em] w-[1em] text-muted-foreground/70" />
-      );
+  const renderFlag = () => {
+    if (!showFlag) {
+      return null;
     }
-  }
+
+    return ProjectCountryFlag ? (
+      <ProjectCountryFlag
+        aria-label={countryDisplay}
+        className="h-[1em] w-auto rounded-[2px] object-cover shadow-sm"
+      />
+    ) : (
+      <GlobeIcon className="h-[1em] w-[1em] text-muted-foreground/70" />
+    );
+  };
 
   if (flagOnly) {
     return (
@@ -125,71 +123,63 @@ export function ProjectLocation({
         )}
         title={`${project.location ? `${project.location}, ` : ""}${countryDisplay}`}
       >
-        {flagElement || (
+        {renderFlag() || (
           <GlobeIcon className="h-[1em] w-[1em] text-muted-foreground" />
         )}
       </span>
     );
   }
 
-  const content = (
-    <>
-      {layout === "unified" && (
-        <span
-          className={cn(
-            "inline-flex items-center gap-1.5 leading-none",
-            className,
-          )}
-        >
-          {flagElement}
-          <span className="flex items-baseline gap-1">
-            <div className="flex gap-0.5">
-              {project.location && (
-                <span className="font-medium text-foreground">
-                  {project.location}
-                </span>
-              )}
-              {project.location && (
-                <span className="text-muted-foreground/60">,</span>
-              )}
-            </div>
-            <span
-              className={cn(
-                "truncate",
-                project.location
-                  ? "text-muted-foreground"
-                  : "font-medium text-foreground",
-              )}
-            >
-              {countryDisplay}
-            </span>
-          </span>
-        </span>
-      )}
-
-      {layout === "split" && (
-        <span
-          className={cn(
-            "inline-flex items-center gap-1.5 leading-none",
-            className,
-          )}
-        >
+  const UnifiedContent = () => (
+    <span
+      className={cn("inline-flex items-center gap-1.5 leading-none", className)}
+    >
+      {renderFlag()}
+      <span className="flex items-baseline gap-1">
+        <div className="flex gap-0.5">
           {project.location && (
-            <>
-              <span className="font-semibold text-foreground">
-                {project.location}
-              </span>
-              <span className="mx-0.5 h-[1em] w-[px] bg-border" />
-            </>
+            <span className="font-medium text-foreground">
+              {project.location}
+            </span>
           )}
-          <span className="flex items-center gap-1.5 text-muted-foreground">
-            {flagElement}
-            <span className="font-medium">{countryDisplay}</span>
-          </span>
+          {project.location && (
+            <span className="text-muted-foreground/60">,</span>
+          )}
+        </div>
+        <span
+          className={cn(
+            "truncate",
+            project.location
+              ? "text-muted-foreground"
+              : "font-medium text-foreground",
+          )}
+        >
+          {countryDisplay}
         </span>
-      )}
-    </>
+      </span>
+    </span>
   );
+
+  const SplitContent = () => (
+    <span
+      className={cn("inline-flex items-center gap-1.5 leading-none", className)}
+    >
+      {project.location && (
+        <>
+          <span className="font-semibold text-foreground">
+            {project.location}
+          </span>
+          <span className="mx-0.5 h-[1em] w-[px] bg-border" />
+        </>
+      )}
+      <span className="flex items-center gap-1.5 text-muted-foreground">
+        {renderFlag()}
+        <span className="font-medium">{countryDisplay}</span>
+      </span>
+    </span>
+  );
+
+  const content = layout === "unified" ? <UnifiedContent /> : <SplitContent />;
 
   if (variant === "badge") {
     return (

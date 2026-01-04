@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/card";
 import { PARTNERS } from "@/config/about";
 
-export default function AboutPage() {
-  const t = useTranslations("about");
+export default async function AboutPage() {
+  const t = await getTranslations("about");
 
   return (
     <main className="relative min-h-screen py-28">

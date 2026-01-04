@@ -23,8 +23,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { EditOrganizationFormSchema } from "@/features/organizations";
 import { findAvailableSlug } from "@/features/organizations/utils";
+import { EditOrganizationFormSchema } from "@/features/organizations/validation-schemas";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
 

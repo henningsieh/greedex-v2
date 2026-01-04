@@ -42,8 +42,8 @@ import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import type {
   MemberRole,
   MemberSortField,
-  MemberWithUserSchema,
-} from "@/features/organizations";
+} from "@/features/organizations/types";
+import type { MemberWithUserSchema } from "@/features/organizations/validation-schemas";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { InviteEmployeeDialog } from "./invite-employee-dialog";
 

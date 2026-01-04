@@ -33,17 +33,23 @@
   "linter": {
     "rules": {
       "complexity": {
-        "noExcessiveCognitiveComplexity": "off"
+        "noExcessiveCognitiveComplexity": {
+          "level": "warn",
+          "options": {
+            "maxAllowedComplexity": 25
+          }
+        }
       },
-      "performance": {
-        "noBarrelFile": "off"
-      },
+      // "performance": {
+      //   "noBarrelFile": "error"
+      // },
       "suspicious": {
         "noArrayIndexKey": "off"
       },
       "style": {
-        "useConsistentArrayType": "off"
-        // "noExportedImports": "off"
+        "useBlockStatements": "off",
+        "useConsistentArrayType": "warn",
+        "noExportedImports": "warn"
       }
     },
     "includes": [
@@ -64,5 +70,80 @@
       "!src/lib/drizzle/migrations/**",
       "!specs/**"
     ]
-  }
+  },
+
+  "overrides": [
+    /**
+     * Disable noNamespaceImport for files with legitimate namespace import use cases
+     *
+     * The noNamespaceImport rule warns against `import * as name from 'module'` because
+     * it can prevent tree-shaking (bundlers must include the entire module even if only
+     * parts are used), potentially increasing bundle size.
+     *
+     * However, namespace imports are justified in these cases:
+     *
+     * 1. Drizzle ORM (db.ts):
+     *    - `import * as schema from './schema'` is required when passing the schema
+     *      to drizzle() initialization: `drizzle(pool, { schema })`
+     *    - Drizzle's relational query API needs the complete schema object at runtime
+     *    - Next.js already bundles server code, so tree-shaking concerns are minimal
+     *
+     * 2. Better Auth (index.ts):
+     *    - Auth configuration often imports all auth providers/plugins as a namespace
+     *    - The auth system needs access to the full set of providers at runtime
+     *
+     * 3. Scripts (scripts/**):
+     *    - Build/utility scripts don't ship to production
+     *    - Developer convenience outweighs bundle size concerns for tooling
+     *    - Scripts are typically run in Node.js where bundle size is irrelevant
+     *
+     * For all other files, prefer named imports: `import { specific, exports } from 'module'`
+     */
+    {
+      "includes": [
+        "src/lib/drizzle/db.ts",
+        "src/lib/drizzle/schema.ts",
+        "src/lib/better-auth/index.ts",
+        "scripts/**/*.ts"
+      ],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noNamespaceImport": "off",
+            "noBarrelFile": "off"
+          }
+        }
+      }
+    },
+    /**
+     * Disable useTopLevelRegex for test files
+     *
+     * The useTopLevelRegex rule suggests moving regex literals to the top-level scope
+     * to avoid recreating them on every function call, which can impact performance
+     * if the function is called frequently.
+     *
+     * Test files are exempt because:
+     * - Tests are not performance-critical code (they run once during CI/local testing)
+     * - Inline regex literals often improve test readability by keeping patterns
+     *   close to their usage
+     * - Test execution time is dominated by I/O and setup, not regex creation
+     * - Developer experience and test clarity are more important than micro-optimizations
+     *
+     * For production code, continue to follow the rule and move frequently-used
+     * regex patterns to module-level constants.
+     */
+    {
+      "includes": ["**/*.{test,spec}.ts"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "useTopLevelRegex": "off"
+          },
+          "suspicious": {
+            "noEmptyBlockStatements": "off"
+          }
+        }
+      }
+    }
+  ]
 }

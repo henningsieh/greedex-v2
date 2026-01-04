@@ -41,9 +41,7 @@ export function createQueryClient() {
         },
       },
       hydrate: {
-        deserializeData(data) {
-          return serializer.deserialize(data.json, data.meta);
-        },
+        deserializeData: (data) => serializer.deserialize(data.json, data.meta),
       },
     },
   });

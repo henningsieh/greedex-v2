@@ -1,6 +1,6 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-import { MEMBER_ROLES } from "@/features/organizations";
+import { MEMBER_ROLES } from "@/features/organizations/types";
 import {
   invitation,
   member as memberTable,
@@ -35,7 +35,7 @@ export const MemberWithUserSchema = createSelectSchema(memberTable).extend({
 });
 
 export const OrganizationFormSchema = createInsertSchema(organization, {
-  name: (schema) => schema.min(1, "Organization name is required"),
+  name: (schema) => schema.min(1, { error: "Organization name is required" }),
 }).omit({
   id: true,
   slug: true,
@@ -60,5 +60,5 @@ export const InviteFormSchema = createInsertSchema(invitation)
   });
 
 export const EditOrganizationFormSchema = z.object({
-  name: z.string().min(1, "Organization name is required"),
+  name: z.string().min(1, { error: "Organization name is required" }),
 });

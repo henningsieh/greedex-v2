@@ -4,7 +4,7 @@ import { boolean, decimal, pgTable, text, timestamp } from "drizzle-orm/pg-core"
 import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
 import { ACTIVITY_VALUES } from "@/config/activities";
 import type { EUCountryCode } from "@/config/eu-countries";
-import { ActivityValueType } from "@/features/project-activities";
+import { ActivityValueType } from "@/features/project-activities/types";
 
 
 // ============================================================================

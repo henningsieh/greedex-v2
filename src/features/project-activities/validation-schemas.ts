@@ -27,11 +27,12 @@ export const CreateActivityInputSchema = createInsertSchema(
   .extend({
     distanceKm: z
       .number()
-      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
-      .refine(
-        validateDistanceStep,
-        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
-      ),
+      .min(MIN_DISTANCE_KM, {
+        error: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+      })
+      .refine(validateDistanceStep, {
+        error: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      }),
   });
 
 /**
@@ -50,11 +51,12 @@ export const UpdateActivityInputSchema = createUpdateSchema(
   .extend({
     distanceKm: z
       .number()
-      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
-      .refine(
-        validateDistanceStep,
-        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
-      )
+      .min(MIN_DISTANCE_KM, {
+        error: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+      })
+      .refine(validateDistanceStep, {
+        error: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      })
       .optional(),
   });
 
@@ -80,11 +82,12 @@ export const EditActivityFormItemSchema = createUpdateSchema(
     projectId: z.string(), // Required for activities
     distanceKm: z
       .number()
-      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
-      .refine(
-        validateDistanceStep,
-        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
-      ),
+      .min(MIN_DISTANCE_KM, {
+        error: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+      })
+      .refine(validateDistanceStep, {
+        error: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      }),
     isNew: z.boolean().optional(), // Track if activity is new
     isDeleted: z.boolean().optional(), // Track if activity should be deleted
   });

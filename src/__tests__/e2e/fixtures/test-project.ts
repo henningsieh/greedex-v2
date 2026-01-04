@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { eq } from "drizzle-orm";
-import type { ProjectActivityType } from "@/features/project-activities";
+import type { ProjectActivityType } from "@/features/project-activities/types";
 import { db } from "@/lib/drizzle/db";
 import {
   member,

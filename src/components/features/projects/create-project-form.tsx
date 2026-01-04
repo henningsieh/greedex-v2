@@ -45,12 +45,10 @@ import {
   DEFAULT_PROJECT_DURATION_DAYS,
   MILLISECONDS_PER_DAY,
 } from "@/config/projects";
-import {
-  ActivityFormItemSchema,
-  type CreateProjectWithActivities,
-  CreateProjectWithActivitiesSchema,
-} from "@/features/projects";
+import { ActivityFormItemSchema } from "@/features/project-activities/validation-schemas";
 import { getProjectDetailPath } from "@/features/projects/utils";
+import type { CreateProjectWithActivities } from "@/features/projects/validation-schemas";
+import { CreateProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
@@ -163,6 +161,27 @@ export function CreateProjectForm({
     }
   }
 
+  async function createActivitiesForProject(
+    projectId: string,
+    activities?: CreateProjectWithActivities["activities"],
+  ) {
+    const failedActivities: string[] = [];
+    if (!activities || activities.length === 0) {
+      return failedActivities;
+    }
+
+    for (const activity of activities) {
+      try {
+        await createActivityMutation({ projectId, activity });
+      } catch (err) {
+        console.error("Failed to create activity:", err);
+        failedActivities.push(activity.activityType);
+      }
+    }
+
+    return failedActivities;
+  }
+
   async function onSubmit(values: CreateProjectWithActivities) {
     try {
       // Create the project first
@@ -173,28 +192,19 @@ export function CreateProjectForm({
         return;
       }
 
-      // If there are activities, create them
-      if (values.activities && values.activities.length > 0) {
-        const failedActivities: string[] = [];
-        for (const activity of values.activities) {
-          try {
-            await createActivityMutation({
-              projectId: result.project.id,
-              activity,
-            });
-          } catch (err) {
-            console.error("Failed to create activity:", err);
-            failedActivities.push(activity.activityType);
-          }
-        }
-        if (failedActivities.length > 0) {
-          toast.error(
-            t("toast.failed-activities", {
-              count: failedActivities.length,
-              activities: failedActivities.join(", "),
-            }),
-          );
-        }
+      // Create activities in a helper to keep this function simple
+      const failedActivities = await createActivitiesForProject(
+        result.project.id,
+        values.activities,
+      );
+
+      if (failedActivities.length > 0) {
+        toast.error(
+          t("toast.failed-activities", {
+            count: failedActivities.length,
+            activities: failedActivities.join(", "),
+          }),
+        );
       }
 
       toast.success(t("toast.success"));

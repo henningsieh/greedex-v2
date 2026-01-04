@@ -7,7 +7,7 @@ import {
 import {
   CreateActivityInputSchema,
   EditActivityFormItemSchema,
-} from "@/features/projects";
+} from "@/features/project-activities/validation-schemas";
 
 describe("Distance Constants", () => {
   it("should have correct constant values", () => {

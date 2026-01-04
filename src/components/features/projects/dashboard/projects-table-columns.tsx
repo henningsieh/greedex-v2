@@ -37,7 +37,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { ProjectType } from "@/features/projects";
+import type { ProjectType } from "@/features/projects/types";
 import {
   getColumnDisplayName,
   getProjectDetailPath,

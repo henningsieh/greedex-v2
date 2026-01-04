@@ -39,6 +39,7 @@ export function getEUCitiesSubset(limit?: number): CityLocation[] {
   if (limit && limit > 0) {
     return EU_CAPITAL_CITIES.slice(0, limit);
   }
+
   return EU_CAPITAL_CITIES;
 }
 

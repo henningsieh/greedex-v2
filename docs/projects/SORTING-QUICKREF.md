@@ -212,11 +212,7 @@ const invalid = {
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 
 // Types (in src/features/)
-import {
-  PROJECT_SORT_FIELDS,
-  type ProjectSortField,
-  type ProjectType,
-} from "@/features/projects";
+import { PROJECT_SORT_FIELDS, type ProjectSortField, type ProjectType } from "@/features/projects/types";
 
 // Utilities (in src/features/)
 import {
@@ -229,10 +225,10 @@ import {
 
 ```typescript
 // ❌ Don't import DEFAULT_PROJECT_SORT from features
-import { DEFAULT_PROJECT_SORT } from "@/features/projects";  // ❌ WRONG
+import { DEFAULT_PROJECT_SORT } from "@/config/projects";  // ✅ correct source is config/projects
 
 // ❌ Don't import from old paths
-import { DEFAULT_PROJECT_SORTING } from "@/features/projects";  // ❌ WRONG (old name)
+// Deprecated import removed - use { DEFAULT_PROJECT_SORT } from "@/config/projects" instead
 ```
 
 ---
@@ -447,9 +443,10 @@ type ProjectColumns = keyof typeof projectsTable.$inferSelect;
 
 ```typescript
 // ❌ Wrong
-import { DEFAULT_PROJECT_SORT } from "@/features/projects";
+import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 
-// ✅ Correct
+// ✅ Correct: import DEFAULT_PROJECT_SORT from config
+import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 ```
 

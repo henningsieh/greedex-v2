@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import type { PARTICIPANT_ACTIVITY_VALUES } from "@/config/activities";
+import type { ParticipantActivityValueType } from "@/config/activities";
 import {
   ACCOMMODATION_DATA,
   type ACCOMMODATION_VALUES,
@@ -10,8 +10,8 @@ import {
   type GENDER_VALUES,
   type ROOM_OCCUPANCY_VALUES,
 } from "@/config/questionnaire";
-import type { ParticipantSchema } from "@/features/participants";
-import type { ProjectWithActivitiesType } from "@/features/projects";
+import type { ParticipantSchema } from "@/features/participants/validation-schemas";
+import type { ProjectWithActivitiesType } from "@/features/projects/types";
 
 // ============================================================================
 // QUESTIONNAIRE ANSWER TYPES
@@ -145,13 +145,7 @@ export type Project = ProjectWithActivitiesType;
 /**
  * Re-export participant activity value type from config
  */
-// export type { ParticipantActivityValueType } from "@/config/activities";
-
-/**
- * Type for participant activity values (includes plane and electricCar)
- */
-export type ParticipantActivityValueType =
-  (typeof PARTICIPANT_ACTIVITY_VALUES)[number];
+export type { ParticipantActivityValueType } from "@/config/activities";
 
 /**
  * Participation activity type - computed values for UI display

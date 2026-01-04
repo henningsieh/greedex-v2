@@ -7,7 +7,7 @@ import {
   UsersTable,
 } from "@/components/features/organizations/users-table";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
-import { MEMBER_ROLES } from "@/features/organizations";
+import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";

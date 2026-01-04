@@ -145,9 +145,7 @@ const AnimationComponent: React.FC<{
       </motion.span>
     );
 
-  if (!segmentWrapperClassName) {
-    return content;
-  }
+  if (!segmentWrapperClassName) return content
 
   const defaultWrapperClassName = per === 'line' ? 'block' : 'inline-block';
 

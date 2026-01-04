@@ -50,11 +50,9 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@/config/activities";
-import type { ProjectType } from "@/features/projects";
-import {
-  EditActivityFormItemSchema,
-  EditProjectWithActivitiesSchema,
-} from "@/features/projects";
+import { EditActivityFormItemSchema } from "@/features/project-activities/validation-schemas";
+import type { ProjectType } from "@/features/projects/types";
+import { EditProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface EditProjectFormProps {
@@ -233,37 +231,10 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
         return;
       }
 
-      // Handle activities
-      if (values.activities) {
-        const failedActivities: string[] = [];
-        for (const activity of values.activities) {
-          try {
-            if (
-              activity.isDeleted === true &&
-              activity.isNew === false &&
-              activity.id
-            ) {
-              await deleteActivityMutation(activity.id);
-            } else if (activity.isNew === true && activity.isDeleted !== true) {
-              await createActivityMutation({
-                projectId: project.id,
-                activity,
-              });
-            } else if (
-              activity.isNew === false &&
-              activity.isDeleted !== true &&
-              activity.id
-            ) {
-              await updateActivityMutation({
-                activityId: activity.id,
-                activity,
-              });
-            }
-          } catch (err) {
-            console.error("Failed to process activity:", err);
-            failedActivities.push(activity.activityType || "unknown");
-          }
-        }
+      // Process activities in a helper to keep this function simple
+      if (values.activities && values.activities.length > 0) {
+        const failedActivities = await processActivities(values.activities);
+
         if (failedActivities.length > 0) {
           toast.error(
             t("edit.toast.failed-activities", {
@@ -275,24 +246,77 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
       }
 
       toast.success(t("edit.toast.success") || "Project updated successfully");
-      queryClient.invalidateQueries({
-        queryKey: orpcQuery.projects.list.queryKey(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: orpcQuery.projects.getById.queryOptions({
-          input: { id: project.id },
-        }).queryKey,
-      });
-      queryClient.invalidateQueries({
-        queryKey: orpcQuery.projectActivities.list.queryKey({
-          input: { projectId: project.id },
-        }),
-      });
+      invalidateProjectQueries(project.id);
       onSuccess?.();
     } catch (err) {
       console.error(err);
       toast.error("An error occurred");
     }
+  }
+
+  async function processActivities(
+    activities: z.infer<typeof EditActivityFormItemSchema>[],
+  ) {
+    const failedActivities: string[] = [];
+
+    for (const activity of activities) {
+      try {
+        await handleSingleActivity(activity);
+      } catch (err) {
+        console.error("Failed to process activity:", err);
+        failedActivities.push(activity.activityType || "unknown");
+      }
+    }
+
+    return failedActivities;
+  }
+
+  async function handleSingleActivity(
+    activity: z.infer<typeof EditActivityFormItemSchema>,
+  ) {
+    // Deleted existing activity
+    if (
+      activity.isDeleted === true &&
+      activity.isNew === false &&
+      activity.id
+    ) {
+      await deleteActivityMutation(activity.id);
+      return;
+    }
+
+    // New activity to create
+    if (activity.isNew === true && activity.isDeleted !== true) {
+      await createActivityMutation({ projectId: project.id, activity });
+      return;
+    }
+
+    // Existing activity to update
+    if (
+      activity.isNew === false &&
+      activity.isDeleted !== true &&
+      activity.id
+    ) {
+      await updateActivityMutation({ activityId: activity.id, activity });
+      return;
+    }
+
+    // Nothing to do for other combinations (e.g., marked deleted while new)
+  }
+
+  function invalidateProjectQueries(projectId: string) {
+    queryClient.invalidateQueries({
+      queryKey: orpcQuery.projects.list.queryKey(),
+    });
+    queryClient.invalidateQueries({
+      queryKey: orpcQuery.projects.getById.queryOptions({
+        input: { id: projectId },
+      }).queryKey,
+    });
+    queryClient.invalidateQueries({
+      queryKey: orpcQuery.projectActivities.list.queryKey({
+        input: { projectId },
+      }),
+    });
   }
 
   const addActivity = () => {

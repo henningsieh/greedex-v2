@@ -35,11 +35,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  InviteFormSchema,
-  MEMBER_ROLES,
-  type MemberRole,
-} from "@/features/organizations";
+import { MEMBER_ROLES, type MemberRole } from "@/features/organizations/types";
+import { InviteFormSchema } from "@/features/organizations/validation-schemas";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
 

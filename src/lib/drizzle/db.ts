@@ -3,7 +3,6 @@ import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { env } from "@/env";
-// biome-ignore lint/performance/noNamespaceImport: <import all schemes from a single entry point>
 import * as schema from "@/lib/drizzle/schema";
 
 // Global variable to store the pool across hot reloads

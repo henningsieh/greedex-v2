@@ -15,7 +15,6 @@ import {
   owner,
 } from "@/features/projects/permissions";
 import { db } from "@/lib/drizzle/db";
-// biome-ignore lint/performance/noNamespaceImport: <import all schemes from a single entry point>
 import * as schema from "@/lib/drizzle/schema";
 import { member } from "@/lib/drizzle/schema";
 import {

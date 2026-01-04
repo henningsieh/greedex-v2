@@ -60,6 +60,8 @@ interface QuestionnaireFormProps {
  *   initialize defaults, compute project duration, and calculate emissions.
  * @returns The questionnaire UI as a JSX element.
  */
+
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <The complexity is justified due to the multi-step form logic and state management.>
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const t = useTranslations("participation.questionnaire");
 

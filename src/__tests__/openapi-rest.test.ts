@@ -100,6 +100,7 @@ describe("OpenAPI REST Endpoint", () => {
       if (!serverAvailable) {
         return it.skip("Server not available");
       }
+
       const response = await fetch(`${baseUrl}/health`, {
         method: "GET",
       });
@@ -117,6 +118,7 @@ describe("OpenAPI REST Endpoint", () => {
       if (!serverAvailable) {
         return it.skip("Server not available");
       }
+
       const response = await fetch(`${baseUrl}/helloWorld`, {
         method: "POST",
         headers: {
@@ -137,6 +139,7 @@ describe("OpenAPI REST Endpoint", () => {
       if (!serverAvailable) {
         return it.skip("Server not available");
       }
+
       const response = await fetch(`${baseUrl}/helloWorld`, {
         method: "POST",
         headers: {

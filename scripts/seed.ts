@@ -1,7 +1,14 @@
 #!/usr/bin/env tsx
 
-// Run with: bun run db:seed (uses tsx)
-// This script should be run while dev server is NOT running to avoid connection conflicts
+/**
+ * Development DB seeder
+ *
+ * - Purpose: Insert a seed user, organization, projects and activities for local development and tests.
+ * - Warning: Stop the Next.js dev server (or any process using the database) before running to avoid connection conflicts.
+ * - Run: bun run db:seed (uses tsx)
+ *
+ * Uses its own DB pool and will exit the process when finished. For local/dev use only — do not run in production.
+ */
 
 import { hex } from "@better-auth/utils/hex";
 import { scryptAsync } from "@noble/hashes/scrypt.js";
@@ -10,8 +17,7 @@ import { config } from "dotenv";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import type { ActivityValueType } from "@/features/projects";
-// biome-ignore lint/performance/noNamespaceImport: <import all schemes from a single entry point>
+import type { ActivityValueType } from "@/features/project-activities/types";
 import * as schema from "@/lib/drizzle/schema";
 import {
   account,

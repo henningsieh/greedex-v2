@@ -5,7 +5,7 @@ import { TeamTableSkeleton } from "@/components/features/organizations/users-tab
 import { ParticipantsTable } from "@/components/features/participants/participants-table";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
-import { MEMBER_ROLES } from "@/features/organizations";
+import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";

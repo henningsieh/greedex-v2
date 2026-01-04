@@ -2,6 +2,7 @@ import type { InferSelectModel } from "drizzle-orm";
 import type { z } from "zod";
 import type { projectsTable } from "@/lib/drizzle/schema";
 import type {
+  ProjectSortFieldSchema,
   ProjectWithActivitiesSchema,
   ProjectWithRelationsSchema,
 } from "./validation-schemas";
@@ -48,4 +49,18 @@ export type ProjectWithActivitiesType = z.infer<
 export type {
   ActivityValueType,
   ProjectActivityType,
-} from "@/features/project-activities";
+} from "@/features/project-activities/types";
+
+// ============================================================================
+// Helper types for listProjects procedures
+// ============================================================================
+
+/**
+ * Input type for listing projects procedure
+ */
+export type ListProjectsInput =
+  | {
+      sort_by?: z.infer<typeof ProjectSortFieldSchema>;
+      archived?: boolean;
+    }
+  | undefined;

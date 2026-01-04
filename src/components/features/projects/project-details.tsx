@@ -122,6 +122,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
     ) {
       return 0;
     }
+
     const diffInMs = endDate.getTime() - startDate.getTime();
     return Math.max(0, Math.ceil(diffInMs / MILLISECONDS_PER_DAY));
   })();

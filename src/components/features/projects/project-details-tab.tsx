@@ -3,10 +3,10 @@ import { useFormatter, useTranslations } from "next-intl";
 import { Blockquote, BlockquoteAuthor } from "@/components/block-quote";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { ProjectType } from "@/features/projects";
+import type { ProjectWithRelationsType } from "@/features/projects/types";
 
 interface ProjectDetailsProps {
-  project: ProjectType;
+  project: ProjectWithRelationsType;
 }
 
 /**
@@ -80,7 +80,9 @@ export function ProjectDetailsTab({ project }: ProjectDetailsProps) {
             </div>
             <Blockquote>
               {project.welcomeMessage}
-              <BlockquoteAuthor>— {project.responsibleUserId}</BlockquoteAuthor>
+              <BlockquoteAuthor className="font-normal text-sm">
+                — {project.responsibleUser?.name || project.responsibleUserId}
+              </BlockquoteAuthor>
             </Blockquote>
           </div>
         )}

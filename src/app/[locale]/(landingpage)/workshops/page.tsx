@@ -6,11 +6,10 @@ const typeParser = createParser({
     if (value === "moment" || value === "deal" || value === "day") {
       return value as "moment" | "deal" | "day";
     }
+
     return "moment";
   },
-  serialize: (value: unknown) => {
-    return String(value);
-  },
+  serialize: (value: unknown) => String(value),
 });
 
 export default async function WorkshopsPage({

@@ -55,7 +55,7 @@ The server-side oRPC client is initialized in `src/instrumentation.ts` and attac
 
 - **ESM only**: `package.json` has `"type": "module"` — no CommonJS
 - **React Compiler**: `reactCompiler: true` in `next.config.ts` — don't change
-- **Biome**: Run `bun run lint && bun run format` before PRs
+- **Biome**: Run `bun run format && bun run lint` before PRs
 - **Vitest**: Tests in `src/__tests__/`, run with `bun run test`
 
 ---
@@ -149,7 +149,7 @@ When joining the project, follow this sequence based on your task:
 2. ✅ Ask before any terminal command not listed as allowed
 3. ✅ Preserve `src/instrumentation.ts` import ordering
 4. ✅ Small, focused edits with relevant test updates
-5. ✅ Run `bun run lint && bun run format` on changes
+5. ✅ Run `bun run format && bun run lint` on changes
 6. ✅ Reference docs before making integration changes
 
 **The developer is always in control. Agents are assistants, not controllers.**
@@ -239,7 +239,6 @@ Write code that is **accessible, performant, type-safe, and maintainable**. Focu
 - Avoid spread syntax in accumulators within loops
 - Use top-level regex literals instead of creating them in loops
 - Prefer specific imports over namespace imports
-- Avoid barrel files (index files that re-export everything)
 - Use proper image components (e.g., Next.js `<Image>`) over `<img>` tags
 
 ### Framework-Specific Guidance

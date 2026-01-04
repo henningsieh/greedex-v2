@@ -46,7 +46,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { ProjectActivityType } from "@/features/project-activities";
+import type { ProjectActivityType } from "@/features/project-activities/types";
 import { getProjectActivityIcon } from "@/features/projects/utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { ProjectActivityDialog } from "./project-activity-dialog";

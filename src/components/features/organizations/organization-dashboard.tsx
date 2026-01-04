@@ -12,7 +12,7 @@ import {
 import { ProjectsTab } from "@/components/features/projects/dashboard/projects-tab";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MEMBER_ROLES } from "@/features/organizations";
+import { MEMBER_ROLES } from "@/features/organizations/types";
 
 interface OrganizationDashboardProps {
   organizationId: string;

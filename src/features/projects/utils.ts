@@ -1,9 +1,17 @@
+import { asc, desc, type SQL, sql } from "drizzle-orm";
 import React from "react";
+import type z from "zod";
 import { type AppRoute, PROJECT_DETAIL_PATH } from "@/app/routes";
 import { PROJECT_ACTIVITIES_ICONS } from "@/components/features/project-activities/activities-icons";
 import { DEFAULT_PROJECT_SORT, MILLISECONDS_PER_DAY } from "@/config/projects";
-import type { ProjectActivityType } from "@/features/project-activities";
-import type { ProjectSortField } from "@/features/projects";
+import type { ProjectActivityType } from "@/features/project-activities/types";
+import type {
+  ListProjectsInput,
+  ProjectSortField,
+  ProjectType,
+} from "@/features/projects/types";
+import type { ProjectSortFieldSchema } from "@/features/projects/validation-schemas";
+import { projectsTable } from "@/lib/drizzle/schema";
 import { orpc } from "@/lib/orpc/orpc";
 
 /**
@@ -79,6 +87,53 @@ export function getColumnDisplayName(
     default:
       return columnId;
   }
+}
+
+/**
+ * Create a comparator for sorting projects by a given field and direction.
+ *
+ * Handles null/undefined values (pushed to the end) and supports Date and string comparison.
+ */
+function compareProjectFieldValues(
+  aValue: unknown,
+  bValue: unknown,
+  sortDesc: boolean,
+) {
+  if (aValue instanceof Date && bValue instanceof Date) {
+    const diff = aValue.getTime() - bValue.getTime();
+    return sortDesc ? -diff : diff;
+  }
+
+  if (typeof aValue === "string" && typeof bValue === "string") {
+    const res = aValue.localeCompare(bValue);
+    return sortDesc ? -res : res;
+  }
+
+  const res = String(aValue).localeCompare(String(bValue));
+  return sortDesc ? -res : res;
+}
+
+export function createProjectComparator(
+  sortBy: ProjectSortField,
+  sortDesc: boolean,
+) {
+  return (a: ProjectType, b: ProjectType) => {
+    const aValue = a[sortBy as keyof ProjectType];
+    const bValue = b[sortBy as keyof ProjectType];
+
+    // Handle null/undefined - push them to the end
+    if (aValue == null && bValue == null) {
+      return 0;
+    }
+    if (aValue == null) {
+      return sortDesc ? -1 : 1;
+    }
+    if (bValue == null) {
+      return sortDesc ? 1 : -1;
+    }
+
+    return compareProjectFieldValues(aValue, bValue, sortDesc);
+  };
 }
 
 /**
@@ -185,4 +240,55 @@ export function calculateActivitiesCO2(
     );
     return total + emissions;
   }, 0);
+}
+
+/**
+ *
+ * @param input - Input type for listing projects procedure
+ * @returns Whether the sort order should be descending
+ */
+export function computeSortDesc(input: ListProjectsInput) {
+  // If no explicit sort field was requested, use the configured default
+  if (input?.sort_by === undefined) {
+    return DEFAULT_PROJECT_SORT.order === "desc";
+  }
+
+  // If the client requested the default column, apply the default direction
+  return input.sort_by === DEFAULT_PROJECT_SORT.column
+    ? DEFAULT_PROJECT_SORT.order === "desc"
+    : false;
+}
+
+/**
+ *
+ * @param sortField - The project sort field/column
+ * @param sortDesc - Whether the sort order is descending
+ * @returns
+ */
+export function orderByClauseFor(
+  sortField: z.infer<typeof ProjectSortFieldSchema>,
+  sortDesc: boolean,
+): SQL<unknown> {
+  switch (sortField) {
+    case "name":
+      return sortDesc
+        ? desc(sql`lower(${projectsTable.name})`)
+        : asc(sql`lower(${projectsTable.name})`);
+    case "startDate":
+      return sortDesc
+        ? desc(projectsTable.startDate)
+        : asc(projectsTable.startDate);
+    case "createdAt":
+      return sortDesc
+        ? desc(projectsTable.createdAt)
+        : asc(projectsTable.createdAt);
+    case "updatedAt":
+      return sortDesc
+        ? desc(projectsTable.updatedAt)
+        : asc(projectsTable.updatedAt);
+    default:
+      return DEFAULT_PROJECT_SORT.order === "desc"
+        ? desc(projectsTable.startDate)
+        : asc(projectsTable.startDate);
+  }
 }

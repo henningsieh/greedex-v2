@@ -9,18 +9,18 @@ import {
   ActivityFormItemSchema,
   EditActivityFormItemSchema,
   ProjectActivityWithRelationsSchema,
-} from "@/features/project-activities";
+} from "@/features/project-activities/validation-schemas";
 import { organization, projectsTable, user } from "@/lib/drizzle/schema";
 import { PROJECT_SORT_FIELDS } from "./types";
 
 // Common form field extensions with custom error messages
 const projectFormExtensions = {
   country: z.enum(EU_COUNTRY_CODES, {
-    message: "Please select a valid EU country",
+    error: "Please select a valid EU country",
   }),
-  name: z.string().min(1, "Name is required"),
-  startDate: z.date({ message: "Please select a valid start date" }),
-  endDate: z.date({ message: "Please select a valid end date" }),
+  name: z.string().min(1, { error: "Name is required" }),
+  startDate: z.date({ error: "Please select a valid start date" }),
+  endDate: z.date({ error: "Please select a valid end date" }),
 };
 
 export const ProjectSortFieldSchema = z.enum(PROJECT_SORT_FIELDS);
@@ -58,17 +58,6 @@ export const ProjectUpdateFormSchema = createUpdateSchema(projectsTable)
 // ============================================================================
 // COMBINED SCHEMAS WITH ACTIVITIES
 // ============================================================================
-
-/**
- * Re-export activity schemas from project-activities feature
- * These are imported for use in project forms
- */
-export {
-  ActivityFormItemSchema,
-  CreateActivityInputSchema,
-  EditActivityFormItemSchema,
-  UpdateActivityInputSchema,
-} from "@/features/project-activities";
 
 /**
  * Combined form schema with activities for editing projects

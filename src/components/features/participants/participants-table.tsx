@@ -6,7 +6,7 @@ import {
   TeamTableSkeleton,
   UsersTable,
 } from "@/components/features/organizations/users-table";
-import { MEMBER_ROLES } from "@/features/organizations";
+import { MEMBER_ROLES } from "@/features/organizations/types";
 
 interface ParticipantsTableProps {
   organizationId: string;

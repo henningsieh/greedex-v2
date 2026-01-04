@@ -1,10 +1,11 @@
-import { and, asc, desc, eq, inArray, type SQL, sql } from "drizzle-orm";
+import { and, asc, eq, inArray } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
-import { MEMBER_ROLES } from "@/features/organizations";
-import { ProjectParticipantWithUserSchema } from "@/features/participants";
-import { ProjectActivityWithRelationsSchema } from "@/features/project-activities";
+import { MEMBER_ROLES } from "@/features/organizations/types";
+import { ProjectParticipantWithUserSchema } from "@/features/participants/validation-schemas";
+import { ProjectActivityWithRelationsSchema } from "@/features/project-activities/validation-schemas";
+import { computeSortDesc, orderByClauseFor } from "@/features/projects/utils";
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";
 import {
@@ -95,6 +96,7 @@ export const createProject = authorized
  * - Users can only see projects from organizations they are members of
  * - Projects are isolated by organization
  */
+
 export const listProjects = authorized
   .use(requireProjectPermissions(["read"]))
   .route({
@@ -120,61 +122,19 @@ export const listProjects = authorized
     }
 
     // Determine sort order using DEFAULT_PROJECT_SORT as source of truth
-    let orderByClause: SQL<unknown>;
     const sortField = input?.sort_by ?? DEFAULT_PROJECT_SORT.column;
-    let sortDesc: boolean;
-    if (input?.sort_by === undefined) {
-      // no explicit sort requested - use default order
-      sortDesc = DEFAULT_PROJECT_SORT.order === "desc";
-    } else if (input.sort_by === DEFAULT_PROJECT_SORT.column) {
-      // requested the default column - apply default direction
-      sortDesc = DEFAULT_PROJECT_SORT.order === "desc";
-    } else {
-      // different column requested - default to ascending
-      sortDesc = false;
-    }
+    const sortDesc = computeSortDesc(input);
+    const orderByClause = orderByClauseFor(sortField, sortDesc);
 
-    switch (sortField) {
-      case "name":
-        orderByClause = sortDesc
-          ? desc(sql`lower(${projectsTable.name})`)
-          : asc(sql`lower(${projectsTable.name})`);
-        break;
-      case "startDate":
-        orderByClause = sortDesc
-          ? desc(projectsTable.startDate)
-          : asc(projectsTable.startDate);
-        break;
-      case "createdAt":
-        orderByClause = sortDesc
-          ? desc(projectsTable.createdAt)
-          : asc(projectsTable.createdAt);
-        break;
-      case "updatedAt":
-        orderByClause = sortDesc
-          ? desc(projectsTable.updatedAt)
-          : asc(projectsTable.updatedAt);
-        break;
-      default:
-        // fallback to configured default
-        orderByClause =
-          DEFAULT_PROJECT_SORT.order === "desc"
-            ? desc(projectsTable.startDate)
-            : asc(projectsTable.startDate);
-    }
-
-    // Get all projects that belong to the user's active organization
-    // Permission check ensures user is a member of the organization
     const conditions = [
       eq(projectsTable.organizationId, context.session.activeOrganizationId),
+      ...(input?.archived !== undefined
+        ? [eq(projectsTable.archived, input.archived)]
+        : []),
     ];
-    if (input?.archived !== undefined) {
-      conditions.push(eq(projectsTable.archived, input.archived));
-    }
-    const whereClause = and(...conditions);
 
     const projects = await db.query.projectsTable.findMany({
-      where: whereClause,
+      where: and(...conditions),
       orderBy: [orderByClause],
       with: {
         responsibleUser: true,

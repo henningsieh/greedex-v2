@@ -6,7 +6,7 @@
  * Authentication: Required (must be member of the organization)
  */
 
-import { MEMBER_ROLES, MemberRole } from "@/features/organizations";
+import { MEMBER_ROLES, type MemberRole } from "@/features/organizations/types";
 import { z } from "zod";
 
 // ============================================================================
@@ -269,9 +269,8 @@ export const listMembersContractTests = [
     },
     expectedStatus: 200,
     expectedSchema: listMembersResponseSchema,
-    expectedData: (data: Member[]) => {
-      return data.length === 1 && data[0].role === "owner";
-    },
+    expectedData: (data: Member[]) => data.length === 1 && data[0].role === "owner"
+    
   },
   {
     name: "should include user details (name, email) in response",

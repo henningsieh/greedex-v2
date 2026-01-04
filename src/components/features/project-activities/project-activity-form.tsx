@@ -28,11 +28,11 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@/config/activities";
-import type { ProjectActivityType } from "@/features/project-activities";
+import type { ProjectActivityType } from "@/features/project-activities/types";
 import {
   CreateActivityInputSchema,
   type UpdateActivityInputSchema,
-} from "@/features/project-activities";
+} from "@/features/project-activities/validation-schemas";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { PROJECT_ACTIVITIES_ICONS } from "./activities-icons";
 
@@ -157,6 +157,7 @@ export function ProjectActivityForm({
     if (isPending) {
       return isEditing ? t("form.updating") : t("form.adding");
     }
+
     return isEditing ? t("form.update") : t("form.submit");
   })();
 

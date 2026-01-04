@@ -2,11 +2,11 @@ import { ORPCError } from "@orpc/server";
 import { and, count, countDistinct, eq } from "drizzle-orm";
 import { z } from "zod";
 import { MEMBER_SORT_FIELDS } from "@/config/organizations";
+import type { MemberSortField } from "@/features/organizations/types";
 import {
   MemberRoleSchema,
-  type MemberSortField,
   MemberWithUserSchema,
-} from "@/features/organizations";
+} from "@/features/organizations/validation-schemas";
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";
 import {
@@ -184,7 +184,7 @@ export const searchMembers = authorized
   .handler(async ({ context, input }) => {
     const { organizationId, filters } = input;
 
-    const allMembers: Array<z.infer<typeof MemberWithUserSchema>> = [];
+    const allMembers: z.infer<typeof MemberWithUserSchema>[] = [];
     // Ensure filters exist and default values
     const roles = filters?.roles || [];
     const search = filters?.search || undefined;

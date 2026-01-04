@@ -13,7 +13,7 @@ import {
   ROOM_OCCUPANCY_FACTORS,
   ROUND_TRIP_MULTIPLIER,
 } from "@/config/questionnaire";
-import type { ProjectActivityType } from "@/features/project-activities";
+import type { ProjectActivityType } from "@/features/project-activities/types";
 import { CO2_FACTORS, calculateActivitiesCO2 } from "@/features/projects/utils";
 import {
   ACCOMMODATION_FACTORS,

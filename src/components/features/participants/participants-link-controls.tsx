@@ -99,7 +99,7 @@ export function ParticipantsLinkControls({
   }, [isQrModalOpen, participationUrl, t]);
 
   if (!activeProjectId) {
-    return null; // or some empty state
+    return null;
   }
 
   const copyToClipboard = () => {

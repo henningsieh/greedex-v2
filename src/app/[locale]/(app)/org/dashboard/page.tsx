@@ -4,7 +4,7 @@ import { OrganizationDashboard } from "@/components/features/organizations/organ
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
-import { MEMBER_ROLES } from "@/features/organizations";
+import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";

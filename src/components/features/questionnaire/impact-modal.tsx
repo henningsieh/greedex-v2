@@ -44,7 +44,7 @@ interface ImpactModalProps {
   onClose: () => void;
 }
 
-const getImpactMessage = (
+export const getImpactMessage = (
   stepKey: string,
   stepValue: string | number,
   impact: number,
@@ -55,98 +55,106 @@ const getImpactMessage = (
 ): string => {
   const value = typeof stepValue === "string" ? stepValue : Number(stepValue);
 
+  const transportHandler = (
+    mode: "flight" | "train" | "bus" | "boat" | "car",
+  ) => {
+    if (mode === "flight") {
+      if (Number(value) === 0)
+        return "✅ Great! No flying keeps your footprint low!";
+      return `✈️ Flying ${value} km adds ${impact.toFixed(1)} kg CO₂ to your footprint`;
+    }
+
+    if (mode === "train") {
+      if (Number(value) === 0) return "🚆 No train travel this time";
+      return `🚆 Excellent choice! Train travel is eco-friendly (+${impact.toFixed(1)} kg CO₂)`;
+    }
+
+    if (mode === "bus") {
+      if (Number(value) === 0) return "🚌 No bus travel";
+      return `🚌 Good public transport choice! (+${impact.toFixed(1)} kg CO₂)`;
+    }
+
+    if (mode === "boat") {
+      if (Number(value) === 0) return "⛴️ No boat travel";
+      return `⛴️ Boat travel adds ${impact.toFixed(1)} kg CO₂`;
+    }
+
+    // car
+    if (Number(value) === 0)
+      return "🚗 Great! No car travel keeps emissions low!";
+    return `🚗 Car travel adds ${impact.toFixed(1)} kg CO₂`;
+  };
+
+  const foodMessage = () => {
+    const foodMessages: Record<string, string> = {
+      never: `🌱 Amazing! Vegetarian diet for ${days} days is planet-friendly! (+${impact.toFixed(1)} kg CO₂)`,
+      rarely: `🥗 Great choice! Low meat consumption for ${days} days (+${impact.toFixed(1)} kg CO₂)`,
+      sometimes: `🍖 Moderate meat consumption for ${days} days (+${impact.toFixed(1)} kg CO₂)`,
+      "almost every day": `🥩 High meat consumption for ${days} days has significant impact (+${impact.toFixed(1)} kg CO₂)`,
+      "every day": `🥩 Daily meat for ${days} days has major environmental impact (+${impact.toFixed(1)} kg CO₂)`,
+    };
+    return (
+      foodMessages[value as string] ||
+      `🍽️ Food choice: +${impact.toFixed(1)} kg CO₂`
+    );
+  };
+
+  const electricityMessage = () => {
+    const nights = days ? days - 1 : 0;
+    const baseMessage = `${accommodationCategory || "Accommodation"} with ${value} for ${nights} nights, ${roomOccupancy || "alone"}`;
+    return value === "green energy"
+      ? `♻️ Excellent! ${baseMessage} keeps emissions low at ${impact.toFixed(1)} kg CO₂`
+      : `🏨 ${baseMessage} adds ${impact.toFixed(1)} kg CO₂ to your footprint`;
+  };
+
+  const carTypeMessage = () =>
+    value === "electric"
+      ? "🔋 Excellent! Electric cars have 75% lower emissions!"
+      : "⛽ Conventional car increases your footprint";
+
+  const carPassengersMessage = () => {
+    if (Number(value) === 1) {
+      return "🚗 Consider carpooling next time! Sharing rides can cut emissions by up to 75%.";
+    }
+    return `👥 Great carpooling! You're reducing emissions by sharing with ${Number(value) - 1} other${Number(value) > 2 ? "s" : ""}.`;
+  };
+
   switch (stepKey) {
     case "flightKm":
       if (Number(value) === 0) {
         return "✅ Great! No flying keeps your footprint low!";
       }
-      return `✈️ Flying ${value} km adds ${impact.toFixed(
-        1,
-      )} kg CO₂ to your footprint`;
+      return `✈️ Flying ${value} km adds ${impact.toFixed(1)} kg CO₂ to your footprint`;
 
     case "trainKm":
-      if (Number(value) === 0) {
-        return "🚆 No train travel this time";
-      }
-      return `🚆 Excellent choice! Train travel is eco-friendly (+${impact.toFixed(
-        1,
-      )} kg CO₂)`;
+      return transportHandler("train");
 
     case "busKm":
-      if (Number(value) === 0) {
-        return "🚌 No bus travel";
-      }
-      return `🚌 Good public transport choice! (+${impact.toFixed(1)} kg CO₂)`;
+      return transportHandler("bus");
 
     case "boatKm":
-      if (Number(value) === 0) {
-        return "⛴️ No boat travel";
-      }
-      return `⛴️ Boat travel adds ${impact.toFixed(1)} kg CO₂`;
+      return transportHandler("boat");
 
     case "carKm":
-      if (Number(value) === 0) {
-        return "🚗 Great! No car travel keeps emissions low!";
-      }
-      return `🚗 Car travel adds ${impact.toFixed(1)} kg CO₂`;
+      return transportHandler("car");
 
-    case "food": {
-      const foodMessages: Record<string, string> = {
-        never: `🌱 Amazing! Vegetarian diet for ${days} days is planet-friendly! (+${impact.toFixed(
-          1,
-        )} kg CO₂)`,
-        rarely: `🥗 Great choice! Low meat consumption for ${days} days (+${impact.toFixed(
-          1,
-        )} kg CO₂)`,
-        sometimes: `🍖 Moderate meat consumption for ${days} days (+${impact.toFixed(
-          1,
-        )} kg CO₂)`,
-        "almost every day": `🥩 High meat consumption for ${days} days has significant impact (+${impact.toFixed(
-          1,
-        )} kg CO₂)`,
-        "every day": `🥩 Daily meat for ${days} days has major environmental impact (+${impact.toFixed(
-          1,
-        )} kg CO₂)`,
-      };
-      return (
-        foodMessages[value as string] ||
-        `🍽️ Food choice: +${impact.toFixed(1)} kg CO₂`
-      );
-    }
+    case "food":
+      return foodMessage();
 
-    case "electricity": {
-      const nights = days ? days - 1 : 0;
-      const baseMessage = `${
-        accommodationCategory || "Accommodation"
-      } with ${value} for ${nights} nights, ${roomOccupancy || "alone"}`;
-
-      if (value === "green energy") {
-        return `♻️ Excellent! ${baseMessage} keeps emissions low at ${impact.toFixed(
-          1,
-        )} kg CO₂`;
-      }
-      return `🏨 ${baseMessage} adds ${impact.toFixed(
-        1,
-      )} kg CO₂ to your footprint`;
-    }
+    case "electricity":
+      return electricityMessage();
 
     case "carType":
-      return value === "electric"
-        ? "🔋 Excellent! Electric cars have 75% lower emissions!"
-        : "⛽ Conventional car increases your footprint";
+      return carTypeMessage();
 
     case "carPassengers":
-      if (Number(value) === 1) {
-        return "🚗 Consider carpooling next time! Sharing rides can cut emissions by up to 75%.";
-      }
-      return `👥 Great carpooling! You're reducing emissions by sharing with ${
-        Number(value) - 1
-      } other${Number(value) > 2 ? "s" : ""}.`;
+      return carPassengersMessage();
 
     default:
       if (impact < NEGLIGIBLE_IMPACT_THRESHOLD) {
         return "✅ This choice doesn't affect your CO₂ footprint";
       }
+
       return `+${impact.toFixed(1)} kg CO₂ added`;
   }
 };

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { ProjectActivityType } from "@/features/project-activities";
+import type { ProjectActivityType } from "@/features/project-activities/types";
 import { CO2_FACTORS, calculateActivitiesCO2 } from "@/features/projects/utils";
 import {
   ACCOMMODATION_FACTORS,

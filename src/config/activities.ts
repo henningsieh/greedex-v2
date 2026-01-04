@@ -3,10 +3,6 @@
  * Single source of truth for activity types, distance settings, and emission factors
  */
 
-import type { ParticipantActivityValueType } from "@/features/questionnaire/types";
-
-// import type { ParticipantActivityValueType } from "@/components/participate";
-
 // ============================================================================
 // ACTIVITY TYPES
 // ============================================================================
@@ -31,6 +27,9 @@ export const PARTICIPANT_ACTIVITY_VALUES = [
   "plane",
   "electricCar",
 ] as const;
+
+export type ParticipantActivityValueType =
+  (typeof PARTICIPANT_ACTIVITY_VALUES)[number];
 
 // ============================================================================
 // DISTANCE CONFIGURATIONS
