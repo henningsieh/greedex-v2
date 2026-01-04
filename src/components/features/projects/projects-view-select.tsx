@@ -11,6 +11,15 @@ interface ProjectsControlsProps {
   setView: (view: "grid" | "table") => void;
 }
 
+/**
+ * Render view-toggle controls that let the user switch between "table" and "grid" views.
+ *
+ * Displays two buttons for "Table" and "Grid", highlights the active view, and invokes `setView` with either `"table"` or `"grid"` when a button is clicked.
+ *
+ * @param view - The currently selected view, either `"grid"` or `"table"`.
+ * @param setView - Callback invoked with the new view (`"grid"` or `"table"`) to update the selection.
+ * @returns The JSX element containing the view toggle buttons.
+ */
 export function ProjectsViewSelect({ view, setView }: ProjectsControlsProps) {
   const t = useTranslations("organization.projects");
 

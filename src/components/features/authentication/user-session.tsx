@@ -19,6 +19,13 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
+/**
+ * Renders the current user's session controls: a login link when unauthenticated, a user avatar dropdown when authenticated, and a skeleton while signing out.
+ *
+ * The dropdown shows the user's name, email, and a sign-out action; the avatar displays the user's image when available or computed initials otherwise.
+ *
+ * @returns The React element for the user session UI based on authentication state.
+ */
 export function UserSession() {
   const t = useTranslations("authentication.login");
   const router = useRouter();

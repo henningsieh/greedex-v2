@@ -8,6 +8,13 @@ import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
+/**
+ * Render the organization dashboard page while prefetching and hydrating required server-side data for client components.
+ *
+ * Prefetches current session, organizations, projects (with default project sort), members (filtered to Participant role with default pagination), and organization statistics. Chooses the active organization from the session's activeOrganizationId, or the first available organization, or an empty string if none exist.
+ *
+ * @returns The React element that renders the organization dashboard for the resolved active organization.
+ */
 export default async function DashboardPage() {
   const t = await getTranslations("organization.dashboard");
   const queryClient = getQueryClient();

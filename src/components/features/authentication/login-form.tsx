@@ -38,6 +38,18 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
+/**
+ * Render a login form with password and magic-link methods, social sign-in buttons, and redirect handling.
+ *
+ * The component displays two tabs (password and magic link), validates input, initiates sign-in flows,
+ * and computes a post-login callback URL from `nextPageUrl`. It reads the last-used login method on mount
+ * and highlights the corresponding tab. Sign-in results produce toast notifications; if an email sign-in
+ * fails due to an unverified email, the user is redirected to the email verification page.
+ *
+ * @param className - Optional additional CSS class names applied to the container.
+ * @param nextPageUrl - Optional path or array of path segments used to compute the post-login redirect; if omitted, the dashboard path is used.
+ * @returns The login form React element.
+ */
 export function LoginForm({
   className,
   nextPageUrl,

@@ -5,6 +5,15 @@ import { WorkshopDetails } from "@/components/features/landingpage/workshops/wor
 import type { CalculatorType } from "@/components/features/landingpage/workshops/workshops.config";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+/**
+ * Render a three-tab workshop interface synchronized with the URL `type` query parameter.
+ *
+ * The selected tab is derived from the `type` query parameter and falls back to `initialType`
+ * when the query parameter is absent or invalid.
+ *
+ * @param initialType - Default calculator type to use when the `type` query parameter is not present
+ * @returns A React element that renders tabbed workshop details for the selected calculator type
+ */
 export function WorkshopContent({
   initialType,
 }: {

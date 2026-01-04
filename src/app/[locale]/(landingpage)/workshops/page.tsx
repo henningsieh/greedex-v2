@@ -12,6 +12,14 @@ const typeParser = createParser({
   serialize: (value: unknown) => String(value),
 });
 
+/**
+ * Render the Workshops page and determine the initial workshop type from the provided search parameters.
+ *
+ * The function reads `searchParams.type`, parses it into one of `"moment" | "deal" | "day"`, and falls back to `"moment"` when absent or unrecognized. The parsed value is passed as the `initialType` prop to the client-side `WorkshopContent` component.
+ *
+ * @param searchParams - An object or Promise resolving to an object that may contain a `type` query parameter used to select the initial workshop tab.
+ * @returns A JSX element representing the Workshops page layout with the parsed initial workshop type applied to `WorkshopContent`.
+ */
 export default async function WorkshopsPage({
   searchParams,
 }: {

@@ -3,6 +3,12 @@ import { notFound } from "next/navigation";
 import { HandleInvitation } from "@/components/features/authentication/handle-invitation";
 import { auth } from "@/lib/better-auth";
 
+/**
+ * Render the invitation acceptance UI for a given invitation ID.
+ *
+ * @param params - A promise that resolves to an object containing `invitationId`, used to fetch the invitation.
+ * @returns The `HandleInvitation` element for the fetched invitation. If the invitation does not exist, triggers a 404 page and returns `null`.
+ */
 export default async function AcceptInvitationPage({
   params,
 }: {

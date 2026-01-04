@@ -31,6 +31,17 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
+/**
+ * Render a signup form that validates input and registers a new user via email.
+ *
+ * The form validates name, email, password, and password confirmation, shows
+ * success or error toasts, and redirects the user to a verification page after
+ * successful signup. The signup request includes a callback URL derived from
+ * the app base URL combined with `nextPageUrl`.
+ *
+ * @param nextPageUrl - Optional path or paths to redirect to after authentication; used to construct the signup callback URL. If omitted, the dashboard path is used.
+ * @returns A JSX element representing the signup form UI.
+ */
 export function SignupForm({
   className,
   nextPageUrl,

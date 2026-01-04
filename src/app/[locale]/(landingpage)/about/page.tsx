@@ -11,6 +11,16 @@ import {
 } from "@/components/ui/card";
 import { PARTNERS } from "@/config/about";
 
+/**
+ * Renders the About page with localized content and a list of partner cards.
+ *
+ * This server-rendered React component loads translations for the "about" namespace
+ * and displays an introduction, a responsive grid of partner cards (logo, name,
+ * optional country, description, and optional external website link), and a footer
+ * note about Erasmus funding.
+ *
+ * @returns The About page JSX element
+ */
 export default async function AboutPage() {
   const t = await getTranslations("about");
 

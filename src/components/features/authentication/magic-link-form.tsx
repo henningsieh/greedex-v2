@@ -20,6 +20,13 @@ import {
 import { authClient } from "@/lib/better-auth/auth-client";
 import { cn } from "@/lib/utils";
 
+/**
+ * Renders a magic-link sign-in form that validates an email and sends a magic link to the provided address.
+ *
+ * @param className - Optional className applied to the outer form element
+ * @param props - Additional native form element props forwarded to the form
+ * @returns The rendered JSX form for requesting a magic link sign-in
+ */
 export function MagicLinkForm({
   className,
   ...props

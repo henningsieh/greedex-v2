@@ -57,6 +57,14 @@ const inputGroupAddonVariants = cva(
   }
 )
 
+/**
+ * Renders an addon element for an input group that aligns its contents and, when clicked outside a nested button, focuses the associated input.
+ *
+ * The element is rendered as a `div` with `role="group"` and `data-slot="input-group-addon"`. Clicking the addon will focus the first `input` inside the parent input group unless the click target is a `button`.
+ *
+ * @param align - Positioning of the addon relative to the input; accepts `"inline-start"`, `"inline-end"`, `"block-start"`, or `"block-end"`. Defaults to `"inline-start"`.
+ * @returns A `div` element used as an input-group addon.
+ */
 function InputGroupAddon({
   className,
   align = "inline-start",

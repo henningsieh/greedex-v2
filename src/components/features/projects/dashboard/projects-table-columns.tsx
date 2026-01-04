@@ -46,6 +46,12 @@ import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
+/**
+ * Renders a date using localized short month, numeric day, and year format.
+ *
+ * @param date - The date to format and display
+ * @returns The formatted date as a JSX element
+ */
 function DateCell({ date }: { date: Date }) {
   const format = useFormatter();
   return (
@@ -59,6 +65,12 @@ function DateCell({ date }: { date: Date }) {
   );
 }
 
+/**
+ * Renders a project's country and location as an inline, locale-aware ProjectLocation with flag.
+ *
+ * @param project - The project whose country and location will be displayed
+ * @returns A React element displaying the project's country and location with flag and localized formatting
+ */
 function CountryCell({ project }: { project: ProjectType }) {
   const locale = useLocale();
   return (
@@ -73,6 +85,14 @@ function CountryCell({ project }: { project: ProjectType }) {
   );
 }
 
+/**
+ * Builds the column definitions for the projects table using the provided translation function.
+ *
+ * Produces columns for row selection, project name, location, start date, creation date, update date, and per-row actions (including a header menu for toggling column visibility).
+ *
+ * @param t - Translation function scoped to project table UI keys
+ * @returns An array of column definitions configured for ProjectType rows
+ */
 export function ProjectTableColumns(
   t: (key: string) => string,
 ): ColumnDef<ProjectType>[] {
@@ -235,6 +255,15 @@ export function ProjectTableColumns(
   ];
 }
 
+/**
+ * Renders the actions menu and related UI controls for a single project row.
+ *
+ * Displays a dropdown with view, edit, archive/unarchive, and delete actions (conditioned on permissions),
+ * and manages the edit dialog, confirmation dialog, and mutation side effects (toasts and cache invalidation).
+ *
+ * @param project - The project displayed by this cell; used to determine available actions and their effects.
+ * @returns The JSX element for the project actions cell, including the actions dropdown, edit dialog (if permitted), and the confirm dialog component.
+ */
 function ProjectActionsCell({ project }: { project: ProjectType }) {
   const t = useTranslations("organization.projects");
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

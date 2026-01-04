@@ -183,6 +183,15 @@ function FieldSeparator({
   )
 }
 
+/**
+ * Renders field-level error UI when there is error content to show.
+ *
+ * If `children` is provided, it is rendered directly. Otherwise `errors` are deduplicated by `message`; when there is a single unique message that message is rendered as text, and when there are multiple unique messages they are rendered as a bulleted list.
+ *
+ * @param children - Custom content to render inside the error container; when present this takes precedence over `errors`.
+ * @param errors - Optional array of error objects (each may have a `message` string). Messages are deduplicated by value before rendering.
+ * @returns A div with `role="alert"` and destructive styling containing the error content, or `null` when there is no content to display.
+ */
 function FieldError({
   className,
   children,

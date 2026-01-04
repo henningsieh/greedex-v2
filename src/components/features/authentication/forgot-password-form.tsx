@@ -23,6 +23,16 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
+/**
+ * Renders a "Forgot Password" form inside a styled card that lets users request a password-reset link.
+ *
+ * The form validates the email, submits it to the authentication client with a redirect to the reset page,
+ * displays success or error toasts, and resets the form on successful submission.
+ *
+ * @param className - Additional CSS class names to apply to the root container.
+ * @param props - All other HTML div props are forwarded to the root container.
+ * @returns The rendered Forgot Password form component as JSX.
+ */
 export function ForgotPasswordForm({
   className,
   ...props

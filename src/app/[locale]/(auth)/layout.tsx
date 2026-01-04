@@ -4,6 +4,14 @@ import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/app/routes";
 import { auth } from "@/lib/better-auth";
 import { redirect } from "@/lib/i18n/routing";
 
+/**
+ * Server-side layout that either renders authentication pages or redirects signed-in users to the appropriate app route.
+ *
+ * If a signed-in user exists, redirects to the dashboard when they belong to at least one organization, otherwise redirects to the organization creation flow. If no signed-in user exists, renders the provided auth-related children (e.g., login, signup, verify-email).
+ *
+ * @param children - Auth page content to render when there is no active user session.
+ * @returns The `children` wrapped in a fragment when no user session is present.
+ */
 export default async function AuthLayout({
   children,
 }: Readonly<{

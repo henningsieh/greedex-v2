@@ -12,20 +12,13 @@ import type { ProjectPermission } from "@/features/projects/permissions";
 import { authClient } from "@/lib/better-auth/auth-client";
 
 /**
- * Check if a given role has specific project permissions
+ * Determine whether a role has all specified project permissions via a client-side check.
  *
- * This is a client-side check only and does NOT include dynamic roles.
- * For server-side checks or dynamic roles, use auth.api.hasPermission.
+ * This check is performed client-side and does not account for server-side or dynamic roles.
  *
- * @param role - The role to check (owner, admin, member)
- * @param permissions - Array of project permissions to check
- * @returns boolean indicating if the role has all the specified permissions
- *
- * @example
- * ```ts
- * const canCreate = checkProjectPermission("admin", ["create"]);
- * const canManage = checkProjectPermission("owner", ["update", "delete"]);
- * ```
+ * @param role - The member role to evaluate
+ * @param permissions - The project permissions to require
+ * @returns `true` if the role has all specified project permissions, `false` otherwise.
  */
 function checkProjectPermission(
   role: MemberRole,

@@ -33,7 +33,10 @@ export const EU_CAPITAL_CITIES: CityLocation[] = EU_COUNTRIES.map(
 );
 
 /**
- * Get a subset of cities for testing or different views
+ * Return the first `limit` EU capital cities, or all cities when `limit` is not provided or not greater than zero.
+ *
+ * @param limit - Maximum number of cities to include from the start of the list
+ * @returns An array of `CityLocation` objects containing up to `limit` entries; the full `EU_CAPITAL_CITIES` array if `limit` is omitted or not greater than zero
  */
 export function getEUCitiesSubset(limit?: number): CityLocation[] {
   if (limit && limit > 0) {

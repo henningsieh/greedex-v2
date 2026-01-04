@@ -61,7 +61,12 @@ interface QuestionnaireFormProps {
  * @returns The questionnaire UI as a JSX element.
  */
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <The complexity is justified due to the multi-step form logic and state management.>
+/**
+ * Renders the multi-step participant questionnaire UI, managing form state, localStorage persistence, conditional step flow, emission calculations, and impact confirmation modals.
+ *
+ * @param project - Project data used to initialize default answers, provide activities for emissions calculations, and display project-specific text (e.g., welcome message).
+ * @returns The questionnaire form React element.
+ */
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const t = useTranslations("participation.questionnaire");
 

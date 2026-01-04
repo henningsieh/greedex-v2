@@ -499,6 +499,16 @@ const sidebarMenuButtonVariants = cva(
   }
 )
 
+/**
+ * Render a sidebar menu button that adapts to the current sidebar state and optionally shows a tooltip.
+ *
+ * @param asChild - If true, renders the button as a child component (uses Slot) instead of a native `button`.
+ * @param isActive - Marks the button as active for styling and data attributes.
+ * @param variant - Visual variant of the button (e.g., "default" or "outline").
+ * @param size - Size variant of the button ("default", "sm", or "lg").
+ * @param tooltip - If a string, used as tooltip text; if an object, treated as props for `TooltipContent`. When provided, the returned element is wrapped in a `Tooltip` whose content is hidden unless the sidebar is collapsed and not on mobile.
+ * @returns The menu button element, optionally wrapped in a tooltip whose visibility depends on sidebar collapse state and mobile status.
+ */
 function SidebarMenuButton({
   asChild = false,
   isActive = false,

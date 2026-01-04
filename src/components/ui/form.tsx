@@ -135,6 +135,15 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   )
 }
 
+/**
+ * Renders a form message paragraph that shows the field's error message or the component's children.
+ *
+ * If there is no error message and no children, nothing is rendered.
+ *
+ * @param className - Additional CSS classes to apply to the paragraph
+ * @param props - Other props forwarded to the underlying `<p>` element
+ * @returns A `<p>` element containing the displayed message, or `null` when there is no message
+ */
 function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField()
   const body = error ? String(error?.message ?? "") : props.children

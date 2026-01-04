@@ -11,6 +11,18 @@ import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker"
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 
+/**
+ * Render a DayPicker calendar preconfigured with the project's styles, responsive RTL fixes, and overridable subcomponents.
+ *
+ * @param className - Additional CSS classes applied to the calendar container
+ * @param classNames - Partial mapping to override internal DayPicker class names
+ * @param showOutsideDays - Whether to display days from adjacent months (default: `true`)
+ * @param captionLayout - Layout for the month caption (default: `"label"`)
+ * @param buttonVariant - Variant passed to navigation buttons (e.g., Button `variant`)
+ * @param formatters - Custom formatter functions merged with the component's defaults (month dropdown is abbreviated)
+ * @param components - Component overrides merged with the component's built-in subcomponent overrides
+ * @returns A DayPicker React element configured with the calendar's styling, behavior, and component overrides
+ */
 function Calendar({
   className,
   classNames,

@@ -28,6 +28,13 @@ import { EditOrganizationFormSchema } from "@/features/organizations/validation-
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
+/**
+ * Renders a form to edit the active organization's name and applies updates (adjusting the slug when the name changes).
+ *
+ * The component loads the active organization, populates the form, submits updated name and slug to the backend, shows success or error toasts, and invalidates related queries to refresh data after a successful update.
+ *
+ * @returns The React element for the edit organization form, or a skeleton placeholder while the organization data is loading.
+ */
 export function EditOrganizationForm() {
   const queryClient = useQueryClient();
   const { data: organization } = useSuspenseQuery(

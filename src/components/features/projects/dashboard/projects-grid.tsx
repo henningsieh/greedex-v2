@@ -28,6 +28,15 @@ interface ProjectsGridProps {
   sortBy?: ProjectSortField;
 }
 
+/**
+ * Render a filterable, sortable grid of project cards.
+ *
+ * The grid includes a text filter, controls to toggle sort direction, and a dropdown to choose the sort field.
+ *
+ * @param projects - The list of projects to display and filter.
+ * @param sortBy - Optional initial sort field; when omitted the default sort from configuration is used.
+ * @returns The rendered grid of project cards; if no projects match the current filter, an empty state is rendered.
+ */
 export function ProjectsGrid({
   projects,
   sortBy: initialSortBy,

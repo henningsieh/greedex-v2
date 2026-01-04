@@ -23,7 +23,9 @@ export const getProjectDetailPath = (projectId: string): AppRoute =>
   PROJECT_DETAIL_PATH.replace("[id]", projectId) as AppRoute;
 
 /**
- * Convert project default sort to TanStack SortingState
+ * Produce the default sorting configuration used for project lists.
+ *
+ * @returns An array with a single sort criterion: `id` is the default sort column and `desc` is `true` when the default order is `"desc"`, `false` otherwise.
  */
 export function getProjectsDefaultSorting() {
   return [
@@ -50,10 +52,10 @@ export async function getProjectData(projectId: string) {
 }
 
 /**
- * Render a consistent activity icon for any activity type.
+ * Render the icon for a given project activity type with consistent sizing.
  *
- * @param type - The activity type
- * @returns The JSX element for the activity icon.
+ * @param type - The activity type key from PROJECT_ACTIVITIES_ICONS
+ * @returns A React element that renders the corresponding activity icon (styled with consistent size)
  */
 export function getProjectActivityIcon(
   type: keyof typeof PROJECT_ACTIVITIES_ICONS,
@@ -63,11 +65,11 @@ export function getProjectActivityIcon(
 }
 
 /**
- * Get the display name for a project sort field/column
+ * Return the localized display name for a project sort field or column.
  *
- * @param columnId The project sort field/column ID
- * @param t Translation function
- * @returns The display name for the column
+ * @param columnId - The project sort field or column identifier to translate
+ * @param t - Translation function that accepts a translation key and returns the localized string
+ * @returns The localized display name for `columnId`, or `columnId` unchanged if no mapping exists
  */
 export function getColumnDisplayName(
   columnId: ProjectSortField | string,
@@ -90,9 +92,14 @@ export function getColumnDisplayName(
 }
 
 /**
- * Create a comparator for sorting projects by a given field and direction.
+ * Compare two field values and produce an ordering number, honoring the requested sort direction.
  *
- * Handles null/undefined values (pushed to the end) and supports Date and string comparison.
+ * Compares two values as Dates (by timestamp) when both are Date instances, as strings using localeCompare when both are strings, and otherwise by their stringified forms. Does not treat `null`/`undefined` specially.
+ *
+ * @param aValue - The first value to compare
+ * @param bValue - The second value to compare
+ * @param sortDesc - If `true`, the comparison result is reversed for descending order
+ * @returns A negative number if `aValue` is less than `bValue`, zero if equal, or a positive number if `aValue` is greater than `bValue`; the sign is reversed when `sortDesc` is `true`
  */
 function compareProjectFieldValues(
   aValue: unknown,
@@ -113,6 +120,13 @@ function compareProjectFieldValues(
   return sortDesc ? -res : res;
 }
 
+/**
+ * Create a comparator function for Project objects based on a specific field and sort direction.
+ *
+ * @param sortBy - The project field to compare.
+ * @param sortDesc - If `true`, the comparator orders descending; otherwise orders ascending.
+ * @returns A comparison function returning a negative number if the first project should come before the second, `0` if they are equal, or a positive number if the first should come after the second.
+ */
 export function createProjectComparator(
   sortBy: ProjectSortField,
   sortDesc: boolean,
@@ -243,9 +257,13 @@ export function calculateActivitiesCO2(
 }
 
 /**
+ * Determine whether project list sorting should be descending.
  *
- * @param input - Input type for listing projects procedure
- * @returns Whether the sort order should be descending
+ * Uses the configured default sort direction when no sort field is provided or when the requested
+ * sort field equals the configured default column; otherwise returns `false`.
+ *
+ * @param input - Query input for listing projects
+ * @returns `true` if sorting should be descending, `false` otherwise
  */
 export function computeSortDesc(input: ListProjectsInput) {
   // If no explicit sort field was requested, use the configured default
@@ -260,10 +278,11 @@ export function computeSortDesc(input: ListProjectsInput) {
 }
 
 /**
+ * Builds an SQL ORDER BY clause for the specified project sort field and direction.
  *
- * @param sortField - The project sort field/column
- * @param sortDesc - Whether the sort order is descending
- * @returns
+ * @param sortField - The project sort field to order by (e.g. `"name"`, `"startDate"`, `"createdAt"`, `"updatedAt"`).
+ * @param sortDesc - If `true`, produce a descending order clause; otherwise produce an ascending clause.
+ * @returns An SQL ordering expression targeting the chosen project column and direction.
  */
 export function orderByClauseFor(
   sortField: z.infer<typeof ProjectSortFieldSchema>,

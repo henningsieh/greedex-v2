@@ -19,6 +19,13 @@ import {
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
+/**
+ * Renders the organization's projects view, showing either a grid or table of active projects and a create-project call-to-action when none exist.
+ *
+ * The component tracks the current view via a URL-backed query state, fetches projects and the active organization, and excludes archived projects from the displayed list. When the active organization changes, the grid/table resets its internal state.
+ *
+ * @returns The rendered projects UI as a JSX element.
+ */
 export function ProjectsTab() {
   const t = useTranslations("organization.projects");
   const [view, setView] = useQueryState(

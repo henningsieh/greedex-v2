@@ -73,6 +73,16 @@ import { getCountryData } from "@/lib/i18n/countries";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
+/**
+ * Render an interactive projects table with search, filtering, sorting, pagination, row selection, and batch deletion controls.
+ *
+ * The table displays the provided projects and exposes UI for filtering by name and country, selecting rows, navigating pages,
+ * and performing a batch delete action (when permitted by the user's role). Active filters, selected counts, and an empty-state
+ * view are shown as appropriate.
+ *
+ * @param projects - Array of project objects to display in the table.
+ * @returns The JSX element for the projects table including its header controls, table body, pagination footer, and confirm dialog.
+ */
 export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   const t = useTranslations("organization.projects");
   const locale = useLocale();

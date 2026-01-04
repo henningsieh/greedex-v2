@@ -16,6 +16,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
+/**
+ * Render the organization dashboard header with a translated welcome message, the active organization's name, and an optional "Create Project" button.
+ *
+ * Reads the active organization from a suspense-prefetched query and hides the "Create Project" button when the current pathname matches the create-project route.
+ *
+ * @returns A React element representing the organization dashboard header.
+ */
 export function OrganizationHeader() {
   const t = useTranslations("organization.dashboard");
 

@@ -55,17 +55,17 @@ export function getElectricityFactor(
 }
 
 /**
- * Compute CO₂ emissions from participant responses and estimate the number of trees required to offset the total.
+ * Calculate CO₂ emissions from participant answers and estimate the number of trees required to offset the total.
  *
- * @param answers - Partial participant responses; fields used: `flightKm`, `boatKm`, `trainKm`, `busKm`, `carKm`, `carType`, `carPassengers`, `days`, `accommodationCategory`, `roomOccupancy`, `electricity`, and `food`
- * @param projectActivities - Optional project-level activities that contribute baseline CO₂ emissions
+ * @param answers - Partial participant responses. Uses fields: `flightKm`, `boatKm`, `trainKm`, `busKm`, `carKm`, `carType`, `carPassengers`, `days`, `accommodationCategory`, `roomOccupancy`, `electricity`, and `food`
+ * @param projectActivities - Optional array of project-level activities that contribute baseline CO₂ emissions
  * @returns An EmissionCalculation object containing:
- * - `transportCO2` — total transport emissions in kilograms CO₂ (includes round trip and per-passenger car sharing),
- * - `accommodationCO2` — accommodation emissions in kilograms CO₂ (adjusted by occupancy and electricity type),
- * - `foodCO2` — food emissions in kilograms CO₂,
- * - `projectActivitiesCO2` — CO₂ from project-level activities in kilograms,
- * - `totalCO2` — sum of all emissions in kilograms CO₂,
- * - `treesNeeded` — number of trees required to offset `totalCO2` (computed as `Math.ceil(totalCO2 / 22)`)
+ * - `transportCO2` — total transport emissions in kilograms of CO₂ (includes round trip and per-passenger car allocation),
+ * - `accommodationCO2` — accommodation emissions in kilograms of CO₂ (adjusted by room occupancy and electricity type),
+ * - `foodCO2` — food-related emissions in kilograms of CO₂,
+ * - `projectActivitiesCO2` — CO₂ from provided project-level activities in kilograms of CO₂,
+ * - `totalCO2` — sum of all above emissions in kilograms of CO₂,
+ * - `treesNeeded` — number of trees required to offset `totalCO2` (rounded up)
  */
 export function calculateEmissions(
   answers: Partial<ParticipantAnswers>,
@@ -139,20 +139,20 @@ export function calculateEmissions(
  */
 
 /**
- * Check if a string value is non-empty (truthy after trimming).
+ * Determine whether a string contains non-whitespace characters.
  *
- * @param value - The string value to validate
- * @returns true if the string is non-empty after trimming
+ * @param value - The string to check
+ * @returns `true` if `value` exists and contains characters other than whitespace, `false` otherwise
  */
 export function isNonEmptyString(value: string | undefined): boolean {
   return !!value?.trim();
 }
 
 /**
- * Check if a value is a positive number (greater than 0).
+ * Determines whether a value is a positive number greater than 0.
  *
- * @param value - The value to validate
- * @returns true if the value is a finite number greater than 0
+ * @param value - Value to check
+ * @returns `true` if `value` is a finite number greater than 0, `false` otherwise.
  */
 export function isPositiveNumber(value: unknown): boolean {
   return (
@@ -164,10 +164,10 @@ export function isPositiveNumber(value: unknown): boolean {
 }
 
 /**
- * Check if a value is a non-negative number (greater than or equal to 0).
+ * Determine whether a value is a number greater than or equal to 0.
  *
  * @param value - The value to validate
- * @returns true if the value is a finite number >= 0
+ * @returns `true` if `value` is a finite number greater than or equal to 0, `false` otherwise.
  */
 export function isNonNegativeNumber(value: unknown): boolean {
   return (
@@ -179,11 +179,11 @@ export function isNonNegativeNumber(value: unknown): boolean {
 }
 
 /**
- * Check if a value is a number within a specific minimum range.
+ * Determines whether a value is greater than or equal to a specified minimum.
  *
  * @param value - The value to validate
  * @param min - The minimum allowed value (inclusive)
- * @returns true if the value is a finite number >= min
+ * @returns `true` if the value is a finite number greater than or equal to `min`, `false` otherwise.
  */
 export function isNumberAtLeast(value: unknown, min: number): boolean {
   return (
@@ -195,20 +195,19 @@ export function isNumberAtLeast(value: unknown, min: number): boolean {
 }
 
 /**
- * Check if all provided string values are non-empty.
+ * Determine whether every provided string contains non-whitespace characters.
  *
- * @param values - Array of string values to validate
- * @returns true if all strings are non-empty after trimming
+ * @returns `true` if every value is a non-empty string after trimming, `false` otherwise.
  */
 export function areAllNonEmpty(...values: (string | undefined)[]): boolean {
   return values.every((value) => isNonEmptyString(value));
 }
 
 /**
- * Check if a value is truthy (exists and is not falsy).
+ * Determine whether a value is truthy.
  *
- * @param value - The value to check
- * @returns true if the value is truthy
+ * @param value - The value to evaluate for truthiness
+ * @returns `true` if `value` is truthy, `false` otherwise
  */
 export function isTruthy(value: unknown): boolean {
   return !!value;

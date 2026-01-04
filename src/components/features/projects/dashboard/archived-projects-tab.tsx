@@ -19,6 +19,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
+/**
+ * Render a view of archived projects with a selectable grid or table presentation.
+ *
+ * Fetches archived projects (sorted by the default project sort) and:
+ * - shows an empty state with icon, title, and description when no archived projects exist;
+ * - otherwise renders a view selector and either a grid or table of the archived projects.
+ *
+ * @returns A React element that displays the empty archived-projects state or the view selector with the archived projects rendered in the selected layout.
+ */
 export function ArchivedProjectsTab() {
   const t = useTranslations("organization.projectsArchive");
   const [view, setView] = useState<"grid" | "table">("table");

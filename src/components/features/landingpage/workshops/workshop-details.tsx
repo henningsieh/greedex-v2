@@ -25,6 +25,15 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/lib/i18n/routing";
 
+/**
+ * Render workshop detail UI for the specified workshop type.
+ *
+ * Renders the workshop header, sections (with steps and optional links), and a call-to-action
+ * based on translation keys for the provided `type`.
+ *
+ * @param type - The workshop `CalculatorType` used to select translations and section/step content.
+ * @returns A React element containing the full workshop details UI for the given `type`.
+ */
 export function WorkshopDetails({ type }: { type: CalculatorType }) {
   const t = useTranslations("LandingPage.workshops");
 

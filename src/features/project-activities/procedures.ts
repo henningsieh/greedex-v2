@@ -14,7 +14,9 @@ import {
 // ============================================================================
 
 /**
- * Verify that a project belongs to the given organization
+ * Determine whether the specified project belongs to the given organization.
+ *
+ * @returns `true` if a project with `projectId` exists and its `organizationId` equals the provided `organizationId`, `false` otherwise.
  */
 async function verifyProjectAccess(
   projectId: string,

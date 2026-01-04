@@ -93,7 +93,11 @@ export function AppBreadcrumb() {
 }
 
 /**
- * Breadcrumb for organization-level routes (no project needed)
+ * Render the breadcrumb for organization-level routes, showing the active organization's name and the current section when present.
+ *
+ * Displays a link to the dashboard with the organization name and icon; if the pathname maps to a known section, a separator and that section's label and icon are shown.
+ *
+ * @returns The breadcrumb element displaying the organization and an optional current section.
  */
 function OrgBreadcrumb() {
   const t = useTranslations("app.sidebar");

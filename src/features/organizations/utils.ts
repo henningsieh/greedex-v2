@@ -27,9 +27,8 @@ const RANDOM_STRING_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
 
 /**
  * Transform a string into a URL-friendly slug.
- * - trims, lowercases
- * - replaces groups of non-alphanumeric characters with a single `-`
- * - collapses multiple `-` and trims leading/trailing `-`
+ *
+ * @returns The slugified string: lowercase, with groups of non-alphanumeric characters replaced by a single `-`, consecutive `-` collapsed, and leading/trailing `-` removed. Returns an empty string for falsy input.
  */
 function slugify(input: string) {
   if (!input) {

@@ -22,6 +22,18 @@ import {
   HydrateClient,
 } from "@/lib/tanstack-react-query/hydration";
 
+/**
+ * App root layout that enforces authentication and organization presence, prefetches client data, and renders the main application shell.
+ *
+ * This layout:
+ * - Redirects unauthenticated users to an appropriate unauthenticated route.
+ * - Redirects users without organizations to the create-organization route.
+ * - Reads the persisted sidebar state from cookies.
+ * - Prefetches queries required by client components to avoid hydration mismatches.
+ *
+ * @param children - Content rendered inside the main application area beneath the header and alongside the sidebar.
+ * @returns The application layout element containing the sidebar, header (breadcrumb), main content area, and global UI providers (hydration, loading, error boundaries, toaster).
+ */
 export default async function AppLayout({
   children,
 }: Readonly<{

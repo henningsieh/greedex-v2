@@ -14,6 +14,14 @@ import { AnimatedGradientCTA } from "@/components/features/landingpage/animated-
 import { Logo } from "@/components/features/landingpage/logo";
 import { Link } from "@/lib/i18n/routing";
 
+/**
+ * Renders the site's footer section with the logo, a launch CTA, and localized navigation columns.
+ *
+ * Uses translations from "LandingPage" and "header" to populate link titles and builds the Explore, Company,
+ * and App link groups. Also includes a CTA to the dashboard and a copyright line with the current year.
+ *
+ * @returns A JSX element representing the footer containing the logo, CTA, localized navigation links, and copyright.
+ */
 export default async function FooterSection() {
   const tLanding = await getTranslations("LandingPage");
   const t = await getTranslations("header");

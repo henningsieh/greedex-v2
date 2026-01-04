@@ -11,6 +11,16 @@ import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
 
+/**
+ * Render the Projects page with server-side data prefetching and permission-aware UI.
+ *
+ * Prefetches the projects list, active organization, and organization role data into the query cache
+ * and checks whether the current request has permission to create projects; the UI shows a
+ * conditional CreateProjectButton when creation is allowed. The main content renders the ProjectsTab
+ * wrapped in Suspense with an error boundary.
+ *
+ * @returns A React element representing the projects page layout (header, description, conditional create button, and the ProjectsTab content).
+ */
 export default async function ProjectsPage() {
   const t = await getTranslations("organization.projects");
 

@@ -161,6 +161,15 @@ export function CreateProjectForm({
     }
   }
 
+  /**
+   * Attempt to create the given activities for a project and report any failures.
+   *
+   * Attempts to create each activity for the specified project; creation errors are collected but do not abort the whole process.
+   *
+   * @param projectId - The ID of the project to attach activities to.
+   * @param activities - Optional list of activity inputs to create; if `undefined` or empty no creations are attempted.
+   * @returns An array of `activityType` values for activities that failed to be created; returns an empty array if none failed or if no activities were provided.
+   */
   async function createActivitiesForProject(
     projectId: string,
     activities?: CreateProjectWithActivities["activities"],
@@ -182,6 +191,13 @@ export function CreateProjectForm({
     return failedActivities;
   }
 
+  /**
+   * Create a project and its associated activities, show success or error toasts, navigate to the created project's detail page, and invalidate the projects list cache.
+   *
+   * Creates the project from `values`, attempts to create each activity, reports any activity-level failures, and handles navigation and cache invalidation on success; shows a generic error toast on unexpected failures.
+   *
+   * @param values - The project fields and an array of activity items to create
+   */
   async function onSubmit(values: CreateProjectWithActivities) {
     try {
       // Create the project first

@@ -37,6 +37,16 @@ const getSortIcon = (state: "asc" | "desc" | false, numeric: boolean) => {
   return <ArrowUpDown className="ml-2 h-4 w-4 opacity-50" />;
 };
 
+/**
+ * Renders a table column header button that displays the header label, shows the current sort icon/state, and toggles sorting for the column when activated.
+ *
+ * @param column - Column descriptor used to read and toggle this column's sorting state.
+ * @param table - Table instance providing current sorting state.
+ * @param title - Visible label for the header button.
+ * @param isNumeric - If true, use numeric sort icons instead of alphabetical ones.
+ * @param className - Optional additional CSS classes applied to the header button.
+ * @returns A button element that shows the header title and appropriate sort icon and toggles the column's sort state when clicked.
+ */
 export function SortableHeader<TData, TValue>({
   column,
   table,
