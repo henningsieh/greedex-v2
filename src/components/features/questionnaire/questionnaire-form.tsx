@@ -67,6 +67,8 @@ interface QuestionnaireFormProps {
  * @param project - Project data used to initialize default answers, provide activities for emissions calculations, and display project-specific text (e.g., welcome message).
  * @returns The questionnaire form React element.
  */
+
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This component manages a multi-step form with conditional logic, state persistence, and dynamic calculations, which inherently adds complexity.
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const t = useTranslations("participation.questionnaire");
 

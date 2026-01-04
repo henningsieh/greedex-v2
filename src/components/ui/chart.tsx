@@ -334,6 +334,7 @@ function ChartLegendContent({
  * @param payload - A Recharts payload item (possibly containing a nested `payload`) used to resolve the config key.
  * @param key - The property name to resolve in the payload (for example, a data key or name).
  * @returns The matching config object from `config`, or `undefined` if the payload is invalid or no entry exists.
+ */
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,
