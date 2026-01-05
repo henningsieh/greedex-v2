@@ -71,7 +71,7 @@ function DateCell({ date }: { date: Date }) {
  * @param project - The project whose country and location will be displayed
  * @returns A React element displaying the project's country and location with flag and localized formatting
  */
-function CountryCell({ project }: { project: ProjectType }) {
+function LocationCell({ project }: { project: ProjectType }) {
   const locale = useLocale();
   return (
     <ProjectLocation
@@ -107,6 +107,7 @@ export function ProjectTableColumns(
               table.getIsAllPageRowsSelected() ||
               (table.getIsSomePageRowsSelected() && "indeterminate")
             }
+            className="data-[state=checked]:bg-secondary data-[state=checked]:text-secondary-foreground dark:data-[state=checked]:bg-secondary"
             onCheckedChange={(value) =>
               table.toggleAllPageRowsSelected(!!value)
             }
@@ -117,6 +118,7 @@ export function ProjectTableColumns(
         <Checkbox
           aria-label="Select row"
           checked={row.getIsSelected()}
+          className="data-[state=checked]:bg-secondary data-[state=checked]:text-secondary-foreground dark:data-[state=checked]:bg-secondary"
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           onClick={(e) => e.stopPropagation()}
         />
@@ -146,7 +148,10 @@ export function ProjectTableColumns(
           title={getColumnDisplayName(column.id, t)}
         />
       ),
-      cell: ({ row }) => <CountryCell project={row.original} />,
+      cell: ({ row }) => <LocationCell project={row.original} />,
+      filterFn: (row, _columnId, filterValue) => {
+        return row.original.country === filterValue;
+      },
       sortingFn: (rowA, rowB, _columnId) => {
         const locationA = rowA.original.location;
         const locationB = rowB.original.location;
@@ -220,7 +225,7 @@ export function ProjectTableColumns(
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="p-0" size="icon-sm" variant="secondaryghost">
-              <Columns3CogIcon className="h-4 w-4" />
+              <Columns3CogIcon className="size-5" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="border-secondary">
@@ -388,14 +393,17 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild variant="secondary">
             <Link href={getProjectDetailPath(project.id)}>
               <EyeIcon className="mr-2 h-4 w-4" />
               {t("table.view-details")}
             </Link>
           </DropdownMenuItem>
           {canUpdate && (
-            <DropdownMenuItem onClick={() => setIsEditModalOpen(true)}>
+            <DropdownMenuItem
+              onClick={() => setIsEditModalOpen(true)}
+              variant="secondary"
+            >
               <Edit2Icon className="mr-2 h-4 w-4" />
               {t("table.edit-project")}
             </DropdownMenuItem>
@@ -404,6 +412,7 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
             <DropdownMenuItem
               disabled={isArchiving || permissionsPending}
               onClick={handleArchive}
+              variant="secondary"
             >
               <ArchiveIcon className="mr-2 h-4 w-4" />
               {project.archived
@@ -418,6 +427,7 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
                 className="text-destructive"
                 disabled={isDeleting || permissionsPending}
                 onClick={handleDelete}
+                variant="destructive"
               >
                 <Trash2Icon className="mr-2 h-4 w-4" />
                 {t("table.delete-project")}

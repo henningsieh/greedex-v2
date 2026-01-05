@@ -5,29 +5,18 @@ import {
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query";
-import {
-  type ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type SortingState,
-  useReactTable,
-  type VisibilityState,
-} from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
 import {
   FunnelXIcon,
   SearchIcon,
-  SheetIcon,
-  TablePropertiesIcon,
+  Sheet as SheetIcon,
+  TableProperties as TablePropertiesIcon,
   Trash2Icon,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import { useConfirmDialog } from "@/components/confirm-dialog";
-import { ProjectTableColumns } from "@/components/features/projects/dashboard/projects-table-columns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,6 +28,14 @@ import {
 } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import {
   Select,
   SelectContent,
@@ -62,16 +59,23 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from "@/config/pagination";
+import { PAGE_SIZE_OPTIONS } from "@/config/pagination";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import type { ProjectType } from "@/features/projects/types";
-import {
-  getProjectDetailPath,
-  getProjectsDefaultSorting,
-} from "@/features/projects/utils";
+import { getProjectDetailPath } from "@/features/projects/utils";
 import { getCountryData } from "@/lib/i18n/countries";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import type { useProjectsTable } from "./use-projects-table";
+
+interface ProjectsTableProps {
+  projects: ProjectType[];
+  table: ReturnType<typeof useProjectsTable>["table"];
+  columnFilters: ReturnType<typeof useProjectsTable>["columnFilters"];
+  setColumnFilters: ReturnType<typeof useProjectsTable>["setColumnFilters"];
+  pagination: ReturnType<typeof useProjectsTable>["pagination"];
+  setPagination: ReturnType<typeof useProjectsTable>["setPagination"];
+}
 
 /**
  * Render an interactive projects table with search, filtering, sorting, pagination, row selection, and batch deletion controls.
@@ -83,7 +87,14 @@ import { orpc, orpcQuery } from "@/lib/orpc/orpc";
  * @param projects - Array of project objects to display in the table.
  * @returns The JSX element for the projects table including its header controls, table body, pagination footer, and confirm dialog.
  */
-export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
+export function ProjectsTable({
+  projects,
+  table,
+  columnFilters,
+  setColumnFilters,
+  pagination,
+  setPagination,
+}: ProjectsTableProps) {
   const t = useTranslations("organization.projects");
   const locale = useLocale();
   const router = useRouter();
@@ -100,47 +111,6 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
     () => [...new Set(projects.map((p) => p.country))],
     [projects],
   );
-
-  // Get columns with translations
-  const projectTableColumns = useMemo(() => ProjectTableColumns(t), [t]);
-
-  const [sorting, setSorting] = useState<SortingState>(() =>
-    getProjectsDefaultSorting(),
-  );
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-    name: true,
-    location: true,
-    startDate: true,
-    createdAt: true,
-    updatedAt: false,
-  });
-  const [rowSelection, setRowSelection] = useState({});
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: DEFAULT_PAGE_SIZE,
-  });
-
-  const table = useReactTable({
-    data: projects,
-    columns: projectTableColumns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    onPaginationChange: setPagination,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-      pagination,
-    },
-  });
 
   const selectedRows = table.getFilteredSelectedRowModel().rows;
   const selectedProjectIds = selectedRows.map((row) => row.original.id);
@@ -193,8 +163,8 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
 
   return (
     <>
-      <div className="min-w-0">
-        <div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="space-y-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
             <div className="relative w-full sm:w-[250px] lg:w-[300px]">
               <SearchIcon className="absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -212,18 +182,18 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             </div>
             <div className="flex items-center gap-2">
               <Select
-                key={`country-filter-${columnFilters.find((f) => f.id === "country")?.value || "none"}`}
+                key={`location-filter-${columnFilters.find((f) => f.id === "location")?.value || "none"}`}
                 onValueChange={(value) =>
                   setColumnFilters((prev) => {
-                    const filtered = prev.filter((f) => f.id !== "country");
+                    const filtered = prev.filter((f) => f.id !== "location");
                     if (value && value !== "all") {
-                      filtered.push({ id: "country", value });
+                      filtered.push({ id: "location", value });
                     }
                     return filtered;
                   })
                 }
                 value={
-                  (columnFilters.find((f) => f.id === "country")
+                  (columnFilters.find((f) => f.id === "location")
                     ?.value as string) || ""
                 }
               >
@@ -234,7 +204,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                   <SelectValue placeholder={t("filter-by-country")} />
                 </SelectTrigger>
                 <SelectContent>
-                  {columnFilters.some((f) => f.id === "country") && (
+                  {columnFilters.some((f) => f.id === "location") && (
                     <SelectItem
                       className="focus:bg-secondary focus:text-secondary-foreground"
                       value="all"
@@ -313,7 +283,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
               {t("table.active-filters")}:
             </span>
             {columnFilters.map((filter) => {
-              if (filter.id === "country") {
+              if (filter.id === "location") {
                 const data = getCountryData(filter.value as string, locale);
                 return (
                   <Badge
@@ -379,7 +349,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
-                    className="cursor-pointer transition-colors hover:bg-secondary/40"
+                    className="cursor-pointer transition-colors hover:bg-secondary/20"
                     data-state={row.getIsSelected() && "selected"}
                     key={row.id}
                     onClick={(e) => {
@@ -409,7 +379,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                 <TableRow>
                   <TableCell
                     className="h-96 text-center"
-                    colSpan={projectTableColumns.length}
+                    colSpan={table.getVisibleLeafColumns().length}
                   >
                     <Empty>
                       <EmptyHeader>
@@ -448,88 +418,155 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-between gap-3 py-4">
-          <div className="min-w-0 flex-1 truncate text-muted-foreground text-sm">
-            {(() => {
-              const selectedCount =
-                table.getFilteredSelectedRowModel().rows.length;
-              const totalCount = table.getFilteredRowModel().rows.length;
-              const { pageIndex, pageSize } = table.getState().pagination;
+        <div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:flex-1 sm:justify-start">
+            <div className="text-muted-foreground text-sm">
+              {(() => {
+                const selectedCount =
+                  table.getFilteredSelectedRowModel().rows.length;
+                const totalCount = table.getFilteredRowModel().rows.length;
+                const { pageIndex, pageSize } = table.getState().pagination;
 
-              if (selectedCount > 0) {
+                if (selectedCount > 0) {
+                  return (
+                    <span>
+                      {selectedCount} of {totalCount} {t("rows-selected")}
+                    </span>
+                  );
+                }
+                if (totalCount === 0) {
+                  return <span>0 projects</span>;
+                }
                 return (
                   <span>
-                    {selectedCount} of {totalCount} {t("rows-selected")}
+                    Showing {pageIndex * pageSize + 1}-
+                    {Math.min((pageIndex + 1) * pageSize, totalCount)} of{" "}
+                    {totalCount} projects
                   </span>
                 );
-              }
-              if (totalCount === 0) {
-                return <span>0 projects</span>;
-              }
-              return (
-                <span>
-                  Showing {pageIndex * pageSize + 1}-
-                  {Math.min((pageIndex + 1) * pageSize, totalCount)} of{" "}
-                  {totalCount} projects
-                </span>
-              );
-            })()}
+              })()}
+            </div>
+
+            {/* Mobile-only rows-per-page select */}
+            <div className="sm:hidden">
+              <Select
+                onValueChange={(value) =>
+                  setPagination({ pageIndex: 0, pageSize: Number(value) })
+                }
+                value={pagination.pageSize.toString()}
+              >
+                <SelectTrigger
+                  aria-label={t("table.rows-per-page")}
+                  className="h-8 w-16 border-secondary/40 focus-visible:border-secondary focus-visible:ring-secondary"
+                  size="sm"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>{t("table.rows-per-page")}</SelectLabel>
+                    {PAGE_SIZE_OPTIONS.map((size) => (
+                      <SelectItem
+                        className="mb-1 last:mb-0 focus:bg-secondary focus:text-secondary-foreground dark:hover:bg-secondary"
+                        key={size}
+                        value={size.toString()}
+                      >
+                        {size}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          <div className="flex flex-shrink-0 items-center gap-2">
+          <div className="flex items-center justify-center gap-2 sm:justify-end">
             {/* desktop-only label for rows-per-page */}
             <Label
-              className="mr-1 hidden text-muted-foreground text-sm sm:inline"
+              className="mr-1 hidden flex-shrink-0 text-muted-foreground text-sm sm:inline"
               htmlFor="projects-rows-per-page"
             >
               {t("table.rows-per-page")}
             </Label>
 
-            <Select
-              onValueChange={(value) =>
-                setPagination({ pageIndex: 0, pageSize: Number(value) })
-              }
-              value={pagination.pageSize.toString()}
-            >
-              <SelectTrigger
-                aria-label={t("table.rows-per-page")}
-                className="h-8 w-[56px] flex-shrink-0 focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary sm:w-[72px]"
-                id="projects-rows-per-page"
-                size="sm"
+            <div className="hidden sm:block">
+              <Select
+                onValueChange={(value) =>
+                  setPagination({ pageIndex: 0, pageSize: Number(value) })
+                }
+                value={pagination.pageSize.toString()}
               >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>{t("table.rows-per-page")}</SelectLabel>
-                  {PAGE_SIZE_OPTIONS.map((size) => (
-                    <SelectItem key={size} value={size.toString()}>
-                      {size}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+                <SelectTrigger
+                  aria-label={t("table.rows-per-page")}
+                  className="h-8 min-w-18 border-secondary/40 focus-visible:border-secondary focus-visible:ring-secondary"
+                  id="projects-rows-per-page"
+                  size="sm"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>{t("table.rows-per-page")}</SelectLabel>
+                    {PAGE_SIZE_OPTIONS.map((size) => (
+                      <SelectItem
+                        className="mb-1 last:mb-0 focus:bg-secondary focus:text-secondary-foreground dark:hover:bg-secondary"
+                        key={size}
+                        value={size.toString()}
+                      >
+                        {size}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
 
-            <Button
-              className="h-8 flex-shrink-0 px-2"
-              disabled={!table.getCanPreviousPage()}
-              onClick={() => table.previousPage()}
-              size="sm"
-              variant="outline"
-            >
-              {t("table.previous")}
-            </Button>
-
-            <Button
-              className="h-8 flex-shrink-0 px-2"
-              disabled={!table.getCanNextPage()}
-              onClick={() => table.nextPage()}
-              size="sm"
-              variant="outline"
-            >
-              {t("table.next")}
-            </Button>
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    className={`h-8 flex-shrink-0 ${
+                      table.getCanPreviousPage()
+                        ? ""
+                        : "pointer-events-none opacity-50"
+                    }`}
+                    onClick={() => table.previousPage()}
+                    text={t("table.previous")}
+                    variant="secondaryoutline"
+                  />
+                </PaginationItem>
+                {Array.from(
+                  {
+                    length: Math.ceil(
+                      table.getFilteredRowModel().rows.length /
+                        pagination.pageSize,
+                    ),
+                  },
+                  (_, i) => (
+                    <PaginationItem key={i}>
+                      <PaginationLink
+                        isActive={i === pagination.pageIndex}
+                        onClick={() => table.setPageIndex(i)}
+                      >
+                        {i + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ),
+                )}
+                <PaginationItem>
+                  <PaginationNext
+                    className={`h-8 flex-shrink-0 ${
+                      table.getCanNextPage()
+                        ? ""
+                        : "pointer-events-none opacity-50"
+                    }`}
+                    onClick={() => table.nextPage()}
+                    text={t("table.next")}
+                    variant="secondaryoutline"
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
         </div>
       </div>

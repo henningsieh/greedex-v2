@@ -7,6 +7,7 @@ import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { ProjectsGrid } from "@/components/features/projects/dashboard/projects-grid";
 import { ProjectsTable } from "@/components/features/projects/dashboard/projects-table";
+import { useProjectsTable } from "@/components/features/projects/dashboard/use-projects-table";
 import { ProjectsViewSelect } from "@/components/features/projects/projects-view-select";
 import {
   Empty,
@@ -50,8 +51,15 @@ export function ProjectsTab() {
     orpcQuery.organizations.getActive.queryOptions(),
   );
 
-  // Grid sorting is handled inside ProjectsGrid to keep sorting logic
-  // consistent with the table view and avoid duplicating `sortedProjects`.
+  // Initialize table state here to share between grid and table views
+  const {
+    table,
+    setSorting,
+    columnFilters,
+    setColumnFilters,
+    pagination,
+    setPagination,
+  } = useProjectsTable(projects);
 
   if (error) {
     return <div>Error loading projects: {error.message}</div>;
@@ -80,9 +88,23 @@ export function ProjectsTab() {
     <div className="space-y-4">
       <ProjectsViewSelect setView={setView} view={view} />
       {view === "grid" ? (
-        <ProjectsGrid key={activeOrg.id} projects={projects} />
+        <ProjectsGrid
+          key={activeOrg.id}
+          pagination={pagination}
+          setPagination={setPagination}
+          setSorting={setSorting}
+          table={table}
+        />
       ) : (
-        <ProjectsTable key={activeOrg.id} projects={projects} />
+        <ProjectsTable
+          columnFilters={columnFilters}
+          key={activeOrg.id}
+          pagination={pagination}
+          projects={projects}
+          setColumnFilters={setColumnFilters}
+          setPagination={setPagination}
+          table={table}
+        />
       )}
     </div>
   );

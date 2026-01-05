@@ -52,12 +52,12 @@ export default async function ProjectsPage() {
   });
 
   return (
-    <div className="space-y-4 sm:space-y-8">
-      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
-        <div className="space-y-3">
-          <div className="flex items-center justify-start gap-3">
-            <PROJECT_ICONS.projects className="size-8 sm:size-9 md:size-10" />
-            <h2 className="font-bold font-sans text-2xl sm:text-3xl md:text-4xl">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-start">
+        <div className="space-y-2">
+          <div className="flex items-center justify-start gap-3 tracking-tighter">
+            <PROJECT_ICONS.projects className="size-9 md:size-10" />
+            <h2 className="font-bold font-sans text-3xl md:text-4xl">
               {t("title")}
             </h2>
           </div>
@@ -74,11 +74,13 @@ export default async function ProjectsPage() {
           />
         )}
       </div>
-      <Suspense fallback={<ProjectsTabSkeleton />}>
-        <ErrorBoundary fallback={<div>{t("error-message")}</div>}>
-          <ProjectsTab />
-        </ErrorBoundary>
-      </Suspense>
+      <div className="mx-auto max-w-6xl">
+        <Suspense fallback={<ProjectsTabSkeleton />}>
+          <ErrorBoundary fallback={<div>{t("error-message")}</div>}>
+            <ProjectsTab />
+          </ErrorBoundary>
+        </Suspense>
+      </div>
     </div>
   );
 }

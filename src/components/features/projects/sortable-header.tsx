@@ -34,7 +34,7 @@ const getSortIcon = (state: "asc" | "desc" | false, numeric: boolean) => {
     );
   }
 
-  return <ArrowUpDown className="ml-2 h-4 w-4 opacity-50" />;
+  return <ArrowUpDown className="ml-2 size-5 opacity-50" />;
 };
 
 /**

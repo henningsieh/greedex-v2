@@ -66,11 +66,11 @@ export default async function DashboardPage() {
   ]);
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8">
       <div className="space-y-4">
         <div className="flex items-center justify-start gap-3">
           <ORGANIZATION_ICONS.dashboard className="mb-1.5 size-9" />
-          <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
+          <h1 className="font-bold font-sans text-4xl">{t("title")}</h1>
         </div>
         <p className="text-muted-foreground">{t("description")}</p>
       </div>

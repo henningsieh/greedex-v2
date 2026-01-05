@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { ProjectsGrid } from "@/components/features/projects/dashboard/projects-grid";
 import { ProjectsTable } from "@/components/features/projects/dashboard/projects-table";
+import { useProjectsTable } from "@/components/features/projects/dashboard/use-projects-table";
 import { ProjectsViewSelect } from "@/components/features/projects/projects-view-select";
 import {
   Empty,
@@ -41,6 +42,15 @@ export function ArchivedProjectsTab() {
     }),
   );
 
+  const {
+    table,
+    setSorting,
+    columnFilters,
+    setColumnFilters,
+    pagination,
+    setPagination,
+  } = useProjectsTable(projects);
+
   if (!projects || projects.length === 0) {
     return (
       <Empty>
@@ -62,9 +72,21 @@ export function ArchivedProjectsTab() {
     <div className="space-y-4">
       <ProjectsViewSelect setView={setView} view={view} />
       {view === "grid" ? (
-        <ProjectsGrid projects={projects} />
+        <ProjectsGrid
+          pagination={pagination}
+          setPagination={setPagination}
+          setSorting={setSorting}
+          table={table}
+        />
       ) : (
-        <ProjectsTable projects={projects} />
+        <ProjectsTable
+          columnFilters={columnFilters}
+          pagination={pagination}
+          projects={projects}
+          setColumnFilters={setColumnFilters}
+          setPagination={setPagination}
+          table={table}
+        />
       )}
     </div>
   );
