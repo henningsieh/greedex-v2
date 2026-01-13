@@ -2,8 +2,9 @@
 
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { WorkshopDetails } from "@/components/features/landingpage/workshops/workshop-details";
-import type { CalculatorType } from "@/components/features/landingpage/workshops/workshops.config";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { WORKSHOPS } from "@/config/workshops";
+import type { WorkshopType } from "@/features/landingpage/types";
 
 /**
  * Render a three-tab workshop interface synchronized with the URL `type` query parameter.
@@ -17,7 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export function WorkshopContent({
   initialType,
 }: {
-  initialType: CalculatorType;
+  initialType: WorkshopType;
 }) {
   const [type, setType] = useQueryState(
     "type",
@@ -28,13 +29,28 @@ export function WorkshopContent({
 
   return (
     <Tabs
-      onValueChange={(value) => setType(value as CalculatorType)}
+      onValueChange={(value) => setType(value as WorkshopType)}
       value={type}
     >
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="moment">Greendex Moment</TabsTrigger>
-        <TabsTrigger value="deal">Greendex Deal</TabsTrigger>
-        <TabsTrigger value="day">Greendex Day</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-3 bg-secondary/40">
+        <TabsTrigger
+          className="focus-visible:border-secondary focus-visible:outline-secondary focus-visible:ring-secondary/50 dark:text-secondary-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/30 dark:data-[state=active]:text-foreground"
+          value="moment"
+        >
+          {WORKSHOPS.MOMENT.name}
+        </TabsTrigger>
+        <TabsTrigger
+          className="focus-visible:border-secondary focus-visible:outline-secondary focus-visible:ring-secondary/50 dark:text-secondary-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/30 dark:data-[state=active]:text-foreground"
+          value="deal"
+        >
+          {WORKSHOPS.DEAL.name}
+        </TabsTrigger>
+        <TabsTrigger
+          className="focus-visible:border-secondary focus-visible:outline-secondary focus-visible:ring-secondary/50 dark:text-secondary-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/30 dark:data-[state=active]:text-foreground"
+          value="day"
+        >
+          {WORKSHOPS.DAY.name}
+        </TabsTrigger>
       </TabsList>
 
       <TabsContent className="mt-8" value="moment">

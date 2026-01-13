@@ -50,7 +50,7 @@
         "moment": {
           "sections": {
             "calculator": {
-              "title": "Calculator Steps",
+              "title": "Greendex Calculator",
               "steps": {
                 "create": {
                   "title": "Create the project on the Greendex app",
@@ -91,7 +91,7 @@
         "deal": {
           "sections": {
             "calculator": {
-              "title": "2.1. Calculator",
+              "title": "Greendex Calculator",
               "steps": {
                 "create": {
                   "title": "Create the project on the Greendex app",
@@ -120,7 +120,7 @@
               }
             },
             "challenges": {
-              "title": "2.2. Challenges",
+              "title": "Challenges",
               "steps": {
                 "read": {
                   "title": "Read more about the challenges",
@@ -141,7 +141,7 @@
               }
             },
             "evaluation": {
-              "title": "2.3. Evaluation",
+              "title": "Evaluation",
               "steps": {
                 "evaluate": {
                   "title": "Use the final evaluation to check your progress",
@@ -154,7 +154,7 @@
         "day": {
           "sections": {
             "plastic": {
-              "title": "3.1. How much plastic do we own?",
+              "title": "How much plastic do we own?",
               "steps": {
                 "form_groups": {
                   "title": "Form national groups",
@@ -179,7 +179,7 @@
               }
             },
             "social_pressure": {
-              "title": "3.2. Social pressure",
+              "title": "Social pressure",
               "steps": {
                 "create_groups": {
                   "title": "Create smaller intercultural groups",
@@ -204,7 +204,7 @@
               }
             },
             "quiz": {
-              "title": "3.3. What is carbon footprint?",
+              "title": "What is carbon footprint?",
               "steps": {
                 "form_groups": {
                   "title": "Form smaller intercultural groups",
@@ -229,7 +229,7 @@
               }
             },
             "calculator": {
-              "title": "3.4. Calculator",
+              "title": "Greendex Calculator",
               "steps": {
                 "create": {
                   "title": "Create the project on the Greendex app",
@@ -258,7 +258,7 @@
               }
             },
             "challenges": {
-              "title": "3.5. Challenges",
+              "title": "Challenges",
               "steps": {
                 "read": {
                   "title": "Read more about the challenges",
@@ -279,7 +279,7 @@
               }
             },
             "final": {
-              "title": "3.6. Final evaluation",
+              "title": "Final evaluation",
               "steps": {
                 "evaluate": {
                   "title": "Dedicate time for final evaluation",
@@ -679,7 +679,7 @@
       "header": {
         "badge": "Greendex 2.0",
         "title": "Welcome to Greendex",
-        "subtitle": "CO₂ Calculator for Erasmus+ Mobilities",
+        "subtitle": "CO₂ Calculator for Erasmus+ Project Activities",
         "step-counter": "Step {current} of {total}"
       },
       "welcome": {
@@ -767,7 +767,11 @@
       "project-activities": {
         "title": "Project Activities",
         "description": "This project includes organized activities that add to the baseline emissions:",
-        "note": "This is already included in your total footprint"
+        "note": "This is already included in your total footprint",
+        "empty": {
+          "title": "No project activities",
+          "description": "There are no activities associated with this project."
+        }
       },
       "results": {
         "CO₂-footprint": "CO₂ Footprint",
@@ -960,9 +964,59 @@
     }
   },
   "about": {
-    "partnersHeadline": "Project Greendex is a strategic partnership funded by Erasmus+ that researches sustainability, develops educational resources and runs hands-on activities to build environmental awareness and long-term impact.",
+    "partnersTitle": "Partners",
+    "partnersHeadline": "Project Greendex was born out of love for nature and necessity to contribute to the more sustainable future. Project was constructed as a KA 2 – Strategic partnership within Erasmus+ programme and funded by Slovenian National Agency MOVIT. In this project, we made extensive research about sustainability and created a Library for future study. We created creative Tips and Tricks for people to practice in their daily life and for youth organisations to implement at their work. We created educational sessions to be used on mobilities to bring awareness and to offset our carbon footprint. We have also created a carbon footprint calculator, specialised in Erasmus + reality. We invested to Erasmus+ forest, where trees are being regularly planted. We researched, learned, shared, tested, and planted for us, for you and for the future.",
     "partnerBadge": "Partner",
     "visitWebsite": "Visit website",
     "erasmusFunding": "Co-funded by the Erasmus+ programme."
+  },
+  "EPlusForest": {
+    "hero": {
+      "title": "E+Forest"
+    },
+    "dream": {
+      "title": "A dream",
+      "p1": "Every project starts with a dream. And dreams are the essence of life. A dream for this project is to create a world where everyone can be in touch with nature and appreciate its beauty.",
+      "p2": "We want to build a project that allows people to see, feel, and experience the beauty of nature up close. We aspire to create a project that will bring people together and foster a sense of respect and understanding of the environment. We want this project to inspire people to act and work together to protect, conserve, and restore nature. We envision a project that will bring people of all ages, backgrounds, and beliefs together to enjoy the beauty of nature and to make a difference in the world. We want to provide resources and educational opportunities for people to learn about the environment, the importance of conservation, and how to act. We believe that by working together, we can create a better future for our planet and all its inhabitants.",
+      "ourForests": {
+        "title": "Our Forests",
+        "portugal": {
+          "status": "Established",
+          "location": "Portugal",
+          "description": "The first Erasmus+ forest dedicated to offsetting carbon footprints from mobility projects.",
+          "treesLabel": "Trees planted"
+        },
+        "expanding": {
+          "status": "Growing",
+          "title": "Expanding Across Europe",
+          "description": "The movement is spreading to more countries, creating a network of sustainable forests.",
+          "slovenia": "Slovenia — Established forest",
+          "cyprus": "Cyprus — In progress",
+          "netherlands": "Netherlands — In progress",
+          "joinUs": "Want to start a forest in your country? Contact us to join the movement."
+        },
+        "readArticle": "Read Full Article",
+        "readMore": "More Coverage"
+      }
+    },
+    "donate": {
+      "title": "Donate",
+      "description": "If your organisation does not have a place to start your own forest, you are invited to donate to Greendex, and we will plant trees in one of our forests in your name.",
+      "howItWorks": {
+        "title": "How it works",
+        "p1": "Calculate the number of trees needed to offset the carbon footprint of your mobility by using our calculator.",
+        "p2": "The number will be visible on the host profile. Each tree will cost you 5 EUR."
+      },
+      "wePlantTrees": {
+        "title": "We plant trees",
+        "p1": "In Spring and in Autumn. As soon as your donation is registered, we will send you confirmation about it that can be used for promotional purposes or to add it in the final report of your project. When trees are planted, you will receive final confirmation, location of your trees, and a photo.",
+        "p2": "You can contact us at plant.trees@greendex.world, let us know about your donation and we will send you instructions."
+      },
+      "calculatorButton": "Calculator",
+      "contactButton": "Contact Us"
+    },
+    "funding": {
+      "text": "Co-funded by the"
+    }
   }
 }

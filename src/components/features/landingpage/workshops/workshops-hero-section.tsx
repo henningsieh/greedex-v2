@@ -3,7 +3,6 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { AnimatedGroup } from "@/components/animated-group";
 import { BackgroundAnimations } from "@/components/background-animations";
-import { WORKSHOPS } from "@/components/features/landingpage/workshops/workshops.config";
 import {
   Card,
   CardContent,
@@ -11,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { WORKSHOPS } from "@/config/workshops";
 import { Link } from "@/lib/i18n/routing";
 
 export async function WorkshopsHeroSection() {
@@ -28,7 +28,7 @@ export async function WorkshopsHeroSection() {
         <div className="space-y-8 text-center">
           <h2 className="text-balance font-semibold text-4xl lg:text-5xl">
             {t("workshops.headingPrefix")}{" "}
-            <span className="bg-gradient-to-r from-primary/20 to-primary/60 px-1 py-2 text-primary-foreground">
+            <span className="bg-linear-to-r from-primary/20 to-primary/60 px-1 py-2 text-primary-foreground">
               {t("workshops.headingEmphasis")}
             </span>
             .
@@ -36,7 +36,7 @@ export async function WorkshopsHeroSection() {
           <p className="mx-auto max-w-4xl">{t("workshops.intro1")}</p>
           <p className="mx-auto max-w-4xl">
             {intro2Parts[0]}{" "}
-            <span className="bg-gradient-to-r from-primary/80 to-primary/40 px-2 py-1 text-primary-foreground text-xl capitalize">
+            <span className="bg-linear-to-r from-primary/80 to-primary/40 px-2 py-1 text-primary-foreground text-xl capitalize">
               {t("workshops.keyword")}
             </span>{" "}
             {intro2Parts[1] ?? ""}

@@ -58,7 +58,7 @@ export function RightSideImage({
           },
         }}
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--primary)_0%,_transparent_60%)] opacity-20" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,var(--primary)_0%,transparent_60%)] opacity-20" />
 
         {/* Brand headline and description */}
         <div className="relative z-10 flex flex-col gap-4">
@@ -76,7 +76,7 @@ export function RightSideImage({
               className="flex items-center gap-3 rounded-2xl border border-border/50 bg-muted/30 px-3 py-2 font-medium text-sm backdrop-blur-sm"
               key={`${baseId}-${index}`}
             >
-              <span className="h-2 w-2 flex-shrink-0 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
+              <span className="h-2 w-2 shrink-0 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
               <span className="text-foreground">{value}</span>
             </li>
           ))}

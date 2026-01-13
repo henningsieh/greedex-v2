@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
@@ -17,13 +17,15 @@ import { Logo } from "@/components/features/landingpage/logo";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Button } from "@/components/ui/button";
+import { Item, ItemContent, ItemTitle } from "@/components/ui/item";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
@@ -87,70 +89,72 @@ export const LandingHeader = () => {
               <div className="flex items-center gap-2 lg:hidden">
                 <ThemeSwitcher className="rounded-md" />
                 <LocaleSwitcher className="h-8 rounded-md has-[>svg]:px-2" />
-                <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
-                  <DropdownMenuTrigger asChild>
+                <Sheet onOpenChange={setMenuOpen} open={menuOpen}>
+                  <SheetTrigger asChild>
                     <Button
                       aria-label={t("navigation.openMenu")}
-                      className="relative z-20 flex cursor-pointer items-center bg-accent ring-1 ring-primary lg:hidden"
+                      className="flex items-center bg-transparent ring-1 ring-primary hover:bg-accent/40 lg:hidden"
                       size="sm"
+                      variant="ghost"
                     >
-                      <MenuIcon
-                        className={`m-auto size-6 duration-300 ${
-                          menuOpen ? "rotate-180 scale-0 opacity-0" : ""
-                        }`}
-                      />
-                      <XIcon
-                        className={`absolute inset-0 m-auto size-6 -rotate-180 duration-300 ${
-                          menuOpen
-                            ? "rotate-0 scale-100 opacity-100"
-                            : "scale-0 opacity-0"
-                        }`}
-                      />
+                      <MenuIcon className="size-6" />
                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="border bg-background p-4 shadow-2xl shadow-zinc-300/20"
-                  >
-                    <ul className="space-y-6 text-base">
-                      {menuItems.map((item) => (
-                        <DropdownMenuItem asChild key={item.name}>
+                  </SheetTrigger>
+                  <SheetContent side="right">
+                    <SheetHeader className="p-6 text-left">
+                      <SheetTitle className="flex items-center gap-2">
+                        <Logo />
+                        <span className="sr-only">Greedex Calculator</span>
+                      </SheetTitle>
+                      <SheetDescription className="sr-only">
+                        {t("navigation.openMenu")}
+                      </SheetDescription>
+                    </SheetHeader>
+                    <nav
+                      aria-label={t("navigation.openMenu")}
+                      className="flex flex-1 flex-col justify-between px-4 pb-6"
+                    >
+                      <ul className="flex flex-col gap-1">
+                        {menuItems.map((item) => (
+                          <li key={item.name}>
+                            <Item asChild size="sm">
+                              <Link
+                                href={item.href}
+                                onClick={() => setMenuOpen(false)}
+                              >
+                                <ItemContent>
+                                  <ItemTitle className="font-medium text-base">
+                                    {item.name}
+                                  </ItemTitle>
+                                </ItemContent>
+                              </Link>
+                            </Item>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <div className="mt-6 flex flex-col gap-4">
+                        <Button asChild size="lg" variant="outline">
                           <Link
-                            className="block text-muted-foreground hover:text-primary-foreground"
-                            href={item.href}
+                            href={LOGIN_PATH}
+                            onClick={() => setMenuOpen(false)}
                           >
-                            <span>{item.name}</span>
+                            {t("navigation.login")}
                           </Link>
-                        </DropdownMenuItem>
-                      ))}
-                    </ul>
-                    <DropdownMenuSeparator />
-                    <div className="flex w-full items-center justify-end gap-3">
-                      <div
-                        aria-hidden={isScrolled}
-                        className={cn("relative h-8 overflow-hidden")}
-                      >
-                        <Button asChild size="sm" variant="outline">
-                          <Link href={LOGIN_PATH}>
-                            <span>{t("navigation.login")}</span>
+                        </Button>
+
+                        <Button asChild size="lg">
+                          <Link
+                            href={SIGNUP_PATH}
+                            onClick={() => setMenuOpen(false)}
+                          >
+                            {t("navigation.signup")}
                           </Link>
                         </Button>
                       </div>
-
-                      <Button
-                        asChild
-                        className={cn(
-                          "transform transition-transform ease-in-out",
-                        )}
-                        size="sm"
-                      >
-                        <Link href={SIGNUP_PATH}>
-                          <span>{t("navigation.signup")}</span>
-                        </Link>
-                      </Button>
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                    </nav>
+                  </SheetContent>
+                </Sheet>
               </div>
             </div>
 

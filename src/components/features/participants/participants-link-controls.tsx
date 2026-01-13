@@ -148,12 +148,12 @@ export function ParticipantsLinkControls({
                 {qrCodeDataUrl ? (
                   <div
                     aria-label={t("participation.modalTitle")}
-                    className="h-[300px] w-[300px] rounded-lg border border-secondary/70 bg-center bg-contain bg-no-repeat"
+                    className="h-75 w-75 rounded-lg border border-secondary/70 bg-center bg-contain bg-no-repeat"
                     role="img"
                     style={{ backgroundImage: `url(${qrCodeDataUrl})` }}
                   />
                 ) : (
-                  <div className="flex h-[300px] w-[300px] items-center justify-center rounded-lg border border-secondary/70">
+                  <div className="flex h-75 w-75 items-center justify-center rounded-lg border border-secondary/70">
                     <div className="h-8 w-8 animate-spin rounded-full border-4 border-secondary border-t-transparent" />
                   </div>
                 )}

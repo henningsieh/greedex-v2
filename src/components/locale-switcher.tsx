@@ -42,7 +42,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
       <DropdownMenuTrigger asChild className="border border-muted">
         <Button
           className={cn(
-            "gap-2 rounded-full border-none bg-background p-1 ring-1 ring-border hover:ring-primary",
+            "gap-2 rounded-full border-none bg-transparent p-1 ring-1 ring-border hover:ring-primary",
             isPending && "opacity-70",
             className,
           )}

@@ -149,9 +149,7 @@ export function ProjectActivitiesTable({
                   <TableHead>{t("table.description")}</TableHead>
                   <TableHead>{t("table.date")}</TableHead>
                   {canEdit && (
-                    <TableHead className="w-[100px]">
-                      {t("table.actions")}
-                    </TableHead>
+                    <TableHead className="w-25">{t("table.actions")}</TableHead>
                   )}
                 </TableRow>
               </TableHeader>
@@ -167,7 +165,7 @@ export function ProjectActivitiesTable({
                     <TableCell>
                       {activity.distanceKm} {t("table.km")}
                     </TableCell>
-                    <TableCell className="max-w-[200px] truncate">
+                    <TableCell className="max-w-50 truncate">
                       {activity.description || "-"}
                     </TableCell>
                     <TableCell>

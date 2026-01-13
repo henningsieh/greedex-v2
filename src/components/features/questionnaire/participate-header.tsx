@@ -47,7 +47,7 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
             </span>
           </div>
           <p className="font-medium text-lg text-muted-foreground">
-            {t("header.title")} <span className="mx-1 opacity-30">|</span>{" "}
+            {t("header.title")} <span className="mx-1 opacity-30"> | </span>{" "}
             {t("header.subtitle")}
           </p>
         </div>
@@ -71,7 +71,7 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
         </div>
 
         {/* Right Side: Location & Emissions */}
-        <div className="hidden min-h-[200px] flex-col justify-between border-t bg-muted/20 py-3 md:flex md:w-[40%] md:border-t-0 md:border-l lg:w-[35%]">
+        <div className="hidden min-h-50 flex-col justify-between border-t bg-muted/20 py-3 md:flex md:w-[40%] md:border-t-0 md:border-l lg:w-[35%]">
           <CardHeader>
             <div className="flex justify-end">
               {project.location && (

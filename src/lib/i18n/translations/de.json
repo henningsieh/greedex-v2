@@ -50,7 +50,7 @@
         "moment": {
           "sections": {
             "calculator": {
-              "title": "Rechner-Schritte",
+              "title": "Greendex-Rechner",
               "steps": {
                 "create": {
                   "title": "Erstelle das Projekt in der Greendex App",
@@ -91,7 +91,7 @@
         "deal": {
           "sections": {
             "calculator": {
-              "title": "2.1. Rechner",
+              "title": "Greendex-Rechner",
               "steps": {
                 "create": {
                   "title": "Erstelle das Projekt in der Greendex App",
@@ -120,7 +120,7 @@
               }
             },
             "challenges": {
-              "title": "2.2. Herausforderungen",
+              "title": "Herausforderungen",
               "steps": {
                 "read": {
                   "title": "Lies mehr über die Herausforderungen",
@@ -141,7 +141,7 @@
               }
             },
             "evaluation": {
-              "title": "2.3. Evaluation",
+              "title": "Evaluation",
               "steps": {
                 "evaluate": {
                   "title": "Nutze die abschließende Evaluation, um deinen Fortschritt zu überprüfen",
@@ -154,7 +154,7 @@
         "day": {
           "sections": {
             "plastic": {
-              "title": "3.1. Wie viel Plastik besitzen wir?",
+              "title": "Wie viel Plastik besitzen wir?",
               "steps": {
                 "form_groups": {
                   "title": "Bildet nationale Gruppen",
@@ -179,7 +179,7 @@
               }
             },
             "social_pressure": {
-              "title": "3.2. Sozialer Druck",
+              "title": "Sozialer Druck",
               "steps": {
                 "create_groups": {
                   "title": "Bilde kleinere interkulturelle Gruppen",
@@ -204,7 +204,7 @@
               }
             },
             "quiz": {
-              "title": "3.3. Was ist ein CO₂-Fußabdruck?",
+              "title": "Was ist ein CO₂-Fußabdruck?",
               "steps": {
                 "form_groups": {
                   "title": "Bildet kleinere interkulturelle Gruppen",
@@ -229,7 +229,7 @@
               }
             },
             "calculator": {
-              "title": "3.4. Rechner",
+              "title": "Greendex-Rechner",
               "steps": {
                 "create": {
                   "title": "Erstelle das Projekt in der Greendex App",
@@ -258,7 +258,7 @@
               }
             },
             "challenges": {
-              "title": "3.5. Herausforderungen",
+              "title": "Herausforderungen",
               "steps": {
                 "read": {
                   "title": "Lies mehr über die Herausforderungen",
@@ -279,7 +279,7 @@
               }
             },
             "final": {
-              "title": "3.6. Abschließende Evaluation",
+              "title": "Abschließende Evaluation",
               "steps": {
                 "evaluate": {
                   "title": "Widme Zeit für die abschließende Evaluation",
@@ -679,7 +679,7 @@
       "header": {
         "badge": "Greendex 2.0",
         "title": "Willkommen bei Greendex",
-        "subtitle": "CO₂-Rechner für Erasmus+ Mobilitäten",
+        "subtitle": "CO₂-Rechner für Erasmus+ Projektaktivitäten",
         "step-counter": "Schritt {current} von {total}"
       },
       "welcome": {
@@ -767,7 +767,11 @@
       "project-activities": {
         "title": "Projektaktivitäten",
         "description": "Dieses Projekt beinhaltet organisierte Aktivitäten, die zu den Basis-Emissionen beitragen:",
-        "note": "Dies ist bereits in deinem Gesamt-Fußabdruck enthalten"
+        "note": "Dies ist bereits in deinem Gesamt-Fußabdruck enthalten",
+        "empty": {
+          "title": "Keine Projektaktivitäten",
+          "description": "Mit diesem Projekt sind keine Aktivitäten verbunden."
+        }
       },
       "results": {
         "CO₂-footprint": "CO₂-Fußabdruck",
@@ -960,9 +964,59 @@
     }
   },
   "about": {
-    "partnersHeadline": "Project Greendex ist eine strategische Partnerschaft, die von Erasmus+ finanziert wird und Nachhaltigkeit erforscht, Bildungsressourcen entwickelt und praktische Aktivitäten durchführt, um Umweltbewusstsein und langfristige Auswirkungen aufzubauen.",
+    "partnersTitle": "Partner",
+    "partnersHeadline": "Das Projekt Greendex entstand aus Liebe zur Natur und der Notwendigkeit, zu einer nachhaltigeren Zukunft beizutragen. Das Projekt wurde als KA 2 – Strategische Partnerschaft im Rahmen des Erasmus+-Programms konzipiert und von der slowenischen Nationalagentur MOVIT finanziert. Im Rahmen dieses Projekts haben wir umfangreiche Forschungen zum Thema Nachhaltigkeit durchgeführt und eine Bibliothek für zukünftige Studien eingerichtet. Wir haben kreative Tipps und Tricks für Menschen entwickelt, die sie in ihrem Alltag umsetzen können, und für Jugendorganisationen, die sie in ihrer Arbeit anwenden können. Wir haben Schulungen entwickelt, die bei Mobilitätsmaßnahmen eingesetzt werden können, um das Bewusstsein zu schärfen und unseren CO2-Fußabdruck auszugleichen. Außerdem haben wir einen CO2-Fußabdruck-Rechner entwickelt, der speziell auf die Realität von Erasmus+ zugeschnitten ist. Wir haben in den Erasmus+-Wald investiert, in dem regelmäßig Bäume gepflanzt werden. Wir haben recherchiert, gelernt, geteilt, getestet und gepflanzt – für uns, für Sie und für die Zukunft.Übersetzt mit DeepL.com (kostenlose Version)",
     "partnerBadge": "Partner",
     "visitWebsite": "Website besuchen",
     "erasmusFunding": "Gefördert durch das Erasmus+ Programm."
+  },
+  "EPlusForest": {
+    "hero": {
+      "title": "E+ Wald"
+    },
+    "dream": {
+      "title": "Ein Traum",
+      "p1": "Jedes Projekt beginnt mit einem Traum. Und Träume sind die Essenz des Lebens. Ein Traum für dieses Projekt ist es, eine Welt zu schaffen, in der jeder mit der Natur in Berührung kommen und ihre Schönheit schätzen kann.",
+      "p2": "Wir wollen ein Projekt aufbauen, das es Menschen ermöglicht, die Schönheit der Natur aus nächster Nähe zu sehen, zu fühlen und zu erleben. Wir streben danach, ein Projekt zu schaffen, das Menschen zusammenbringt und ein Gefühl von Respekt und Verständnis für die Umwelt fördert. Wir wollen, dass dieses Projekt Menschen dazu inspiriert, zu handeln und zusammenzuarbeiten, um die Natur zu schützen, zu bewahren und wiederherzustellen. Wir stellen uns ein Projekt vor, das Menschen aller Altersgruppen, Hintergründe und Überzeugungen zusammenbringt, um die Schönheit der Natur zu genießen und einen Unterschied in der Welt zu machen. Wir wollen Ressourcen und Bildungsmöglichkeiten bereitstellen, damit Menschen etwas über die Umwelt, die Bedeutung des Naturschutzes und Handlungsmöglichkeiten lernen können. Wir glauben, dass wir durch Zusammenarbeit eine bessere Zukunft für unseren Planeten und alle seine Bewohner schaffen können.",
+      "ourForests": {
+        "title": "Unsere Wälder",
+        "portugal": {
+          "status": "Etabliert",
+          "location": "Portugal",
+          "description": "Der erste Erasmus+ Wald zur Kompensation des CO₂-Fußabdrucks von Mobilitätsprojekten.",
+          "treesLabel": "Gepflanzte Bäume"
+        },
+        "expanding": {
+          "status": "Wachsend",
+          "title": "Ausdehnung in Europa",
+          "description": "Die Bewegung breitet sich auf weitere Länder aus und schafft ein Netzwerk nachhaltiger Wälder.",
+          "slovenia": "Slowenien — Etablierter Wald",
+          "cyprus": "Zypern — In Arbeit",
+          "netherlands": "Niederlande — In Arbeit",
+          "joinUs": "Möchten Sie einen Wald in Ihrem Land starten? Kontaktieren Sie uns, um sich der Bewegung anzuschließen."
+        },
+        "readArticle": "Ganzen Artikel lesen",
+        "readMore": "Weitere Berichterstattung"
+      }
+    },
+    "donate": {
+      "title": "Spenden",
+      "description": "Wenn deine Organisation keinen Ort hat, um einen eigenen Wald zu starten, bist du eingeladen, an Greendex zu spenden, und wir werden Bäume in einem unserer Wälder in deinem Namen pflanzen.",
+      "howItWorks": {
+        "title": "Wie es funktioniert",
+        "p1": "Berechne die Anzahl der Bäume, die benötigt werden, um den CO₂-Fußabdruck deiner Mobilität auszugleichen, indem du unseren Rechner benutzt.",
+        "p2": "Die Anzahl wird im Gastgeberprofil sichtbar sein. Jeder Baum kostet 5 EUR."
+      },
+      "wePlantTrees": {
+        "title": "Wir pflanzen Bäume",
+        "p1": "Im Frühling und im Herbst. Sobald deine Spende registriert ist, senden wir dir eine Bestätigung darüber, die für Werbezwecke verwendet oder dem Abschlussbericht deines Projekts hinzugefügt werden kann. Wenn Bäume gepflanzt sind, erhältst du eine endgültige Bestätigung, den Standort deiner Bäume und ein Foto.",
+        "p2": "Du kannst uns unter plant.trees@greendex.world kontaktieren, uns über deine Spende informieren und wir senden dir Anweisungen."
+      },
+      "calculatorButton": "Rechner",
+      "contactButton": "Kontakt"
+    },
+    "funding": {
+      "text": "Kofinanziert durch die"
+    }
   }
 }

@@ -196,7 +196,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
       <div className="min-w-0">
         <div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
-            <div className="relative w-full sm:w-[250px] lg:w-[300px]">
+            <div className="relative w-full sm:w-62.5 lg:w-75">
               <SearchIcon className="absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 className="h-8 w-full border-secondary pl-9 placeholder:text-sm focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary"
@@ -228,7 +228,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                 }
               >
                 <SelectTrigger
-                  className="w-[180px] focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary"
+                  className="w-45 focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary"
                   size="sm"
                 >
                   <SelectValue placeholder={t("filter-by-country")} />
@@ -480,7 +480,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             })()}
           </div>
 
-          <div className="flex flex-shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             {/* desktop-only label for rows-per-page */}
             <Label
               className="mr-1 hidden text-muted-foreground text-sm sm:inline"
@@ -497,7 +497,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             >
               <SelectTrigger
                 aria-label={t("table.rows-per-page")}
-                className="h-8 w-[56px] flex-shrink-0 focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary sm:w-[72px]"
+                className="h-8 w-14 shrink-0 focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary sm:w-18"
                 id="projects-rows-per-page"
                 size="sm"
               >
@@ -516,7 +516,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             </Select>
 
             <Button
-              className="h-8 flex-shrink-0 px-2"
+              className="h-8 shrink-0 px-2"
               disabled={!table.getCanPreviousPage()}
               onClick={() => table.previousPage()}
               size="sm"
@@ -526,7 +526,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             </Button>
 
             <Button
-              className="h-8 flex-shrink-0 px-2"
+              className="h-8 shrink-0 px-2"
               disabled={!table.getCanNextPage()}
               onClick={() => table.nextPage()}
               size="sm"
@@ -554,13 +554,13 @@ export function ProjectsTabSkeleton() {
         {/* View selector skeleton */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Skeleton className="flex h-8 w-8 items-center justify-center gap-1.5 border-1 border-secondary/60 bg-secondary/40 sm:w-42">
+            <Skeleton className="flex h-8 w-8 items-center justify-center gap-1.5 border border-secondary/60 bg-secondary/40 sm:w-42">
               <TablePropertiesIcon className="size-5 shrink-0 text-muted-foreground" />
               <p className="hidden font-medium text-muted-foreground text-sm sm:inline">
                 {t("views.table")}
               </p>
             </Skeleton>
-            <Skeleton className="flex h-8 w-8 items-center justify-center gap-1.5 border-1 border-secondary/60 bg-secondary/40 sm:w-42">
+            <Skeleton className="flex h-8 w-8 items-center justify-center gap-1.5 border border-secondary/60 bg-secondary/40 sm:w-42">
               <SheetIcon className="size-5 shrink-0 text-muted-foreground" />
               <p className="hidden font-medium text-muted-foreground text-sm sm:inline">
                 {t("views.grid")}
@@ -572,9 +572,9 @@ export function ProjectsTabSkeleton() {
         {/* Search + actions skeleton (separate row under view selector) */}
         <div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
-            <Skeleton className="h-8 w-full rounded-md border-1 border-secondary bg-secondary/10 sm:w-[250px] lg:w-[300px]" />
+            <Skeleton className="h-8 w-full rounded-md border border-secondary bg-secondary/10 sm:w-62.5 lg:w-75" />
             <div className="hidden items-center sm:flex">
-              <Skeleton className="h-8 w-[180px] rounded-md border-secondary/60 bg-secondary/40" />
+              <Skeleton className="h-8 w-45 rounded-md border-secondary/60 bg-secondary/40" />
             </div>
           </div>
 
@@ -591,12 +591,12 @@ export function ProjectsTabSkeleton() {
           {/* Table header skeleton */}
           <div className="border-b bg-muted/50">
             <div className="flex h-12 items-center px-3">
-              <Skeleton className="h-4 w-4 flex-shrink-0 bg-muted-foreground/20" />
-              <Skeleton className="ml-9 h-4 w-64 flex-shrink-0 bg-muted-foreground/20" />
-              <Skeleton className="ml-4 h-4 w-40 flex-shrink-0 bg-muted-foreground/20" />
-              <Skeleton className="ml-4 h-4 w-36 flex-shrink-0 bg-muted-foreground/20" />
-              <Skeleton className="ml-4 h-4 w-36 flex-shrink-0 bg-muted-foreground/20" />
-              <Skeleton className="mr-7 ml-auto size-6 flex-shrink-0 border-1 border-muted-foreground/40 bg-background" />
+              <Skeleton className="h-4 w-4 shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="ml-9 h-4 w-64 shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="ml-4 h-4 w-40 shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="ml-4 h-4 w-36 shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="ml-4 h-4 w-36 shrink-0 bg-muted-foreground/20" />
+              <Skeleton className="mr-7 ml-auto size-6 shrink-0 border border-muted-foreground/40 bg-background" />
             </div>
           </div>
 
@@ -607,24 +607,24 @@ export function ProjectsTabSkeleton() {
                 className="flex h-12 items-center border-b border-b-muted px-3 last:border-0"
                 key={i}
               >
-                <Skeleton className="h-4 w-4 flex-shrink-0 bg-muted/60" />
-                <Skeleton className="ml-10 h-4 w-64 flex-shrink-0 bg-muted/60" />
-                <Skeleton className="ml-4 h-4 w-40 flex-shrink-0 bg-muted/60" />
-                <Skeleton className="ml-4 h-4 w-36 flex-shrink-0 bg-muted/60" />
-                <Skeleton className="ml-4 h-4 w-36 flex-shrink-0 bg-muted/60" />
-                <Skeleton className="mr-7 ml-auto size-6 flex-shrink-0 border-1 border-secondary/40 bg-background" />
+                <Skeleton className="h-4 w-4 shrink-0 bg-muted/60" />
+                <Skeleton className="ml-10 h-4 w-64 shrink-0 bg-muted/60" />
+                <Skeleton className="ml-4 h-4 w-40 shrink-0 bg-muted/60" />
+                <Skeleton className="ml-4 h-4 w-36 shrink-0 bg-muted/60" />
+                <Skeleton className="ml-4 h-4 w-36 shrink-0 bg-muted/60" />
+                <Skeleton className="mr-7 ml-auto size-6 shrink-0 border border-secondary/40 bg-background" />
               </div>
             ))}
           </div>
 
           {/* Footer skeleton (compact, matches responsive layout) */}
           <div className="flex items-center justify-between py-4">
-            <Skeleton className="h-4 w-[180px] bg-muted/20" />
+            <Skeleton className="h-4 w-45 bg-muted/20" />
             <div className="flex items-center gap-2">
               <Skeleton className="hidden h-4 w-20 bg-muted/20 sm:block" />
-              <Skeleton className="h-8 w-[72px] rounded-md bg-muted/20" />
-              <Skeleton className="h-8 w-[100px] rounded-md bg-muted/20" />
-              <Skeleton className="h-8 w-[100px] rounded-md bg-muted/20" />
+              <Skeleton className="h-8 w-18 rounded-md bg-muted/20" />
+              <Skeleton className="h-8 w-25 rounded-md bg-muted/20" />
+              <Skeleton className="h-8 w-25 rounded-md bg-muted/20" />
             </div>
           </div>
         </div>

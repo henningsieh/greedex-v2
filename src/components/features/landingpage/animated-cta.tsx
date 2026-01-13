@@ -22,7 +22,7 @@ export function AnimatedGradientCTA({
     >
       <span
         className={cn(
-          "absolute inset-0 block h-full w-full animate-gradient rounded-[inherit] bg-[length:300%_100%] bg-gradient-to-r from-primary/60 via-secondary/60 to-primary/60 p-[1px]",
+          "absolute inset-0 block h-full w-full animate-gradient rounded-[inherit] bg-linear-to-r bg-size-[300%_100%] from-primary/60 via-secondary/60 to-primary/60 p-px",
         )}
         style={{
           WebkitMask:

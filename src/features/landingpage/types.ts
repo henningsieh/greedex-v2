@@ -1,7 +1,7 @@
 /**
  * Landing Page Types
  *
- * Type definitions for landing page components
+ * Type definitions for landing page components and features
  */
 
 /**
@@ -13,11 +13,17 @@ export interface NavItem {
 }
 
 /**
- * Hero section props
+ * Logo customer/partner
  */
-export interface HeroProps {
-  title: string;
-  subtitle: string;
-  ctaText?: string;
-  ctaHref?: string;
+export interface LogoCustomer {
+  alt: string;
+  src: string;
+  width: number;
+  height: number;
+  className?: string;
 }
+
+/**
+ * Greendex Workshop types
+ */
+export type WorkshopType = "moment" | "deal" | "day";

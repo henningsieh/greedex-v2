@@ -65,7 +65,7 @@
     0 8px 10px 0.5px hsl(36 6.0976% 32.1569% / 0.18);
   --shadow-2xl: 0 1px 6px 1.5px hsl(36 6.0976% 32.1569% / 0.45);
   --tracking-normal: 0em;
-  --spacing: 0.24rem;
+  --spacing: 0.25rem;
 }
 
 .dark {

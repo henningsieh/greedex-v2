@@ -5,6 +5,7 @@ import { DASHBOARD_PATH } from "@/app/routes";
 import { AnimatedGroup } from "@/components/animated-group";
 import { AnimatedGradientCTA } from "@/components/features/landingpage/animated-cta";
 import { TextEffect } from "@/components/ui/text-effect";
+import { LOGO_CUSTOMERS } from "@/features/landingpage/constants";
 import { Link } from "@/lib/i18n/routing";
 
 const transitionVariants = {
@@ -30,7 +31,7 @@ const transitionVariants = {
 const BrushStroke = () => (
   <div
     aria-hidden
-    className="mx-auto mt-4 h-2 w-28 rounded-full bg-gradient-to-r from-emerald-400 via-emerald-600 to-transparent opacity-75"
+    className="mx-auto mt-4 h-2 w-28 rounded-full bg-linear-to-r from-emerald-400 via-emerald-600 to-transparent opacity-75"
   />
 );
 
@@ -125,7 +126,7 @@ export async function HeroSection() {
                   } as React.CSSProperties
                 }
               >
-                <ChevronDown className="size-7 shrink-0 stroke-[3] text-white drop-shadow-lg transition-transform group-hover:translate-y-0.5" />
+                <ChevronDown className="size-7 shrink-0 stroke-3 text-white drop-shadow-lg transition-transform group-hover:translate-y-0.5" />
               </div>
             </a>
           </div>
@@ -203,113 +204,21 @@ export async function HeroSection() {
             </Link>
           </div>
           <div className="mx-auto mt-12 grid max-w-2xl grid-cols-4 gap-x-12 gap-y-8 transition-all duration-500 group-hover:opacity-50 group-hover:blur-xs sm:gap-x-16 sm:gap-y-14">
-            {/** Ensure external SVGs maintain aspect ratio when CSS changes one dimension. We set height via classes and keep width auto inline. */}
-            <div className="flex">
-              <Image
-                alt="Nvidia Logo"
-                className="mx-auto h-5 dark:invert"
-                height={20}
-                src="https://html.tailus.io/blocks/customers/nvidia.svg"
-                style={{
-                  width: "auto",
-                  height: "auto",
-                }}
-                width={64}
-              />
-            </div>
-
-            <div className="flex">
-              <Image
-                alt="Column Logo"
-                className="mx-auto dark:invert"
-                height={16}
-                src="https://html.tailus.io/blocks/customers/column.svg"
-                style={{
-                  width: 64,
-                  height: 16,
-                }}
-                width={64}
-              />
-            </div>
-            <div className="flex">
-              <Image
-                alt="GitHub Logo"
-                className="mx-auto dark:invert"
-                height={16}
-                src="https://html.tailus.io/blocks/customers/github.svg"
-                style={{
-                  width: 64,
-                  height: 16,
-                }}
-                width={64}
-              />
-            </div>
-            <div className="flex">
-              <Image
-                alt="Nike Logo"
-                className="mx-auto h-5 dark:invert"
-                height={20}
-                src="https://html.tailus.io/blocks/customers/nike.svg"
-                style={{
-                  width: "auto",
-                  height: "auto",
-                }}
-                width={64}
-              />
-            </div>
-            <div className="flex">
-              <Image
-                alt="Lemon Squeezy Logo"
-                className="mx-auto h-5 dark:invert"
-                height={20}
-                src="https://html.tailus.io/blocks/customers/lemonsqueezy.svg"
-                style={{
-                  width: "auto",
-                  height: "auto",
-                }}
-                width={64}
-              />
-            </div>
-            <div className="flex">
-              <Image
-                alt="Laravel Logo"
-                className="mx-auto dark:invert"
-                height={16}
-                src="https://html.tailus.io/blocks/customers/laravel.svg"
-                style={{
-                  width: 64,
-                  height: 16,
-                }}
-                width={64}
-              />
-            </div>
-            <div className="flex">
-              <Image
-                alt="Lilly Logo"
-                className="mx-auto h-7 dark:invert"
-                height={28}
-                src="https://html.tailus.io/blocks/customers/lilly.svg"
-                style={{
-                  width: "auto",
-                  height: "auto",
-                }}
-                width={64}
-              />
-            </div>
-
-            <div className="flex">
-              <Image
-                alt="OpenAI Logo"
-                className="mx-auto h-6 dark:invert"
-                height={24}
-                src="https://html.tailus.io/blocks/customers/openai.svg"
-                style={{
-                  width: "auto",
-                  height: "auto",
-                }}
-                width={64}
-              />
-            </div>
+            {LOGO_CUSTOMERS.map((logo) => (
+              <div className="flex" key={logo.alt}>
+                <Image
+                  alt={logo.alt}
+                  className={logo.className ?? "mx-auto dark:invert"}
+                  height={logo.height}
+                  src={logo.src}
+                  style={{
+                    width: logo.className?.includes("h-") ? "auto" : logo.width,
+                    height: "auto",
+                  }}
+                  width={logo.width}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>

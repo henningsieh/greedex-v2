@@ -247,7 +247,7 @@ export function UsersTable({
       return "w-12";
     }
     if (id === "member") {
-      return isHeader ? "pl-[42px]" : "";
+      return isHeader ? "pl-10.5" : "";
     }
     if (id === "email") {
       return "";

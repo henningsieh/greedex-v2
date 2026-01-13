@@ -4,10 +4,6 @@ import { CheckCircle2, ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { DASHBOARD_PATH } from "@/app/routes";
 import {
-  type CalculatorType,
-  WORKSHOP_LINKS,
-} from "@/components/features/landingpage/workshops/workshops.config";
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -23,6 +19,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { WORKSHOP_LINKS } from "@/config/workshops";
+import type { WorkshopType } from "@/features/landingpage/types";
 import { Link } from "@/lib/i18n/routing";
 
 /**
@@ -34,7 +32,7 @@ import { Link } from "@/lib/i18n/routing";
  * @param type - The workshop `CalculatorType` used to select translations and section/step content.
  * @returns A React element containing the full workshop details UI for the given `type`.
  */
-export function WorkshopDetails({ type }: { type: CalculatorType }) {
+export function WorkshopDetails({ type }: { type: WorkshopType }) {
   const t = useTranslations("LandingPage.workshops");
 
   // Helper to get link configuration for a step
@@ -129,11 +127,11 @@ export function WorkshopDetails({ type }: { type: CalculatorType }) {
     <>
       {/* Header */}
       <div className="space-y-4 text-center">
-        <Badge className="text-sm" variant="secondary">
+        <h2 className="font-semibold text-3xl lg:text-4xl">{title}</h2>
+        <Badge className="px-4 pt-1 text-sm" variant="secondary">
           {duration}
         </Badge>
-        <h2 className="font-semibold text-3xl lg:text-4xl">{title}</h2>
-        <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
+        <p className="mx-auto max-w-5xl text-lg text-muted-foreground">
           {description}
         </p>
       </div>

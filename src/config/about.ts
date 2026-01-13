@@ -1,7 +1,7 @@
 export interface Partner {
   id: string;
   name: string;
-  country?: string;
+  countryCode?: string; // ISO 3166-1 alpha-2 country code (e.g., "SI", "CY")
   website?: string;
   logo: string; // path under /about
   description?: string;
@@ -11,7 +11,7 @@ export const PARTNERS: Partner[] = [
   {
     id: "ambitia",
     name: "Ambitia Institute",
-    country: "🇸🇮 Slovenia",
+    countryCode: "SI", // Slovenia
     website: "https://ambitia.eu/",
     logo: "/about/Ambitia-Logo.png",
     description:
@@ -20,7 +20,7 @@ export const PARTNERS: Partner[] = [
   {
     id: "planbe",
     name: "PlanBe, Plan it, Be it",
-    country: "🇨🇾 Cyprus",
+    countryCode: "CY", // Cyprus
     website: "https://www.planbe-ngo.com/",
     logo: "/about/Plan-BE-Logo.png",
     description:
@@ -29,7 +29,7 @@ export const PARTNERS: Partner[] = [
   {
     id: "anatta",
     name: "Stichting Anatta Foundation",
-    country: "🇳🇱 The Netherlands",
+    countryCode: "NL", // The Netherlands
     website: "https://www.anattafoundation.org/",
     logo: "/about/Anatta-Logo.png",
     description:
@@ -38,7 +38,7 @@ export const PARTNERS: Partner[] = [
   {
     id: "aventura",
     name: "Aventura Marão Clube (CJ Amarante)",
-    country: "🇵🇹 Portugal",
+    countryCode: "PT", // Portugal
     website: "https://www.cj-amarante.org/",
     logo: "/about/Aventura-Marao-Logo.png",
     description:
