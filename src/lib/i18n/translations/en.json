@@ -1,7 +1,7 @@
 {
   "LandingPage": {
     "launchButton": "Launch Erasmus+ Carbon Calculator",
-    "launchButtonAria": "Open Erasmus+ Carbon Calculator — login required",
+    "launchButtonAria": "Launch Erasmus+ Carbon Calculator — login required",
     "hero": {
       "missionTitle": "Our mission",
       "missionText": "Erasmus+ programme enables us to have amazing learning adventures with inspirational people from different countries. However, each of our personal gatherings contributes to a deep carbon footprint due to our travelling and living habits. The purpose of this project was to offset our carbon footprint on the projects we make by bringing more awareness and more action to change our habits. For this reason, we have created a carbon footprint calculator that is specialized for Erasmus+ projects such as youth exchanges, training courses, meetings etc. This calculator offers the final number of the CO₂ produced by each participant and transforms this number to the number of the average trees that will absorb our CO₂ in their lifetime. Our calculations are based on scientific research done by different professionals. We did not make our own calculations.",
@@ -835,7 +835,7 @@
     },
     "login": {
       "title": "Welcome back, Greendexer!",
-      "description": "Login to your account to continue your Greendex Erasmus+ Project Work",
+      "description": "Login to your account to continue your Erasmus+ Project Work",
       "lastUsed": "Last Used",
       "tabs": {
         "password": "Password",

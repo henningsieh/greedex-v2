@@ -1,0 +1,14 @@
+# Robots.txt for Greendex
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://greendex.world/sitemap.xml
+
+# Disallow private/authenticated areas from indexing
+Disallow: /api/
+Disallow: /*/org/
+Disallow: /*/accept-invitation/
+Disallow: /*/project/*/participate

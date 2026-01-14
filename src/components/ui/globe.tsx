@@ -147,9 +147,10 @@ export function Globe({
   ]);
 
   return (
-    <div className={className}>
+    <div className={className} role="img" aria-label="Interactive 3D globe showing EU member states and capital cities">
       <canvas
         ref={canvasRef}
+        aria-hidden="true"
         style={{
           width: width,
           height: height,

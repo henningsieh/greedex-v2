@@ -4,7 +4,10 @@ import { motion } from "motion/react";
 
 export function BackgroundAnimations() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+    >
       <motion.div
         animate={{
           scale: [1, 1.1, 1],

@@ -78,7 +78,7 @@ export const LandingHeader = () => {
           <div className="relative flex items-center justify-between gap-2 py-3 lg:gap-6 lg:py-4">
             <div className="flex w-full items-center justify-between lg:w-auto">
               <Link
-                aria-label="home"
+                aria-label="GREENDEX home"
                 className="flex items-center space-x-2"
                 href={HOME_PATH}
               >

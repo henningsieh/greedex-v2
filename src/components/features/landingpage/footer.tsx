@@ -69,15 +69,12 @@ export default async function FooterSection() {
         <div className="grid gap-12 md:grid-cols-5">
           <div className="md:col-span-2">
             <Link
-              aria-label="go home"
+              aria-label="GREENDEX home"
               className="block size-fit"
               href={HOME_PATH}
             >
               <Logo />
             </Link>
-            {/* <p className="mt-4 max-w-xs text-muted-foreground text-sm">
-              {tLanding("hero.missionText")}
-            </p> */}
             <div className="mt-8">
               <Link
                 aria-label={tLanding("launchButtonAria")}

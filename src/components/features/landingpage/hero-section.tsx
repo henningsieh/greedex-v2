@@ -40,19 +40,23 @@ export async function HeroSection() {
   return (
     <>
       {/* subtle background image behind everything (low opacity, non-interactive) */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-30">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-30"
+      >
         <Image
-          alt="hero background"
+          alt=""
           className="object-cover opacity-50 dark:opacity-15"
           fill
           priority
+          sizes="100vw"
           src="/herobg.jpg"
         />
       </div>
 
       <section className="relative flex flex-col md:min-h-svh">
         <div
-          aria-hidden
+          aria-hidden="true"
           className="absolute inset-0 -z-10 size-full [background:radial-gradient(125%_125%_at_50%_100%,transparent_0%,var(--color-background)_75%)]"
         />
         <div className="relative flex flex-1 flex-col justify-between gap-8 pt-24 pb-8 md:pb-12">
@@ -92,16 +96,20 @@ export async function HeroSection() {
             >
               <div className="relative inset-shadow-2xs mx-auto aspect-video max-h-full w-full max-w-6xl overflow-hidden rounded-3xl border border-border/40 bg-card/30 object-contain p-4 shadow-2xl shadow-primary/10 ring-1 ring-background backdrop-blur-xl dark:inset-shadow-white/20">
                 <Image
-                  alt="app screen"
+                  alt="Greendex carbon footprint calculator dashboard showing CO₂ emissions tracking"
                   className="relative hidden aspect-15/8 rounded-2xl bg-background object-cover dark:block"
+                  fetchPriority="high"
                   fill
+                  priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1152px"
                   src="/Greendex-hero-banner.png"
                 />
                 <Image
-                  alt="app screen"
+                  alt="Greendex carbon footprint calculator dashboard showing CO₂ emissions tracking"
                   className="relative aspect-15/8 rounded-2xl bg-background object-cover dark:hidden"
+                  fetchPriority="high"
                   fill
+                  priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1152px"
                   src="/Greendex-hero-banner.png"
                 />
@@ -210,6 +218,7 @@ export async function HeroSection() {
                   alt={logo.alt}
                   className={logo.className ?? "mx-auto dark:invert"}
                   height={logo.height}
+                  loading="lazy"
                   src={logo.src}
                   style={{
                     width: logo.className?.includes("h-") ? "auto" : logo.width,

@@ -2,6 +2,7 @@ import { Comfortaa, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
+import { JsonLd } from "@/components/json-ld";
 import { NuqsProvider } from "@/components/providers/nuqs-adapter";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -14,18 +15,18 @@ const comfortaa = Comfortaa({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
-  preload: false,
+  preload: true,
 });
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
   preload: false,
 });
 const sourceSerif4 = Source_Serif_4({
   variable: "--font-serif",
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700"],
   subsets: ["latin"],
   display: "swap",
   preload: false,
@@ -65,6 +66,15 @@ export default async function LocaleLayout({ children, params }: Props) {
       suppressHydrationWarning
     >
       <head>
+        {/* JSON-LD structured data for SEO */}
+        <JsonLd />
+        {/* Preconnect to external resources for performance */}
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+          crossOrigin="anonymous"
+          href="https://fonts.gstatic.com"
+          rel="preconnect"
+        />
         <link
           href="/favicon/apple-touch-icon.png"
           rel="apple-touch-icon"

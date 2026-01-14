@@ -8,7 +8,10 @@ import { motion } from "motion/react";
  */
 export function LandingPageGradients() {
   return (
-    <div className="pointer-events-none fixed inset-0 overflow-hidden">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 overflow-hidden"
+    >
       {/* Primary gradient - top left */}
       <motion.div
         animate={{
