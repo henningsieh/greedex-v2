@@ -1,3 +1,4 @@
+import { env } from "@/env";
 /**
  * REST API Integration Tests for OpenAPI Endpoint
  *
@@ -11,7 +12,6 @@
  */
 import { chromium } from "playwright";
 import { beforeAll, describe, expect, it } from "vitest";
-import { env } from "@/env";
 
 const OPENAPI_VERSION_REGEX = /^3\.\d+\.\d+$/;
 const baseUrl = `${env.NEXT_PUBLIC_BASE_URL}/api/openapi`;
@@ -471,12 +471,8 @@ describe("OpenAPI REST Endpoint", () => {
       expect(response.headers.get("Access-Control-Allow-Origin")).toBe(
         env.NEXT_PUBLIC_BASE_URL,
       );
-      expect(
-        response.headers.get("Access-Control-Allow-Methods"),
-      ).toBeDefined();
-      expect(
-        response.headers.get("Access-Control-Allow-Headers"),
-      ).toBeDefined();
+      expect(response.headers.get("Access-Control-Allow-Methods")).toBeDefined();
+      expect(response.headers.get("Access-Control-Allow-Headers")).toBeDefined();
       expect(response.headers.get("Access-Control-Allow-Credentials")).toBe(
         "true",
       );
@@ -505,9 +501,7 @@ describe("OpenAPI REST Endpoint", () => {
       expect(response.headers.get("Access-Control-Allow-Methods")).toContain(
         "GET",
       );
-      expect(
-        response.headers.get("Access-Control-Allow-Headers"),
-      ).toBeDefined();
+      expect(response.headers.get("Access-Control-Allow-Headers")).toBeDefined();
       expect(response.headers.get("Access-Control-Allow-Credentials")).toBe(
         "true",
       );
@@ -538,9 +532,7 @@ describe("API Documentation UI", () => {
     // Embedded configuration script should exist
     expect(html).toContain('id="app"');
     // Should reference Scalar script
-    expect(html).toContain(
-      "https://cdn.jsdelivr.net/npm/@scalar/api-reference",
-    );
+    expect(html).toContain("https://cdn.jsdelivr.net/npm/@scalar/api-reference");
   });
 
   it("should render accessible API documentation UI", async () => {

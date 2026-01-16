@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { useTranslations } from "next-intl";
 import { eForestConfig } from "@/config/e-forest";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 export function HeroSection() {
   const t = useTranslations("EPlusForest.hero");
@@ -16,8 +16,8 @@ export function HeroSection() {
         style={{ objectPosition: "bottom" }}
       />
       <div className="absolute inset-0 bg-background/60" />
-      <div className="container relative z-10 mx-auto flex h-full items-center justify-center">
-        <h1 className="text-center font-bold text-5xl text-foreground lg:text-7xl">
+      <div className="relative z-10 container mx-auto flex h-full items-center justify-center">
+        <h1 className="text-center text-5xl font-bold text-foreground lg:text-7xl">
           {t("title")}
         </h1>
       </div>

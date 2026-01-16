@@ -1,14 +1,5 @@
 "use client";
 
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { EditIcon, PlusIcon, Trash2Icon } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
-import { useState } from "react";
-import { toast } from "sonner";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import {
   AlertDialog,
@@ -49,6 +40,16 @@ import {
 import type { ProjectActivityType } from "@/features/project-activities/types";
 import { getProjectActivityIcon } from "@/features/projects/utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { EditIcon, PlusIcon, Trash2Icon } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { ProjectActivityDialog } from "./project-activity-dialog";
 
 interface ProjectActivitiesTableProps {

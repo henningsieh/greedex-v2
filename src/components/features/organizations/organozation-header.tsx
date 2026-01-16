@@ -1,8 +1,5 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Building2Icon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { CREATE_PROJECT_PATH } from "@/app/routes";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import {
@@ -15,6 +12,9 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Building2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 /**
  * Render the organization dashboard header with a translated welcome message, the active organization's name, and an optional "Create Project" button.
@@ -37,10 +37,10 @@ export function OrganizationHeader() {
   return (
     <Card className="border-primary/30 bg-primary/10 shadow-lg dark:border-primary/40 dark:bg-primary/10">
       <CardHeader className="gap-4">
-        <CardTitle className="text-primary/60 text-sm">
+        <CardTitle className="text-sm text-primary/60">
           {t("welcome-to-your-organizations-dashboard")}
         </CardTitle>
-        <CardDescription className="flex items-center gap-3 font-bold text-3xl text-primary dark:text-primary-foreground">
+        <CardDescription className="flex items-center gap-3 text-3xl font-bold text-primary dark:text-primary-foreground">
           <span className="rounded-full bg-primary/40 p-2 text-primary-foreground">
             <Building2Icon className="size-5" />
           </span>
@@ -64,10 +64,10 @@ export function DashboardHeaderSkeleton() {
   return (
     <Card className="border-primary/30 bg-primary/10 shadow-lg dark:border-primary/40 dark:bg-primary/10">
       <CardHeader className="gap-6">
-        <CardTitle className="text-primary/60 text-sm">
+        <CardTitle className="text-sm text-primary/60">
           <Skeleton className="h-4 w-64" />
         </CardTitle>
-        <CardDescription className="flex items-center gap-3 font-bold text-3xl text-primary dark:text-primary-foreground">
+        <CardDescription className="flex items-center gap-3 text-3xl font-bold text-primary dark:text-primary-foreground">
           <Skeleton className="size-9 rounded-full" />
           <Skeleton className="h-8 w-48" />
         </CardDescription>

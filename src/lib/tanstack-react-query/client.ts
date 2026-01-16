@@ -1,8 +1,5 @@
-import {
-  defaultShouldDehydrateQuery,
-  QueryClient,
-} from "@tanstack/react-query";
 import { serializer } from "@/lib/serializer";
+import { defaultShouldDehydrateQuery, QueryClient } from "@tanstack/react-query";
 
 /**
  * Create a QueryClient preconfigured for the application's serialization and dehydration behavior.
@@ -30,8 +27,7 @@ export function createQueryClient() {
       },
       dehydrate: {
         shouldDehydrateQuery: (query) =>
-          defaultShouldDehydrateQuery(query) ||
-          query.state.status === "pending",
+          defaultShouldDehydrateQuery(query) || query.state.status === "pending",
         serializeData(data) {
           const [json, meta] = serializer.serialize(data);
           return {

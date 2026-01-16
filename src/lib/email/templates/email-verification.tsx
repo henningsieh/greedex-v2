@@ -1,9 +1,11 @@
 import { Section } from "@react-email/components";
+
 import { EmailButton } from "../components/email-button";
 import { EmailCode } from "../components/email-code";
 import { EmailHeading } from "../components/email-heading";
 import { EmailText } from "../components/email-text";
 import { emailSpacing } from "../config/styles";
+
 import { EmailLayout } from "./components/email-layout";
 
 interface EmailVerificationProps {

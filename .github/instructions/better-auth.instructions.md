@@ -1,5 +1,5 @@
 ---
-applyTo: 'src/lib/better-auth/**/*.{ts,tsx}|src/app/api/auth/**/*.{ts,tsx}|src/middleware.{ts,tsx}'
+applyTo: "src/lib/better-auth/**/*.{ts,tsx}|src/app/api/auth/**/*.{ts,tsx}|src/middleware.{ts,tsx}"
 description: Better Auth configuration, authentication, and oRPC SSR integration patterns
 ---
 
@@ -19,6 +19,7 @@ For oRPC integration patterns, see [docs/orpc/orpc.better-auth.md](../../docs/or
 ### Official Better Auth Resources
 
 For the latest upstream documentation:
+
 - Official docs: https://www.better-auth.com/llms.txt
 - Google OAuth and other providers setup instructions available there
 
@@ -36,22 +37,22 @@ The Better Auth client provides client-side hooks (like `authClient.useSession()
 
 ```ts
 // src/lib/orpc/context.ts
-import { os } from '@orpc/server'
-export const base = os.$context<{ headers: Headers }>()
+import { os } from "@orpc/server";
+export const base = os.$context<{ headers: Headers }>();
 ```
 
 ```ts
 // src/lib/orpc/procedures.ts
-import { auth } from '@/lib/better-auth'
-import { base } from './context'
+import { auth } from "@/lib/better-auth";
+import { base } from "./context";
 
 export const getSession = base.handler(async ({ context }) => {
-	return await auth.api.getSession({ headers: context.headers })
-})
+  return await auth.api.getSession({ headers: context.headers });
+});
 
 export const listOrganizations = base.handler(async ({ context }) => {
-	return await auth.api.listOrganizations({ headers: context.headers })
-})
+  return await auth.api.listOrganizations({ headers: context.headers });
+});
 ```
 
 Add these procedures to your router and prefetch them inside server components to hydrate the client-side TanStack Query cache.

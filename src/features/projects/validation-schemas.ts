@@ -1,9 +1,3 @@
-import {
-  createInsertSchema,
-  createSelectSchema,
-  createUpdateSchema,
-} from "drizzle-zod";
-import { z } from "zod";
 import { EU_COUNTRY_CODES } from "@/config/eu-countries";
 import {
   ActivityFormItemSchema,
@@ -11,6 +5,13 @@ import {
   ProjectActivityWithRelationsSchema,
 } from "@/features/project-activities/validation-schemas";
 import { organization, projectsTable, user } from "@/lib/drizzle/schema";
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
+import { z } from "zod";
+
 import { PROJECT_SORT_FIELDS } from "./types";
 
 // Common form field extensions with custom error messages
@@ -69,11 +70,9 @@ export const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
 /**
  * Combined form schema with optional activities for creating projects
  */
-export const CreateProjectWithActivitiesSchema = ProjectCreateFormSchema.extend(
-  {
-    activities: z.array(ActivityFormItemSchema).optional(),
-  },
-);
+export const CreateProjectWithActivitiesSchema = ProjectCreateFormSchema.extend({
+  activities: z.array(ActivityFormItemSchema).optional(),
+});
 
 export type CreateProjectWithActivities = z.infer<
   typeof CreateProjectWithActivitiesSchema

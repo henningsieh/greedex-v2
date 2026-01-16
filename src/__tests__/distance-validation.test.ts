@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/config/activities";
 import {
   isMultipleOfStep,
@@ -8,6 +7,7 @@ import {
   CreateActivityInputSchema,
   EditActivityFormItemSchema,
 } from "@/features/project-activities/validation-schemas";
+import { describe, expect, it } from "vitest";
 
 describe("Distance Constants", () => {
   it("should have correct constant values", () => {

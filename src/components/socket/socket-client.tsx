@@ -1,8 +1,8 @@
 "use client";
 
+import { Empty, EmptyTitle } from "@/components/ui/empty";
 import { useEffect, useState } from "react";
 import { io, type Socket } from "socket.io-client";
-import { Empty, EmptyTitle } from "@/components/ui/empty";
 
 interface Message {
   id: string;
@@ -68,7 +68,7 @@ export default function SocketClient({ socketUrl }: Props) {
   return (
     <div className="min-h-screen p-8 pb-20 font-sans sm:p-20">
       <main className="mx-auto max-w-4xl">
-        <h1 className="mb-8 font-bold text-4xl">Socket.IO + Next.js</h1>
+        <h1 className="mb-8 text-4xl font-bold">Socket.IO + Next.js</h1>
 
         {/* Connection Status */}
         <div className="mb-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
@@ -110,7 +110,7 @@ export default function SocketClient({ socketUrl }: Props) {
 
         {/* Messages Display */}
         <div className="h-96 overflow-y-auto rounded-lg border border-gray-300 p-4 dark:border-gray-700">
-          <h2 className="mb-4 font-semibold text-xl">Messages</h2>
+          <h2 className="mb-4 text-xl font-semibold">Messages</h2>
           {messages.length === 0 ? (
             <Empty>
               <EmptyTitle>No messages yet...</EmptyTitle>
@@ -123,7 +123,7 @@ export default function SocketClient({ socketUrl }: Props) {
                   key={msg.id}
                 >
                   <p className="text-sm">{msg.text}</p>
-                  <p className="mt-1 text-gray-500 text-xs">
+                  <p className="mt-1 text-xs text-gray-500">
                     {new Date(msg.timestamp).toLocaleTimeString()}
                   </p>
                 </div>
@@ -134,7 +134,7 @@ export default function SocketClient({ socketUrl }: Props) {
 
         {/* Stats */}
         <div className="mt-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
-          <p className="text-gray-600 text-sm dark:text-gray-400">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Total messages received:{" "}
             <span className="font-bold">{messages.length}</span>
           </p>

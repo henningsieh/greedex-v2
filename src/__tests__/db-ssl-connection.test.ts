@@ -79,9 +79,7 @@ describe.skipIf(!shouldRunTests)("Database SSL Connection", () => {
     expect(result2.rows[0]).toHaveProperty("current_time");
 
     // Third query
-    const result3 = await db.execute(
-      "SELECT pg_is_in_recovery() as is_replica",
-    );
+    const result3 = await db.execute("SELECT pg_is_in_recovery() as is_replica");
     expect(result3.rows[0]).toHaveProperty("is_replica");
   });
 });

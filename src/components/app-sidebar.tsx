@@ -1,8 +1,5 @@
 "use client";
 
-import { PanelRightCloseIcon, PanelRightOpenIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { Suspense } from "react";
 import {
   DASHBOARD_PATH,
   PARTICIPANTS_PATH,
@@ -36,6 +33,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Link, usePathname } from "@/lib/i18n/routing";
+import { PanelRightCloseIcon, PanelRightOpenIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Suspense } from "react";
 
 /**
  * Renders the application sidebar containing organization and project navigation.
@@ -134,10 +134,7 @@ export function AppSidebar() {
                         asChild
                         className="hover:bg-secondary hover:text-secondary-foreground active:bg-secondary active:text-secondary-foreground data-[active=true]:bg-secondary data-[active=true]:text-secondary-foreground data-[state=open]:hover:bg-secondary data-[state=open]:hover:text-secondary-foreground"
                       >
-                        <Link
-                          data-active={pathname === item.url}
-                          href={item.url}
-                        >
+                        <Link data-active={pathname === item.url} href={item.url}>
                           <item.icon className="size-4" />
                           <span>{item.title}</span>
                         </Link>

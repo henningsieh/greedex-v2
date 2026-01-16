@@ -3,6 +3,7 @@
 > **🔧 CORRECTION (Jan 2, 2026):** Initial plan incorrectly proposed `src/lib/orpc/features/` for business logic. This has been corrected to `src/features/`. The `orpc` folder is a tool library (client, router, middleware) and should NOT contain features. Features are domain/business logic and belong in a dedicated folder at the root level (`src/features/`), NOT inside `src/lib/`. All references have been updated for consistency.
 
 **TL;DR:** Your codebase mixes three distinct structural concerns: **database entities** (organization, project, activity, participant) vs **UI areas** (landing page, questionnaire) vs **configuration**. The refactoring consolidates this into a cohesive hierarchy where:
+
 - **`src/features/`** contains all feature-specific business logic (types, validation schemas, procedures)
 - **`src/components/features/`** contains feature-specific UI components
 - **`src/lib/orpc/`** remains the oRPC tool library (client, router, middleware, adapters)
@@ -15,16 +16,19 @@
 ### ❌ **ISSUE #1: Questionnaire Logic Scattered Across Two Locations**
 
 **Problem:** Participant questionnaire appears in TWO places:
+
 - `src/components/participate/` — UI components & form logic
 - `src/components/features/participants/` — Database participant entity
 
 **Confusion:**
+
 - `src/components/participate/types.ts` defines computation types (`ParticipantAnswers`, `EmissionCalculation`)
 - `src/components/features/participants/validation-schemas.ts` defines database participant schema
 - These are **semantically related but structurally separated**
 - Emission calculation logic in `questionnaire-utils.ts` is NOT near database procedures
 
 **Current Reality:**
+
 - `participate/` = **UI Area** (public questionnaire, not logged-in, no database mutations)
 - `features/participants/` = **Database Entity** (links users to projects)
 - These are **fundamentally different responsibilities** but share the word "participant"
@@ -34,6 +38,7 @@
 ### ❌ **ISSUE #2: Activity Logic Embedded in Projects**
 
 **Problem:** Project activities have:
+
 - Database schema in `src/lib/drizzle/` (project-schema.ts)
 - Types in `src/components/features/projects/types.ts`
 - Validation schemas in `src/components/features/projects/validation-schemas.ts`
@@ -41,12 +46,14 @@
 - UI components in `src/components/features/project-activities/` (form, table, dialog)
 
 **Confusion:**
+
 - Are activities a **sub-resource of projects** or a **distinct entity**?
 - `src/components/features/project-activities/` folder exists but only has UI components
 - No dedicated `types.ts` or `procedures.ts` in project-activities
 - Activity procedures bundled with project procedures (1086 lines total)
 
 **Current Reality:**
+
 - Activities are **sub-resources of projects** (deleted when project deleted)
 - But they're treated as **secondary concerns** (minimal UI, scattered types)
 
@@ -55,6 +62,7 @@
 ### ❌ **ISSUE #3: Emission Calculations Not Associated with Questionnaire Responses**
 
 **Problem:** Currently:
+
 - Questionnaire form collects 14 answers → calculates emissions **on-client only**
 - Calculations live in `questionnaire-utils.ts`
 - **No database table to persist** questionnaire responses or calculations
@@ -62,11 +70,13 @@
 - But calculation logic isolated in component utils, not in oRPC procedures
 
 **Confusion:**
+
 - Where should questionnaire responses be stored? (Not yet modeled in schema)
 - How do participants revisit their responses? (Currently impossible)
 - Can organizers see participant emissions in the dashboard? (Not implemented)
 
 **Current Reality:**
+
 - **Phase 1 limitation** — Questionnaire is POC, no persistence
 - Waiting for Phase 2 to add database table + persistence
 
@@ -75,6 +85,7 @@
 ### ❌ **ISSUE #4: Configuration Scattered Across `config/` and Component Folders**
 
 **Problem:**
+
 - Emission factors in `src/config/activities.ts` ✅ (correct place)
 - Activity types in `src/components/features/projects/types.ts` ✅ (correct place)
 - Organization sort fields in `src/components/features/organizations/types.ts` (inline constant)
@@ -82,6 +93,7 @@
 - Countries in `src/lib/i18n/` ✅ (correct place)
 
 **Confusion:**
+
 - Where should questionnaire step definitions live?
 - Should they be `src/config/questionnaire-flow.ts` for consistency?
 - Components importing from both `config/` and their own `constants.ts`
@@ -91,17 +103,20 @@
 ### ❌ **ISSUE #5: Duplicate/Overlapping Type Definitions**
 
 **Problem:**
+
 - `ActivityValueType` defined in `src/components/features/projects/types.ts`
 - `ParticipantActivityType` defined in `src/components/participate/types.ts`
 - `ProjectActivitySchema` re-exported from validation-schemas
 - `ParticipantActivity` extends activities + adds plane/electricCar in participate/types.ts
 
 **Confusion:**
+
 - Why three similar type names?
 - Why does `participate/` re-define participant activity types?
 - No clear single source of truth
 
 **Current Reality:**
+
 - Project activities: boat, bus, train, car
 - Participant activities: same + plane, electricCar (participant-specific transport modes)
 - Types split because they serve different features
@@ -115,6 +130,7 @@
 **Goal:** Move activity types, schemas, and procedures from `projects/` to dedicated feature folder with consistent structure.
 
 **New Structure:**
+
 ```
 src/features/
 ├── organizations/
@@ -159,6 +175,7 @@ src/components/features/
 ```
 
 **Changes:**
+
 1. Create `src/features/project-activities/types.ts` → Extract `ActivityValueType` from `projects/types.ts`
 2. Create `src/features/project-activities/validation-schemas.ts` → Extract activity-related schemas from `projects/validation-schemas.ts`
 3. Create `src/features/project-activities/procedures.ts` → Extract activity procedures from `projects/procedures.ts` (createProjectActivity, updateProjectActivity, deleteProjectActivity)
@@ -167,6 +184,7 @@ src/components/features/
 6. Delete activity-related code from `projects/procedures.ts`, `projects/types.ts`, `projects/validation-schemas.ts`
 
 **Benefits:**
+
 - ✅ Activities treated as first-class entities
 - ✅ Consistent folder structure with other features
 - ✅ Clear separation of DB logic (lib) from UI components
@@ -179,11 +197,13 @@ src/components/features/
 **Goal:** Clarify that `participate/` is a public UI area, not a database entity; `participants/` is the DB entity.
 
 **Current Confusion:**
+
 - `src/components/participate/` — public questionnaire form, calculations, no auth
 - `src/components/features/participants/` — database entity (user linked to project)
 - Both have "participant" in the name but do completely different things
 
 **New Structure:**
+
 ```
 src/features/
 ├── organizations/
@@ -227,6 +247,7 @@ src/components/
 ```
 
 **Changes:**
+
 1. Create `src/features/participants/types.ts` → Define participant entity types
 2. Create `src/features/participants/validation-schemas.ts` → Define participant DB schemas (currently empty)
 3. Create `src/features/participants/procedures.ts` → Define participant entity procedures (currently borrowed from projects)
@@ -238,6 +259,7 @@ src/components/
    - Break up monolithic `questionnaire-form.tsx` into step-based sub-components
 
 **Benefits:**
+
 - ✅ Clear: `participate/` = public UI area, `participants/` = DB entity
 - ✅ Participant entity has dedicated procedures and types
 - ✅ Questionnaire form is decomposed into smaller, testable steps
@@ -250,6 +272,7 @@ src/components/
 **Goal:** Apply the same structural pattern to all database entities and UI areas.
 
 **Pattern for Database Entities:**
+
 ```
 src/features/ENTITY_NAME/
 ├── types.ts                        # DB types (InferSelectModel, enums, computed types)
@@ -271,6 +294,7 @@ src/components/features/ENTITY_NAME/
 ```
 
 **Pattern for UI Areas:**
+
 ```
 src/components/AREA_NAME/
 ├── types.ts                        # UI-only types (not DB entities)
@@ -285,6 +309,7 @@ src/components/AREA_NAME/
 ```
 
 **Current Compliance:**
+
 - ✅ Organizations — follows entity pattern
 - ✅ Projects — follows entity pattern (minus activity split)
 - ❌ Project Activities — scattered (fix in Step 1)
@@ -294,6 +319,7 @@ src/components/AREA_NAME/
 - ⚠️ Authentication — delegated to Better Auth, UI-only (acceptable)
 
 **Changes for Landing Page:**
+
 ```
 src/components/landingpage/
 ├── types.ts                        (NavItem, HeroProps, etc.)
@@ -310,6 +336,7 @@ src/components/landingpage/
 ```
 
 **Benefits:**
+
 - ✅ Consistent structure across all features
 - ✅ Easy to navigate and understand any feature
 - ✅ Clear separation of types, validation, logic, and UI
@@ -322,12 +349,14 @@ src/components/landingpage/
 **Goal:** Remove duplicate type definitions; establish `src/config/activities.ts` as the single source of truth for activity-related configuration.
 
 **Current Duplicates:**
+
 - `ActivityValueType` in `src/components/features/projects/types.ts`
 - `ParticipantActivityType` in `src/components/participate/types.ts`
 - Activity distance defaults in multiple places
 - Emission factors scattered
 
 **New Structure:**
+
 ```
 src/config/activities.ts
 ├── export enum ActivityValueType = { Boat, Bus, Train, Car } // project activities
@@ -346,6 +375,7 @@ src/components/participate/types.ts
 ```
 
 **Changes:**
+
 1. Create/expand `src/config/activities.ts` with all activity enums, icons, defaults, emission factors
 2. Update `src/features/project-activities/types.ts` → Import ActivityValueType from config
 3. Update `src/components/participate/types.ts` → Import ParticipantActivityValueType from config
@@ -353,6 +383,7 @@ src/components/participate/types.ts
 5. Delete duplicate definitions
 
 **Benefits:**
+
 - ✅ Single source of truth for activity types and defaults
 - ✅ Easy to update activity configuration globally
 - ✅ Reduce import chains and circular dependencies
@@ -365,6 +396,7 @@ src/components/participate/types.ts
 **Goal:** Relocate questionnaire step definitions from component folder to `src/config/` for consistency.
 
 **Current Location:**
+
 ```
 src/components/participate/questionnaire-constants.ts
 ├── export const QUESTIONNAIRE_STEP_CONFIG = [...]
@@ -373,6 +405,7 @@ src/components/participate/questionnaire-constants.ts
 ```
 
 **New Location:**
+
 ```
 src/config/questionnaire-flow.ts
 ├── export const QUESTIONNAIRE_STEPS = { ... }
@@ -382,12 +415,14 @@ src/config/questionnaire-flow.ts
 ```
 
 **Changes:**
+
 1. Create `src/config/questionnaire-flow.ts`
 2. Move `questionnaire-constants.ts` content to `src/config/questionnaire-flow.ts`
 3. Update imports in `src/components/participate/` components
 4. Delete `src/components/participate/questionnaire-constants.ts`
 
 **Benefits:**
+
 - ✅ Configuration collocated with other domain configs
 - ✅ Consistent import pattern: `from '@/config/...'`
 - ✅ Clearer that this is not UI code, but domain configuration
@@ -400,6 +435,7 @@ src/config/questionnaire-flow.ts
 **Goal:** Break up large files into logical, digestible modules.
 
 #### **Project Procedures (1086 lines → ~4 modules)**
+
 ```
 src/features/projects/procedures/
 ├── index.ts                        # Re-export all procedures
@@ -410,6 +446,7 @@ src/features/projects/procedures/
 ```
 
 #### **Questionnaire Form (1018 lines → ~5 components)**
+
 ```
 src/components/participate/components/
 ├── questionnaire-form.tsx           # Main orchestrator (form context, stepper, navigation)
@@ -421,6 +458,7 @@ src/components/participate/components/
 ```
 
 **Changes:**
+
 1. Create `src/features/projects/procedures/` subdirectory
 2. Split `procedures.ts` into modules: `project.crud.ts`, `project.queries.ts`, `project.mutations.ts`
 3. Create `src/features/projects/procedures/index.ts` for barrel export
@@ -430,6 +468,7 @@ src/components/participate/components/
 7. Update `questionnaire-form.tsx` to compose steps
 
 **Benefits:**
+
 - ✅ Easier to navigate and understand each module
 - ✅ Reduced cognitive load (no 1000+ line files)
 - ✅ Better testability (test each step independently)
@@ -440,6 +479,7 @@ src/components/participate/components/
 ## Updated Directory Structure After All Steps
 
 ### Root Level
+
 ```
 src/
 ├── app/                             # Next.js App Router
@@ -653,6 +693,7 @@ src/
 Currently questionnaire responses are **never persisted to database**. Before implementing refactoring, clarify:
 
 **Option A: Add to Participants Entity**
+
 ```
 participants/ (enhanced)
 ├── types.ts
@@ -667,6 +708,7 @@ participants/ (enhanced)
 ```
 
 **Option B: Create Separate questionnaire-responses Entity**
+
 ```
 questionnaire-responses/
 ├── types.ts
@@ -690,6 +732,7 @@ questionnaire-responses/
 Current behavior: Project activities cascade-delete when project is deleted.
 
 **Confirm:**
+
 - Is this intentional? ✅ (seems correct — activity is part of project)
 - Should activities ever exist without a project? ❌ (no)
 - Should organizers be able to bulk delete activities? ✅ (add procedure if not exists)
@@ -704,12 +747,14 @@ Current behavior: Project activities cascade-delete when project is deleted.
 Boundary between feature-specific and shared components:
 
 **Current:**
+
 - `src/components/ui/` — shadcn/ui components (buttons, cards, forms, etc.)
 - `src/components/features/*/components/*.tsx` — feature-specific (create-org-form, users-table, etc.)
 
 **Should you add a `src/components/shared/` layer?**
 
 Examples of candidates:
+
 - `participant-card.tsx` — Used in leaderboard + admin dashboard?
 - `activity-icon.tsx` — Used in project-activities + participate?
 - `emission-badge.tsx` — Used in multiple features?
@@ -742,39 +787,46 @@ src/features/organizations/
 Once you approve the plan, the refactoring will follow these phases:
 
 ### **Phase 1: Foundation (0-dependencies work)**
+
 - [ ] Create `src/config/activities.ts` (new file with all activity config)
 - [ ] Create `src/config/questionnaire-flow.ts` (move from component)
 - [ ] Create `src/features/` directory structure
 
 ### **Phase 2: Extract Project Activities**
+
 - [ ] Create `src/features/project-activities/{types, validation-schemas, procedures}.ts`
 - [ ] Extract activity procedures from `projects/procedures.ts`
 - [ ] Update imports across `projects/`, `project-activities/` components
 - [ ] Update `src/lib/orpc/router.ts`
 
 ### **Phase 3: Enhance Participants**
+
 - [ ] Create `src/features/participants/{types, validation-schemas, procedures}.ts`
 - [ ] Create dedicated participant procedures (currently borrowed from projects)
 - [ ] Update components to import from new location
 
 ### **Phase 4: Refactor Questionnaire & Participate**
+
 - [ ] Reorganize `src/components/participate/` with `components/` subdirectory
 - [ ] Split `questionnaire-form.tsx` into step components
 - [ ] Rename `questionnaire-utils.ts` → `utils.ts`
 - [ ] Update all imports in participate folder
 
 ### **Phase 5: Refactor Projects Procedures**
+
 - [ ] Create `src/features/projects/procedures/` subdirectory
 - [ ] Split procedures into modules: `project.crud.ts`, `project.queries.ts`, `project.mutations.ts`
 - [ ] Create barrel export in `procedures/index.ts`
 - [ ] Update `src/lib/orpc/router.ts`
 
 ### **Phase 6: Improve Landing Page**
+
 - [ ] Create `src/components/landingpage/{types.ts, constants.ts}`
 - [ ] Create `src/components/landingpage/components/` subdirectory
 - [ ] Move all .tsx files into `components/`
 
 ### **Phase 7: Testing & Validation**
+
 - [ ] Run `bun run lint && bun run format`
 - [ ] Run `bun run test:run` for all affected files
 - [ ] Manual testing of all features

@@ -1,13 +1,5 @@
 "use client";
 
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import {
-  Building2Icon,
-  CheckIcon,
-  ChevronsUpDownIcon,
-  PlusIcon,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
 import { CreateOrganizationModal } from "@/components/features/organizations/create-organization-modal";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
@@ -28,6 +20,14 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import {
+  Building2Icon,
+  CheckIcon,
+  ChevronsUpDownIcon,
+  PlusIcon,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function OrganizationSwitcher() {
   const t = useTranslations("app.loading");

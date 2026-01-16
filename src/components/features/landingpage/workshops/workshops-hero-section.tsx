@@ -1,6 +1,3 @@
-import { ClockIcon } from "lucide-react";
-import Image from "next/image";
-import { getTranslations } from "next-intl/server";
 import { AnimatedGroup } from "@/components/animated-group";
 import { BackgroundAnimations } from "@/components/background-animations";
 import {
@@ -12,6 +9,9 @@ import {
 } from "@/components/ui/card";
 import { WORKSHOPS } from "@/config/workshops";
 import { Link } from "@/lib/i18n/routing";
+import { ClockIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 export async function WorkshopsHeroSection() {
   const t = await getTranslations("LandingPage");
@@ -26,7 +26,7 @@ export async function WorkshopsHeroSection() {
 
       <div className="@container relative z-10 mx-auto max-w-6xl px-6 lg:px-0">
         <div className="space-y-8 text-center">
-          <h2 className="text-balance font-semibold text-4xl lg:text-5xl">
+          <h2 className="text-4xl font-semibold text-balance lg:text-5xl">
             {t("workshops.headingPrefix")}{" "}
             <span className="bg-linear-to-r from-primary/20 to-primary/60 px-1 py-2 text-primary-foreground">
               {t("workshops.headingEmphasis")}
@@ -36,7 +36,7 @@ export async function WorkshopsHeroSection() {
           <p className="mx-auto max-w-4xl">{t("workshops.intro1")}</p>
           <p className="mx-auto max-w-4xl">
             {intro2Parts[0]}{" "}
-            <span className="bg-linear-to-r from-primary/80 to-primary/40 px-2 py-1 text-primary-foreground text-xl capitalize">
+            <span className="bg-linear-to-r from-primary/80 to-primary/40 px-2 py-1 text-xl text-primary-foreground capitalize">
               {t("workshops.keyword")}
             </span>{" "}
             {intro2Parts[1] ?? ""}
@@ -101,7 +101,7 @@ export async function WorkshopsHeroSection() {
                       />
                     </div>
                     <CardTitle className="space-y-3 p-6 text-center">
-                      <h3 className="font-bold text-2xl">{title}</h3>
+                      <h3 className="text-2xl font-bold">{title}</h3>
                       <p className="flex items-center justify-center gap-2 rounded-md bg-secondary/80 py-2 text-secondary-foreground">
                         <ClockIcon className="inline size-5" />
                         {duration}
@@ -110,7 +110,7 @@ export async function WorkshopsHeroSection() {
                   </CardHeader>
                   <CardContent className="flex-1">{description}</CardContent>
                   <CardFooter className="justify-end">
-                    <span className="font-bold text-secondary-foreground text-sm underline underline-offset-4">
+                    <span className="text-sm font-bold text-secondary-foreground underline underline-offset-4">
                       {t("workshops.card.learnMore")}
                     </span>
                   </CardFooter>

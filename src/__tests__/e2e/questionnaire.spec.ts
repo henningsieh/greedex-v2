@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+
 import { TestProjectFixture } from "./fixtures/test-project";
 
 /**
@@ -499,9 +500,7 @@ test.describe("Questionnaire Form E2E Tests", () => {
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
 
     // Now at step 2+ - CO2 stats should be visible
-    await expect(
-      page.getByText("CO₂ Footprint", { exact: false }),
-    ).toBeVisible();
+    await expect(page.getByText("CO₂ Footprint", { exact: false })).toBeVisible();
     await expect(
       page.getByText("Trees (1 Year)", { exact: false }),
     ).toBeVisible();

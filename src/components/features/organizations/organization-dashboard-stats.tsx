@@ -1,9 +1,9 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 interface OrganizationDashboardStatsProps {
   organizationId: string;
@@ -23,22 +23,22 @@ export function OrganizationDashboardStats({
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       <Card className="p-6">
-        <div className="font-medium text-muted-foreground text-sm">
+        <div className="text-sm font-medium text-muted-foreground">
           {t("total-projects")}
         </div>
-        <div className="font-bold text-2xl">{stats.totalProjects}</div>
+        <div className="text-2xl font-bold">{stats.totalProjects}</div>
       </Card>
       <Card className="p-6">
-        <div className="font-medium text-muted-foreground text-sm">
+        <div className="text-sm font-medium text-muted-foreground">
           {t("total-participants")}
         </div>
-        <div className="font-bold text-2xl">{stats.totalParticipants}</div>
+        <div className="text-2xl font-bold">{stats.totalParticipants}</div>
       </Card>
       <Card className="p-6">
-        <div className="font-medium text-muted-foreground text-sm">
+        <div className="text-sm font-medium text-muted-foreground">
           {t("total-activities")}
         </div>
-        <div className="font-bold text-2xl">{stats.totalActivities}</div>
+        <div className="text-2xl font-bold">{stats.totalActivities}</div>
       </Card>
     </div>
   );

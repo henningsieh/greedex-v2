@@ -1,10 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -27,6 +22,11 @@ import { findAvailableSlug } from "@/features/organizations/utils";
 import { EditOrganizationFormSchema } from "@/features/organizations/validation-schemas";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 
 /**
  * Renders a form to edit the active organization's name and applies updates (adjusting the slug when the name changes).
@@ -87,9 +87,7 @@ export function EditOrganizationForm() {
       );
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Failed to update organization";
+        error instanceof Error ? error.message : "Failed to update organization";
       toast.error(errorMessage);
     }
   }

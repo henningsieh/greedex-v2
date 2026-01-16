@@ -1,9 +1,9 @@
+import { env } from "@/env";
 import type {
   AppLinksAndroid,
   AppLinksApple,
   FacebookAppId,
 } from "next/dist/lib/metadata/types/extra-types";
-import { env } from "@/env";
 
 export const APP_NAME = "Greendex - Carbon Footprint Calculator";
 export const TITLE =

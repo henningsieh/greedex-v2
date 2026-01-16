@@ -15,6 +15,7 @@ import {
 } from "@/config/questionnaire";
 import type { ProjectActivityType } from "@/features/project-activities/types";
 import { CO2_FACTORS, calculateActivitiesCO2 } from "@/features/projects/utils";
+
 import {
   ACCOMMODATION_FACTORS,
   type ElectricityType,
@@ -30,9 +31,7 @@ import {
  * @param occupancy - The room occupancy type
  * @returns The occupancy factor (1.0 = full emissions, <1.0 = reduced emissions)
  */
-export function getOccupancyFactor(
-  occupancy: RoomOccupancy | undefined,
-): number {
+export function getOccupancyFactor(occupancy: RoomOccupancy | undefined): number {
   if (!occupancy) {
     return ROOM_OCCUPANCY_FACTORS.alone;
   }
@@ -90,9 +89,7 @@ export function calculateEmissions(
   }
   if (answers.carKm) {
     const carFactor =
-      answers.carType === "electric"
-        ? CO2_FACTORS.electricCar
-        : CO2_FACTORS.car;
+      answers.carType === "electric" ? CO2_FACTORS.electricCar : CO2_FACTORS.car;
     const passengers = answers.carPassengers || DEFAULT_CAR_PASSENGERS;
     transportCO2 += (answers.carKm * carFactor) / passengers;
   }

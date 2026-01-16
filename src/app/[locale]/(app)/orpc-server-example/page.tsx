@@ -23,10 +23,9 @@ export default async function ORPCServerExample() {
   return (
     <div className="container mx-auto space-y-6 p-6">
       <div className="space-y-2">
-        <h1 className="font-bold text-3xl">oRPC Server Component Example</h1>
+        <h1 className="text-3xl font-bold">oRPC Server Component Example</h1>
         <p className="text-muted-foreground">
-          This page demonstrates oRPC usage in a Server Component (SSR
-          optimized)
+          This page demonstrates oRPC usage in a Server Component (SSR optimized)
         </p>
       </div>
 
@@ -37,9 +36,7 @@ export default async function ORPCServerExample() {
               Health Check
               <Badge variant="outline">{health.status}</Badge>
             </CardTitle>
-            <CardDescription>
-              Server status retrieved during SSR
-            </CardDescription>
+            <CardDescription>Server status retrieved during SSR</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="grid grid-cols-2 gap-2 text-sm">
@@ -53,7 +50,7 @@ export default async function ORPCServerExample() {
               <div className="font-medium">{Math.floor(health.uptime)}s</div>
 
               <div className="text-muted-foreground">Timestamp:</div>
-              <div className="font-medium text-xs">
+              <div className="text-xs font-medium">
                 {new Date(health.timestamp).toLocaleTimeString()}
               </div>
             </div>
@@ -71,7 +68,7 @@ export default async function ORPCServerExample() {
               <div className="font-medium">{hello.message}</div>
 
               <div className="text-muted-foreground">Timestamp:</div>
-              <div className="font-medium text-xs">
+              <div className="text-xs font-medium">
                 {new Date(hello.timestamp).toLocaleTimeString()}
               </div>
             </div>

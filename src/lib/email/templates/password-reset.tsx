@@ -1,9 +1,11 @@
 import { Section } from "@react-email/components";
+
 import { EmailButton } from "../components/email-button";
 import { EmailCode } from "../components/email-code";
 import { EmailHeading } from "../components/email-heading";
 import { EmailText } from "../components/email-text";
 import { emailSpacing } from "../config/styles";
+
 import { EmailLayout } from "./components/email-layout";
 
 interface PasswordResetEmailProps {
@@ -31,8 +33,8 @@ export function PasswordResetEmail({
       </EmailText>
       <EmailCode>{resetUrl}</EmailCode>
       <EmailText variant="muted">
-        If you didn't request a password reset, you can safely ignore this
-        email. Your password will remain unchanged.
+        If you didn't request a password reset, you can safely ignore this email.
+        Your password will remain unchanged.
       </EmailText>
       <EmailText variant="small">
         This link will expire in 24 hours for security reasons.

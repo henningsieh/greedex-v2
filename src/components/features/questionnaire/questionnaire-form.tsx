@@ -1,15 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  Factory,
-  TreePine,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 import { AnimatedGroup } from "@/components/animated-group";
 import { CountrySelect } from "@/components/country-select";
 import { ImpactModal } from "@/components/features/questionnaire/impact-modal";
@@ -30,10 +20,7 @@ import {
   ROOM_OCCUPANCY_OPTIONS,
 } from "@/config/questionnaire";
 import { calculateProjectDuration } from "@/features/projects/utils";
-import type {
-  ParticipantAnswers,
-  Project,
-} from "@/features/questionnaire/types";
+import type { ParticipantAnswers, Project } from "@/features/questionnaire/types";
 import {
   areAllNonEmpty,
   calculateEmissions,
@@ -42,6 +29,16 @@ import {
   isPositiveNumber,
   isTruthy,
 } from "@/features/questionnaire/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Factory,
+  TreePine,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 interface QuestionnaireFormProps {
   project: Project;
@@ -68,13 +65,11 @@ interface QuestionnaireFormProps {
  * @returns The questionnaire form React element.
  */
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: This component manages a multi-step form with conditional logic, state persistence, and dynamic calculations, which inherently adds complexity.
+// oxlint-disable-next-line complexity
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const t = useTranslations("participation.questionnaire");
 
-  const getDefaultAnswers = (
-    project: Project,
-  ): Partial<ParticipantAnswers> => ({
+  const getDefaultAnswers = (project: Project): Partial<ParticipantAnswers> => ({
     firstName: "",
     country: "",
     email: "",
@@ -258,10 +253,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     }
 
     // Skip carPassengers impact if no car travel
-    if (
-      stepKey === "carPassengers" &&
-      (!answers.carKm || answers.carKm === 0)
-    ) {
+    if (stepKey === "carPassengers" && (!answers.carKm || answers.carKm === 0)) {
       return false;
     }
 
@@ -369,11 +361,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       case QUESTIONNAIRE_STEPS.WELCOME:
         return true;
       case QUESTIONNAIRE_STEPS.PARTICIPANT_INFO:
-        return areAllNonEmpty(
-          answers.firstName,
-          answers.country,
-          answers.email,
-        );
+        return areAllNonEmpty(answers.firstName, answers.country, answers.email);
       case QUESTIONNAIRE_STEPS.DAYS:
         return isPositiveNumber(answers.days);
       case QUESTIONNAIRE_STEPS.ACCOMMODATION_CATEGORY:
@@ -433,22 +421,22 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           <Card className="flex flex-col items-center justify-between gap-2 border-red-500/20 bg-red-500/5 p-3 sm:flex-row sm:gap-4 sm:p-4 md:gap-6">
             <div className="mb-1 flex items-center gap-2 sm:mb-0">
               <Factory className="h-4 w-4 text-red-400 sm:h-5 sm:w-5" />
-              <span className="font-medium text-muted-foreground text-xs sm:text-sm">
+              <span className="text-xs font-medium text-muted-foreground sm:text-sm">
                 {t("results.co2-footprint")}
               </span>
             </div>
-            <span className="font-bold font-mono text-lg text-red-400 sm:text-xl">
+            <span className="font-mono text-lg font-bold text-red-400 sm:text-xl">
               {(confirmedEmissions?.totalCO2 ?? 0).toFixed(1)} kg
             </span>
           </Card>
           <Card className="flex flex-col items-center justify-between gap-2 border-green-500/20 bg-green-500/5 p-3 sm:flex-row sm:gap-4 sm:p-4 md:gap-6">
             <div className="mb-1 flex items-center gap-2 sm:mb-0">
               <TreePine className="h-4 w-4 text-green-400 sm:h-5 sm:w-5" />
-              <span className="font-medium text-muted-foreground text-xs sm:text-sm">
+              <span className="text-xs font-medium text-muted-foreground sm:text-sm">
                 {t("results.trees-needed")}
               </span>
             </div>
-            <span className="font-bold font-mono text-green-400 text-lg sm:text-xl">
+            <span className="font-mono text-lg font-bold text-green-400 sm:text-xl">
               {confirmedEmissions?.treesNeeded ?? 0}
             </span>
           </Card>
@@ -459,7 +447,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       {isHydrated && (
         <div className="space-y-2">
           <Progress className="h-2" value={progress} />
-          <div className="text-right text-muted-foreground text-xs">
+          <div className="text-right text-xs text-muted-foreground">
             {t("header.step-counter", {
               current: currentStepDisplay + 1,
               total: totalSteps,
@@ -502,18 +490,18 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                   {project.welcomeMessage || t("welcome.default-message")}
                 </p>
                 <AnimatedGroup>
-                  <p className="mt-4 text-center font-bold text-2xl text-emerald-500 sm:text-3xl">
+                  <p className="mt-4 text-center text-2xl font-bold text-emerald-500 sm:text-3xl">
                     {t("welcome.ready")}
                   </p>
-                  <p className="mt-2 text-center font-medium text-lg text-secondary sm:text-xl">
+                  <p className="mt-2 text-center text-lg font-medium text-secondary sm:text-xl">
                     {t("welcome.every-choice")}
                   </p>
-                  <p className="mx-auto mt-6 max-w-xl text-center font-semibold text-foreground text-xl sm:text-2xl">
+                  <p className="mx-auto mt-6 max-w-xl text-center text-xl font-semibold text-foreground sm:text-2xl">
                     {t("welcome.fun-message")}
                   </p>
                 </AnimatedGroup>
                 <Button
-                  className="mt-6 w-full bg-gradient-to-r from-teal-700 to-emerald-600 px-8 py-6 text-lg transition-all duration-250 hover:scale-105 hover:from-teal-800 hover:to-emerald-700 sm:w-auto"
+                  className="mt-6 w-full bg-linear-to-r from-teal-700 to-emerald-600 px-8 py-6 text-lg transition-all duration-250 hover:scale-105 hover:from-teal-800 hover:to-emerald-700 sm:w-auto"
                   onClick={handleNext}
                   size="lg"
                 >
@@ -526,7 +514,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 1: Participant Info */}
             {renderedStep === 1 && (
               <div className="space-y-6">
-                <h2 className="mb-4 text-center font-bold text-2xl text-foreground sm:text-3xl">
+                <h2 className="mb-4 text-center text-2xl font-bold text-foreground sm:text-3xl">
                   {t("participant-info.title")}
                 </h2>
                 <div className="space-y-4">
@@ -540,9 +528,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                     <Input
                       className="text-lg"
                       id="firstName"
-                      onChange={(e) =>
-                        updateAnswer("firstName", e.target.value)
-                      }
+                      onChange={(e) => updateAnswer("firstName", e.target.value)}
                       placeholder={t("participant-info.first-name-placeholder")}
                       type="text"
                       value={answers.firstName || ""}
@@ -585,12 +571,10 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 2: Days */}
             {renderedStep === 2 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   {t("days.question")}
                 </Label>
-                <p className="text-muted-foreground text-sm">
-                  {t("days.note")}
-                </p>
+                <p className="text-sm text-muted-foreground">{t("days.note")}</p>
                 <Input
                   className="h-12 text-lg"
                   min="1"
@@ -607,7 +591,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 3: Accommodation Category */}
             {renderedStep === 3 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   Which type of accommodation are you staying in?
                 </Label>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -634,7 +618,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 4: Room Occupancy */}
             {renderedStep === 4 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   How many people are sharing the room/tent?
                 </Label>
                 <div className="grid grid-cols-2 gap-3">
@@ -659,7 +643,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 5: Electricity */}
             {renderedStep === 5 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   Which type of energy does your accommodation use?
                 </Label>
                 <div className="grid grid-cols-1 gap-3">
@@ -684,7 +668,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 6: Food */}
             {renderedStep === 6 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   How often do you plan to eat meat on your project?
                 </Label>
                 <div className="grid grid-cols-1 gap-3">
@@ -709,7 +693,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 7: Flight km */}
             {renderedStep === 7 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   Your way TO the project: How many kilometres did you fly?
                 </Label>
                 <Input
@@ -732,18 +716,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 8: Boat km */}
             {renderedStep === 8 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
-                  Your way TO the project: How many kilometres did you go by
-                  boat?
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
+                  Your way TO the project: How many kilometres did you go by boat?
                 </Label>
                 <Input
                   className="h-12 text-lg"
                   min="0"
                   onChange={(e) =>
-                    updateAnswer(
-                      "boatKm",
-                      Number.parseFloat(e.target.value) || 0,
-                    )
+                    updateAnswer("boatKm", Number.parseFloat(e.target.value) || 0)
                   }
                   placeholder="0"
                   step="0.1"
@@ -756,9 +736,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 9: Train km */}
             {renderedStep === 9 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
-                  Your way TO the project: How many kilometres did you go by
-                  train or metro?
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
+                  Your way TO the project: How many kilometres did you go by train
+                  or metro?
                 </Label>
                 <Input
                   className="h-12 text-lg"
@@ -780,7 +760,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 10: Bus km */}
             {renderedStep === 10 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   Your way TO the project: How many kilometres did you go by
                   bus/van?
                 </Label>
@@ -788,10 +768,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                   className="h-12 text-lg"
                   min="0"
                   onChange={(e) =>
-                    updateAnswer(
-                      "busKm",
-                      Number.parseFloat(e.target.value) || 0,
-                    )
+                    updateAnswer("busKm", Number.parseFloat(e.target.value) || 0)
                   }
                   placeholder="0"
                   step="0.1"
@@ -804,18 +781,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 11: Car km */}
             {renderedStep === 11 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
-                  Your way TO the project: How many kilometres did you go by
-                  car?
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
+                  Your way TO the project: How many kilometres did you go by car?
                 </Label>
                 <Input
                   className="h-12 text-lg"
                   min="0"
                   onChange={(e) =>
-                    updateAnswer(
-                      "carKm",
-                      Number.parseFloat(e.target.value) || 0,
-                    )
+                    updateAnswer("carKm", Number.parseFloat(e.target.value) || 0)
                   }
                   placeholder="0"
                   step="0.1"
@@ -828,7 +801,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 12: Car Type (conditional) */}
             {renderedStep === 12 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   What type of car did you use?
                 </Label>
                 <div className="grid grid-cols-1 gap-3">
@@ -853,7 +826,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 13: Car Passengers (conditional) */}
             {renderedStep === 13 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   How many participants (including you) were sitting in the car?
                 </Label>
                 <Input
@@ -875,7 +848,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 14: Age */}
             {renderedStep === 14 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   How old are you?
                 </Label>
                 <Input
@@ -894,7 +867,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {/* Step 15: Gender */}
             {renderedStep === 15 && (
               <div className="space-y-6">
-                <Label className="font-bold text-foreground text-xl md:text-2xl">
+                <Label className="text-xl font-bold text-foreground md:text-2xl">
                   What is your gender?
                 </Label>
                 <div className="grid grid-cols-1 gap-3">
@@ -929,7 +902,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                   {t("navigation.back")}
                 </Button>
                 <Button
-                  className={`h-12 flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-base text-white transition-all duration-250 hover:from-teal-600 hover:to-emerald-600 hover:shadow-md ${
+                  className={`h-12 flex-1 bg-linear-to-r from-teal-500 to-emerald-500 text-base text-white transition-all duration-250 hover:from-teal-600 hover:to-emerald-600 hover:shadow-md ${
                     renderedStep === 0 ? "w-full" : ""
                   }`}
                   disabled={!canProceed()}
@@ -961,9 +934,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           initial={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.5 }}
         >
-          <Card className="border-teal-500/30 bg-gradient-to-br from-teal-500/20 to-emerald-500/20 p-6">
+          <Card className="border-teal-500/30 bg-linear-to-br from-teal-500/20 to-emerald-500/20 p-6">
             <div className="space-y-6">
-              <h3 className="text-center font-bold text-2xl text-foreground sm:text-3xl">
+              <h3 className="text-center text-2xl font-bold text-foreground sm:text-3xl">
                 {t("results.summary-title")}
               </h3>
               <div className="space-y-3 text-sm sm:text-base">
@@ -1001,7 +974,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                     </span>
                   </div>
                 )}
-                <div className="border-teal-500/30 border-t pt-3">
+                <div className="border-t border-teal-500/30 pt-3">
                   <div className="flex justify-between text-lg sm:text-xl">
                     <span className="font-bold text-foreground">
                       {t("results.total")}
@@ -1012,7 +985,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                   </div>
                 </div>
               </div>
-              <p className="pt-2 text-center text-muted-foreground text-xs sm:text-sm">
+              <p className="pt-2 text-center text-xs text-muted-foreground sm:text-sm">
                 {t("results.console-note")}
               </p>
             </div>

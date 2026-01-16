@@ -1,15 +1,5 @@
 "use client";
 
-import {
-  CopyIcon,
-  ExternalLinkIcon,
-  Link2Icon,
-  QrCodeIcon,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
-import QRCode from "qrcode";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -34,6 +24,11 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { env } from "@/env";
+import { CopyIcon, ExternalLinkIcon, Link2Icon, QrCodeIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import QRCode from "qrcode";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 interface ParticipationControlsClientProps {
   activeProjectId: string;
@@ -137,7 +132,7 @@ export function ParticipantsLinkControls({
               showCloseButton={false}
             >
               <DialogHeader>
-                <DialogTitle className="font-bold text-2xl text-secondary-foreground sm:text-3xl">
+                <DialogTitle className="text-2xl font-bold text-secondary-foreground sm:text-3xl">
                   {t("participation.modalTitle")}
                 </DialogTitle>
                 <DialogDescription className="text-base text-secondary-foreground/60 sm:text-lg">
@@ -148,7 +143,7 @@ export function ParticipantsLinkControls({
                 {qrCodeDataUrl ? (
                   <div
                     aria-label={t("participation.modalTitle")}
-                    className="h-75 w-75 rounded-lg border border-secondary/70 bg-center bg-contain bg-no-repeat"
+                    className="h-75 w-75 rounded-lg border border-secondary/70 bg-contain bg-center bg-no-repeat"
                     role="img"
                     style={{ backgroundImage: `url(${qrCodeDataUrl})` }}
                   />
@@ -157,7 +152,7 @@ export function ParticipantsLinkControls({
                     <div className="h-8 w-8 animate-spin rounded-full border-4 border-secondary border-t-transparent" />
                   </div>
                 )}
-                <p className="break-all text-center font-mono text-muted-foreground text-xs">
+                <p className="text-center font-mono text-xs break-all text-muted-foreground">
                   {participationUrl}
                 </p>
               </div>
@@ -170,7 +165,7 @@ export function ParticipantsLinkControls({
         <div className="mt-6 flex flex-wrap gap-3">
           <InputGroup className="flex-1 border border-secondary/30 bg-background has-[[data-slot=input-group-control]:focus-visible]:border-secondary has-[[data-slot=input-group-control]:focus-visible]:ring-secondary/40">
             <InputGroupInput
-              className="truncate border-0 font-mono text-muted-foreground text-sm selection:bg-secondary selection:text-secondary-foreground"
+              className="truncate border-0 font-mono text-sm text-muted-foreground selection:bg-secondary selection:text-secondary-foreground"
               onFocus={(e) => {
                 selectUrlText(e.currentTarget);
               }}

@@ -1,4 +1,3 @@
-
 # 🚨 CRITICAL: Agent Constitution 🚨
 
 ## ⚠️ ABSOLUTE REQUIREMENTS - VIOLATION PROHIBITED ⚠️
@@ -6,11 +5,13 @@
 These rules are MANDATORY for ALL automated AI agents interacting with this repository. They protect the developer's local environment and running processes.
 
 ### Forbidden Commands (never execute)
+
 - `bun run dev`, `npm run dev`, `yarn dev` — do not start dev servers
 - `bun run build`, `bun run start`, `npm run build`, `npm run start` — no build/start
 - Opening new terminal sessions or starting background processes
 
 ### Allowed Commands (non-destructive)
+
 - `bun run lint`, `bun run format` — Biome linting/formatting
 - `bun run test` / `bun run test:run` / `bun run test:coverage` — Vitest
 - Read/write file edits, static analysis
@@ -19,18 +20,20 @@ These rules are MANDATORY for ALL automated AI agents interacting with this repo
 
 ## Architecture Overview
 
-| Layer | Location | Notes |
-|-------|----------|-------|
-| Next.js App Router | `src/app/` | Next 16, React 19, `page.tsx`/`layout.tsx` patterns |
-| oRPC API | `src/lib/orpc/` | HTTP adapter at `src/app/api/rpc/[[...rest]]/route.ts` |
-| Better Auth | `src/lib/better-auth/` | Mounted at `src/app/api/auth/[...all]/route.ts` |
-| Database | `src/lib/drizzle/` | Drizzle ORM, Postgres, migrations in `migrations/` |
-| Socket.IO | `src/socket-server.ts` | Separate process, manual start only |
+| Layer              | Location               | Notes                                                  |
+| ------------------ | ---------------------- | ------------------------------------------------------ |
+| Next.js App Router | `src/app/`             | Next 16, React 19, `page.tsx`/`layout.tsx` patterns    |
+| oRPC API           | `src/lib/orpc/`        | HTTP adapter at `src/app/api/rpc/[[...rest]]/route.ts` |
+| Better Auth        | `src/lib/better-auth/` | Mounted at `src/app/api/auth/[...all]/route.ts`        |
+| Database           | `src/lib/drizzle/`     | Drizzle ORM, Postgres, migrations in `migrations/`     |
+| Socket.IO          | `src/socket-server.ts` | Separate process, manual start only                    |
 
 ### SSR Client Split (Critical)
+
 The server-side oRPC client is initialized in `src/instrumentation.ts` and attached to `globalThis.$client`. This avoids HTTP self-calls during SSR.
 
 **Key files:**
+
 - `src/lib/orpc/client.server.ts` — server-side client
 - `src/lib/orpc/orpc.ts` — unified export (auto-switches between server/client)
 - `src/instrumentation.ts` — must import `client.server.ts` first
@@ -41,13 +44,13 @@ The server-side oRPC client is initialized in `src/instrumentation.ts` and attac
 
 ## Common Changes
 
-| Task | Where to edit |
-|------|---------------|
-| Add oRPC procedure | Create in `src/lib/orpc/`, register in `router.ts` |
-| Add socket event | `src/socket-server.ts` |
-| DB schema/migration | `src/lib/drizzle/` |
-| Auth hooks/email | `src/lib/better-auth/`, `src/lib/email/` |
-| UI components | `src/components/ui/` (shadcn) |
+| Task                | Where to edit                                      |
+| ------------------- | -------------------------------------------------- |
+| Add oRPC procedure  | Create in `src/lib/orpc/`, register in `router.ts` |
+| Add socket event    | `src/socket-server.ts`                             |
+| DB schema/migration | `src/lib/drizzle/`                                 |
+| Auth hooks/email    | `src/lib/better-auth/`, `src/lib/email/`           |
+| UI components       | `src/components/ui/` (shadcn)                      |
 
 ---
 
@@ -91,52 +94,59 @@ Use `read_file` or `semantic_search` tools to access specific documentation when
 When joining the project, follow this sequence based on your task:
 
 **For oRPC/API features:**
+
 1. Read `docs/orpc/QUICKSTART.md` (5 min) — quick overview & decision tree
 2. Read `docs/orpc/DUAL-SETUP.md` (10 min) — full architecture & patterns
 3. Reference `src/lib/orpc/README.md` — implementation patterns & code examples
 4. Navigate with `docs/orpc/README.md` — file locations & FAQ
 
 **For authentication/organizations:**
+
 1. Check `.github/instructions/better-auth.instructions.md` — canonical entry point
 2. Read `docs/better-auth/` for detailed patterns
 3. Reference `src/lib/better-auth/` for implementation
 
 **For UI components:**
+
 1. Check `.github/instructions/shadcn.instructions.md` — quick reference
 2. Read `docs/shadcn/` for component-specific guidance
 3. Use `src/components/ui/` as code examples
 
 **For internationalization:**
+
 1. Check `.github/instructions/i18n.instructions.md` — i18n patterns
 2. Read `docs/i18n/` for detailed configuration
 3. Reference `src/lib/i18n/` for implementation
 
 ### Documentation Map by Task Type
 
-| Task | Entry Point | Deep Dive | Implementation |
-|------|------|---------|---|
-| Create API endpoint | `docs/orpc/QUICKSTART.md` | `docs/orpc/DUAL-SETUP.md` | `src/lib/orpc/README.md` |
-| Add protected procedure | `docs/orpc/QUICKSTART.md` (cheat sheet) | `docs/orpc/DUAL-SETUP.md` | `src/lib/orpc/middleware.ts` |
-| SSR optimization | `docs/orpc/DUAL-SETUP.md` | `docs/orpc/Optimize-Server-Side-Rendering.SSR.md` | `src/instrumentation.ts` |
-| Auth/user setup | `docs/better-auth/` | Better Auth docs | `src/lib/better-auth/` |
-| UI feature | `docs/shadcn/` | shadcn-ui docs | `src/components/ui/` |
-| i18n support | `.github/instructions/i18n.instructions.md` | `docs/i18n/` | `src/lib/i18n/` |
-| Email template | `docs/react-email/` | React Email docs | `src/lib/email/` |
+| Task                    | Entry Point                                 | Deep Dive                                         | Implementation               |
+| ----------------------- | ------------------------------------------- | ------------------------------------------------- | ---------------------------- |
+| Create API endpoint     | `docs/orpc/QUICKSTART.md`                   | `docs/orpc/DUAL-SETUP.md`                         | `src/lib/orpc/README.md`     |
+| Add protected procedure | `docs/orpc/QUICKSTART.md` (cheat sheet)     | `docs/orpc/DUAL-SETUP.md`                         | `src/lib/orpc/middleware.ts` |
+| SSR optimization        | `docs/orpc/DUAL-SETUP.md`                   | `docs/orpc/Optimize-Server-Side-Rendering.SSR.md` | `src/instrumentation.ts`     |
+| Auth/user setup         | `docs/better-auth/`                         | Better Auth docs                                  | `src/lib/better-auth/`       |
+| UI feature              | `docs/shadcn/`                              | shadcn-ui docs                                    | `src/components/ui/`         |
+| i18n support            | `.github/instructions/i18n.instructions.md` | `docs/i18n/`                                      | `src/lib/i18n/`              |
+| Email template          | `docs/react-email/`                         | React Email docs                                  | `src/lib/email/`             |
 
 ### Key Navigation Cross-References
 
 **Architecture & File Locations:**
+
 - `docs/orpc/README.md` — Complete file reference, FAQ, learning paths
 - `src/lib/orpc/README.md` — Implementation patterns with code examples
 - `.github/copilot-instructions.md` — This file (mandatory requirements)
 
 **Common Questions:**
+
 - "Which endpoint should I use?" → `docs/orpc/QUICKSTART.md` (decision tree)
 - "How do I add a protected procedure?" → `docs/orpc/DUAL-SETUP.md` (best practices)
 - "Where are the files located?" → `docs/orpc/README.md` (file reference)
 - "How do I test this?" → `docs/participate/testing.md`
 
 **Always consult these first:**
+
 1. **Quick answer** → Relevant `.github/instructions/<topic>.instructions.md`
 2. **Need context** → Specific `docs/<topic>/README.md` or QUICKSTART.md
 3. **Implementing code** → `src/lib/<topic>/README.md` or relevant source files
@@ -153,7 +163,6 @@ When joining the project, follow this sequence based on your task:
 6. ✅ Reference docs before making integration changes
 
 **The developer is always in control. Agents are assistants, not controllers.**
-
 
 # Ultracite Code Standards
 
@@ -245,14 +254,17 @@ Write code that is **accessible, performant, type-safe, and maintainable**. Focu
 ### Framework-Specific Guidance
 
 **Next.js:**
+
 - Use Next.js `<Image>` component for images
 - Use `next/head` or App Router metadata API for head elements
 - Use Server Components for async data fetching instead of async Client Components
 
 **React 19+:**
+
 - Use ref as a prop instead of `React.forwardRef`
 
 **Solid/Svelte/Vue/Qwik:**
+
 - Use `class` and `for` attributes (not `className` or `htmlFor`)
 
 ---

@@ -1,5 +1,3 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import {
   invitation,
@@ -7,6 +5,8 @@ import {
   organization,
   user as userTable,
 } from "@/lib/drizzle/schema";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 // ============================================================================
 // ORGANIZATION - Schemas

@@ -1,9 +1,5 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { FolderOpenIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { ProjectsGrid } from "@/components/features/projects/dashboard/projects-grid";
 import { ProjectsTable } from "@/components/features/projects/dashboard/projects-table";
@@ -18,6 +14,10 @@ import {
 } from "@/components/ui/empty";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { FolderOpenIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
 
 /**
  * Renders the organization's projects view, showing either a grid or table of active projects and a create-project call-to-action when none exist.
@@ -65,9 +65,7 @@ export function ProjectsTab() {
             <FolderOpenIcon className="size-6" />
           </EmptyMedia>
           <EmptyTitle>{t("no-projects-yet.title")}</EmptyTitle>
-          <EmptyDescription>
-            {t("no-projects-yet.description")}
-          </EmptyDescription>
+          <EmptyDescription>{t("no-projects-yet.description")}</EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
           <CreateProjectButton />

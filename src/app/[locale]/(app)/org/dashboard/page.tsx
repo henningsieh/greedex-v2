@@ -1,5 +1,3 @@
-import { headers } from "next/headers";
-import { getTranslations } from "next-intl/server";
 import { OrganizationDashboard } from "@/components/features/organizations/organization-dashboard";
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
@@ -8,6 +6,8 @@ import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
+import { getTranslations } from "next-intl/server";
+import { headers } from "next/headers";
 /**
  * Render the organization dashboard page while prefetching and hydrating required server-side data for client components.
  *
@@ -70,7 +70,7 @@ export default async function DashboardPage() {
       <div className="space-y-4">
         <div className="flex items-center justify-start gap-3">
           <ORGANIZATION_ICONS.dashboard className="mb-1.5 size-9" />
-          <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
+          <h2 className="font-sans text-4xl font-bold">{t("title")}</h2>
         </div>
         <p className="text-muted-foreground">{t("description")}</p>
       </div>

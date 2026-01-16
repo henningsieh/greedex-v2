@@ -1,9 +1,9 @@
+import { env } from "@/env";
+import * as schema from "@/lib/drizzle/schema";
 // src/lib/drizzle/db.ts
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { env } from "@/env";
-import * as schema from "@/lib/drizzle/schema";
 
 // Global variable to store the pool across hot reloads
 declare global {

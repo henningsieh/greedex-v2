@@ -1,9 +1,11 @@
 import { Section } from "@react-email/components";
+
 import { EmailButton } from "../components/email-button";
 import { EmailHeading } from "../components/email-heading";
 import { EmailLink } from "../components/email-link";
 import { EmailText } from "../components/email-text";
 import { emailSpacing } from "../config/styles";
+
 import { EmailLayout } from "./components/email-layout";
 
 interface OrganizationInvitationProps {
@@ -25,7 +27,8 @@ export function OrganizationInvitation({
       <EmailText>
         {inviterName ? (
           <>
-            <strong>{inviterName}</strong> invited you to join the organization{" "}
+            <strong>{inviterName}</strong> invited you to join the
+            organization{" "}
           </>
         ) : (
           "You were invited to join the organization "

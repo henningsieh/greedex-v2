@@ -1,18 +1,5 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  CheckIcon,
-  ChevronDown,
-  Monitor,
-  MonitorIcon,
-  MoonIcon,
-  SunIcon,
-} from "lucide-react";
-import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
-import { useTheme } from "next-themes";
-import { useState, useTransition } from "react";
 import { HOME_PATH, LOGIN_PATH } from "@/app/routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -38,6 +25,19 @@ import { getLocaleData } from "@/lib/i18n/locales";
 import { Link, usePathname, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  CheckIcon,
+  ChevronDown,
+  Monitor,
+  MonitorIcon,
+  MoonIcon,
+  SunIcon,
+} from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
+import Image from "next/image";
+import { useState, useTransition } from "react";
 
 const themes = [
   {
@@ -145,10 +145,10 @@ export function UserMenu() {
                 )}
               </Avatar>
               <div className="flex flex-col gap-0.5 leading-none">
-                <span className="text-nowrap font-medium text-sm">
+                <span className="text-sm font-medium text-nowrap">
                   {user.name}
                 </span>
-                <span className="text-muted-foreground text-xs">
+                <span className="text-xs text-muted-foreground">
                   {user.email}
                 </span>
               </div>
@@ -167,8 +167,8 @@ export function UserMenu() {
           >
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="font-medium text-sm leading-none">{user.name}</p>
-                <p className="text-muted-foreground text-xs leading-none">
+                <p className="text-sm leading-none font-medium">{user.name}</p>
+                <p className="text-xs leading-none text-muted-foreground">
                   {user.email}
                 </p>
               </div>
@@ -214,10 +214,10 @@ export function UserMenu() {
                       <entry.Flag className="mr-2 h-4 w-6 rounded-sm border border-border/20" />
                     )}
                     <span className="flex flex-col gap-0.5 leading-tight">
-                      <span className="font-semibold text-sm">
+                      <span className="text-sm font-semibold">
                         {entry.englishName}
                       </span>
-                      <span className="text-muted-foreground text-xs">
+                      <span className="text-xs text-muted-foreground">
                         {entry.label}
                       </span>
                     </span>

@@ -1,7 +1,6 @@
 import "./globals.css"; // Global CSS import
 import "@/lib/orpc/client.server"; // Initialize server-side oRPC client for pre-rendering
 
-import type { Metadata } from "next";
 import {
   ANDROID_PACKAGE,
   APP_NAME,
@@ -12,6 +11,7 @@ import {
   KEYWORDS,
   TITLE,
 } from "@/config/metadata";
+import type { Metadata } from "next";
 
 const LOGO_PATH = "/greendex_logo.png";
 

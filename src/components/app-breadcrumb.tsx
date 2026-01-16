@@ -1,10 +1,5 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import type { LucideIcon } from "lucide-react";
-import { Building2Icon } from "lucide-react";
-
-import { useTranslations } from "next-intl";
 import {
   DASHBOARD_PATH,
   PARTICIPANTS_PATH,
@@ -26,6 +21,10 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link, usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import type { LucideIcon } from "lucide-react";
+import { Building2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 /**
  * Get the current section info based on pathname
@@ -124,7 +123,7 @@ function OrgBreadcrumb() {
               <span className="rounded-full bg-primary/40 p-1.5 text-primary-foreground">
                 <Building2Icon className="size-4" />
               </span>
-              <span className="font-semibold text-base">
+              <span className="text-base font-semibold">
                 {activeOrganization?.name ?? "Organization"}
               </span>
             </Link>
@@ -182,7 +181,7 @@ function ProjectBreadcrumb({ projectId }: { projectId: string }) {
                 <span className="rounded-md bg-secondary/30 p-1.5 text-secondary-foreground">
                   <Building2Icon className="size-4" />
                 </span>
-                <span className="font-semibold text-base">
+                <span className="text-base font-semibold">
                   {activeOrganization?.name ?? "Organization"}
                 </span>
               </Link>

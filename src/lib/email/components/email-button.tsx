@@ -1,4 +1,5 @@
 import { Button } from "@react-email/components";
+
 import { emailButton } from "../config/styles";
 
 interface EmailButtonProps {

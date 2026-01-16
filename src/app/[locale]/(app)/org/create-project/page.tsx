@@ -1,7 +1,7 @@
-import { headers as nextHeaders } from "next/headers";
-import { getTranslations } from "next-intl/server";
 import { CreateProjectForm } from "@/components/features/projects/create-project-form";
 import { auth } from "@/lib/better-auth";
+import { getTranslations } from "next-intl/server";
+import { headers as nextHeaders } from "next/headers";
 
 /**
  * Render the Create Project page with a localized title and the project creation form.
@@ -28,7 +28,7 @@ export default async function CreateProjectPage() {
 
   return (
     <div className="p-0">
-      <h1 className="font-semibold text-3xl">{t("title")}</h1>
+      <h1 className="text-3xl font-semibold">{t("title")}</h1>
       <CreateProjectForm activeOrganizationId={activeOrganizationId} />
     </div>
   );

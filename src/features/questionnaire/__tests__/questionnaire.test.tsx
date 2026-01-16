@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import type { ProjectActivityType } from "@/features/project-activities/types";
 import { CO2_FACTORS, calculateActivitiesCO2 } from "@/features/projects/utils";
 import {
@@ -6,6 +5,7 @@ import {
   type ParticipantAnswers,
 } from "@/features/questionnaire/types";
 import { calculateEmissions } from "@/features/questionnaire/utils";
+import { describe, expect, it } from "vitest";
 
 describe("Questionnaire Types and Calculations", () => {
   describe("CO₂ Emission Factors", () => {

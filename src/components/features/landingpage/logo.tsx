@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface LogoProps {
   isScrolled?: boolean;
@@ -27,7 +27,7 @@ export function Logo({ isScrolled = true }: LogoProps) {
         />
       </div>
 
-      <p className="whitespace-nowrap font-bold text-2xl text-primary transition-all duration-600 ease-in-out sm:text-2xl md:text-3xl">
+      <p className="text-2xl font-bold whitespace-nowrap text-primary transition-all duration-600 ease-in-out sm:text-2xl md:text-3xl">
         GREEN<span className="text-muted-foreground">DEX</span>
       </p>
     </div>

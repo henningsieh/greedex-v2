@@ -1,12 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { KeyRoundIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useMemo } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 import { LOGIN_PATH, RESET_PASSWORD_PATH } from "@/app/routes";
 import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
@@ -22,6 +15,13 @@ import { FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { KeyRoundIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 /**
  * Renders a "Forgot Password" form inside a styled card that lets users request a password-reset link.
@@ -80,7 +80,7 @@ export function ForgotPasswordForm({
             <KeyRoundIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("forgotPassword.title")}</h1>
+            <h1 className="text-2xl font-bold">{t("forgotPassword.title")}</h1>
           </CardTitle>
           <CardDescription>{t("forgotPassword.description")}</CardDescription>
         </CardHeader>

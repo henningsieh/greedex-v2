@@ -1,5 +1,5 @@
 ---
-applyTo: 'src/components/ui/**/*.{ts,tsx}|src/components/**/form*.{ts,tsx}'
+applyTo: "src/components/ui/**/*.{ts,tsx}|src/components/**/form*.{ts,tsx}"
 description: Shadcn UI components - forms, tables, empty states, and accessible UI patterns
 ---
 
@@ -15,10 +15,8 @@ All shadcn components are installed and set up in this codebase at `src/componen
 
 - **Field Component**: Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
   - See: [docs/shadcn/shadcn-ui.new-field.documentation.md](../../docs/shadcn/shadcn-ui.new-field.documentation.md)
-  
 - **Empty Component**: Use the Empty component to display an empty state.
   - See: [docs/shadcn/shadcn.empty.component.md](../../docs/shadcn/shadcn.empty.component.md)
-  
 - **Data Table Component**: Implement data tables with sorting, filtering, and pagination using TanStack Table.
   - See: [docs/shadcn/shadcn-ui.data-table.md](../../docs/shadcn/shadcn-ui.data-table.md)
 
@@ -28,6 +26,7 @@ All shadcn components are installed and set up in this codebase at `src/componen
 ## Installation
 
 To add a new shadcn component:
+
 ```bash
 bunx shadcn@latest add <component-name>
 ```
@@ -42,6 +41,7 @@ bunx shadcn@latest add <component-name>
 ### Official Shadcn UI Resources
 
 For the latest upstream documentation:
+
 - Official docs: https://ui.shadcn.com/docs
 
 For detailed component documentation and examples, refer to the files in `/docs/shadcn/`.
