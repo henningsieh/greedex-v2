@@ -1,7 +1,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { FolderOpen } from "lucide-react";
+import { FolderOpenIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
@@ -62,7 +62,7 @@ export function ProjectsTab() {
       <Empty>
         <EmptyHeader>
           <EmptyMedia variant="icon">
-            <FolderOpen className="size-6" />
+            <FolderOpenIcon className="size-6" />
           </EmptyMedia>
           <EmptyTitle>{t("no-projects-yet.title")}</EmptyTitle>
           <EmptyDescription>
