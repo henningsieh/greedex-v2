@@ -1,21 +1,5 @@
 "use client";
 
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import {
-  ArchiveIcon,
-  CalendarDaysIcon,
-  Edit2Icon,
-  LeafIcon,
-  MoreHorizontalIcon,
-  Trash2Icon,
-} from "lucide-react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
-import { Suspense, useState } from "react";
-import { toast } from "sonner";
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import { ParticipantsLinkControls } from "@/components/features/participants/participants-link-controls";
 import { ParticipantsList } from "@/components/features/participants/participants-list";
@@ -56,6 +40,22 @@ import { MILLISECONDS_PER_DAY } from "@/config/projects";
 import { calculateActivitiesCO2 } from "@/features/projects/utils";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import {
+  ArchiveIcon,
+  CalendarDaysIcon,
+  Edit2Icon,
+  LeafIcon,
+  MoreHorizontalIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { Suspense, useState } from "react";
+import { toast } from "sonner";
 
 interface ProjectDetailsProps {
   id: string;
@@ -116,8 +116,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
   const duration = (() => {
     if (
       !(
-        Number.isFinite(startDate.getTime()) &&
-        Number.isFinite(endDate.getTime())
+        Number.isFinite(startDate.getTime()) && Number.isFinite(endDate.getTime())
       )
     ) {
       return 0;
@@ -196,7 +195,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
           <CardTitle className="text-2xl sm:text-3xl">{project.name}</CardTitle>
           <CardDescription>
             <div className="flex justify-between">
-              <div className="inline-flex items-center gap-3 text-muted-foreground text-sm">
+              <div className="inline-flex items-center gap-3 text-sm text-muted-foreground">
                 <CalendarDaysIcon className="h-4 w-4" />
                 <span>
                   {format.dateTime(project.startDate, {
@@ -331,15 +330,15 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
             {/* Project Duration */}
             <Card className="gap-3">
               <CardHeader>
-                <div className="flex items-center gap-2 text-secondary text-sm">
+                <div className="flex items-center gap-2 text-sm text-secondary">
                   <CalendarDaysIcon className="h-4 w-4" />
                   {t("statistics.duration")}
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex items-baseline gap-2 font-mono font-semibold text-2xl text-foreground">
+                <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
                   {duration}
-                  <span className="font-normal text-muted-foreground text-sm">
+                  <span className="text-sm font-normal text-muted-foreground">
                     {t("statistics.days")}
                   </span>
                 </div>
@@ -348,13 +347,13 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
             {/* Participants Count */}
             <Card className="gap-3">
               <CardHeader>
-                <div className="flex items-center gap-2 text-secondary text-sm">
+                <div className="flex items-center gap-2 text-sm text-secondary">
                   <PROJECT_ICONS.participants className="h-4 w-4" />
                   {t("statistics.participants")}
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex items-baseline gap-2 font-mono font-semibold text-2xl text-foreground">
+                <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
                   {participantsCount}
                 </div>
               </CardContent>
@@ -362,15 +361,15 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
             {/* Activities Count and Total Distance */}
             <Card className="gap-3">
               <CardHeader>
-                <div className="flex items-center gap-2 text-secondary text-sm">
+                <div className="flex items-center gap-2 text-sm text-secondary">
                   <PROJECT_ICONS.activities className="h-4 w-4" />
                   {t("statistics.activities")}
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex items-baseline gap-2 font-mono font-semibold text-2xl text-foreground">
+                <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
                   {activitiesCount}
-                  <span className="font-normal text-muted-foreground text-sm">
+                  <span className="text-sm font-normal text-muted-foreground">
                     ({totalDistance.toFixed(1)} {t("statistics.km")})
                   </span>
                 </div>
@@ -379,15 +378,15 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
             {/* CO2 Emissions by Project Activities */}
             <Card className="gap-3">
               <CardHeader>
-                <div className="flex items-center gap-2 text-secondary text-sm">
+                <div className="flex items-center gap-2 text-sm text-secondary">
                   <LeafIcon className="h-4 w-4" />
                   {t("statistics.co2-emissions")}
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex items-baseline gap-2 font-mono font-semibold text-2xl text-foreground">
+                <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
                   {projectActivitiesCO2.toFixed(1)}{" "}
-                  <span className="font-normal text-muted-foreground text-sm">
+                  <span className="text-sm font-normal text-muted-foreground">
                     kg CO₂
                   </span>
                 </div>
@@ -405,21 +404,21 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
       <Tabs className="space-y-4" defaultValue="details">
         <TabsList className="grid w-full grid-cols-1 gap-2 bg-transparent p-0 sm:w-fit sm:grid-cols-3">
           <TabsTrigger
-            className="focus-visible:border-secondary focus-visible:outline-secondary focus-visible:ring-secondary/50 dark:data-[state=active]:border-secondary/50"
+            className="focus-visible:border-secondary focus-visible:ring-secondary/50 focus-visible:outline-secondary dark:data-[state=active]:border-secondary/50"
             value="details"
           >
             <PROJECT_ICONS.project className="h-4 w-4" />
             {t("tabs.details")}
           </TabsTrigger>
           <TabsTrigger
-            className="focus-visible:border-secondary focus-visible:outline-secondary focus-visible:ring-secondary/50"
+            className="focus-visible:border-secondary focus-visible:ring-secondary/50 focus-visible:outline-secondary"
             value="activities"
           >
             <PROJECT_ICONS.activities className="h-4 w-4" />
             {t("tabs.activities")}
           </TabsTrigger>
           <TabsTrigger
-            className="focus-visible:border-secondary focus-visible:outline-secondary focus-visible:ring-secondary/50"
+            className="focus-visible:border-secondary focus-visible:ring-secondary/50 focus-visible:outline-secondary"
             value="participants"
           >
             <PROJECT_ICONS.participants className="h-4 w-4" />
@@ -482,7 +481,7 @@ export function ProjectDetailsSkeleton() {
               <Skeleton className="h-6 w-44" />
             </CardTitle>
             <CardDescription>
-              <div className="inline-flex items-center gap-3 text-muted-foreground text-sm">
+              <div className="inline-flex items-center gap-3 text-sm text-muted-foreground">
                 <Skeleton className="h-4 w-40" />
               </div>
             </CardDescription>
@@ -496,7 +495,7 @@ export function ProjectDetailsSkeleton() {
 
         <CardContent className="space-y-6 p-6 sm:p-8">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {[...new Array(4)].map((_, i) => (
+            {Array.from({ length: 4 }).map((_, i) => (
               <div
                 className="rounded-lg border border-border bg-card p-4 shadow-sm"
                 key={i}

@@ -1,7 +1,7 @@
-import { headers } from "next/headers";
-import { notFound } from "next/navigation";
 import { HandleInvitation } from "@/components/features/authentication/handle-invitation";
 import { auth } from "@/lib/better-auth";
+import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 
 /**
  * Render the invitation acceptance UI for a given invitation ID.

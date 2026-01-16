@@ -1,10 +1,5 @@
 "use client";
 
-import { MailIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { LOGIN_PATH, SIGNUP_PATH } from "@/app/routes";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +14,11 @@ import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
+import { MailIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 /**
  * Render a verification-email UI and manage resend actions for the email address passed in the URL query.
@@ -100,7 +100,7 @@ export function VerifyEmailContent({
             <MailIcon className="size-8 text-destructive" />
           </div>
           <CardTitle>
-            <h1 className="font-bold text-2xl">{t("emailRequired.title")}</h1>
+            <h1 className="text-2xl font-bold">{t("emailRequired.title")}</h1>
           </CardTitle>
           <CardDescription>{t("emailRequired.description")}</CardDescription>
         </CardHeader>
@@ -141,7 +141,7 @@ export function VerifyEmailContent({
           <MailIcon className="size-8 text-primary" />
         </div>
         <CardTitle>
-          <h1 className="font-bold text-2xl">{t("title")}</h1>
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
         </CardTitle>
         <CardDescription className="text-primary">
           {t("description")}

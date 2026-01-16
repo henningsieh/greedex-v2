@@ -1,4 +1,3 @@
-import { getTranslations } from "next-intl/server";
 import {
   ABOUT_PATH,
   DASHBOARD_PATH,
@@ -13,6 +12,7 @@ import {
 import { AnimatedGradientCTA } from "@/components/features/landingpage/animated-cta";
 import { Logo } from "@/components/features/landingpage/logo";
 import { Link } from "@/lib/i18n/routing";
+import { getTranslations } from "next-intl/server";
 
 /**
  * Renders the site's footer section with the logo, a launch CTA, and localized navigation columns.
@@ -144,7 +144,7 @@ export default async function FooterSection() {
         </div>
 
         <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t pt-8 sm:flex-row">
-          <span className="text-center text-muted-foreground text-sm sm:text-left">
+          <span className="text-center text-sm text-muted-foreground sm:text-left">
             © {new Date().getFullYear()} Greendex. All rights reserved.
           </span>
         </div>

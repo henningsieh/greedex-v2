@@ -1,12 +1,12 @@
-import { ChevronDown, ChevronRight } from "lucide-react";
-import Image from "next/image";
-import { getTranslations } from "next-intl/server";
 import { DASHBOARD_PATH } from "@/app/routes";
 import { AnimatedGroup } from "@/components/animated-group";
 import { AnimatedGradientCTA } from "@/components/features/landingpage/animated-cta";
 import { TextEffect } from "@/components/ui/text-effect";
 import { LOGO_CUSTOMERS } from "@/features/landingpage/constants";
 import { Link } from "@/lib/i18n/routing";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 const transitionVariants = {
   item: {
@@ -91,10 +91,10 @@ export async function HeroSection() {
           >
             {/* Hero Image Container */}
             <div
-              className="mask-b-from-55% relative flex h-full w-full items-center justify-center overflow-hidden px-2 sm:mr-0"
+              className="relative flex h-full w-full items-center justify-center overflow-hidden mask-b-from-55% px-2 sm:mr-0"
               id="herobanner"
             >
-              <div className="relative inset-shadow-2xs mx-auto aspect-video max-h-full w-full max-w-6xl overflow-hidden rounded-3xl border border-border/40 bg-card/30 object-contain p-4 shadow-2xl shadow-primary/10 ring-1 ring-background backdrop-blur-xl dark:inset-shadow-white/20">
+              <div className="relative mx-auto aspect-video max-h-full w-full max-w-6xl overflow-hidden rounded-3xl border border-border/40 bg-card/30 object-contain p-4 shadow-2xl ring-1 inset-shadow-2xs shadow-primary/10 ring-background backdrop-blur-xl dark:inset-shadow-white/20">
                 <Image
                   alt="Greendex carbon footprint calculator dashboard showing CO₂ emissions tracking"
                   className="relative hidden aspect-15/8 rounded-2xl bg-background object-cover dark:block"
@@ -125,7 +125,7 @@ export async function HeroSection() {
               href="#hero-text"
             >
               <div
-                className="animate-bounce animate-gradient-shift rounded-full p-3 shadow-emerald-500/50 shadow-lg ring-2 ring-emerald-400/30 ring-offset-2 ring-offset-background transition-all group-hover:scale-110 group-hover:shadow-cyan-500/70 group-hover:shadow-xl group-hover:ring-cyan-400/50"
+                className="animate-gradient-shift animate-bounce rounded-full p-3 shadow-lg ring-2 shadow-emerald-500/50 ring-emerald-400/30 ring-offset-2 ring-offset-background transition-all group-hover:scale-110 group-hover:shadow-xl group-hover:shadow-cyan-500/70 group-hover:ring-cyan-400/50"
                 style={
                   {
                     background:
@@ -142,15 +142,12 @@ export async function HeroSection() {
       </section>
 
       <section>
-        <div
-          className="mx-auto max-w-7xl scroll-mt-32 px-6 py-20"
-          id="hero-text"
-        >
+        <div className="mx-auto max-w-7xl scroll-mt-32 px-6 py-20" id="hero-text">
           <div className="text-center sm:mx-auto lg:mt-0 lg:mr-auto">
             <AnimatedGroup variants={transitionVariants}>
               <TextEffect
                 as="h1"
-                className="mx-auto mt-8 text-balance font-semibold text-5xl tracking-tight max-md:font-semibold md:text-6xl lg:mt-14 xl:text-7xl"
+                className="mx-auto mt-8 text-5xl font-semibold tracking-tight text-balance max-md:font-semibold md:text-6xl lg:mt-14 xl:text-7xl"
                 preset="fade-in-blur"
                 speedSegment={0.3}
               >
@@ -161,7 +158,7 @@ export async function HeroSection() {
 
               <TextEffect
                 as="p"
-                className="mx-auto mt-6 max-w-7xl text-balance text-base text-foreground/90 leading-relaxed md:text-lg"
+                className="mx-auto mt-6 max-w-7xl text-base leading-relaxed text-balance text-foreground/90 md:text-lg"
                 delay={0.2}
                 per="line"
                 preset="fade-in-blur"
@@ -172,7 +169,7 @@ export async function HeroSection() {
 
               <TextEffect
                 as="h2"
-                className="mx-auto mt-8 text-balance font-semibold text-4xl tracking-tight max-md:font-semibold md:text-5xl lg:mt-14 xl:text-6xl"
+                className="mx-auto mt-8 text-4xl font-semibold tracking-tight text-balance max-md:font-semibold md:text-5xl lg:mt-14 xl:text-6xl"
                 delay={0.5}
                 per="line"
                 preset="fade-in-blur"
@@ -185,7 +182,7 @@ export async function HeroSection() {
 
               <TextEffect
                 as="p"
-                className="mx-auto mt-6 max-w-7xl text-balance text-base text-foreground/90 leading-relaxed md:text-lg"
+                className="mx-auto mt-6 max-w-7xl text-base leading-relaxed text-balance text-foreground/90 md:text-lg"
                 delay={0.7}
                 per="line"
                 preset="fade-in-blur"

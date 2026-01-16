@@ -1,18 +1,5 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { ColumnDef } from "@tanstack/react-table";
-import {
-  ArchiveIcon,
-  Columns3CogIcon,
-  Edit2Icon,
-  EllipsisVerticalIcon,
-  EyeIcon,
-  Trash2Icon,
-} from "lucide-react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
-import { Suspense, useState } from "react";
-import { toast } from "sonner";
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import {
   EditProjectForm,
@@ -45,6 +32,19 @@ import {
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { ColumnDef } from "@tanstack/react-table";
+import {
+  ArchiveIcon,
+  Columns3CogIcon,
+  Edit2Icon,
+  EllipsisVerticalIcon,
+  EyeIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { Suspense, useState } from "react";
+import { toast } from "sonner";
 
 /**
  * Renders a date using localized short month, numeric day, and year format.
@@ -107,9 +107,7 @@ export function ProjectTableColumns(
               table.getIsAllPageRowsSelected() ||
               (table.getIsSomePageRowsSelected() && "indeterminate")
             }
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(!!value)
-            }
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           />
         </div>
       ),

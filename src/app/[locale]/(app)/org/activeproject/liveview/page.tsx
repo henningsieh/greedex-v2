@@ -68,8 +68,6 @@
  * Real-time updates would be handled via WebSockets.
  */
 
-import { MapPinnedIcon } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Leaderboard } from "@/components/features/questionnaire/leaderboard";
 import { LiveIndicator } from "@/components/features/questionnaire/live-indicator";
 import { StatsOverview } from "@/components/features/questionnaire/stats-overview";
@@ -77,6 +75,8 @@ import { TransportBreakdown } from "@/components/features/questionnaire/transpor
 import { ACTIVITY_VALUES } from "@/config/activities";
 import { CO2_FACTORS } from "@/features/projects/utils";
 import type { Participant, ProjectStats } from "@/features/questionnaire/types";
+import { MapPinnedIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 /**
  * Create an array of mock Participant records for the demo/live-view UI.
@@ -291,18 +291,18 @@ export default function Dashboard() {
       {/* Background pattern */}
       <div className="relative">
         {/* Header */}
-        <div className="sticky top-0 z-10 border-primary/20 border-b bg-background/80 backdrop-blur-md">
+        <div className="sticky top-0 z-10 border-b border-primary/20 bg-background/80 backdrop-blur-md">
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal-600 to-emerald-800">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-teal-600 to-emerald-800">
                   <MapPinnedIcon className="h-7 w-7" />
                 </div>
                 <div>
-                  <h1 className="font-bold text-3xl text-foreground">
+                  <h1 className="text-3xl font-bold text-foreground">
                     Mock Project Name
                   </h1>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-sm text-muted-foreground">
                     Project's welcome message or tagline goes here
                   </p>
                 </div>
@@ -332,9 +332,9 @@ export default function Dashboard() {
 
           {/* Footer Message */}
           <div className="py-8 text-center">
-            <p className="text-muted-foreground text-sm">
-              🌱 Together we're creating a greener future • Every journey counts
-              • Plant trees, offset carbon
+            <p className="text-sm text-muted-foreground">
+              🌱 Together we're creating a greener future • Every journey counts •
+              Plant trees, offset carbon
             </p>
           </div>
         </div>

@@ -1,7 +1,3 @@
-import { headers } from "next/headers";
-import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { ProjectsTab } from "@/components/features/projects/dashboard/projects-tab";
 import { ProjectsTabSkeleton } from "@/components/features/projects/dashboard/projects-table";
@@ -10,6 +6,10 @@ import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
+import { getTranslations } from "next-intl/server";
+import { headers } from "next/headers";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 /**
  * Render the Projects page with server-side data prefetching and permission-aware UI.
@@ -57,11 +57,11 @@ export default async function ProjectsPage() {
         <div className="space-y-3">
           <div className="flex items-center justify-start gap-3">
             <PROJECT_ICONS.projects className="size-8 sm:size-9 md:size-10" />
-            <h2 className="font-bold font-sans text-2xl sm:text-3xl md:text-4xl">
+            <h2 className="font-sans text-2xl font-bold sm:text-3xl md:text-4xl">
               {t("title")}
             </h2>
           </div>
-          <p className="text-muted-foreground text-sm sm:text-base md:text-lg">
+          <p className="text-sm text-muted-foreground sm:text-base md:text-lg">
             {t("description")}
           </p>
         </div>

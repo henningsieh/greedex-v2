@@ -12,8 +12,8 @@ export function AboutHeader() {
         style={{ objectPosition: "bottom" }}
       />
       <div className="absolute inset-0 bg-background/70" />
-      <div className="container relative z-10 mx-auto flex h-full items-center justify-center">
-        <h1 className="text-center font-bold text-5xl text-foreground lg:text-7xl">
+      <div className="relative z-10 container mx-auto flex h-full items-center justify-center">
+        <h1 className="text-center text-5xl font-bold text-foreground lg:text-7xl">
           About Greendex
         </h1>
       </div>

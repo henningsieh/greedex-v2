@@ -1,7 +1,3 @@
-import { cookies } from "next/headers";
-import { getLocale } from "next-intl/server";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/app/routes";
 import {
   AppBreadcrumb,
@@ -21,6 +17,10 @@ import {
   getQueryClient,
   HydrateClient,
 } from "@/lib/tanstack-react-query/hydration";
+import { getLocale } from "next-intl/server";
+import { cookies } from "next/headers";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 /**
  * App root layout that enforces authentication and organization presence, prefetches client data, and renders the main application shell.

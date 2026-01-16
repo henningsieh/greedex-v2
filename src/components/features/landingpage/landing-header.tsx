@@ -1,8 +1,5 @@
 "use client";
 
-import { MenuIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 import {
   ABOUT_PATH,
   E_FOREST_PATH,
@@ -28,6 +25,9 @@ import {
 } from "@/components/ui/sheet";
 import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
+import { MenuIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
 export const LandingHeader = () => {
   const t = useTranslations("header");
@@ -123,7 +123,7 @@ export const LandingHeader = () => {
                                 onClick={() => setMenuOpen(false)}
                               >
                                 <ItemContent>
-                                  <ItemTitle className="font-medium text-base">
+                                  <ItemTitle className="text-base font-medium">
                                     {item.name}
                                   </ItemTitle>
                                 </ItemContent>
@@ -173,7 +173,7 @@ export const LandingHeader = () => {
                 {menuItems.map((item) => (
                   <li key={item.name}>
                     <Link
-                      className="block whitespace-nowrap font-bold text-muted-foreground hover:text-foreground"
+                      className="block font-bold whitespace-nowrap text-muted-foreground hover:text-foreground"
                       href={item.href}
                     >
                       <span>{item.name}</span>

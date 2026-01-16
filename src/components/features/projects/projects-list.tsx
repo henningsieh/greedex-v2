@@ -1,9 +1,9 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useFormatter } from "next-intl";
 import { Alert } from "@/components/ui/alert";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useFormatter } from "next-intl";
 
 export function ProjectsList() {
   const { data: projects, error } = useSuspenseQuery(
@@ -13,9 +13,7 @@ export function ProjectsList() {
 
   if (error) {
     return (
-      <Alert variant="destructive">
-        Error loading projects: {error.message}
-      </Alert>
+      <Alert variant="destructive">Error loading projects: {error.message}</Alert>
     );
   }
 

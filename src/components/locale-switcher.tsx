@@ -1,9 +1,5 @@
 "use client";
 
-import { Check, ChevronDown } from "lucide-react";
-import { useLocale } from "next-intl";
-import { useTransition } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,6 +11,9 @@ import type { LocaleCode } from "@/config/languages";
 import { getLocaleData } from "@/lib/i18n/locales";
 import { usePathname, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
+import { Check, ChevronDown } from "lucide-react";
+import { useLocale } from "next-intl";
+import { useTransition } from "react";
 
 export function LocaleSwitcher({ className }: { className?: string }) {
   const locale = useLocale();
@@ -76,10 +75,10 @@ export function LocaleSwitcher({ className }: { className?: string }) {
                 <entry.Flag className="h-4 w-6 rounded-sm border border-border/20" />
               )}
               <span className="flex flex-col gap-0.5 leading-tight">
-                <span className="font-semibold text-sm">
+                <span className="text-sm font-semibold">
                   {entry.englishName} | {entry.code}
                 </span>
-                <span className="text-muted-foreground text-xs group-hover:text-accent-foreground">
+                <span className="text-xs text-muted-foreground group-hover:text-accent-foreground">
                   {entry.label}
                 </span>
               </span>

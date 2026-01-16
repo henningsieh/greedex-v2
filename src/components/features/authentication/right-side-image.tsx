@@ -1,10 +1,10 @@
 "use client";
 
+import { AnimatedGroup } from "@/components/animated-group";
+import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { useId } from "react";
-import { AnimatedGroup } from "@/components/animated-group";
-import { cn } from "@/lib/utils";
 
 interface RightSideImageProps {
   headline: string;
@@ -62,10 +62,10 @@ export function RightSideImage({
 
         {/* Brand headline and description */}
         <div className="relative z-10 flex flex-col gap-4">
-          <h1 className="font-semibold text-2xl text-foreground leading-tight lg:text-3xl">
+          <h1 className="text-2xl leading-tight font-semibold text-foreground lg:text-3xl">
             {headline}
           </h1>
-          <p className="text-muted-foreground text-sm">{description}</p>
+          <p className="text-sm text-muted-foreground">{description}</p>
         </div>
 
         {/* Highlights list */}
@@ -73,7 +73,7 @@ export function RightSideImage({
         <ul className="relative z-10 grid gap-2 text-sm">
           {highlights.map((value, index) => (
             <li
-              className="flex items-center gap-3 rounded-2xl border border-border/50 bg-muted/30 px-3 py-2 font-medium text-sm backdrop-blur-sm"
+              className="flex items-center gap-3 rounded-2xl border border-border/50 bg-muted/30 px-3 py-2 text-sm font-medium backdrop-blur-sm"
               key={`${baseId}-${index}`}
             >
               <span className="h-2 w-2 shrink-0 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
@@ -84,12 +84,12 @@ export function RightSideImage({
 
         {/* Hero section */}
         <div className="relative z-10 space-y-2">
-          <div className="flex items-center gap-3 font-semibold text-primary text-xs uppercase tracking-[0.4em]">
+          <div className="flex items-center gap-3 text-xs font-semibold tracking-[0.4em] text-primary uppercase">
             <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
             <span>{heroBadge}</span>
           </div>
-          <h3 className="font-semibold text-foreground text-xl">{heroTitle}</h3>
-          <p className="text-muted-foreground text-sm">{heroCaption}</p>
+          <h3 className="text-xl font-semibold text-foreground">{heroTitle}</h3>
+          <p className="text-sm text-muted-foreground">{heroCaption}</p>
         </div>
 
         {/* Hero image */}
@@ -108,7 +108,7 @@ export function RightSideImage({
         </motion.div>
 
         {/* Stats */}
-        <div className="relative z-10 grid gap-2 text-[0.65rem] uppercase tracking-[0.4em] sm:grid-cols-2">
+        <div className="relative z-10 grid gap-2 text-[0.65rem] tracking-[0.4em] uppercase sm:grid-cols-2">
           <span className="rounded-2xl border border-primary/50 bg-primary/10 px-3 py-2 text-center text-primary backdrop-blur-sm">
             {heroStatOne}
           </span>

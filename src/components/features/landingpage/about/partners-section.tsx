@@ -1,6 +1,6 @@
-import { getTranslations } from "next-intl/server";
 import { PartnerCard } from "@/components/features/landingpage/about/partner-card";
 import { PARTNERS } from "@/config/about";
+import { getTranslations } from "next-intl/server";
 
 /**
  * Partners content section with title, intro, and partner cards grid
@@ -11,7 +11,7 @@ export async function PartnersSection() {
   return (
     <section className="py-12">
       <div className="container mx-auto max-w-7xl px-4 text-center">
-        <h2 className="mb-8 font-bold text-3xl md:text-4xl lg:text-5xl">
+        <h2 className="mb-8 text-3xl font-bold md:text-4xl lg:text-5xl">
           {t("partnersTitle")}
         </h2>
         <p className="mx-auto mb-12 max-w-5xl text-lg text-muted-foreground lg:text-xl">

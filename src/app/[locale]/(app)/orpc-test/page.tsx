@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { orpc } from "@/lib/orpc/orpc";
+import { useCallback, useEffect, useState } from "react";
 
 export default function ORPCTestPage() {
   const [name, setName] = useState("World");
@@ -95,7 +95,7 @@ export default function ORPCTestPage() {
   return (
     <div className="container mx-auto space-y-6 p-6">
       <div className="space-y-2">
-        <h1 className="font-bold text-3xl">oRPC Test Page</h1>
+        <h1 className="text-3xl font-bold">oRPC Test Page</h1>
         <p className="text-muted-foreground">
           Test the end-to-end type-safe oRPC implementation
         </p>
@@ -188,15 +188,15 @@ export default function ORPCTestPage() {
               parameter
             </li>
             <li>
-              <strong>Health Check:</strong> Public procedure that returns
-              server status
+              <strong>Health Check:</strong> Public procedure that returns server
+              status
             </li>
             <li>
               <strong>Get Profile:</strong> Protected procedure that requires
               authentication
             </li>
           </ul>
-          <p className="mt-4 text-muted-foreground text-sm">
+          <p className="mt-4 text-sm text-muted-foreground">
             Check the browser console for detailed logs of each request.
           </p>
         </CardContent>

@@ -1,13 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
 import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
@@ -51,6 +43,14 @@ import type { CreateProjectWithActivities } from "@/features/projects/validation
 import { CreateProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 
 interface CreateProjectFormProps {
   activeOrganizationId: string;
@@ -248,7 +248,7 @@ export function CreateProjectForm({
       <FieldSet className="mx-auto max-w-3xl p-2 sm:p-6">
         <FieldContent>
           <FieldLegend>{t("legend")}</FieldLegend>
-          <p className="text-right text-muted-foreground text-sm">
+          <p className="text-right text-sm text-muted-foreground">
             Step {currentStep} of {totalSteps}
           </p>
         </FieldContent>
@@ -277,9 +277,7 @@ export function CreateProjectForm({
                     />
                   )}
                 />
-                <FieldDescription>
-                  {t("start-date-description")}
-                </FieldDescription>
+                <FieldDescription>{t("start-date-description")}</FieldDescription>
                 <FieldError errors={[errors.startDate]} />
               </Field>
 
@@ -355,16 +353,14 @@ export function CreateProjectForm({
           <FieldGroup>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">
-                  {tActivities("title")}
-                </CardTitle>
-                <p className="text-muted-foreground text-sm">
+                <CardTitle className="text-lg">{tActivities("title")}</CardTitle>
+                <p className="text-sm text-muted-foreground">
                   {tActivities("description")}
                 </p>
               </CardHeader>
               <CardContent className="space-y-4">
                 {fields.length === 0 ? (
-                  <p className="text-center text-muted-foreground text-sm">
+                  <p className="text-center text-sm text-muted-foreground">
                     {tActivities("empty.description")}
                   </p>
                 ) : (
@@ -420,9 +416,7 @@ export function CreateProjectForm({
                         </Field>
 
                         <Field
-                          data-invalid={
-                            !!errors.activities?.[index]?.distanceKm
-                          }
+                          data-invalid={!!errors.activities?.[index]?.distanceKm}
                         >
                           <FieldLabel htmlFor={`activities.${index}.distance`}>
                             {tActivities("form.distance")}
@@ -491,9 +485,7 @@ export function CreateProjectForm({
             <div className="flex gap-2">
               <Button
                 className="w-fit"
-                onClick={() =>
-                  setCurrentStep(PROJECT_FORM_STEPS.PROJECT_DETAILS)
-                }
+                onClick={() => setCurrentStep(PROJECT_FORM_STEPS.PROJECT_DETAILS)}
                 type="button"
                 variant="outline"
               >

@@ -1,9 +1,9 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import type { ComponentPropsWithoutRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+import type { ComponentPropsWithoutRef } from "react";
 
 interface LastUsedBadgeProps extends ComponentPropsWithoutRef<typeof Badge> {
   label?: string;

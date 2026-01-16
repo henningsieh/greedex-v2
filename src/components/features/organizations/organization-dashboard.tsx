@@ -1,8 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { useQueryState } from "nuqs";
-import { Suspense } from "react";
 import { OrganizationDashboardStats } from "@/components/features/organizations/organization-dashboard-stats";
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
 import {
@@ -13,6 +10,9 @@ import { ProjectsTab } from "@/components/features/projects/dashboard/projects-t
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MEMBER_ROLES } from "@/features/organizations/types";
+import { useTranslations } from "next-intl";
+import { useQueryState } from "nuqs";
+import { Suspense } from "react";
 
 interface OrganizationDashboardProps {
   organizationId: string;

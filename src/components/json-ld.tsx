@@ -49,7 +49,6 @@ const jsonLd = {
 export function JsonLd() {
   return (
     <script
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data injection
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(jsonLd),
       }}

@@ -1,9 +1,5 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { HOME_PATH, LOGIN_PATH } from "@/app/routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -18,6 +14,10 @@ import {
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { useState } from "react";
 
 /**
  * Renders the current user's session controls: a login link when unauthenticated, a user avatar dropdown when authenticated, and a skeleton while signing out.
@@ -86,16 +86,14 @@ export function UserSession() {
       <DropdownMenuContent align="end" className="w-56" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="font-medium text-sm leading-none">{user.name}</p>
-            <p className="text-muted-foreground text-xs leading-none">
+            <p className="text-sm leading-none font-medium">{user.name}</p>
+            <p className="text-xs leading-none text-muted-foreground">
               {user.email}
             </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleSignOut}>
-          {t("logOut")}
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSignOut}>{t("logOut")}</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

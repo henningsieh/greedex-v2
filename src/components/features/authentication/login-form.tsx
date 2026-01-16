@@ -1,12 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LogInIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 import {
   DASHBOARD_PATH,
   FORGOT_PASSWORD_PATH,
@@ -37,6 +30,13 @@ import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LogInIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 /**
  * Render a login form with password and magic-link methods, social sign-in buttons, and redirect handling.
@@ -150,7 +150,7 @@ export function LoginForm({
             <LogInIcon className="size-7 text-primary" />
           </div>
           <CardTitle className="space-y-1">
-            <h1 className="font-bold text-xl">{t("login.title")}</h1>
+            <h1 className="text-xl font-bold">{t("login.title")}</h1>
           </CardTitle>
           <CardDescription className="text-sm">
             {t("login.description")}

@@ -1,15 +1,15 @@
-// biome-ignore lint/performance/noNamespaceImport: <the list of country flags is flexible and will change based on supported locales>
-import * as Flags from "country-flag-icons/react/3x2";
-import countries from "i18n-iso-countries";
-import deCountries from "i18n-iso-countries/langs/de.json";
-import enCountries from "i18n-iso-countries/langs/en.json";
-import type { ComponentType, SVGProps } from "react";
 import {
   LOCALE_CODES,
   type LocaleCode,
   SUPPORTED_LOCALES,
   type SupportedLocale,
 } from "@/config/languages";
+// biome-ignore lint/performance/noNamespaceImport: <the list of country flags is flexible and will change based on supported locales>
+import * as Flags from "country-flag-icons/react/3x2";
+import countries from "i18n-iso-countries";
+import deCountries from "i18n-iso-countries/langs/de.json";
+import enCountries from "i18n-iso-countries/langs/en.json";
+import type { ComponentType, SVGProps } from "react";
 
 countries.registerLocale(enCountries);
 countries.registerLocale(deCountries);
@@ -28,8 +28,7 @@ const flagRegistry = Flags as Record<
 export const getLocaleData = (): LocaleData[] => {
   return SUPPORTED_LOCALES.map((locale) => {
     // Handle locales without a specific country code (e.g., International English)
-    const countryCode =
-      "countryCode" in locale ? locale.countryCode : undefined;
+    const countryCode = "countryCode" in locale ? locale.countryCode : undefined;
 
     let nativeName: string;
     let englishName: string;

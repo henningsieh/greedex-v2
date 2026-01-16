@@ -1,6 +1,3 @@
-import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import {
   ArchivedProjectsTab,
   ArchivedProjectsTabSkeleton,
@@ -8,6 +5,9 @@ import {
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
+import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 export default async function ProjectsArchivePage() {
   const t = await getTranslations("organization.projectsArchive");
@@ -28,7 +28,7 @@ export default async function ProjectsArchivePage() {
       <div className="space-y-4">
         <div className="flex items-center justify-start gap-3">
           <PROJECT_ICONS.archive className="size-10" />
-          <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
+          <h2 className="font-sans text-4xl font-bold">{t("title")}</h2>
         </div>
         <p className="text-muted-foreground">{t("description")}</p>
       </div>

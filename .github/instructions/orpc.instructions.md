@@ -1,5 +1,5 @@
 ---
-applyTo: 'src/lib/orpc/**/*.{ts,tsx}|src/app/api/rpc/**/*.{ts,tsx}'
+applyTo: "src/lib/orpc/**/*.{ts,tsx}|src/app/api/rpc/**/*.{ts,tsx}"
 description: oRPC procedures, routers, integrations, and SSR optimization patterns
 ---
 
@@ -10,10 +10,12 @@ description: oRPC procedures, routers, integrations, and SSR optimization patter
 **⚠️ CRITICAL**: This repository contains comprehensive oRPC documentation in `/docs/orpc/`. **Always consult these comprehensive guides first** for implementation details, integration patterns, and examples. This file provides a quick overview and navigation guide.
 
 ## Getting Started
+
 - **Installation and Setup**: Basic oRPC installation, configuration, and initial setup.
   - See: [docs/orpc/orpc.init.installation.md](../../docs/orpc/orpc.init.installation.md)
 
 ## Core Concepts
+
 - **Procedures**: Defining and using oRPC procedures, input/output validation, middleware.
   - See: [docs/orpc/orpc.procedure.md](../../docs/orpc/orpc.procedure.md)
 - **Routers**: Creating and extending routers, lazy loading, utilities.
@@ -22,6 +24,7 @@ description: oRPC procedures, routers, integrations, and SSR optimization patter
   - See: [docs/orpc/orpc.server-side.md](../../docs/orpc/orpc.server-side.md)
 
 ## Integrations
+
 - **Next.js Adapter**: Setting up oRPC with Next.js, including server-side rendering optimization.
   - See: [docs/orpc/orpcNextjs.adapter.md](../../docs/orpc/orpcNextjs.adapter.md)
 - **Better Auth Integration**: Using Better Auth for authentication in oRPC procedures.
@@ -30,6 +33,7 @@ description: oRPC procedures, routers, integrations, and SSR optimization patter
   - See: [docs/orpc/orpc.tanstack-query.md](../../docs/orpc/orpc.tanstack-query.md)
 
 ## Error Handling
+
 - **Error Handling**: General error handling patterns in oRPC.
   - See: [docs/orpc/orpc.error-handling.md](../../docs/orpc/orpc.error-handling.md)
 - **Client Error Handling**: Client-side error handling with TanStack Query.
@@ -38,6 +42,7 @@ description: oRPC procedures, routers, integrations, and SSR optimization patter
   - See: [docs/orpc/orpc.validation-errors.md](../../docs/orpc/orpc.validation-errors.md)
 
 ## OpenAPI
+
 - **OpenAPI Handler**: Setting up OpenAPI documentation for oRPC.
   - See: [docs/orpc/orpc.openapi-handler.md](../../docs/orpc/orpc.openapi-handler.md)
 - **OpenAPI Specification**: Understanding the OpenAPI spec generation.
@@ -52,6 +57,7 @@ description: oRPC procedures, routers, integrations, and SSR optimization patter
   - See: [docs/orpc/orpc.smart-coercion.md](../../docs/orpc/orpc.smart-coercion.md)
 
 ## Advanced Topics
+
 - **SSR Optimization**: Optimizing SSR performance by avoiding redundant network calls.
   - See: [docs/orpc/orpc.Optimize-Server-Side-Rendering.SSR.md](../../docs/orpc/orpc.Optimize-Server-Side-Rendering.SSR.md)
 - **Dual Setup**: Understanding the dual client/server setup in this repository.
@@ -67,12 +73,14 @@ description: oRPC procedures, routers, integrations, and SSR optimization patter
   - See: [.github/instructions/better-auth.instructions.md](../../.github/instructions/better-auth.instructions.md)
 
 ## Implementation Details (This Repository)
+
 - **oRPC README**: Full implementation documentation for this app's oRPC setup.
   - See: [src/lib/orpc/README.md](../../src/lib/orpc/README.md)
 
 ### Official oRPC Resources
 
 For the latest upstream documentation:
+
 - Official docs: https://orpc.dev/docs
 
 **Remember**: Always consult the comprehensive documentation in `/docs/orpc/` for this repository's specific implementation patterns and integration examples.

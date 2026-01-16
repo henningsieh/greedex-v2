@@ -1,6 +1,3 @@
-import { headers as nextHeaders } from "next/headers";
-import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 import { TeamTableSkeleton } from "@/components/features/organizations/users-table";
 import { ParticipantsTable } from "@/components/features/participants/participants-table";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
@@ -9,6 +6,9 @@ import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
+import { getTranslations } from "next-intl/server";
+import { headers as nextHeaders } from "next/headers";
+import { Suspense } from "react";
 
 export default async () => {
   const headers = await nextHeaders();
@@ -50,7 +50,7 @@ export default async () => {
       <div className="space-y-4">
         <div className="flex items-center justify-start gap-3">
           <PROJECT_ICONS.participants className="size-10" />
-          <h2 className="font-bold font-sans text-4xl">{t("title")}</h2>
+          <h2 className="font-sans text-4xl font-bold">{t("title")}</h2>
         </div>
         <p className="text-muted-foreground">{t("description")}</p>
       </div>

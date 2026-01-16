@@ -1,6 +1,3 @@
-import { ExternalLinkIcon } from "lucide-react";
-import Image from "next/image";
-import { getLocale, getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +11,9 @@ import {
 import type { Partner } from "@/config/about";
 import { getCountryData } from "@/lib/i18n/countries";
 import { Link } from "@/lib/i18n/routing";
+import { ExternalLinkIcon } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 interface PartnerCardProps {
   partner: Partner;
@@ -66,18 +66,13 @@ export async function PartnerCard({ partner }: PartnerCardProps) {
         </div>
       </CardHeader>
 
-      <CardContent className="grow text-muted-foreground text-sm leading-relaxed">
+      <CardContent className="grow text-sm leading-relaxed text-muted-foreground">
         <p>{partner.description}</p>
       </CardContent>
 
       <CardFooter className="flex items-center justify-end border-t">
         {partner.website && (
-          <Button
-            asChild
-            className="gap-2"
-            size="sm"
-            variant="secondaryoutline"
-          >
+          <Button asChild className="gap-2" size="sm" variant="secondaryoutline">
             <Link
               aria-label={`${t("visitWebsite")}: ${partner.name}`}
               href={partner.website}

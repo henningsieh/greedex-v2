@@ -1,10 +1,10 @@
-import { getLocale } from "next-intl/server";
 import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/app/routes";
 import {
   checkAuthAndOrgs,
   handleUnauthenticatedRedirect,
 } from "@/features/authentication/utils";
 import { redirect } from "@/lib/i18n/routing";
+import { getLocale } from "next-intl/server";
 
 /**
  * Organization Setup Layout

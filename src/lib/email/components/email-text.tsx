@@ -1,5 +1,6 @@
 import { Text } from "@react-email/components";
 import type { CSSProperties } from "react";
+
 import { emailTypography } from "../config/styles";
 
 interface EmailTextProps {

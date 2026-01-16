@@ -1,9 +1,9 @@
-import { z } from "zod";
 import { env } from "@/env";
 import { auth } from "@/lib/better-auth";
 import { SessionSchema } from "@/lib/better-auth/validation-schemas";
 import { base } from "@/lib/orpc/context";
 import { authorized } from "@/lib/orpc/middleware";
+import { z } from "zod";
 
 /**
  * Public hello world procedure

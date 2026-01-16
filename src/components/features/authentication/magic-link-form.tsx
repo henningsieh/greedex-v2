@@ -1,11 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { MailIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 import { DASHBOARD_PATH } from "@/app/routes";
 import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
@@ -19,6 +13,12 @@ import {
 } from "@/components/ui/card";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { MailIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 /**
  * Renders a magic-link sign-in form that validates an email and sends a magic link to the provided address.
@@ -73,7 +73,7 @@ export function MagicLinkForm({
             <MailIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("magicLink.title")}</h1>
+            <h1 className="text-2xl font-bold">{t("magicLink.title")}</h1>
           </CardTitle>
           <CardDescription>{t("magicLink.description")}</CardDescription>
         </CardHeader>

@@ -1,4 +1,3 @@
-import { describe, expect, it } from "vitest";
 import { EU_COUNTRY_CODES } from "@/config/eu-countries";
 import {
   getAllCountries,
@@ -7,6 +6,7 @@ import {
   getEUCountries,
   isEUCountry,
 } from "@/lib/i18n/countries";
+import { describe, expect, it } from "vitest";
 
 describe("countries utilities", () => {
   describe("EU_COUNTRY_CODES", () => {

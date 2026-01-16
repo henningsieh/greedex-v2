@@ -1,9 +1,9 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Loader2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createContext, useCallback, useContext, useState } from "react";
-import { cn } from "@/lib/utils";
 
 type LoadingMode = "project" | "organization";
 
@@ -71,7 +71,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
             <Loader2Icon
               className={cn("size-12 animate-spin", modeStyles.textColor)}
             />
-            <p className="font-medium text-lg">
+            <p className="text-lg font-medium">
               {loadingState.message ?? t("default")}
             </p>
           </div>

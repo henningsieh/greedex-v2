@@ -1,5 +1,3 @@
-import { ExternalLink, MapPin, Trees } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +11,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { eForestConfig } from "@/config/e-forest";
 import { Link } from "@/lib/i18n/routing";
+import { ExternalLink, MapPin, Trees } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function DreamSection() {
   const t = useTranslations("EPlusForest.dream");
@@ -20,7 +20,7 @@ export function DreamSection() {
   return (
     <section className="py-12">
       <div className="container mx-auto max-w-7xl px-4 text-center">
-        <h2 className="mb-8 font-bold text-3xl md:text-4xl lg:text-5xl">
+        <h2 className="mb-8 text-3xl font-bold md:text-4xl lg:text-5xl">
           {t("title")}
         </h2>
         <div className="space-y-6 text-lg text-muted-foreground lg:text-xl">
@@ -31,7 +31,7 @@ export function DreamSection() {
 
           {/* Forest Initiatives */}
           <div className="mx-auto max-w-5xl">
-            <h3 className="mb-6 font-semibold text-2xl text-foreground md:text-3xl">
+            <h3 className="mb-6 text-2xl font-semibold text-foreground md:text-3xl">
               {t("ourForests.title")}
             </h3>
             <div className="grid gap-6 md:grid-cols-2">
@@ -55,10 +55,10 @@ export function DreamSection() {
                 <CardContent>
                   <div className="rounded-lg bg-muted/50 p-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground text-sm">
+                      <span className="text-sm text-muted-foreground">
                         {t("ourForests.portugal.treesLabel")}
                       </span>
-                      <span className="font-bold text-2xl text-foreground">
+                      <span className="text-2xl font-bold text-foreground">
                         100+
                       </span>
                     </div>
@@ -116,7 +116,7 @@ export function DreamSection() {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <p className="text-muted-foreground text-sm italic">
+                  <p className="text-sm text-muted-foreground italic">
                     {t("ourForests.expanding.joinUs")}
                   </p>
                 </CardFooter>

@@ -1,10 +1,10 @@
-import { getTranslations } from "next-intl/server";
-import type { ReactNode } from "react";
 import { AnimatedGroup } from "@/components/animated-group";
 import { BackgroundAnimations } from "@/components/background-animations";
 import { BackToHome } from "@/components/features/authentication/back-to-home";
 import { RightSideImage } from "@/components/features/authentication/right-side-image";
 import { cn } from "@/lib/utils";
+import { getTranslations } from "next-intl/server";
+import type { ReactNode } from "react";
 
 const highlightKeys = ["one", "two", "three"] as const;
 
@@ -95,7 +95,7 @@ export default async function AuthFlowLayout({
                     label={backLabel ?? "Back to Home"}
                   />
                 </div>
-                <span className="text-nowrap rounded-full border border-primary/50 bg-primary/10 px-4 py-1 font-semibold text-primary text-xs uppercase tracking-[0.4em]">
+                <span className="rounded-full border border-primary/50 bg-primary/10 px-4 py-1 text-xs font-semibold tracking-[0.4em] text-nowrap text-primary uppercase">
                   {t("badge")}
                 </span>
               </div>

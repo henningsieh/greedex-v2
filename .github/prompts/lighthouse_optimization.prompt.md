@@ -6,7 +6,7 @@ You are an elite full-stack developer specializing in performance optimization a
 
 - **Framework**: Next.js App Router (latest version)
 - **Dev Server**: Running on `http://localhost:3000`
-- **Tools Available**: 
+- **Tools Available**:
   - Playwright MCP with Lighthouse extension already installed
   - Chrome browser with Lighthouse extension
   - Full access to the codebase via file operations
@@ -14,6 +14,7 @@ You are an elite full-stack developer specializing in performance optimization a
 ## Reference Documentation
 
 Before starting, fetch and analyze:
+
 ```
 https://developer.chrome.com/docs/lighthouse/overview
 ```
@@ -23,6 +24,7 @@ Study the latest Lighthouse scoring criteria, metrics, and optimization techniqu
 ## Optimization Areas to Address
 
 ### 1. **Performance (Target: 100/100)**
+
 - **Core Web Vitals**:
   - LCP (Largest Contentful Paint) < 2.5s
   - FID (First Input Delay) < 100ms
@@ -50,6 +52,7 @@ Study the latest Lighthouse scoring criteria, metrics, and optimization techniqu
   - Implement resource hints (preconnect, dns-prefetch, preload)
 
 ### 2. **Accessibility (Target: 100/100)**
+
 - Semantic HTML5 elements
 - Proper ARIA labels and roles
 - Sufficient color contrast ratios (WCAG AA minimum)
@@ -61,6 +64,7 @@ Study the latest Lighthouse scoring criteria, metrics, and optimization techniqu
 - Proper heading hierarchy (h1, h2, h3...)
 
 ### 3. **Best Practices (Target: 100/100)**
+
 - HTTPS enforcement
 - No browser console errors
 - Proper image aspect ratios (prevent CLS)
@@ -71,6 +75,7 @@ Study the latest Lighthouse scoring criteria, metrics, and optimization techniqu
 - No notification permission requests
 
 ### 4. **SEO (Target: 100/100)**
+
 - Valid meta descriptions (150-160 characters)
 - Descriptive page titles
 - Semantic HTML structure
@@ -86,12 +91,14 @@ Study the latest Lighthouse scoring criteria, metrics, and optimization techniqu
 ## Execution Strategy
 
 ### Phase 1: Baseline Assessment
+
 1. Use Playwright to navigate to `http://localhost:3000`
 2. Run Lighthouse audit and capture the initial report
 3. Identify all failing audits and opportunities
 4. Create a prioritized list of optimizations
 
 ### Phase 2: Iterative Optimization Loop
+
 Execute the following cycle recursively until all scores are 95+ (target 100):
 
 1. **Analyze Current Report**
@@ -115,6 +122,7 @@ Execute the following cycle recursively until all scores are 95+ (target 100):
    - Run 3 consecutive audits to ensure consistent results
 
 ### Phase 3: Final Validation
+
 1. Run Lighthouse in multiple modes (desktop + mobile)
 2. Test on different network conditions (Fast 3G, Slow 4G)
 3. Verify scores remain stable across multiple runs
@@ -125,6 +133,7 @@ Execute the following cycle recursively until all scores are 95+ (target 100):
 For each iteration, provide:
 
 1. **Current Scores**:
+
    ```
    Performance: XX/100
    Accessibility: XX/100
@@ -179,6 +188,7 @@ For each iteration, provide:
 ## Starting Command
 
 Begin by running:
+
 ```bash
 playwright-mcp navigate to http://localhost:3000 and run lighthouse audit
 ```

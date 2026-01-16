@@ -1,8 +1,9 @@
-import { eq } from "drizzle-orm";
-import { z } from "zod";
 import { db } from "@/lib/drizzle/db";
 import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
+import { eq } from "drizzle-orm";
+import { z } from "zod";
+
 import {
   CreateActivityInputSchema,
   ProjectActivityWithRelationsSchema,
@@ -149,9 +150,7 @@ export const updateProjectActivity = authorized
       });
     }
 
-    if (
-      existingActivity.projectOrgId !== context.session.activeOrganizationId
-    ) {
+    if (existingActivity.projectOrgId !== context.session.activeOrganizationId) {
       throw errors.FORBIDDEN({
         message: "You don't have permission to update this activity",
       });
@@ -231,9 +230,7 @@ export const deleteProjectActivity = authorized
       });
     }
 
-    if (
-      existingActivity.projectOrgId !== context.session.activeOrganizationId
-    ) {
+    if (existingActivity.projectOrgId !== context.session.activeOrganizationId) {
       throw errors.FORBIDDEN({
         message: "You don't have permission to delete this activity",
       });
