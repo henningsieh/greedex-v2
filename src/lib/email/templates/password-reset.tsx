@@ -1,14 +1,10 @@
-import {
-  Body,
-  Button,
-  Container,
-  Head,
-  Hr,
-  Html,
-  Section,
-  Tailwind,
-  Text,
-} from "@react-email/components";
+import { Section } from "@react-email/components";
+import { EmailButton } from "../components/email-button";
+import { EmailCode } from "../components/email-code";
+import { EmailHeading } from "../components/email-heading";
+import { EmailText } from "../components/email-text";
+import { emailSpacing } from "../config/styles";
+import { EmailLayout } from "./components/email-layout";
 
 interface PasswordResetEmailProps {
   userName?: string;
@@ -20,49 +16,27 @@ export function PasswordResetEmail({
   resetUrl,
 }: PasswordResetEmailProps) {
   return (
-    <Html dir="ltr" lang="en">
-      <Head />
-      <Tailwind>
-        <Body className="bg-gray-50 font-sans">
-          <Container className="mx-auto my-10 max-w-xl rounded-lg bg-white p-8 shadow-lg">
-            <Section>
-              <Text className="mb-6 font-bold text-2xl text-gray-900">
-                Reset Your Password
-              </Text>
-              <Text className="mb-4 text-base text-gray-700">
-                {userName ? `Hi ${userName},` : "Hi there,"}
-              </Text>
-              <Text className="mb-4 text-base text-gray-700">
-                We received a request to reset your password. Click the button
-                below to create a new password:
-              </Text>
-              <Section className="my-8 text-center">
-                <Button
-                  className="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-base text-white no-underline"
-                  href={resetUrl}
-                >
-                  Reset Password
-                </Button>
-              </Section>
-              <Text className="mb-4 text-gray-600 text-sm">
-                If the button doesn't work, copy and paste this link into your
-                browser:
-              </Text>
-              <Text className="mb-4 break-all text-blue-600 text-sm">
-                {resetUrl}
-              </Text>
-              <Hr className="my-6 border-gray-300" />
-              <Text className="text-gray-500 text-sm">
-                If you didn't request a password reset, you can safely ignore
-                this email. Your password will remain unchanged.
-              </Text>
-              <Text className="mt-4 text-gray-400 text-xs">
-                This link will expire in 24 hours for security reasons.
-              </Text>
-            </Section>
-          </Container>
-        </Body>
-      </Tailwind>
-    </Html>
+    <EmailLayout previewText="Reset your Greendex password - link expires in 24 hours">
+      <EmailHeading>Reset Your Password</EmailHeading>
+      <EmailText>{userName ? `Hi ${userName},` : "Hi there,"}</EmailText>
+      <EmailText>
+        We received a request to reset your password. Click the button below to
+        create a new password:
+      </EmailText>
+      <Section style={emailSpacing.section}>
+        <EmailButton href={resetUrl}>Reset Password</EmailButton>
+      </Section>
+      <EmailText variant="muted">
+        If the button doesn't work, copy and paste this link into your browser:
+      </EmailText>
+      <EmailCode>{resetUrl}</EmailCode>
+      <EmailText variant="muted">
+        If you didn't request a password reset, you can safely ignore this
+        email. Your password will remain unchanged.
+      </EmailText>
+      <EmailText variant="small">
+        This link will expire in 24 hours for security reasons.
+      </EmailText>
+    </EmailLayout>
   );
 }
