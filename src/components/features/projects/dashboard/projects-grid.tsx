@@ -2,7 +2,7 @@
 
 import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { ProjectCard } from "@/components/features/projects/project-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,13 +51,15 @@ export function ProjectsGrid({
   );
   const [filter, setFilter] = useState("");
 
-  const getSortLabel = (field: ProjectSortField) =>
-    getColumnDisplayName(field, t);
-
-  const sortOptions = PROJECT_SORT_FIELDS.map((field) => ({
-    value: field,
-    label: getSortLabel(field),
-  }));
+  // Memoize sort options to avoid regeneration with translation lookups
+  const sortOptions = useMemo(
+    () =>
+      PROJECT_SORT_FIELDS.map((field) => ({
+        value: field,
+        label: getColumnDisplayName(field, t),
+      })),
+    [t],
+  );
 
   const comparator = useMemo(
     () => createProjectComparator(sortBy, sortDesc),
@@ -69,18 +71,20 @@ export function ProjectsGrid({
     new Set(),
   );
 
-  const toggleProjectSelection = (id: string, value: boolean) => {
+  // Memoize selection callback to prevent unnecessary child re-renders
+  const toggleProjectSelection = useCallback((id: string, value: boolean) => {
     setSelectedProjectIds((prev) => {
       const next = new Set(prev);
       if (value) next.add(id);
       else next.delete(id);
       return next;
     });
-  };
+  }, []);
 
   const sortedProjects = useMemo(() => {
+    const lowerFilter = filter.toLowerCase();
     const filtered = projects.filter((p) =>
-      (p.name || "").toLowerCase().includes(filter.toLowerCase()),
+      (p.name || "").toLowerCase().includes(lowerFilter),
     );
 
     return [...filtered].sort(comparator);
