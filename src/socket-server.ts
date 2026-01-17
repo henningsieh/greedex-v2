@@ -1,16 +1,11 @@
 import "dotenv/config";
 
-import { createServer } from "node:http";
-
 import { env } from "@/env";
 import { Server } from "socket.io";
 
 const socketPort = env.SOCKET_PORT;
 const corsOrigin = env.NEXT_PUBLIC_BASE_URL;
-
-const httpServer = createServer();
-
-const io = new Server(httpServer, {
+const io = new Server({
   cors: {
     origin: corsOrigin,
     methods: ["GET", "POST"],
@@ -43,6 +38,23 @@ io.on("connection", (socket) => {
     console.log(`Client disconnected: ${socket.id}, reason: ${reason}`);
   });
 });
+
+let httpServer: ReturnType<Server["listen"]> | undefined;
+
+try {
+  httpServer = io.listen(socketPort);
+  console.log(`Socket.IO server listening on port ${socketPort}`);
+} catch (error) {
+  console.error(`Failed to start Socket.IO server on port ${socketPort}:`, error);
+  const err = error as NodeJS.ErrnoException;
+  if (err?.code === "EADDRINUSE") {
+    console.error(
+      `Port ${socketPort} is already in use. Please choose a different port.`,
+    );
+  }
+  process.exit(1);
+}
+
 if (env.NODE_ENV === "development") {
   const intervalId = setInterval(() => {
     const mem = process.memoryUsage();
@@ -58,23 +70,6 @@ if (env.NODE_ENV === "development") {
   process.on("beforeExit", stopLogging);
 }
 
-httpServer
-  .listen(socketPort, () => {
-    console.log(`Socket.IO server listening on port ${socketPort}`);
-  })
-  .on("error", (error: NodeJS.ErrnoException) => {
-    console.error(
-      `Failed to start Socket.IO server on port ${socketPort}:`,
-      error,
-    );
-    if (error.code === "EADDRINUSE") {
-      console.error(
-        `Port ${socketPort} is already in use. Please choose a different port.`,
-      );
-    }
-    process.exit(1);
-  });
-
 // Graceful shutdown: close the socket server and HTTP server on signals
 const shutdown = (signal?: string) => {
   console.log(`Received ${signal ?? "shutdown"}. Closing Socket.IO server...`);
@@ -85,7 +80,7 @@ const shutdown = (signal?: string) => {
   }
 
   try {
-    httpServer.close(() => {
+    httpServer?.close?.(() => {
       console.log("HTTP server closed. Exiting.");
       process.exit(0);
     });

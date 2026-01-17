@@ -18,6 +18,11 @@ if (!global.__pool) {
     connectionString: env.DATABASE_URL,
     max: 10,
   });
+
+  // Error handler to log issues
+  global.__pool.on("error", (err) => {
+    console.error("Database pool error:", err.message);
+  });
 }
 
 const pool = global.__pool;

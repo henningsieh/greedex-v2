@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from "crypto";
 
 import type { ProjectActivityType } from "@/features/project-activities/types";
 import { db } from "@/lib/drizzle/db";

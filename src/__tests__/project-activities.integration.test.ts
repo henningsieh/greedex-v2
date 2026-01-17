@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { randomUUID } from "crypto";
 
 import type { EUCountryCode } from "@/config/eu-countries";
 import type { ProjectActivityType } from "@/features/project-activities/types";
