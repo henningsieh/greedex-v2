@@ -1,4 +1,5 @@
 import { Text } from "@react-email/components";
+
 import { emailTypography } from "../config/styles";
 
 interface EmailHeadingProps {

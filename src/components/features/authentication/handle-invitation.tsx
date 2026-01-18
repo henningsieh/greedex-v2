@@ -1,6 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { AcceptInvitationButton } from "@/components/features/organizations/accept-invitation-button";
 import { CancelInvitationButton } from "@/components/features/organizations/cancel-invitation-button";
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
@@ -13,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { auth } from "@/lib/better-auth";
+import { useTranslations } from "next-intl";
 
 interface HandleInvitationProps {
   invitation: Awaited<ReturnType<typeof auth.api.getInvitation>>;
@@ -32,40 +32,37 @@ export function HandleInvitation({ invitation }: HandleInvitationProps) {
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
-              <span className="inline-flex items-center gap-2 font-medium text-muted-foreground text-sm">
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
                 <ORGANIZATION_ICONS.organization
                   aria-hidden={true}
                   className="size-5"
                 />
                 {t("invitation.organization")}
               </span>
-              <span className="font-semibold text-sm">
+              <span className="text-sm font-semibold">
                 {invitation.organizationName}
               </span>
             </div>
 
             <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
-              <span className="inline-flex items-center gap-2 font-medium text-muted-foreground text-sm">
-                <ORGANIZATION_ICONS.role
-                  aria-hidden={true}
-                  className="size-5"
-                />
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                <ORGANIZATION_ICONS.role aria-hidden={true} className="size-5" />
                 {t("invitation.role")}
               </span>
-              <span className="font-semibold text-sm">
+              <span className="text-sm font-semibold">
                 {t(`roles.${invitation.role}`)}
               </span>
             </div>
 
             <div className="flex items-center justify-between rounded-md bg-muted/50 px-3 py-2">
-              <span className="inline-flex items-center gap-2 font-medium text-muted-foreground text-sm">
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
                 <ORGANIZATION_ICONS.person
                   aria-hidden={true}
                   className="size-5"
                 />
                 {t("invitation.invitedBy")}
               </span>
-              <span className="font-semibold text-sm">
+              <span className="text-sm font-semibold">
                 {invitation.inviterEmail}
               </span>
             </div>

@@ -36,11 +36,11 @@ export function TransportBreakdown({ stats }: TransportBreakdownProps) {
 
   return (
     <Card className="border-primary/20 bg-card/50 backdrop-blur-sm">
-      <div className="border-primary/20 border-b px-6 py-4">
-        <h2 className="font-bold text-foreground text-xl">
+      <div className="border-b border-primary/20 px-6 py-4">
+        <h2 className="text-xl font-bold text-foreground">
           Transport CO₂ Breakdown
         </h2>
-        <p className="mt-1 text-muted-foreground text-sm">
+        <p className="mt-1 text-sm text-muted-foreground">
           Emissions by transport type
         </p>
       </div>
@@ -58,26 +58,23 @@ export function TransportBreakdown({ stats }: TransportBreakdownProps) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                    <TransportIcon
-                      className="h-5 w-5 text-primary"
-                      type={type}
-                    />
+                    <TransportIcon className="h-5 w-5 text-primary" type={type} />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground">
                       {typeLabels[type]}
                     </p>
-                    <p className="text-muted-foreground text-xs">
+                    <p className="text-xs text-muted-foreground">
                       {count} {count === 1 ? "trip" : "trips"} •{" "}
                       {distance.toFixed(0)} km
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-foreground text-lg">
+                  <p className="text-lg font-bold text-foreground">
                     {co2.toFixed(1)}
                   </p>
-                  <p className="text-muted-foreground text-xs">kg CO₂</p>
+                  <p className="text-xs text-muted-foreground">kg CO₂</p>
                 </div>
               </div>
 

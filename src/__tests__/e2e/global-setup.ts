@@ -1,6 +1,7 @@
 import "dotenv/config";
-import { chromium, type FullConfig } from "@playwright/test";
+
 import { env } from "@/env";
+import { chromium, type FullConfig } from "@playwright/test";
 
 /**
  * Global setup for Playwright tests

@@ -1,9 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, LeafIcon, TreePineIcon, XIcon } from "lucide-react";
 import { animate, motion, useMotionValue } from "motion/react";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 
 /**
  * Threshold for negligible impact (below this value, impact is considered insignificant).
@@ -279,7 +279,7 @@ export function ImpactModal({
           <XIcon className="h-6 w-6" />
         </button>
 
-        <h2 className="mb-10 font-bold text-4xl text-white sm:text-5xl">
+        <h2 className="mb-10 text-4xl font-bold text-white sm:text-5xl">
           Your Impact
         </h2>
 
@@ -289,26 +289,24 @@ export function ImpactModal({
           }`}
         >
           {/* Current CO2 */}
-          <div className="max-w-xs flex-1 rounded-2xl border-2 border-white/20 bg-gradient-to-br from-teal-500/20 to-emerald-500/20 p-8 backdrop-blur-sm">
+          <div className="max-w-xs flex-1 rounded-2xl border-2 border-white/20 bg-linear-to-br from-teal-500/20 to-emerald-500/20 p-8 backdrop-blur-sm">
             <div className="mb-3 flex items-center justify-center gap-2">
               <LeafIcon className="h-8 w-8 text-emerald-400" />
             </div>
             <div className="mb-2 text-lg text-white/80">Total CO₂</div>
-            <div className={`font-bold text-5xl ${getCO2Color(newCO2)}`}>
+            <div className={`text-5xl font-bold ${getCO2Color(newCO2)}`}>
               {displayCO2}
             </div>
             <div className="mt-2 text-white/60">kg CO₂</div>
           </div>
 
           {/* Trees Needed */}
-          <div className="max-w-xs flex-1 rounded-2xl border-2 border-white/20 bg-gradient-to-br from-green-500/20 to-emerald-500/20 p-8 backdrop-blur-sm">
+          <div className="max-w-xs flex-1 rounded-2xl border-2 border-white/20 bg-linear-to-br from-green-500/20 to-emerald-500/20 p-8 backdrop-blur-sm">
             <div className="mb-3 flex items-center justify-center gap-2">
               <TreePineIcon className="h-8 w-8 text-green-400" />
             </div>
             <div className="mb-2 text-lg text-white/80">Trees Needed</div>
-            <div className="font-bold text-5xl text-green-400">
-              {treesNeeded}
-            </div>
+            <div className="text-5xl font-bold text-green-400">{treesNeeded}</div>
             <div className="mt-2 text-white/60">to offset</div>
           </div>
         </div>
@@ -319,7 +317,7 @@ export function ImpactModal({
             animationPhase !== "start" ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className={`font-semibold text-2xl ${getImpactColor(impact)}`}>
+          <div className={`text-2xl font-semibold ${getImpactColor(impact)}`}>
             {impactMessage}
           </div>
           {impact > NEGLIGIBLE_IMPACT_THRESHOLD && (
@@ -332,7 +330,7 @@ export function ImpactModal({
 
         {/* Continue Button */}
         <Button
-          className="bg-gradient-to-r from-teal-500 to-emerald-500 text-lg text-white hover:from-teal-600 hover:to-emerald-600"
+          className="bg-linear-to-r from-teal-500 to-emerald-500 text-lg text-white hover:from-teal-600 hover:to-emerald-600"
           onClick={onClose}
           size="lg"
         >

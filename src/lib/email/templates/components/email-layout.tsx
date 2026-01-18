@@ -7,11 +7,13 @@ import {
   Section,
   Tailwind,
 } from "@react-email/components";
+
 import {
   emailLayout,
   generateDarkModeCSS,
   getTailwindConfig,
 } from "../../config/styles";
+
 import { EmailFooter } from "./email-footer";
 
 interface EmailLayoutProps {

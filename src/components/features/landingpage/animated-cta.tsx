@@ -1,6 +1,6 @@
-import { ChevronRightIcon } from "lucide-react";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import { cn } from "@/lib/utils";
+import { ChevronRightIcon } from "lucide-react";
 
 interface AnimatedGradientCTAProps {
   leftEmoji: React.ReactNode;
@@ -22,7 +22,7 @@ export function AnimatedGradientCTA({
     >
       <span
         className={cn(
-          "absolute inset-0 block h-full w-full animate-gradient rounded-[inherit] bg-linear-to-r bg-size-[300%_100%] from-primary/60 via-secondary/60 to-primary/60 p-px",
+          "absolute inset-0 block h-full w-full animate-gradient rounded-[inherit] bg-linear-to-r from-primary/60 via-secondary/60 to-primary/60 bg-size-[300%_100%] p-px",
         )}
         style={{
           WebkitMask:
@@ -35,7 +35,7 @@ export function AnimatedGradientCTA({
       />
       {leftEmoji} <hr className="mx-2 h-4 w-px shrink-0 bg-neutral-500" />
       <AnimatedGradientText
-        className="flex items-center justify-center self-center text-center font-extrabold text-sm sm:text-base md:text-lg lg:text-xl"
+        className="flex items-center justify-center self-center text-center text-sm font-extrabold sm:text-base md:text-lg lg:text-xl"
         colorFrom="oklch(0.8296 0.1495 148.9899)"
         colorTo="var(--secondary)"
       >

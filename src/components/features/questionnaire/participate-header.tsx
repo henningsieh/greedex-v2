@@ -1,7 +1,5 @@
 "use client";
 
-import { Factory, LeafIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
 import { ProjectLocation } from "@/components/project-location";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import {
@@ -10,13 +8,11 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/components/ui/empty";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { calculateActivitiesCO2 } from "@/features/projects/utils";
 import type { Project } from "@/features/questionnaire/types";
+import { Factory, LeafIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 interface ParticipateHeaderProps {
   project: Project;
@@ -42,11 +38,11 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
         <div className="mb-6 flex flex-col items-center gap-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-0.5">
             <LeafIcon className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
-            <span className="font-medium text-[10px] text-teal-600 uppercase tracking-wider dark:text-teal-400">
+            <span className="text-[10px] font-medium tracking-wider text-teal-600 uppercase dark:text-teal-400">
               {t("header.badge")}
             </span>
           </div>
-          <p className="font-medium text-lg text-muted-foreground">
+          <p className="text-lg font-medium text-muted-foreground">
             {t("header.title")} <span className="mx-1 opacity-30"> | </span>{" "}
             {t("header.subtitle")}
           </p>
@@ -56,7 +52,7 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
       <Card className="flex w-full flex-col gap-0 overflow-hidden py-0 md:flex-row md:py-6">
         {/* Left Side: Project Name */}
         <div className="flex flex-1 items-center justify-start p-6">
-          <h1 className="text-center font-bold text-2xl text-foreground leading-tight tracking-tight sm:text-3xl md:text-4xl">
+          <h1 className="text-center text-2xl leading-tight font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
             {project.name}
             {project.location && (
               <ProjectLocation
@@ -93,18 +89,18 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
                     <div className="flex flex-col items-center justify-center gap-1">
                       <div className="flex items-center gap-2 text-muted-foreground/80">
                         <Factory className="h-3.5 w-3.5" />
-                        <span className="font-medium text-sm">
+                        <span className="text-sm font-medium">
                           {t("project-activities.title")}
                         </span>
                       </div>
 
                       <div className="flex items-baseline gap-2">
-                        <span className="font-bold font-mono text-foreground/90 text-lg">
+                        <span className="font-mono text-lg font-bold text-foreground/90">
                           +{projectActivitiesCO2.toFixed(1)} kg CO₂
                         </span>
                       </div>
                     </div>
-                    <p className="mt-1.5 font-medium text-[10px] text-muted-foreground/60 uppercase tracking-wide">
+                    <p className="mt-1.5 text-[10px] font-medium tracking-wide text-muted-foreground/60 uppercase">
                       {t("project-activities.note")}
                     </p>
                   </div>

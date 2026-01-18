@@ -1,17 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
 import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
@@ -28,12 +16,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -54,6 +37,18 @@ import { EditActivityFormItemSchema } from "@/features/project-activities/valida
 import type { ProjectType } from "@/features/projects/types";
 import { EditProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 
 interface EditProjectFormProps {
   project: ProjectType;
@@ -289,11 +284,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     activity: z.infer<typeof EditActivityFormItemSchema>,
   ) {
     // Deleted existing activity
-    if (
-      activity.isDeleted === true &&
-      activity.isNew === false &&
-      activity.id
-    ) {
+    if (activity.isDeleted === true && activity.isNew === false && activity.id) {
       await deleteActivityMutation(activity.id);
       return;
     }
@@ -305,11 +296,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     }
 
     // Existing activity to update
-    if (
-      activity.isNew === false &&
-      activity.isDeleted !== true &&
-      activity.id
-    ) {
+    if (activity.isNew === false && activity.isDeleted !== true && activity.id) {
       await updateActivityMutation({ activityId: activity.id, activity });
       return;
     }
@@ -379,7 +366,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
         })}
       >
         {/* Step indicator */}
-        <p className="mb-4 text-muted-foreground text-sm">
+        <p className="mb-4 text-sm text-muted-foreground">
           Step {currentStep} of {totalSteps}
         </p>
 
@@ -390,9 +377,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Field data-invalid={!!errors.startDate}>
-                <FieldLabel htmlFor="startDate">
-                  {t("new.start-date")}
-                </FieldLabel>
+                <FieldLabel htmlFor="startDate">{t("new.start-date")}</FieldLabel>
                 <Controller
                   control={control}
                   name="startDate"
@@ -433,9 +418,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                   <CountrySelect
                     euOnly={true}
                     onValueChange={field.onChange}
-                    placeholder={
-                      t("new.country-placeholder") || "Select country"
-                    }
+                    placeholder={t("new.country-placeholder") || "Select country"}
                     value={field.value}
                   />
                 )}
@@ -483,10 +466,8 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
           <FieldGroup>
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">
-                  {tActivities("title")}
-                </CardTitle>
-                <p className="text-muted-foreground text-sm">
+                <CardTitle className="text-lg">{tActivities("title")}</CardTitle>
+                <p className="text-sm text-muted-foreground">
                   {tActivities("description")}
                 </p>
               </CardHeader>
@@ -540,9 +521,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                                   onValueChange={selectField.onChange}
                                   value={selectField.value}
                                 >
-                                  <SelectTrigger
-                                    id={`activities.${index}.type`}
-                                  >
+                                  <SelectTrigger id={`activities.${index}.type`}>
                                     <SelectValue
                                       placeholder={tActivities(
                                         "form.activity-type-placeholder",
@@ -566,9 +545,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                               !!errors.activities?.[index]?.distanceKm
                             }
                           >
-                            <FieldLabel
-                              htmlFor={`activities.${index}.distance`}
-                            >
+                            <FieldLabel htmlFor={`activities.${index}.distance`}>
                               {tActivities("form.distance")}
                             </FieldLabel>
                             <Controller
@@ -597,9 +574,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                         </div>
 
                         <Field className="mt-4">
-                          <FieldLabel
-                            htmlFor={`activities.${index}.description`}
-                          >
+                          <FieldLabel htmlFor={`activities.${index}.description`}>
                             {tActivities("form.description")}
                           </FieldLabel>
                           <Textarea
@@ -631,9 +606,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
             <div className="flex gap-2">
               <Button
                 className="w-fit"
-                onClick={() =>
-                  setCurrentStep(PROJECT_FORM_STEPS.PROJECT_DETAILS)
-                }
+                onClick={() => setCurrentStep(PROJECT_FORM_STEPS.PROJECT_DETAILS)}
                 type="button"
                 variant="outline"
               >

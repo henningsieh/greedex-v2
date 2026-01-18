@@ -112,16 +112,13 @@ function processPayment(amount: number, cardNumber: string, cvv: string) {
 
 ```typescript
 interface PaymentProcessor {
-  processPayment(
-    amount: number,
-    details: PaymentDetails
-  ): Promise<PaymentResult>;
+  processPayment(amount: number, details: PaymentDetails): Promise<PaymentResult>;
 }
 
 class StripeProcessor implements PaymentProcessor {
   async processPayment(
     amount: number,
-    details: PaymentDetails
+    details: PaymentDetails,
   ): Promise<PaymentResult> {
     // Implementation
   }
@@ -130,7 +127,7 @@ class StripeProcessor implements PaymentProcessor {
 function processPayment(
   processor: PaymentProcessor,
   amount: number,
-  details: PaymentDetails
+  details: PaymentDetails,
 ) {
   return processor.processPayment(amount, details);
 }
@@ -472,4 +469,3 @@ Clean code is:
 - **Configurable**: Uses constants and configuration over hardcoding
 
 Remember: Code is read far more often than it is written. Write code for your future self and your teammates.
-

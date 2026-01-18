@@ -1,16 +1,5 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  CalendarIcon,
-  Edit2Icon,
-  EyeIcon,
-  MoreHorizontalIcon,
-  Trash2Icon,
-} from "lucide-react";
-import { useFormatter, useLocale } from "next-intl";
-import { Suspense, useState } from "react";
-import { toast } from "sonner";
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import {
   EditProjectForm,
@@ -47,6 +36,17 @@ import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  CalendarIcon,
+  Edit2Icon,
+  EyeIcon,
+  MoreHorizontalIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useFormatter, useLocale } from "next-intl";
+import { Suspense, useState } from "react";
+import { toast } from "sonner";
 
 interface ProjectDetailCardProps {
   project: ProjectType;
@@ -158,7 +158,7 @@ export function ProjectCard({
                     />
                   )}
                   <h3
-                    className="line-clamp-2 min-w-0 flex-1 font-semibold text-lg leading-tight tracking-tight"
+                    className="line-clamp-2 min-w-0 flex-1 text-lg leading-tight font-semibold tracking-tight"
                     title={project.name}
                   >
                     {project.name}
@@ -234,7 +234,7 @@ export function ProjectCard({
             <CardContent className="flex-1 pb-3">
               <div className="grid grid-cols-2 gap-3 rounded-lg border bg-muted/30 p-3 text-sm">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-1.5 text-muted-foreground text-xs">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <CalendarIcon className="h-3.5 w-3.5" />
                     <span>Start Date</span>
                   </div>
@@ -245,7 +245,7 @@ export function ProjectCard({
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <div className="flex items-center gap-1.5 text-muted-foreground text-xs">
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <CalendarIcon className="h-3.5 w-3.5" />
                     <span>End Date</span>
                   </div>
@@ -276,7 +276,7 @@ export function ProjectCard({
                   {status === "completed" && "Completed"}
                   {status === "upcoming" && "Upcoming"}
                 </Badge>
-                <span className="text-muted-foreground text-xs">
+                <span className="text-xs text-muted-foreground">
                   Created{" "}
                   {format.relativeTime(new Date(project.createdAt), { now })}
                 </span>

@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import {
   ProjectDetails,
   ProjectDetailsSkeleton,
@@ -7,6 +5,8 @@ import {
 import { ErrorFallback } from "@/components/features/projects/project-error-fallback";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 /**
  * Render the project details tabs for a given project while ensuring server-side query data for the project, its participants, and activities is prefetched into the React Query cache.

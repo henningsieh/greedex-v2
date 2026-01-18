@@ -49,18 +49,18 @@ export function GlobeSection() {
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             {/* Left side - Text content */}
             <div className="space-y-6">
-              <div className="inline-block rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 font-semibold text-primary text-sm uppercase tracking-wider">
+              <div className="inline-block rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-semibold tracking-wider text-primary uppercase">
                 Global Impact
               </div>
 
-              <h2 className="font-semibold text-4xl tracking-tight md:text-5xl lg:text-6xl">
+              <h2 className="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl">
                 Across Europe,{" "}
-                <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-teal-400">
+                <span className="bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent dark:from-emerald-400 dark:to-teal-400">
                   Together
                 </span>
               </h2>
 
-              <p className="text-lg text-muted-foreground leading-relaxed md:text-xl">
+              <p className="text-lg leading-relaxed text-muted-foreground md:text-xl">
                 Greendex connects organizations across all {EU_MEMBER_COUNT} EU
                 member states, creating a unified network dedicated to
                 environmental sustainability and green initiatives.
@@ -68,16 +68,16 @@ export function GlobeSection() {
 
               <div className="grid grid-cols-2 gap-6 pt-4">
                 <div className="space-y-2">
-                  <div className="font-bold text-4xl text-primary">
+                  <div className="text-4xl font-bold text-primary">
                     {EU_MEMBER_COUNT}
                   </div>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-sm text-muted-foreground">
                     EU Member States
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <div className="font-bold text-4xl text-primary">450M+</div>
-                  <p className="text-muted-foreground text-sm">
+                  <div className="text-4xl font-bold text-primary">450M+</div>
+                  <p className="text-sm text-muted-foreground">
                     Potential Participants
                   </p>
                 </div>
@@ -111,7 +111,7 @@ export function GlobeSection() {
                     </span>
                   );
                 })}
-                <span className="rounded-full border border-primary/90 bg-primary/30 px-3 py-1 font-semibold text-primary-foreground/50 text-xs">
+                <span className="rounded-full border border-primary/90 bg-primary/30 px-3 py-1 text-xs font-semibold text-primary-foreground/50">
                   +{EU_MEMBER_COUNT - 8} more
                 </span>
               </div>
@@ -121,7 +121,7 @@ export function GlobeSection() {
             <div className="relative flex items-center justify-center">
               <div className="relative">
                 {/* Glow effect behind globe */}
-                <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-br from-emerald-400/20 via-teal-500/20 to-cyan-400/20 blur-3xl dark:from-emerald-500/30 dark:via-teal-600/30 dark:to-cyan-500/30" />
+                <div className="absolute inset-0 -z-10 rounded-full bg-linear-to-br from-emerald-400/20 via-teal-500/20 to-cyan-400/20 blur-3xl dark:from-emerald-500/30 dark:via-teal-600/30 dark:to-cyan-500/30" />
 
                 {/* Globe component (CSS glow removed to avoid double halo) */}
                 <Globe

@@ -1,8 +1,8 @@
 // back-to-home.tsx
 
-import { ChevronLeftIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/i18n/routing";
+import { ChevronLeftIcon } from "lucide-react";
 
 interface Props {
   label?: string;

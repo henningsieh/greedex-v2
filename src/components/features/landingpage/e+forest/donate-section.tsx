@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,6 +8,8 @@ import {
 } from "@/components/ui/card";
 import { eForestConfig } from "@/config/e-forest";
 import { Link } from "@/lib/i18n/routing";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 const HowItWorksIcon = eForestConfig.icons.howItWorks;
 const PlantingIcon = eForestConfig.icons.planting;
@@ -22,7 +22,7 @@ export function DonateSection() {
     <section className="space-y-12 bg-muted/50 py-12">
       <div className="container mx-auto max-w-7xl px-4">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 font-bold text-3xl md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 text-3xl font-bold md:text-4xl lg:text-5xl">
             {t("donate.title")}
           </h2>
           <p className="mx-auto text-lg text-muted-foreground lg:text-xl">
@@ -90,7 +90,7 @@ export function DonateSection() {
       </div>
 
       <div className="container mx-auto flex flex-col items-center justify-center gap-4 text-center">
-        <p className="font-medium text-muted-foreground text-sm">
+        <p className="text-sm font-medium text-muted-foreground">
           {t("funding.text")}
         </p>
         <div className="relative h-16 w-60">

@@ -22,15 +22,13 @@ export interface CityLocation {
  *
  * Derived from the central EU_COUNTRIES configuration
  */
-export const EU_CAPITAL_CITIES: CityLocation[] = EU_COUNTRIES.map(
-  (country) => ({
-    name: country.capital,
-    countryCode: country.code,
-    latitude: country.latitude,
-    longitude: country.longitude,
-    size: country.markerSize,
-  }),
-);
+export const EU_CAPITAL_CITIES: CityLocation[] = EU_COUNTRIES.map((country) => ({
+  name: country.capital,
+  countryCode: country.code,
+  latitude: country.latitude,
+  longitude: country.longitude,
+  size: country.markerSize,
+}));
 
 /**
  * Return the first `limit` EU capital cities, or all cities when `limit` is not provided or not greater than zero.

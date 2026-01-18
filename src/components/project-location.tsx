@@ -1,9 +1,9 @@
-import { GlobeIcon } from "lucide-react";
-import type { JSX } from "react";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Badge } from "@/components/ui/badge";
 import { getCountryData } from "@/lib/i18n/countries";
 import { cn } from "@/lib/utils";
+import { GlobeIcon } from "lucide-react";
+import type { JSX } from "react";
 
 type ProjectLocationProps =
   | {
@@ -90,13 +90,9 @@ const UnifiedContent = ({
     <span className="flex items-baseline gap-1">
       <div className="flex gap-0.5">
         {project.location && (
-          <span className="font-medium text-foreground">
-            {project.location}
-          </span>
+          <span className="font-medium text-foreground">{project.location}</span>
         )}
-        {project.location && (
-          <span className="text-muted-foreground/60">,</span>
-        )}
+        {project.location && <span className="text-muted-foreground/60">,</span>}
       </div>
       <span
         className={cn(
@@ -123,9 +119,7 @@ const SplitContent = ({
   >
     {project.location && (
       <>
-        <span className="font-semibold text-foreground">
-          {project.location}
-        </span>
+        <span className="font-semibold text-foreground">{project.location}</span>
         <span className="mx-0.5 h-[1em] w-[px] bg-border" />
       </>
     )}
@@ -216,7 +210,7 @@ export function ProjectLocation({
     return (
       <Badge
         className={cn(
-          "inline-flex gap-2 rounded-md border-border/60 bg-background/50 px-2 py-1 align-middle font-normal text-sm",
+          "inline-flex gap-2 rounded-md border-border/60 bg-background/50 px-2 py-1 align-middle text-sm font-normal",
           className,
         )}
         variant="outline"

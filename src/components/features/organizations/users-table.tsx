@@ -1,20 +1,5 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type SortingState,
-  useReactTable,
-} from "@tanstack/react-table";
-import { FilterXIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
-import type z from "zod";
 import { SortableHeader } from "@/components/features/projects/sortable-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -39,12 +24,25 @@ import {
 } from "@/components/ui/table";
 import { MEMBER_SORT_FIELDS } from "@/config/organizations";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
-import type {
-  MemberRole,
-  MemberSortField,
-} from "@/features/organizations/types";
+import type { MemberRole, MemberSortField } from "@/features/organizations/types";
 import type { MemberWithUserSchema } from "@/features/organizations/validation-schemas";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+} from "@tanstack/react-table";
+import { FilterXIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
+import type z from "zod";
+
 import { InviteEmployeeDialog } from "./invite-employee-dialog";
 
 interface TeamTableProps {
@@ -115,9 +113,7 @@ export function UsersTable({
 
   type MemberWithUser = z.infer<typeof MemberWithUserSchema>;
 
-  const columns = useMemo<
-    ColumnDef<MemberWithUser, string | Date | undefined>[]
-  >(
+  const columns = useMemo<ColumnDef<MemberWithUser, string | Date | undefined>[]>(
     () => [
       {
         id: "select",
@@ -128,9 +124,7 @@ export function UsersTable({
               table.getIsAllPageRowsSelected() ||
               (table.getIsSomePageRowsSelected() && "indeterminate")
             }
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(!!value)
-            }
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           />
         ),
         cell: ({ row }) => (
@@ -386,7 +380,7 @@ export function UsersTable({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-muted-foreground text-sm">
+        <div className="flex-1 text-sm text-muted-foreground">
           {t("rowsSelected", {
             selected: table.getFilteredSelectedRowModel().rows.length,
             total: table.getFilteredRowModel().rows.length,

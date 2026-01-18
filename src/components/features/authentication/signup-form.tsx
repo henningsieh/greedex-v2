@@ -1,12 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UserPlus } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useMemo } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 import { DASHBOARD_PATH, LOGIN_PATH } from "@/app/routes";
 import { normalizeRedirectPath } from "@/components/features/authentication/auth-flow-layout";
 import { SocialButtons } from "@/components/features/authentication/social-buttons";
@@ -30,6 +23,13 @@ import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserPlus } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 /**
  * Render a signup form that validates input and registers a new user via email.
@@ -81,8 +81,7 @@ export function SignupForm({
   });
 
   const finalRedirect =
-    env.NEXT_PUBLIC_BASE_URL +
-    normalizeRedirectPath(nextPageUrl, DASHBOARD_PATH);
+    env.NEXT_PUBLIC_BASE_URL + normalizeRedirectPath(nextPageUrl, DASHBOARD_PATH);
 
   console.debug("SignupForm onSubmit finalRedirect:", finalRedirect);
 
@@ -119,7 +118,7 @@ export function SignupForm({
             <UserPlus className="size-7 text-primary" />
           </div>
           <CardTitle className="space-y-1">
-            <h1 className="font-bold text-xl">{t("signup.title")}</h1>
+            <h1 className="text-xl font-bold">{t("signup.title")}</h1>
           </CardTitle>
           <CardDescription className="text-sm">
             {t("signup.description")}

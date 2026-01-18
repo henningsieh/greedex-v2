@@ -1,12 +1,6 @@
-/** biome-ignore-all lint/correctness/noUnusedFunctionParameters: ongoing work */
-/** biome-ignore-all lint/correctness/noUnusedVariables: ongoing work */
-
-import { headers } from "next/headers";
-import { notFound } from "next/navigation";
-import { getLocale } from "next-intl/server";
 import { ParticipateHeader } from "@/components/features/questionnaire/participate-header";
 import { getProjectData } from "@/features/projects/utils";
-import { auth } from "@/lib/better-auth";
+import { notFound } from "next/navigation";
 
 /**
  * Public Project Participation Layout
@@ -25,11 +19,6 @@ export default async function PublicParticipateLayout({
   }>;
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
   const { id: projectId } = await params;
   const project = await getProjectData(projectId);
 

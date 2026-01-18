@@ -1,5 +1,6 @@
 import { render } from "@react-email/components";
 import nodemailer from "nodemailer";
+
 import { EmailVerification } from "../src/lib/email/templates/email-verification";
 import { OrganizationInvitation } from "../src/lib/email/templates/organization-invitation";
 import { PasswordResetEmail } from "../src/lib/email/templates/password-reset";

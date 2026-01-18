@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import type { Column, Table } from "@tanstack/react-table";
 import {
   ArrowDown10Icon,
@@ -6,8 +8,6 @@ import {
   ArrowUpAZIcon,
   ArrowUpDown,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 interface SortableHeaderProps<TData, TValue> {
   column: Column<TData, TValue>;

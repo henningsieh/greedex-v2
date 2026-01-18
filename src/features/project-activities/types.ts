@@ -1,5 +1,5 @@
-import type { InferSelectModel } from "drizzle-orm";
 import type { projectActivitiesTable } from "@/lib/drizzle/schema";
+import type { InferSelectModel } from "drizzle-orm";
 
 // ============================================================================
 // PROJECT ACTIVITY TYPES
@@ -8,9 +8,7 @@ import type { projectActivitiesTable } from "@/lib/drizzle/schema";
 /**
  * Project activity type inferred from DB schema
  */
-export type ProjectActivityType = InferSelectModel<
-  typeof projectActivitiesTable
->;
+export type ProjectActivityType = InferSelectModel<typeof projectActivitiesTable>;
 
 /**
  * Re-export activity value type from config for convenience

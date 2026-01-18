@@ -1,9 +1,9 @@
-import { MessageSquareIcon } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
 import { Blockquote, BlockquoteAuthor } from "@/components/block-quote";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ProjectWithRelationsType } from "@/features/projects/types";
+import { MessageSquareIcon } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
 
 interface ProjectDetailsProps {
   project: ProjectWithRelationsType;
@@ -30,10 +30,10 @@ export function ProjectDetailsTab({ project }: ProjectDetailsProps) {
       <CardContent className="space-y-6 p-6">
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-1">
-            <p className="font-medium text-muted-foreground text-sm">
+            <p className="text-sm font-medium text-muted-foreground">
               {t("start-date")}
             </p>
-            <p className="font-semibold text-base">
+            <p className="text-base font-semibold">
               {format.dateTime(project.startDate, {
                 year: "numeric",
                 month: "long",
@@ -42,10 +42,10 @@ export function ProjectDetailsTab({ project }: ProjectDetailsProps) {
             </p>
           </div>
           <div className="space-y-1">
-            <p className="font-medium text-muted-foreground text-sm">
+            <p className="text-sm font-medium text-muted-foreground">
               {t("end-date")}
             </p>
-            <p className="font-semibold text-base">
+            <p className="text-base font-semibold">
               {format.dateTime(project.endDate, {
                 year: "numeric",
                 month: "long",
@@ -57,17 +57,17 @@ export function ProjectDetailsTab({ project }: ProjectDetailsProps) {
 
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="space-y-1">
-            <p className="font-medium text-muted-foreground text-sm">
+            <p className="text-sm font-medium text-muted-foreground">
               {t("country")}
             </p>
-            <p className="font-semibold text-base">{project.country}</p>
+            <p className="text-base font-semibold">{project.country}</p>
           </div>
           {project.location && (
             <div className="space-y-1">
-              <p className="font-medium text-muted-foreground text-sm">
+              <p className="text-sm font-medium text-muted-foreground">
                 {t("location")}
               </p>
-              <p className="font-semibold text-base">{project.location}</p>
+              <p className="text-base font-semibold">{project.location}</p>
             </div>
           )}
         </div>
@@ -76,11 +76,11 @@ export function ProjectDetailsTab({ project }: ProjectDetailsProps) {
           <div className="space-y-4 border-t pt-4">
             <div className="flex items-center gap-3 text-muted-foreground">
               <MessageSquareIcon className="h-4 w-4 text-secondary" />
-              <p className="font-medium text-sm">{t("welcome-message")}</p>
+              <p className="text-sm font-medium">{t("welcome-message")}</p>
             </div>
             <Blockquote>
               {project.welcomeMessage}
-              <BlockquoteAuthor className="font-normal text-sm">
+              <BlockquoteAuthor className="text-sm font-normal">
                 — {project.responsibleUser?.name || project.responsibleUserId}
               </BlockquoteAuthor>
             </Blockquote>

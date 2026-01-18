@@ -1,4 +1,5 @@
 import { Hr, Section, Text } from "@react-email/components";
+
 import { emailColors, emailSpacing } from "../../config/styles";
 
 const footerStyles = {
@@ -79,10 +80,7 @@ export function EmailFooter() {
             info@greendex.world
           </a>
           {" · "}
-          <a
-            href="https://greendex.world"
-            style={footerStyles.contactLinkAccent}
-          >
+          <a href="https://greendex.world" style={footerStyles.contactLinkAccent}>
             greendex.world
           </a>
         </Text>

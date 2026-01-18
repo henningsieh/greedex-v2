@@ -1,7 +1,5 @@
 "use client";
 
-import { CheckCircle2, ExternalLink } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { DASHBOARD_PATH } from "@/app/routes";
 import {
   Accordion,
@@ -22,6 +20,8 @@ import { Separator } from "@/components/ui/separator";
 import { WORKSHOP_LINKS } from "@/config/workshops";
 import type { WorkshopType } from "@/features/landingpage/types";
 import { Link } from "@/lib/i18n/routing";
+import { CheckCircle2, ExternalLink } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 /**
  * Render workshop detail UI for the specified workshop type.
@@ -38,18 +38,18 @@ export function WorkshopDetails({ type }: { type: WorkshopType }) {
   // Helper to get link configuration for a step
   const getStepLinks = (
     stepKey: string,
-  ): Array<{
+  ): {
     linkKey: string;
     href: string;
     isExternal: boolean;
-  }> => {
+  }[] => {
     const linkMap: Record<
       string,
-      Array<{
+      {
         linkKey: string;
         href: string;
         isExternal: boolean;
-      }>
+      }[]
     > = {
       create: [
         {
@@ -127,7 +127,7 @@ export function WorkshopDetails({ type }: { type: WorkshopType }) {
     <>
       {/* Header */}
       <div className="space-y-4 text-center">
-        <h2 className="font-semibold text-3xl lg:text-4xl">{title}</h2>
+        <h2 className="text-3xl font-semibold lg:text-4xl">{title}</h2>
         <Badge className="px-4 pt-1 text-sm" variant="secondary">
           {duration}
         </Badge>
@@ -147,62 +147,60 @@ export function WorkshopDetails({ type }: { type: WorkshopType }) {
             </CardHeader>
             <CardContent>
               <Accordion className="w-full" collapsible type="single">
-                {Object.entries(section.steps).map(
-                  ([stepKey, step], stepIdx) => {
-                    const links = getStepLinks(stepKey);
+                {Object.entries(section.steps).map(([stepKey, step], stepIdx) => {
+                  const links = getStepLinks(stepKey);
 
-                    return (
-                      <AccordionItem
-                        key={stepKey}
-                        value={`step-${sectionKey}-${stepKey}`}
-                      >
-                        <AccordionTrigger className="text-left">
-                          <div className="flex items-start gap-3">
-                            <CheckCircle2 className="mt-1 size-5 shrink-0 text-primary" />
-                            <span className="font-medium">
-                              {stepIdx + 1}. {step.title}
-                            </span>
+                  return (
+                    <AccordionItem
+                      key={stepKey}
+                      value={`step-${sectionKey}-${stepKey}`}
+                    >
+                      <AccordionTrigger className="text-left">
+                        <div className="flex items-start gap-3">
+                          <CheckCircle2 className="mt-1 size-5 shrink-0 text-primary" />
+                          <span className="font-medium">
+                            {stepIdx + 1}. {step.title}
+                          </span>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="pt-2 pl-8">
+                        <div className="space-y-4">
+                          <div className="whitespace-pre-line text-muted-foreground">
+                            {step.content}
                           </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="pt-2 pl-8">
-                          <div className="space-y-4">
-                            <div className="whitespace-pre-line text-muted-foreground">
-                              {step.content}
+                          {links.length > 0 && (
+                            <div className="flex flex-wrap gap-2">
+                              {links.map((link) => (
+                                <Button
+                                  asChild
+                                  key={link.linkKey}
+                                  size="sm"
+                                  variant="outline"
+                                >
+                                  {link.isExternal ? (
+                                    <a
+                                      className="inline-flex items-center gap-2"
+                                      href={link.href}
+                                      rel="noopener noreferrer"
+                                      target="_blank"
+                                    >
+                                      {t(`links.${link.linkKey}`)}
+                                      <ExternalLink className="size-3" />
+                                    </a>
+                                  ) : (
+                                    <Link href={link.href}>
+                                      {t(`links.${link.linkKey}`)}
+                                    </Link>
+                                  )}
+                                </Button>
+                              ))}
                             </div>
-                            {links.length > 0 && (
-                              <div className="flex flex-wrap gap-2">
-                                {links.map((link) => (
-                                  <Button
-                                    asChild
-                                    key={link.linkKey}
-                                    size="sm"
-                                    variant="outline"
-                                  >
-                                    {link.isExternal ? (
-                                      <a
-                                        className="inline-flex items-center gap-2"
-                                        href={link.href}
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                      >
-                                        {t(`links.${link.linkKey}`)}
-                                        <ExternalLink className="size-3" />
-                                      </a>
-                                    ) : (
-                                      <Link href={link.href}>
-                                        {t(`links.${link.linkKey}`)}
-                                      </Link>
-                                    )}
-                                  </Button>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    );
-                  },
-                )}
+                          )}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
               </Accordion>
             </CardContent>
           </Card>

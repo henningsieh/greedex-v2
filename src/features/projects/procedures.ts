@@ -1,6 +1,3 @@
-import { and, asc, eq, inArray } from "drizzle-orm";
-import { headers } from "next/headers";
-import { z } from "zod";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import { ProjectParticipantWithUserSchema } from "@/features/participants/validation-schemas";
@@ -17,6 +14,10 @@ import {
 } from "@/lib/drizzle/schema";
 import { base } from "@/lib/orpc/context";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
+import { and, asc, eq, inArray } from "drizzle-orm";
+import { headers } from "next/headers";
+import { z } from "zod";
+
 import {
   ProjectCreateFormSchema,
   ProjectSortFieldSchema,
@@ -248,10 +249,7 @@ export const updateProject = authorized
       .where(
         and(
           eq(projectsTable.id, input.id),
-          eq(
-            projectsTable.organizationId,
-            context.session.activeOrganizationId,
-          ),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       )
       .limit(1);
@@ -262,9 +260,7 @@ export const updateProject = authorized
       });
     }
 
-    if (
-      existingProject.organizationId !== context.session.activeOrganizationId
-    ) {
+    if (existingProject.organizationId !== context.session.activeOrganizationId) {
       throw errors.FORBIDDEN({
         message: "You don't have permission to update this project",
       });
@@ -336,10 +332,7 @@ export const deleteProject = authorized
       .where(
         and(
           eq(projectsTable.id, input.id),
-          eq(
-            projectsTable.organizationId,
-            context.session.activeOrganizationId,
-          ),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       )
       .limit(1);
@@ -422,10 +415,7 @@ export const archiveProject = authorized
       .where(
         and(
           eq(projectsTable.id, input.id),
-          eq(
-            projectsTable.organizationId,
-            context.session.activeOrganizationId,
-          ),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       )
       .limit(1);
@@ -501,8 +491,7 @@ export const setActiveProject = authorized
     if (input.projectId) {
       if (!context.session.activeOrganizationId) {
         throw errors.BAD_REQUEST({
-          message:
-            "No active organization. Please select an organization first.",
+          message: "No active organization. Please select an organization first.",
         });
       }
 
@@ -594,10 +583,7 @@ export const getProjectParticipants = authorized
       .where(
         and(
           eq(projectsTable.id, input.projectId),
-          eq(
-            projectsTable.organizationId,
-            context.session.activeOrganizationId,
-          ),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       )
       .limit(1);
@@ -683,10 +669,7 @@ export const batchDeleteProjects = authorized
       .where(
         and(
           inArray(projectsTable.id, input.projectIds),
-          eq(
-            projectsTable.organizationId,
-            context.session.activeOrganizationId,
-          ),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       );
 
@@ -718,10 +701,7 @@ export const batchDeleteProjects = authorized
       .where(
         and(
           inArray(projectsTable.id, input.projectIds),
-          eq(
-            projectsTable.organizationId,
-            context.session.activeOrganizationId,
-          ),
+          eq(projectsTable.organizationId, context.session.activeOrganizationId),
         ),
       );
 

@@ -1,9 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type z from "zod";
 import { DASHBOARD_PATH } from "@/app/routes";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +15,10 @@ import { findAvailableSlug } from "@/features/organizations/utils";
 import { OrganizationFormSchema } from "@/features/organizations/validation-schemas";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { useRouter } from "@/lib/i18n/routing";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type z from "zod";
 
 interface CreateOrganizationFormProps {
   onSuccess?: () => void;
@@ -64,9 +64,7 @@ export function CreateOrganizationForm({
       );
     } catch (error: unknown) {
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Failed to create organization";
+        error instanceof Error ? error.message : "Failed to create organization";
       toast.error(errorMessage);
     }
   }
@@ -79,7 +77,7 @@ export function CreateOrganizationForm({
   return (
     <div className="space-y-6">
       <div className="space-y-2 text-center">
-        <h1 className="font-bold text-3xl">Create Your Organization</h1>
+        <h1 className="text-3xl font-bold">Create Your Organization</h1>
         <p className="text-muted-foreground">
           Get started by creating your first organization
         </p>
@@ -117,9 +115,7 @@ export function CreateOrganizationForm({
             onClick={handleSubmit}
             type="button"
           >
-            {form.formState.isSubmitting
-              ? "Creating..."
-              : "Create Organization"}
+            {form.formState.isSubmitting ? "Creating..." : "Create Organization"}
           </Button>
         </div>
       </Form>

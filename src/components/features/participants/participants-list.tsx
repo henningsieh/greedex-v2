@@ -1,8 +1,5 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Users2Icon, UsersIcon } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -20,6 +17,9 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Users2Icon, UsersIcon } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
 
 interface ParticipantsListProps {
   activeProjectId: string;
@@ -85,11 +85,11 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
               </Avatar>
               <div className="flex-1">
                 <p className="font-medium">{participant.user.name}</p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-sm text-muted-foreground">
                   {participant.user.email}
                 </p>
               </div>
-              <div className="text-muted-foreground text-sm">
+              <div className="text-sm text-muted-foreground">
                 {t("joined-on")}{" "}
                 {format.dateTime(participant.createdAt, {
                   year: "numeric",
@@ -120,7 +120,7 @@ export function ParticipantsListSkeleton() {
             <UsersIcon className="h-5 w-5" />
           </div>
           <div>
-            <div className="animate-pulse font-medium text-secondary/70 text-xs uppercase tracking-[0.2em]">
+            <div className="animate-pulse text-xs font-medium tracking-[0.2em] text-secondary/70 uppercase">
               {t("participants")}
             </div>
             <div className="mt-1 h-6 w-32 animate-pulse rounded bg-secondary/50" />
@@ -130,7 +130,7 @@ export function ParticipantsListSkeleton() {
 
       <CardContent>
         <div className="space-y-2">
-          {[...new Array(7)].map((_, index) => (
+          {Array.from({ length: 7 }).map((_, index) => (
             <div
               className="flex animate-pulse items-center gap-4 rounded-xl border border-secondary/20 bg-background p-4"
               key={index}

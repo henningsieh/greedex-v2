@@ -15,16 +15,11 @@ interface Props {
   lastLoginMethod?: string | null;
 }
 
-export function SocialButtons({
-  disabled,
-  callbackUrl,
-  lastLoginMethod,
-}: Props) {
+export function SocialButtons({ disabled, callbackUrl, lastLoginMethod }: Props) {
   const handleSocialSignIn = async (provider: SupportedOAuthProvider) => {
     await authClient.signIn.social({
       provider,
-      callbackURL:
-        typeof callbackUrl === "string" ? callbackUrl : DASHBOARD_PATH,
+      callbackURL: typeof callbackUrl === "string" ? callbackUrl : DASHBOARD_PATH,
     });
   };
 

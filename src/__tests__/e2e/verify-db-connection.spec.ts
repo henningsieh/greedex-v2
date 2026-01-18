@@ -5,9 +5,7 @@ const SIGN_IN_TEXT_REGEX =
   /Login to your account to continue your Greendex Erasmus\+ Project Work/;
 
 test.describe("Database Connection Verification", () => {
-  test("app can connect to database and load sign-in page", async ({
-    page,
-  }) => {
+  test("app can connect to database and load sign-in page", async ({ page }) => {
     // Navigate to sign-in page
     await page.goto("http://localhost:3000/en/login");
 

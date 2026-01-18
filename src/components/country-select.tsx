@@ -1,8 +1,5 @@
 "use client";
 
-import { Check, ChevronsUpDown } from "lucide-react";
-import { useLocale } from "next-intl";
-import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -12,13 +9,12 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { getAllCountries, getEUCountries } from "@/lib/i18n/countries";
 import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useLocale } from "next-intl";
+import { useMemo, useState } from "react";
 
 interface CountrySelectProps {
   value?: string;
@@ -109,7 +105,7 @@ export function CountrySelect({
                     <country.Flag className="mr-2 h-4 w-6 rounded-sm border border-border/20" />
                   )}
                   <span>{country.name}</span>
-                  <span className="ml-auto text-muted-foreground text-xs">
+                  <span className="ml-auto text-xs text-muted-foreground">
                     {country.code}
                   </span>
                 </CommandItem>

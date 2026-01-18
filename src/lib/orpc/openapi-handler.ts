@@ -1,8 +1,8 @@
+import { router } from "@/lib/orpc/router";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
 import { onError } from "@orpc/server";
 import { CORSPlugin } from "@orpc/server/plugins";
-import { router } from "@/lib/orpc/router";
 
 /**
  * Centralized OpenAPI handler used by both `/api/openapi` and `/api/docs`.
@@ -13,15 +13,7 @@ import { router } from "@/lib/orpc/router";
 export const openapiHandler = new OpenAPIHandler(router, {
   plugins: [
     new CORSPlugin({
-      allowMethods: [
-        "GET",
-        "POST",
-        "PUT",
-        "PATCH",
-        "DELETE",
-        "HEAD",
-        "OPTIONS",
-      ],
+      allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
       allowHeaders: ["Content-Type", "Authorization"],
       exposeHeaders: ["Content-Disposition"],
       credentials: true,

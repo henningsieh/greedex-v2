@@ -5,6 +5,7 @@
 ## Overview
 
 Greendex v2 provides a modern, user-friendly portal where project organizers can:
+
 - 🏢 **Create and manage organizations** for their Erasmus+ projects
 - 🧒 **Invite participants** and track team members across mobility events
 - 👥 **Team member invitations** (Organization Owners and Employees)
@@ -16,6 +17,7 @@ Greendex v2 provides a modern, user-friendly portal where project organizers can
 - 🕒 **Support workflows** including Green Moment (30 min), Green Deal (60 min), and Green Day (180 min) workshop formats
 
 This next iteration (v2) redesigns the carbon calculator experience as a **multi-tenant SaaS portal** with:
+
 - Real-time organization and team management via Better Auth
 - Secure role-based access control (owner, admin, member)
 - Ready-to-scale WebSocket infrastructure for real-time collaboration
@@ -27,23 +29,24 @@ Learn more at [greendex.world](https://greendex.world) and [calculator.greendex.
 
 ## Tech Stack
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| **Frontend** | Next.js 16 (App Router) + React 19 | Server & client components, type-safe UI |
-| **Language** | TypeScript 5.x | Type safety across the stack |
-| **UI Framework** | shadcn/ui + Tailwind CSS | Component library + responsive design |
-| **Authentication** | Better Auth + Organization Plugin | Multi-tenant auth, org/member management |
-| **State Management** | nuqs | URL-based tab persistence (no extra backend state) |
-| **Database** | PostgreSQL + Drizzle ORM | Type-safe migrations and queries |
-| **Server** | Node.js + Socket.IO | Custom server for WebSocket POC, real-time features |
-| **Code Quality** | Biome | Fast linting & formatting |
-| **Package Manager** | Bun | Fast, zero-config package management |
+| Layer                | Technology                         | Purpose                                             |
+| -------------------- | ---------------------------------- | --------------------------------------------------- |
+| **Frontend**         | Next.js 16 (App Router) + React 19 | Server & client components, type-safe UI            |
+| **Language**         | TypeScript 5.x                     | Type safety across the stack                        |
+| **UI Framework**     | shadcn/ui + Tailwind CSS           | Component library + responsive design               |
+| **Authentication**   | Better Auth + Organization Plugin  | Multi-tenant auth, org/member management            |
+| **State Management** | nuqs                               | URL-based tab persistence (no extra backend state)  |
+| **Database**         | PostgreSQL + Drizzle ORM           | Type-safe migrations and queries                    |
+| **Server**           | Node.js + Socket.IO                | Custom server for WebSocket POC, real-time features |
+| **Code Quality**     | Biome                              | Fast linting & formatting                           |
+| **Package Manager**  | Bun                                | Fast, zero-config package management                |
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
+
 - [Bun](https://bun.sh/) (or Node.js 18+)
 - PostgreSQL database
 - Environment variables (see `.env.example` or `.env`)
@@ -62,6 +65,7 @@ bun install
 ### Environment Setup
 
 Create a `.env.local` file based on your configuration:
+
 ```bash
 # Database
 DATABASE_URL=postgresql://user:password@localhost:5432/greendex
@@ -87,6 +91,7 @@ DISCORD_CLIENT_SECRET=your-discord-client-secret
 ### Development
 
 Run the development server with Socket.IO support (decoupled for memory leak prevention):
+
 ```bash
 bun run dev
 ```
@@ -140,22 +145,26 @@ src/
 ## Key Features — Phase 1 (Organization Registration & Dashboard)
 
 ✅ **Organization Onboarding** (US1)
+
 - New verified users are redirected to create their first organization
 - Only one org required to access the dashboard
 - Unique slug validation with clear error handling
 
 ✅ **Dashboard Navigation** (US2)
+
 - Sidebar navigation separating organization and project concerns
 - Archive functionality for projects
 - URL-based persistence (via `nuqs`)
 - Responsive layout ready for mobile
 
 ✅ **Team Members Overview** (US3)
+
 - Display all organization members in a table
 - Show name, email, role (owner/admin/member), and join date
 - Real-time integration with Better Auth organization schema
 
 ✅ **Projects Grid** (US4)
+
 - Empty state with shadcn Empty component
 - Placeholder for future project creation & management
 - Responsive grid layout
@@ -188,6 +197,7 @@ Migrations are stored in `src/lib/drizzle/migrations/`.
 ## Authentication & Authorization
 
 This project uses **Better Auth** with the **Organization Plugin** for:
+
 - Email/password + OAuth (GitHub, Discord) authentication
 - Multi-tenant organization management
 - Role-based access control (owner, admin, member)
@@ -201,6 +211,7 @@ Client: `src/lib/better-auth/auth-client.ts`
 ## WebSocket & Real-Time (Socket.IO)
 
 A POC for **Socket.IO** is implemented in `src/socket-server.ts` (decoupled from the Next.js server):
+
 - Run both servers in dev with `bun run dev` (starts Next.js on 3000 and Socket.IO on 4000)
 - Use `bun run dev:inspect` to run an inspect/dev instance on `3001` and a socket server on `4001` (helps avoid port collisions while debugging)
 - Production requires `bun run build` then `bun run start` (both `out/server.js` and `out/socket-server.js` will be launched)
@@ -231,12 +242,14 @@ Configuration: `biome.json`
 ## Deployment
 
 ### Recommended: Vercel
+
 1. Push your code to GitHub
 2. Connect the repo to Vercel
 3. Set environment variables in Vercel dashboard
 4. Deploy (Vercel automatically runs `bun run build` and `bun run start`)
 
 ### Self-Hosted (Docker / VPS)
+
 1. Build locally or in CI/CD: `bun run build`
 2. Set production env vars
 3. Run: `bun run start` (expects `out/server.js` from build step)

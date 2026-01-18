@@ -1,6 +1,7 @@
+import type { projectParticipantsTable } from "@/lib/drizzle/schema";
 import type { InferSelectModel } from "drizzle-orm";
 import type { z } from "zod";
-import type { projectParticipantsTable } from "@/lib/drizzle/schema";
+
 import type {
   ParticipantSchema,
   ProjectParticipantWithUserSchema,

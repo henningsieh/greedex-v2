@@ -1,13 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 const PROCESS_ENV_FINDER_REGEX = /\bprocess\.env\b/;
 
-function walkDir(
-  dir: string,
-  extensions: string[] = [".ts", ".tsx"],
-): string[] {
+function walkDir(dir: string, extensions: string[] = [".ts", ".tsx"]): string[] {
   const files: string[] = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {

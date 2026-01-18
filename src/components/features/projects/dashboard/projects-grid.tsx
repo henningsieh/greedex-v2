@@ -1,8 +1,5 @@
 "use client";
 
-import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useCallback, useMemo, useState } from "react";
 import { ProjectCard } from "@/components/features/projects/project-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +19,9 @@ import {
   createProjectComparator,
   getColumnDisplayName,
 } from "@/features/projects/utils";
+import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useCallback, useMemo, useState } from "react";
 
 interface ProjectsGridProps {
   projects: ProjectType[];

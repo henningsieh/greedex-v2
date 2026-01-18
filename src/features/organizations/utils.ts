@@ -53,14 +53,41 @@ function slugify(input: string) {
  * Generate a short random alphanumeric string (lowercase) of given length.
  */
 function randomString(length = DEFAULT_RANDOM_STRING_LENGTH) {
-  let out = "";
-  for (let i = 0; i < length; i++) {
-    out +=
-      RANDOM_STRING_CHARS[
-        Math.floor(Math.random() * RANDOM_STRING_CHARS.length)
-      ];
+  return Array.from(
+    { length },
+    () =>
+      RANDOM_STRING_CHARS[Math.floor(Math.random() * RANDOM_STRING_CHARS.length)],
+  ).join("");
+}
+
+/**
+ * Check if a slug is available.
+ */
+async function isSlugAvailable(slug: string): Promise<boolean> {
+  try {
+    const { error } = await authClient.organization.checkSlug({ slug });
+    return !error;
+  } catch {
+    return false;
   }
-  return out;
+}
+
+/**
+ * Recursively find an available slug by checking with the backend.
+ */
+async function trySlug(baseSlug: string, attempt: number): Promise<string> {
+  if (attempt >= MAX_SLUG_ATTEMPTS) {
+    return randomString(FALLBACK_SLUG_LENGTH);
+  }
+
+  const candidate =
+    attempt === 0 ? baseSlug : `${baseSlug}-${randomString(SLUG_SUFFIX_LENGTH)}`;
+
+  if (await isSlugAvailable(candidate)) {
+    return candidate;
+  }
+
+  return trySlug(baseSlug, attempt + 1);
 }
 
 /**
@@ -70,30 +97,5 @@ function randomString(length = DEFAULT_RANDOM_STRING_LENGTH) {
 export const findAvailableSlug = async (baseName: string): Promise<string> => {
   const baseSlug =
     slugify(baseName) || randomString(DEFAULT_RANDOM_STRING_LENGTH);
-  let candidate = baseSlug;
-  let attempt = 0;
-
-  while (attempt < MAX_SLUG_ATTEMPTS) {
-    try {
-      const { error } = await authClient.organization.checkSlug({
-        slug: candidate,
-      });
-
-      // If no error, slug is available
-      if (!error) {
-        return candidate;
-      }
-
-      // Slug is taken, try another variant
-      attempt++;
-      candidate = `${baseSlug}-${randomString(SLUG_SUFFIX_LENGTH)}`;
-    } catch (_err) {
-      // If error is thrown, slug is likely taken
-      attempt++;
-      candidate = `${baseSlug}-${randomString(SLUG_SUFFIX_LENGTH)}`;
-    }
-  }
-
-  // Fallback: use completely random slug
-  return randomString(FALLBACK_SLUG_LENGTH);
+  return trySlug(baseSlug, 0);
 };

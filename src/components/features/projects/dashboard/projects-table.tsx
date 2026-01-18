@@ -1,31 +1,5 @@
 "use client";
 
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import {
-  type ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type SortingState,
-  useReactTable,
-  type VisibilityState,
-} from "@tanstack/react-table";
-import {
-  FunnelXIcon,
-  SearchIcon,
-  SheetIcon,
-  TablePropertiesIcon,
-  Trash2Icon,
-} from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
-import { toast } from "sonner";
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import { ProjectTableColumns } from "@/components/features/projects/dashboard/projects-table-columns";
 import { Badge } from "@/components/ui/badge";
@@ -57,11 +31,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from "@/config/pagination";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import type { ProjectType } from "@/features/projects/types";
@@ -72,6 +42,32 @@ import {
 import { getCountryData } from "@/lib/i18n/countries";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import {
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  FunnelXIcon,
+  SearchIcon,
+  SheetIcon,
+  TablePropertiesIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 /**
  * Render an interactive projects table with search, filtering, sorting, pagination, row selection, and batch deletion controls.
@@ -146,8 +142,8 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   const selectedProjectIds = selectedRows.map((row) => row.original.id);
   const selectedProjectNames = selectedRows.map((row) => row.original.name);
 
-  const { mutate: batchDeleteMutation, isPending: isBatchDeleting } =
-    useMutation({
+  const { mutate: batchDeleteMutation, isPending: isBatchDeleting } = useMutation(
+    {
       mutationFn: () =>
         orpc.projects.batchDelete({
           projectIds: selectedProjectIds,
@@ -172,7 +168,8 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
         const message = err instanceof Error ? err.message : String(err);
         toast.error(message || t("form.batch-delete.toast-error-generic"));
       },
-    });
+    },
+  );
 
   const handleBatchDelete = async () => {
     const confirmed = await confirm({
@@ -260,7 +257,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                 </SelectContent>
               </Select>
               <Badge
-                className="hidden h-8 gap-1 px-2.5 font-normal text-sm lg:flex"
+                className="hidden h-8 gap-1 px-2.5 text-sm font-normal lg:flex"
                 variant="outline"
               >
                 <span className="font-medium">
@@ -309,7 +306,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
               </TooltipTrigger>
               <TooltipContent>{t("table.clear-filters")}</TooltipContent>
             </Tooltip>
-            <span className="text-muted-foreground text-sm">
+            <span className="text-sm text-muted-foreground">
               {t("table.active-filters")}:
             </span>
             {columnFilters.map((filter) => {
@@ -321,8 +318,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                     key={filter.id}
                     variant="secondaryoutline"
                   >
-                    {t("table.country")}:{" "}
-                    {data?.name || (filter.value as string)}
+                    {t("table.country")}: {data?.name || (filter.value as string)}
                   </Badge>
                 );
               }
@@ -453,7 +449,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
           </Table>
         </div>
         <div className="flex items-center justify-between gap-3 py-4">
-          <div className="min-w-0 flex-1 truncate text-muted-foreground text-sm">
+          <div className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
             {(() => {
               const selectedCount =
                 table.getFilteredSelectedRowModel().rows.length;
@@ -483,7 +479,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
           <div className="flex shrink-0 items-center gap-2">
             {/* desktop-only label for rows-per-page */}
             <Label
-              className="mr-1 hidden text-muted-foreground text-sm sm:inline"
+              className="mr-1 hidden text-sm text-muted-foreground sm:inline"
               htmlFor="projects-rows-per-page"
             >
               {t("table.rows-per-page")}
@@ -556,13 +552,13 @@ export function ProjectsTabSkeleton() {
           <div className="flex items-center gap-2">
             <Skeleton className="flex h-8 w-8 items-center justify-center gap-1.5 border border-secondary/60 bg-secondary/40 sm:w-42">
               <TablePropertiesIcon className="size-5 shrink-0 text-muted-foreground" />
-              <p className="hidden font-medium text-muted-foreground text-sm sm:inline">
+              <p className="hidden text-sm font-medium text-muted-foreground sm:inline">
                 {t("views.table")}
               </p>
             </Skeleton>
             <Skeleton className="flex h-8 w-8 items-center justify-center gap-1.5 border border-secondary/60 bg-secondary/40 sm:w-42">
               <SheetIcon className="size-5 shrink-0 text-muted-foreground" />
-              <p className="hidden font-medium text-muted-foreground text-sm sm:inline">
+              <p className="hidden text-sm font-medium text-muted-foreground sm:inline">
                 {t("views.grid")}
               </p>
             </Skeleton>

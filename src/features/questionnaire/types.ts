@@ -1,4 +1,3 @@
-import type { z } from "zod";
 import type { ParticipantActivityValueType } from "@/config/activities";
 import {
   ACCOMMODATION_DATA,
@@ -12,6 +11,7 @@ import {
 } from "@/config/questionnaire";
 import type { ParticipantSchema } from "@/features/participants/validation-schemas";
 import type { ProjectWithActivitiesType } from "@/features/projects/types";
+import type { z } from "zod";
 
 // ============================================================================
 // QUESTIONNAIRE ANSWER TYPES
@@ -120,10 +120,7 @@ export interface EmissionCalculation {
  * Inferred from configuration data
  */
 export const ACCOMMODATION_FACTORS: Record<AccommodationCategory, number> =
-  Object.fromEntries(ACCOMMODATION_DATA) as Record<
-    AccommodationCategory,
-    number
-  >;
+  Object.fromEntries(ACCOMMODATION_DATA) as Record<AccommodationCategory, number>;
 
 /**
  * Food CO₂ factors (kg CO₂ per day)

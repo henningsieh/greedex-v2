@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { eq } from "drizzle-orm";
+
 import type { ProjectActivityType } from "@/features/project-activities/types";
 import { db } from "@/lib/drizzle/db";
 import {
@@ -9,6 +9,7 @@ import {
   projectsTable,
   user,
 } from "@/lib/drizzle/schema";
+import { eq } from "drizzle-orm";
 
 /**
  * Test fixture for creating a project that can be used in e2e tests
@@ -95,9 +96,7 @@ export class TestProjectFixture {
   async teardown() {
     try {
       // Delete project
-      await db
-        .delete(projectsTable)
-        .where(eq(projectsTable.id, this.projectId));
+      await db.delete(projectsTable).where(eq(projectsTable.id, this.projectId));
 
       // Delete organization membership
       await db.delete(member).where(eq(member.organizationId, this.orgId));

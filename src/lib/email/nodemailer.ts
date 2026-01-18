@@ -1,7 +1,7 @@
-import type { Transporter } from "nodemailer";
-import nodemailer from "nodemailer";
 import { env } from "@/env";
 import { maskEmail } from "@/lib/email/utils";
+import type { Transporter } from "nodemailer";
+import nodemailer from "nodemailer";
 
 let transporter: Transporter | null = null;
 
