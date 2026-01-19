@@ -325,7 +325,7 @@
       "table": {
         "columns": "Spalten auswählen",
         "name": "Name",
-        "country": "Ort, Land",
+        "country": "Land",
         "start-date": "Startdatum",
         "created": "Erstellt am",
         "updated": "Aktualisiert am",
@@ -347,7 +347,8 @@
           "title": "Keine Projekte gefunden",
           "description": "Keine Projekte entsprechen deinen Suchkriterien. Versuche, deine Filter anzupassen."
         },
-        "clear-filters": "Filter zurücksetzen"
+        "clear-filters": "Filter zurücksetzen",
+        "city": "Ort"
       },
       "views": {
         "table": "Tabellenansicht",
@@ -649,7 +650,8 @@
         "confirm-title": "Aktivität löschen?",
         "confirm-description": "Diese Aktivität wird dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
         "confirm-button": "Löschen",
-        "cancel-button": "Abbrechen"
+        "cancel-button": "Abbrechen",
+        "deleting": "Löschen..."
       },
       "toast": {
         "create-success": "Aktivität erfolgreich hinzugefügt",
@@ -745,8 +747,8 @@
         "car-passengers-question": "Wie viele Teilnehmende (dich eingeschlossen) saßen im Auto?",
         "placeholder": "0",
         "car-type": {
-          "conventional": "konventionell (Diesel, Benzin, Gas…)",
-          "electric": "elektrisch"
+          "car": "konventionell (Diesel, Benzin, Gas…)",
+          "electricCar": "elektrisch"
         }
       },
       "demographics": {
@@ -767,15 +769,14 @@
       "project-activities": {
         "title": "Projektaktivitäten",
         "description": "Dieses Projekt beinhaltet organisierte Aktivitäten, die zu den Basis-Emissionen beitragen:",
-        "note": "Dies ist bereits in deinem Gesamt-Fußabdruck enthalten",
+        "note": "Diese fließen in deine persönliche Projekt-Emissionsberechnung ein.",
         "empty": {
           "title": "Keine Projektaktivitäten",
           "description": "Mit diesem Projekt sind keine Aktivitäten verbunden."
         }
       },
       "results": {
-        "CO₂-footprint": "CO₂-Fußabdruck",
-        "trees-needed": "Bäume (1 Jahr)",
+        "trees-needed": "Baumjahre (Bäume x Jahre)",
         "summary-title": "Deine CO₂-Fußabdruck-Zusammenfassung",
         "transport": "Transport:",
         "accommodation": "Unterkunft:",
@@ -783,13 +784,13 @@
         "project-activities": "Projektaktivitäten:",
         "total": "Gesamt:",
         "console-note": "Daten wurden in die Konsole protokolliert (siehe Browser-Entwicklertools)",
-        "co2-footprint": "CO₂-Fußabdruck"
+        "co2-footprint": "CO₂-Emissionen"
       },
       "impact-modal": {
         "title": "Dein Einfluss",
-        "total-CO₂": "Gesamt-CO₂",
+        "total-co2": "Gesamt-CO₂",
         "kg-CO₂": "kg CO₂",
-        "trees-needed": "Benötigte Bäume",
+        "trees-needed": "Benötigte Baumjahre",
         "to-offset": "zum Ausgleich",
         "impact": "Einfluss:",
         "continue": "Weiter",
@@ -812,7 +813,7 @@
           "electricity-green": "♻️ Ausgezeichnet! {accommodation} mit {energy} für {nights} Nächte, {occupancy} hält die Emissionen bei {impact} kg CO₂ niedrig",
           "electricity-conventional": "🏨 {accommodation} mit {energy} für {nights} Nächte, {occupancy} fügt {impact} kg CO₂ zu deinem Fußabdruck hinzu",
           "car-type-electric": "🔋 Ausgezeichnet! Elektroautos haben 75% niedrigere Emissionen!",
-          "car-type-conventional": "⛽ Konventionelles Auto erhöht deinen Fußabdruck",
+          "car-type-car": "⛽ Konventionelles Auto erhöht deinen Fußabdruck",
           "car-passengers-solo": "🚗 Überlege dir beim nächsten Mal eine Fahrgemeinschaft! Das Teilen von Fahrten kann die Emissionen um bis zu 75% reduzieren.",
           "car-passengers-shared": "👥 Tolle Fahrgemeinschaft! Du reduzierst Emissionen, indem du mit {count} andere{plural} teilst.",
           "default-low": "✅ Diese Wahl beeinflusst deinen CO₂-Fußabdruck nicht",

@@ -1,4 +1,7 @@
 {
+  "json.schemaDownload.trustedDomains": {
+    "https://json.schemastore.org/": true
+  },
   "emmet.showExpandedAbbreviation": "always",
   "editor.formatOnPaste": true,
   "editor.codeActionsOnSave": {

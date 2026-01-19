@@ -1,6 +1,14 @@
+/**
+ * @file Participants page
+ *
+ * Organization participants page with list of participants
+ */
+
+import { ContentContainer } from "@/components/content-container";
 import { TeamTableSkeleton } from "@/components/features/organizations/users-table";
 import { ParticipantsTable } from "@/components/features/participants/participants-table";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
+import { PageHeader } from "@/components/page-header";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
@@ -47,16 +55,16 @@ export default async () => {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4">
-        <div className="flex items-center justify-start gap-3">
-          <PROJECT_ICONS.participants className="size-10" />
-          <h2 className="font-sans text-4xl font-bold">{t("title")}</h2>
-        </div>
-        <p className="text-muted-foreground">{t("description")}</p>
-      </div>
-      <Suspense fallback={<TeamTableSkeleton />}>
-        <ParticipantsTable organizationId={activeOrganizationId} />
-      </Suspense>
+      <PageHeader
+        icon={<PROJECT_ICONS.participants />}
+        title={t("title")}
+        description={t("description")}
+      />
+      <ContentContainer width="xl">
+        <Suspense fallback={<TeamTableSkeleton />}>
+          <ParticipantsTable organizationId={activeOrganizationId} />
+        </Suspense>
+      </ContentContainer>
     </div>
   );
 };

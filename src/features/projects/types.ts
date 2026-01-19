@@ -17,6 +17,7 @@ export type ProjectSortField = ProjectColumns;
 
 export const PROJECT_SORT_FIELDS = [
   "name",
+  "country",
   "location",
   "startDate",
   "createdAt",

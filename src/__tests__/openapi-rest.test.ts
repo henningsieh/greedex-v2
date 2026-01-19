@@ -13,6 +13,8 @@ import { env } from "@/env";
 import { chromium } from "playwright";
 import { beforeAll, describe, expect, it } from "vitest";
 
+import { SEED_USER } from "../../scripts/seed";
+
 const OPENAPI_VERSION_REGEX = /^3\.\d+\.\d+$/;
 const baseUrl = `${env.NEXT_PUBLIC_BASE_URL}/api/openapi`;
 let serverAvailable = false;
@@ -186,12 +188,6 @@ describe("OpenAPI REST Endpoint", () => {
   });
 
   describe("Authentication Endpoints", () => {
-    const SEED_USER = {
-      name: "Seed Owner",
-      email: "owner@sieh.org",
-      password: "SecurePassword123!",
-    };
-
     it("should sign in user via POST /auth/sign-in", async () => {
       if (!serverAvailable) {
         throw new Error("Server not available");

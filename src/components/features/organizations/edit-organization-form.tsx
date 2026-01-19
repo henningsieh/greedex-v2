@@ -132,6 +132,7 @@ export function EditOrganizationForm() {
               disabled={form.formState.isSubmitting}
               onClick={handleSubmit}
               type="button"
+              variant="secondary"
             >
               {form.formState.isSubmitting
                 ? "Updating..."

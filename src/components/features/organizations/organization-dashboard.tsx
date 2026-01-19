@@ -44,21 +44,21 @@ export function OrganizationDashboard({
     >
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger
-          className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"
+          className="text-muted-foreground/80 data-[state=active]:border-secondary data-[state=active]:bg-secondary/60 data-[state=active]:text-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/60"
           value="dashboard"
         >
           <ORGANIZATION_ICONS.statistics className="h-4 w-4" />
           {t("dashboard.tabs.statistics")}
         </TabsTrigger>
         <TabsTrigger
-          className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"
+          className="text-muted-foreground/80 data-[state=active]:border-secondary data-[state=active]:bg-secondary/60 data-[state=active]:text-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/60"
           value="projects"
         >
           <PROJECT_ICONS.projects className="h-4 w-4" />
           {t("dashboard.tabs.projects")}
         </TabsTrigger>
         <TabsTrigger
-          className="text-muted-foreground/80 data-[state=active]:text-foreground dark:data-[state=active]:border-primary/60 dark:data-[state=active]:bg-accent/60"
+          className="text-muted-foreground/80 data-[state=active]:border-secondary data-[state=active]:bg-secondary/60 data-[state=active]:text-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/60"
           value="participants"
         >
           <PROJECT_ICONS.participants className="h-4 w-4" />

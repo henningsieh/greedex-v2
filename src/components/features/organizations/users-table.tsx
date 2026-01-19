@@ -254,7 +254,7 @@ export function UsersTable({
 
   return (
     <div>
-      <div className="flex flex-col gap-6 py-4 sm:flex-row sm:items-center">
+      <div className="flex flex-col gap-6 pb-4 sm:flex-row sm:items-center">
         <div className="flex w-full items-center gap-3">
           <Input
             onChange={(e) => setSearch(e.target.value)}

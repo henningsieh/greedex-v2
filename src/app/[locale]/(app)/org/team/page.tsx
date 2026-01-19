@@ -1,7 +1,15 @@
+/**
+ * @file Team page
+ *
+ * Organization team page with list of members
+ */
+
+import { ContentContainer } from "@/components/content-container";
 import {
   TeamTableSkeleton,
   UsersTable,
 } from "@/components/features/organizations/users-table";
+import { PageHeader } from "@/components/page-header";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
@@ -49,22 +57,22 @@ export default async () => {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4">
-        <div className="flex items-center justify-start gap-3">
-          <UsersIcon className="mb-1.5 size-9" />
-          <h2 className="font-sans text-4xl font-bold">{t("title")}</h2>
-        </div>
-        <p className="text-muted-foreground">{t("description")}</p>
-      </div>
-      <Suspense fallback={<TeamTableSkeleton />}>
-        <UsersTable
-          emptyDescription={t("emptyState.description")}
-          emptyTitle={t("emptyState.title")}
-          organizationId={activeOrganizationId}
-          roles={[MEMBER_ROLES.Owner, MEMBER_ROLES.Employee]}
-          showInviteButton={true}
-        />
-      </Suspense>
+      <PageHeader
+        icon={<UsersIcon />}
+        title={t("title")}
+        description={t("description")}
+      />
+      <ContentContainer width="xl">
+        <Suspense fallback={<TeamTableSkeleton />}>
+          <UsersTable
+            emptyDescription={t("emptyState.description")}
+            emptyTitle={t("emptyState.title")}
+            organizationId={activeOrganizationId}
+            roles={[MEMBER_ROLES.Owner, MEMBER_ROLES.Employee]}
+            showInviteButton={true}
+          />
+        </Suspense>
+      </ContentContainer>
     </div>
   );
 };

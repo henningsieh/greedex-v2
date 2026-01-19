@@ -259,15 +259,20 @@ export function ProjectActivitiesTable({
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>{t("delete.cancel-button")}</AlertDialogCancel>
+              <AlertDialogCancel disabled={deleteActivityMutation.isPending}>
+                {t("delete.cancel-button")}
+              </AlertDialogCancel>
               <AlertDialogAction
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                disabled={deleteActivityMutation.isPending}
                 onClick={() =>
                   deletingActivityId &&
                   deleteActivityMutation.mutate(deletingActivityId)
                 }
               >
-                {t("delete.confirm-button")}
+                {deleteActivityMutation.isPending
+                  ? t("delete.deleting")
+                  : t("delete.confirm-button")}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

@@ -2,6 +2,7 @@
 
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import { ProjectTableColumns } from "@/components/features/projects/dashboard/projects-table-columns";
+import { Location } from "@/components/location";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,7 +40,6 @@ import {
   getProjectDetailPath,
   getProjectsDefaultSorting,
 } from "@/features/projects/utils";
-import { getCountryData } from "@/lib/i18n/countries";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import {
@@ -98,7 +98,10 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   );
 
   // Get columns with translations
-  const projectTableColumns = useMemo(() => ProjectTableColumns(t), [t]);
+  const projectTableColumns = useMemo(
+    () => ProjectTableColumns(t, locale),
+    [t, locale],
+  );
 
   const [sorting, setSorting] = useState<SortingState>(() =>
     getProjectsDefaultSorting(),
@@ -106,6 +109,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     name: true,
+    country: true,
     location: true,
     startDate: true,
     createdAt: true,
@@ -191,9 +195,9 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
   return (
     <>
       <div className="min-w-0">
-        <div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
-            <div className="relative w-full sm:w-62.5 lg:w-75">
+        <div className="flex flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-1 flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="relative w-full flex-1">
               <SearchIcon className="absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 className="h-8 w-full border-secondary pl-9 placeholder:text-sm focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary"
@@ -225,7 +229,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                 }
               >
                 <SelectTrigger
-                  className="w-45 focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary"
+                  className="w-full focus-visible:border-secondary focus-visible:ring-2 focus-visible:ring-secondary"
                   size="sm"
                 >
                   <SelectValue placeholder={t("filter-by-country")} />
@@ -239,25 +243,19 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                       {t("table.filter-all-countries")}
                     </SelectItem>
                   )}
-                  {uniqueCountries.map((code) => {
-                    const data = getCountryData(code, locale);
-                    if (!data) {
-                      return null;
-                    }
-                    return (
-                      <SelectItem
-                        className="focus:bg-secondary focus:text-secondary-foreground"
-                        key={code}
-                        value={code}
-                      >
-                        {data.name}
-                      </SelectItem>
-                    );
-                  })}
+                  {uniqueCountries.map((code) => (
+                    <SelectItem
+                      className="focus:bg-secondary focus:text-secondary-foreground"
+                      key={code}
+                      value={code}
+                    >
+                      <Location countryCode={code} locale={locale} showFlag />
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <Badge
-                className="hidden h-8 gap-1 px-2.5 text-sm font-normal lg:flex"
+                className="h-8 gap-1 px-2.5 text-sm font-normal"
                 variant="outline"
               >
                 <span className="font-medium">
@@ -311,14 +309,18 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             </span>
             {columnFilters.map((filter) => {
               if (filter.id === "country") {
-                const data = getCountryData(filter.value as string, locale);
                 return (
                   <Badge
                     className="px-2 text-xs"
                     key={filter.id}
                     variant="secondaryoutline"
                   >
-                    {t("table.country")}: {data?.name || (filter.value as string)}
+                    {t("table.country")}:{" "}
+                    <Location
+                      countryCode={filter.value as string}
+                      locale={locale}
+                      showFlag
+                    />
                   </Badge>
                 );
               }

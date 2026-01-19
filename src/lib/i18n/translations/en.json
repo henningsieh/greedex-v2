@@ -325,7 +325,7 @@
       "table": {
         "columns": "Select columns",
         "name": "Name",
-        "country": "City, Country",
+        "country": "Country",
         "start-date": "Start Date",
         "created": "Created at",
         "updated": "Updated^at",
@@ -347,7 +347,8 @@
           "title": "No projects found",
           "description": "Try adjusting your filters or search query."
         },
-        "clear-filters": "Clear filters"
+        "clear-filters": "Clear filters",
+        "city": "City"
       },
       "views": {
         "table": "Table",
@@ -649,7 +650,8 @@
         "confirm-title": "Delete Activity?",
         "confirm-description": "This will permanently delete this activity. This action cannot be undone.",
         "confirm-button": "Delete",
-        "cancel-button": "Cancel"
+        "cancel-button": "Cancel",
+        "deleting": "Deleting..."
       },
       "toast": {
         "create-success": "Activity added successfully",
@@ -745,8 +747,8 @@
         "car-passengers-question": "How many participants (including you) were sitting in the car?",
         "placeholder": "0",
         "car-type": {
-          "conventional": "conventional (diesel, petrol, gas…)",
-          "electric": "electric"
+          "car": "conventional (diesel, petrol, gas…)",
+          "electricCar": "electric"
         }
       },
       "demographics": {
@@ -767,15 +769,14 @@
       "project-activities": {
         "title": "Project Activities",
         "description": "This project includes organized activities that add to the baseline emissions:",
-        "note": "This is already included in your total footprint",
+        "note": "These will be included in your personal project emission calculation.",
         "empty": {
           "title": "No project activities",
           "description": "There are no activities associated with this project."
         }
       },
       "results": {
-        "CO₂-footprint": "CO₂ Footprint",
-        "trees-needed": "Trees (1 Year)",
+        "trees-needed": "Tree years (trees x years)",
         "summary-title": "Your Carbon Footprint Summary",
         "transport": "Transport:",
         "accommodation": "Accommodation:",
@@ -783,13 +784,13 @@
         "project-activities": "Project Activities:",
         "total": "Total:",
         "console-note": "Data has been logged to the console (check browser developer tools)",
-        "co2-footprint": "CO₂ Footprint"
+        "co2-footprint": "CO₂ Emissions"
       },
       "impact-modal": {
         "title": "Your Impact",
-        "total-CO₂": "Total CO₂",
+        "total-co2": "Total CO₂",
         "kg-CO₂": "kg CO₂",
-        "trees-needed": "Trees Needed",
+        "trees-needed": "Needed tree years",
         "to-offset": "to offset",
         "impact": "Impact:",
         "continue": "Continue",
@@ -812,7 +813,7 @@
           "electricity-green": "♻️ Excellent! {accommodation} with {energy} for {nights} nights, {occupancy} keeps emissions low at {impact} kg CO₂",
           "electricity-conventional": "🏨 {accommodation} with {energy} for {nights} nights, {occupancy} adds {impact} kg CO₂ to your footprint",
           "car-type-electric": "🔋 Excellent! Electric cars have 75% lower emissions!",
-          "car-type-conventional": "⛽ Conventional car increases your footprint",
+          "car-type-car": "⛽ Conventional car increases your footprint",
           "car-passengers-solo": "🚗 Consider carpooling next time! Sharing rides can cut emissions by up to 75%.",
           "car-passengers-shared": "👥 Great carpooling! You're reducing emissions by sharing with {count} other{plural}.",
           "default-low": "✅ This choice doesn't affect your CO₂ footprint",

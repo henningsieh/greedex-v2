@@ -1,7 +1,15 @@
+/**
+ * @file Projects page
+ *
+ * Organization projects page with list of projects and create project button
+ */
+
+import { ContentContainer } from "@/components/content-container";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { ProjectsTab } from "@/components/features/projects/dashboard/projects-tab";
 import { ProjectsTabSkeleton } from "@/components/features/projects/dashboard/projects-table";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
+import { PageHeader } from "@/components/page-header";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
@@ -52,33 +60,24 @@ export default async function ProjectsPage() {
   });
 
   return (
-    <div className="space-y-4 sm:space-y-8">
-      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
-        <div className="space-y-3">
-          <div className="flex items-center justify-start gap-3">
-            <PROJECT_ICONS.projects className="size-8 sm:size-9 md:size-10" />
-            <h2 className="font-sans text-2xl font-bold sm:text-3xl md:text-4xl">
-              {t("title")}
-            </h2>
-          </div>
-          <p className="text-sm text-muted-foreground sm:text-base md:text-lg">
-            {t("description")}
-          </p>
-        </div>
-
-        {canCreate && (
-          <CreateProjectButton
-            // className="hidden sm:inline-flex"
-            showIcon={true}
-            variant="secondary"
-          />
-        )}
-      </div>
-      <Suspense fallback={<ProjectsTabSkeleton />}>
-        <ErrorBoundary fallback={<div>{t("error-message")}</div>}>
-          <ProjectsTab />
-        </ErrorBoundary>
-      </Suspense>
+    <div className="space-y-8">
+      <PageHeader
+        icon={<PROJECT_ICONS.projects />}
+        title={t("title")}
+        description={t("description")}
+        action={
+          canCreate ? (
+            <CreateProjectButton showIcon={true} variant="secondary" />
+          ) : undefined
+        }
+      />
+      <ContentContainer width="xl">
+        <Suspense fallback={<ProjectsTabSkeleton />}>
+          <ErrorBoundary fallback={<div>{t("error-message")}</div>}>
+            <ProjectsTab />
+          </ErrorBoundary>
+        </Suspense>
+      </ContentContainer>
     </div>
   );
 }

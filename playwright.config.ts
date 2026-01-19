@@ -18,6 +18,7 @@ export default defineConfig({
   globalSetup: "./src/__tests__/e2e/global-setup.ts",
   use: {
     baseURL: env.NEXT_PUBLIC_BASE_URL,
+    storageState: "src/__tests__/e2e/.auth/storageState.json",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     headless: true,

@@ -10,17 +10,10 @@ import {
 import { ProjectActivitiesTab } from "@/components/features/projects/project-activities-tab";
 import { ProjectDetailsTab } from "@/components/features/projects/project-details-tab";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
-import { ProjectLocation } from "@/components/project-location";
+import { Location } from "@/components/location";
+import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -62,14 +55,14 @@ interface ProjectDetailsProps {
 }
 
 /**
- * Display a project's header, statistics, participation controls, and tabbed sections for details, activities, and participants.
+ * Server-rendered header component that displays project name, dates, location, and actions.
+ * This is separated to allow SSR of the PageHeader while the rest loads in Suspense.
  *
- * @param id - Project identifier used to fetch project details, participants, and activities
- * @returns A React element containing the project's overview UI
+ * @param id - Project identifier
+ * @returns PageHeader component with project metadata and action dropdown
  */
-export function ProjectDetails({ id }: ProjectDetailsProps) {
+export function ProjectDetailsHeader({ id }: ProjectDetailsProps) {
   const tProject = useTranslations("organization.projects");
-  const t = useTranslations("project.details");
   const {
     canUpdate,
     canDelete,
@@ -82,52 +75,11 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
   const { confirm, ConfirmDialogComponent } = useConfirmDialog();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  // Fetch project details
   const { data: project } = useSuspenseQuery(
     orpcQuery.projects.getById.queryOptions({
       input: { id },
     }),
   );
-
-  // Fetch participants
-  const { data: participants } = useSuspenseQuery(
-    orpcQuery.projects.getParticipants.queryOptions({
-      input: { projectId: id },
-    }),
-  );
-
-  // Fetch activities
-  const { data: activities } = useSuspenseQuery(
-    orpcQuery.projectActivities.list.queryOptions({
-      input: { projectId: id },
-    }),
-  );
-
-  // Calculate statistics
-  const participantsCount = participants?.length ?? 0;
-  const activitiesCount = activities?.length ?? 0;
-  const totalDistance =
-    activities?.reduce((sum, activity) => {
-      const distanceAsNumber = Number.parseFloat(activity.distanceKm);
-      return sum + (Number.isFinite(distanceAsNumber) ? distanceAsNumber : 0);
-    }, 0) ?? 0;
-  const startDate = new Date(project.startDate);
-  const endDate = new Date(project.endDate);
-  const duration = (() => {
-    if (
-      !(
-        Number.isFinite(startDate.getTime()) && Number.isFinite(endDate.getTime())
-      )
-    ) {
-      return 0;
-    }
-
-    const diffInMs = endDate.getTime() - startDate.getTime();
-    return Math.max(0, Math.ceil(diffInMs / MILLISECONDS_PER_DAY));
-  })();
-
-  // Calculate CO2 emissions from project activities
-  const projectActivitiesCO2 = calculateActivitiesCO2(activities);
 
   // Delete project mutation
   const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
@@ -187,218 +139,283 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
       },
     });
 
+  // Format project dates and location for description
+  const description = (
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+      <span>
+        {format.dateTime(project.startDate, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })}
+        {" - "}
+        {format.dateTime(project.endDate, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })}
+      </span>
+      <span className="text-muted-foreground">•</span>
+
+      <Location
+        countryCode={project.country}
+        locale={locale}
+        location={project.location}
+        showFlag
+      />
+    </div>
+  );
+
+  const action = (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button size="icon" variant="secondaryoutline">
+          <MoreHorizontalIcon className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {canUpdate && (
+          <DropdownMenuItem
+            disabled={permissionsPending}
+            onSelect={() => setIsEditModalOpen(true)}
+          >
+            <Edit2Icon className="mr-2 h-4 w-4" />
+            {tProject("table.edit-project")}
+          </DropdownMenuItem>
+        )}
+        {canArchive && (
+          <DropdownMenuItem
+            disabled={isArchiving || permissionsPending}
+            onSelect={async () => {
+              const isCurrentlyArchived = project.archived ?? false;
+              const confirmed = await confirm({
+                title: isCurrentlyArchived
+                  ? tProject("form.archive.unarchive-title")
+                  : tProject("form.archive.confirm-title"),
+                description: isCurrentlyArchived
+                  ? tProject("form.archive.unarchive-description", {
+                      name: project.name,
+                    })
+                  : tProject("form.archive.confirm-description", {
+                      name: project.name,
+                    }),
+                confirmText: isCurrentlyArchived
+                  ? tProject("form.archive.unarchive-button")
+                  : tProject("form.archive.confirm-button"),
+                cancelText: tProject("form.archive.cancel-button"),
+                isDestructive: false,
+              });
+              if (confirmed) {
+                try {
+                  await archiveProjectMutation(!isCurrentlyArchived);
+                } catch (err) {
+                  console.error(err);
+                }
+              }
+            }}
+          >
+            <ArchiveIcon className="mr-2 h-4 w-4" />
+            {project.archived
+              ? tProject("form.archive.unarchive")
+              : tProject("form.archive.archive")}
+          </DropdownMenuItem>
+        )}
+        {canDelete && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              disabled={isDeleting || permissionsPending}
+              onSelect={async () => {
+                const confirmed = await confirm({
+                  title: tProject("form.delete.confirm-title"),
+                  description: tProject("form.delete.confirm-description", {
+                    name: project.name,
+                  }),
+                  confirmText: tProject("form.delete.confirm-button"),
+                  cancelText: tProject("form.delete.cancel-button"),
+                  isDestructive: true,
+                });
+                if (confirmed) {
+                  try {
+                    await deleteProjectMutation();
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }
+              }}
+              variant="destructive"
+            >
+              <Trash2Icon className="mr-2 h-4 w-4" />
+              {tProject("table.delete-project")}
+            </DropdownMenuItem>
+          </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
   return (
-    <div className="mx-auto max-w-6xl space-y-6">
-      {/* Project Header with Statistics */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl sm:text-3xl">{project.name}</CardTitle>
-          <CardDescription>
-            <div className="flex justify-between">
-              <div className="inline-flex items-center gap-3 text-sm text-muted-foreground">
-                <CalendarDaysIcon className="h-4 w-4" />
-                <span>
-                  {format.dateTime(project.startDate, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                  {" - "}
-                  {format.dateTime(project.endDate, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </span>
-              </div>
-            </div>
-          </CardDescription>
+    <>
+      <PageHeader
+        icon={<PROJECT_ICONS.project />}
+        title={project.name}
+        description={description}
+        action={action}
+      />
 
-          <CardAction className="flex flex-col items-end gap-2">
-            {/* Action buttons in dropdown menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button size="icon" variant="secondaryoutline">
-                  <MoreHorizontalIcon className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {canUpdate && (
-                  <DropdownMenuItem
-                    disabled={permissionsPending}
-                    onSelect={() => setIsEditModalOpen(true)}
-                  >
-                    <Edit2Icon className="mr-2 h-4 w-4" />
-                    {tProject("table.edit-project")}
-                  </DropdownMenuItem>
-                )}
-                {canArchive && (
-                  <DropdownMenuItem
-                    disabled={isArchiving || permissionsPending}
-                    onSelect={async () => {
-                      const isCurrentlyArchived = project.archived ?? false;
-                      const confirmed = await confirm({
-                        title: isCurrentlyArchived
-                          ? tProject("form.archive.unarchive-title")
-                          : tProject("form.archive.confirm-title"),
-                        description: isCurrentlyArchived
-                          ? tProject("form.archive.unarchive-description", {
-                              name: project.name,
-                            })
-                          : tProject("form.archive.confirm-description", {
-                              name: project.name,
-                            }),
-                        confirmText: isCurrentlyArchived
-                          ? tProject("form.archive.unarchive-button")
-                          : tProject("form.archive.confirm-button"),
-                        cancelText: tProject("form.archive.cancel-button"),
-                        isDestructive: false,
-                      });
-                      if (confirmed) {
-                        try {
-                          await archiveProjectMutation(!isCurrentlyArchived);
-                        } catch (err) {
-                          console.error(err);
-                        }
-                      }
-                    }}
-                  >
-                    <ArchiveIcon className="mr-2 h-4 w-4" />
-                    {project.archived
-                      ? tProject("form.archive.unarchive")
-                      : tProject("form.archive.archive")}
-                  </DropdownMenuItem>
-                )}
-                {canDelete && (
-                  <>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      disabled={isDeleting || permissionsPending}
-                      onSelect={async () => {
-                        const confirmed = await confirm({
-                          title: tProject("form.delete.confirm-title"),
-                          description: tProject(
-                            "form.delete.confirm-description",
-                            {
-                              name: project.name,
-                            },
-                          ),
-                          confirmText: tProject("form.delete.confirm-button"),
-                          cancelText: tProject("form.delete.cancel-button"),
-                          isDestructive: true,
-                        });
-                        if (confirmed) {
-                          try {
-                            await deleteProjectMutation();
-                          } catch (err) {
-                            console.error(err);
-                          }
-                        }
-                      }}
-                      variant="destructive"
-                    >
-                      <Trash2Icon className="mr-2 h-4 w-4" />
-                      {tProject("table.delete-project")}
-                    </DropdownMenuItem>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <div className="hidden w-fit sm:block">
-              <ProjectLocation
-                locale={locale}
+      {/* Edit Project Dialog */}
+      {canUpdate && (
+        <Dialog onOpenChange={setIsEditModalOpen} open={isEditModalOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{tProject("form.edit.title")}</DialogTitle>
+            </DialogHeader>
+            <Suspense fallback={<EditProjectFormSkeleton />}>
+              <EditProjectForm
+                onSuccess={() => setIsEditModalOpen(false)}
                 project={project}
-                showFlag
-                variant="badge"
               />
-            </div>
-            <div className="w-fit sm:hidden">
-              <ProjectLocation
-                flagOnly
-                locale={locale}
-                project={project}
-                showFlag
-              />
-            </div>
-          </CardAction>
-        </CardHeader>
+            </Suspense>
+          </DialogContent>
+        </Dialog>
+      )}
 
-        <CardContent>
-          {/* Statistics Cards */}
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Project Duration */}
-            <Card className="gap-3">
-              <CardHeader>
-                <div className="flex items-center gap-2 text-sm text-secondary">
-                  <CalendarDaysIcon className="h-4 w-4" />
-                  {t("statistics.duration")}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
-                  {duration}
-                  <span className="text-sm font-normal text-muted-foreground">
-                    {t("statistics.days")}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-            {/* Participants Count */}
-            <Card className="gap-3">
-              <CardHeader>
-                <div className="flex items-center gap-2 text-sm text-secondary">
-                  <PROJECT_ICONS.participants className="h-4 w-4" />
-                  {t("statistics.participants")}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
-                  {participantsCount}
-                </div>
-              </CardContent>
-            </Card>
-            {/* Activities Count and Total Distance */}
-            <Card className="gap-3">
-              <CardHeader>
-                <div className="flex items-center gap-2 text-sm text-secondary">
-                  <PROJECT_ICONS.activities className="h-4 w-4" />
-                  {t("statistics.activities")}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
-                  {activitiesCount}
-                  <span className="text-sm font-normal text-muted-foreground">
-                    ({totalDistance.toFixed(1)} {t("statistics.km")})
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-            {/* CO2 Emissions by Project Activities */}
-            <Card className="gap-3">
-              <CardHeader>
-                <div className="flex items-center gap-2 text-sm text-secondary">
-                  <LeafIcon className="h-4 w-4" />
-                  {t("statistics.co2-emissions")}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
-                  {projectActivitiesCO2.toFixed(1)}{" "}
-                  <span className="text-sm font-normal text-muted-foreground">
-                    kg CO₂
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </CardContent>
-        <CardFooter>
-          {/* Participation Link */}
-          <ParticipantsLinkControls activeProjectId={id} />
-        </CardFooter>
-      </Card>
+      {/* Confirm Dialog Component */}
+      <ConfirmDialogComponent />
+    </>
+  );
+}
+
+/**
+ * Display a project's statistics, participation controls, and tabbed sections for details, activities, and participants.
+ *
+ * @param id - Project identifier used to fetch project details, participants, and activities
+ * @returns A React element containing the project's overview UI
+ */
+export function ProjectDetails({ id }: ProjectDetailsProps) {
+  const t = useTranslations("project.details");
+  const { canUpdate } = useProjectPermissions();
+
+  // Fetch project details
+  const { data: project } = useSuspenseQuery(
+    orpcQuery.projects.getById.queryOptions({
+      input: { id },
+    }),
+  );
+
+  // Fetch participants
+  const { data: participants } = useSuspenseQuery(
+    orpcQuery.projects.getParticipants.queryOptions({
+      input: { projectId: id },
+    }),
+  );
+
+  // Fetch activities
+  const { data: activities } = useSuspenseQuery(
+    orpcQuery.projectActivities.list.queryOptions({
+      input: { projectId: id },
+    }),
+  );
+
+  // Calculate statistics
+  const participantsCount = participants?.length ?? 0;
+  const activitiesCount = activities?.length ?? 0;
+  const totalDistance =
+    activities?.reduce((sum, activity) => {
+      const distanceAsNumber = Number.parseFloat(activity.distanceKm);
+      return sum + (Number.isFinite(distanceAsNumber) ? distanceAsNumber : 0);
+    }, 0) ?? 0;
+  const startDate = new Date(project.startDate);
+  const endDate = new Date(project.endDate);
+  const duration = (() => {
+    if (
+      !(
+        Number.isFinite(startDate.getTime()) && Number.isFinite(endDate.getTime())
+      )
+    ) {
+      return 0;
+    }
+
+    const diffInMs = endDate.getTime() - startDate.getTime();
+    return Math.max(0, Math.ceil(diffInMs / MILLISECONDS_PER_DAY));
+  })();
+
+  // Calculate CO2 emissions from project activities
+  const projectActivitiesCO2 = calculateActivitiesCO2(activities);
+
+  return (
+    <div className="space-y-6">
+      {/* Statistics Cards */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Project Duration */}
+        <Card className="gap-3">
+          <CardHeader>
+            <div className="flex items-center gap-2 text-sm text-secondary">
+              <CalendarDaysIcon className="h-4 w-4" />
+              {t("statistics.duration")}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
+              {duration}
+              <span className="text-sm font-normal text-muted-foreground">
+                {t("statistics.days")}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+        {/* Participants Count */}
+        <Card className="gap-3">
+          <CardHeader>
+            <div className="flex items-center gap-2 text-sm text-secondary">
+              <PROJECT_ICONS.participants className="h-4 w-4" />
+              {t("statistics.participants")}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
+              {participantsCount}
+            </div>
+          </CardContent>
+        </Card>
+        {/* Activities Count and Total Distance */}
+        <Card className="gap-3">
+          <CardHeader>
+            <div className="flex items-center gap-2 text-sm text-secondary">
+              <PROJECT_ICONS.activities className="h-4 w-4" />
+              {t("statistics.activities")}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
+              {activitiesCount}
+              <span className="text-sm font-normal text-muted-foreground">
+                ({totalDistance.toFixed(1)} {t("statistics.km")})
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+        {/* CO2 Emissions by Project Activities */}
+        <Card className="gap-3">
+          <CardHeader>
+            <div className="flex items-center gap-2 text-sm text-secondary">
+              <LeafIcon className="h-4 w-4" />
+              {t("statistics.co2-emissions")}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
+              {projectActivitiesCO2.toFixed(1)}{" "}
+              <span className="text-sm font-normal text-muted-foreground">
+                kg CO₂
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Participation Link */}
+      <ParticipantsLinkControls activeProjectId={id} />
 
       {/* Tabs Navigation */}
       <Tabs className="space-y-4" defaultValue="details">
@@ -441,72 +458,30 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
           <ParticipantsList activeProjectId={id} />
         </TabsContent>
       </Tabs>
-
-      {/* Edit Project Dialog */}
-      {canUpdate && (
-        <Dialog onOpenChange={setIsEditModalOpen} open={isEditModalOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{tProject("form.edit.title")}</DialogTitle>
-            </DialogHeader>
-            <Suspense fallback={<EditProjectFormSkeleton />}>
-              <EditProjectForm
-                onSuccess={() => setIsEditModalOpen(false)}
-                project={project}
-              />
-            </Suspense>
-          </DialogContent>
-        </Dialog>
-      )}
-
-      {/* Confirm Dialog Component */}
-      <ConfirmDialogComponent />
     </div>
   );
 }
 
 /**
- * Renders a skeleton placeholder UI that mirrors the ProjectTabs layout for the project details view.
+ * Renders a skeleton placeholder UI that mirrors the ProjectDetails layout.
  *
- * @returns A JSX element containing skeleton placeholders for the header, statistics grid, participation controls, tabs, and tab content used while project data is loading.
+ * @returns A JSX element containing skeleton placeholders for the statistics grid, participation controls, tabs, and tab content used while project data is loading.
  */
 export function ProjectDetailsSkeleton() {
   return (
-    <div className="mx-auto max-w-6xl space-y-6">
-      {/* Project Header Skeleton */}
-      <Card>
-        <CardHeader>
-          <div>
-            <CardTitle className="text-2xl sm:text-3xl">
-              <Skeleton className="h-6 w-44" />
-            </CardTitle>
-            <CardDescription>
-              <div className="inline-flex items-center gap-3 text-sm text-muted-foreground">
-                <Skeleton className="h-4 w-40" />
-              </div>
-            </CardDescription>
+    <div className="space-y-6">
+      {/* Statistics Cards Skeleton */}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div
+            className="rounded-lg border border-border bg-card p-4 shadow-sm"
+            key={i}
+          >
+            <Skeleton className="mb-2 h-4 w-24" />
+            <Skeleton className="h-8 w-16" />
           </div>
-
-          <CardAction className="flex flex-col items-end gap-2">
-            <Skeleton className="h-6 w-24" />
-            <Skeleton className="h-4 w-32" />
-          </CardAction>
-        </CardHeader>
-
-        <CardContent className="space-y-6 p-6 sm:p-8">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                className="rounded-lg border border-border bg-card p-4 shadow-sm"
-                key={i}
-              >
-                <Skeleton className="mb-2 h-4 w-24" />
-                <Skeleton className="h-8 w-16" />
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+        ))}
+      </div>
 
       {/* Participation Link Skeleton */}
       <Card>

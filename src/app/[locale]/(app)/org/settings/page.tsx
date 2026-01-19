@@ -4,11 +4,13 @@
  * Organization settings page with edit organization form
  */
 
+import { ContentContainer } from "@/components/content-container";
 import {
   EditOrganizationForm,
   EditOrganizationFormSkeleton,
 } from "@/components/features/organizations/edit-organization-form";
-import { SettingsIcon } from "lucide-react";
+import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
+import { PageHeader } from "@/components/page-header";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
@@ -17,16 +19,16 @@ export default async function SettingsPage() {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4">
-        <div className="flex items-center justify-start gap-3">
-          <SettingsIcon className="mb-1.5 size-9" />
-          <h2 className="font-sans text-4xl font-bold">{t("title")}</h2>
-        </div>
-        <p className="text-muted-foreground">{t("description")}</p>
-      </div>
-      <Suspense fallback={<EditOrganizationFormSkeleton />}>
-        <EditOrganizationForm />
-      </Suspense>
+      <PageHeader
+        icon={<ORGANIZATION_ICONS.settings />}
+        title={t("title")}
+        description={t("description")}
+      />
+      <ContentContainer width="sm">
+        <Suspense fallback={<EditOrganizationFormSkeleton />}>
+          <EditOrganizationForm />
+        </Suspense>
+      </ContentContainer>
     </div>
   );
 }
