@@ -1,5 +1,17 @@
 "use client";
 
+import type { z } from "zod";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+import type { CreateProjectWithActivities } from "@/features/projects/validation-schemas";
+
 import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
@@ -39,18 +51,9 @@ import {
 } from "@/config/projects";
 import { ActivityFormItemSchema } from "@/features/project-activities/validation-schemas";
 import { getProjectDetailPath } from "@/features/projects/utils";
-import type { CreateProjectWithActivities } from "@/features/projects/validation-schemas";
 import { CreateProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
 
 interface CreateProjectFormProps {
   activeOrganizationId: string;

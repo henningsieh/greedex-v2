@@ -68,15 +68,17 @@
  * Real-time updates would be handled via WebSockets.
  */
 
+import { MapPinnedIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import type { Participant, ProjectStats } from "@/features/questionnaire/types";
+
 import { Leaderboard } from "@/components/features/questionnaire/leaderboard";
 import { LiveIndicator } from "@/components/features/questionnaire/live-indicator";
 import { StatsOverview } from "@/components/features/questionnaire/stats-overview";
 import { TransportBreakdown } from "@/components/features/questionnaire/transport-breakdown";
 import { ACTIVITY_VALUES } from "@/config/activities";
 import { CO2_FACTORS } from "@/features/projects/utils";
-import type { Participant, ProjectStats } from "@/features/questionnaire/types";
-import { MapPinnedIcon } from "lucide-react";
-import { useEffect, useState } from "react";
 
 /**
  * Create an array of mock Participant records for the demo/live-view UI.

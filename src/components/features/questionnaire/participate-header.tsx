@@ -1,13 +1,15 @@
 "use client";
 
+import { LeafIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+
+import type { Project } from "@/features/questionnaire/types";
+
 import { Location } from "@/components/location";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { calculateActivitiesCO2 } from "@/features/projects/utils";
-import type { Project } from "@/features/questionnaire/types";
-import { LeafIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
 
 import { PROJECT_ICONS } from "../projects/project-icons";
 

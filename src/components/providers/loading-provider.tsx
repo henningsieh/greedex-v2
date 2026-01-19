@@ -1,9 +1,10 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Loader2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createContext, useCallback, useContext, useState } from "react";
+
+import { cn } from "@/lib/utils";
 
 type LoadingMode = "project" | "organization";
 

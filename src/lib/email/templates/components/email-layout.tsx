@@ -13,7 +13,6 @@ import {
   generateDarkModeCSS,
   getTailwindConfig,
 } from "../../config/styles";
-
 import { EmailFooter } from "./email-footer";
 
 interface EmailLayoutProps {

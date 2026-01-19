@@ -1,5 +1,9 @@
 "use client";
 
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useLocale } from "next-intl";
+import { useMemo, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -12,9 +16,6 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { getAllCountries, getEUCountries } from "@/lib/i18n/countries";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { useLocale } from "next-intl";
-import { useMemo, useState } from "react";
 
 interface CountrySelectProps {
   value?: string;

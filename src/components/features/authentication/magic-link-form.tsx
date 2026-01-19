@@ -1,5 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { MailIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { DASHBOARD_PATH } from "@/app/routes";
 import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
@@ -13,12 +20,6 @@ import {
 } from "@/components/ui/card";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { MailIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 /**
  * Renders a magic-link sign-in form that validates an email and sends a magic link to the provided address.

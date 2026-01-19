@@ -1,9 +1,8 @@
 import "dotenv/config";
-
 import { createServer } from "node:http";
+import { Server } from "socket.io";
 
 import { env } from "@/env";
-import { Server } from "socket.io";
 
 const socketPort = env.SOCKET_PORT;
 const corsOrigin = env.NEXT_PUBLIC_BASE_URL;

@@ -1,5 +1,10 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { useState } from "react";
+
 import { HOME_PATH, LOGIN_PATH } from "@/app/routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -14,10 +19,6 @@ import {
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
-import { useState } from "react";
 
 /**
  * Renders the current user's session controls: a login link when unauthenticated, a user avatar dropdown when authenticated, and a skeleton while signing out.

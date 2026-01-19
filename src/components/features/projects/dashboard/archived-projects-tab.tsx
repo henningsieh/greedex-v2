@@ -1,5 +1,10 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { ArchiveIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+
 import { ProjectsGrid } from "@/components/features/projects/dashboard/projects-grid";
 import { ProjectsTable } from "@/components/features/projects/dashboard/projects-table";
 import { ProjectsViewSelect } from "@/components/features/projects/projects-view-select";
@@ -14,10 +19,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { ArchiveIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
 
 /**
  * Render a view of archived projects with a selectable grid or table presentation.

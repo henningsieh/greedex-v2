@@ -1,9 +1,11 @@
+import { MessageSquareIcon } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+
+import type { ProjectWithRelationsType } from "@/features/projects/types";
+
 import { Blockquote, BlockquoteAuthor } from "@/components/block-quote";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { ProjectWithRelationsType } from "@/features/projects/types";
-import { MessageSquareIcon } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
 
 interface ProjectDetailsProps {
   project: ProjectWithRelationsType;

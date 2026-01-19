@@ -1,5 +1,10 @@
-import { MEMBER_SORT_FIELDS } from "@/config/organizations";
+import { ORPCError } from "@orpc/server";
+import { and, count, countDistinct, eq } from "drizzle-orm";
+import { z } from "zod";
+
 import type { MemberSortField } from "@/features/organizations/types";
+
+import { MEMBER_SORT_FIELDS } from "@/config/organizations";
 import {
   MemberRoleSchema,
   MemberWithUserSchema,
@@ -13,9 +18,6 @@ import {
 } from "@/lib/drizzle/schemas/project-schema";
 import { base } from "@/lib/orpc/context";
 import { authorized } from "@/lib/orpc/middleware";
-import { ORPCError } from "@orpc/server";
-import { and, count, countDistinct, eq } from "drizzle-orm";
-import { z } from "zod";
 
 function getSortKey(
   member: z.infer<typeof MemberWithUserSchema>,

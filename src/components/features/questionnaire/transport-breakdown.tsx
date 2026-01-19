@@ -1,9 +1,10 @@
 "use client";
 
+import type { ProjectStats } from "@/features/questionnaire/types";
+
 import { TransportIcon } from "@/components/features/project-activities/transport-icon";
 import { Card } from "@/components/ui/card";
 import { ACTIVITY_VALUES } from "@/config/activities";
-import type { ProjectStats } from "@/features/questionnaire/types";
 
 interface TransportBreakdownProps {
   stats: ProjectStats;

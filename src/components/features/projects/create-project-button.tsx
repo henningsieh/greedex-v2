@@ -1,11 +1,13 @@
 "use client";
 
+import type { VariantProps } from "class-variance-authority";
+
+import { useTranslations } from "next-intl";
+
 import { CREATE_PROJECT_PATH } from "@/app/routes";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/i18n/routing";
-import type { VariantProps } from "class-variance-authority";
-import { useTranslations } from "next-intl";
 
 interface CreateProjectButtonProps {
   variant?: VariantProps<typeof Button>["variant"];

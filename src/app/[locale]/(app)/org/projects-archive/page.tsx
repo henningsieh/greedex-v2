@@ -4,6 +4,10 @@
  * Organization archived projects page
  */
 
+import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
 import { ContentContainer } from "@/components/content-container";
 import {
   ArchivedProjectsTab,
@@ -13,9 +17,6 @@ import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { PageHeader } from "@/components/page-header";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
-import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 
 export default async function ProjectsArchivePage() {
   const t = await getTranslations("organization.projectsArchive");

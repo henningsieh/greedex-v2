@@ -1,5 +1,11 @@
 "use client";
 
+import type z from "zod";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import { DASHBOARD_PATH } from "@/app/routes";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,10 +21,6 @@ import { findAvailableSlug } from "@/features/organizations/utils";
 import { OrganizationFormSchema } from "@/features/organizations/validation-schemas";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { useRouter } from "@/lib/i18n/routing";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type z from "zod";
 
 interface CreateOrganizationFormProps {
   onSuccess?: () => void;

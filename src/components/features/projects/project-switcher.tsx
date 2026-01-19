@@ -1,5 +1,13 @@
 "use client";
 
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { CheckIcon, ChevronsUpDownIcon, MapPinnedIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
@@ -19,13 +27,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { CheckIcon, ChevronsUpDownIcon, MapPinnedIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 export function ProjectSwitcher() {
   // Get user permissions

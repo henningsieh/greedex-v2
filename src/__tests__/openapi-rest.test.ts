@@ -1,4 +1,3 @@
-import { env } from "@/env";
 /**
  * REST API Integration Tests for OpenAPI Endpoint
  *
@@ -12,6 +11,8 @@ import { env } from "@/env";
  */
 import { chromium } from "playwright";
 import { beforeAll, describe, expect, it } from "vitest";
+
+import { env } from "@/env";
 
 import { SEED_USER } from "../../scripts/seed";
 

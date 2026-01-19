@@ -1,8 +1,9 @@
+import { GlobeIcon } from "lucide-react";
+
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Badge } from "@/components/ui/badge";
 import { getCountryData } from "@/lib/i18n/countries";
 import { cn } from "@/lib/utils";
-import { GlobeIcon } from "lucide-react";
 
 interface LocationProps {
   /** Country code (e.g., 'DE', 'US') */

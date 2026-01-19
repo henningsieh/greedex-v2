@@ -5,6 +5,8 @@
  * used in the participant questionnaire flow.
  */
 
+import type { ProjectActivityType } from "@/features/project-activities/types";
+
 import {
   CO2_PER_TREE_PER_YEAR,
   CONVENTIONAL_ENERGY_FACTOR,
@@ -13,8 +15,7 @@ import {
   ROOM_OCCUPANCY_FACTORS,
   ROUND_TRIP_MULTIPLIER,
 } from "@/config/questionnaire";
-import type { ProjectActivityType } from "@/features/project-activities/types";
-import { CO2_FACTORS, calculateActivitiesCO2 } from "@/features/projects/utils";
+import { calculateActivitiesCO2, CO2_FACTORS } from "@/features/projects/utils";
 
 import {
   ACCOMMODATION_FACTORS,

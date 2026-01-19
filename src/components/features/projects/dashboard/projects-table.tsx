@@ -1,5 +1,34 @@
 "use client";
 
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import {
+  type ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+  type VisibilityState,
+} from "@tanstack/react-table";
+import {
+  FunnelXIcon,
+  SearchIcon,
+  SheetIcon,
+  TablePropertiesIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
+
+import type { ProjectType } from "@/features/projects/types";
+
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import { ProjectTableColumns } from "@/components/features/projects/dashboard/projects-table-columns";
 import { Location } from "@/components/location";
@@ -35,39 +64,12 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from "@/config/pagination";
 import { MEMBER_ROLES } from "@/features/organizations/types";
-import type { ProjectType } from "@/features/projects/types";
 import {
   getProjectDetailPath,
   getProjectsDefaultSorting,
 } from "@/features/projects/utils";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import {
-  type ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type SortingState,
-  useReactTable,
-  type VisibilityState,
-} from "@tanstack/react-table";
-import {
-  FunnelXIcon,
-  SearchIcon,
-  SheetIcon,
-  TablePropertiesIcon,
-  Trash2Icon,
-} from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
-import { toast } from "sonner";
 
 /**
  * Render an interactive projects table with search, filtering, sorting, pagination, row selection, and batch deletion controls.

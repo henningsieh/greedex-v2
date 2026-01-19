@@ -1,6 +1,7 @@
-import { eForestConfig } from "@/config/e-forest";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+
+import { eForestConfig } from "@/config/e-forest";
 
 export function HeroSection() {
   const t = useTranslations("EPlusForest.hero");

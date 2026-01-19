@@ -5,7 +5,6 @@ import { EmailHeading } from "../components/email-heading";
 import { EmailLink } from "../components/email-link";
 import { EmailText } from "../components/email-text";
 import { emailSpacing } from "../config/styles";
-
 import { EmailLayout } from "./components/email-layout";
 
 interface OrganizationInvitationProps {

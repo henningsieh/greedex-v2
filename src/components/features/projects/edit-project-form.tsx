@@ -1,5 +1,21 @@
 "use client";
 
+import type { z } from "zod";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+import type { ProjectType } from "@/features/projects/types";
+
 import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
@@ -34,21 +50,8 @@ import {
   MIN_DISTANCE_KM,
 } from "@/config/activities";
 import { EditActivityFormItemSchema } from "@/features/project-activities/validation-schemas";
-import type { ProjectType } from "@/features/projects/types";
 import { EditProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import type { z } from "zod";
 
 interface EditProjectFormProps {
   project: ProjectType;

@@ -1,12 +1,13 @@
 "use client";
 
+import type { ProjectActivityType } from "@/features/project-activities/types";
+
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { ProjectActivityType } from "@/features/project-activities/types";
 
 import { ProjectActivityForm } from "./project-activity-form";
 

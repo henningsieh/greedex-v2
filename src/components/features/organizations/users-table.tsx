@@ -1,5 +1,25 @@
 "use client";
 
+import type z from "zod";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  type SortingState,
+  useReactTable,
+} from "@tanstack/react-table";
+import { FilterXIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
+
+import type { MemberRole, MemberSortField } from "@/features/organizations/types";
+import type { MemberWithUserSchema } from "@/features/organizations/validation-schemas";
+
 import { SortableHeader } from "@/components/features/projects/sortable-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -24,24 +44,7 @@ import {
 } from "@/components/ui/table";
 import { MEMBER_SORT_FIELDS } from "@/config/organizations";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
-import type { MemberRole, MemberSortField } from "@/features/organizations/types";
-import type { MemberWithUserSchema } from "@/features/organizations/validation-schemas";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type SortingState,
-  useReactTable,
-} from "@tanstack/react-table";
-import { FilterXIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useMemo, useState } from "react";
-import type z from "zod";
 
 import { InviteEmployeeDialog } from "./invite-employee-dialog";
 

@@ -1,5 +1,9 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Building2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
+
 import { CREATE_PROJECT_PATH } from "@/app/routes";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import {
@@ -12,9 +16,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Building2Icon } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 /**
  * Render the organization dashboard header with a translated welcome message, the active organization's name, and an optional "Create Project" button.

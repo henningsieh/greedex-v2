@@ -1,5 +1,9 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Users2Icon, UsersIcon } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -17,9 +21,6 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Users2Icon, UsersIcon } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
 
 interface ParticipantsListProps {
   activeProjectId: string;

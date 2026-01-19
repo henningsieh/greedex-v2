@@ -1,5 +1,9 @@
 "use client";
 
+import { PanelRightCloseIcon, PanelRightOpenIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Suspense } from "react";
+
 import {
   DASHBOARD_PATH,
   PARTICIPANTS_PATH,
@@ -33,9 +37,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Link, usePathname } from "@/lib/i18n/routing";
-import { PanelRightCloseIcon, PanelRightOpenIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { Suspense } from "react";
 
 /**
  * Renders the application sidebar containing organization and project navigation.

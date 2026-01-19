@@ -1,8 +1,9 @@
+import { eq } from "drizzle-orm";
+import { z } from "zod";
+
 import { db } from "@/lib/drizzle/db";
 import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
-import { eq } from "drizzle-orm";
-import { z } from "zod";
 
 import {
   CreateActivityInputSchema,

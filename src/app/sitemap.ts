@@ -1,6 +1,7 @@
+import type { MetadataRoute } from "next";
+
 import { LOCALE_CODES } from "@/config/languages";
 import { BASE_URL } from "@/config/metadata";
-import type { MetadataRoute } from "next";
 
 // Regex for removing trailing slash - moved to top level for performance
 const TRAILING_SLASH_REGEX = /\/$/;

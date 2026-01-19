@@ -1,5 +1,11 @@
 "use client";
 
+import type { LucideIcon } from "lucide-react";
+
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Building2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
+
 import {
   DASHBOARD_PATH,
   PARTICIPANTS_PATH,
@@ -21,10 +27,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link, usePathname } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import type { LucideIcon } from "lucide-react";
-import { Building2Icon } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 /**
  * Get the current section info based on pathname
