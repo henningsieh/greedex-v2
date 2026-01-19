@@ -78,8 +78,10 @@ export function getColumnDisplayName(
   switch (columnId) {
     case "name":
       return t("table.name");
-    case "location":
+    case "country":
       return t("table.country");
+    case "location":
+      return t("table.city");
     case "startDate":
       return t("table.start-date");
     case "createdAt":
@@ -293,6 +295,12 @@ export function orderByClauseFor(
       return sortDesc
         ? desc(sql`lower(${projectsTable.name})`)
         : asc(sql`lower(${projectsTable.name})`);
+    case "country":
+      return sortDesc ? desc(projectsTable.country) : asc(projectsTable.country);
+    case "location":
+      return sortDesc
+        ? desc(sql`lower(${projectsTable.location})`)
+        : asc(sql`lower(${projectsTable.location})`);
     case "startDate":
       return sortDesc
         ? desc(projectsTable.startDate)

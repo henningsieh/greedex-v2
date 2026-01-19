@@ -325,7 +325,7 @@
       "table": {
         "columns": "Spalten auswählen",
         "name": "Name",
-        "country": "Ort, Land",
+        "country": "Land",
         "start-date": "Startdatum",
         "created": "Erstellt am",
         "updated": "Aktualisiert am",
@@ -347,7 +347,8 @@
           "title": "Keine Projekte gefunden",
           "description": "Keine Projekte entsprechen deinen Suchkriterien. Versuche, deine Filter anzupassen."
         },
-        "clear-filters": "Filter zurücksetzen"
+        "clear-filters": "Filter zurücksetzen",
+        "city": "Ort"
       },
       "views": {
         "table": "Tabellenansicht",

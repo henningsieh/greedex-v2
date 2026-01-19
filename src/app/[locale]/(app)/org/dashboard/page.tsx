@@ -1,5 +1,7 @@
+import { ContentContainer } from "@/components/content-container";
 import { OrganizationDashboard } from "@/components/features/organizations/organization-dashboard";
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
+import { PageHeader } from "@/components/page-header";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { MEMBER_ROLES } from "@/features/organizations/types";
@@ -67,14 +69,14 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4">
-        <div className="flex items-center justify-start gap-3">
-          <ORGANIZATION_ICONS.dashboard className="mb-1.5 size-9" />
-          <h2 className="font-sans text-4xl font-bold">{t("title")}</h2>
-        </div>
-        <p className="text-muted-foreground">{t("description")}</p>
-      </div>
-      <OrganizationDashboard organizationId={activeOrganizationId} />
+      <PageHeader
+        icon={<ORGANIZATION_ICONS.dashboard />}
+        title={t("title")}
+        description={t("description")}
+      />
+      <ContentContainer width="xl">
+        <OrganizationDashboard organizationId={activeOrganizationId} />
+      </ContentContainer>
     </div>
   );
 }

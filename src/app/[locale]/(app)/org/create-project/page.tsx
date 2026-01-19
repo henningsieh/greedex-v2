@@ -1,4 +1,13 @@
+/**
+ * @file Create project page
+ *
+ * Organization create project page with form
+ */
+
+import { ContentContainer } from "@/components/content-container";
 import { CreateProjectForm } from "@/components/features/projects/create-project-form";
+import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
+import { PageHeader } from "@/components/page-header";
 import { auth } from "@/lib/better-auth";
 import { getTranslations } from "next-intl/server";
 import { headers as nextHeaders } from "next/headers";
@@ -27,9 +36,11 @@ export default async function CreateProjectPage() {
     session?.session?.activeOrganizationId || organizations[0]?.id || "";
 
   return (
-    <div className="p-0">
-      <h1 className="text-3xl font-semibold">{t("title")}</h1>
-      <CreateProjectForm activeOrganizationId={activeOrganizationId} />
+    <div className="space-y-8">
+      <PageHeader icon={<PROJECT_ICONS.project />} title={t("title")} />
+      <ContentContainer width="sm">
+        <CreateProjectForm activeOrganizationId={activeOrganizationId} />
+      </ContentContainer>
     </div>
   );
 }

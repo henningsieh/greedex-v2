@@ -1,6 +1,6 @@
 "use client";
 
-import { ProjectLocation } from "@/components/project-location";
+import { Location } from "@/components/project-location";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import {
   Empty,
@@ -55,12 +55,12 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
           <h1 className="text-center text-2xl leading-tight font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
             {project.name}
             {project.location && (
-              <ProjectLocation
+              <Location
                 className="ml-2 md:hidden"
+                countryCode={project.country}
                 locale={locale}
-                project={project}
+                location={project.location}
                 showFlag
-                variant="inline"
               />
             )}{" "}
           </h1>
@@ -71,9 +71,10 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
           <CardHeader>
             <div className="flex justify-end">
               {project.location && (
-                <ProjectLocation
+                <Location
+                  countryCode={project.country}
                   locale={locale}
-                  project={project}
+                  location={project.location}
                   showFlag
                   variant="badge"
                 />

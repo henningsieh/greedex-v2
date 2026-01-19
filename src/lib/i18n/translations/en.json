@@ -325,7 +325,7 @@
       "table": {
         "columns": "Select columns",
         "name": "Name",
-        "country": "City, Country",
+        "country": "Country",
         "start-date": "Start Date",
         "created": "Created at",
         "updated": "Updated^at",
@@ -347,7 +347,8 @@
           "title": "No projects found",
           "description": "Try adjusting your filters or search query."
         },
-        "clear-filters": "Clear filters"
+        "clear-filters": "Clear filters",
+        "city": "City"
       },
       "views": {
         "table": "Table",

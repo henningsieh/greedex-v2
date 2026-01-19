@@ -3,176 +3,59 @@ import { Badge } from "@/components/ui/badge";
 import { getCountryData } from "@/lib/i18n/countries";
 import { cn } from "@/lib/utils";
 import { GlobeIcon } from "lucide-react";
-import type { JSX } from "react";
 
-type ProjectLocationProps =
-  | {
-      /** Object containing `location` (city/area) and `country` (country code or name). */
-      project: {
-        location?: string;
-        country: string;
-      };
-      /** Visual style: 'badge' for a contained chip, 'inline' for standard text that flows within paragraphs/headers. */
-      variant?: "inline" | "badge";
-      /** Structure of elements: 'unified' ([Flag] City, Country) or 'split' (City | [Flag] Country). */
-      layout?: "unified" | "split";
-      /** If true, renders only the flag icon with the location details as a tooltip. */
-      flagOnly?: boolean;
-      /** Format for displaying country: 'code' for country code. */
-      countryFormat: "code";
-      /** Whether to render the country flag icon. */
-      showFlag?: false;
-      /** Optional locale for country data (not required for 'code' format). */
-      locale?: string;
-      /** Optional CSS classes for custom container styling. */
-      className?: string;
-    }
-  | {
-      /** Object containing `location` (city/area) and `country` (country code or name). */
-      project: {
-        location?: string;
-        country: string;
-      };
-      /** Visual style: 'badge' for a contained chip, 'inline' for standard text that flows within paragraphs/headers. */
-      variant?: "inline" | "badge";
-      /** Structure of elements: 'unified' ([Flag] City, Country) or 'split' (City | [Flag] Country). */
-      layout?: "unified" | "split";
-      /** If true, renders only the flag icon with the location details as a tooltip. */
-      flagOnly?: boolean;
-      /** Format for displaying country: 'name' for full country name (requires locale). */
-      countryFormat: "name";
-      /** Whether to render the country flag icon. */
-      showFlag?: false;
-      /** Locale required for resolving country names. */
-      locale: string;
-      /** Optional CSS classes for custom container styling. */
-      className?: string;
-    }
-  | {
-      /** Object containing `location` (city/area) and `country` (country code or name). */
-      project: {
-        location?: string;
-        country: string;
-      };
-      /** Visual style: 'badge' for a contained chip, 'inline' for standard text that flows within paragraphs/headers. */
-      variant?: "inline" | "badge";
-      /** Structure of elements: 'unified' ([Flag] City, Country) or 'split' (City | [Flag] Country). */
-      layout?: "unified" | "split";
-      /** If true, renders only the flag icon with the location details as a tooltip. */
-      flagOnly?: boolean;
-      /** Format for displaying country: 'name' for full country name, 'code' for country code. */
-      countryFormat?: "name" | "code";
-      /** Whether to render the country flag icon. Requires 'locale'. */
-      showFlag: true;
-      /** Locale used for fetching flag and country names. */
-      locale: string;
-      /** Optional CSS classes for custom container styling. */
-      className?: string;
-    };
-
-interface ContentProps {
-  project: { location?: string; country: string };
-  countryDisplay: string;
-  renderFlag: () => JSX.Element | null;
+interface LocationProps {
+  /** Country code (e.g., 'DE', 'US') */
+  countryCode: string;
+  /** Locale for i18n (e.g., 'en', 'de') */
+  locale: string;
+  /** Optional location/city name */
+  location?: string;
+  /** Visual style: 'inline' or 'badge' */
+  variant?: "inline" | "badge";
+  /** Show only the flag icon with tooltip */
+  flagOnly?: boolean;
+  /** Show the flag icon */
+  showFlag?: boolean;
+  /** Optional CSS classes */
   className?: string;
 }
 
-const UnifiedContent = ({
-  project,
-  countryDisplay,
-  renderFlag,
-  className,
-}: ContentProps) => (
-  <span
-    className={cn("inline-flex items-center gap-1.5 leading-none", className)}
-  >
-    {renderFlag()}
-    <span className="flex items-baseline gap-1">
-      <div className="flex gap-0.5">
-        {project.location && (
-          <span className="font-medium text-foreground">{project.location}</span>
-        )}
-        {project.location && <span className="text-muted-foreground/60">,</span>}
-      </div>
-      <span
-        className={cn(
-          "truncate",
-          project.location
-            ? "text-muted-foreground"
-            : "font-medium text-foreground",
-        )}
-      >
-        {countryDisplay}
-      </span>
-    </span>
-  </span>
-);
-
-const SplitContent = ({
-  project,
-  countryDisplay,
-  renderFlag,
-  className,
-}: ContentProps) => (
-  <span
-    className={cn("inline-flex items-center gap-1.5 leading-none", className)}
-  >
-    {project.location && (
-      <>
-        <span className="font-semibold text-foreground">{project.location}</span>
-        <span className="mx-0.5 h-[1em] w-[px] bg-border" />
-      </>
-    )}
-    <span className="flex items-center gap-1.5 text-muted-foreground">
-      {renderFlag()}
-      <span className="font-medium">{countryDisplay}</span>
-    </span>
-  </span>
-);
-
 /**
- * Reusable component to display project location with optional flag and different variants.
- * @param project - Project data including location and country.
- * @param variant - The visual style of the component.
- * @param layout - The arrangement of text and flag.
- * @param showFlag - Toggle for showing the country flag.
- * @param countryFormat - Format for displaying country: 'name' for full country name, 'code' for country code.
- * @param locale - Locale used for fetching flag and country names.
- * @param className - Additional tailwind classes.
- * @returns A JSX element representing the project location.
+ * Display a location with country flag and optional city name.
+ *
+ * @param countryCode - Country code (e.g., 'DE', 'US')
+ * @param locale - Locale for i18n translation
+ * @param location - Optional city/location name
+ * @param variant - Visual style: 'inline' or 'badge'
+ * @param flagOnly - Show only flag with tooltip
+ * @param showFlag - Show the flag icon
+ * @param className - Additional CSS classes
  */
-export function ProjectLocation({
-  layout = "unified",
+export function Location({
+  countryCode,
+  locale,
+  location,
   variant = "inline",
   flagOnly = false,
-  countryFormat = "name",
-  locale,
-  project,
   showFlag = false,
   className,
-}: ProjectLocationProps) {
-  const countryData = locale ? getCountryData(project.country, locale) : null;
-  const ProjectCountryFlag = countryData?.Flag;
-  const countryDisplay =
-    countryFormat === "code"
-      ? project.country
-      : (countryData?.name ?? project.country);
+}: LocationProps) {
+  const data = getCountryData(countryCode, locale);
+  const countryName = data?.name ?? countryCode;
+  const Flag = data?.Flag;
 
-  const renderFlag = () => {
-    if (!showFlag) {
-      return null;
-    }
+  // Flag element
+  const flagElement = Flag ? (
+    <Flag
+      aria-label={countryName}
+      className="h-[1em] w-auto rounded-[2px] object-cover shadow-sm"
+    />
+  ) : (
+    <GlobeIcon className="h-[1em] w-[1em] text-muted-foreground/70" />
+  );
 
-    return ProjectCountryFlag ? (
-      <ProjectCountryFlag
-        aria-label={countryDisplay}
-        className="h-[1em] w-auto rounded-[2px] object-cover shadow-sm"
-      />
-    ) : (
-      <GlobeIcon className="h-[1em] w-[1em] text-muted-foreground/70" />
-    );
-  };
-
+  // Flag only mode - just show flag with tooltip
   if (flagOnly) {
     return (
       <span
@@ -180,32 +63,37 @@ export function ProjectLocation({
           "inline-flex items-center justify-center align-middle",
           className,
         )}
-        title={`${project.location ? `${project.location}, ` : ""}${countryDisplay}`}
+        title={`${location ? `${location}, ` : ""}${countryName}`}
       >
-        {renderFlag() || (
-          <GlobeIcon className="h-[1em] w-[1em] text-muted-foreground" />
-        )}
+        {flagElement}
       </span>
     );
   }
 
-  const content =
-    layout === "unified" ? (
-      <UnifiedContent
-        className={className}
-        countryDisplay={countryDisplay}
-        project={project}
-        renderFlag={renderFlag}
-      />
-    ) : (
-      <SplitContent
-        className={className}
-        countryDisplay={countryDisplay}
-        project={project}
-        renderFlag={renderFlag}
-      />
-    );
+  // Content: flag + location + country name
+  const content = (
+    <span className="inline-flex items-center gap-1.5 leading-none">
+      {showFlag && flagElement}
+      <span className="flex items-baseline gap-1">
+        {location && (
+          <>
+            <span className="font-medium text-foreground">{location}</span>
+            <span className="text-muted-foreground/60">,</span>
+          </>
+        )}
+        <span
+          className={cn(
+            "truncate",
+            location ? "text-muted-foreground" : "font-medium text-foreground",
+          )}
+        >
+          {countryName}
+        </span>
+      </span>
+    </span>
+  );
 
+  // Badge variant
   if (variant === "badge") {
     return (
       <Badge
@@ -220,6 +108,7 @@ export function ProjectLocation({
     );
   }
 
+  // Inline variant
   return (
     <span
       className={cn(
@@ -232,5 +121,38 @@ export function ProjectLocation({
       )}
       {content}
     </span>
+  );
+}
+
+/**
+ * @deprecated Use Location component instead. This component will be removed in a future version.
+ *
+ * Legacy component for backward compatibility during migration.
+ */
+export function ProjectLocation({
+  project,
+  locale,
+  variant,
+  flagOnly,
+  showFlag,
+  className,
+}: {
+  project: { location?: string; country: string };
+  locale: string;
+  variant?: "inline" | "badge";
+  flagOnly?: boolean;
+  showFlag?: boolean;
+  className?: string;
+}) {
+  return (
+    <Location
+      className={className}
+      countryCode={project.country}
+      flagOnly={flagOnly}
+      locale={locale}
+      location={project.location}
+      showFlag={showFlag}
+      variant={variant}
+    />
   );
 }

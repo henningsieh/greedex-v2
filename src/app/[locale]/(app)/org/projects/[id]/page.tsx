@@ -1,8 +1,19 @@
+/**
+ * @file Project details page
+ *
+ * Organization project details page with project details tabs
+ */
+
+import { ContentContainer } from "@/components/content-container";
 import {
   ProjectDetails,
   ProjectDetailsSkeleton,
+  ProjectDetailsHeader,
 } from "@/components/features/projects/project-details";
 import { ErrorFallback } from "@/components/features/projects/project-error-fallback";
+import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
+import { PageHeader } from "@/components/page-header";
+import { Skeleton } from "@/components/ui/skeleton";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
 import { Suspense } from "react";
@@ -45,10 +56,26 @@ export default async function ProjectsDetailsPage({
   ]);
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense fallback={<ProjectDetailsSkeleton />}>
-        <ProjectDetails id={id} />
+    <div className="space-y-8">
+      <Suspense
+        fallback={
+          <PageHeader
+            icon={<PROJECT_ICONS.project />}
+            title={<Skeleton className="h-8 w-64" />}
+            description={<Skeleton className="h-5 w-96" />}
+          />
+        }
+      >
+        <ProjectDetailsHeader id={id} />
       </Suspense>
-    </ErrorBoundary>
+
+      <ContentContainer width="xl">
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Suspense fallback={<ProjectDetailsSkeleton />}>
+            <ProjectDetails id={id} />
+          </Suspense>
+        </ErrorBoundary>
+      </ContentContainer>
+    </div>
   );
 }

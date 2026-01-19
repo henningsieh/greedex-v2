@@ -5,7 +5,7 @@ import {
   EditProjectForm,
   EditProjectFormSkeleton,
 } from "@/components/features/projects/edit-project-form";
-import { ProjectLocation } from "@/components/project-location";
+import { Location } from "@/components/project-location";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -164,12 +164,11 @@ export function ProjectCard({
                     {project.name}
                   </h3>
                 </div>
-                <ProjectLocation
-                  layout="unified"
+                <Location
+                  countryCode={project.country}
                   locale={locale}
-                  project={project}
+                  location={project.location}
                   showFlag={true}
-                  variant="inline"
                 />
               </div>
               <CardAction className="p-0">

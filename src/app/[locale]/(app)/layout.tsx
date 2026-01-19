@@ -98,7 +98,7 @@ export default async function AppLayout({
                 </Suspense>
               </ErrorBoundary>
             </div>
-            <div className="flex flex-1 flex-col gap-4 overflow-auto p-4">
+            <div className="flex flex-1 flex-col gap-4 overflow-auto p-0 sm:p-4">
               {children}
             </div>
           </SidebarInset>
