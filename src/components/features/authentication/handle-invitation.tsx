@@ -1,5 +1,9 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
+import type { auth } from "@/lib/better-auth";
+
 import { AcceptInvitationButton } from "@/components/features/organizations/accept-invitation-button";
 import { CancelInvitationButton } from "@/components/features/organizations/cancel-invitation-button";
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
@@ -11,8 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { auth } from "@/lib/better-auth";
-import { useTranslations } from "next-intl";
 
 interface HandleInvitationProps {
   invitation: Awaited<ReturnType<typeof auth.api.getInvitation>>;

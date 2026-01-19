@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { CreateOrganizationForm } from "@/components/features/organizations/create-organization-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
 
 interface CreateOrganizationModalProps {
   label: string;

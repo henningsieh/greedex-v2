@@ -1,3 +1,6 @@
+import { getTranslations } from "next-intl/server";
+import { headers } from "next/headers";
+
 import { ContentContainer } from "@/components/content-container";
 import { OrganizationDashboard } from "@/components/features/organizations/organization-dashboard";
 import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
@@ -8,8 +11,6 @@ import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
-import { getTranslations } from "next-intl/server";
-import { headers } from "next/headers";
 /**
  * Render the organization dashboard page while prefetching and hydrating required server-side data for client components.
  *

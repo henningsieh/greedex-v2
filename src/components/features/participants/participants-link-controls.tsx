@@ -1,5 +1,11 @@
 "use client";
 
+import { CopyIcon, ExternalLinkIcon, Link2Icon, QrCodeIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import QRCode from "qrcode";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,11 +30,6 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { env } from "@/env";
-import { CopyIcon, ExternalLinkIcon, Link2Icon, QrCodeIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import QRCode from "qrcode";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 
 interface ParticipationControlsClientProps {
   activeProjectId: string;

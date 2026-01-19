@@ -1,5 +1,6 @@
-import { serializer } from "@/lib/serializer";
 import { defaultShouldDehydrateQuery, QueryClient } from "@tanstack/react-query";
+
+import { serializer } from "@/lib/serializer";
 
 /**
  * Create a QueryClient preconfigured for the application's serialization and dehydration behavior.

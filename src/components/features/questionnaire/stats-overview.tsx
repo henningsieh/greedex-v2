@@ -1,8 +1,10 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import type { ProjectStats } from "@/features/questionnaire/types";
 import { Leaf, TreePine, TrendingDown, Users } from "lucide-react";
+
+import type { ProjectStats } from "@/features/questionnaire/types";
+
+import { Card } from "@/components/ui/card";
 
 interface StatsOverviewProps {
   stats: ProjectStats;

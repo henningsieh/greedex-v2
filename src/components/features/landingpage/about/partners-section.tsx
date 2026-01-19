@@ -1,6 +1,7 @@
+import { getTranslations } from "next-intl/server";
+
 import { PartnerCard } from "@/components/features/landingpage/about/partner-card";
 import { PARTNERS } from "@/config/about";
-import { getTranslations } from "next-intl/server";
 
 /**
  * Partners content section with title, intro, and partner cards grid

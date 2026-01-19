@@ -1,5 +1,7 @@
 "use client";
 
+import { Suspense } from "react";
+
 import {
   UserSession,
   UserSessionSkeleton,
@@ -8,7 +10,6 @@ import { Logo } from "@/components/features/landingpage/logo";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Link } from "@/lib/i18n/routing";
-import { Suspense } from "react";
 
 /**
  * @deprecated This component is deprecated and will be removed in a future release.

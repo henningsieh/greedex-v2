@@ -1,3 +1,6 @@
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,8 +11,6 @@ import {
 } from "@/components/ui/card";
 import { eForestConfig } from "@/config/e-forest";
 import { Link } from "@/lib/i18n/routing";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 
 const HowItWorksIcon = eForestConfig.icons.howItWorks;
 const PlantingIcon = eForestConfig.icons.planting;

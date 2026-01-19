@@ -1,5 +1,11 @@
 "use client";
 
+import { Check, ChevronDown } from "lucide-react";
+import { useLocale } from "next-intl";
+import { useTransition } from "react";
+
+import type { LocaleCode } from "@/config/languages";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,13 +13,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { LocaleCode } from "@/config/languages";
 import { getLocaleData } from "@/lib/i18n/locales";
 import { usePathname, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
-import { Check, ChevronDown } from "lucide-react";
-import { useLocale } from "next-intl";
-import { useTransition } from "react";
 
 export function LocaleSwitcher({ className }: { className?: string }) {
   const locale = useLocale();

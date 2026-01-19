@@ -1,6 +1,7 @@
+import { notFound } from "next/navigation";
+
 import { ParticipateHeader } from "@/components/features/questionnaire/participate-header";
 import { getProjectData } from "@/features/projects/utils";
-import { notFound } from "next/navigation";
 
 /**
  * Public Project Participation Layout

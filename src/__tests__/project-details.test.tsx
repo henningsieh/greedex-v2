@@ -7,8 +7,9 @@
  * - Rendering logic verification
  */
 
-import { MILLISECONDS_PER_DAY } from "@/config/projects";
 import { describe, expect, it } from "vitest";
+
+import { MILLISECONDS_PER_DAY } from "@/config/projects";
 
 describe("Project Details Statistics", () => {
   describe("Duration Calculation", () => {

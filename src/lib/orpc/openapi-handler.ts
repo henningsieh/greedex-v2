@@ -1,8 +1,9 @@
-import { router } from "@/lib/orpc/router";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
 import { onError } from "@orpc/server";
 import { CORSPlugin } from "@orpc/server/plugins";
+
+import { router } from "@/lib/orpc/router";
 
 /**
  * Centralized OpenAPI handler used by both `/api/openapi` and `/api/docs`.

@@ -4,11 +4,14 @@
  * Organization project details page with project details tabs
  */
 
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
 import { ContentContainer } from "@/components/content-container";
 import {
   ProjectDetails,
-  ProjectDetailsSkeleton,
   ProjectDetailsHeader,
+  ProjectDetailsSkeleton,
 } from "@/components/features/projects/project-details";
 import { ErrorFallback } from "@/components/features/projects/project-error-fallback";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
@@ -16,8 +19,6 @@ import { PageHeader } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 
 /**
  * Render the project details tabs for a given project while ensuring server-side query data for the project, its participants, and activities is prefetched into the React Query cache.

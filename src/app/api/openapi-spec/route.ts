@@ -1,6 +1,7 @@
-import { router } from "@/lib/orpc/router";
 import { OpenAPIGenerator } from "@orpc/openapi";
 import { NextResponse } from "next/server";
+
+import { router } from "@/lib/orpc/router";
 
 /**
  * OpenAPI specification endpoint

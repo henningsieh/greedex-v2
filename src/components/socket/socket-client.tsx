@@ -1,8 +1,9 @@
 "use client";
 
-import { Empty, EmptyTitle } from "@/components/ui/empty";
 import { useEffect, useState } from "react";
 import { io, type Socket } from "socket.io-client";
+
+import { Empty, EmptyTitle } from "@/components/ui/empty";
 
 interface Message {
   id: string;

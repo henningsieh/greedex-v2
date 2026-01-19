@@ -1,9 +1,10 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import { orpcQuery } from "@/lib/orpc/orpc";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+
+import { Card } from "@/components/ui/card";
+import { orpcQuery } from "@/lib/orpc/orpc";
 
 interface OrganizationDashboardStatsProps {
   organizationId: string;

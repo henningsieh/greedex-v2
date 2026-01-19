@@ -1,5 +1,7 @@
 "use client";
 
+import { type Control, Controller, type Path } from "react-hook-form";
+
 import {
   Field,
   FieldDescription,
@@ -7,7 +9,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { type Control, Controller, type Path } from "react-hook-form";
 
 interface FormFieldProps<TFieldValues extends Record<string, unknown>> {
   name: Path<TFieldValues>;

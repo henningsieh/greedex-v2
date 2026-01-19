@@ -1,5 +1,9 @@
 "use client";
 
+import { MenuIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+
 import {
   ABOUT_PATH,
   E_FOREST_PATH,
@@ -25,9 +29,6 @@ import {
 } from "@/components/ui/sheet";
 import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
-import { MenuIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 
 export const LandingHeader = () => {
   const t = useTranslations("header");

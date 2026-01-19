@@ -1,10 +1,12 @@
+import { describe, expect, it } from "vitest";
+
 import type { ActivityValueType } from "@/features/project-activities/types";
-import { CO2_FACTORS } from "@/features/projects/utils";
 import type {
   ParticipantActivity,
   ParticipantActivityValueType,
 } from "@/features/questionnaire/types";
-import { describe, expect, it } from "vitest";
+
+import { CO2_FACTORS } from "@/features/projects/utils";
 
 describe("Participant Activity Types", () => {
   it("should allow all project activity types for ParticipantActivity", () => {

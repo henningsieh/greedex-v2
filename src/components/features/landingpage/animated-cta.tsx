@@ -1,6 +1,7 @@
+import { ChevronRightIcon } from "lucide-react";
+
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import { cn } from "@/lib/utils";
-import { ChevronRightIcon } from "lucide-react";
 
 interface AnimatedGradientCTAProps {
   leftEmoji: React.ReactNode;

@@ -1,8 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { SheetIcon, TablePropertiesIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+
+import { Button } from "@/components/ui/button";
 
 // Note: Sorting UI moved to `ProjectsGrid` to keep grid sorting internal
 

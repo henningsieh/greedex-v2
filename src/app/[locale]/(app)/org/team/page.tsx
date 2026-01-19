@@ -4,6 +4,11 @@
  * Organization team page with list of members
  */
 
+import { UsersIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { headers as nextHeaders } from "next/headers";
+import { Suspense } from "react";
+
 import { ContentContainer } from "@/components/content-container";
 import {
   TeamTableSkeleton,
@@ -15,10 +20,6 @@ import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
-import { UsersIcon } from "lucide-react";
-import { getTranslations } from "next-intl/server";
-import { headers as nextHeaders } from "next/headers";
-import { Suspense } from "react";
 
 export default async () => {
   const headers = await nextHeaders();

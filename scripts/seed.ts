@@ -10,7 +10,16 @@
  * Uses its own DB pool and will exit the process when finished. For local/dev use only — do not run in production.
  */
 
+import { hex } from "@better-auth/utils/hex";
+import { scryptAsync } from "@noble/hashes/scrypt.js";
+import { createId } from "@paralleldrive/cuid2";
+import { config } from "dotenv";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
+
 import type { ActivityValueType } from "@/features/project-activities/types";
+
 import * as schema from "@/lib/drizzle/schema";
 import {
   account,
@@ -22,13 +31,6 @@ import {
   projectActivitiesTable,
   projectsTable,
 } from "@/lib/drizzle/schemas/project-schema";
-import { hex } from "@better-auth/utils/hex";
-import { scryptAsync } from "@noble/hashes/scrypt.js";
-import { createId } from "@paralleldrive/cuid2";
-import { config } from "dotenv";
-import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
 
 // Load environment variables from .env file
 config();

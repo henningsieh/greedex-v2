@@ -1,5 +1,11 @@
 "use client";
 
+import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useCallback, useMemo, useState } from "react";
+
+import type { ProjectSortField, ProjectType } from "@/features/projects/types";
+
 import { ProjectCard } from "@/components/features/projects/project-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,15 +19,11 @@ import {
 import { Empty, EmptyDescription } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
-import type { ProjectSortField, ProjectType } from "@/features/projects/types";
 import { PROJECT_SORT_FIELDS } from "@/features/projects/types";
 import {
   createProjectComparator,
   getColumnDisplayName,
 } from "@/features/projects/utils";
-import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useCallback, useMemo, useState } from "react";
 
 interface ProjectsGridProps {
   projects: ProjectType[];

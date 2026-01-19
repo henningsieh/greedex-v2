@@ -1,12 +1,13 @@
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
+
 import { DASHBOARD_PATH } from "@/app/routes";
 import { AnimatedGroup } from "@/components/animated-group";
 import { AnimatedGradientCTA } from "@/components/features/landingpage/animated-cta";
 import { TextEffect } from "@/components/ui/text-effect";
 import { LOGO_CUSTOMERS } from "@/features/landingpage/constants";
 import { Link } from "@/lib/i18n/routing";
-import { ChevronDown, ChevronRight } from "lucide-react";
-import { getTranslations } from "next-intl/server";
-import Image from "next/image";
 
 const transitionVariants = {
   item: {

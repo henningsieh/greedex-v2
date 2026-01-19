@@ -1,3 +1,10 @@
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
+import { z } from "zod";
+
 import { EU_COUNTRY_CODES } from "@/config/eu-countries";
 import {
   ActivityFormItemSchema,
@@ -5,12 +12,6 @@ import {
   ProjectActivityWithRelationsSchema,
 } from "@/features/project-activities/validation-schemas";
 import { organization, projectsTable, user } from "@/lib/drizzle/schema";
-import {
-  createInsertSchema,
-  createSelectSchema,
-  createUpdateSchema,
-} from "drizzle-zod";
-import { z } from "zod";
 
 import { PROJECT_SORT_FIELDS } from "./types";
 

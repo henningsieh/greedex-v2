@@ -1,5 +1,10 @@
 "use client";
 
+import { Factory, LeafIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+
+import type { Project } from "@/features/questionnaire/types";
+
 import { Location } from "@/components/location";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import {
@@ -10,9 +15,6 @@ import {
 } from "@/components/ui/empty";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { calculateActivitiesCO2 } from "@/features/projects/utils";
-import type { Project } from "@/features/questionnaire/types";
-import { Factory, LeafIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
 
 interface ParticipateHeaderProps {
   project: Project;

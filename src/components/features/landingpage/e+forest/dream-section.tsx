@@ -1,3 +1,6 @@
+import { ExternalLink, MapPin, Trees } from "lucide-react";
+import { useTranslations } from "next-intl";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +14,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { eForestConfig } from "@/config/e-forest";
 import { Link } from "@/lib/i18n/routing";
-import { ExternalLink, MapPin, Trees } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 export function DreamSection() {
   const t = useTranslations("EPlusForest.dream");

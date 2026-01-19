@@ -1,3 +1,5 @@
+import type { InferRouterOutputs } from "@orpc/server";
+
 import {
   getFullOrganization,
   getOrganizationRole,
@@ -32,7 +34,6 @@ import {
   signOut,
   signUp,
 } from "@/lib/orpc/procedures";
-import type { InferRouterOutputs } from "@orpc/server";
 
 /**
  * Main oRPC router

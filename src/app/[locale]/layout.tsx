@@ -1,3 +1,8 @@
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, setRequestLocale } from "next-intl/server";
+import { Comfortaa, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import { notFound } from "next/navigation";
+
 import { JsonLd } from "@/components/json-ld";
 import { NuqsProvider } from "@/components/providers/nuqs-adapter";
 import { QueryProvider } from "@/components/providers/query-provider";
@@ -5,10 +10,6 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { env } from "@/env";
 import { isSupportedLocale } from "@/lib/i18n/locales";
 import { routing } from "@/lib/i18n/routing";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
-import { Comfortaa, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
-import { notFound } from "next/navigation";
 
 const comfortaa = Comfortaa({
   variable: "--font-sans",

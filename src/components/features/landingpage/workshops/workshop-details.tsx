@@ -1,5 +1,10 @@
 "use client";
 
+import { CheckCircle2, ExternalLink } from "lucide-react";
+import { useTranslations } from "next-intl";
+
+import type { WorkshopType } from "@/features/landingpage/types";
+
 import { DASHBOARD_PATH } from "@/app/routes";
 import {
   Accordion,
@@ -18,10 +23,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { WORKSHOP_LINKS } from "@/config/workshops";
-import type { WorkshopType } from "@/features/landingpage/types";
 import { Link } from "@/lib/i18n/routing";
-import { CheckCircle2, ExternalLink } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 /**
  * Render workshop detail UI for the specified workshop type.

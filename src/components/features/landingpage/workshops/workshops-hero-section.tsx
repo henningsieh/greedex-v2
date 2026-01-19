@@ -1,3 +1,7 @@
+import { ClockIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
+
 import { AnimatedGroup } from "@/components/animated-group";
 import { BackgroundAnimations } from "@/components/background-animations";
 import {
@@ -9,9 +13,6 @@ import {
 } from "@/components/ui/card";
 import { WORKSHOPS } from "@/config/workshops";
 import { Link } from "@/lib/i18n/routing";
-import { ClockIcon } from "lucide-react";
-import { getTranslations } from "next-intl/server";
-import Image from "next/image";
 
 export async function WorkshopsHeroSection() {
   const t = await getTranslations("LandingPage");
