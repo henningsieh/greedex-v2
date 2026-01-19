@@ -6,10 +6,12 @@
 import {
   ArchiveIcon,
   BabyIcon,
+  FactoryIcon,
   MapIcon,
   MapPinIcon,
   MapPinnedIcon,
   MapPinPlusIcon,
+  TreesIcon,
   WaypointsIcon,
 } from "lucide-react";
 
@@ -23,8 +25,13 @@ export const PROJECT_ICONS = {
   /** Icon for projects list/plural (dashboard tabs, sidebar, etc.) */
   projects: MapIcon,
 
+  /** Icon for emissions */
+  emissions: FactoryIcon,
+
+  /** Icon for emissions offset (e.g., trees needed) */
+  emissions_offset: TreesIcon,
+
   /** Icon for Adding a new project */
-  // addProject: SquarePlusIcon,
   addProject: MapPinPlusIcon,
 
   /** Icon for project activities (routes, trips, movements) */

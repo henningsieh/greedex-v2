@@ -249,6 +249,7 @@ export function ProjectActivityForm({
           {onCancel && (
             <Button
               className="flex-1"
+              disabled={isPending}
               onClick={onCancel}
               size="sm"
               type="button"

@@ -415,11 +415,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
       </div>
 
       {/* Participation Link */}
-      <Card>
-        <CardContent className="space-y-3 p-6">
-          <ParticipantsLinkControls activeProjectId={id} />
-        </CardContent>
-      </Card>
+      <ParticipantsLinkControls activeProjectId={id} />
 
       {/* Tabs Navigation */}
       <Tabs className="space-y-4" defaultValue="details">
