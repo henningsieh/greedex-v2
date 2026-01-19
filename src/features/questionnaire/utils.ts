@@ -89,7 +89,9 @@ export function calculateEmissions(
   }
   if (answers.carKm) {
     const carFactor =
-      answers.carType === "electric" ? CO2_FACTORS.electricCar : CO2_FACTORS.car;
+      answers.carType === "electricCar"
+        ? CO2_FACTORS.electricCar
+        : CO2_FACTORS.car;
     const passengers = answers.carPassengers || DEFAULT_CAR_PASSENGERS;
     transportCO2 += (answers.carKm * carFactor) / passengers;
   }

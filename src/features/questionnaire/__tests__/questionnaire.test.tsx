@@ -47,7 +47,7 @@ describe("Questionnaire Types and Calculations", () => {
     it("should calculate car emissions with passengers correctly", () => {
       const answers: Partial<ParticipantAnswers> = {
         carKm: 100,
-        carType: "conventional (diesel, petrol, gas…)",
+        carType: "car",
         carPassengers: 4,
       };
 
@@ -60,7 +60,7 @@ describe("Questionnaire Types and Calculations", () => {
     it("should calculate electric car emissions correctly", () => {
       const answers: Partial<ParticipantAnswers> = {
         carKm: 100,
-        carType: "electric",
+        carType: "electricCar",
         carPassengers: 1,
       };
 

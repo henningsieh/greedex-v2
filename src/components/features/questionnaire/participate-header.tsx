@@ -1,18 +1,15 @@
 "use client";
 
 import { Location } from "@/components/location";
-import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-} from "@/components/ui/empty";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { calculateActivitiesCO2 } from "@/features/projects/utils";
 import type { Project } from "@/features/questionnaire/types";
-import { Factory, LeafIcon } from "lucide-react";
+import { LeafIcon } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+
+import { PROJECT_ICONS } from "../projects/project-icons";
 
 interface ParticipateHeaderProps {
   project: Project;
@@ -31,47 +28,35 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
   const projectActivitiesCO2 = calculateActivitiesCO2(project.activities);
 
   return (
-    <div className="pb-8">
-      {/* Header Group */}
-      <div className="flex flex-col items-center text-center">
-        {/* Badge & System Title - Reduced prominence */}
-        <div className="mb-6 flex flex-col items-center gap-3">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-0.5">
-            <LeafIcon className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
-            <span className="text-[10px] font-medium tracking-wider text-teal-600 uppercase dark:text-teal-400">
-              {t("header.badge")}
-            </span>
-          </div>
-          <p className="text-lg font-medium text-muted-foreground">
-            {t("header.title")} <span className="mx-1 opacity-30"> | </span>{" "}
+    <div className="space-y-4 pb-4">
+      {/* Sophisticated Header Bar */}
+      <div className="flex items-center justify-between px-1 opacity-70 transition-opacity hover:opacity-100">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium tracking-widest text-muted-foreground uppercase">
+            Greendex
+          </span>
+          <span className="hidden h-[1em] w-px bg-border sm:block" />
+          <span className="hidden text-sm text-muted-foreground sm:block">
             {t("header.subtitle")}
-          </p>
+          </span>
         </div>
+        <Badge
+          className="gap-1.5 border-primary/40 bg-primary/20 px-2.5 text-[10px] font-semibold tracking-wider text-primary uppercase shadow-xs"
+          variant="outline"
+        >
+          <LeafIcon className="h-3 w-3" />
+          {t("header.badge")}
+        </Badge>
       </div>
 
-      <Card className="flex w-full flex-col gap-0 overflow-hidden py-0 md:flex-row md:py-6">
-        {/* Left Side: Project Name */}
-        <div className="flex flex-1 items-center justify-start p-6">
-          <h1 className="text-center text-2xl leading-tight font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
-            {project.name}
-            {project.location && (
-              <Location
-                className="ml-2 md:hidden"
-                countryCode={project.country}
-                locale={locale}
-                location={project.location}
-                showFlag
-              />
-            )}{" "}
-          </h1>
-        </div>
-
-        {/* Right Side: Location & Emissions */}
-        <div className="hidden min-h-50 flex-col justify-between border-t bg-muted/20 py-3 md:flex md:w-[40%] md:border-t-0 md:border-l lg:w-[35%]">
-          <CardHeader>
-            <div className="flex justify-end">
+      <Card className="relative overflow-hidden border-border/50 bg-background/50 p-0 shadow-sm backdrop-blur-sm sm:bg-linear-to-r sm:from-background sm:to-muted/20">
+        <div className="flex flex-col md:flex-row md:items-stretch">
+          {/* Main Content: Project Title */}
+          <div className="relative z-10 flex flex-1 flex-col justify-center p-5 md:p-6">
+            <div className="mb-2 flex items-center gap-2">
               {project.location && (
                 <Location
+                  className="border-transparent bg-secondary/10 px-2.5 py-1.5 text-xs text-secondary/80 hover:bg-secondary/20"
                   countryCode={project.country}
                   locale={locale}
                   location={project.location}
@@ -80,66 +65,68 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
                 />
               )}
             </div>
-          </CardHeader>
+            <h1 className="font-serif text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
+              {project.name}
+            </h1>
+          </div>
 
-          <CardFooter>
+          {/* Right Side: Metrics/Activities */}
+          <div className="flex flex-col border-t border-border/50 bg-muted/10 md:w-70 md:border-t-0 md:border-l lg:w-[320px]">
             {projectActivitiesCO2 > 0 ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="w-full space-y-4 rounded-lg border border-border/40 bg-background/50 px-4 py-3 text-center transition-colors hover:bg-secondary/10">
-                    <div className="flex flex-col items-center justify-center gap-1">
-                      <div className="flex items-center gap-2 text-muted-foreground/80">
-                        <Factory className="h-3.5 w-3.5" />
-                        <span className="text-sm font-medium">
+              <div className="flex flex-1 flex-col justify-center p-4">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      className="group flex w-full flex-col gap-2 rounded-md border border-border/40 bg-background/80 p-3 text-left shadow-xs transition-all hover:border-primary/20 hover:shadow-sm"
+                      type="button"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5 text-sm font-medium tracking-wide text-muted-foreground uppercase">
                           {t("project-activities.title")}
-                        </span>
-                      </div>
-
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-mono text-lg font-bold text-foreground/90">
-                          +{projectActivitiesCO2.toFixed(1)} kg CO₂
-                        </span>
-                      </div>
-                    </div>
-                    <p className="mt-1.5 text-[10px] font-medium tracking-wide text-muted-foreground/60 uppercase">
-                      {t("project-activities.note")}
-                    </p>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <div className="max-w-xs">
-                    <p className="mb-2 font-medium">{tActivities("title")}</p>
-                    <div className="space-y-1">
-                      {project.activities.map((activity) => (
-                        <div
-                          className="flex justify-between text-sm"
-                          key={activity.id}
-                        >
-                          <span>
-                            {tActivities(`types.${activity.activityType}`)}
-                          </span>
-                          <span>{activity.distanceKm} km</span>
                         </div>
-                      ))}
+                        <PROJECT_ICONS.activities className="size-5 text-muted-foreground/50 transition-colors group-hover:text-primary/80" />
+                      </div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="font-mono text-2xl font-bold tracking-tight text-primary">
+                          +{projectActivitiesCO2.toFixed(1)}
+                        </span>
+                        <span className="text-sm font-medium text-muted-foreground">
+                          kg CO₂
+                        </span>
+                      </div>
+                      <p className="text-[10px] text-muted-foreground/60">
+                        {t("project-activities.note")}
+                      </p>
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent className="p-2" side="bottom">
+                    <div className="max-w-xs">
+                      <p className="mb-2 font-medium">{tActivities("title")}</p>
+                      <div className="space-y-1">
+                        {project.activities.map((activity) => (
+                          <div
+                            className="flex justify-between text-sm"
+                            key={activity.id}
+                          >
+                            <span>
+                              {tActivities(`types.${activity.activityType}`)}
+                            </span>
+                            <span>{activity.distanceKm} km</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </TooltipContent>
-              </Tooltip>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
             ) : (
-              <div className="w-full origin-bottom scale-90 opacity-70">
-                <Empty>
-                  <EmptyHeader>
-                    <EmptyTitle className="text-sm">
-                      {t("project-activities.empty.title")}
-                    </EmptyTitle>
-                    <EmptyDescription className="text-xs">
-                      {t("project-activities.empty.description")}
-                    </EmptyDescription>
-                  </EmptyHeader>
-                </Empty>
+              <div className="flex flex-1 items-center justify-center p-6 text-center text-muted-foreground/50">
+                <span className="text-sm">
+                  {t("project-activities.empty.title")}
+                </span>
               </div>
             )}
-          </CardFooter>
+          </div>
         </div>
       </Card>
     </div>

@@ -157,16 +157,14 @@ export const FOOD_VALUES = FOOD_DATA.map(([value]) => value);
 // ============================================================================
 // CAR TYPE CONFIGURATION
 // ============================================================================
-
-export const CAR_TYPE_VALUES = [
-  "conventional (diesel, petrol, gas…)",
-  "electric",
-] as const;
+import { PARTICIPANT_ACTIVITY_VALUES } from "./activities";
+export const CAR_TYPE_VALUES = PARTICIPANT_ACTIVITY_VALUES.filter((v) =>
+  v.toLowerCase().includes("car"),
+);
 
 // ============================================================================
 // GENDER CONFIGURATION
 // ============================================================================
-
 export const GENDER_VALUES = [
   "Female",
   "Male",
