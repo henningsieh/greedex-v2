@@ -48,7 +48,7 @@ const seedPool = new Pool({
 
 const db = drizzle(seedPool, { schema });
 
-const SEED_USER = {
+export const SEED_USER = {
   name: "Seed Owner",
   email: "owner@sieh.org",
   password: "SecurePassword123!",
@@ -298,8 +298,17 @@ async function seed() {
     throw error;
   } finally {
     await seedPool.end();
-    process.exit(0);
   }
 }
 
-seed();
+// Only run seed() if this script is executed directly, not when imported
+if (import.meta.main) {
+  seed()
+    .then(() => {
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error("Fatal error:", error);
+      process.exit(1);
+    });
+}

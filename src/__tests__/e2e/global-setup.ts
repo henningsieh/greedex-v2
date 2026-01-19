@@ -1,28 +1,87 @@
 import "dotenv/config";
 
+import { mkdirSync } from "fs";
+
 import { env } from "@/env";
 import { chromium, type FullConfig } from "@playwright/test";
 
+import { SEED_USER } from "../../../scripts/seed";
+import en from "../../lib/i18n/translations/en.json" assert { type: "json" };
+
 /**
  * Global setup for Playwright tests
- * This runs once before all tests
+ * This runs once before all tests and verifies the app + DB by performing a login
  */
 async function globalSetup(config: FullConfig) {
-  // Verify server is running
+  // Launch browser for setup checks
   const browser = await chromium.launch({
     headless: process.env.HEADED !== "true",
   });
   const page = await browser.newPage();
 
+  const storagePath = "src/__tests__/e2e/.auth/storageState.json";
+
   try {
     const baseURL = config.projects[0].use.baseURL || env.NEXT_PUBLIC_BASE_URL;
+
+    // Sanity check server is running
     await page.goto(baseURL, { waitUntil: "networkidle", timeout: 30_000 });
     console.log("✅ Server is running and accessible");
+
+    // Navigate to sign in page
+    const loginUrl = new URL("/en/login", baseURL).toString();
+    await page.goto(loginUrl, { waitUntil: "domcontentloaded", timeout: 30_000 });
+
+    // Build safe regexes from translations
+    const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&");
+    const titleRegex = new RegExp(escapeRegExp(en.authentication.login.title));
+
+    // Wait for expected text on sign-in page
+    await page
+      .getByRole("heading", { level: 1, name: titleRegex })
+      .waitFor({ timeout: 30_000 });
+    try {
+      // Sometimes the full description can be rendered with subtle whitespace/newlines — match a stable prefix instead
+      const descShort = en.authentication.login.description
+        .split(" ")
+        .slice(0, 4)
+        .join(" ");
+      const descShortRegex = new RegExp(escapeRegExp(descShort), "i");
+      await page
+        .getByText(descShortRegex, { exact: false })
+        .waitFor({ timeout: 30_000 });
+    } catch (err) {
+      const bodyText = (await page.locator("body").textContent()) ?? "";
+      console.error(
+        "❌ Failed to find sign-in description. Body snippet:",
+        bodyText.slice(0, 1000),
+      );
+      throw err;
+    }
+
+    console.log("✅ Sign-in page loaded with expected content");
+
+    // Login with seed user
+    await page.fill('input[name="email"]', SEED_USER.email);
+    await page.fill('input[name="password"]', SEED_USER.password);
+    await page.click('button[type="submit"]');
+
+    // Wait for redirect to dashboard
+    await page.waitForURL("**/org/dashboard", { timeout: 30_000 });
+
+    // Quick verification that dashboard is loaded
+    const h1Text = (await page.locator("h1").first().textContent()) ?? "";
+    if (!h1Text.includes("Dashboard")) {
+      throw new Error("Dashboard heading not found after login");
+    }
+
+    // Ensure auth dir exists and save storage state for the rest of the suite
+    mkdirSync("src/__tests__/e2e/.auth", { recursive: true });
+    await page.context().storageState({ path: storagePath });
+    console.log(`✅ Auth storage saved to ${storagePath}`);
   } catch (error) {
-    console.error("❌ Server is not accessible:", error);
-    throw new Error(
-      "Server is not running. Please start it with `bun run dev` before running e2e tests.",
-    );
+    console.error("❌ Global setup failed:", error);
+    throw error;
   } finally {
     await browser.close();
   }
