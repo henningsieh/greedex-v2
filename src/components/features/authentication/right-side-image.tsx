@@ -1,10 +1,11 @@
 "use client";
 
-import { AnimatedGroup } from "@/components/animated-group";
-import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { useId } from "react";
+
+import { AnimatedGroup } from "@/components/animated-group";
+import { cn } from "@/lib/utils";
 
 interface RightSideImageProps {
   headline: string;

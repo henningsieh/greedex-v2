@@ -1,9 +1,10 @@
 "use client";
 
-import { Alert } from "@/components/ui/alert";
-import { orpcQuery } from "@/lib/orpc/orpc";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useFormatter } from "next-intl";
+
+import { Alert } from "@/components/ui/alert";
+import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function ProjectsList() {
   const { data: projects, error } = useSuspenseQuery(

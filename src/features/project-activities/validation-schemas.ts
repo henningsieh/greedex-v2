@@ -1,12 +1,13 @@
-import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/config/activities";
-import { validateDistanceStep } from "@/features/project-activities/utils";
-import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 import {
   createInsertSchema,
   createSelectSchema,
   createUpdateSchema,
 } from "drizzle-zod";
 import { z } from "zod";
+
+import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/config/activities";
+import { validateDistanceStep } from "@/features/project-activities/utils";
+import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 
 // ============================================================================
 // ACTIVITY FORM SCHEMAS

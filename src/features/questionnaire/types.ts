@@ -1,4 +1,9 @@
+import type { z } from "zod";
+
 import type { ParticipantActivityValueType } from "@/config/activities";
+import type { ParticipantSchema } from "@/features/participants/validation-schemas";
+import type { ProjectWithActivitiesType } from "@/features/projects/types";
+
 import {
   ACCOMMODATION_DATA,
   type ACCOMMODATION_VALUES,
@@ -9,9 +14,6 @@ import {
   type GENDER_VALUES,
   type ROOM_OCCUPANCY_VALUES,
 } from "@/config/questionnaire";
-import type { ParticipantSchema } from "@/features/participants/validation-schemas";
-import type { ProjectWithActivitiesType } from "@/features/projects/types";
-import type { z } from "zod";
 
 // ============================================================================
 // QUESTIONNAIRE ANSWER TYPES

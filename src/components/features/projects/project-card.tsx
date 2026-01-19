@@ -1,5 +1,19 @@
 "use client";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  CalendarIcon,
+  Edit2Icon,
+  EyeIcon,
+  MoreHorizontalIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useFormatter, useLocale } from "next-intl";
+import { Suspense, useState } from "react";
+import { toast } from "sonner";
+
+import type { ProjectType } from "@/features/projects/types";
+
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import {
   EditProjectForm,
@@ -30,23 +44,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { ProjectType } from "@/features/projects/types";
 import { getProjectDetailPath } from "@/features/projects/utils";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  CalendarIcon,
-  Edit2Icon,
-  EyeIcon,
-  MoreHorizontalIcon,
-  Trash2Icon,
-} from "lucide-react";
-import { useFormatter, useLocale } from "next-intl";
-import { Suspense, useState } from "react";
-import { toast } from "sonner";
 
 interface ProjectDetailCardProps {
   project: ProjectType;

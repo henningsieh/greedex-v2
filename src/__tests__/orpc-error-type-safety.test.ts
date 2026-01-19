@@ -5,10 +5,12 @@
  * when using the isDefinedORPCError type guard.
  */
 
-import type { ErrorCode } from "@/lib/orpc/context";
-import { ERROR_CODES } from "@/lib/orpc/context";
 import { ORPCError } from "@orpc/client";
 import { describe, expect, it } from "vitest";
+
+import type { ErrorCode } from "@/lib/orpc/context";
+
+import { ERROR_CODES } from "@/lib/orpc/context";
 
 /**
  * Type guard to check if error is an ORPCError with defined error codes

@@ -1,9 +1,11 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import type { Participant } from "@/features/questionnaire/types";
-import { cn } from "@/lib/utils";
 import { Leaf, Trophy } from "lucide-react";
+
+import type { Participant } from "@/features/questionnaire/types";
+
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface LeaderboardProps {
   participants: Participant[];

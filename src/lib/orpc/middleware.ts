@@ -1,7 +1,9 @@
+import { ORPCError } from "@orpc/server";
+
 import type { ProjectPermission } from "@/features/projects/permissions";
+
 import { auth } from "@/lib/better-auth";
 import { base, rootBase } from "@/lib/orpc/context";
-import { ORPCError } from "@orpc/server";
 
 /**
  * Middleware that logs errors with full context for debugging

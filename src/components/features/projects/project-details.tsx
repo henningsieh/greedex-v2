@@ -1,5 +1,22 @@
 "use client";
 
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import {
+  ArchiveIcon,
+  CalendarDaysIcon,
+  Edit2Icon,
+  LeafIcon,
+  MoreHorizontalIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { Suspense, useState } from "react";
+import { toast } from "sonner";
+
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import { ParticipantsLinkControls } from "@/components/features/participants/participants-link-controls";
 import { ParticipantsList } from "@/components/features/participants/participants-list";
@@ -33,22 +50,6 @@ import { MILLISECONDS_PER_DAY } from "@/config/projects";
 import { calculateActivitiesCO2 } from "@/features/projects/utils";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import {
-  ArchiveIcon,
-  CalendarDaysIcon,
-  Edit2Icon,
-  LeafIcon,
-  MoreHorizontalIcon,
-  Trash2Icon,
-} from "lucide-react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
-import { Suspense, useState } from "react";
-import { toast } from "sonner";
 
 interface ProjectDetailsProps {
   id: string;

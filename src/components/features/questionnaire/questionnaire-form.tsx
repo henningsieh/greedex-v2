@@ -1,5 +1,18 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Factory,
+  TreePine,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+
+import type { ParticipantAnswers, Project } from "@/features/questionnaire/types";
+
 import { AnimatedGroup } from "@/components/animated-group";
 import { CountrySelect } from "@/components/country-select";
 import { ImpactModal } from "@/components/features/questionnaire/impact-modal";
@@ -20,7 +33,6 @@ import {
   ROOM_OCCUPANCY_OPTIONS,
 } from "@/config/questionnaire";
 import { calculateProjectDuration } from "@/features/projects/utils";
-import type { ParticipantAnswers, Project } from "@/features/questionnaire/types";
 import {
   areAllNonEmpty,
   calculateEmissions,
@@ -29,16 +41,6 @@ import {
   isPositiveNumber,
   isTruthy,
 } from "@/features/questionnaire/utils";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  Factory,
-  TreePine,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 
 interface QuestionnaireFormProps {
   project: Project;

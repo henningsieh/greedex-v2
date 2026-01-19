@@ -1,3 +1,13 @@
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { betterAuth } from "better-auth/minimal";
+import { nextCookies } from "better-auth/next-js";
+import {
+  lastLoginMethod,
+  magicLink,
+  organization as organizationPlugin,
+} from "better-auth/plugins";
+import { desc, eq } from "drizzle-orm";
+
 import { env } from "@/env";
 import {
   ac,
@@ -14,15 +24,6 @@ import {
   sendPasswordResetEmail,
 } from "@/lib/email";
 import { sendEmail } from "@/lib/email/nodemailer";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { betterAuth } from "better-auth/minimal";
-import { nextCookies } from "better-auth/next-js";
-import {
-  lastLoginMethod,
-  magicLink,
-  organization as organizationPlugin,
-} from "better-auth/plugins";
-import { desc, eq } from "drizzle-orm";
 
 export const auth = betterAuth({
   appName: "Next WebSocket Server",

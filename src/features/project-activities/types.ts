@@ -1,5 +1,6 @@
-import type { projectActivitiesTable } from "@/lib/drizzle/schema";
 import type { InferSelectModel } from "drizzle-orm";
+
+import type { projectActivitiesTable } from "@/lib/drizzle/schema";
 
 // ============================================================================
 // PROJECT ACTIVITY TYPES

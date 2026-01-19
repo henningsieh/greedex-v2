@@ -1,5 +1,21 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  CheckIcon,
+  ChevronDown,
+  Monitor,
+  MonitorIcon,
+  MoonIcon,
+  SunIcon,
+} from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
+import Image from "next/image";
+import { useState, useTransition } from "react";
+
+import type { LocaleCode } from "@/config/languages";
+
 import { HOME_PATH, LOGIN_PATH } from "@/app/routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -19,25 +35,11 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import type { LocaleCode } from "@/config/languages";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { getLocaleData } from "@/lib/i18n/locales";
 import { Link, usePathname, useRouter } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { cn } from "@/lib/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  CheckIcon,
-  ChevronDown,
-  Monitor,
-  MonitorIcon,
-  MoonIcon,
-  SunIcon,
-} from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { useTheme } from "next-themes";
-import Image from "next/image";
-import { useState, useTransition } from "react";
 
 const themes = [
   {

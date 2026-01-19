@@ -1,5 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LockIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
 import { LOGIN_PATH } from "@/app/routes";
 import FormField from "@/components/form-field";
 import { Button } from "@/components/ui/button";
@@ -15,13 +23,6 @@ import { FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { Link, useRouter } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { LockIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useMemo } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 
 interface ResetPasswordFormProps extends React.ComponentProps<"div"> {
   token: string;

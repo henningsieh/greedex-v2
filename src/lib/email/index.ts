@@ -1,9 +1,10 @@
+import { render } from "@react-email/components";
+
 import { sendEmail } from "@/lib/email/nodemailer";
 import { EmailVerification } from "@/lib/email/templates/email-verification";
 import { OrganizationInvitation } from "@/lib/email/templates/organization-invitation";
 import { PasswordResetEmail } from "@/lib/email/templates/password-reset";
 import { maskEmail } from "@/lib/email/utils";
-import { render } from "@react-email/components";
 
 interface User {
   email: string;

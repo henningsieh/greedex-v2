@@ -1,10 +1,12 @@
 "use client";
 
+import { parseAsStringLiteral, useQueryState } from "nuqs";
+
+import type { WorkshopType } from "@/features/landingpage/types";
+
 import { WorkshopDetails } from "@/components/features/landingpage/workshops/workshop-details";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { WORKSHOPS } from "@/config/workshops";
-import type { WorkshopType } from "@/features/landingpage/types";
-import { parseAsStringLiteral, useQueryState } from "nuqs";
 
 /**
  * Render a three-tab workshop interface synchronized with the URL `type` query parameter.

@@ -1,5 +1,6 @@
-import type { SessionResponse } from "@/lib/better-auth/types";
 import { z } from "zod";
+
+import type { SessionResponse } from "@/lib/better-auth/types";
 
 /**
  * Get current session using Better Auth

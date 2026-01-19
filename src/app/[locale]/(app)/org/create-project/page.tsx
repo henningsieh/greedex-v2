@@ -4,13 +4,14 @@
  * Organization create project page with form
  */
 
+import { getTranslations } from "next-intl/server";
+import { headers as nextHeaders } from "next/headers";
+
 import { ContentContainer } from "@/components/content-container";
 import { CreateProjectForm } from "@/components/features/projects/create-project-form";
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { PageHeader } from "@/components/page-header";
 import { auth } from "@/lib/better-auth";
-import { getTranslations } from "next-intl/server";
-import { headers as nextHeaders } from "next/headers";
 
 /**
  * Render the Create Project page with a localized title and the project creation form.

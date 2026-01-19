@@ -1,6 +1,7 @@
-import type { projectsTable } from "@/lib/drizzle/schema";
 import type { InferSelectModel } from "drizzle-orm";
 import type { z } from "zod";
+
+import type { projectsTable } from "@/lib/drizzle/schema";
 
 import type {
   ProjectSortFieldSchema,

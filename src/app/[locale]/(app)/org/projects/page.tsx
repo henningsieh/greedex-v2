@@ -4,6 +4,11 @@
  * Organization projects page with list of projects and create project button
  */
 
+import { getTranslations } from "next-intl/server";
+import { headers } from "next/headers";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+
 import { ContentContainer } from "@/components/content-container";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { ProjectsTab } from "@/components/features/projects/dashboard/projects-tab";
@@ -14,10 +19,6 @@ import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
-import { getTranslations } from "next-intl/server";
-import { headers } from "next/headers";
-import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 
 /**
  * Render the Projects page with server-side data prefetching and permission-aware UI.

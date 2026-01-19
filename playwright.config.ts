@@ -1,7 +1,7 @@
 import "dotenv/config";
+import { defineConfig, devices } from "@playwright/test";
 
 import { env } from "@/env";
-import { defineConfig, devices } from "@playwright/test";
 
 /**
  * Playwright configuration for end-to-end tests

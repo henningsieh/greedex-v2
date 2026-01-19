@@ -1,6 +1,8 @@
+import { eq } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 
 import type { ProjectActivityType } from "@/features/project-activities/types";
+
 import { db } from "@/lib/drizzle/db";
 import {
   member,
@@ -9,7 +11,6 @@ import {
   projectsTable,
   user,
 } from "@/lib/drizzle/schema";
-import { eq } from "drizzle-orm";
 
 /**
  * Test fixture for creating a project that can be used in e2e tests

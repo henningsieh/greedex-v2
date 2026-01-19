@@ -1,6 +1,8 @@
-import { auth } from "@/lib/better-auth";
-import type { SessionResponse } from "@/lib/better-auth/types";
 import { headers } from "next/headers";
+
+import type { SessionResponse } from "@/lib/better-auth/types";
+
+import { auth } from "@/lib/better-auth";
 
 export interface AuthCheckResult {
   session: SessionResponse | null;

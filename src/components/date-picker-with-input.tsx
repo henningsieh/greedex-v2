@@ -1,12 +1,13 @@
 "use client";
 
+import { CalendarIcon } from "lucide-react";
+import { useFormatter } from "next-intl";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { useFormatter } from "next-intl";
-import { useState } from "react";
 
 interface DatePickerWithInputProps {
   id: string;

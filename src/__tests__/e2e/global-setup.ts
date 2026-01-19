@@ -1,9 +1,8 @@
 import "dotenv/config";
-
+import { chromium, type FullConfig } from "@playwright/test";
 import { mkdirSync } from "fs";
 
 import { env } from "@/env";
-import { chromium, type FullConfig } from "@playwright/test";
 
 import { SEED_USER } from "../../../scripts/seed";
 import en from "../../lib/i18n/translations/en.json" assert { type: "json" };

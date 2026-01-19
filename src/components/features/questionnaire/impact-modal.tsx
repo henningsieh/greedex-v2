@@ -1,9 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, LeafIcon, TreePineIcon, XIcon } from "lucide-react";
 import { animate, motion, useMotionValue } from "motion/react";
 import { useEffect, useState } from "react";
+
+import { Button } from "@/components/ui/button";
 
 /**
  * Threshold for negligible impact (below this value, impact is considered insignificant).
