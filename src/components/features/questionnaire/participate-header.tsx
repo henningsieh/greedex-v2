@@ -1,6 +1,6 @@
 "use client";
 
-import { Location } from "@/components/project-location";
+import { Location } from "@/components/location";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import {
   Empty,

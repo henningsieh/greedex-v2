@@ -5,7 +5,7 @@ import {
   EditProjectForm,
   EditProjectFormSkeleton,
 } from "@/components/features/projects/edit-project-form";
-import { Location } from "@/components/project-location";
+import { Location } from "@/components/location";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {

@@ -6,7 +6,7 @@ import {
   EditProjectFormSkeleton,
 } from "@/components/features/projects/edit-project-form";
 import { SortableHeader } from "@/components/features/projects/sortable-header";
-import { ProjectLocation } from "@/components/project-location";
+import { Location } from "@/components/location";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -30,6 +30,7 @@ import {
   getProjectDetailPath,
 } from "@/features/projects/utils";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
+import { getCountryData } from "@/lib/i18n/countries";
 import { Link } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -42,7 +43,7 @@ import {
   EyeIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 
@@ -66,35 +67,17 @@ function DateCell({ date }: { date: Date }) {
 }
 
 /**
- * Renders a project's country and location as an inline, locale-aware ProjectLocation with flag.
- *
- * @param project - The project whose country and location will be displayed
- * @returns A React element displaying the project's country and location with flag and localized formatting
- */
-function CountryCell({ project }: { project: ProjectType }) {
-  const locale = useLocale();
-  return (
-    <ProjectLocation
-      countryFormat="code"
-      layout="unified"
-      locale={locale}
-      project={{ location: project.location, country: project.country }}
-      showFlag={true}
-      variant="inline"
-    />
-  );
-}
-
-/**
  * Builds the column definitions for the projects table using the provided translation function.
  *
- * Produces columns for row selection, project name, location, start date, creation date, update date, and per-row actions (including a header menu for toggling column visibility).
+ * Produces columns for row selection, project name, country, location, start date, creation date, update date, and per-row actions (including a header menu for toggling column visibility).
  *
  * @param t - Translation function scoped to project table UI keys
+ * @param locale - Locale string for country data
  * @returns An array of column definitions configured for ProjectType rows
  */
 export function ProjectTableColumns(
   t: (key: string) => string,
+  locale: string,
 ): ColumnDef<ProjectType>[] {
   return [
     {
@@ -138,6 +121,30 @@ export function ProjectTableColumns(
       ),
     },
     {
+      accessorKey: "country",
+      header: ({ column, table }) => (
+        <SortableHeader
+          column={column}
+          table={table}
+          title={getColumnDisplayName(column.id, t)}
+        />
+      ),
+      cell: ({ row }) => (
+        <Location
+          countryCode={row.original.country}
+          locale={locale}
+          showFlag={true}
+        />
+      ),
+      sortingFn: (rowA, rowB, _columnId) => {
+        const countryA = rowA.original.country;
+        const countryB = rowB.original.country;
+        const nameA = getCountryData(countryA, locale)?.name || countryA;
+        const nameB = getCountryData(countryB, locale)?.name || countryB;
+        return nameA.localeCompare(nameB);
+      },
+    },
+    {
       accessorKey: "location",
       header: ({ column, table }) => (
         <SortableHeader
@@ -146,7 +153,9 @@ export function ProjectTableColumns(
           title={getColumnDisplayName(column.id, t)}
         />
       ),
-      cell: ({ row }) => <CountryCell project={row.original} />,
+      cell: ({ row }) => (
+        <div className="font-medium">{row.getValue("location")}</div>
+      ),
       sortingFn: (rowA, rowB, _columnId) => {
         const locationA = rowA.original.location;
         const locationB = rowB.original.location;
