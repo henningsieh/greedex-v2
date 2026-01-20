@@ -11,7 +11,7 @@ description: "Known compatibility issues and workarounds between oRPC and TanSta
 
 When upgrading `@tanstack/react-query` to version `5.90.19` or later with `@orpc/tanstack-query@1.13.4`, TypeScript throws compatibility errors:
 
-```
+```typescript
 Types of property 'queryFn' are incompatible.
 Type 'import(".../node_modules/@tanstack/react-query/node_modules/@tanstack/query-core/...").g' 
 is not assignable to type 'import(".../node_modules/@tanstack/query-core/...").g'
@@ -56,9 +56,9 @@ bun why @tanstack/query-core
 - ✅ When `@orpc/tanstack-query` releases a new version with updated `@tanstack/query-core` peer dependency
 - 🔗 Tracking: [oRPC GitHub](https://github.com/orpc/orpc/issues)
 
-**Can Be Removed When**:
-- `@orpc/tanstack-query` explicitly supports `@tanstack/query-core@5.90.19+`
-- Remove `resolutions` field and verify `bun why @tanstack/query-core` still shows single version
+**Can be removed when**:
+- `@orpc/tanstack-query` explicitly supports `@tanstack/query-core` version 5.90.19 or later
+- Remove the `resolutions` field and verify `bun why @tanstack/query-core` reports a single version
 - Run `bun run lint` to confirm no TypeScript errors
 
 ### Notes for Developers

@@ -293,7 +293,7 @@ if (mutation.error && isDefinedError(mutation.error)) {
 ```
 
 ::: info
-For more details, see our [type-safe error handling guide](/docs/error-handling#type‐safe-error-handling).
+For more details, see our [type-safe error handling guide](/docs/error-handling#type-safe-error-handling).
 :::
 
 ## `skipToken` for Disabling Queries

@@ -8,7 +8,7 @@ This document describes the memory optimization changes made to reduce Next.js d
 
 The Next.js dev server was experiencing frequent restarts with the warning:
 
-```
+```text
 ⚠ Server is approaching the used memory threshold, restarting...
 ```
 
@@ -200,5 +200,5 @@ If memory issues persist:
 ---
 
 **Date**: 2026-01-19
-**Next.js Version**: 16.1.1
+**Next.js Version**: 16.1.4
 **Optimization Type**: Package Import Optimization + Webpack Memory Settings
