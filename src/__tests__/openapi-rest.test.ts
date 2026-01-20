@@ -582,6 +582,12 @@ describe("OpenAPI Specification", () => {
     expect(spec).toHaveProperty("paths");
     expect(typeof spec.paths).toBe("object");
 
+    // The spec should include a servers entry so documentation tools like
+    // Scalar can resolve the correct base URL for endpoint examples.
+    expect(spec).toHaveProperty("servers");
+    expect(Array.isArray(spec.servers)).toBe(true);
+    expect(spec.servers.map((s: any) => s.url)).toContain("/api/openapi");
+
     // Check that some of our endpoints are documented
     expect(spec.paths).toHaveProperty("/health");
     expect(spec.paths).toHaveProperty("/helloWorld");

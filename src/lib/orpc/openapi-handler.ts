@@ -28,6 +28,12 @@ export const openapiHandler = new OpenAPIHandler(router, {
           title: "Greedex Calculator API",
           version: "1.0.0",
         },
+        // The OpenAPI `servers` property sets the base URL used by the
+        // generated spec and documentation UI. We serve REST endpoints under
+        // `/api/openapi/*`, so expose that as the server URL. This makes
+        // tools like Scalar and generated curl examples include the correct
+        // `/api/openapi` prefix (e.g. `/api/openapi/health`).
+        servers: [{ url: "/api/openapi" }],
       },
     }),
   ],
