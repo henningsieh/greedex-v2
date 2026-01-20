@@ -48,6 +48,7 @@ This index helps you find the right documentation for your task.
 |----------|---------|----------|
 | [orpc.openapi-reference.md](./orpc.openapi-reference.md) | Plugin details + SRI security | DevOps, security engineers |
 | [orpc.openapi.scalar.md](./orpc.openapi.scalar.md) | Scalar UI alternatives | Developers |
+| [orpc.tanstack-query-compatibility.md](./orpc.tanstack-query-compatibility.md) | TanStack Query version compatibility issues | Developers (⚠️ temporary workaround) |
 
 ---
 

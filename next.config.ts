@@ -41,6 +41,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  experimental: {
+    // Enable filesystem caching for `next dev`
+    turbopackFileSystemCacheForDev: true,
+    // Enable filesystem caching for `next build`
+    turbopackFileSystemCacheForBuild: true,
+
+    // Reduce initial memory footprint
+    preloadEntriesOnStart: false,
+  },
 };
 
 const withNextIntl = createNextIntlPlugin("./src/lib/i18n/request.ts");

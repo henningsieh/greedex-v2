@@ -26,10 +26,10 @@ function isDefinedORPCError(
 /**
  * Render an error UI for the project details view and handle specific ORPC errors by showing a localized toast and navigating away.
  *
- * @param error - The Error instance encountered while rendering project details.
+ * @param error - The error encountered while rendering project details.
  * @returns A JSX element with a localized default error message, or `null` when navigation is performed for ORPC `NOT_FOUND` or `FORBIDDEN` errors.
  */
-export function ErrorFallback({ error }: { error: Error }) {
+export function ErrorFallback({ error }: { error: unknown }) {
   const router = useRouter();
   const t = useTranslations("project.details.errors");
 
