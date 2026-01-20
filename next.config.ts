@@ -7,11 +7,10 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   reactCompiler: true,
   devIndicators: {
-    position: "bottom-right",
+    position: "top-right",
   },
 
   // allow image hosting from external domains
-
   images: {
     remotePatterns: [
       {

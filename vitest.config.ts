@@ -10,20 +10,22 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./src/__tests__/setup.ts"],
+    // Increase test timeout to 20 seconds for Next.js dev server startup
+    testTimeout: 20_000,
     // Only include explicit test patterns (optional), and explicitly exclude docs/clickdummy
     include: [
       "src/**/*.{test,spec}.{ts,tsx,js,jsx}",
       "test/**/*.test.{ts,tsx,js,jsx}",
     ],
     exclude: [
+      ".next",
       "node_modules",
+      "docs/**",
       "dist",
       "build",
       "public",
-      "docs/**",
-      "docs/greendex-clickdummy/**",
-      "docs/clickdummy/**",
-      "docs/greendex-clickdummy/build/**",
+      "coverage",
+      "storybook-static",
       "src/__tests__/e2e/**", // Exclude Playwright e2e tests
     ],
   },
@@ -31,9 +33,14 @@ export default defineConfig({
   server: {
     watch: {
       ignored: [
+        "**/.next/**",
+        "**/node_modules/**",
         "**/docs/**",
-        "**/docs/greendex-clickdummy/**",
-        "**/docs/clickdummy/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/public/**",
+        "**/coverage/**",
+        "**/storybook-static/**",
       ],
     },
   },
