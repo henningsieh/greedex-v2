@@ -40,7 +40,7 @@ export function DreamSection() {
               <Card className="text-left transition-shadow hover:shadow-lg">
                 <CardHeader>
                   <div className="mb-2 flex items-center gap-2">
-                    <Trees className="h-5 w-5 text-green-600" />
+                    <Trees className="size-5 text-green-600" />
                     <Badge className="bg-green-600/10 text-green-700 dark:bg-green-400/10 dark:text-green-400">
                       {t("ourForests.portugal.status")}
                     </Badge>
@@ -84,7 +84,7 @@ export function DreamSection() {
               <Card className="text-left transition-shadow hover:shadow-lg">
                 <CardHeader>
                   <div className="mb-2 flex items-center gap-2">
-                    <Trees className="h-5 w-5 text-emerald-600" />
+                    <Trees className="size-5 text-emerald-600" />
                     <Badge className="bg-emerald-600/10 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-400">
                       {t("ourForests.expanding.status")}
                     </Badge>

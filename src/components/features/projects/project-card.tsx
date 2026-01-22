@@ -155,7 +155,7 @@ export function ProjectCard({
                     <Checkbox
                       aria-label={`Select ${project.name}`}
                       checked={isSelected}
-                      className="h-5 w-5 border-2 bg-background data-[state=checked]:border-primary data-[state=checked]:bg-primary"
+                      className="size-5 border-2 bg-background data-[state=checked]:border-primary data-[state=checked]:bg-primary"
                       onCheckedChange={onSelectChange}
                     />
                   )}

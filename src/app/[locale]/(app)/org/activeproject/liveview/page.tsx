@@ -298,7 +298,7 @@ export default function Dashboard() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-teal-600 to-emerald-800">
-                  <MapPinnedIcon className="h-7 w-7" />
+                  <MapPinnedIcon className="size-7" />
                 </div>
                 <div>
                   <h1 className="text-3xl font-bold text-foreground">

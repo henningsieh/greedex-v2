@@ -124,7 +124,7 @@ export function ProjectActivitiesTable({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <PROJECT_ICONS.activities className="h-5 w-5 text-secondary" />
+          <PROJECT_ICONS.activities className="size-5 text-secondary" />
           {t("title")}
         </CardTitle>
         <CardDescription>{t("description")}</CardDescription>

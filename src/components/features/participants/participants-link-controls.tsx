@@ -109,7 +109,7 @@ export function ParticipantsLinkControls({
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Link2Icon className="h-5 w-5 text-secondary" />
+          <Link2Icon className="size-5 text-secondary" />
           {t("participation.title")}
         </CardTitle>
         <CardDescription>{t("participation.description")}</CardDescription>
@@ -215,7 +215,7 @@ export function ParticipationControlsClientSkeleton() {
     <Card className="mb-8 space-y-4 border border-secondary/70 bg-secondary/10 p-4">
       <div className="flex items-center justify-between">
         <div className="mb-4 flex items-center gap-2">
-          <div className="h-5 w-5 rounded bg-muted" />
+          <div className="size-5 rounded bg-muted" />
           <div className="h-6 w-48 rounded bg-muted" />
         </div>
         <div className="h-8 w-32 rounded bg-muted" />

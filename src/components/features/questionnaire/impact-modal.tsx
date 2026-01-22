@@ -336,7 +336,7 @@ export function ImpactModal({
           size="lg"
         >
           Continue
-          <ArrowRightIcon className="ml-2 h-5 w-5" />
+          <ArrowRightIcon className="ml-2 size-5" />
         </Button>
       </div>
     </motion.div>

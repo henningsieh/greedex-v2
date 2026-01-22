@@ -7,7 +7,7 @@ interface TransportIconProps {
 
 export function TransportIcon({
   type,
-  className = "h-5 w-5",
+  className = "size-5",
 }: TransportIconProps) {
   const Icon = PROJECT_ACTIVITIES_ICONS[type];
   return <Icon className={className} />;

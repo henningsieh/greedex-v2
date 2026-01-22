@@ -508,7 +508,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                   size="lg"
                 >
                   {t("welcome.start-button")}
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  <ArrowRight className="ml-2 size-5" />
                 </Button>
               </div>
             )}
@@ -913,13 +913,13 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                 >
                   {renderedStep === 15 ? (
                     <>
-                      <CheckCircle2 className="mr-2 h-5 w-5" />
+                      <CheckCircle2 className="mr-2 size-5" />
                       {t("navigation.complete")}
                     </>
                   ) : (
                     <>
                       {t("navigation.continue")}
-                      <ArrowRight className="ml-2 h-5 w-5" />
+                      <ArrowRight className="ml-2 size-5" />
                     </>
                   )}
                 </Button>

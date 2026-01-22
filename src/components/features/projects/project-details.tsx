@@ -510,7 +510,7 @@ export function ProjectDetailsSkeleton() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center gap-2">
-              <Skeleton className="h-5 w-5" />
+              <Skeleton className="size-5" />
               <Skeleton className="h-6 w-32" />
             </CardTitle>
           </CardHeader>

@@ -48,7 +48,7 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
     <Card className="border border-border/60 bg-card/80 shadow-sm">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <PROJECT_ICONS.participants className="h-5 w-5 text-secondary" />
+          <PROJECT_ICONS.participants className="size-5 text-secondary" />
           {t("participants")}
         </CardTitle>
         <CardDescription>
@@ -118,7 +118,7 @@ export function ParticipantsListSkeleton() {
       <CardHeader>
         <div className="flex items-center gap-3">
           <div className="border border-secondary/30 bg-secondary/10 p-2 text-secondary">
-            <UsersIcon className="h-5 w-5" />
+            <UsersIcon className="size-5" />
           </div>
           <div>
             <div className="animate-pulse text-xs font-medium tracking-[0.2em] text-secondary/70 uppercase">
