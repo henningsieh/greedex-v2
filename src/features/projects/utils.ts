@@ -64,7 +64,7 @@ export function getProjectActivityIcon(
   type: keyof typeof PROJECT_ACTIVITIES_ICONS,
 ): React.ReactElement {
   const Icon = PROJECT_ACTIVITIES_ICONS[type];
-  return React.createElement(Icon, { className: "h-4 w-4" });
+  return React.createElement(Icon, { className: "size-4" });
 }
 
 /**

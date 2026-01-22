@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-import { PanelLeftIcon } from "lucide-react"
+import { PanelLeftIcon,PanelRightCloseIcon,PanelRightOpenIcon } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -262,7 +262,7 @@ function SidebarTrigger({
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar, state } = useSidebar()
 
   return (
     <Button
@@ -277,7 +277,8 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon className="size-6"/>
+      {state === "expanded" && <PanelRightOpenIcon className="size-6" />}
+      {state === "collapsed" && <PanelRightCloseIcon className="size-6" />}
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )
@@ -482,7 +483,12 @@ const sidebarMenuButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        default: 
+          "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+        secondary: cn(
+          "hover:bg-secondary hover:text-secondary-foreground", 
+          "active:bg-secondary active:text-secondary-foreground data-[active=true]:bg-secondary data-[active=true]:text-secondary-foreground data-[state=open]:hover:bg-secondary data-[state=open]:hover:text-secondary-foreground"
+        ),
         outline:
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
       },

@@ -117,7 +117,7 @@ export function ProjectsGrid({
                 size="sm"
                 variant="outline"
               >
-                {t("sort-label")} <ChevronDownIcon className="ml-2 h-4 w-4" />
+                {t("sort-label")} <ChevronDownIcon className="ml-2 size-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="space-y-1">

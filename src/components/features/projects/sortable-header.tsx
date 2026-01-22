@@ -1,4 +1,5 @@
 import type { Column, Table } from "@tanstack/react-table";
+import type { VariantProps } from "class-variance-authority";
 
 import {
   ArrowDown10Icon,
@@ -8,7 +9,7 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface SortableHeaderProps<TData, TValue> {
@@ -17,6 +18,7 @@ interface SortableHeaderProps<TData, TValue> {
   title: string;
   isNumeric?: boolean;
   className?: string;
+  buttonVariant: VariantProps<typeof buttonVariants>["variant"];
 }
 
 const getSortIcon = (state: "asc" | "desc" | false, numeric: boolean) => {
@@ -36,7 +38,7 @@ const getSortIcon = (state: "asc" | "desc" | false, numeric: boolean) => {
     );
   }
 
-  return <ArrowUpDown className="ml-2 h-4 w-4 opacity-50" />;
+  return <ArrowUpDown className="ml-2 size-4 opacity-50" />;
 };
 
 /**
@@ -55,6 +57,7 @@ export function SortableHeader<TData, TValue>({
   title,
   isNumeric = false,
   className,
+  buttonVariant,
 }: SortableHeaderProps<TData, TValue>) {
   // Get the current sorting state for this column
   const sorting = table.getState().sorting;
@@ -86,7 +89,7 @@ export function SortableHeader<TData, TValue>({
         className,
       )}
       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      variant="secondaryghost"
+      variant={buttonVariant}
     >
       {title}
       {getSortIcon(sortState, isNumeric)}

@@ -4,9 +4,12 @@
  * Organization project details page with project details tabs
  */
 
+import { safe } from "@orpc/client";
+import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
+import { PROJECTS_PATH } from "@/app/routes";
 import { ContentContainer } from "@/components/content-container";
 import {
   ProjectDetails,
@@ -17,7 +20,8 @@ import { ErrorFallback } from "@/components/features/projects/project-error-fall
 import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { PageHeader } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpcQuery } from "@/lib/orpc/orpc";
+import { redirect } from "@/lib/i18n/routing";
+import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
 
 /**
@@ -34,10 +38,17 @@ export default async function ProjectsDetailsPage({
   }>;
 }) {
   const { id } = await params;
-
-  // Prefetch project details, participants, and activities for SSR
+  const locale = await getLocale();
   const queryClient = getQueryClient();
 
+  const { error, isDefined } = await safe(orpc.projects.getById({ id }));
+
+  if (isDefined && error.code === "UNAUTHORIZED") {
+    // Redirect to projects list when access is forbidden
+    redirect({ href: PROJECTS_PATH, locale });
+  }
+
+  // Prefetch all queries for SSR (keep prefetching behavior)
   await Promise.all([
     queryClient.prefetchQuery(
       orpcQuery.projects.getById.queryOptions({
@@ -70,7 +81,7 @@ export default async function ProjectsDetailsPage({
         <ProjectDetailsHeader id={id} />
       </Suspense>
 
-      <ContentContainer width="xl">
+      <ContentContainer width="lg">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Suspense fallback={<ProjectDetailsSkeleton />}>
             <ProjectDetails id={id} />

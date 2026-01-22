@@ -39,7 +39,7 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
         {/* Badge & System Title - Reduced prominence */}
         <div className="mb-6 flex flex-col items-center gap-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-teal-500/20 bg-teal-500/10 px-2.5 py-0.5">
-            <LeafIcon className="h-3.5 w-3.5 text-teal-600 dark:text-teal-400" />
+            <LeafIcon className="size-4 text-teal-600 dark:text-teal-400" />
             <span className="text-[10px] font-medium tracking-wider text-teal-600 uppercase dark:text-teal-400">
               {t("header.badge")}
             </span>
@@ -91,7 +91,7 @@ export function ParticipateHeader({ project }: ParticipateHeaderProps) {
                   <div className="w-full space-y-4 rounded-lg border border-border/40 bg-background/50 px-4 py-3 text-center transition-colors hover:bg-secondary/10">
                     <div className="flex flex-col items-center justify-center gap-1">
                       <div className="flex items-center gap-2 text-muted-foreground/80">
-                        <Factory className="h-3.5 w-3.5" />
+                        <Factory className="size-4" />
                         <span className="text-sm font-medium">
                           {t("project-activities.title")}
                         </span>

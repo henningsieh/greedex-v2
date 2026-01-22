@@ -104,12 +104,12 @@ export function ArchivedProjectsTabSkeleton() {
           <div className="space-y-2 p-4">
             {Array.from({ length: 5 }, (_, i) => (
               <div className="flex items-center space-x-4" key={i}>
-                <Skeleton className="h-4 w-4" />
+                <Skeleton className="size-4" />
                 <Skeleton className="h-4 w-32" />
                 <Skeleton className="h-4 w-24" />
                 <Skeleton className="h-4 w-16" />
                 <Skeleton className="h-4 w-20" />
-                <Skeleton className="ml-auto h-8 w-8" />
+                <Skeleton className="ml-auto size-8" />
               </div>
             ))}
           </div>

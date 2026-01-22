@@ -39,7 +39,7 @@ export default async function ProjectsArchivePage() {
         title={t("title")}
         description={t("description")}
       />
-      <ContentContainer width="xl">
+      <ContentContainer width="lg">
         <Suspense fallback={<ArchivedProjectsTabSkeleton />}>
           <ErrorBoundary fallback={<div>{t("error-message")}</div>}>
             <ArchivedProjectsTab />

@@ -58,6 +58,44 @@ export function OrganizationSwitcher() {
     return null;
   }
 
+  const handleSelectOrganization = async (organizationId: string) => {
+    startLoading();
+
+    try {
+      // 1. Switch organization on the server (this should trigger your hook)
+      await authClient.organization.setActive({
+        organizationId,
+      });
+
+      // Invalidate session / projects / active organization
+      // Run invalidations in parallel to avoid sequential delays
+      await Promise.all([
+        // queryClient.invalidateQueries(
+        //   orpcQuery.betterauth.getSession.queryOptions(),
+        // ),
+        queryClient.invalidateQueries(orpcQuery.projects.list.queryOptions()),
+        queryClient.invalidateQueries(
+          orpcQuery.organizations.getActive.queryOptions(),
+        ),
+        queryClient.invalidateQueries(
+          orpcQuery.organizations.getRole.queryOptions(),
+        ),
+        queryClient.invalidateQueries(
+          orpcQuery.organizations.getStats.queryOptions({
+            input: {
+              organizationId,
+            },
+          }),
+        ),
+      ]);
+      router.refresh(); // Force immediate refresh to ensure navigation completes
+    } catch (error) {
+      console.error("Failed to switch organization:", error);
+    } finally {
+      stopLoading();
+    }
+  };
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -65,17 +103,18 @@ export function OrganizationSwitcher() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               className={cn(
-                "border border-sidebar-accent/60 ring-sidebar-accent",
-                "hover:bg-sidebar-primary/40 hover:text-sidebar-foreground",
-                "data-[state=open]:bg-sidebar-primary/30 data-[state=open]:text-sidebar-foreground/60",
+                "group/menubutton",
+                "border border-sidebar-accent/80 text-sidebar-foreground/80 ring-sidebar-accent",
+                "hover:bg-sidebar-primary/30 hover:text-sidebar-foreground",
+                "data-[state=open]:bg-sidebar-primary/20 data-[state=open]:text-sidebar-foreground/60",
               )}
               size="lg"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary">
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary group-hover/menubutton:bg-primary/60">
                 <Building2Icon className="size-4 text-primary-foreground" />
               </div>
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="text-nowrap">{activeOrganization.name}</span>
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5 leading-none">
+                <span className="truncate">{activeOrganization.name}</span>
               </div>
               <ChevronsUpDownIcon className="ml-auto" />
             </SidebarMenuButton>
@@ -93,45 +132,7 @@ export function OrganizationSwitcher() {
             {organizations.map((org) => (
               <DropdownMenuItem
                 key={org.id}
-                onSelect={async () => {
-                  startLoading();
-
-                  try {
-                    // 1. Switch organization on the server (this should trigger your hook)
-                    await authClient.organization.setActive({
-                      organizationId: org.id,
-                    });
-
-                    // Invalidate session / projects / active organization
-                    // Run invalidations in parallel to avoid sequential delays
-                    await Promise.all([
-                      queryClient.invalidateQueries(
-                        orpcQuery.betterauth.getSession.queryOptions(),
-                      ),
-                      queryClient.invalidateQueries(
-                        orpcQuery.projects.list.queryOptions(),
-                      ),
-                      queryClient.invalidateQueries(
-                        orpcQuery.organizations.getActive.queryOptions(),
-                      ),
-                      queryClient.invalidateQueries(
-                        orpcQuery.organizations.getRole.queryOptions(),
-                      ),
-                      queryClient.invalidateQueries(
-                        orpcQuery.organizations.getStats.queryOptions({
-                          input: {
-                            organizationId: org.id,
-                          },
-                        }),
-                      ),
-                    ]);
-                    router.refresh(); // Force immediate refresh to ensure navigation completes
-                  } catch (error) {
-                    console.error("Failed to switch organization:", error);
-                  } finally {
-                    stopLoading();
-                  }
-                }}
+                onSelect={() => handleSelectOrganization(org.id)}
               >
                 {org.name}
                 {org.id === activeOrganization.id && (

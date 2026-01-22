@@ -9,7 +9,6 @@ import {
   ArchiveIcon,
   CalendarDaysIcon,
   Edit2Icon,
-  LeafIcon,
   MoreHorizontalIcon,
   Trash2Icon,
 } from "lucide-react";
@@ -141,22 +140,22 @@ export function ProjectDetailsHeader({ id }: ProjectDetailsProps) {
     });
 
   // Format project dates and location for description
-  const description = (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+  const description: React.ReactNode = (
+    <div className="items-centergap-y-1 flex flex-wrap">
       <span>
         {format.dateTime(project.startDate, {
           year: "numeric",
           month: "short",
           day: "numeric",
         })}
-        {" - "}
+        {"\u00A0\u2013\u00A0"}
         {format.dateTime(project.endDate, {
           year: "numeric",
           month: "short",
           day: "numeric",
         })}
       </span>
-      <span className="text-muted-foreground">•</span>
+      <span className="text-muted-foreground">{"\u00A0\u007C\u00A0"}</span>
 
       <Location
         countryCode={project.country}
@@ -167,11 +166,11 @@ export function ProjectDetailsHeader({ id }: ProjectDetailsProps) {
     </div>
   );
 
-  const action = (
+  const action: React.ReactNode = (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" variant="secondaryoutline">
-          <MoreHorizontalIcon className="h-4 w-4" />
+          <MoreHorizontalIcon className="size-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -180,7 +179,7 @@ export function ProjectDetailsHeader({ id }: ProjectDetailsProps) {
             disabled={permissionsPending}
             onSelect={() => setIsEditModalOpen(true)}
           >
-            <Edit2Icon className="mr-2 h-4 w-4" />
+            <Edit2Icon className="mr-2 size-4" />
             {tProject("table.edit-project")}
           </DropdownMenuItem>
         )}
@@ -215,7 +214,7 @@ export function ProjectDetailsHeader({ id }: ProjectDetailsProps) {
               }
             }}
           >
-            <ArchiveIcon className="mr-2 h-4 w-4" />
+            <ArchiveIcon className="mr-2 size-4" />
             {project.archived
               ? tProject("form.archive.unarchive")
               : tProject("form.archive.archive")}
@@ -246,7 +245,7 @@ export function ProjectDetailsHeader({ id }: ProjectDetailsProps) {
               }}
               variant="destructive"
             >
-              <Trash2Icon className="mr-2 h-4 w-4" />
+              <Trash2Icon className="mr-2 size-4" />
               {tProject("table.delete-project")}
             </DropdownMenuItem>
           </>
@@ -352,7 +351,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
         <Card className="gap-3">
           <CardHeader>
             <div className="flex items-center gap-2 text-sm text-secondary">
-              <CalendarDaysIcon className="h-4 w-4" />
+              <CalendarDaysIcon className="size-4" />
               {t("statistics.duration")}
             </div>
           </CardHeader>
@@ -365,25 +364,12 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
             </div>
           </CardContent>
         </Card>
-        {/* Participants Count */}
-        <Card className="gap-3">
-          <CardHeader>
-            <div className="flex items-center gap-2 text-sm text-secondary">
-              <PROJECT_ICONS.participants className="h-4 w-4" />
-              {t("statistics.participants")}
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
-              {participantsCount}
-            </div>
-          </CardContent>
-        </Card>
+
         {/* Activities Count and Total Distance */}
         <Card className="gap-3">
           <CardHeader>
             <div className="flex items-center gap-2 text-sm text-secondary">
-              <PROJECT_ICONS.activities className="h-4 w-4" />
+              <PROJECT_ICONS.activities className="size-4" />
               {t("statistics.activities")}
             </div>
           </CardHeader>
@@ -396,11 +382,12 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
             </div>
           </CardContent>
         </Card>
+
         {/* CO2 Emissions by Project Activities */}
         <Card className="gap-3">
           <CardHeader>
             <div className="flex items-center gap-2 text-sm text-secondary">
-              <LeafIcon className="h-4 w-4" />
+              <PROJECT_ICONS.emissions className="size-4" />
               {t("statistics.co2-emissions")}
             </div>
           </CardHeader>
@@ -413,33 +400,48 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
             </div>
           </CardContent>
         </Card>
+
+        {/* Participants Count */}
+        <Card className="gap-3">
+          <CardHeader>
+            <div className="flex items-center gap-2 text-sm text-secondary">
+              <PROJECT_ICONS.participants className="size-4" />
+              {t("statistics.participants")}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
+              {participantsCount}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Participation Link */}
-      <ParticipantsLinkControls activeProjectId={id} />
+      <ParticipantsLinkControls projectId={id} />
 
       {/* Tabs Navigation */}
       <Tabs className="space-y-4" defaultValue="details">
         <TabsList className="grid w-full grid-cols-1 gap-2 bg-transparent p-0 sm:w-fit sm:grid-cols-3">
           <TabsTrigger
-            className="focus-visible:border-secondary focus-visible:ring-secondary/50 focus-visible:outline-secondary dark:data-[state=active]:border-secondary/50"
+            className="text-muted-foreground/80 ring-offset-2 ring-offset-background focus-visible:border-secondary focus-visible:ring-secondary/80 focus-visible:outline-secondary data-[state=active]:border-secondary data-[state=active]:bg-secondary/60 data-[state=active]:text-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/60"
             value="details"
           >
-            <PROJECT_ICONS.project className="h-4 w-4" />
+            <PROJECT_ICONS.project className="size-4" />
             {t("tabs.details")}
           </TabsTrigger>
           <TabsTrigger
-            className="focus-visible:border-secondary focus-visible:ring-secondary/50 focus-visible:outline-secondary"
+            className="focus-visible:border-secondary focus-visible:ring-secondary/50 focus-visible:outline-secondary dark:data-[state=active]:border-secondary/50"
             value="activities"
           >
-            <PROJECT_ICONS.activities className="h-4 w-4" />
+            <PROJECT_ICONS.activities className="size-4" />
             {t("tabs.activities")}
           </TabsTrigger>
           <TabsTrigger
-            className="focus-visible:border-secondary focus-visible:ring-secondary/50 focus-visible:outline-secondary"
+            className="focus-visible:border-secondary focus-visible:ring-secondary/50 focus-visible:outline-secondary dark:data-[state=active]:border-secondary/50"
             value="participants"
           >
-            <PROJECT_ICONS.participants className="h-4 w-4" />
+            <PROJECT_ICONS.participants className="size-4" />
             {t("tabs.participants")}
           </TabsTrigger>
         </TabsList>

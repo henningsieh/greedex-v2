@@ -3,6 +3,7 @@
 import type { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isDefinedError } from "@orpc/client";
 import {
   useMutation,
   useQueryClient,
@@ -51,7 +52,7 @@ import {
 } from "@/config/activities";
 import { EditActivityFormItemSchema } from "@/features/project-activities/validation-schemas";
 import { EditProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
-import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import { orpcQuery } from "@/lib/orpc/orpc";
 
 interface EditProjectFormProps {
   project: ProjectType;
@@ -131,75 +132,32 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   const queryClient = useQueryClient();
 
   const { mutateAsync: updateProjectMutation, isPending: isUpdating } =
-    useMutation({
-      mutationFn: (data: z.infer<typeof EditProjectWithActivitiesSchema>) =>
-        orpc.projects.update({
-          id: project.id,
-          data: {
-            name: data.name,
-            startDate: data.startDate,
-            endDate: data.endDate,
-            location: data.location,
-            country: data.country,
-            welcomeMessage: data.welcomeMessage,
-            organizationId: data.organizationId,
-          },
-        }),
-      onError: (err: unknown) => {
-        console.error(err);
-        const message = err instanceof Error ? err.message : String(err);
-        toast.error(message || "An error occurred");
-      },
-    });
-
-  const { mutateAsync: createActivityMutation } = useMutation({
-    mutationFn: (params: {
-      projectId: string;
-      activity: z.infer<typeof EditActivityFormItemSchema>;
-    }) => {
-      const validActivity = EditActivityFormItemSchema.parse(params.activity);
-
-      if (!validActivity.activityType) {
-        throw new Error("Activity type is required");
-      }
-
-      return orpc.projectActivities.create({
-        projectId: params.projectId,
-        activityType: validActivity.activityType,
-        distanceKm: validActivity.distanceKm,
-        description: validActivity.description,
-        activityDate: validActivity.activityDate,
-      });
-    },
-  });
-
-  const { mutateAsync: updateActivityMutation } = useMutation({
-    mutationFn: (params: {
-      activityId: string;
-      activity: z.infer<typeof EditActivityFormItemSchema>;
-    }) => {
-      const validActivity = EditActivityFormItemSchema.parse(params.activity);
-
-      if (!validActivity.activityType) {
-        throw new Error("Activity type is required");
-      }
-
-      return orpc.projectActivities.update({
-        id: params.activityId,
-        data: {
-          activityType: validActivity.activityType,
-          distanceKm: validActivity.distanceKm,
-          description: validActivity.description,
-          activityDate: validActivity.activityDate,
+    useMutation(
+      orpcQuery.projects.update.mutationOptions({
+        onError: (error) => {
+          console.error(error);
+          if (isDefinedError(error)) {
+            // Handle type-safe oRPC errors
+            toast.error(error.message || "An error occurred");
+          } else {
+            // Handle unknown errors
+            toast.error("An unexpected error occurred");
+          }
         },
-      });
-    },
-  });
+      }),
+    );
 
-  const { mutateAsync: deleteActivityMutation } = useMutation({
-    mutationFn: (activityId: string) =>
-      orpc.projectActivities.delete({ id: activityId }),
-  });
+  const { mutateAsync: createActivityMutation } = useMutation(
+    orpcQuery.projectActivities.create.mutationOptions(),
+  );
+
+  const { mutateAsync: updateActivityMutation } = useMutation(
+    orpcQuery.projectActivities.update.mutationOptions(),
+  );
+
+  const { mutateAsync: deleteActivityMutation } = useMutation(
+    orpcQuery.projectActivities.delete.mutationOptions(),
+  );
 
   async function handleNextStep() {
     const isStepValid = await trigger([
@@ -223,36 +181,42 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   async function onSubmit(
     values: z.infer<typeof EditProjectWithActivitiesSchema>,
   ) {
-    try {
-      // Update the project
-      const result = await updateProjectMutation(values);
+    // Update the project
+    const result = await updateProjectMutation({
+      id: project.id,
+      data: {
+        name: values.name,
+        startDate: values.startDate,
+        endDate: values.endDate,
+        location: values.location,
+        country: values.country,
+        welcomeMessage: values.welcomeMessage,
+        organizationId: values.organizationId,
+      },
+    });
 
-      if (!result.success) {
-        toast.error(t("edit.toast.error"));
-        return;
-      }
-
-      // Process activities in a helper to keep this function simple
-      if (values.activities && values.activities.length > 0) {
-        const failedActivities = await processActivities(values.activities);
-
-        if (failedActivities.length > 0) {
-          toast.error(
-            t("edit.toast.failed-activities", {
-              count: failedActivities.length,
-              activities: failedActivities.join(", "),
-            }),
-          );
-        }
-      }
-
-      toast.success(t("edit.toast.success") || "Project updated successfully");
-      invalidateProjectQueries(project.id);
-      onSuccess?.();
-    } catch (err) {
-      console.error(err);
-      toast.error("An error occurred");
+    if (!result.success) {
+      toast.error(t("edit.toast.error"));
+      return;
     }
+
+    // Process activities in a helper to keep this function simple
+    if (values.activities && values.activities.length > 0) {
+      const failedActivities = await processActivities(values.activities);
+
+      if (failedActivities.length > 0) {
+        toast.error(
+          t("edit.toast.failed-activities", {
+            count: failedActivities.length,
+            activities: failedActivities.join(", "),
+          }),
+        );
+      }
+    }
+
+    toast.success(t("edit.toast.success") || "Project updated successfully");
+    invalidateProjectQueries(project.id);
+    onSuccess?.();
   }
 
   /**
@@ -269,8 +233,8 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     for (const activity of activities) {
       try {
         await handleSingleActivity(activity);
-      } catch (err) {
-        console.error("Failed to process activity:", err);
+      } catch (error) {
+        console.error("Failed to process activity:", error);
         failedActivities.push(activity.activityType || "unknown");
       }
     }
@@ -288,19 +252,41 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   ) {
     // Deleted existing activity
     if (activity.isDeleted === true && activity.isNew === false && activity.id) {
-      await deleteActivityMutation(activity.id);
+      await deleteActivityMutation({ id: activity.id });
       return;
     }
 
     // New activity to create
     if (activity.isNew === true && activity.isDeleted !== true) {
-      await createActivityMutation({ projectId: project.id, activity });
+      if (!activity.activityType) {
+        throw new Error("Activity type is required");
+      }
+
+      await createActivityMutation({
+        projectId: project.id,
+        activityType: activity.activityType,
+        distanceKm: activity.distanceKm,
+        description: activity.description,
+        activityDate: activity.activityDate,
+      });
       return;
     }
 
     // Existing activity to update
     if (activity.isNew === false && activity.isDeleted !== true && activity.id) {
-      await updateActivityMutation({ activityId: activity.id, activity });
+      if (!activity.activityType) {
+        throw new Error("Activity type is required");
+      }
+
+      await updateActivityMutation({
+        id: activity.id,
+        data: {
+          activityType: activity.activityType,
+          distanceKm: activity.distanceKm,
+          description: activity.description,
+          activityDate: activity.activityDate,
+        },
+      });
       return;
     }
 
@@ -458,7 +444,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                 variant="secondary"
               >
                 {tActivities("title")}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <ArrowRight className="ml-2 size-4" />
               </Button>
             </div>
           </FieldGroup>
@@ -504,7 +490,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                           type="button"
                           variant="ghost"
                         >
-                          <Trash2 className="h-4 w-4 text-destructive" />
+                          <Trash2 className="size-4 text-destructive" />
                         </Button>
 
                         <div className="grid gap-4 pr-8 sm:grid-cols-2">
@@ -600,7 +586,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                   type="button"
                   variant="outline"
                 >
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-2 size-4" />
                   {tActivities("form.title")}
                 </Button>
               </CardContent>
@@ -613,7 +599,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                 type="button"
                 variant="outline"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="mr-2 size-4" />
                 {t("edit.back")}
               </Button>
 
@@ -622,7 +608,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                   tActivities("form.updating")
                 ) : (
                   <>
-                    <Check className="mr-2 h-4 w-4" />
+                    <Check className="mr-2 size-4" />
                     {t("edit.update") || "Update Project"}
                   </>
                 )}

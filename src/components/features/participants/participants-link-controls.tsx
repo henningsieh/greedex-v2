@@ -32,25 +32,25 @@ import {
 import { env } from "@/env";
 
 interface ParticipationControlsClientProps {
-  activeProjectId: string;
+  projectId: string;
 }
 
 /**
  * Render controls for sharing a project's participation link, including copy, open-in-new-tab, and a QR code modal.
  *
- * @param activeProjectId - The active project's identifier used to construct the participation URL.
- * @returns A card containing the participation URL input, copy/open actions, and a QR code modal; returns `null` when `activeProjectId` is not provided.
+ * @param projectId - The project's identifier used to construct the participation URL.
+ * @returns A card containing the participation URL input, copy/open actions, and a QR code modal
  */
 export function ParticipantsLinkControls({
-  activeProjectId,
+  projectId,
 }: ParticipationControlsClientProps) {
   const t = useTranslations("organization.projects.activeProject");
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
 
   // Generate participation URL
-  const participationUrl = activeProjectId
-    ? `${env.NEXT_PUBLIC_BASE_URL}/project/${activeProjectId}/participate`
+  const participationUrl = projectId
+    ? `${env.NEXT_PUBLIC_BASE_URL}/project/${projectId}/participate`
     : "";
 
   // Input ref to focus & select URL for easy copying
@@ -94,7 +94,7 @@ export function ParticipantsLinkControls({
     }
   }, [isQrModalOpen, participationUrl, t]);
 
-  if (!activeProjectId) {
+  if (!projectId) {
     return null;
   }
 
@@ -150,7 +150,7 @@ export function ParticipantsLinkControls({
                   />
                 ) : (
                   <div className="flex h-75 w-75 items-center justify-center rounded-lg border border-secondary/70">
-                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-secondary border-t-transparent" />
+                    <div className="size-8 animate-spin rounded-full border-4 border-secondary border-t-transparent" />
                   </div>
                 )}
                 <p className="text-center font-mono text-xs break-all text-muted-foreground">

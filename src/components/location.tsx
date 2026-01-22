@@ -75,11 +75,11 @@ export function Location({
   const content = (
     <span className="inline-flex items-center gap-1.5 leading-none">
       {showFlag && flagElement}
-      <span className="flex items-baseline gap-1">
+      <span className="flex items-baseline gap-px leading-none">
         {location && (
           <>
             <span className="font-medium text-foreground">{location}</span>
-            <span className="text-muted-foreground/60">,</span>
+            <span className="font-medium text-muted-foreground">,</span>
           </>
         )}
         <span
@@ -88,6 +88,7 @@ export function Location({
             location ? "text-muted-foreground" : "font-medium text-foreground",
           )}
         >
+          {"\u00A0"}
           {countryName}
         </span>
       </span>

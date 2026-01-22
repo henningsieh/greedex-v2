@@ -277,7 +277,7 @@ export function ImpactModal({
           onClick={onClose}
           type="button"
         >
-          <XIcon className="h-6 w-6" />
+          <XIcon className="size-6" />
         </button>
 
         <h2 className="mb-10 text-4xl font-bold text-white sm:text-5xl">
@@ -292,7 +292,7 @@ export function ImpactModal({
           {/* Current CO2 */}
           <div className="max-w-xs flex-1 rounded-2xl border-2 border-white/20 bg-linear-to-br from-teal-500/20 to-emerald-500/20 p-8 backdrop-blur-sm">
             <div className="mb-3 flex items-center justify-center gap-2">
-              <LeafIcon className="h-8 w-8 text-emerald-400" />
+              <LeafIcon className="size-8 text-emerald-400" />
             </div>
             <div className="mb-2 text-lg text-white/80">Total CO₂</div>
             <div className={`text-5xl font-bold ${getCO2Color(newCO2)}`}>
@@ -304,7 +304,7 @@ export function ImpactModal({
           {/* Trees Needed */}
           <div className="max-w-xs flex-1 rounded-2xl border-2 border-white/20 bg-linear-to-br from-green-500/20 to-emerald-500/20 p-8 backdrop-blur-sm">
             <div className="mb-3 flex items-center justify-center gap-2">
-              <TreePineIcon className="h-8 w-8 text-green-400" />
+              <TreePineIcon className="size-8 text-green-400" />
             </div>
             <div className="mb-2 text-lg text-white/80">Trees Needed</div>
             <div className="text-5xl font-bold text-green-400">{treesNeeded}</div>

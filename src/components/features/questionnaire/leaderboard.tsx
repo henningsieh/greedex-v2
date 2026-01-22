@@ -21,7 +21,7 @@ export function Leaderboard({ participants }: LeaderboardProps) {
     <Card className="overflow-hidden border-primary/20 bg-card/50 backdrop-blur-sm">
       <div className="border-b border-primary/20 bg-linear-to-r from-teal-500/20 to-emerald-500/20 px-6 py-4">
         <div className="flex items-center gap-3">
-          <Trophy className="h-6 w-6 text-teal-400" />
+          <Trophy className="size-6 text-teal-400" />
           <h2 className="text-2xl font-bold text-foreground">
             Sustainability Champions
           </h2>
@@ -76,7 +76,7 @@ export function Leaderboard({ participants }: LeaderboardProps) {
 
                 <div className="shrink-0 text-right">
                   <div className="flex items-center justify-end gap-2">
-                    <Leaf className="h-4 w-4 text-emerald-400" />
+                    <Leaf className="size-4 text-emerald-400" />
                     <span className="text-2xl font-bold text-teal-400">
                       {participant.totalCO2.toFixed(1)}
                     </span>

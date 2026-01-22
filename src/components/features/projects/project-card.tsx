@@ -178,7 +178,7 @@ export function ProjectCard({
                   <DropdownMenuTrigger asChild>
                     <Button
                       className={cn(
-                        "h-8 w-8 bg-background/80 p-0 backdrop-blur-sm transition-opacity hover:bg-background",
+                        "size-8 bg-background/80 p-0 backdrop-blur-sm transition-opacity hover:bg-background",
                         "focus:opacity-100",
                       )}
                       onClick={(e) => e.stopPropagation()}
@@ -186,7 +186,7 @@ export function ProjectCard({
                       variant="ghost"
                     >
                       <span className="sr-only">Open actions</span>
-                      <MoreHorizontalIcon className="h-4 w-4" />
+                      <MoreHorizontalIcon className="size-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
@@ -196,7 +196,7 @@ export function ProjectCard({
                         className="flex items-center gap-2"
                         href={getProjectDetailPath(project.id)}
                       >
-                        <EyeIcon className="mr-2 h-4 w-4" />
+                        <EyeIcon className="mr-2 size-4" />
                         <span>View Details</span>
                       </Link>
                     </DropdownMenuItem>
@@ -207,7 +207,7 @@ export function ProjectCard({
                           setIsEditModalOpen(true);
                         }}
                       >
-                        <Edit2Icon className="mr-2 h-4 w-4" />
+                        <Edit2Icon className="mr-2 size-4" />
                         Edit Project
                       </DropdownMenuItem>
                     )}
@@ -222,7 +222,7 @@ export function ProjectCard({
                             handleDelete();
                           }}
                         >
-                          <Trash2Icon className="mr-2 h-4 w-4" />
+                          <Trash2Icon className="mr-2 size-4" />
                           Delete Project
                         </DropdownMenuItem>
                       </>
@@ -236,7 +236,7 @@ export function ProjectCard({
               <div className="grid grid-cols-2 gap-3 rounded-lg border bg-muted/30 p-3 text-sm">
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <CalendarIcon className="h-3.5 w-3.5" />
+                    <CalendarIcon className="size-4" />
                     <span>Start Date</span>
                   </div>
                   <p className="font-medium">
@@ -247,7 +247,7 @@ export function ProjectCard({
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <CalendarIcon className="h-3.5 w-3.5" />
+                    <CalendarIcon className="size-4" />
                     <span>End Date</span>
                   </div>
                   <p className="font-medium">

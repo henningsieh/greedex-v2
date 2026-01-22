@@ -1,21 +1,8 @@
 "use client";
 
-import type { LucideIcon } from "lucide-react";
-
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { Building2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import {
-  DASHBOARD_PATH,
-  PARTICIPANTS_PATH,
-  PROJECTS_ARCHIVE_PATH,
-  PROJECTS_PATH,
-  SETTINGS_PATH,
-  TEAM_PATH,
-} from "@/app/routes";
-import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
+import { SIDEBAR_GROUPS } from "@/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,199 +13,92 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link, usePathname } from "@/lib/i18n/routing";
-import { orpcQuery } from "@/lib/orpc/orpc";
+
+import { ORGANIZATION_ICONS } from "./features/organizations/organization-icons";
+import { PROJECT_ICONS } from "./features/projects/project-icons";
 
 /**
- * Get the current section info based on pathname
- */
-function getCurrentSection(
-  pathname: string,
-  translate: (key: string) => string,
-): { label: string; icon?: LucideIcon } | null {
-  switch (pathname) {
-    case DASHBOARD_PATH:
-      return {
-        label: translate("organization.dashboard"),
-        icon: ORGANIZATION_ICONS.dashboard,
-      };
-    case TEAM_PATH:
-      return {
-        label: translate("organization.team"),
-        icon: ORGANIZATION_ICONS.team,
-      };
-    case SETTINGS_PATH:
-      return {
-        label: translate("organization.settings"),
-        icon: ORGANIZATION_ICONS.settings,
-      };
-    case PROJECTS_PATH:
-      return {
-        label: translate("projects.projects"),
-        icon: PROJECT_ICONS.projects,
-      };
-    case PROJECTS_ARCHIVE_PATH:
-      return {
-        label: translate("projects.archive"),
-        icon: PROJECT_ICONS.archive,
-      };
-    case PARTICIPANTS_PATH:
-      return {
-        label: translate("projects.participants"),
-        icon: PROJECT_ICONS.participants,
-      };
-    default:
-      return null;
-  }
-}
-
-/**
- * Render the application breadcrumb navigation.
- * Shows organization > section > project hierarchy based on current URL.
- *
- * @returns The breadcrumb navigation JSX element.
+ * AppBreadcrumb
+ * - shows the current sidebar group label as the first crumb
+ * - the current feature page as the second crumb
+ * - if on a project detail page, shows the project name as a non-link last crumb
  */
 export function AppBreadcrumb() {
   const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean);
-
-  // Check if we're on a project detail page (/org/projects/[id])
-  const isProjectDetail =
-    segments[0] === "org" && segments[1] === "projects" && segments[2];
-  const projectId = isProjectDetail ? segments[2] : null;
-
-  if (projectId) {
-    return <ProjectBreadcrumb projectId={projectId} />;
-  }
-
-  return <OrgBreadcrumb />;
-}
-
-/**
- * Render the breadcrumb for organization-level routes, showing the active organization's name and the current section when present.
- *
- * Displays a link to the dashboard with the organization name and icon; if the pathname maps to a known section, a separator and that section's label and icon are shown.
- *
- * @returns The breadcrumb element displaying the organization and an optional current section.
- */
-function OrgBreadcrumb() {
   const t = useTranslations("app.sidebar");
-  const pathname = usePathname();
 
-  // Fetch active organization
-  const { data: activeOrganization } = useSuspenseQuery(
-    orpcQuery.organizations.getActive.queryOptions(),
-  );
+  // Find the sidebar group that matches the current pathname
+  const currentGroup =
+    SIDEBAR_GROUPS.find((g) =>
+      g.items.some((i) => pathname === i.url || pathname.startsWith(`${i.url}/`)),
+    ) ?? SIDEBAR_GROUPS[0];
 
-  // Determine current section based on pathname
-  const currentSection = getCurrentSection(pathname, t);
+  // Determine the feature item (e.g., Dashboard, Projects, Participants)
+  const featureItem =
+    currentGroup.items.find(
+      (i) => pathname === i.url || pathname.startsWith(`${i.url}/`),
+    ) ?? currentGroup.items[0];
+
+  const segments = pathname.split("/").filter(Boolean);
+  const isProjectDetail =
+    segments[0] === "org" && segments[1] === "projects" && !!segments[2];
+
+  const CrumbIcon: React.ReactElement = (() => {
+    switch (currentGroup.labelKey) {
+      case "organization.groupLabel":
+        return (
+          <ORGANIZATION_ICONS.organization className="mr-2 inline size-4 text-primary" />
+        );
+      case "projects.groupLabel":
+        return (
+          <PROJECT_ICONS.projects className="mr-2 inline size-5 text-secondary" />
+        );
+      case "projects.archiveLabel":
+        return (
+          <PROJECT_ICONS.archive className="mr-2 inline size-4 text-muted-foreground" />
+        );
+      default:
+        return currentGroup.labelKey satisfies never;
+    }
+  })();
 
   return (
-    <Breadcrumb>
+    <Breadcrumb tabIndex={-1}>
       <BreadcrumbList>
-        {/* Organization name */}
+        {/* First crumb: Sidebar group label (link to group's primary route) */}
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link
-              className="flex items-center gap-2 text-primary transition-colors duration-300 hover:text-primary-foreground"
-              href={DASHBOARD_PATH}
-            >
-              <span className="rounded-full bg-primary/40 p-1.5 text-primary-foreground">
-                <Building2Icon className="size-4" />
-              </span>
-              <span className="text-base font-semibold">
-                {activeOrganization?.name ?? "Organization"}
-              </span>
+            <Link href={currentGroup.items[0].url}>
+              {CrumbIcon}
+              {t(currentGroup.labelKey)}
             </Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
 
-        {/* Current section */}
-        {currentSection && (
+        <BreadcrumbSeparator />
+
+        {/* Second crumb: feature page. If we are on a project detail, this stays a link; otherwise it's the final page and not a link */}
+        <BreadcrumbItem>
+          {isProjectDetail ? (
+            <BreadcrumbLink asChild>
+              <Link href={featureItem.url}>{t(featureItem.titleKey)}</Link>
+            </BreadcrumbLink>
+          ) : (
+            <BreadcrumbPage>{t(featureItem.titleKey)}</BreadcrumbPage>
+          )}
+        </BreadcrumbItem>
+
+        {/* Optional last crumb: non-link project name */}
+        {isProjectDetail && (
           <>
-            <BreadcrumbSeparator className="text-primary/50" />
+            <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage className="flex items-center gap-2 text-primary dark:text-primary-foreground">
-                {currentSection.icon && (
-                  <currentSection.icon className="size-4" />
-                )}
-                <span className="font-semibold">{currentSection.label}</span>
-              </BreadcrumbPage>
+              <BreadcrumbPage>{t("projects.details")}</BreadcrumbPage>
             </BreadcrumbItem>
           </>
         )}
       </BreadcrumbList>
     </Breadcrumb>
-  );
-}
-
-/**
- * Breadcrumb for project detail routes (shows project hierarchy)
- */
-function ProjectBreadcrumb({ projectId }: { projectId: string }) {
-  const t = useTranslations("app.sidebar");
-
-  // Fetch active organization
-  const { data: activeOrganization } = useSuspenseQuery(
-    orpcQuery.organizations.getActive.queryOptions(),
-  );
-
-  // Fetch project data
-  const { data: currentProject } = useSuspenseQuery(
-    orpcQuery.projects.getById.queryOptions({
-      input: { id: projectId },
-    }),
-  );
-
-  return (
-    <div className="flex w-full items-center justify-between">
-      <Breadcrumb>
-        <BreadcrumbList>
-          {/* Organization name */}
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link
-                className="flex items-center gap-2 text-secondary transition-colors duration-300 hover:text-secondary-foreground"
-                href={DASHBOARD_PATH}
-              >
-                <span className="rounded-md bg-secondary/30 p-1.5 text-secondary-foreground">
-                  <Building2Icon className="size-4" />
-                </span>
-                <span className="text-base font-semibold">
-                  {activeOrganization?.name ?? "Organization"}
-                </span>
-              </Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-
-          <BreadcrumbSeparator className="text-secondary/50" />
-
-          {/* Projects */}
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link
-                className="flex items-center gap-2 text-secondary transition-colors duration-300 hover:text-secondary-foreground"
-                href={PROJECTS_PATH}
-              >
-                <PROJECT_ICONS.projects className="size-4" />
-                <span className="font-semibold">
-                  {t("organization.projects")}
-                </span>
-              </Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-
-          <BreadcrumbSeparator className="text-secondary/50" />
-
-          {/* Project name */}
-          <BreadcrumbItem>
-            <BreadcrumbPage className="flex items-center gap-2 text-secondary dark:text-secondary-foreground">
-              <PROJECT_ICONS.project className="size-4" />
-              <span className="font-semibold">{currentProject.name}</span>
-            </BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    </div>
   );
 }
 
@@ -229,7 +109,7 @@ export function AppBreadcrumbSkeleton() {
         <Skeleton className="size-7 rounded-full" />
         <Skeleton className="h-4 w-24 rounded-md" />
       </div>
-      <Skeleton className="h-4 w-4 rounded-md" />
+      <Skeleton className="size-4 rounded-md" />
       <div className="flex items-center gap-2">
         <Skeleton className="size-4 rounded-md" />
         <Skeleton className="h-4 w-20 rounded-md" />

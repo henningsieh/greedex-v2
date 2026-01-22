@@ -135,7 +135,7 @@ export function ProjectActivitiesTable({
               size="sm"
               variant="secondaryoutline"
             >
-              <PlusIcon className="h-4 w-4" />
+              <PlusIcon className="size-4" />
               <p className="hidden sm:inline-flex">{t("form.title")}</p>
             </Button>
           </CardAction>
@@ -189,7 +189,7 @@ export function ProjectActivitiesTable({
                             title={t("table.edit")}
                             variant="ghost"
                           >
-                            <EditIcon className="h-4 w-4" />
+                            <EditIcon className="size-4" />
                           </Button>
                           <Button
                             onClick={() => setDeletingActivityId(activity.id)}
@@ -197,7 +197,7 @@ export function ProjectActivitiesTable({
                             title={t("table.delete")}
                             variant="ghost"
                           >
-                            <Trash2Icon className="h-4 w-4 text-destructive" />
+                            <Trash2Icon className="size-4 text-destructive" />
                           </Button>
                         </div>
                       </TableCell>
@@ -211,7 +211,7 @@ export function ProjectActivitiesTable({
           <Empty className="border">
             <EmptyHeader>
               <EmptyMedia variant="icon">
-                <PROJECT_ICONS.activities className="h-6 w-6" />
+                <PROJECT_ICONS.activities className="size-6" />
               </EmptyMedia>
               <EmptyTitle>{t("empty.title")}</EmptyTitle>
               <EmptyDescription>{t("empty.description")}</EmptyDescription>
@@ -223,7 +223,7 @@ export function ProjectActivitiesTable({
                   size="sm"
                   variant="outline"
                 >
-                  <PlusIcon className="mr-2 h-4 w-4" />
+                  <PlusIcon className="mr-2 size-4" />
                   {t("form.title")}
                 </Button>
               </EmptyContent>

@@ -117,6 +117,7 @@ export function ProjectTableColumns(
           column={column}
           table={table}
           title={getColumnDisplayName(column.id, t)}
+          buttonVariant="secondaryghost"
         />
       ),
       cell: ({ row }) => (
@@ -130,6 +131,7 @@ export function ProjectTableColumns(
           column={column}
           table={table}
           title={getColumnDisplayName(column.id, t)}
+          buttonVariant="secondaryghost"
         />
       ),
       cell: ({ row }) => (
@@ -154,6 +156,7 @@ export function ProjectTableColumns(
           column={column}
           table={table}
           title={getColumnDisplayName(column.id, t)}
+          buttonVariant="secondaryghost"
         />
       ),
       cell: ({ row }) => (
@@ -173,6 +176,7 @@ export function ProjectTableColumns(
           isNumeric
           table={table}
           title={getColumnDisplayName(column.id, t)}
+          buttonVariant="secondaryghost"
         />
       ),
       cell: ({ row }) => {
@@ -194,6 +198,7 @@ export function ProjectTableColumns(
           isNumeric
           table={table}
           title={getColumnDisplayName(column.id, t)}
+          buttonVariant="secondaryghost"
         />
       ),
       cell: ({ row }) => {
@@ -216,6 +221,7 @@ export function ProjectTableColumns(
           isNumeric
           table={table}
           title={getColumnDisplayName(column.id, t)}
+          buttonVariant="secondaryghost"
         />
       ),
       cell: ({ row }) => {
@@ -235,7 +241,7 @@ export function ProjectTableColumns(
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="p-0" size="icon-sm" variant="secondaryghost">
-              <Columns3CogIcon className="h-4 w-4" />
+              <Columns3CogIcon className="size-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="border-secondary">
@@ -393,25 +399,25 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="h-8 w-8 p-0"
+            className="size-8 p-0"
             onClick={(e) => e.stopPropagation()}
             variant="secondaryghost"
           >
             <span className="sr-only">{t("table.open-menu")}</span>
-            <EllipsisVerticalIcon className="h-4 w-4" />
+            <EllipsisVerticalIcon className="size-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
           <DropdownMenuItem asChild>
             <Link href={getProjectDetailPath(project.id)}>
-              <EyeIcon className="mr-2 h-4 w-4" />
+              <EyeIcon className="mr-2 size-4" />
               {t("table.view-details")}
             </Link>
           </DropdownMenuItem>
           {canUpdate && (
             <DropdownMenuItem onClick={() => setIsEditModalOpen(true)}>
-              <Edit2Icon className="mr-2 h-4 w-4" />
+              <Edit2Icon className="mr-2 size-4" />
               {t("table.edit-project")}
             </DropdownMenuItem>
           )}
@@ -420,7 +426,7 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
               disabled={isArchiving || permissionsPending}
               onClick={handleArchive}
             >
-              <ArchiveIcon className="mr-2 h-4 w-4" />
+              <ArchiveIcon className="mr-2 size-4" />
               {project.archived
                 ? t("form.archive.unarchive")
                 : t("form.archive.archive")}
@@ -434,7 +440,7 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
                 disabled={isDeleting || permissionsPending}
                 onClick={handleDelete}
               >
-                <Trash2Icon className="mr-2 h-4 w-4" />
+                <Trash2Icon className="mr-2 size-4" />
                 {t("table.delete-project")}
               </DropdownMenuItem>
             </>

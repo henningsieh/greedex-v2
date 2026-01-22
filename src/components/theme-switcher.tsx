@@ -82,7 +82,7 @@ export const ThemeSwitcher = ({
         animate={{
           x: [3.8, 26.8, 50][themes.findIndex((t) => t.key === currentTheme)],
         }}
-        className="absolute left-0 h-6 w-6 rounded-full bg-accent"
+        className="absolute left-0 size-6 rounded-full bg-accent"
         style={{ top: "calc(50% - 11.5px)" }}
         transition={{
           type: "spring",
@@ -95,14 +95,14 @@ export const ThemeSwitcher = ({
         return (
           <button
             aria-label={label}
-            className="relative size-6 rounded-full outline-none hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-[2px] focus-visible:ring-ring/50"
+            className="relative size-6 rounded-full outline-none hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"
             key={key}
             onClick={() => handleThemeClick(key as "light" | "dark" | "system")}
             type="button"
           >
             <Icon
               className={cn(
-                "relative m-auto h-4 w-4",
+                "relative m-auto size-4",
                 isActive ? "text-accent-foreground" : "text-muted-foreground",
               )}
               strokeWidth="2.6"

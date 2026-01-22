@@ -422,7 +422,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         >
           <Card className="flex flex-col items-center justify-between gap-2 border-red-500/20 bg-red-500/5 p-3 sm:flex-row sm:gap-4 sm:p-4 md:gap-6">
             <div className="mb-1 flex items-center gap-2 sm:mb-0">
-              <Factory className="h-4 w-4 text-red-400 sm:h-5 sm:w-5" />
+              <Factory className="size-4 text-red-400 sm:h-5 sm:w-5" />
               <span className="text-xs font-medium text-muted-foreground sm:text-sm">
                 {t("results.co2-footprint")}
               </span>
@@ -433,7 +433,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           </Card>
           <Card className="flex flex-col items-center justify-between gap-2 border-green-500/20 bg-green-500/5 p-3 sm:flex-row sm:gap-4 sm:p-4 md:gap-6">
             <div className="mb-1 flex items-center gap-2 sm:mb-0">
-              <TreePine className="h-4 w-4 text-green-400 sm:h-5 sm:w-5" />
+              <TreePine className="size-4 text-green-400 sm:h-5 sm:w-5" />
               <span className="text-xs font-medium text-muted-foreground sm:text-sm">
                 {t("results.trees-needed")}
               </span>
@@ -900,7 +900,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                   type="button"
                   variant="outline"
                 >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  <ArrowLeft className="mr-2 size-4" />
                   {t("navigation.back")}
                 </Button>
                 <Button

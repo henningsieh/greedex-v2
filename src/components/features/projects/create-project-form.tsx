@@ -346,7 +346,7 @@ export function CreateProjectForm({
               variant="secondary"
             >
               {tActivities("title")}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 size-4" />
             </Button>
           </FieldGroup>
         )}
@@ -379,7 +379,7 @@ export function CreateProjectForm({
                         type="button"
                         variant="ghost"
                       >
-                        <Trash2 className="h-4 w-4 text-destructive" />
+                        <Trash2 className="size-4 text-destructive" />
                       </Button>
 
                       <div className="grid gap-4 pr-8 sm:grid-cols-2">
@@ -479,7 +479,7 @@ export function CreateProjectForm({
                   type="button"
                   variant="outline"
                 >
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-2 size-4" />
                   {tActivities("form.title")}
                 </Button>
               </CardContent>
@@ -492,7 +492,7 @@ export function CreateProjectForm({
                 type="button"
                 variant="outline"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="mr-2 size-4" />
                 {t("back")}
               </Button>
 
@@ -506,7 +506,7 @@ export function CreateProjectForm({
                   t("creating")
                 ) : (
                   <>
-                    <Check className="mr-2 h-4 w-4" />
+                    <Check className="mr-2 size-4" />
                     {t("create-project")}
                   </>
                 )}

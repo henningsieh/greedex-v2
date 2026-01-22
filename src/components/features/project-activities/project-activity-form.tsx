@@ -184,7 +184,7 @@ export function ProjectActivityForm({
                       return (
                         <SelectItem key={type} value={type}>
                           <div className="flex items-center gap-2">
-                            <Icon className="h-4 w-4" />
+                            <Icon className="size-4" />
                             {t(`types.${type}`)}
                           </div>
                         </SelectItem>

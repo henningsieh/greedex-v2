@@ -133,7 +133,7 @@ export function UserMenu() {
               )}
               size="lg"
             >
-              <Avatar className="h-8 w-8 ring-1 ring-border">
+              <Avatar className="size-8 ring-1 ring-border">
                 {user.image ? (
                   <Image
                     alt={user.name || "User avatar"}

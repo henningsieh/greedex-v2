@@ -46,7 +46,7 @@ export function DreamSection() {
                     </Badge>
                   </div>
                   <CardTitle className="flex items-center gap-2 text-xl">
-                    <MapPin className="h-4 w-4" />
+                    <MapPin className="size-4" />
                     {t("ourForests.portugal.location")}
                   </CardTitle>
                   <CardDescription className="text-base">
@@ -68,7 +68,7 @@ export function DreamSection() {
                 <CardFooter className="flex flex-col gap-2">
                   <Button asChild className="w-full" variant="outline">
                     <Link href={eForestConfig.links.article1} target="_blank">
-                      <ExternalLink className="mr-2 h-4 w-4" />
+                      <ExternalLink className="mr-2 size-4" />
                       {t("ourForests.readArticle")}
                     </Link>
                   </Button>
@@ -98,19 +98,19 @@ export function DreamSection() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <MapPin className="size-4 text-muted-foreground" />
                     <span className="text-sm">
                       {t("ourForests.expanding.slovenia")}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <MapPin className="size-4 text-muted-foreground" />
                     <span className="text-sm">
                       {t("ourForests.expanding.cyprus")}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <MapPin className="size-4 text-muted-foreground" />
                     <span className="text-sm">
                       {t("ourForests.expanding.netherlands")}
                     </span>

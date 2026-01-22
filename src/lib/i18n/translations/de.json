@@ -562,7 +562,8 @@
         "projects": "Projekte",
         "participants": "Teilnehmende",
         "archive": "Archiv",
-        "archiveLabel": "Projektarchiv"
+        "archiveLabel": "Projektarchiv",
+        "details": "Projektdetails"
       },
       "organization": {
         "groupLabel": "Organisationsbereich",
@@ -599,16 +600,16 @@
       "tabs": {
         "details": "Projektdetails",
         "activities": "Projektaktivitäten",
-        "participants": "Teilnehmende"
+        "participants": "Projektteilnehmende"
       },
       "statistics": {
         "participants": "Teilnehmende",
-        "activities": "Projektaktivitäten",
+        "activities": "Aktivitäten",
         "total-distance": "Gesamtstrecke",
-        "duration": "Projektdauer",
+        "duration": "Dauer",
         "km": "km",
         "days": "Tage",
-        "co2-emissions": "Projektemissionen"
+        "co2-emissions": "Emissionen"
       },
       "errors": {
         "default-error": "Fehler beim Laden der Projektdetails.",

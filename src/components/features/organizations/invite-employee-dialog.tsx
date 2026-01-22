@@ -108,7 +108,7 @@ export function InviteEmployeeDialog({
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button className="" variant="secondary">
+        <Button className="" variant="default">
           <UserPlusIcon className="size-5" />
           {tInvite("button")}
         </Button>

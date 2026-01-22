@@ -53,7 +53,7 @@ export function DonateSection() {
             <CardFooter className="flex flex-col gap-4 sm:flex-row">
               <Button asChild className="w-full" size="lg">
                 <Link href={eForestConfig.links.calculator} target="_blank">
-                  <HowItWorksIcon className="mr-2 h-4 w-4" />
+                  <HowItWorksIcon className="mr-2 size-4" />
                   {t("donate.calculatorButton")}
                 </Link>
               </Button>
@@ -81,7 +81,7 @@ export function DonateSection() {
             <CardFooter className="flex flex-col gap-4 sm:flex-row">
               <Button asChild className="w-full" size="lg" variant="outline">
                 <Link href={eForestConfig.links.email}>
-                  <ContactIcon className="mr-2 h-4 w-4" />
+                  <ContactIcon className="mr-2 size-4" />
                   {t("donate.contactButton")}
                 </Link>
               </Button>

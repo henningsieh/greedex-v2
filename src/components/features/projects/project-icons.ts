@@ -7,6 +7,7 @@ import {
   ArchiveIcon,
   BabyIcon,
   FactoryIcon,
+  GlobeIcon,
   MapIcon,
   MapPinIcon,
   MapPinnedIcon,
@@ -16,8 +17,11 @@ import {
 } from "lucide-react";
 
 export const PROJECT_ICONS = {
-  /** Location icon for a single project (detail view, breadcrumbs, etc.) */
+  /** Icon for the project's location */
   location: MapPinIcon,
+
+  /** Icon for the project's country */
+  country: GlobeIcon,
 
   /** Icon for a single project (detail view, breadcrumbs, etc.) */
   project: MapPinnedIcon,

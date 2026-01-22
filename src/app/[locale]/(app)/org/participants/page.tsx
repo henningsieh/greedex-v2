@@ -61,7 +61,7 @@ export default async () => {
         title={t("title")}
         description={t("description")}
       />
-      <ContentContainer width="xl">
+      <ContentContainer width="lg">
         <Suspense fallback={<TeamTableSkeleton />}>
           <ParticipantsTable organizationId={activeOrganizationId} />
         </Suspense>

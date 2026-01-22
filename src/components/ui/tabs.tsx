@@ -35,7 +35,7 @@ function TabsList({
       className={cn(
         // full-width list that can wrap on small screens so the active
         // triggers push the content down instead of overlapping it
-        "bg-muted text-muted-foreground flex w-fit flex-wrap items-center gap-2 rounded-lg p-[3px]",
+        "bg-muted text-muted-foreground flex w-fit flex-wrap items-center gap-2 rounded-lg p-0.75",
         className
       )}
       {...props}

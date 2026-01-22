@@ -10,7 +10,12 @@ import {
 } from "@/components/app-breadcrumb";
 import { AppSidebar, AppSidebarSkeleton } from "@/components/app-sidebar";
 import { LoadingProvider } from "@/components/providers/loading-provider";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import {
   checkAuthAndOrgs,
@@ -90,7 +95,15 @@ export default async function AppLayout({
             </Suspense>
           </ErrorBoundary>
           <SidebarInset className="flex flex-col overflow-hidden">
-            <div className="flex h-16 shrink-0 items-center gap-4 border-b px-4">
+            <div className="flex h-15 shrink-0 items-center border-b pl-3.5 lg:pl-6">
+              <div className="flex items-center md:hidden">
+                <SidebarTrigger className="text-muted-foreground" />
+                <Separator
+                  orientation="vertical"
+                  className="m-2 data-[orientation=vertical]:h-4"
+                />
+              </div>
+
               <ErrorBoundary
                 fallback={<div>Unable to load project breadcrumb</div>}
               >

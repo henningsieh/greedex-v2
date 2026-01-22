@@ -48,7 +48,7 @@ if (env.NODE_ENV === "development") {
     console.log(
       `[${new Date().toISOString()}] RSS: ${Math.round(mem.rss / 1024 / 1024)}MB, Heap: ${Math.round(mem.heapUsed / 1024 / 1024)}MB`,
     );
-  }, 30_000);
+  }, 60_000);
 
   const stopLogging = () => clearInterval(intervalId);
   process.on("exit", stopLogging);

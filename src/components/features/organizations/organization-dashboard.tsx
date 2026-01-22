@@ -48,22 +48,22 @@ export function OrganizationDashboard({
           className="text-muted-foreground/80 data-[state=active]:border-secondary data-[state=active]:bg-secondary/60 data-[state=active]:text-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/60"
           value="dashboard"
         >
-          <ORGANIZATION_ICONS.statistics className="h-4 w-4" />
-          {t("dashboard.tabs.statistics")}
+          <ORGANIZATION_ICONS.statistics className="size-4" />
+          <p className="truncate">{t("dashboard.tabs.statistics")}</p>
         </TabsTrigger>
         <TabsTrigger
           className="text-muted-foreground/80 data-[state=active]:border-secondary data-[state=active]:bg-secondary/60 data-[state=active]:text-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/60"
           value="projects"
         >
-          <PROJECT_ICONS.projects className="h-4 w-4" />
-          {t("dashboard.tabs.projects")}
+          <PROJECT_ICONS.projects className="size-4" />
+          <p className="truncate">{t("dashboard.tabs.projects")}</p>
         </TabsTrigger>
         <TabsTrigger
           className="text-muted-foreground/80 data-[state=active]:border-secondary data-[state=active]:bg-secondary/60 data-[state=active]:text-foreground dark:data-[state=active]:border-secondary dark:data-[state=active]:bg-secondary/60"
           value="participants"
         >
-          <PROJECT_ICONS.participants className="h-4 w-4" />
-          {t("dashboard.tabs.participants")}
+          <PROJECT_ICONS.participants className="size-4" />
+          <p className="truncate">{t("dashboard.tabs.participants")}</p>
         </TabsTrigger>
       </TabsList>
 

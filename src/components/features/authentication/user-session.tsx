@@ -68,8 +68,8 @@ export function UserSession() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="relative h-8 w-8 rounded-full" variant="ghost">
-          <Avatar className="h-8 w-8 ring-1 ring-border">
+        <Button className="relative size-8 rounded-full" variant="ghost">
+          <Avatar className="size-8 ring-1 ring-border">
             {user.image ? (
               <Image
                 alt={user.name || "User avatar"}
@@ -103,7 +103,7 @@ export function UserSession() {
 export function UserSessionSkeleton() {
   return (
     <div className="flex items-center gap-2">
-      <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
+      <div className="size-8 animate-pulse rounded-full bg-muted" />
     </div>
   );
 }

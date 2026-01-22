@@ -75,7 +75,7 @@ export default async function DashboardPage() {
         title={t("title")}
         description={t("description")}
       />
-      <ContentContainer width="xl">
+      <ContentContainer width="lg">
         <OrganizationDashboard organizationId={activeOrganizationId} />
       </ContentContainer>
     </div>

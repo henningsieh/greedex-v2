@@ -72,7 +72,7 @@ export default async function ProjectsPage() {
           ) : undefined
         }
       />
-      <ContentContainer width="xl">
+      <ContentContainer width="lg">
         <Suspense fallback={<ProjectsTabSkeleton />}>
           <ErrorBoundary fallback={<div>{t("error-message")}</div>}>
             <ProjectsTab />

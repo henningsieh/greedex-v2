@@ -325,6 +325,7 @@ export function UsersTable({
                                   header.getContext(),
                                 ),
                               )}
+                              buttonVariant="ghost"
                             />
                           );
                         }
@@ -427,7 +428,7 @@ export function TeamTableSkeleton() {
         <TableHeader>
           <TableRow>
             <TableHead>
-              <Skeleton className="h-4 w-4" />
+              <Skeleton className="size-4" />
             </TableHead>
             <TableHead>
               <Skeleton className="h-4 w-24" />
@@ -447,7 +448,7 @@ export function TeamTableSkeleton() {
           {SKELETON_ROWS.map((key) => (
             <TableRow key={key}>
               <TableCell>
-                <Skeleton className="h-4 w-4" />
+                <Skeleton className="size-4" />
               </TableCell>
               <TableCell>
                 <Skeleton className="h-8 w-32" />

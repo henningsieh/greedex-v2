@@ -1,8 +1,12 @@
 "use client";
 
+import type { ComponentType } from "react";
+
 import { PanelRightCloseIcon, PanelRightOpenIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Suspense } from "react";
+
+import type { AppRoute } from "@/app/routes";
 
 import {
   DASHBOARD_PATH,
@@ -33,6 +37,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
@@ -48,70 +53,88 @@ import { Link, usePathname } from "@/lib/i18n/routing";
  * @returns The Sidebar element with grouped navigation menus, a collapse toggle,
  * and an OrganizationSwitcher wrapped with a skeleton fallback.
  */
+// Exported, translation-keyed sidebar group definitions for reuse (breadcrumb, sidebar, etc.)
+export const SIDEBAR_GROUP_IDS = ["projects", "archive", "organization"] as const;
+export type SidebarGroupId = (typeof SIDEBAR_GROUP_IDS)[number];
+
+export type SidebarMenuItemDef = {
+  titleKey: string;
+  icon: ComponentType<any>;
+  url: AppRoute;
+};
+
+export type SidebarGroupDef = {
+  id: SidebarGroupId;
+  labelKey:
+    | "organization.groupLabel"
+    | "projects.groupLabel"
+    | "projects.archiveLabel";
+  items: readonly SidebarMenuItemDef[];
+};
+
+export const SIDEBAR_GROUPS: SidebarGroupDef[] = [
+  {
+    id: "organization",
+    labelKey: "organization.groupLabel",
+    items: [
+      {
+        titleKey: "organization.dashboard",
+        icon: ORGANIZATION_ICONS.dashboard,
+        url: DASHBOARD_PATH,
+      },
+      {
+        titleKey: "organization.team",
+        icon: ORGANIZATION_ICONS.team,
+        url: TEAM_PATH,
+      },
+      {
+        titleKey: "organization.settings",
+        icon: ORGANIZATION_ICONS.settings,
+        url: SETTINGS_PATH,
+      },
+    ],
+  },
+  {
+    id: "projects",
+    labelKey: "projects.groupLabel",
+    items: [
+      {
+        titleKey: "projects.projects",
+        icon: PROJECT_ICONS.projects,
+        url: PROJECTS_PATH,
+      },
+      {
+        titleKey: "projects.participants",
+        icon: PROJECT_ICONS.participants,
+        url: PARTICIPANTS_PATH,
+      },
+    ],
+  },
+  {
+    id: "archive",
+    labelKey: "projects.archiveLabel",
+    items: [
+      {
+        titleKey: "projects.archive",
+        icon: PROJECT_ICONS.archive,
+        url: PROJECTS_ARCHIVE_PATH,
+      },
+    ],
+  },
+];
+
 export function AppSidebar() {
   const pathname = usePathname();
+  const { toggleSidebar, state } = useSidebar();
 
-  const { state, setOpen } = useSidebar();
   const t = useTranslations("app.sidebar");
 
-  const projectsMenuItems = [
-    {
-      title: t("projects.projects"),
-      icon: PROJECT_ICONS.projects,
-      url: PROJECTS_PATH,
-    },
-    {
-      title: t("projects.participants"),
-      icon: PROJECT_ICONS.participants,
-      url: PARTICIPANTS_PATH,
-    },
-    // {
-    //   title: t("projects.archive"),
-    //   icon: PROJECT_ICONS.archive,
-    //   url: PROJECTS_ARCHIVE_PATH,
-    // },
-  ] as const;
-
-  const projectsArchiveItem = [
-    {
-      title: t("projects.archive"),
-      icon: PROJECT_ICONS.archive,
-      url: PROJECTS_ARCHIVE_PATH,
-    },
-  ] as const;
-
-  const organizationMenuItems = [
-    {
-      title: t("organization.dashboard"),
-      icon: ORGANIZATION_ICONS.dashboard,
-      url: DASHBOARD_PATH,
-    },
-    {
-      title: t("organization.team"),
-      icon: ORGANIZATION_ICONS.team,
-      url: TEAM_PATH,
-    },
-    {
-      title: t("organization.settings"),
-      icon: ORGANIZATION_ICONS.settings,
-      url: SETTINGS_PATH,
-    },
-  ] as const;
-
-  const sidebarGroups = [
-    {
-      items: projectsMenuItems,
-      label: t("projects.groupLabel"),
-    },
-    {
-      items: projectsArchiveItem,
-      label: t("projects.archiveLabel"),
-    },
-    {
-      items: organizationMenuItems,
-      label: t("organization.groupLabel"),
-    },
-  ];
+  // Localized view of the shared `SIDEBAR_GROUPS` definitions
+  const groups = SIDEBAR_GROUPS.map((g) => ({
+    ...g,
+    label: t(g.labelKey),
+    items: g.items.map((i) => ({ ...i, title: t(i.titleKey) })),
+  }));
 
   return (
     <Sidebar collapsible="icon" variant="sidebar">
@@ -121,7 +144,7 @@ export function AppSidebar() {
         </Suspense>
       </SidebarHeader>
       <SidebarContent>
-        {sidebarGroups.map((group) => (
+        {groups.map((group) => (
           <div key={group.label}>
             <SidebarGroup className="overflow-x-hidden">
               <SidebarGroupLabel className="text-nowrap">
@@ -133,7 +156,9 @@ export function AppSidebar() {
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
                         asChild
-                        className="hover:bg-secondary hover:text-secondary-foreground active:bg-secondary active:text-secondary-foreground data-[active=true]:bg-secondary data-[active=true]:text-secondary-foreground data-[state=open]:hover:bg-secondary data-[state=open]:hover:text-secondary-foreground"
+                        variant={
+                          group.id === "organization" ? "default" : "secondary"
+                        }
                       >
                         <Link data-active={pathname === item.url} href={item.url}>
                           <item.icon className="size-4" />
@@ -148,56 +173,11 @@ export function AppSidebar() {
             <SidebarSeparator className="mx-0" />
           </div>
         ))}
-
-        {/* <SidebarGroup className="overflow-x-hidden">
-          <SidebarGroupLabel className="text-nowrap">
-            {t("projects.groupLabel")}
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {projectsMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    className="hover:bg-secondary hover:text-secondary-foreground active:bg-secondary active:text-secondary-foreground data-[active=true]:bg-secondary data-[active=true]:text-secondary-foreground data-[state=open]:hover:bg-secondary data-[state=open]:hover:text-secondary-foreground"
-                  >
-                    <Link data-active={pathname === item.url} href={item.url}>
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarSeparator className="mx-0" />
-        <SidebarGroup className="overflow-x-hidden">
-          <SidebarGroupLabel className="text-nowrap">
-            {t("organization.groupLabel")}
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {organizationMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title} title={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link data-active={pathname === item.url} href={item.url}>
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter>
         <SidebarSeparator className="mx-0" />
         <SidebarMenu>
-          <SidebarMenuItem
-            onClick={() => setOpen(!state || state === "collapsed")}
-          >
+          <SidebarMenuItem onClick={() => toggleSidebar()}>
             <SidebarMenuButton
               className="text-nowrap [&>svg]:size-4"
               variant="outline"
@@ -213,6 +193,7 @@ export function AppSidebar() {
           <UserMenu />
         </Suspense>
       </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 }
