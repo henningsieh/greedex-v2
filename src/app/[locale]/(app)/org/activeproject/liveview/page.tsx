@@ -73,11 +73,11 @@ import { useEffect, useState } from "react";
 
 import type { Participant, ProjectStats } from "@/features/participate/types";
 
-import { Leaderboard } from "@/components/features/questionnaire/leaderboard";
-import { LiveIndicator } from "@/components/features/questionnaire/live-indicator";
-import { StatsOverview } from "@/components/features/questionnaire/stats-overview";
-import { TransportBreakdown } from "@/components/features/questionnaire/transport-breakdown";
 import { ACTIVITY_VALUES } from "@/config/activities";
+import { Leaderboard } from "@/features/liveview/leaderboard";
+import { LiveIndicator } from "@/features/liveview/live-indicator";
+import { StatsOverview } from "@/features/liveview/stats-overview";
+import { TransportBreakdown } from "@/features/liveview/transport-breakdown";
 import { CO2_FACTORS } from "@/features/projects/utils";
 
 /**
