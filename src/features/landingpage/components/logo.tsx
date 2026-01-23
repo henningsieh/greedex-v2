@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { LOGO_PATH } from "@/config/metadata";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -24,7 +25,7 @@ export function Logo({ isScrolled = true }: LogoProps) {
           }`}
           fill
           sizes="(max-width: 640px) 120px, 180px"
-          src="/greendex_logo.png"
+          src={LOGO_PATH}
         />
       </div>
 
