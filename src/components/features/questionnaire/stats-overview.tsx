@@ -22,7 +22,7 @@ export function StatsOverview({ stats }: StatsOverviewProps) {
                 {stats.totalParticipants}
               </p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-500/20">
+            <div className="flex size-12 items-center justify-center rounded-full bg-teal-500/20">
               <Users className="size-6 text-teal-400" />
             </div>
           </div>
@@ -39,7 +39,7 @@ export function StatsOverview({ stats }: StatsOverviewProps) {
               </p>
               <p className="text-xs text-muted-foreground">kg emissions</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/20">
+            <div className="flex size-12 items-center justify-center rounded-full bg-emerald-500/20">
               <Leaf className="size-6 text-emerald-400" />
             </div>
           </div>
@@ -56,7 +56,7 @@ export function StatsOverview({ stats }: StatsOverviewProps) {
               </p>
               <p className="text-xs text-muted-foreground">kg per person</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cyan-500/20">
+            <div className="flex size-12 items-center justify-center rounded-full bg-cyan-500/20">
               <TrendingDown className="size-6 text-cyan-400" />
             </div>
           </div>
@@ -73,7 +73,7 @@ export function StatsOverview({ stats }: StatsOverviewProps) {
               </p>
               <p className="text-xs text-muted-foreground">to offset</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500/20">
+            <div className="flex size-12 items-center justify-center rounded-full bg-green-500/20">
               <TreePine className="size-6 text-green-400" />
             </div>
           </div>

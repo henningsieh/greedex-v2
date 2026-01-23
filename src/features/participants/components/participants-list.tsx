@@ -60,7 +60,7 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
-              <Users2Icon className="h-12 w-12" />
+              <Users2Icon className="size-12" />
             </EmptyMedia>
             <EmptyTitle>{t("no-participants-yet")}</EmptyTitle>
             <EmptyDescription>
@@ -136,7 +136,7 @@ export function ParticipantsListSkeleton() {
               className="flex animate-pulse items-center gap-4 rounded-xl border border-secondary/20 bg-background p-4"
               key={index}
             >
-              <div className="h-10 w-10 rounded-full bg-secondary/50" />
+              <div className="size-10 rounded-full bg-secondary/50" />
               <div className="flex-1 space-y-2">
                 <div className="h-4 w-1/3 rounded bg-secondary/50" />
                 <div className="h-3 w-1/2 rounded bg-secondary/50" />

@@ -36,7 +36,7 @@ export function DonateSection() {
           <Card className="flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <HowItWorksIcon className="size-5" />
                 </div>
                 <span>{t("donate.howItWorks.title")}</span>
@@ -64,7 +64,7 @@ export function DonateSection() {
           <Card className="flex flex-col">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <PlantingIcon className="size-5" />
                 </div>
                 <span>{t("donate.wePlantTrees.title")}</span>

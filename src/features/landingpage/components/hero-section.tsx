@@ -32,7 +32,7 @@ const transitionVariants = {
 const BrushStroke = () => (
   <div
     aria-hidden
-    className="mx-auto mt-4 h-2 w-28 rounded-full bg-linear-to-r from-emerald-400 via-emerald-600 to-transparent opacity-75"
+    className="mx-auto mt-4 size-28 rounded-full bg-linear-to-r from-emerald-400 via-emerald-600 to-transparent opacity-75"
   />
 );
 

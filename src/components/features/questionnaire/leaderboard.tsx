@@ -46,7 +46,7 @@ export function Leaderboard({ participants }: LeaderboardProps) {
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="flex min-w-0 flex-1 items-center gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
                     {isTopThree ? (
                       <span className="text-2xl">{medals[index]}</span>
                     ) : (

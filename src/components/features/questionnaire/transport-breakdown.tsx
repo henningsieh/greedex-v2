@@ -71,7 +71,7 @@ export function TransportBreakdown({ stats }: TransportBreakdownProps) {
             <div className="space-y-2" key={type}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
                     <TransportIcon className="size-5 text-primary" type={type} />
                   </div>
                   <div>

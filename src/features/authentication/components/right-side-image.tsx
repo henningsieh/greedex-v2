@@ -77,7 +77,7 @@ export function RightSideImage({
               className="flex items-center gap-3 rounded-2xl border border-border/50 bg-muted/30 px-3 py-2 text-sm font-medium backdrop-blur-sm"
               key={`${baseId}-${index}`}
             >
-              <span className="h-2 w-2 shrink-0 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
+              <span className="size-2 shrink-0 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
               <span className="text-foreground">{value}</span>
             </li>
           ))}
@@ -86,7 +86,7 @@ export function RightSideImage({
         {/* Hero section */}
         <div className="relative z-10 space-y-2">
           <div className="flex items-center gap-3 text-xs font-semibold tracking-[0.4em] text-primary uppercase">
-            <span className="h-2 w-2 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
+            <span className="size-2 rounded-full bg-primary shadow-[0_0_8px_var(--primary)]" />
             <span>{heroBadge}</span>
           </div>
           <h3 className="text-xl font-semibold text-foreground">{heroTitle}</h3>
