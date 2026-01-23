@@ -1,13 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  Factory,
-  TreePine,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
@@ -27,10 +21,11 @@ import {
   EMISSION_IMPACT_STEPS,
   FOOD_OPTIONS,
   GENDER_OPTIONS,
+  getParticipateStepsKey,
   QUESTIONNAIRE_STEPS,
-  QUESTIONNAIRE_TOTAL_STEPS,
+  PARTICIPATE_TOTAL_STEPS,
   ROOM_OCCUPANCY_OPTIONS,
-} from "@/config/questionnaire";
+} from "@/config/participate";
 import { ImpactModal } from "@/features/participate/components/participate-impact-modal";
 import {
   areAllNonEmpty,
@@ -40,6 +35,7 @@ import {
   isPositiveNumber,
   isTruthy,
 } from "@/features/participate/utils";
+import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 import { calculateProjectDuration } from "@/features/projects/utils";
 
 interface QuestionnaireFormProps {
@@ -52,7 +48,7 @@ interface QuestionnaireFormProps {
  * Renders a multi-step form that collects participant answers, calculates emissions
  * from inputs and project activities, shows step-by-step progress and optional
  * impact modals for emission-affecting answers, and displays a final emissions summary.
- * The component persists form state (answers and current step) to localStorage per
+ * The component persists form state (answers and current step and confirmedEmissions) to localStorage per
  * project.id and clears that data on submission.
  *
  * @param project - Project data (dates, activities, welcome message, id) used to
@@ -126,7 +122,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     return getDefaultAnswers(project);
   });
 
-  const [currentStep, setCurrentStep] = useState<number>(() => {
+  const [currentStep, setCurrentStep] = useState<
+    (typeof QUESTIONNAIRE_STEPS)[keyof typeof QUESTIONNAIRE_STEPS]
+  >(() => {
     if (typeof window === "undefined") {
       return 0;
     }
@@ -150,28 +148,6 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const [isHydrated, setIsHydrated] = useState(false);
 
-  useEffect(() => {
-    const key = `questionnaire-${project.id}`;
-    try {
-      localStorage.setItem(key, JSON.stringify({ answers, currentStep }));
-    } catch (error) {
-      console.error(
-        `Failed to save questionnaire data to localStorage for key ${key}:`,
-        error,
-      );
-      // Optionally clear the key if it exists to free up space
-      try {
-        localStorage.removeItem(key);
-      } catch (removeError) {
-        console.error(`Failed to remove localStorage key ${key}:`, removeError);
-      }
-    }
-  }, [answers, currentStep, project.id]);
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
-
   // Impact modal state
   const [showImpactModal, setShowImpactModal] = useState(false);
   const [impactData, setImpactData] = useState<{
@@ -186,9 +162,54 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const [confirmedEmissions, setConfirmedEmissions] = useState<{
     totalCO2: number;
     treesNeeded: number;
-  } | null>(null);
+  } | null>(() => {
+    if (typeof window === "undefined") {
+      return null;
+    }
 
-  const totalSteps = QUESTIONNAIRE_TOTAL_STEPS;
+    const key = `questionnaire-${project.id}`;
+    const stored = localStorage.getItem(key);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        return parsed.confirmedEmissions || null;
+      } catch (error) {
+        console.warn(
+          `Invalid JSON in localStorage for key ${key}, falling back to null for confirmedEmissions`,
+          error,
+        );
+        return null;
+      }
+    }
+    return null;
+  });
+
+  useEffect(() => {
+    const key = `questionnaire-${project.id}`;
+    try {
+      localStorage.setItem(
+        key,
+        JSON.stringify({ answers, currentStep, confirmedEmissions }),
+      );
+    } catch (error) {
+      console.error(
+        `Failed to save questionnaire data to localStorage for key ${key}:`,
+        error,
+      );
+      // Optionally clear the key if it exists to free up space
+      try {
+        localStorage.removeItem(key);
+      } catch (removeError) {
+        console.error(`Failed to remove localStorage key ${key}:`, removeError);
+      }
+    }
+  }, [answers, currentStep, confirmedEmissions, project.id]);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  const totalSteps = PARTICIPATE_TOTAL_STEPS;
   const progress = ((currentStep + 1) / totalSteps) * 100;
 
   const updateAnswer = <K extends keyof ParticipantAnswers>(
@@ -201,41 +222,21 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     }));
   };
 
-  // Get current step key based on step number
-  const getStepKey = (step: number): string | null => {
-    const keys = [
-      null, // 0: welcome
-      null, // 1: participant info (firstName, country, email)
-      "days",
-      "accommodationCategory",
-      "roomOccupancy",
-      "electricity",
-      "food",
-      "flightKm",
-      "boatKm",
-      "trainKm",
-      "busKm",
-      "carKm",
-      "carType",
-      "carPassengers",
-      "age",
-      "gender",
-    ];
-    return keys[step] || null;
-  };
-
   const proceedToNextStep = () => {
     // Skip car questions if no car travel
     if (
-      currentStep === QUESTIONNAIRE_STEPS.CAR_KM &&
+      currentStep === QUESTIONNAIRE_STEPS.carKm &&
       (!answers.carKm || answers.carKm === 0)
     ) {
-      setCurrentStep(QUESTIONNAIRE_STEPS.AGE); // Skip to age
+      setCurrentStep(QUESTIONNAIRE_STEPS.age); // Skip to age
       return;
     }
 
     if (currentStep < totalSteps - 1) {
-      setCurrentStep(currentStep + 1);
+      setCurrentStep(
+        (currentStep +
+          1) as (typeof QUESTIONNAIRE_STEPS)[keyof typeof QUESTIONNAIRE_STEPS],
+      );
     } else {
       handleSubmit();
     }
@@ -243,6 +244,11 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const shouldShowImpact = (stepKey: string | null): boolean => {
     if (!stepKey) {
+      return false;
+    }
+
+    // Skip impact modal for welcome and participantInfo steps
+    if (stepKey === "welcome" || stepKey === "participantInfo") {
       return false;
     }
 
@@ -264,7 +270,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   };
 
   const handleNext = () => {
-    const stepKey = getStepKey(currentStep);
+    const stepKey = getParticipateStepsKey(currentStep);
 
     if (stepKey && shouldShowImpact(stepKey)) {
       // Calculate previous CO₂ WITHOUT the current answer(s)
@@ -280,14 +286,22 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       } else {
         delete answersWithoutCurrent[stepKey as keyof ParticipantAnswers];
       }
-      const previousCO2 = calculateEmissions(
+      const previousEmissions = calculateEmissions(
         answersWithoutCurrent,
         project.activities,
-      ).totalCO2;
+      );
+      const previousCO2 =
+        previousEmissions.transportCO2 +
+        previousEmissions.accommodationCO2 +
+        previousEmissions.foodCO2;
 
-      // Calculate new CO₂ WITH the current answer
+      // Calculate new CO₂ WITH the current answer (participant-only)
       const currentValue = answers[stepKey as keyof ParticipantAnswers];
-      const newCO2 = calculateEmissions(answers, project.activities).totalCO2;
+      const newEmissions = calculateEmissions(answers, project.activities);
+      const newCO2 =
+        newEmissions.transportCO2 +
+        newEmissions.accommodationCO2 +
+        newEmissions.foodCO2;
       const impact = newCO2 - previousCO2;
 
       setImpactData({
@@ -305,9 +319,13 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const handleImpactModalClose = () => {
     const fullEmissions = calculateEmissions(answers, project.activities);
+    const participantCO2 =
+      fullEmissions.transportCO2 +
+      fullEmissions.accommodationCO2 +
+      fullEmissions.foodCO2;
     setConfirmedEmissions({
-      totalCO2: fullEmissions.totalCO2,
-      treesNeeded: fullEmissions.treesNeeded,
+      totalCO2: participantCO2,
+      treesNeeded: Math.ceil(participantCO2 / 22),
     });
     setShowImpactModal(false);
     proceedToNextStep();
@@ -316,16 +334,19 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const handleBack = () => {
     // Handle back navigation with conditional steps
     if (
-      currentStep === QUESTIONNAIRE_STEPS.AGE &&
+      currentStep === QUESTIONNAIRE_STEPS.age &&
       (!answers.carKm || answers.carKm === 0)
     ) {
       // Jump back to carKm step if we skipped car questions
-      setCurrentStep(QUESTIONNAIRE_STEPS.CAR_KM);
+      setCurrentStep(QUESTIONNAIRE_STEPS.carKm);
       return;
     }
 
-    if (currentStep > QUESTIONNAIRE_STEPS.WELCOME) {
-      setCurrentStep(currentStep - 1);
+    if (currentStep > QUESTIONNAIRE_STEPS.welcome) {
+      setCurrentStep(
+        (currentStep -
+          1) as (typeof QUESTIONNAIRE_STEPS)[keyof typeof QUESTIONNAIRE_STEPS],
+      );
     }
   };
 
@@ -360,37 +381,37 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
   const canProceed = (): boolean => {
     switch (currentStep) {
-      case QUESTIONNAIRE_STEPS.WELCOME:
+      case QUESTIONNAIRE_STEPS.welcome:
         return true;
-      case QUESTIONNAIRE_STEPS.PARTICIPANT_INFO:
+      case QUESTIONNAIRE_STEPS.participantInfo:
         return areAllNonEmpty(answers.firstName, answers.country, answers.email);
-      case QUESTIONNAIRE_STEPS.DAYS:
+      case QUESTIONNAIRE_STEPS.days:
         return isPositiveNumber(answers.days);
-      case QUESTIONNAIRE_STEPS.ACCOMMODATION_CATEGORY:
+      case QUESTIONNAIRE_STEPS.accommodationCategory:
         return isTruthy(answers.accommodationCategory);
-      case QUESTIONNAIRE_STEPS.ROOM_OCCUPANCY:
+      case QUESTIONNAIRE_STEPS.roomOccupancy:
         return isTruthy(answers.roomOccupancy);
-      case QUESTIONNAIRE_STEPS.ELECTRICITY:
+      case QUESTIONNAIRE_STEPS.electricity:
         return isTruthy(answers.electricity);
-      case QUESTIONNAIRE_STEPS.FOOD:
+      case QUESTIONNAIRE_STEPS.food:
         return isTruthy(answers.food);
-      case QUESTIONNAIRE_STEPS.FLIGHT_KM:
+      case QUESTIONNAIRE_STEPS.flightKm:
         return isNonNegativeNumber(answers.flightKm);
-      case QUESTIONNAIRE_STEPS.BOAT_KM:
+      case QUESTIONNAIRE_STEPS.boatKm:
         return isNonNegativeNumber(answers.boatKm);
-      case QUESTIONNAIRE_STEPS.TRAIN_KM:
+      case QUESTIONNAIRE_STEPS.trainKm:
         return isNonNegativeNumber(answers.trainKm);
-      case QUESTIONNAIRE_STEPS.BUS_KM:
+      case QUESTIONNAIRE_STEPS.busKm:
         return isNonNegativeNumber(answers.busKm);
-      case QUESTIONNAIRE_STEPS.CAR_KM:
+      case QUESTIONNAIRE_STEPS.carKm:
         return isNonNegativeNumber(answers.carKm);
-      case QUESTIONNAIRE_STEPS.CAR_TYPE:
+      case QUESTIONNAIRE_STEPS.carType:
         return isTruthy(answers.carType);
-      case QUESTIONNAIRE_STEPS.CAR_PASSENGERS:
+      case QUESTIONNAIRE_STEPS.carPassengers:
         return isNumberAtLeast(answers.carPassengers, 1);
-      case QUESTIONNAIRE_STEPS.AGE:
+      case QUESTIONNAIRE_STEPS.age:
         return isPositiveNumber(answers.age);
-      case QUESTIONNAIRE_STEPS.GENDER:
+      case QUESTIONNAIRE_STEPS.gender:
         return isTruthy(answers.gender);
       default:
         return false;
@@ -400,45 +421,45 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const emissions = calculateEmissions(answers, project.activities);
   /**
    * Adjust step display number when car questions are conditionally skipped.
-   * If user enters 0 car km, we skip CAR_TYPE and CAR_PASSENGERS steps,
-   * so when at AGE step, display it as if at CAR_TYPE step for progress bar.
+   * If user enters 0 car km, we skip carType and carPassengers steps,
+   * so when at age step, display it as if at carType step for progress bar.
    */
   const currentStepDisplay =
-    currentStep === QUESTIONNAIRE_STEPS.AGE &&
+    currentStep === QUESTIONNAIRE_STEPS.age &&
     (!answers.carKm || answers.carKm === 0)
-      ? QUESTIONNAIRE_STEPS.CAR_TYPE
+      ? QUESTIONNAIRE_STEPS.carType
       : currentStep;
 
   const renderedStep = isHydrated ? currentStep : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-5">
       {/* Compact Stats Bar - shown from step 2 onwards */}
       {isHydrated && currentStep >= 2 && (
         <motion.div
           animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-2 gap-3 sm:gap-4"
+          className="grid grid-cols-2 gap-2 sm:gap-3"
           initial={{ opacity: 0, y: -10 }}
         >
-          <Card className="flex flex-col items-center justify-between gap-2 border-red-500/20 bg-red-500/5 p-3 sm:flex-row sm:gap-4 sm:p-4 md:gap-6">
-            <div className="mb-1 flex items-center gap-2 sm:mb-0">
-              <Factory className="size-4 text-red-400 sm:h-5 sm:w-5" />
+          <Card className="flex flex-col items-center justify-between gap-1.5 border-red-500/20 bg-red-500/5 p-2.5 sm:flex-row sm:gap-3 sm:p-3">
+            <div className="mb-0.5 flex items-center gap-2.5 sm:mb-0">
+              <PROJECT_ICONS.emissions className="size-4 text-red-400 sm:size-5" />
               <span className="text-xs font-medium text-muted-foreground sm:text-sm">
                 {t("results.co2-footprint")}
               </span>
             </div>
-            <span className="font-mono text-lg font-bold text-red-400 sm:text-xl">
+            <span className="font-mono text-base font-bold text-red-400 tabular-nums sm:text-lg">
               {(confirmedEmissions?.totalCO2 ?? 0).toFixed(1)} kg
             </span>
           </Card>
-          <Card className="flex flex-col items-center justify-between gap-2 border-green-500/20 bg-green-500/5 p-3 sm:flex-row sm:gap-4 sm:p-4 md:gap-6">
-            <div className="mb-1 flex items-center gap-2 sm:mb-0">
-              <TreePine className="size-4 text-green-400 sm:h-5 sm:w-5" />
+          <Card className="flex flex-col items-center justify-between gap-1.5 border-green-500/20 bg-green-500/5 p-2.5 sm:flex-row sm:gap-3 sm:p-3">
+            <div className="mb-0.5 flex items-center gap-2.5 sm:mb-0">
+              <PROJECT_ICONS.emissions_offset className="size-4 text-green-400 sm:size-5" />
               <span className="text-xs font-medium text-muted-foreground sm:text-sm">
                 {t("results.trees-needed")}
               </span>
             </div>
-            <span className="font-mono text-lg font-bold text-green-400 sm:text-xl">
+            <span className="font-mono text-base font-bold text-green-400 tabular-nums sm:text-lg">
               {confirmedEmissions?.treesNeeded ?? 0}
             </span>
           </Card>
@@ -447,9 +468,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
       {/* Progress Bar */}
       {isHydrated && (
-        <div className="space-y-2">
-          <Progress className="h-2" value={progress} />
-          <div className="text-right text-xs text-muted-foreground">
+        <div className="flex items-center gap-3">
+          <Progress className="h-1.5 flex-1" value={progress} />
+          <div className="text-[11px] text-muted-foreground sm:text-xs">
             {t("header.step-counter", {
               current: currentStepDisplay + 1,
               total: totalSteps,
@@ -484,26 +505,26 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           key={renderedStep}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          <Card className="border-primary/20 bg-card/50 p-4 backdrop-blur-sm sm:p-6 md:p-8">
+          <Card className="border-primary/20 bg-card/50 p-4 backdrop-blur-sm sm:p-5 md:p-6">
             {/* Step 0: Welcome */}
             {renderedStep === 0 && (
-              <div className="space-y-8 text-center">
-                <p className="text-base text-muted-foreground sm:text-lg">
+              <div className="space-y-6 text-center">
+                <p className="text-sm text-muted-foreground sm:text-base">
                   {project.welcomeMessage || t("welcome.default-message")}
                 </p>
                 <AnimatedGroup>
-                  <p className="mt-4 text-center text-2xl font-bold text-emerald-500 sm:text-3xl">
+                  <p className="mt-3 text-center text-xl font-bold text-emerald-500 sm:text-2xl">
                     {t("welcome.ready")}
                   </p>
-                  <p className="mt-2 text-center text-lg font-medium text-secondary sm:text-xl">
+                  <p className="mt-1.5 text-center text-base font-medium text-secondary sm:text-lg">
                     {t("welcome.every-choice")}
                   </p>
-                  <p className="mx-auto mt-6 max-w-xl text-center text-xl font-semibold text-foreground sm:text-2xl">
+                  <p className="mx-auto mt-4 max-w-xl text-center text-lg font-semibold text-foreground sm:text-xl">
                     {t("welcome.fun-message")}
                   </p>
                 </AnimatedGroup>
                 <Button
-                  className="mt-6 w-full bg-linear-to-r from-teal-700 to-emerald-600 px-8 py-6 text-lg transition-all duration-250 hover:scale-105 hover:from-teal-800 hover:to-emerald-700 sm:w-auto"
+                  className="mt-4 w-full bg-linear-to-r from-teal-700 to-emerald-600 px-8 py-4 text-base transition-all duration-250 hover:scale-[1.02] hover:from-teal-800 hover:to-emerald-700 sm:w-auto sm:text-lg"
                   onClick={handleNext}
                   size="lg"
                 >
@@ -515,11 +536,11 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 1: Participant Info */}
             {renderedStep === 1 && (
-              <div className="space-y-6">
-                <h2 className="mb-4 text-center text-2xl font-bold text-foreground sm:text-3xl">
+              <div className="space-y-5">
+                <h2 className="mb-3 text-center text-xl font-bold text-foreground sm:text-2xl">
                   {t("participant-info.title")}
                 </h2>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="space-y-2">
                     <Label className="text-foreground" htmlFor="firstName">
                       {t("participant-info.first-name")}{" "}
@@ -528,7 +549,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                       </span>
                     </Label>
                     <Input
-                      className="text-lg"
+                      className="h-11 text-base sm:text-lg"
                       id="firstName"
                       onChange={(e) => updateAnswer("firstName", e.target.value)}
                       placeholder={t("participant-info.first-name-placeholder")}
@@ -544,7 +565,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                       </span>
                     </Label>
                     <CountrySelect
-                      className="text-lg"
+                      className="text-base sm:text-lg"
                       onValueChange={(value) => updateAnswer("country", value)}
                       placeholder={t("participant-info.country-placeholder")}
                       value={answers.country || ""}
@@ -558,7 +579,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                       </span>
                     </Label>
                     <Input
-                      className="text-lg"
+                      className="h-11 text-base sm:text-lg"
                       id="email"
                       onChange={(e) => updateAnswer("email", e.target.value)}
                       placeholder={t("participant-info.email-placeholder")}
@@ -572,13 +593,13 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 2: Days */}
             {renderedStep === 2 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   {t("days.question")}
                 </Label>
                 <p className="text-sm text-muted-foreground">{t("days.note")}</p>
                 <Input
-                  className="h-12 text-lg"
+                  className="h-11 text-base sm:text-lg"
                   min="1"
                   onChange={(e) =>
                     updateAnswer("days", Number.parseInt(e.target.value, 10))
@@ -592,14 +613,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 3: Accommodation Category */}
             {renderedStep === 3 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   Which type of accommodation are you staying in?
                 </Label>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {ACCOMMODATION_OPTIONS.map((option) => (
                     <button
-                      className={`rounded-lg border-2 p-4 text-left transition-all hover:scale-[1.02] active:scale-[0.98] ${
+                      className={`rounded-lg border-2 p-3 text-left text-sm transition-all hover:scale-[1.01] active:scale-[0.99] sm:p-3.5 sm:text-base ${
                         answers.accommodationCategory === option
                           ? "border-teal-500 bg-teal-500/10 font-semibold text-teal-400 shadow-sm"
                           : "border-border text-foreground hover:border-border/50 hover:bg-accent"
@@ -619,14 +640,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 4: Room Occupancy */}
             {renderedStep === 4 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   How many people are sharing the room/tent?
                 </Label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   {ROOM_OCCUPANCY_OPTIONS.map((option) => (
                     <button
-                      className={`rounded-lg border-2 p-4 transition-all hover:scale-[1.02] active:scale-[0.98] ${
+                      className={`rounded-lg border-2 p-3 text-sm transition-all hover:scale-[1.01] active:scale-[0.99] sm:p-3.5 sm:text-base ${
                         answers.roomOccupancy === option
                           ? "border-teal-500 bg-teal-500/10 font-semibold text-teal-400 shadow-sm"
                           : "border-border text-foreground hover:border-border/50 hover:bg-accent"
@@ -644,14 +665,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 5: Electricity */}
             {renderedStep === 5 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   Which type of energy does your accommodation use?
                 </Label>
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {ELECTRICITY_OPTIONS.map((option) => (
                     <button
-                      className={`rounded-lg border-2 p-4 text-left transition-all hover:scale-[1.01] active:scale-[0.99] ${
+                      className={`rounded-lg border-2 p-3 text-left text-sm transition-all hover:scale-[1.01] active:scale-[0.99] sm:p-3.5 sm:text-base ${
                         answers.electricity === option
                           ? "border-teal-500 bg-teal-500/10 font-semibold text-teal-400 shadow-sm"
                           : "border-border text-foreground hover:border-border/50 hover:bg-accent"
@@ -669,14 +690,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 6: Food */}
             {renderedStep === 6 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   How often do you plan to eat meat on your project?
                 </Label>
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {FOOD_OPTIONS.map((option) => (
                     <button
-                      className={`rounded-lg border-2 p-4 text-left transition-all hover:scale-[1.01] active:scale-[0.99] ${
+                      className={`rounded-lg border-2 p-3 text-left text-sm transition-all hover:scale-[1.01] active:scale-[0.99] sm:p-3.5 sm:text-base ${
                         answers.food === option
                           ? "border-teal-500 bg-teal-500/10 font-semibold text-teal-400 shadow-sm"
                           : "border-border text-foreground hover:border-border/50 hover:bg-accent"
@@ -694,12 +715,12 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 7: Flight km */}
             {renderedStep === 7 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   Your way TO the project: How many kilometres did you fly?
                 </Label>
                 <Input
-                  className="h-12 text-lg"
+                  className="h-11 text-base sm:text-lg"
                   min="0"
                   onChange={(e) =>
                     updateAnswer(
@@ -717,12 +738,12 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 8: Boat km */}
             {renderedStep === 8 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   Your way TO the project: How many kilometres did you go by boat?
                 </Label>
                 <Input
-                  className="h-12 text-lg"
+                  className="h-11 text-base sm:text-lg"
                   min="0"
                   onChange={(e) =>
                     updateAnswer("boatKm", Number.parseFloat(e.target.value) || 0)
@@ -737,13 +758,13 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 9: Train km */}
             {renderedStep === 9 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   Your way TO the project: How many kilometres did you go by train
                   or metro?
                 </Label>
                 <Input
-                  className="h-12 text-lg"
+                  className="h-11 text-base sm:text-lg"
                   min="0"
                   onChange={(e) =>
                     updateAnswer(
@@ -761,13 +782,13 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 10: Bus km */}
             {renderedStep === 10 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   Your way TO the project: How many kilometres did you go by
                   bus/van?
                 </Label>
                 <Input
-                  className="h-12 text-lg"
+                  className="h-11 text-base sm:text-lg"
                   min="0"
                   onChange={(e) =>
                     updateAnswer("busKm", Number.parseFloat(e.target.value) || 0)
@@ -782,12 +803,12 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 11: Car km */}
             {renderedStep === 11 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   Your way TO the project: How many kilometres did you go by car?
                 </Label>
                 <Input
-                  className="h-12 text-lg"
+                  className="h-11 text-base sm:text-lg"
                   min="0"
                   onChange={(e) =>
                     updateAnswer("carKm", Number.parseFloat(e.target.value) || 0)
@@ -802,14 +823,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 12: Car Type (conditional) */}
             {renderedStep === 12 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   What type of car did you use?
                 </Label>
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {CAR_TYPE_OPTIONS.map((option) => (
                     <button
-                      className={`rounded-lg border-2 p-4 text-left transition-all hover:scale-[1.01] active:scale-[0.99] ${
+                      className={`rounded-lg border-2 p-3 text-left text-sm transition-all hover:scale-[1.01] active:scale-[0.99] sm:p-3.5 sm:text-base ${
                         answers.carType === option
                           ? "border-teal-500 bg-teal-500/10 font-semibold text-teal-400 shadow-sm"
                           : "border-border text-foreground hover:border-border/50 hover:bg-accent"
@@ -818,7 +839,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                       onClick={() => updateAnswer("carType", option)}
                       type="button"
                     >
-                      {option}
+                      {t(`transport.car-type.${option}`)}
                     </button>
                   ))}
                 </div>
@@ -827,12 +848,12 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 13: Car Passengers (conditional) */}
             {renderedStep === 13 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   How many participants (including you) were sitting in the car?
                 </Label>
                 <Input
-                  className="h-12 text-lg"
+                  className="h-11 text-base sm:text-lg"
                   min="1"
                   onChange={(e) =>
                     updateAnswer(
@@ -849,12 +870,12 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 14: Age */}
             {renderedStep === 14 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   How old are you?
                 </Label>
                 <Input
-                  className="h-12 text-lg"
+                  className="h-11 text-base sm:text-lg"
                   min="1"
                   onChange={(e) =>
                     updateAnswer("age", Number.parseInt(e.target.value, 10))
@@ -868,14 +889,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Step 15: Gender */}
             {renderedStep === 15 && (
-              <div className="space-y-6">
-                <Label className="text-xl font-bold text-foreground md:text-2xl">
+              <div className="space-y-4">
+                <Label className="text-lg font-bold text-foreground md:text-xl">
                   What is your gender?
                 </Label>
-                <div className="grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {GENDER_OPTIONS.map((option) => (
                     <button
-                      className={`rounded-lg border-2 p-4 text-left transition-all hover:scale-[1.01] active:scale-[0.99] ${
+                      className={`rounded-lg border-2 p-3 text-left text-sm transition-all hover:scale-[1.01] active:scale-[0.99] sm:p-3.5 sm:text-base ${
                         answers.gender === option
                           ? "border-teal-500 bg-teal-500/10 font-semibold text-teal-400 shadow-sm"
                           : "border-border text-foreground hover:border-border/50 hover:bg-accent"
@@ -893,9 +914,9 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
             {/* Navigation */}
             {renderedStep > 0 && (
-              <div className="mt-8 flex gap-3">
+              <div className="mt-6 flex gap-3">
                 <Button
-                  className="h-12 flex-1 text-base"
+                  className="h-11 flex-1 text-sm sm:text-base"
                   onClick={handleBack}
                   type="button"
                   variant="outline"
@@ -904,7 +925,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                   {t("navigation.back")}
                 </Button>
                 <Button
-                  className={`h-12 flex-1 bg-linear-to-r from-teal-500 to-emerald-500 text-base text-white transition-all duration-250 hover:from-teal-600 hover:to-emerald-600 hover:shadow-md ${
+                  className={`h-11 flex-1 bg-linear-to-r from-teal-500 to-emerald-500 text-sm text-white transition-all duration-250 hover:from-teal-600 hover:to-emerald-600 hover:shadow-md sm:text-base ${
                     renderedStep === 0 ? "w-full" : ""
                   }`}
                   disabled={!canProceed()}

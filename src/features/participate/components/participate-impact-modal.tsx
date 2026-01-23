@@ -1,10 +1,14 @@
 "use client";
 
-import { ArrowRightIcon, LeafIcon, TreePineIcon, XIcon } from "lucide-react";
+import { ArrowRightIcon, LeafIcon, XIcon } from "lucide-react";
 import { animate, motion, useMotionValue } from "motion/react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { Button } from "@/components/ui/button";
+import { ParticipantActivityValueType } from "@/features/participate/types";
+import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 
 /**
  * Threshold for negligible impact (below this value, impact is considered insignificant).
@@ -45,7 +49,7 @@ interface ImpactModalProps {
   onClose: () => void;
 }
 
-export const getImpactMessage = (
+const getImpactMessage = (
   stepKey: string,
   stepValue: string | number,
   impact: number,
@@ -56,10 +60,8 @@ export const getImpactMessage = (
 ): string => {
   const value = typeof stepValue === "string" ? stepValue : Number(stepValue);
 
-  const transportHandler = (
-    mode: "flight" | "train" | "bus" | "boat" | "car",
-  ) => {
-    if (mode === "flight") {
+  const transportHandler = (mode: ParticipantActivityValueType) => {
+    if (mode === "plane") {
       if (Number(value) === 0)
         return "✅ Great! No flying keeps your footprint low!";
       return `✈️ Flying ${value} km adds ${impact.toFixed(1)} kg CO₂ to your footprint`;
@@ -78,6 +80,12 @@ export const getImpactMessage = (
     if (mode === "boat") {
       if (Number(value) === 0) return "⛴️ No boat travel";
       return `⛴️ Boat travel adds ${impact.toFixed(1)} kg CO₂`;
+    }
+
+    if (mode === "electricCar") {
+      if (Number(value) === 0)
+        return "🚗 Great! No car travel keeps emissions low!";
+      return `🔋 Electric car travel adds ${impact.toFixed(1)} kg CO₂`;
     }
 
     // car
@@ -109,7 +117,7 @@ export const getImpactMessage = (
   };
 
   const carTypeMessage = () =>
-    value === "electric"
+    value === "electricCar"
       ? "🔋 Excellent! Electric cars have 75% lower emissions!"
       : "⛽ Conventional car increases your footprint";
 
@@ -205,6 +213,8 @@ export function ImpactModal({
   const [displayCO2, setDisplayCO2] = useState(previousCO2.toFixed(1));
   const counterValue = useMotionValue(previousCO2);
 
+  const t = useTranslations("participation.questionnaire.impact-modal");
+
   // Start animation when modal opens
   useEffect(() => {
     if (!isOpen) {
@@ -248,7 +258,11 @@ export function ImpactModal({
 
   const treesNeeded = Math.ceil(newCO2 / 22);
 
-  return (
+  if (typeof document === "undefined") {
+    return null;
+  }
+
+  return createPortal(
     <motion.div
       animate={
         isOpen
@@ -261,7 +275,7 @@ export function ImpactModal({
               scale: 0.9,
             }
       }
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-10"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur sm:p-10"
       initial={{
         opacity: 0,
         scale: 0.9,
@@ -281,7 +295,7 @@ export function ImpactModal({
         </button>
 
         <h2 className="mb-10 text-4xl font-bold text-white sm:text-5xl">
-          Your Impact
+          {t("title")}
         </h2>
 
         <div
@@ -294,7 +308,7 @@ export function ImpactModal({
             <div className="mb-3 flex items-center justify-center gap-2">
               <LeafIcon className="size-8 text-emerald-400" />
             </div>
-            <div className="mb-2 text-lg text-white/80">Total CO₂</div>
+            <div className="mb-2 text-lg text-white/80">{t("total-co2")}</div>
             <div className={`text-5xl font-bold ${getCO2Color(newCO2)}`}>
               {displayCO2}
             </div>
@@ -304,9 +318,9 @@ export function ImpactModal({
           {/* Trees Needed */}
           <div className="max-w-xs flex-1 rounded-2xl border-2 border-white/20 bg-linear-to-br from-green-500/20 to-emerald-500/20 p-8 backdrop-blur-sm">
             <div className="mb-3 flex items-center justify-center gap-2">
-              <TreePineIcon className="size-8 text-green-400" />
+              <PROJECT_ICONS.emissions_offset className="size-8 text-green-400" />
             </div>
-            <div className="mb-2 text-lg text-white/80">Trees Needed</div>
+            <div className="mb-2 text-lg text-white/80">{t("trees-needed")}</div>
             <div className="text-5xl font-bold text-green-400">{treesNeeded}</div>
             <div className="mt-2 text-white/60">to offset</div>
           </div>
@@ -314,7 +328,7 @@ export function ImpactModal({
 
         {/* Impact Message */}
         <div
-          className={`mx-auto mb-8 max-w-2xl rounded-2xl border-2 border-white/20 bg-white/10 p-8 backdrop-blur-sm transition-opacity duration-1000 ${
+          className={`mx-auto max-w-2xl rounded-2xl border-2 border-white/20 bg-white/10 p-8 backdrop-blur-sm transition-opacity duration-1000 ${
             animationPhase !== "start" ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -339,6 +353,7 @@ export function ImpactModal({
           <ArrowRightIcon className="ml-2 size-5" />
         </Button>
       </div>
-    </motion.div>
+    </motion.div>,
+    document.body,
   );
 }

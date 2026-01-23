@@ -13,7 +13,7 @@ import {
   type FOOD_VALUES,
   type GENDER_VALUES,
   type ROOM_OCCUPANCY_VALUES,
-} from "@/config/questionnaire";
+} from "@/config/participate";
 
 // ============================================================================
 // QUESTIONNAIRE ANSWER TYPES

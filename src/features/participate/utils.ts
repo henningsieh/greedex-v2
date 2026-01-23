@@ -14,7 +14,7 @@ import {
   GREEN_ENERGY_REDUCTION_FACTOR,
   ROOM_OCCUPANCY_FACTORS,
   ROUND_TRIP_MULTIPLIER,
-} from "@/config/questionnaire";
+} from "@/config/participate";
 import { calculateActivitiesCO2, CO2_FACTORS } from "@/features/projects/utils";
 
 import {
@@ -90,7 +90,9 @@ export function calculateEmissions(
   }
   if (answers.carKm) {
     const carFactor =
-      answers.carType === "electric" ? CO2_FACTORS.electricCar : CO2_FACTORS.car;
+      answers.carType === "electricCar"
+        ? CO2_FACTORS.electricCar
+        : CO2_FACTORS.car;
     const passengers = answers.carPassengers || DEFAULT_CAR_PASSENGERS;
     transportCO2 += (answers.carKm * carFactor) / passengers;
   }

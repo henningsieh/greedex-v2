@@ -11,35 +11,45 @@
 // ============================================================================
 
 /**
+ * Step indices for the questionnaire.
+ * Keys are in camelCase to match answer property names.
+ */
+export const QUESTIONNAIRE_STEPS = {
+  welcome: 0,
+  participantInfo: 1,
+  days: 2,
+  accommodationCategory: 3,
+  roomOccupancy: 4,
+  electricity: 5,
+  food: 6,
+  flightKm: 7,
+  boatKm: 8,
+  trainKm: 9,
+  busKm: 10,
+  carKm: 11,
+  carType: 12, // Conditional - only if carKm > 0
+  carPassengers: 13, // Conditional - only if carKm > 0
+  age: 14,
+  gender: 15,
+} as const;
+
+export const getParticipateStepsKey = (
+  step: (typeof QUESTIONNAIRE_STEPS)[keyof typeof QUESTIONNAIRE_STEPS],
+): keyof typeof QUESTIONNAIRE_STEPS | null => {
+  const entry = Object.entries(QUESTIONNAIRE_STEPS).find(
+    ([, value]) => value === step,
+  );
+  return entry ? (entry[0] as keyof typeof QUESTIONNAIRE_STEPS) : null;
+};
+
+/**
  * Total number of steps in the questionnaire.
  * Breakdown:
  * - 1 welcome screen
  * - 1 participant info (name, country, email)
  * - 14 questions (days, accommodation, food, transport, demographics)
  */
-export const QUESTIONNAIRE_TOTAL_STEPS = 16;
-
-/**
- * Step indices for the questionnaire.
- */
-export const QUESTIONNAIRE_STEPS = {
-  WELCOME: 0,
-  PARTICIPANT_INFO: 1,
-  DAYS: 2,
-  ACCOMMODATION_CATEGORY: 3,
-  ROOM_OCCUPANCY: 4,
-  ELECTRICITY: 5,
-  FOOD: 6,
-  FLIGHT_KM: 7,
-  BOAT_KM: 8,
-  TRAIN_KM: 9,
-  BUS_KM: 10,
-  CAR_KM: 11,
-  CAR_TYPE: 12, // Conditional - only if carKm > 0
-  CAR_PASSENGERS: 13, // Conditional - only if carKm > 0
-  AGE: 14,
-  GENDER: 15,
-} as const;
+export const PARTICIPATE_TOTAL_STEPS = Object.keys(QUESTIONNAIRE_STEPS).length;
 
 /**
  * Steps that should trigger the impact modal when answered.
@@ -157,16 +167,14 @@ export const FOOD_VALUES = FOOD_DATA.map(([value]) => value);
 // ============================================================================
 // CAR TYPE CONFIGURATION
 // ============================================================================
-
-export const CAR_TYPE_VALUES = [
-  "conventional (diesel, petrol, gas…)",
-  "electric",
-] as const;
+import { PARTICIPANT_ACTIVITY_VALUES } from "./activities";
+export const CAR_TYPE_VALUES = PARTICIPANT_ACTIVITY_VALUES.filter((v) =>
+  v.toLowerCase().includes("car"),
+);
 
 // ============================================================================
 // GENDER CONFIGURATION
 // ============================================================================
-
 export const GENDER_VALUES = [
   "Female",
   "Male",
