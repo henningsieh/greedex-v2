@@ -1,6 +1,6 @@
 import { createParser } from "nuqs/server";
 
-import { WorkshopContent } from "@/components/features/landingpage/workshops/workshop-tab-select";
+import { WorkshopContent } from "@/features/landingpage/components/workshops/workshop-tab-select";
 
 const typeParser = createParser({
   parse: (value: unknown) => {

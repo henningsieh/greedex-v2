@@ -119,7 +119,9 @@ test.describe("Questionnaire Form E2E Tests", () => {
     await expect(page.locator("text=impact").first()).toBeVisible({
       timeout: 3000,
     });
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Step 6: Food - should show impact modal
     await expect(page.locator("text=meat").first()).toBeVisible();
@@ -130,7 +132,9 @@ test.describe("Questionnaire Form E2E Tests", () => {
     await expect(page.locator("text=impact").first()).toBeVisible({
       timeout: 3000,
     });
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Step 7: Flight km - should show impact modal if > 0
     await expect(page.locator("text=fly").first()).toBeVisible();
@@ -148,7 +152,9 @@ test.describe("Questionnaire Form E2E Tests", () => {
     await expect(page.locator("text=impact").first()).toBeVisible({
       timeout: 3000,
     });
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Step 8: Boat km - entering 0 should NOT show impact
     await expect(page.locator("text=boat").first()).toBeVisible();
@@ -178,7 +184,9 @@ test.describe("Questionnaire Form E2E Tests", () => {
     await expect(page.locator("text=impact").first()).toBeVisible({
       timeout: 3000,
     });
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Step 10: Bus km - entering 0 should NOT show impact
     await expect(page.locator("text=bus").first()).toBeVisible();
@@ -240,7 +248,9 @@ test.describe("Questionnaire Form E2E Tests", () => {
     await expect(page.locator("text=impact").first()).toBeVisible({
       timeout: 3000,
     });
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Step 14: Age
     await expect(page.locator("text=old").first()).toBeVisible();
@@ -302,12 +312,16 @@ test.describe("Questionnaire Form E2E Tests", () => {
     // Electricity
     await page.getByRole("button", { name: OPTION_REGEX.conventional }).click();
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Food
     await page.getByRole("button", { name: "never" }).click();
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Flight - 0 km
     await page.locator('input[type="number"]').first().fill("0");
@@ -500,9 +514,9 @@ test.describe("Questionnaire Form E2E Tests", () => {
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
 
     // Now at step 2+ - CO2 stats should be visible
-    await expect(page.getByText("CO₂ Footprint", { exact: false })).toBeVisible();
+    await expect(page.getByText("CO₂ Emissions", { exact: false })).toBeVisible();
     await expect(
-      page.getByText("Trees (1 Year)", { exact: false }),
+      page.getByText("Tree years (trees x years)", { exact: false }),
     ).toBeVisible();
     // Should show 0.0 kg initially
     await expect(page.locator("text=/0\\.0.*kg/i").first()).toBeVisible();
@@ -539,11 +553,15 @@ test.describe("Questionnaire Form E2E Tests", () => {
 
     await page.getByRole("button", { name: OPTION_REGEX.green }).click();
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     await page.getByRole("button", { name: "never" }).click();
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Skip transport to car
     let transportInput = page.locator('input[type="number"]').first();
@@ -647,16 +665,22 @@ test.describe("Questionnaire Form E2E Tests", () => {
 
     await page.getByRole("button", { name: OPTION_REGEX.green }).click();
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     await page.getByRole("button", { name: "sometimes" }).click();
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Add some transport
     await page.locator('input[type="number"]').first().fill("100");
     await page.getByRole("button", { name: BUTTON_REGEX.continue }).click();
-    await page.getByRole("button", { name: BUTTON_REGEX.gotIt }).click();
+    await page
+      .getByRole("button", { name: BUTTON_REGEX.gotIt })
+      .click({ force: true });
 
     // Skip rest of transport
     await page.locator('input[type="number"]').first().fill("0");

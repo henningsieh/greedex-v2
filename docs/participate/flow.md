@@ -22,7 +22,7 @@ src/components/participate/
 ├── questionnaire-utils.ts       - Emission calculation functions
 ├── types.ts                     - Type definitions
 └── __tests__/
-    └── questionnaire.test.tsx   - Unit tests for calculations
+    └── participate.test.tsx   - Unit tests for calculations
 
 src/config/
 └── questionnaire.ts             - Configuration & real-world emission factors

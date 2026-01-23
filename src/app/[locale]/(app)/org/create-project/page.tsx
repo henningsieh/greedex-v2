@@ -8,9 +8,9 @@ import { getTranslations } from "next-intl/server";
 import { headers as nextHeaders } from "next/headers";
 
 import { ContentContainer } from "@/components/content-container";
-import { CreateProjectForm } from "@/components/features/projects/create-project-form";
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { PageHeader } from "@/components/page-header";
+import { CreateProjectForm } from "@/features/projects/components/create-project-form";
+import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 import { auth } from "@/lib/better-auth";
 
 /**

@@ -1,6 +1,6 @@
-import { DonateSection } from "@/components/features/landingpage/e+forest/donate-section";
-import { DreamSection } from "@/components/features/landingpage/e+forest/dream-section";
-import { HeroSection } from "@/components/features/landingpage/e+forest/hero-section";
+import { DonateSection } from "@/features/landingpage/components/e+forest/donate-section";
+import { DreamSection } from "@/features/landingpage/components/e+forest/dream-section";
+import { HeroSection } from "@/features/landingpage/components/e+forest/hero-section";
 
 export default function EplusForestPage() {
   return (

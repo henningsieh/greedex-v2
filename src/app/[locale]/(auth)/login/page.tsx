@@ -1,5 +1,5 @@
-import AuthFlowLayout from "@/components/features/authentication/auth-flow-layout";
-import { LoginForm } from "@/components/features/authentication/login-form";
+import AuthFlowLayout from "@/features/authentication/components/auth-flow-layout";
+import { LoginForm } from "@/features/authentication/components/login-form";
 
 interface LoginPageProps {
   searchParams: Promise<{

@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
-import { QuestionnaireForm } from "@/components/features/questionnaire/questionnaire-form";
 import { Skeleton } from "@/components/ui/skeleton";
+import { QuestionnaireForm } from "@/features/participate/components/participate-form";
 import { getProjectData } from "@/features/projects/utils";
 
 interface ParticipatePageProps {

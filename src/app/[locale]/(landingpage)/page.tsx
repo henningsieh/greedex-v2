@@ -1,6 +1,6 @@
-import { GlobeSection } from "@/components/features/landingpage/globe-section";
-import { HeroSection } from "@/components/features/landingpage/hero-section";
-import { WorkshopsHeroSection } from "@/components/features/landingpage/workshops/workshops-hero-section";
+import { GlobeSection } from "@/features/landingpage/components/globe-section";
+import { HeroSection } from "@/features/landingpage/components/hero-section";
+import { WorkshopsHeroSection } from "@/features/landingpage/components/workshops/workshops-hero-section";
 
 /**
  * Render the landing page composed of the main hero, globe, and workshops hero sections.

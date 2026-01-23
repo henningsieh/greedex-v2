@@ -17,16 +17,6 @@ import {
   TEAM_PATH,
 } from "@/app/routes";
 import {
-  UserMenu,
-  UserMenuSkeleton,
-} from "@/components/features/authentication/user-menu";
-import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
-import {
-  OrganizationSwitcher,
-  OrganizationSwitcherSkeleton,
-} from "@/components/features/organizations/organization-switcher";
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
-import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -41,6 +31,16 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
+import {
+  UserMenu,
+  UserMenuSkeleton,
+} from "@/features/authentication/components/user-menu";
+import {
+  OrganizationSwitcher,
+  OrganizationSwitcherSkeleton,
+} from "@/features/organizations/components/organization-switcher";
+import { ORGANIZATION_ICONS } from "@/features/organizations/organization-icons";
+import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 import { Link, usePathname } from "@/lib/i18n/routing";
 
 /**
@@ -89,7 +89,7 @@ export const SIDEBAR_GROUPS: SidebarGroupDef[] = [
       },
       {
         titleKey: "organization.settings",
-        icon: ORGANIZATION_ICONS.settings,
+        icon: ORGANIZATION_ICONS.organization,
         url: SETTINGS_PATH,
       },
     ],

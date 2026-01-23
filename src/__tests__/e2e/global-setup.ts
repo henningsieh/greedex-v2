@@ -60,6 +60,11 @@ async function globalSetup(config: FullConfig) {
 
     console.log("✅ Sign-in page loaded with expected content");
 
+    // Wait for the login form inputs to be rendered (client-side)
+    // await page.waitForSelector('input[name="email"]', { timeout: 10000 });
+    // await page.waitForSelector('input[name="password"]', { timeout: 10000 });
+    // await page.waitForSelector('button[type="submit"]', { timeout: 10000 });
+
     // Login with seed user
     await page.fill('input[name="email"]', SEED_USER.email);
     await page.fill('input[name="password"]', SEED_USER.password);

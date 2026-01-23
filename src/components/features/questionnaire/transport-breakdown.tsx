@@ -1,10 +1,23 @@
 "use client";
 
-import type { ProjectStats } from "@/features/questionnaire/types";
+import type { ProjectStats } from "@/features/participate/types";
 
-import { TransportIcon } from "@/components/features/project-activities/transport-icon";
 import { Card } from "@/components/ui/card";
 import { ACTIVITY_VALUES } from "@/config/activities";
+import { PROJECT_ACTIVITIES_ICONS } from "@/features/project-activities/activities-icons";
+
+interface TransportIconProps {
+  type: keyof typeof PROJECT_ACTIVITIES_ICONS;
+  className?: string;
+}
+
+export function TransportIcon({
+  type,
+  className = "size-5",
+}: TransportIconProps) {
+  const Icon = PROJECT_ACTIVITIES_ICONS[type];
+  return <Icon className={className} />;
+}
 
 interface TransportBreakdownProps {
   stats: ProjectStats;

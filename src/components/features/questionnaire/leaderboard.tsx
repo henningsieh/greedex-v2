@@ -2,7 +2,7 @@
 
 import { Leaf, Trophy } from "lucide-react";
 
-import type { Participant } from "@/features/questionnaire/types";
+import type { Participant } from "@/features/participate/types";
 
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";

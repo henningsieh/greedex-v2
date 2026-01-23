@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { ParticipateHeader } from "@/components/features/questionnaire/participate-header";
+import { ParticipateHeader } from "@/features/participate/components/participate-header";
 import { getProjectData } from "@/features/projects/utils";
 
 /**

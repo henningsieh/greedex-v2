@@ -530,11 +530,12 @@
       "no-archived-projects": {
         "title": "No archived projects",
         "description": "You haven't archived any projects yet. Archived projects appear here and can be restored anytime."
-      }
+      },
+      "go-to-projects": "Go to active projects"
     },
     "settings": {
-      "title": "Settings",
-      "description": "This is the settings page. Settings content will go here."
+      "title": "Organization Settings",
+      "description": "These are the organization's details and settings."
     },
     "roles": {
       "owner": "Owner",
@@ -570,7 +571,7 @@
         "dashboard": "Dashboard",
         "projects": "Projects",
         "team": "Team Members",
-        "settings": "Settings",
+        "settings": "Organization",
         "createproject": "Create Project"
       },
       "collapse": "Collapse Sidebar"
@@ -848,6 +849,7 @@
       "forgotPassword": "Forgot your password?",
       "loginButton": "Login",
       "logOut": "Log out",
+      "settings": "Settings",
       "signingIn": "Signing in…",
       "sendMagicLink": "Send magic link",
       "verifyEmail": "Please verify your email address to continue",
@@ -1019,6 +1021,23 @@
     },
     "funding": {
       "text": "Co-funded by the"
+    }
+  },
+  "go-to-projects": "Go to projects",
+  "userSettings": {
+    "title": "User Settings",
+    "description": "Manage your personal preferences and account settings",
+    "appearance": {
+      "title": "Appearance",
+      "description": "Customize how the application looks and feels",
+      "theme": "Theme",
+      "themeDescription": "Choose your preferred color scheme"
+    },
+    "language": {
+      "title": "Language & Region",
+      "description": "Select your preferred language and regional settings",
+      "locale": "Language",
+      "localeDescription": "Choose your preferred language"
     }
   }
 }

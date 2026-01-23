@@ -24,7 +24,7 @@
 
   "typescript.format.enable": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.experimental.useTsgo": true,
+  "typescript.experimental.useTsgo": false,
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.autoImportFileExcludePatterns": [
     "**/node_modules/@radix-ui/**",
@@ -83,5 +83,6 @@
   },
   "[markdown]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
-  }
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always"
 }

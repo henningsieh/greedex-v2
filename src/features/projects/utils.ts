@@ -12,8 +12,8 @@ import type {
 import type { ProjectSortFieldSchema } from "@/features/projects/validation-schemas";
 
 import { type AppRoute, PROJECT_DETAIL_PATH } from "@/app/routes";
-import { PROJECT_ACTIVITIES_ICONS } from "@/components/features/project-activities/activities-icons";
 import { DEFAULT_PROJECT_SORT, MILLISECONDS_PER_DAY } from "@/config/projects";
+import { PROJECT_ACTIVITIES_ICONS } from "@/features/project-activities/activities-icons";
 import { projectsTable } from "@/lib/drizzle/schema";
 import { orpc } from "@/lib/orpc/orpc";
 

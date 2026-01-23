@@ -71,7 +71,7 @@
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import type { Participant, ProjectStats } from "@/features/questionnaire/types";
+import type { Participant, ProjectStats } from "@/features/participate/types";
 
 import { Leaderboard } from "@/components/features/questionnaire/leaderboard";
 import { LiveIndicator } from "@/components/features/questionnaire/live-indicator";

@@ -4,7 +4,7 @@ import {
   DiscordIcon,
   GitHubIcon,
   GoogleIcon,
-} from "@/components/features/authentication/o-auth-icons";
+} from "@/features/authentication/components/o-auth-icons";
 
 export const SUPPORTED_OAUTH_PROVIDERS = ["google", "discord", "github"] as const;
 export type SupportedOAuthProvider = (typeof SUPPORTED_OAUTH_PROVIDERS)[number];

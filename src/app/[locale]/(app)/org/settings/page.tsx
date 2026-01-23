@@ -8,12 +8,12 @@ import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 
 import { ContentContainer } from "@/components/content-container";
+import { PageHeader } from "@/components/page-header";
 import {
   EditOrganizationForm,
   EditOrganizationFormSkeleton,
-} from "@/components/features/organizations/edit-organization-form";
-import { ORGANIZATION_ICONS } from "@/components/features/organizations/organization-icons";
-import { PageHeader } from "@/components/page-header";
+} from "@/features/organizations/components/edit-organization-form";
+import { ORGANIZATION_ICONS } from "@/features/organizations/organization-icons";
 
 export default async function SettingsPage() {
   const t = await getTranslations("organization.settings");

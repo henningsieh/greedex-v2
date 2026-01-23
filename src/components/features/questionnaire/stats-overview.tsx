@@ -2,7 +2,7 @@
 
 import { Leaf, TreePine, TrendingDown, Users } from "lucide-react";
 
-import type { ProjectStats } from "@/features/questionnaire/types";
+import type { ProjectStats } from "@/features/participate/types";
 
 import { Card } from "@/components/ui/card";
 

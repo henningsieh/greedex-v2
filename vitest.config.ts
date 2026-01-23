@@ -12,6 +12,7 @@ export default defineConfig({
     setupFiles: ["./src/__tests__/setup.ts"],
     // Increase test timeout to 20 seconds for Next.js dev server startup
     testTimeout: 20_000,
+    hookTimeout: 20_000,
     // Only include explicit test patterns (optional), and explicitly exclude docs/clickdummy
     include: [
       "src/**/*.{test,spec}.{ts,tsx,js,jsx}",

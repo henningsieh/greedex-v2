@@ -1,6 +1,6 @@
-import { AboutFooter } from "@/components/features/landingpage/about/about-footer";
-import { AboutHeader } from "@/components/features/landingpage/about/about-header";
-import { PartnersSection } from "@/components/features/landingpage/about/partners-section";
+import { AboutFooter } from "@/features/landingpage/components/about/about-footer";
+import { AboutHeader } from "@/features/landingpage/components/about/about-header";
+import { PartnersSection } from "@/features/landingpage/components/about/partners-section";
 
 /**
  * Renders the About page with localized content and a list of partner cards.

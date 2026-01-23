@@ -2,13 +2,13 @@
 
 import { Suspense } from "react";
 
+import { LocaleSwitcher } from "@/components/locale-switcher";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
   UserSession,
   UserSessionSkeleton,
-} from "@/components/features/authentication/user-session";
-import { Logo } from "@/components/features/landingpage/logo";
-import { LocaleSwitcher } from "@/components/locale-switcher";
-import { ThemeSwitcher } from "@/components/theme-switcher";
+} from "@/features/authentication/components/user-session";
+import { Logo } from "@/features/landingpage/components/logo";
 import { Link } from "@/lib/i18n/routing";
 
 /**

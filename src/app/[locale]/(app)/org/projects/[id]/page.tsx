@@ -11,15 +11,15 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import { PROJECTS_PATH } from "@/app/routes";
 import { ContentContainer } from "@/components/content-container";
-import {
-  ProjectDetails,
-  ProjectDetailsHeader,
-  ProjectDetailsSkeleton,
-} from "@/components/features/projects/project-details";
-import { ErrorFallback } from "@/components/features/projects/project-error-fallback";
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { PageHeader } from "@/components/page-header";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  ProjectDetailsHeader,
+  ProjectDetailsSkeleton,
+  ProjectDetails,
+} from "@/features/projects/components/project-details";
+import { ErrorFallback } from "@/features/projects/components/project-error-fallback";
+import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 import { redirect } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";

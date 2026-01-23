@@ -1,5 +1,5 @@
-import AuthFlowLayout from "@/components/features/authentication/auth-flow-layout";
-import { SignupForm } from "@/components/features/authentication/signup-form";
+import AuthFlowLayout from "@/features/authentication/components/auth-flow-layout";
+import { SignupForm } from "@/features/authentication/components/signup-form";
 
 interface SignupPageProps {
   searchParams: Promise<{
