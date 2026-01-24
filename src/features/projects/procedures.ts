@@ -782,6 +782,9 @@ export const getProjectActivities = authorized
     const activities = await db.query.projectActivitiesTable.findMany({
       where: eq(projectActivitiesTable.projectId, input.projectId),
       orderBy: [asc(projectActivitiesTable.createdAt)],
+      with: {
+        project: true,
+      },
     });
 
     return activities;
@@ -819,6 +822,9 @@ export const getProjectForParticipation = base
         organization: true,
         activities: {
           orderBy: [asc(projectActivitiesTable.createdAt)],
+          with: {
+            project: true,
+          },
         },
       },
     });

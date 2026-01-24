@@ -9,12 +9,12 @@ import { headers as nextHeaders } from "next/headers";
 import { Suspense } from "react";
 
 import { ContentContainer } from "@/components/content-container";
-import { TeamTableSkeleton } from "@/components/features/organizations/users-table";
-import { ParticipantsTable } from "@/components/features/participants/participants-table";
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { PageHeader } from "@/components/page-header";
 import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
+import { TeamTableSkeleton } from "@/features/organizations/components/users-table";
 import { MEMBER_ROLES } from "@/features/organizations/types";
+import { ParticipantsTable } from "@/features/participants/components/participants-table";
+import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";

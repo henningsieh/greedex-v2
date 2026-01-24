@@ -10,12 +10,12 @@ import { headers as nextHeaders } from "next/headers";
 import { Suspense } from "react";
 
 import { ContentContainer } from "@/components/content-container";
+import { PageHeader } from "@/components/page-header";
+import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import {
   TeamTableSkeleton,
   UsersTable,
-} from "@/components/features/organizations/users-table";
-import { PageHeader } from "@/components/page-header";
-import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
+} from "@/features/organizations/components/users-table";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";

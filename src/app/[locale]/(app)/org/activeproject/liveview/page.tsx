@@ -71,13 +71,13 @@
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import type { Participant, ProjectStats } from "@/features/questionnaire/types";
+import type { Participant, ProjectStats } from "@/features/participate/types";
 
-import { Leaderboard } from "@/components/features/questionnaire/leaderboard";
-import { LiveIndicator } from "@/components/features/questionnaire/live-indicator";
-import { StatsOverview } from "@/components/features/questionnaire/stats-overview";
-import { TransportBreakdown } from "@/components/features/questionnaire/transport-breakdown";
 import { ACTIVITY_VALUES } from "@/config/activities";
+import { Leaderboard } from "@/features/liveview/leaderboard";
+import { LiveIndicator } from "@/features/liveview/live-indicator";
+import { StatsOverview } from "@/features/liveview/stats-overview";
+import { TransportBreakdown } from "@/features/liveview/transport-breakdown";
 import { CO2_FACTORS } from "@/features/projects/utils";
 
 /**
@@ -281,7 +281,7 @@ export default function Dashboard() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <div className="mx-auto mb-4 size-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           <p className="text-muted-foreground">Loading dashboard...</p>
         </div>
       </div>
@@ -297,7 +297,7 @@ export default function Dashboard() {
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-teal-600 to-emerald-800">
+                <div className="flex size-12 items-center justify-center rounded-xl bg-linear-to-br from-teal-600 to-emerald-800">
                   <MapPinnedIcon className="size-7" />
                 </div>
                 <div>

@@ -1,6 +1,6 @@
-import FooterSection from "@/components/features/landingpage/footer";
-import { LandingHeader } from "@/components/features/landingpage/landing-header";
-import { LandingPageGradients } from "@/components/features/landingpage/landing-page-gradients";
+import FooterSection from "@/features/landingpage/components/footer";
+import { LandingHeader } from "@/features/landingpage/components/landing-header";
+import { LandingPageGradients } from "@/features/landingpage/components/landing-page-gradients";
 
 /**
  * Layout wrapper that renders the landing page chrome and hosts page content.

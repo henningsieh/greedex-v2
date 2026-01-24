@@ -1,6 +1,4 @@
-import { APP_NAME, BASE_URL, DESCRIPTION } from "@/config/metadata";
-
-const LOGO_PATH = "/greendex_logo.png";
+import { APP_NAME, BASE_URL, DESCRIPTION, LOGO_PATH } from "@/config/metadata";
 
 // JSON-LD structured data for SEO
 const jsonLd = {

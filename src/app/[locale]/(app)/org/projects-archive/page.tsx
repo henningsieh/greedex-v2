@@ -9,12 +9,12 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { ContentContainer } from "@/components/content-container";
-import {
-  ArchivedProjectsTab,
-  ArchivedProjectsTabSkeleton,
-} from "@/components/features/projects/dashboard/archived-projects-tab";
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { PageHeader } from "@/components/page-header";
+import {
+  ArchivedProjects,
+  ArchivedProjectsSkeleton,
+} from "@/features/projects/components/dashboard/archived-projects";
+import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
 
@@ -40,9 +40,9 @@ export default async function ProjectsArchivePage() {
         description={t("description")}
       />
       <ContentContainer width="lg">
-        <Suspense fallback={<ArchivedProjectsTabSkeleton />}>
+        <Suspense fallback={<ArchivedProjectsSkeleton />}>
           <ErrorBoundary fallback={<div>{t("error-message")}</div>}>
-            <ArchivedProjectsTab />
+            <ArchivedProjects />
           </ErrorBoundary>
         </Suspense>
       </ContentContainer>

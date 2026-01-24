@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
-import { HandleInvitation } from "@/components/features/authentication/handle-invitation";
+import { HandleInvitation } from "@/features/authentication/components/handle-invitation";
 import { auth } from "@/lib/better-auth";
 
 /**

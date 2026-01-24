@@ -10,10 +10,9 @@ import {
   FACEBOOK_APP_ID,
   IOS_APP_STORE_ID,
   KEYWORDS,
+  LOGO_PATH,
   TITLE,
 } from "@/config/metadata";
-
-const LOGO_PATH = "/greendex_logo.png";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,

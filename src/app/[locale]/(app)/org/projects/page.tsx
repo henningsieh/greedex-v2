@@ -10,12 +10,12 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { ContentContainer } from "@/components/content-container";
-import { CreateProjectButton } from "@/components/features/projects/create-project-button";
-import { ProjectsTab } from "@/components/features/projects/dashboard/projects-tab";
-import { ProjectsTabSkeleton } from "@/components/features/projects/dashboard/projects-table";
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { PageHeader } from "@/components/page-header";
 import { DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { CreateProjectButton } from "@/features/projects/components/create-project-button";
+import { ProjectsTab } from "@/features/projects/components/dashboard/projects-tab";
+import { ProjectsTabSkeleton } from "@/features/projects/components/dashboard/projects-table";
+import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";

@@ -519,7 +519,7 @@
       "title": "Alle Teilnehmende",
       "description": "Liste aller Teilnehmenden in deiner Organisation",
       "emptyState": {
-        "description": "Versuche, deine Filter anzupassen oder sende den \"Teilnahme-Link\" des Projekts an weitere Teilnehmende.",
+        "description": "Versuche, deine Filter anzupassen oder sende den \"Teilnahmelink\" des Projekts an weitere Teilnehmende.",
         "title": "Keine Teilnehmenden gefunden"
       }
     },
@@ -530,11 +530,12 @@
       "no-archived-projects": {
         "title": "Keine archivierten Projekte",
         "description": "Du hast noch keine Projekte archiviert. Archivierte Projekte erscheinen hier und können jederzeit wiederhergestellt werden."
-      }
+      },
+      "go-to-projects": "Gehe zu aktiven Projekten"
     },
     "settings": {
-      "title": "Einstellungen",
-      "description": "Dies ist die Einstellungsseite. Einstellungsinhalte werden hier angezeigt."
+      "title": "Organisationseinstellungen",
+      "description": "Dies sind die Details und Einstellungen der Organisation."
     },
     "roles": {
       "owner": "Eigentümer",
@@ -570,7 +571,7 @@
         "dashboard": "Dashboard",
         "projects": "Projekte",
         "team": "Team",
-        "settings": "Einstellungen",
+        "settings": "Organisation",
         "createproject": "Projekt erstellen"
       },
       "collapse": "Seitenleiste einklappen"
@@ -848,6 +849,7 @@
       "forgotPassword": "Passwort vergessen?",
       "loginButton": "Anmelden",
       "logOut": "Abmelden",
+      "settings": "Einstellungen",
       "signingIn": "Wird angemeldet…",
       "sendMagicLink": "Magic Link senden",
       "verifyEmail": "Bitte verifiziere deine E-Mail-Adresse, um fortzufahren",
@@ -1019,6 +1021,22 @@
     },
     "funding": {
       "text": "Kofinanziert durch die"
+    }
+  },
+  "userSettings": {
+    "title": "Benutzereinstellungen",
+    "description": "Verwalte deine persönlichen Präferenzen und Kontoeinstellungen",
+    "appearance": {
+      "title": "Erscheinungsbild",
+      "description": "Passe an, wie die Anwendung aussieht und sich anfühlt",
+      "theme": "Design",
+      "themeDescription": "Wähle dein bevorzugtes Farbschema"
+    },
+    "language": {
+      "title": "Sprache & Region",
+      "description": "Wähle deine bevorzugte Sprache und regionale Einstellungen",
+      "locale": "Sprache",
+      "localeDescription": "Wähle deine bevorzugte Sprache"
     }
   }
 }

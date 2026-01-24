@@ -1,7 +1,7 @@
 import { GlobeIcon } from "lucide-react";
 
-import { PROJECT_ICONS } from "@/components/features/projects/project-icons";
 import { Badge } from "@/components/ui/badge";
+import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 import { getCountryData } from "@/lib/i18n/countries";
 import { cn } from "@/lib/utils";
 

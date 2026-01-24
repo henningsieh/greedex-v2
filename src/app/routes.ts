@@ -36,6 +36,9 @@ export const FORGOT_PASSWORD_PATH: AppRoute = "/forgot-password";
 export const RESET_PASSWORD_PATH: AppRoute = "/reset-password";
 export const VERIFY_EMAIL_PATH: AppRoute = "/verify-email";
 
+// User routes
+export const USER_SETTINGS_PATH: AppRoute = "/user/settings";
+
 // Landing page routes
 export const HOME_PATH: AppRoute = "/";
 export const WORKSHOPS_ANCHOR = "/#workshops";

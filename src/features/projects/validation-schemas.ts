@@ -27,7 +27,30 @@ const projectFormExtensions = {
 
 export const ProjectSortFieldSchema = z.enum(PROJECT_SORT_FIELDS);
 
-// Form schema (only user-provided fields)
+/**
+ * Schema for creating a new project (only user-provided fields).
+ *
+ * This schema is derived from `projectsTable` via `createInsertSchema` and
+ * customized to represent the payload that can be submitted by users when
+ * creating a project.
+ *
+ * Key details:
+ * - Omits database-managed fields: `id`, `responsibleUserId`, `createdAt`, and `updatedAt`.
+ * - Extends with `projectFormExtensions`, which enforces:
+ *   - `country`: enum of EU country codes (with a custom error message)
+ *   - `name`: required non-empty string
+ *   - `startDate` / `endDate`: `Date` values with validation messages
+ *
+ * Usage:
+ * - Use this schema to validate create-request payloads from forms or APIs.
+ * - If you need to accept activities at creation time, use
+ *   `CreateProjectWithActivitiesSchema` which extends this schema with
+ *   an optional `activities` array.
+ *
+ * Note: `responsibleUserId` is intentionally omitted because it should be
+ * populated server-side (e.g., based on the authenticated user creating the
+ * project).
+ */
 export const ProjectCreateFormSchema = createInsertSchema(projectsTable)
   .omit({
     id: true,
@@ -45,6 +68,28 @@ export const ProjectWithRelationsSchema = createSelectSchema(
   country: z.enum(EU_COUNTRY_CODES),
 });
 
+/**
+ * Schema for updating an existing project (partial user-provided fields).
+ *
+ * Built from `projectsTable` via `createUpdateSchema` and tailored for
+ * edit/update payloads. This schema:
+ *
+ * - Omits database-managed fields: `id`, `responsibleUserId`, `createdAt`, and `updatedAt`.
+ * - Extends with `projectFormExtensions` so that `name`, `startDate`, and
+ *   `endDate` keep their validation rules, but fields may be omitted when
+ *   performing partial updates.
+ * - Explicitly makes `country` optional to allow updates that don't change the
+ *   country value.
+ *
+ * Usage:
+ * - Use this schema to validate update/edit request payloads from forms or APIs.
+ * - For editing a project together with activities, use
+ *   `EditProjectWithActivitiesSchema` which extends this schema with an
+ *   optional `activities` array.
+ *
+ * Note: `responsibleUserId` is intentionally omitted because it should be
+ * managed server-side and not provided by the client during updates.
+ */
 export const ProjectUpdateFormSchema = createUpdateSchema(projectsTable)
   .omit({
     id: true,

@@ -26,3 +26,6 @@ export const BASE_URL = env.NEXT_PUBLIC_BASE_URL || "https://greendex.world/";
 export const ANDROID_PACKAGE: AppLinksAndroid["package"] = "";
 export const IOS_APP_STORE_ID: AppLinksApple["app_store_id"] = "";
 export const FACEBOOK_APP_ID: FacebookAppId["appId"] = "";
+
+// Logo path configuration
+export const LOGO_PATH = "/greendex_logo.png";

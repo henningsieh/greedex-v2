@@ -1,8 +1,8 @@
 import { getLocale } from "next-intl/server";
 
 import { LOGIN_PATH } from "@/app/routes";
-import AuthFlowLayout from "@/components/features/authentication/auth-flow-layout";
-import { ResetPasswordForm } from "@/components/features/authentication/reset-password-form";
+import AuthFlowLayout from "@/features/authentication/components/auth-flow-layout";
+import { ResetPasswordForm } from "@/features/authentication/components/reset-password-form";
 import { redirect } from "@/lib/i18n/routing";
 
 interface ResetPasswordPageProps {

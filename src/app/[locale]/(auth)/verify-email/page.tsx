@@ -1,8 +1,8 @@
 import { getTranslations } from "next-intl/server";
 
 import { LOGIN_PATH } from "@/app/routes";
-import AuthFlowLayout from "@/components/features/authentication/auth-flow-layout";
-import { VerifyEmailContent } from "@/components/features/authentication/verify-email-content";
+import AuthFlowLayout from "@/features/authentication/components/auth-flow-layout";
+import { VerifyEmailContent } from "@/features/authentication/components/verify-email-content";
 
 /**
  * Renders the verify-email page inside the authentication flow layout.

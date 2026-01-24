@@ -103,5 +103,5 @@ export const EditActivityFormItemSchema = createUpdateSchema(
 export const ProjectActivityWithRelationsSchema = createSelectSchema(
   projectActivitiesTable,
 ).extend({
-  project: createSelectSchema(projectsTable).optional(),
+  project: createSelectSchema(projectsTable),
 });
