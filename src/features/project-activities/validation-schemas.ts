@@ -6,6 +6,7 @@ import {
 import { z } from "zod";
 
 import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/config/activities";
+import { validateDistanceStep } from "@/features/project-activities/utils";
 import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 
 // ============================================================================
@@ -28,10 +29,10 @@ export const CreateActivityInputSchema = createInsertSchema(
     distanceKm: z
       .number()
       .min(MIN_DISTANCE_KM, {
-        message: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+        error: `Distance must be at least ${MIN_DISTANCE_KM} km`,
       })
-      .multipleOf(DISTANCE_KM_STEP, {
-        message: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      .refine(validateDistanceStep, {
+        error: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
       }),
   });
 
@@ -52,10 +53,10 @@ export const UpdateActivityInputSchema = createUpdateSchema(
     distanceKm: z
       .number()
       .min(MIN_DISTANCE_KM, {
-        message: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+        error: `Distance must be at least ${MIN_DISTANCE_KM} km`,
       })
-      .multipleOf(DISTANCE_KM_STEP, {
-        message: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      .refine(validateDistanceStep, {
+        error: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
       })
       .optional(),
   });
@@ -83,10 +84,10 @@ export const EditActivityFormItemSchema = createUpdateSchema(
     distanceKm: z
       .number()
       .min(MIN_DISTANCE_KM, {
-        message: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+        error: `Distance must be at least ${MIN_DISTANCE_KM} km`,
       })
-      .multipleOf(DISTANCE_KM_STEP, {
-        message: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      .refine(validateDistanceStep, {
+        error: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
       }),
     isNew: z.boolean().optional(), // Track if activity is new
     isDeleted: z.boolean().optional(), // Track if activity should be deleted
