@@ -83,7 +83,7 @@ export const createProjectActivity = authorized
       .values({
         projectId: input.projectId,
         activityType: input.activityType,
-        distanceKm: input.distanceKm.toString(),
+        distanceKm: input.distanceKm,
         description: input.description,
         activityDate: input.activityDate,
       })
@@ -170,11 +170,11 @@ export const updateProjectActivity = authorized
     }
 
     const { distanceKm, ...restData } = input.data;
-    const updateData: typeof restData & { distanceKm?: string } = {
+    const updateData: typeof restData & { distanceKm?: number } = {
       ...restData,
     };
     if (distanceKm !== undefined) {
-      updateData.distanceKm = distanceKm.toString();
+      updateData.distanceKm = distanceKm;
     }
 
     const [updatedActivity] = await db

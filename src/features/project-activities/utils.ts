@@ -1,3 +1,12 @@
+import { z } from "zod";
+import type { useTranslations } from "next-intl";
+
+import {
+  DISTANCE_KM_STEP,
+  MAX_DISTANCE_KM,
+  MIN_DISTANCE_KM,
+} from "@/config/activities";
+
 /**
  * Distance utility functions for project activities
  */
@@ -26,4 +35,36 @@ export function isMultipleOfStep(value: number, step = 0.1): boolean {
  */
 export function validateDistanceStep(value: number): boolean {
   return isMultipleOfStep(value);
+}
+
+/**
+ * Create a Zod number schema for distance validation with consistent rules
+ *
+ * @param t - Translation function from useTranslations() hook
+ * @param isOptional - If true, makes the schema optional
+ * @returns Zod number schema with min/max/step validation
+ */
+export function createDistanceSchema(
+  t: ReturnType<typeof useTranslations>,
+  isOptional = false,
+) {
+  const schema = z
+    .number()
+    .min(MIN_DISTANCE_KM, {
+      message: t("project.activities.form.validation.distanceKm.min", {
+        min: MIN_DISTANCE_KM,
+      }),
+    })
+    .max(MAX_DISTANCE_KM, {
+      message: t("project.activities.form.validation.distanceKm.max", {
+        max: MAX_DISTANCE_KM,
+      }),
+    })
+    .refine(validateDistanceStep, {
+      message: t("project.activities.form.validation.distanceKm.step", {
+        step: DISTANCE_KM_STEP,
+      }),
+    });
+
+  return isOptional ? schema.optional() : schema;
 }

@@ -1,10 +1,34 @@
 import { relations } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
-import { boolean, decimal, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  customType,
+  decimal,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
 import { ACTIVITY_VALUES } from "@/config/activities";
 import type { EUCountryCode } from "@/config/eu-countries";
 import type { ActivityValueType } from "@/features/project-activities/types";
+
+/**
+ * Custom Drizzle type for distance values
+ * Stores as DECIMAL(10,1) in DB, exposes as number in TypeScript
+ * Database handles rounding natively via DECIMAL(10,1)
+ */
+const distanceKmType = customType<{ data: number; driverData: string }>({
+  dataType() {
+    return "decimal(10, 1)";
+  },
+  fromDriver(value: string): number {
+    return Number.parseFloat(value);
+  },
+  toDriver(value: number): string {
+    return value.toString();
+  },
+});
 
 
 // ============================================================================
@@ -70,7 +94,7 @@ export const projectActivitiesTable = pgTable("project_activity", {
     .notNull(),
 
   // Distance in kilometers (scale 1 supports 0.1 km increments)
-  distanceKm: decimal("distance_km", { precision: 10, scale: 1 }).notNull(),
+  distanceKm: distanceKmType("distance_km").notNull(),
 
   // Optional fields for additional activity details
   description: text("description"),

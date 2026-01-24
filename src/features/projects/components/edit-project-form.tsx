@@ -111,7 +111,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
           id: activity.id,
           projectId: activity.projectId,
           activityType: activity.activityType,
-          distanceKm: Number.parseFloat(activity.distanceKm),
+          distanceKm: activity.distanceKm,
           description: activity.description,
           activityDate: activity.activityDate
             ? new Date(activity.activityDate)
