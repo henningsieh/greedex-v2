@@ -645,7 +645,14 @@
         "update": "Update Activity",
         "cancel": "Cancel",
         "adding": "Adding…",
-        "updating": "Updating…"
+        "updating": "Updating…",
+        "validation": {
+          "distanceKm": {
+            "min": "Distance must be at least {min} km",
+            "max": "Distance cannot exceed {max} km",
+            "step": "Distance must be in increments of {step} km"
+          }
+        }
       },
       "delete": {
         "confirm-title": "Delete Activity?",

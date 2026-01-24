@@ -5,7 +5,11 @@ import {
 } from "drizzle-zod";
 import { z } from "zod";
 
-import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/config/activities";
+import {
+  DISTANCE_KM_STEP,
+  MAX_DISTANCE_KM,
+  MIN_DISTANCE_KM,
+} from "@/config/activities";
 import { validateDistanceStep } from "@/features/project-activities/utils";
 import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 
@@ -29,10 +33,13 @@ export const CreateActivityInputSchema = createInsertSchema(
     distanceKm: z
       .number()
       .min(MIN_DISTANCE_KM, {
-        error: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+        message: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+      })
+      .max(MAX_DISTANCE_KM, {
+        message: `Distance cannot exceed ${MAX_DISTANCE_KM} km`,
       })
       .refine(validateDistanceStep, {
-        error: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+        message: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
       }),
   });
 
@@ -53,10 +60,13 @@ export const UpdateActivityInputSchema = createUpdateSchema(
     distanceKm: z
       .number()
       .min(MIN_DISTANCE_KM, {
-        error: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+        message: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+      })
+      .max(MAX_DISTANCE_KM, {
+        message: `Distance cannot exceed ${MAX_DISTANCE_KM} km`,
       })
       .refine(validateDistanceStep, {
-        error: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+        message: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
       })
       .optional(),
   });
@@ -84,10 +94,13 @@ export const EditActivityFormItemSchema = createUpdateSchema(
     distanceKm: z
       .number()
       .min(MIN_DISTANCE_KM, {
-        error: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+        message: `Distance must be at least ${MIN_DISTANCE_KM} km`,
+      })
+      .max(MAX_DISTANCE_KM, {
+        message: `Distance cannot exceed ${MAX_DISTANCE_KM} km`,
       })
       .refine(validateDistanceStep, {
-        error: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+        message: `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
       }),
     isNew: z.boolean().optional(), // Track if activity is new
     isDeleted: z.boolean().optional(), // Track if activity should be deleted

@@ -42,6 +42,12 @@ export type ParticipantActivityValueType =
 export const MIN_DISTANCE_KM = 0.1;
 
 /**
+ * Maximum distance in kilometers for project activities
+ * Activities cannot exceed this distance
+ */
+export const MAX_DISTANCE_KM = 6000;
+
+/**
  * Step increment for distance input fields
  * Distance values must be multiples of this step
  */
