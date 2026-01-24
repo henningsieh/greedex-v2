@@ -2,10 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/config/activities";
 import {
-  isMultipleOfStep,
-  validateDistanceStep,
-} from "@/features/project-activities/utils";
-import {
   CreateActivityInputSchema,
   EditActivityFormItemSchema,
 } from "@/features/project-activities/validation-schemas";
@@ -14,44 +10,6 @@ describe("Distance Constants", () => {
   it("should have correct constant values", () => {
     expect(MIN_DISTANCE_KM).toBe(0.1);
     expect(DISTANCE_KM_STEP).toBe(0.1);
-  });
-
-  describe("isMultipleOfStep", () => {
-    it("should validate correct multiples of 0.1", () => {
-      expect(isMultipleOfStep(0.1)).toBe(true);
-      expect(isMultipleOfStep(0.2)).toBe(true);
-      expect(isMultipleOfStep(0.5)).toBe(true);
-      expect(isMultipleOfStep(1.0)).toBe(true);
-      expect(isMultipleOfStep(1.5)).toBe(true);
-      expect(isMultipleOfStep(10.3)).toBe(true);
-      expect(isMultipleOfStep(100.0)).toBe(true);
-    });
-
-    it("should reject invalid multiples", () => {
-      expect(isMultipleOfStep(0.15)).toBe(false);
-      expect(isMultipleOfStep(0.05)).toBe(false);
-      expect(isMultipleOfStep(1.25)).toBe(false);
-      expect(isMultipleOfStep(10.33)).toBe(false);
-      expect(isMultipleOfStep(0.001)).toBe(false);
-    });
-
-    it("should handle edge cases", () => {
-      expect(isMultipleOfStep(0)).toBe(true); // 0 is a multiple of 0.1
-      expect(isMultipleOfStep(0.0)).toBe(true);
-    });
-  });
-
-  describe("validateDistanceStep", () => {
-    it("should validate correct step values", () => {
-      expect(validateDistanceStep(0.1)).toBe(true);
-      expect(validateDistanceStep(1.5)).toBe(true);
-      expect(validateDistanceStep(10.0)).toBe(true);
-    });
-
-    it("should reject incorrect step values", () => {
-      expect(validateDistanceStep(0.15)).toBe(false);
-      expect(validateDistanceStep(1.25)).toBe(false);
-    });
   });
 });
 
