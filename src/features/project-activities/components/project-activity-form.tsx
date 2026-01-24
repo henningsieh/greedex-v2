@@ -83,7 +83,10 @@ export function ProjectActivityForm({
     defaultValues: {
       projectId,
       activityType: activity?.activityType,
-      distanceKm: activity?.distanceKm !== undefined ? activity.distanceKm : MIN_DISTANCE_KM,
+      distanceKm:
+        activity?.distanceKm !== undefined
+          ? activity.distanceKm
+          : MIN_DISTANCE_KM,
       description: activity?.description ?? null,
       activityDate: activity?.activityDate ?? null,
     } as FormValues,
