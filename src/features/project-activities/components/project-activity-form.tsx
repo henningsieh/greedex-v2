@@ -67,10 +67,9 @@ export function ProjectActivityForm({
   const isEditing = !!activity;
 
   // Create schema with i18n translations
-  const ActivityInputSchema = useMemo(
-    () => createActivityInputSchema(t),
-    [t],
-  );
+  const ActivityInputSchema = useMemo(() => createActivityInputSchema(t), [t]);
+
+  type FormValues = z.infer<typeof ActivityInputSchema>;
 
   const {
     register,
@@ -78,16 +77,16 @@ export function ProjectActivityForm({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<z.infer<typeof ActivityInputSchema>>({
+  } = useForm<FormValues>({
     resolver: zodResolver(ActivityInputSchema),
     mode: "onChange",
     defaultValues: {
       projectId,
-      activityType: activity?.activityType ?? undefined,
-      distanceKm: activity?.distanceKm ?? MIN_DISTANCE_KM,
+      activityType: activity?.activityType,
+      distanceKm: activity?.distanceKm !== undefined ? activity.distanceKm : MIN_DISTANCE_KM,
       description: activity?.description ?? null,
       activityDate: activity?.activityDate ?? null,
-    },
+    } as FormValues,
   });
 
   const createMutation = useMutation({

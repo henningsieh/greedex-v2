@@ -73,13 +73,13 @@ export class TestProjectFixture {
         id: randomUUID(),
         projectId: this.projectId,
         activityType: "bus",
-        distanceKm: "50",
+        distanceKm: 50,
       },
       {
         id: randomUUID(),
         projectId: this.projectId,
         activityType: "train",
-        distanceKm: "100",
+        distanceKm: 100,
       },
     ];
 

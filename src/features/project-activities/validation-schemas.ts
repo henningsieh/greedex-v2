@@ -1,9 +1,10 @@
+import type { useTranslations } from "next-intl";
+
 import {
   createInsertSchema,
   createSelectSchema,
   createUpdateSchema,
 } from "drizzle-zod";
-import type { useTranslations } from "next-intl";
 import { z } from "zod";
 
 import { createDistanceSchema } from "@/features/project-activities/utils";
@@ -16,13 +17,11 @@ import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 /**
  * Schema for creating activities from forms/client
  * Omits auto-generated fields (id, timestamps)
- * 
+ *
  * @param t - Translation function from useTranslations() hook
  * @returns Zod schema for creating activities
  */
-export function createActivityInputSchema(
-  t: ReturnType<typeof useTranslations>,
-) {
+export function createActivityInputSchema(t: ReturnType<typeof useTranslations>) {
   return createInsertSchema(projectActivitiesTable)
     .omit({
       id: true,
@@ -31,13 +30,14 @@ export function createActivityInputSchema(
     })
     .extend({
       distanceKm: createDistanceSchema(t),
-    });
+    })
+    .required({ distanceKm: true });
 }
 
 /**
  * Schema for updating activities from client
  * Cannot change projectId or id
- * 
+ *
  * @param t - Translation function from useTranslations() hook
  * @returns Zod schema for updating activities
  */
@@ -58,7 +58,7 @@ export function createUpdateActivityInputSchema(
 
 /**
  * Edit activity form item schema (includes id for existing activities)
- * 
+ *
  * @param t - Translation function from useTranslations() hook
  * @returns Zod schema for editing activities in forms
  */
@@ -89,15 +89,11 @@ export function createEditActivityFormItemSchema(
  */
 export const CreateActivityInputSchema = createInsertSchema(
   projectActivitiesTable,
-)
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    distanceKm: z.number(),
-  });
+).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
 
 /**
  * Static schema for updating activities (server-side, no i18n)
@@ -105,16 +101,12 @@ export const CreateActivityInputSchema = createInsertSchema(
  */
 export const UpdateActivityInputSchema = createUpdateSchema(
   projectActivitiesTable,
-)
-  .omit({
-    id: true,
-    projectId: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    distanceKm: z.number().optional(),
-  });
+).omit({
+  id: true,
+  projectId: true,
+  createdAt: true,
+  updatedAt: true,
+});
 
 /**
  * Activity form item schema (without projectId, used in project forms)
@@ -136,7 +128,6 @@ export const EditActivityFormItemSchema = createUpdateSchema(
   .extend({
     id: z.string(),
     projectId: z.string(),
-    distanceKm: z.number(),
     isNew: z.boolean().optional(),
     isDeleted: z.boolean().optional(),
   });

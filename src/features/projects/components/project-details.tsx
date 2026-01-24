@@ -322,8 +322,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
   const activitiesCount = activities?.length ?? 0;
   const totalDistance =
     activities?.reduce((sum, activity) => {
-      const distanceAsNumber = Number.parseFloat(activity.distanceKm);
-      return sum + (Number.isFinite(distanceAsNumber) ? distanceAsNumber : 0);
+      return sum + (Number.isFinite(activity.distanceKm) ? activity.distanceKm : 0);
     }, 0) ?? 0;
   const startDate = new Date(project.startDate);
   const endDate = new Date(project.endDate);

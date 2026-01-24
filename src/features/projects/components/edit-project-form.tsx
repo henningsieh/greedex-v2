@@ -260,6 +260,9 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
       if (!activity.activityType) {
         throw new Error("Activity type is required");
       }
+      if (activity.distanceKm === undefined) {
+        throw new Error("Distance is required");
+      }
 
       await createActivityMutation({
         projectId: project.id,
