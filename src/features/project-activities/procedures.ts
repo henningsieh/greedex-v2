@@ -89,9 +89,21 @@ export const createProjectActivity = authorized
       })
       .returning();
 
+    const newActivityWithRelations =
+      await db.query.projectActivitiesTable.findFirst({
+        where: eq(projectActivitiesTable.id, newActivity.id),
+        with: {
+          project: true,
+        },
+      });
+
+    if (!newActivityWithRelations) {
+      throw new Error("Failed to fetch newly created activity");
+    }
+
     return {
       success: true,
-      activity: newActivity,
+      activity: newActivityWithRelations,
     };
   });
 
@@ -171,9 +183,21 @@ export const updateProjectActivity = authorized
       .where(eq(projectActivitiesTable.id, input.id))
       .returning();
 
+    const updatedActivityWithRelations =
+      await db.query.projectActivitiesTable.findFirst({
+        where: eq(projectActivitiesTable.id, updatedActivity.id),
+        with: {
+          project: true,
+        },
+      });
+
+    if (!updatedActivityWithRelations) {
+      throw new Error("Failed to fetch updated activity");
+    }
+
     return {
       success: true,
-      activity: updatedActivity,
+      activity: updatedActivityWithRelations,
     };
   });
 
