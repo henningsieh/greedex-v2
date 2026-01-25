@@ -1038,7 +1038,12 @@
       "title": "Erscheinungsbild",
       "description": "Passe an, wie die Anwendung aussieht und sich anfühlt",
       "theme": "Design",
-      "themeDescription": "Wähle dein bevorzugtes Farbschema"
+      "themeDescription": "Wähle dein bevorzugtes Farbschema",
+      "themes": {
+        "light": "Helles Design",
+        "dark": "Dunkles Design",
+        "system": "Systemdesign"
+      }
     },
     "language": {
       "title": "Sprache & Region",

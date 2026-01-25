@@ -1038,7 +1038,12 @@
       "title": "Appearance",
       "description": "Customize how the application looks and feels",
       "theme": "Theme",
-      "themeDescription": "Choose your preferred color scheme"
+      "themeDescription": "Choose your preferred color scheme",
+      "themes": {
+        "light": "Light theme",
+        "dark": "Dark theme",
+        "system": "System theme"
+      }
     },
     "language": {
       "title": "Language & Region",
