@@ -16,18 +16,12 @@ import { activityUpdateSchema } from "@/features/project-activities/validation-s
 import { projectActivitiesTable } from "@/lib/drizzle/schema";
 // Import real translation messages
 import deMessages from "@/lib/i18n/translations/de.json";
-import enMessages from "@/lib/i18n/translations/en.json";
 
 /**
- * Create real next-intl translators for both English and German
+ * Create real next-intl translator for German
  * No namespace needed - validation schemas use full paths like
  * "project.activities.form.validation.distanceKm.min"
  */
-const tEn = createTranslator({
-  locale: "en",
-  messages: enMessages,
-});
-
 const tDe = createTranslator({
   locale: "de",
   messages: deMessages,
@@ -81,17 +75,17 @@ describe("Distance Constants", () => {
 
 describe("Distance Schema Factory", () => {
   it("should create non-optional schema by default", () => {
-    const schema = createDistanceSchema(tEn);
+    const schema = createDistanceSchema(tDe);
     expect(schema.safeParse(undefined).success).toBe(false);
   });
 
   it("should create optional schema when requested", () => {
-    const schema = createDistanceSchema(tEn, true);
+    const schema = createDistanceSchema(tDe, true);
     expect(schema.safeParse(undefined).success).toBe(true);
   });
 
   it("should apply consistent validation rules", () => {
-    const schema = createDistanceSchema(tEn);
+    const schema = createDistanceSchema(tDe);
     expect(schema.safeParse(0.05).success).toBe(false); // below min
     expect(schema.safeParse(0.1).success).toBe(true); // valid min
     expect(schema.safeParse(0.15).success).toBe(false); // wrong step
@@ -101,7 +95,7 @@ describe("Distance Schema Factory", () => {
   });
 
   it("should return i18n translated error messages", () => {
-    const schema = createDistanceSchema(tEn);
+    const schema = createDistanceSchema(tDe);
     const resultMin = schema.safeParse(0.05);
     const resultStep = schema.safeParse(0.15);
     const resultMax = schema.safeParse(6000.1);
@@ -110,37 +104,25 @@ describe("Distance Schema Factory", () => {
     if (!resultMin.success) {
       expect(resultMin.error.issues.length).toBeGreaterThan(0);
       expect(resultMin.error.issues[0].message).toContain(
-        "Distance must be at least",
+        "Entfernung muss mindestens",
       );
     }
 
     expect(resultStep.success).toBe(false);
     if (!resultStep.success) {
       expect(resultStep.error.issues.length).toBeGreaterThan(0);
-      expect(resultStep.error.issues[0].message).toContain("increments");
+      expect(resultStep.error.issues[0].message).toContain("Schritten");
     }
 
     expect(resultMax.success).toBe(false);
     if (!resultMax.success) {
       expect(resultMax.error.issues.length).toBeGreaterThan(0);
-      expect(resultMax.error.issues[0].message).toContain("cannot exceed");
+      expect(resultMax.error.issues[0].message).toContain("überschreiten");
     }
   });
 });
 
 describe("i18n Translation Integration", () => {
-  it("should use correct translation messages for English", () => {
-    const schema = createDistanceSchema(tEn);
-    const resultMin = schema.safeParse(0.05);
-
-    expect(resultMin.success).toBe(false);
-    if (!resultMin.success) {
-      expect(resultMin.error.issues[0].message).toBe(
-        "Distance must be at least 0.1 km",
-      );
-    }
-  });
-
   it("should use correct translation messages for German", () => {
     const schema = createDistanceSchema(tDe);
     const resultMin = schema.safeParse(0.05);
@@ -153,14 +135,14 @@ describe("i18n Translation Integration", () => {
     }
   });
 
-  it("should translate max distance errors for English", () => {
-    const schema = createDistanceSchema(tEn);
+  it("should translate max distance errors for German", () => {
+    const schema = createDistanceSchema(tDe);
     const resultMax = schema.safeParse(6000.1);
 
     expect(resultMax.success).toBe(false);
     if (!resultMax.success) {
       expect(resultMax.error.issues[0].message).toBe(
-        "Distance cannot exceed 6000 km",
+        "Die Entfernung darf 6000 km nicht überschreiten",
       );
     }
   });
@@ -177,15 +159,15 @@ describe("i18n Translation Integration", () => {
     }
   });
 
-  it("should treanslate parameters in English messages", () => {
-    const schema = createDistanceSchema(tEn);
+  it("should treanslate parameters in German messages", () => {
+    const schema = createDistanceSchema(tDe);
     const resultMin = schema.safeParse(0.05);
 
     expect(resultMin.success).toBe(false);
     if (!resultMin.success) {
       expect(resultMin.error.issues.length).toBeGreaterThan(0);
       expect(resultMin.error.issues[0].message).toBe(
-        "Distance must be at least 0.1 km",
+        "Die Entfernung muss mindestens 0.1 km betragen",
       );
     }
   });
@@ -205,7 +187,7 @@ describe("Floating-Point Edge Cases", () => {
   });
 
   it("should handle min/max boundaries correctly", () => {
-    const schema = createDistanceSchema(tEn);
+    const schema = createDistanceSchema(tDe);
 
     // Test exact boundaries
     expect(schema.safeParse(MIN_DISTANCE_KM).success).toBe(true); // 0.1
@@ -217,7 +199,7 @@ describe("Floating-Point Edge Cases", () => {
   });
 
   it("should handle floating point arithmetic correctly", () => {
-    const schema = createDistanceSchema(tEn);
+    const schema = createDistanceSchema(tDe);
 
     // Test common floating point problematic values
     expect(schema.safeParse(0.3).success).toBe(true); // 0.1 + 0.1 + 0.1
@@ -307,7 +289,7 @@ describe("Distance Validation Schemas", () => {
         isDeleted: false,
       };
 
-      const result = activityUpdateSchema(tEn).safeParse(validData);
+      const result = activityUpdateSchema(tDe).safeParse(validData);
       expect(result.success).toBe(true);
     });
 
@@ -323,7 +305,7 @@ describe("Distance Validation Schemas", () => {
         isDeleted: false,
       };
 
-      const result = activityUpdateSchema(tEn).safeParse(validData);
+      const result = activityUpdateSchema(tDe).safeParse(validData);
 
       expect(result.success).toBe(true);
     });
