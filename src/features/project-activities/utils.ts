@@ -1,6 +1,15 @@
 import type { useTranslations } from "next-intl";
+import type { getTranslations } from "next-intl/server";
 
 import { z } from "zod";
+
+/**
+ * Unified translation function type that works for both client and server
+ * Accepts return types from both useTranslations() and getTranslations()
+ */
+type TranslateFn =
+  | ReturnType<typeof useTranslations>
+  | Awaited<ReturnType<typeof getTranslations>>;
 
 import {
   DISTANCE_KM_STEP,
@@ -41,14 +50,13 @@ export function validateDistanceStep(value: number): boolean {
 /**
  * Create a Zod number schema for distance validation with consistent rules
  *
- * @param t - Translation function from useTranslations() hook
+ * Works for both client-side (useTranslations) and server-side (getTranslations)
+ *
+ * @param t - Translation function (from useTranslations() or await getTranslations())
  * @param isOptional - If true, makes the schema optional
  * @returns Zod number schema with min/max/step validation
  */
-export function createDistanceSchema(
-  t: ReturnType<typeof useTranslations>,
-  isOptional = false,
-) {
+export function createDistanceSchema(t: TranslateFn, isOptional = false) {
   const schema = z
     .number()
     .min(MIN_DISTANCE_KM, {

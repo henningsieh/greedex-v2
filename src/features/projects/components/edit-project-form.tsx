@@ -46,7 +46,6 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@/config/activities";
-import { EditActivityFormItemSchema } from "@/features/project-activities/validation-schemas";
 import {
   PROJECT_FORM_STEPS,
   PROJECT_FORM_TOTAL_STEPS,
@@ -106,19 +105,20 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   // Load existing activities into the form when they're fetched
   useEffect(() => {
     if (existingActivities && existingActivities.length > 0) {
-      const formattedActivities: z.infer<typeof EditActivityFormItemSchema>[] =
-        existingActivities.map((activity) => ({
-          id: activity.id,
-          projectId: activity.projectId,
-          activityType: activity.activityType,
-          distanceKm: activity.distanceKm,
-          description: activity.description,
-          activityDate: activity.activityDate
-            ? new Date(activity.activityDate)
-            : null,
-          isNew: false,
-          isDeleted: false,
-        }));
+      const formattedActivities: NonNullable<
+        z.infer<typeof EditProjectWithActivitiesSchema>["activities"]
+      > = existingActivities.map((activity) => ({
+        id: activity.id,
+        projectId: activity.projectId,
+        activityType: activity.activityType,
+        distanceKm: activity.distanceKm,
+        description: activity.description,
+        activityDate: activity.activityDate
+          ? new Date(activity.activityDate)
+          : null,
+        isNew: false,
+        isDeleted: false,
+      }));
       setValue("activities", formattedActivities);
     }
   }, [existingActivities, setValue]);
@@ -225,7 +225,9 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
    * @returns An array of activity type identifiers for activities that failed to process (uses `"unknown"` when the activity type is not available).
    */
   async function processActivities(
-    activities: z.infer<typeof EditActivityFormItemSchema>[],
+    activities: NonNullable<
+      z.infer<typeof EditProjectWithActivitiesSchema>["activities"]
+    >,
   ) {
     const failedActivities: string[] = [];
 
@@ -244,10 +246,12 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   /**
    * Apply the appropriate create, update, or delete operation for a single activity based on its form flags.
    *
-   * @param activity - An activity form item (matches `EditActivityFormItemSchema`). If `isDeleted` is true for an existing activity, it will be deleted; if `isNew` is true and not deleted, it will be created; if not new and not deleted, it will be updated. Other flag combinations are treated as no-ops.
+   * @param activity - An activity form item. If `isDeleted` is true for an existing activity, it will be deleted; if `isNew` is true and not deleted, it will be created; if not new and not deleted, it will be updated. Other flag combinations are treated as no-ops.
    */
   async function handleSingleActivity(
-    activity: z.infer<typeof EditActivityFormItemSchema>,
+    activity: NonNullable<
+      z.infer<typeof EditProjectWithActivitiesSchema>["activities"]
+    >[number],
   ) {
     // Deleted existing activity
     if (activity.isDeleted === true && activity.isNew === false && activity.id) {

@@ -29,9 +29,8 @@ import {
   MIN_DISTANCE_KM,
 } from "@/config/activities";
 import {
-  CreateActivityInputSchema,
-  createActivityInputSchema,
-  type UpdateActivityInputSchema,
+  activityInputSchema,
+  activityUpdateSchema,
 } from "@/features/project-activities/validation-schemas";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
@@ -66,10 +65,16 @@ export function ProjectActivityForm({
   const queryClient = useQueryClient();
   const isEditing = !!activity;
 
-  // Create schema with i18n translations
-  const ActivityInputSchema = useMemo(() => createActivityInputSchema(t), [t]);
+  // Create schemas with i18n translations (works client-side and server-side)
+  const CreateSchema = useMemo(() => activityInputSchema(t), [t]);
+  const UpdateSchema = useMemo(() => activityUpdateSchema(t), [t]);
 
-  type FormValues = z.infer<typeof ActivityInputSchema>;
+  // Use appropriate schema based on mode
+  const ActivityInputSchema = isEditing ? UpdateSchema : CreateSchema;
+
+  type CreateFormValues = z.infer<typeof CreateSchema>;
+  type UpdateFormValues = z.infer<typeof UpdateSchema>;
+  type FormValues = CreateFormValues | UpdateFormValues;
 
   const {
     register,
@@ -80,20 +85,26 @@ export function ProjectActivityForm({
   } = useForm<FormValues>({
     resolver: zodResolver(ActivityInputSchema),
     mode: "onChange",
-    defaultValues: {
-      projectId,
-      activityType: activity?.activityType,
-      distanceKm:
-        activity?.distanceKm !== undefined
-          ? activity.distanceKm
-          : MIN_DISTANCE_KM,
-      description: activity?.description ?? null,
-      activityDate: activity?.activityDate ?? null,
-    } as FormValues,
+    defaultValues: isEditing
+      ? {
+          // Update mode: no projectId
+          activityType: activity.activityType,
+          distanceKm: activity.distanceKm,
+          description: activity.description ?? null,
+          activityDate: activity.activityDate ?? null,
+        }
+      : {
+          // Create mode: includes projectId
+          projectId,
+          activityType: undefined,
+          distanceKm: MIN_DISTANCE_KM,
+          description: null,
+          activityDate: null,
+        },
   });
 
   const createMutation = useMutation({
-    mutationFn: (values: z.infer<typeof ActivityInputSchema>) =>
+    mutationFn: (values: CreateFormValues) =>
       orpc.projectActivities.create(values),
     onSuccess: (result) => {
       if (result.success) {
@@ -116,7 +127,7 @@ export function ProjectActivityForm({
   });
 
   const updateMutation = useMutation({
-    mutationFn: (values: z.infer<typeof UpdateActivityInputSchema>) => {
+    mutationFn: (values: UpdateFormValues) => {
       if (!activity?.id) {
         throw new Error("Activity ID is required for update");
       }
@@ -149,14 +160,15 @@ export function ProjectActivityForm({
   /**
    * Submit validated activity input to create a new project activity or update an existing one.
    *
-   * @param values - Activity input validated against `CreateActivityInputSchema`
+   * @param values - Activity input validated against appropriate schema (create or update)
    */
-  async function onSubmit(values: z.infer<typeof CreateActivityInputSchema>) {
+  async function onSubmit(values: FormValues) {
     if (isEditing) {
-      const { projectId: _, ...updateValues } = values;
-      await updateMutation.mutateAsync(updateValues);
+      // values is already validated against UpdateSchema (no projectId)
+      await updateMutation.mutateAsync(values as UpdateFormValues);
     } else {
-      await createMutation.mutateAsync(values);
+      // values is validated against CreateSchema (includes projectId)
+      await createMutation.mutateAsync(values as CreateFormValues);
     }
   }
 
@@ -170,6 +182,9 @@ export function ProjectActivityForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {/* Hidden projectId field for create mode */}
+      {!isEditing && <input type="hidden" {...register("projectId")} />}
+
       <FieldGroup>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field data-invalid={!!errors.activityType}>
