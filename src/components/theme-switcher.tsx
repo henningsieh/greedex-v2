@@ -1,34 +1,17 @@
 "use client";
 
-import { Monitor, Moon, Sun } from "lucide-react";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
 
+import { themes, type ThemeKey } from "@/lib/themes";
 import { cn } from "@/lib/utils";
 
-const themes = [
-  {
-    key: "light",
-    icon: Sun,
-    label: "Light theme",
-  },
-  {
-    key: "dark",
-    icon: Moon,
-    label: "Dark theme",
-  },
-  {
-    key: "system",
-    icon: Monitor,
-    label: "System theme",
-  },
-];
-
 export interface ThemeSwitcherProps {
-  value?: "light" | "dark" | "system";
-  onChange?: (theme: "light" | "dark" | "system") => void;
-  defaultValue?: "light" | "dark" | "system";
+  value?: ThemeKey;
+  onChange?: (theme: ThemeKey) => void;
+  defaultValue?: ThemeKey;
   className?: string;
 }
 
@@ -39,13 +22,14 @@ export const ThemeSwitcher = ({
   className,
 }: ThemeSwitcherProps) => {
   const [mounted, setMounted] = useState(false);
+  const t = useTranslations("userSettings.appearance.themes");
 
   const { theme, setTheme } = useTheme();
 
   const currentTheme = value !== undefined ? value : theme;
 
   const handleThemeClick = useCallback(
-    (themeKey: "light" | "dark" | "system") => {
+    (themeKey: ThemeKey) => {
       if (onChange) {
         onChange(themeKey);
       } else {
@@ -80,7 +64,9 @@ export const ThemeSwitcher = ({
     >
       <motion.div
         animate={{
-          x: [3.8, 26.8, 50][themes.findIndex((t) => t.key === currentTheme)],
+          x: [3.8, 26.8, 50][
+            themes.findIndex((theme) => theme.key === currentTheme)
+          ],
         }}
         className="absolute left-0 size-6 rounded-full bg-accent"
         style={{ top: "calc(50% - 11.5px)" }}
@@ -89,15 +75,16 @@ export const ThemeSwitcher = ({
           duration: 0.3,
         }}
       />
-      {themes.map(({ key, icon: Icon, label }) => {
+      {themes.map(({ key, icon: Icon }) => {
         const isActive = currentTheme === key;
 
         return (
           <button
-            aria-label={label}
+            aria-label={t(key)}
+            title={t(key)}
             className="relative size-6 rounded-full outline-none hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"
             key={key}
-            onClick={() => handleThemeClick(key as "light" | "dark" | "system")}
+            onClick={() => handleThemeClick(key)}
             type="button"
           >
             <Icon
