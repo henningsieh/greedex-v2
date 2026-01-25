@@ -9,7 +9,7 @@
 
 import { describe, expect, it } from "vitest";
 
-import { MILLISECONDS_PER_DAY } from "@/config/projects";
+import { MILLISECONDS_PER_DAY } from "@/features/projects/utils";
 
 describe("Project Details Statistics", () => {
   describe("Duration Calculation", () => {

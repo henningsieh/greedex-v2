@@ -13,7 +13,7 @@ countries.registerLocale(deCountries);
 import {
   EU_COUNTRY_CODES,
   isEUCountry as isEUCountryBase,
-} from "@/config/eu-countries";
+} from "@greendex/config/eu-countries";
 
 export interface CountryData {
   code: string;

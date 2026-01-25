@@ -1,5 +1,6 @@
 "use client";
 
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { FolderOpenIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -13,7 +14,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { CreateProjectButton } from "@/features/projects/components/create-project-button";
 import { ProjectsGrid } from "@/features/projects/components/dashboard/projects-grid";
 import { ProjectsTable } from "@/features/projects/components/dashboard/projects-table";

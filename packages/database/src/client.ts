@@ -17,7 +17,9 @@ declare global {
 /**
  * Create a new database connection with the given connection string
  */
-export function createDbConnection(connectionString: string): NodePgDatabase<typeof schema> {
+export function createDbConnection(
+  connectionString: string,
+): NodePgDatabase<typeof schema> {
   const pool = new Pool({
     connectionString,
     max: 10,

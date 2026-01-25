@@ -1,6 +1,6 @@
+import { EU_COUNTRY_CODES } from "@greendex/config/eu-countries";
 import { describe, expect, it } from "vitest";
 
-import { EU_COUNTRY_CODES } from "@/config/eu-countries";
 import {
   getAllCountries,
   getCountryData,

@@ -1,10 +1,10 @@
+import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 
 import { ContentContainer } from "@/components/content-container";
 import { PageHeader } from "@/components/page-header";
-import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { OrganizationDashboard } from "@/features/organizations/components/organization-dashboard";
 import { ORGANIZATION_ICONS } from "@/features/organizations/organization-icons";
 import { MEMBER_ROLES } from "@/features/organizations/types";

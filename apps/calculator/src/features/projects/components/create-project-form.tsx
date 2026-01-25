@@ -2,6 +2,12 @@
 
 import type { z } from "zod";
 
+import {
+  ACTIVITY_VALUES,
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
+} from "@greendex/config/activities";
+import { DEFAULT_PROJECT_DURATION_DAYS } from "@greendex/config/projects";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createInsertSchema } from "drizzle-zod";
@@ -38,19 +44,13 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  ACTIVITY_VALUES,
-  DISTANCE_KM_STEP,
-  MIN_DISTANCE_KM,
-} from "@/config/activities";
-import {
-  DEFAULT_PROJECT_DURATION_DAYS,
-  MILLISECONDS_PER_DAY,
-} from "@/config/projects";
-import {
   PROJECT_FORM_STEPS,
   PROJECT_FORM_TOTAL_STEPS,
 } from "@/features/projects/project-form-steps";
-import { getProjectDetailPath } from "@/features/projects/utils";
+import {
+  getProjectDetailPath,
+  MILLISECONDS_PER_DAY,
+} from "@/features/projects/utils";
 import { CreateProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
 import { projectActivitiesTable } from "@/lib/drizzle/schema";
 import { useRouter } from "@/lib/i18n/routing";

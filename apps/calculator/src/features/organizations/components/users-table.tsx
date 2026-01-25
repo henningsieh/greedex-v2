@@ -2,6 +2,8 @@
 
 import type z from "zod";
 
+import { MEMBER_SORT_FIELDS } from "@greendex/config/organizations";
+import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   type ColumnDef,
@@ -41,8 +43,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MEMBER_SORT_FIELDS } from "@/config/organizations";
-import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import { SortableHeader } from "@/features/projects/components/sortable-header";
 import { orpcQuery } from "@/lib/orpc/orpc";
 

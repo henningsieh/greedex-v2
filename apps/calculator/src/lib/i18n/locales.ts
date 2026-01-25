@@ -1,18 +1,15 @@
 import type { ComponentType, SVGProps } from "react";
 
-// biome-ignore lint/performance/noNamespaceImport: <the list of country flags is flexible and will change based on supported locales>
+import {
+  LOCALE_CODES,
+  SUPPORTED_LOCALES,
+  type LocaleCode,
+  type SupportedLocale,
+} from "@greendex/config/languages";
 import * as Flags from "country-flag-icons/react/3x2";
 import countries from "i18n-iso-countries";
 import deCountries from "i18n-iso-countries/langs/de.json";
 import enCountries from "i18n-iso-countries/langs/en.json";
-
-import {
-  LOCALE_CODES,
-  type LocaleCode,
-  SUPPORTED_LOCALES,
-  type SupportedLocale,
-} from "@/config/languages";
-
 countries.registerLocale(enCountries);
 countries.registerLocale(deCountries);
 

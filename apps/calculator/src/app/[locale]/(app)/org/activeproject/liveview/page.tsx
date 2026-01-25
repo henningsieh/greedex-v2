@@ -68,12 +68,15 @@
  * Real-time updates would be handled via WebSockets.
  */
 
+import {
+  ACTIVITY_VALUES,
+  ACTIVITY_EMISSION_FACTORS,
+} from "@greendex/config/activities";
 import { MapPinnedIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import type { Participant, ProjectStats } from "@/features/participate/types";
 
-import { ACTIVITY_VALUES, ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
 import { Leaderboard } from "@/features/liveview/leaderboard";
 import { LiveIndicator } from "@/features/liveview/live-indicator";
 import { StatsOverview } from "@/features/liveview/stats-overview";

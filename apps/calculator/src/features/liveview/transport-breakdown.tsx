@@ -1,9 +1,10 @@
 "use client";
 
+import { ACTIVITY_VALUES } from "@greendex/config/activities";
+
 import type { ProjectStats } from "@/features/participate/types";
 
 import { Card } from "@/components/ui/card";
-import { ACTIVITY_VALUES } from "@/config/activities";
 import { PROJECT_ACTIVITIES_ICONS } from "@/features/project-activities/activities-icons";
 
 interface TransportIconProps {

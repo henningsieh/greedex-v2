@@ -167,8 +167,8 @@ export const FOOD_VALUES = FOOD_DATA.map(([value]) => value);
 // ============================================================================
 // CAR TYPE CONFIGURATION
 // ============================================================================
-import { PARTICIPANT_ACTIVITY_VALUES } from "./activities";
-export const CAR_TYPE_VALUES = PARTICIPANT_ACTIVITY_VALUES.filter((v) =>
+import { PARTICIPANT_ACTIVITY_VALUES } from "@greendex/config/activities";
+export const CAR_TYPE_VALUES = PARTICIPANT_ACTIVITY_VALUES.filter((v: string) =>
   v.toLowerCase().includes("car"),
 );
 

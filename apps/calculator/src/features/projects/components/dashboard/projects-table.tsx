@@ -1,6 +1,11 @@
 "use client";
 
 import {
+  DEFAULT_PAGE_SIZE,
+  PAGE_SIZE_OPTIONS,
+  type PageSizeOption,
+} from "@greendex/config/pagination";
+import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
@@ -69,11 +74,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import {
-  DEFAULT_PAGE_SIZE,
-  PAGE_SIZE_OPTIONS,
-  type PageSizeOption,
-} from "@/config/pagination";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import { ProjectTableColumns } from "@/features/projects/components/dashboard/projects-table-columns";
 import {

@@ -1,3 +1,10 @@
+import type { EUCountryCode } from "@greendex/config/eu-countries";
+
+import {
+  ACTIVITY_VALUES,
+  DECIMAL_PRECISION,
+  DECIMAL_SCALE,
+} from "@greendex/config/activities";
 import { createId } from "@paralleldrive/cuid2";
 import { relations } from "drizzle-orm";
 import {
@@ -8,14 +15,8 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 
-import type { EUCountryCode } from "@/config/eu-countries";
 import type { ActivityValueType } from "@/features/project-activities/types";
 
-import {
-  ACTIVITY_VALUES,
-  DECIMAL_PRECISION,
-  DECIMAL_SCALE,
-} from "@/config/activities";
 import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
 
 /**

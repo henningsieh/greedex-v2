@@ -97,7 +97,7 @@ export const DEFAULT_PROJECT_SORT = {
 
 ```typescript
 import type { projectsTable } from "@/lib/drizzle/schema";
-import { DEFAULT_PROJECT_SORT as CONFIG_DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { DEFAULT_PROJECT_SORT as CONFIG_DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 
 /**
  * Project sort field values (type-safe)
@@ -156,7 +156,7 @@ const BAD_SORT_FIELDS = [...PROJECT_SORT_FIELDS, "nonexistent"] as const satisfi
 **Purpose**: Convert centralized configuration to TanStack Table's `SortingState` format.
 
 ```typescript
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 
 /**
  * Convert project default sort to TanStack SortingState
@@ -339,7 +339,7 @@ const table = useReactTable({
 **File**: `src/features/projects/procedures.ts`
 
 ```typescript
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 
 export const listProjects = authorized
   .use(requireProjectPermissions(["read"]))
@@ -414,7 +414,7 @@ export const listProjects = authorized
 **Files**: `src/app/[locale]/(app)/org/projects/page.tsx`, `src/app/[locale]/(app)/org/dashboard/page.tsx`
 
 ```typescript
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 
 // Server-side prefetch ensures data is cached before React hydration
 await Promise.all([

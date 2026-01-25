@@ -9,6 +9,7 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true,
+    globalSetup: ["./src/__tests__/global-setup.ts"],
     setupFiles: ["./src/__tests__/setup.ts"],
     // Increase test timeout to 20 seconds for Next.js dev server startup
     testTimeout: 20_000,

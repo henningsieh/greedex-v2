@@ -20,6 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "@greendex/*": ["../../packages/*/src"],
       "#next-routes/*": ["./.next/dev/types/*", "./.next/types/*"]
     }
   },
@@ -31,7 +32,11 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     ".next-inspect/types/**/*.ts",
-    ".next-inspect/dev/types/**/*.ts"
+    ".next-inspect/dev/types/**/*.ts",
+    "../../packages/config/src/projects.ts",
+    "../../packages/config/src/pagination.ts",
+    "../../packages/config/src/organizations.ts",
+    "../../packages/config/src/participate.ts"
   ],
   "exclude": ["node_modules"]
 }

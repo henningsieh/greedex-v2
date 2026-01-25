@@ -1,3 +1,4 @@
+import { ACTIVITY_EMISSION_FACTORS } from "@greendex/config/activities";
 import { describe, expect, it } from "vitest";
 
 import type {
@@ -5,8 +6,6 @@ import type {
   ParticipantActivityValueType,
 } from "@/features/participate/types";
 import type { ActivityValueType } from "@/features/project-activities/types";
-
-import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
 
 describe("Participant Activity Types", () => {
   it("should allow all project activity types for ParticipantActivity", () => {

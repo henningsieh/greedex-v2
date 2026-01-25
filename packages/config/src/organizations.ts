@@ -1,4 +1,4 @@
-import type { member, user } from "@/lib/drizzle/schemas/auth-schema";
+import { member, user } from "@greendex/database/schema";
 
 /**
  * Organization Configuration

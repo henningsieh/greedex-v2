@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
-import { LOCALE_CODES } from "@/config/languages";
+import { LOCALE_CODES } from "@greendex/config/languages";
+
 import { BASE_URL } from "@/config/metadata";
 
 // Regex for removing trailing slash - moved to top level for performance

@@ -1,8 +1,8 @@
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
 
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import { ProjectParticipantWithUserSchema } from "@/features/participants/validation-schemas";
 import { ProjectActivityWithRelationsSchema } from "@/features/project-activities/validation-schemas";

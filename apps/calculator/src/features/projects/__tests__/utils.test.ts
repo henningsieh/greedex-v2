@@ -1,6 +1,6 @@
+import { ACTIVITY_EMISSION_FACTORS } from "@greendex/config/activities";
 import { describe, expect, it } from "vitest";
 
-import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
 import {
   calculateProjectDuration,
   getProjectStatistics,

@@ -10,8 +10,6 @@
  * Updated as of 2024 - 27 EU member states
  */
 
-import type { EUCountryCode, EUCountryConfig } from "@greendex/types";
-
 /**
  * Marker size constants for globe visualization
  * DEFAULT: Standard size for most cities
@@ -28,7 +26,7 @@ export const MARKER_SIZE = {
  *
  * Using `as const` to preserve literal types for type-safe country code validation
  */
-export const EU_COUNTRIES: readonly EUCountryConfig[] = [
+export const EU_COUNTRIES = [
   {
     code: "AT",
     capital: "Vienna",
@@ -226,15 +224,35 @@ export const EU_COUNTRIES: readonly EUCountryConfig[] = [
  */
 export const EU_COUNTRY_CODES = EU_COUNTRIES.map((country) => country.code);
 
-// Re-export types from @greendex/types
-export type { EUCountryCode, EUCountryConfig } from "@greendex/types";
+/**
+ * Type-safe EU country code (literal union of all valid codes)
+ */
+export type EUCountryCode = (typeof EU_COUNTRIES)[number]["code"];
+
+/**
+ * Type for EU country configuration entries
+ */
+export type EUCountryConfig = (typeof EU_COUNTRIES)[number];
+
+// UNUSED: getEUCountryConfig
+// /**
+//  * Get EU country configuration by country code
+//  * @param countryCode ISO 3166-1 alpha-2 country code
+//  * @returns EU country configuration or undefined if not found
+//  */
+// export const getEUCountryConfig = (
+//   countryCode: string,
+// ): EUCountryConfig | undefined => {
+//   const code = countryCode.toUpperCase();
+//   return EU_COUNTRIES.find((country) => country.code === code);
+// };
 
 /**
  * Check if a country code is an EU member state
  * @param countryCode ISO 3166-1 alpha-2 country code
  * @returns true if the country is an EU member state
  */
-export const isEUCountry = (countryCode: string): countryCode is EUCountryCode => {
+export const isEUCountry = (countryCode: string): boolean => {
   const code = countryCode.toUpperCase();
   return EU_COUNTRIES.some((country) => country.code === code);
 };

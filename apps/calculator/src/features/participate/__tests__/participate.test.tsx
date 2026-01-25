@@ -1,8 +1,4 @@
-import { describe, expect, it } from "vitest";
-
-import type { ProjectActivityType } from "@/features/project-activities/types";
-
-import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
+import { ACTIVITY_EMISSION_FACTORS } from "@greendex/config/activities";
 import {
   ACCOMMODATION_DATA,
   CO2_PER_TREE_PER_YEAR,
@@ -10,7 +6,11 @@ import {
   FOOD_DATA,
   GREEN_ENERGY_REDUCTION_FACTOR,
   ROOM_OCCUPANCY_FACTORS,
-} from "@/config/participate";
+} from "@greendex/config/participate";
+import { describe, expect, it } from "vitest";
+
+import type { ProjectActivityType } from "@/features/project-activities/types";
+
 import {
   ACCOMMODATION_FACTORS,
   FOOD_FACTORS,

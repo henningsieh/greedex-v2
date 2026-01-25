@@ -9,7 +9,6 @@
  *
  * Note: These tests require a running server and are skipped in CI if the server is not available.
  */
-// @ts-expect-error - playwright types should be from @playwright/test
 import { chromium } from "playwright";
 import { beforeAll, describe, expect, it } from "vitest";
 
@@ -156,6 +155,43 @@ describe("OpenAPI REST Endpoint", () => {
       const data = await response.json();
 
       expect(data.message).toContain("World");
+    });
+
+    it("should handle valid JSON request with complete response validation", async () => {
+      if (!serverAvailable) {
+        return it.skip("Server not available");
+      }
+
+      const requestBody = { name: "Alice" };
+      const response = await fetch(`${baseUrl}/helloWorld`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      expect(response.status).toBe(200);
+      expect(response.headers.get("Content-Type")).toContain("application/json");
+
+      const data = await response.json();
+
+      // Validate complete response structure
+      expect(data).toHaveProperty("message");
+      expect(data.message).toBe("Hello, Alice!");
+      expect(data).toHaveProperty("timestamp");
+      expect(typeof data.timestamp).toBe("string");
+
+      // Timestamp should be a valid ISO string
+      const timestamp = new Date(data.timestamp);
+      expect(timestamp).toBeInstanceOf(Date);
+      expect(isNaN(timestamp.getTime())).toBe(false);
+
+      // Timestamp should be recent (within last minute)
+      const now = new Date();
+      const timeDiff = Math.abs(now.getTime() - timestamp.getTime());
+      expect(timeDiff).toBeLessThan(60000); // 60 seconds
     });
   });
 

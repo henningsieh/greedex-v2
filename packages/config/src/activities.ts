@@ -1,22 +1,34 @@
 /**
- * Project Activity Configuration
- * Single source of truth for activity types, distance settings, and emission factors
+ * Activity types and configuration
+ * Type definitions for project and participant activities plus emission factors
  */
 
-import {
-  ACTIVITY_VALUES,
-  PARTICIPANT_ACTIVITY_VALUES,
-  type ActivityValueType,
-  type ParticipantActivityValueType,
-} from "@greendex/types";
+/**
+ * Available activity/transport types for projects
+ * Used in database schema, forms, and calculations
+ */
+export const ACTIVITY_VALUES = ["boat", "bus", "train", "car"] as const;
 
-// Re-export types from @greendex/types
-export {
-  ACTIVITY_VALUES,
-  PARTICIPANT_ACTIVITY_VALUES,
-  type ActivityValueType,
-  type ParticipantActivityValueType,
-} from "@greendex/types";
+/**
+ * Type for project activity values
+ */
+export type ActivityValueType = (typeof ACTIVITY_VALUES)[number];
+
+/**
+ * Participant activities extend project activities with plane and electric car
+ * These additional transport modes are specific to participant questionnaires
+ */
+export const PARTICIPANT_ACTIVITY_VALUES = [
+  ...ACTIVITY_VALUES,
+  "plane",
+  "electricCar",
+] as const;
+
+/**
+ * Type for participant activity values
+ */
+export type ParticipantActivityValueType =
+  (typeof PARTICIPANT_ACTIVITY_VALUES)[number];
 
 // ============================================================================
 // DISTANCE CONFIGURATIONS

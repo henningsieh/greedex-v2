@@ -1,12 +1,12 @@
-import { createInsertSchema } from "drizzle-zod";
-import { createTranslator } from "next-intl";
-import { describe, expect, it } from "vitest";
-
 import {
   DISTANCE_KM_STEP,
   MAX_DISTANCE_KM,
   MIN_DISTANCE_KM,
-} from "@/config/activities";
+} from "@greendex/config/activities";
+import { createInsertSchema } from "drizzle-zod";
+import { createTranslator } from "next-intl";
+import { describe, expect, it } from "vitest";
+
 import {
   createDistanceSchema,
   isMultipleOfStep,

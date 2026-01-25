@@ -5,9 +5,7 @@
  * used in the participant questionnaire flow.
  */
 
-import type { ProjectActivityType } from "@/features/project-activities/types";
-
-import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
+import { ACTIVITY_EMISSION_FACTORS } from "@greendex/config/activities";
 import {
   CO2_PER_TREE_PER_YEAR,
   CONVENTIONAL_ENERGY_FACTOR,
@@ -15,7 +13,10 @@ import {
   GREEN_ENERGY_REDUCTION_FACTOR,
   ROOM_OCCUPANCY_FACTORS,
   ROUND_TRIP_MULTIPLIER,
-} from "@/config/participate";
+} from "@greendex/config/participate";
+
+import type { ProjectActivityType } from "@/features/project-activities/types";
+
 import { calculateActivitiesCO2 } from "@/features/projects/utils";
 
 import {

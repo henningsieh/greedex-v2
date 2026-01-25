@@ -14,4 +14,4 @@ export type ProjectActivityType = InferSelectModel<typeof projectActivitiesTable
 /**
  * Re-export activity value type from config for convenience
  */
-export type { ActivityValueType } from "@/config/activities";
+export type { ActivityValueType } from "@greendex/config/activities";

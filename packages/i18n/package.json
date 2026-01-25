@@ -17,9 +17,5 @@
   },
   "peerDependencies": {
     "next-intl": "^4.0.0"
-  },
-  "devDependencies": {
-    "next-intl": "^4.6.1",
-    "typescript": "^6.0.0-dev.20260124"
   }
 }

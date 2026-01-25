@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
+import { config } from "dotenv";
 import createNextIntlPlugin from "next-intl/plugin";
+import { resolve } from "node:path";
+
+// Load environment variables from repository root
+// This is needed in Turborepo monorepo where .env is at repo root, not in app folder
+config({ path: resolve(__dirname, "../../.env") });
 
 const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR || ".next",

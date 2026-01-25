@@ -14,13 +14,8 @@
   },
   "dependencies": {
     "@greendex/config": "workspace:*",
-    "@greendex/types": "workspace:*",
     "@paralleldrive/cuid2": "^3.0.6",
     "drizzle-orm": "^0.45.1",
     "pg": "^8.17.2"
-  },
-  "devDependencies": {
-    "@types/pg": "^8.16.0",
-    "typescript": "^6.0.0-dev.20260124"
   }
 }

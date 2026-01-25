@@ -4,6 +4,7 @@
  * Organization team page with list of members
  */
 
+import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
 import { UsersIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { headers as nextHeaders } from "next/headers";
@@ -11,7 +12,6 @@ import { Suspense } from "react";
 
 import { ContentContainer } from "@/components/content-container";
 import { PageHeader } from "@/components/page-header";
-import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import {
   TeamTableSkeleton,
   UsersTable,

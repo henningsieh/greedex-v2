@@ -1,10 +1,14 @@
 "use client";
 
+import {
+  DEFAULT_PROJECT_SORT,
+  ProjectSortField,
+} from "@greendex/config/projects";
 import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo, useState } from "react";
 
-import type { ProjectSortField, ProjectType } from "@/features/projects/types";
+import type { ProjectType } from "@/features/projects/types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +21,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Empty, EmptyDescription } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
 import { ProjectCard } from "@/features/projects/components/project-card";
 import { PROJECT_SORT_FIELDS } from "@/features/projects/types";
 import {

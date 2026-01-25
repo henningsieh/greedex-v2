@@ -2,6 +2,7 @@
  * Email sending utility
  */
 import type { Transporter } from "nodemailer";
+
 import { maskEmail } from "./utils";
 
 export interface SendEmailOptions {

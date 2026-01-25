@@ -26,7 +26,6 @@
     "@types/react-dom": "19.2.3",
     "oxfmt": "^0.26.0",
     "oxlint": "^1.41.0",
-    "tailwindcss": "^4.1.18",
-    "typescript": "^6.0.0-dev.20260124"
+    "tailwindcss": "^4.1.18"
   }
 }

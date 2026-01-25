@@ -32,14 +32,15 @@ Learn more at [greendex.world](https://greendex.world) and [calculator.greendex.
 | Layer                | Technology                         | Purpose                                             |
 | -------------------- | ---------------------------------- | --------------------------------------------------- |
 | **Frontend**         | Next.js 16 (App Router) + React 19 | Server & client components, type-safe UI            |
-| **Language**         | TypeScript 5.x                     | Type safety across the stack                        |
-| **UI Framework**     | shadcn/ui + Tailwind CSS           | Component library + responsive design               |
+| **Language**         | TypeScript 6.x                     | Type safety across the stack                        |
+| **UI Framework**     | shadcn/ui + Tailwind CSS 4         | Component library + responsive design               |
 | **Authentication**   | Better Auth + Organization Plugin  | Multi-tenant auth, org/member management            |
 | **State Management** | nuqs                               | URL-based tab persistence (no extra backend state)  |
 | **Database**         | PostgreSQL + Drizzle ORM           | Type-safe migrations and queries                    |
 | **Server**           | Node.js + Socket.IO                | Custom server for WebSocket POC, real-time features |
-| **Code Quality**     | Biome                              | Fast linting & formatting                           |
-| **Package Manager**  | Bun                                | Fast, zero-config package management                |
+| **Monorepo**         | Turborepo + pnpm workspaces        | Build system, caching, task orchestration           |
+| **Code Quality**     | Oxc (oxlint + oxfmt)               | Rust-based linting & formatting                     |
+| **Package Manager**  | pnpm                               | Fast, efficient workspace management                |
 
 ---
 
@@ -47,28 +48,40 @@ Learn more at [greendex.world](https://greendex.world) and [calculator.greendex.
 
 ### Prerequisites
 
-- [Bun](https://bun.sh/) (or Node.js 18+)
+- [Node.js 18+](https://nodejs.org/) and [pnpm](https://pnpm.io/)
 - PostgreSQL database
-- Environment variables (see `.env.example` or `.env`)
+- Environment variables (see `.env` setup below)
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/henningsieh/greedex-v2.git
-cd greedex-v2
+git clone https://github.com/henningsieh/greedex-calculator.git
+cd greedex-calculator
 
-# Install dependencies
-bun install
+# Install dependencies (Turborepo will install all workspace packages)
+pnpm install
 ```
 
 ### Environment Setup
 
-Create a `.env.local` file based on your configuration:
+**Important**: This is a **Turborepo monorepo**. The `.env` file must be placed at the **repository root** (not inside `apps/calculator/`).
+
+Create a `.env` file at the root of the repository:
 
 ```bash
 # Database
 DATABASE_URL=postgresql://user:password@localhost:5432/greendex
+
+# Next.js
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+PORT=3000
+NODE_ENV=development
+ORPC_DEV_DELAY_MS=0
+NEXT_DIST_DIR=.next
+
+# Socket.IO
+SOCKET_PORT=4000
 
 # Authentication (Better Auth)
 BETTER_AUTH_SECRET=your-secret-key
@@ -76,8 +89,10 @@ BETTER_AUTH_SECRET=your-secret-key
 # Email (Nodemailer)
 SMTP_HOST=smtp.example.com
 SMTP_PORT=587
-SMTP_USER=your-email@example.com
+SMTP_SENDER=your-email@example.com
+SMTP_USERNAME=your-email@example.com
 SMTP_PASSWORD=your-password
+SMTP_SECURE=false
 
 # OAuth (optional)
 GOOGLE_CLIENT_ID=your-google-client-id
@@ -88,56 +103,87 @@ DISCORD_CLIENT_ID=your-discord-client-id
 DISCORD_CLIENT_SECRET=your-discord-client-secret
 ```
 
+**Why at root?**
+
+- The `apps/calculator/` app and future `packages/` both need these variables
+- `next.config.ts` and `socket-server.ts` are configured to load `.env` from the repository root
+- This follows Turborepo best practices for shared environment configuration
+
 ### Development
 
-Run the development server with Socket.IO support (decoupled for memory leak prevention):
+Run the development server with Socket.IO support (runs both Next.js and Socket.IO servers):
 
 ```bash
-bun run dev
+# Run dev server for calculator app
+pnpm run dev
+
+# Run all workspace tasks (if you have multiple apps)
+pnpm turbo run dev
+
+# Run type checking across all packages
+pnpm turbo run type-check
 ```
 
-Visit your configured `NEXT_PUBLIC_BASE_URL` in your browser. The Socket.IO server runs separately on port 4000.
+Visit your configured `NEXT_PUBLIC_BASE_URL` in your browser (default: `http://localhost:3000`). The Socket.IO server runs separately on port 4000.
 
 ### Build & Production
 
 ```bash
-# Build: compile Next.js application
-bun run build
+# Build all packages and apps
+pnpm turbo run build
 
-# Start: run production server
-bun run start
+# Build only the calculator app
+pnpm --filter @greendex/calculator build
 
-# Lint & format with Biome
-bun run lint
-bun run format
+# Start production server
+pnpm --filter @greendex/calculator start
+
+# Lint & format
+pnpm turbo run lint
+pnpm turbo run format
 ```
 
 ---
 
-## Project Structure
+## Project Structure (Turborepo Monorepo)
 
 ```
-src/
-├── app/                          # Next.js App Router
-│   ├── (app)/                   # Protected routes (authenticated users)
-│   │   ├── dashboard/           # Org dashboard with tabs (Dashboard, Team, Projects)
-│   │   ├── org/create/          # Organization creation onboarding
-│   │   └── layout.tsx           # Auth guard, redirect to /org/create if no org
-│   ├── (auth)/                  # Auth routes (login, signup, verify email)
-│   ├── api/auth/[...all]/       # Better Auth API route
-│   └── layout.tsx               # Root layout + metadata
-├── lib/
-│   ├── better-auth/             # Auth config, client initialization
-│   ├── drizzle/                 # Database schema, migrations
-│   ├── email/                   # Email templates & Nodemailer config
-│   └── validations/             # Zod schemas (shared client/server)
-├── components/
-│   ├── features/                # Feature-specific components
-│   │   ├── authentication/      # Login, signup, session UI
-│   │   └── organizations/       # Org creation forms, modals
-│   └── ui/                      # shadcn/ui + custom components
-├── hooks/                        # React hooks (e.g., use-mobile)
-└── server.ts                    # Custom Node.js server (Socket.IO, Next handler)
+├── apps/
+│   ├── calculator/                   # Main Next.js application
+│   │   ├── src/
+│   │   │   ├── app/                  # Next.js App Router
+│   │   │   │   ├── (app)/           # Protected routes (authenticated users)
+│   │   │   │   │   ├── dashboard/   # Org dashboard with tabs
+│   │   │   │   │   ├── org/create/  # Organization creation onboarding
+│   │   │   │   │   └── layout.tsx   # Auth guard, redirect to /org/create if no org
+│   │   │   │   ├── (auth)/          # Auth routes (login, signup, verify email)
+│   │   │   │   ├── api/auth/[...all]/ # Better Auth API route
+│   │   │   │   └── layout.tsx       # Root layout + metadata
+│   │   │   ├── lib/
+│   │   │   │   ├── better-auth/     # Auth config, client initialization
+│   │   │   │   ├── drizzle/         # Database schema, migrations
+│   │   │   │   ├── email/           # Email templates & Nodemailer config
+│   │   │   │   └── validations/     # Zod schemas (shared client/server)
+│   │   │   ├── components/
+│   │   │   │   ├── features/        # Feature-specific components
+│   │   │   │   │   ├── authentication/ # Login, signup, session UI
+│   │   │   │   │   └── organizations/  # Org creation forms, modals
+│   │   │   │   └── ui/              # shadcn/ui + custom components
+│   │   │   ├── hooks/               # React hooks (e.g., use-mobile)
+│   │   │   └── socket-server.ts     # Socket.IO server
+│   │   └── package.json
+│   └── docs/                         # Fumadocs documentation (placeholder)
+├── packages/
+│   ├── types/                        # Shared TypeScript types
+│   ├── config/                       # Shared configuration constants
+│   ├── database/                     # Drizzle ORM schemas + client factory
+│   ├── i18n/                         # next-intl config + translations
+│   ├── auth/                         # Better Auth client utilities
+│   └── email/                        # React Email templates + Nodemailer
+├── .env                              # ⚠️ Environment variables (root level, not in apps/calculator/)
+├── turbo.json                        # Turborepo pipeline configuration
+├── pnpm-workspace.yaml               # pnpm workspace configuration
+└── package.json                      # Root package.json (delegates to turbo)
 ```
 
 ---
@@ -173,24 +219,27 @@ src/
 
 ## Database & Migrations
 
-The project uses **Drizzle ORM** with **PostgreSQL**. Better Auth automatically manages its own tables (user, session, account, verification, organization, member, invitation) and generates the schema in `src/lib/drizzle/schemas/auth-schema.ts`.
+The project uses **Drizzle ORM** with **PostgreSQL**. Better Auth automatically manages its own tables (user, session, account, verification, organization, member, invitation) and generates the schema in `apps/calculator/src/lib/drizzle/schemas/auth-schema.ts`.
 
-**Important:** Never edit `auth-schema.ts` manually. To add custom fields to Better Auth tables, use the `additionalFields` option in the Better Auth configuration (see `src/lib/better-auth/index.ts`). Custom database schema (e.g., projects, participants) are combined in `src/lib/drizzle/schema.ts`.
+**Important:** Never edit `auth-schema.ts` manually. To add custom fields to Better Auth tables, use the `additionalFields` option in the Better Auth configuration (see `apps/calculator/src/lib/better-auth/index.ts`). Custom database schema (e.g., projects, participants) are combined in `apps/calculator/src/lib/drizzle/schema.ts`.
 
 ### Run migrations
 
 ```bash
 # Generate Better Auth schema (auto-generates auth-schema.ts)
-bun run auth:generate
+pnpm --filter @greendex/calculator auth:generate
 
 # Generate migration files for custom schema
-bun run db:generate
+pnpm --filter @greendex/calculator db:generate
 
 # Apply migrations
-bun run db:migrate
+pnpm --filter @greendex/calculator db:migrate
+
+# Open Drizzle Studio (database GUI)
+pnpm --filter @greendex/calculator db:studio
 ```
 
-Migrations are stored in `src/lib/drizzle/migrations/`.
+Migrations are stored in `apps/calculator/src/lib/drizzle/migrations/`.
 
 ---
 
@@ -198,44 +247,47 @@ Migrations are stored in `src/lib/drizzle/migrations/`.
 
 This project uses **Better Auth** with the **Organization Plugin** for:
 
-- Email/password + OAuth (GitHub, Discord) authentication
+- Email/password + OAuth (GitHub, Discord, Google) authentication
 - Multi-tenant organization management
 - Role-based access control (owner, admin, member)
 - Invitation workflows for adding team members
 
-Configuration: `src/lib/better-auth/index.ts`  
-Client: `src/lib/better-auth/auth-client.ts`
+Configuration: `apps/calculator/src/lib/better-auth/index.ts`  
+Client: `apps/calculator/src/lib/better-auth/auth-client.ts`
 
 ---
 
 ## WebSocket & Real-Time (Socket.IO)
 
-A POC for **Socket.IO** is implemented in `src/socket-server.ts` (decoupled from the Next.js server):
+A POC for **Socket.IO** is implemented in `apps/calculator/src/socket-server.ts` (decoupled from the Next.js server):
 
-- Run both servers in dev with `bun run dev` (starts Next.js on 3000 and Socket.IO on 4000)
-- Use `bun run dev:inspect` to run an inspect/dev instance on `3001` and a socket server on `4001` (helps avoid port collisions while debugging)
-- Production requires `bun run build` then `bun run start` (both `out/server.js` and `out/socket-server.js` will be launched)
+- Run both servers in dev with `pnpm run dev` from `apps/calculator/` (starts Next.js on 3000 and Socket.IO on 4000)
+- Use `pnpm run dev:inspect` to run an inspect/dev instance on `3001` and a socket server on `4001` (helps avoid port collisions while debugging)
+- Production requires `pnpm turbo run build` then `pnpm --filter @greendex/calculator start` (both Next.js and Socket.IO will be launched)
 
-To add real-time features (e.g., live team updates), attach Socket.IO event handlers in `src/socket-server.ts` and import the client in your React components.
+To add real-time features (e.g., live team updates), attach Socket.IO event handlers in `apps/calculator/src/socket-server.ts` and import the client in your React components.
 
 ---
 
 ## Code Quality & Linting
 
-This project uses **Biome** for fast, zero-config linting and formatting.
+This project uses **Oxc** for extremely fast linting and formatting (Rust-based).
 
 ```bash
-# Lint
-bun run lint
+# Lint all packages
+pnpm turbo run lint
 
-# Format
-bun run format
+# Format all packages
+pnpm turbo run format
 
-# Check + fix (one command)
-bun run lint --fix
+# Lint only calculator app
+pnpm --filter @greendex/calculator lint
+
+# Format only calculator app
+pnpm --filter @greendex/calculator format
 ```
 
-Configuration: `biome.json`
+Configuration: `apps/calculator/.oxlintrc.json` and formatting rules in `docs/oxc/`
 
 ---
 

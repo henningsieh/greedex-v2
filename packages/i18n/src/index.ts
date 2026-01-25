@@ -10,7 +10,7 @@ export {
   DEFAULT_LOCALE,
   type SupportedLocale,
   type LocaleCode,
-} from "@greendex/config";
+} from "@greendex/config/languages";
 
 // Export i18n configuration
 export * from "./config";

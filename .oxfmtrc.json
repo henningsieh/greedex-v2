@@ -4,6 +4,7 @@
   "ignorePatterns": [
     "node_modules/**",
     ".next/**",
+    "/apps/calculator/.next/**",
     "dist/**",
     "build/**",
     "docs/**",

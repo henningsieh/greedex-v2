@@ -2,6 +2,11 @@
 
 import type z from "zod";
 
+import {
+  ACTIVITY_VALUES,
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
+} from "@greendex/config/activities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -23,11 +28,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  ACTIVITY_VALUES,
-  DISTANCE_KM_STEP,
-  MIN_DISTANCE_KM,
-} from "@/config/activities";
 import {
   activityInputSchema,
   activityUpdateSchema,

@@ -15,7 +15,7 @@ import {
   DISTANCE_KM_STEP,
   MAX_DISTANCE_KM,
   MIN_DISTANCE_KM,
-} from "@/config/activities";
+} from "@greendex/config/activities";
 
 /**
  * Distance utility functions for project activities

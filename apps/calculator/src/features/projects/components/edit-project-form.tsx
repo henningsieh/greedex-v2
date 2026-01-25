@@ -2,6 +2,11 @@
 
 import type { z } from "zod";
 
+import {
+  ACTIVITY_VALUES,
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
+} from "@greendex/config/activities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isDefinedError } from "@orpc/client";
 import {
@@ -41,11 +46,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  ACTIVITY_VALUES,
-  DISTANCE_KM_STEP,
-  MIN_DISTANCE_KM,
-} from "@/config/activities";
 import {
   PROJECT_FORM_STEPS,
   PROJECT_FORM_TOTAL_STEPS,

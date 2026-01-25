@@ -340,7 +340,7 @@ export const auth = betterAuth({
 Control invitation lifecycle:
 
 ```ts title="auth.ts"
-import { MILLISECONDS_PER_DAY } from "@/lib/utils/project-utils";
+import { MILLISECONDS_PER_DAY } from "@/features/projects/utils";
 export const auth = betterAuth({
   plugins: [
     organization({

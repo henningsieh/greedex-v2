@@ -1,20 +1,14 @@
 import type { InferSelectModel } from "drizzle-orm";
 import type { z } from "zod";
 
-import type { projectsTable } from "@/lib/drizzle/schema";
+import { ProjectSortField } from "@greendex/config/projects";
+import { projectsTable } from "@greendex/database";
 
 import type {
   ProjectSortFieldSchema,
   ProjectWithActivitiesSchema,
   ProjectWithRelationsSchema,
 } from "./validation-schemas";
-
-/**
- * Project sort field values (type-safe)
- */
-type ProjectColumns = keyof typeof projectsTable.$inferSelect;
-
-export type ProjectSortField = ProjectColumns;
 
 export const PROJECT_SORT_FIELDS = [
   "name",

@@ -1,23 +1,30 @@
 import type z from "zod";
 
+import { ACTIVITY_EMISSION_FACTORS } from "@greendex/config/activities";
+import {
+  DEFAULT_PROJECT_SORT,
+  ProjectSortField,
+} from "@greendex/config/projects";
 import { asc, desc, type SQL, sql } from "drizzle-orm";
 import React from "react";
 
 import type { ProjectActivityType } from "@/features/project-activities/types";
 import type {
   ListProjectsInput,
-  ProjectSortField,
   ProjectStatistics,
   ProjectType,
 } from "@/features/projects/types";
 import type { ProjectSortFieldSchema } from "@/features/projects/validation-schemas";
 
 import { type AppRoute, PROJECT_DETAIL_PATH } from "@/app/routes";
-import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
-import { DEFAULT_PROJECT_SORT, MILLISECONDS_PER_DAY } from "@/config/projects";
 import { PROJECT_ACTIVITIES_ICONS } from "@/features/project-activities/activities-icons";
 import { projectsTable } from "@/lib/drizzle/schema";
 import { orpc } from "@/lib/orpc/orpc";
+
+/**
+ * Milliseconds in one day (used for date/time calculations).
+ */
+export const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
 /**
  * Get the project detail path for a given project ID

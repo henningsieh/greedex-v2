@@ -1,11 +1,9 @@
 // Test setup file
 // This file runs before all tests
 
-import { config } from "dotenv";
 import { vi } from "vitest";
 
-// Load .env into process.env (prefer existing ENV values if present)
-config({ path: [".env"], quiet: true });
+// Environment variables are loaded in global-setup.ts
 
 // Mock the auth client to avoid environment variable validation during tests
 vi.mock("@/lib/better-auth/auth-client", () => ({

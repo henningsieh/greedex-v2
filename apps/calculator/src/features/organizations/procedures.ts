@@ -1,10 +1,10 @@
+import { MEMBER_SORT_FIELDS } from "@greendex/config/organizations";
 import { ORPCError } from "@orpc/server";
 import { and, count, countDistinct, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import type { MemberSortField } from "@/features/organizations/types";
 
-import { MEMBER_SORT_FIELDS } from "@/config/organizations";
 import {
   MemberRoleSchema,
   MemberWithUserSchema,

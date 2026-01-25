@@ -86,7 +86,15 @@
   },
   "chat.tools.terminal.autoApprove": {
     ".specify/scripts/bash/": true,
-    ".specify/scripts/powershell/": true
+    ".specify/scripts/powershell/": true,
+    "pnpm": true
+  },
+  "chat.tools.edits.autoApprove": {
+    "**/*": true,
+    "**/.vscode/*.json": false,
+    "**/.git/**": false,
+    "**/{package.json,package-lock.json,server.xml,build.rs,web.config,.gitattributes,.env}": true,
+    "**/*.{code-workspace,csproj,fsproj,vbproj,vcxproj,proj,targets,props}": false
   },
 
   // GitLens

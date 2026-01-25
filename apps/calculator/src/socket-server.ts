@@ -1,8 +1,25 @@
-import "dotenv/config";
+import { config } from "dotenv";
+import { existsSync } from "node:fs";
 import { createServer } from "node:http";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { Server } from "socket.io";
 
-import { env } from "@/env";
+// Load environment variables from monorepo root BEFORE importing env.ts
+// In Turborepo, the .env file is at the repository root, not in apps/calculator
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const envPath = resolve(__dirname, "../../../.env");
+
+if (!existsSync(envPath)) {
+  console.error(`❌ .env file not found at: ${envPath}`);
+  process.exit(1);
+}
+
+config({ path: envPath });
+
+// Import env AFTER dotenv is configured (dynamic import to avoid hoisting)
+const { env } = await import("@/env");
 
 const socketPort = env.SOCKET_PORT;
 const corsOrigin = env.NEXT_PUBLIC_BASE_URL;

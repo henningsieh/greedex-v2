@@ -3,7 +3,11 @@
  * Shared locale configuration for the monorepo
  */
 
-import { SUPPORTED_LOCALES, LOCALE_CODES, DEFAULT_LOCALE } from "@greendex/config";
+import {
+  SUPPORTED_LOCALES,
+  LOCALE_CODES,
+  DEFAULT_LOCALE,
+} from "@greendex/config/languages";
 
 /**
  * Check if a locale is supported

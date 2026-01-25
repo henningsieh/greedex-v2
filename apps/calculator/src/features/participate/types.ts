@@ -1,22 +1,22 @@
+import type { ParticipantActivityValueType } from "@greendex/config/activities";
 import type { z } from "zod";
-
-import type { ParticipantActivityValueType } from "@/config/activities";
-import type { ParticipantSchema } from "@/features/participants/validation-schemas";
-import type { ProjectWithActivitiesType } from "@/features/projects/types";
 
 import {
   ACCOMMODATION_DATA,
+  FOOD_DATA,
   type ACCOMMODATION_VALUES,
   type CAR_TYPE_VALUES,
   type ELECTRICITY_VALUES,
-  FOOD_DATA,
   type FOOD_VALUES,
   type GENDER_VALUES,
   type ROOM_OCCUPANCY_VALUES,
-} from "@/config/participate";
+} from "@greendex/config/participate";
+
+import type { ParticipantSchema } from "@/features/participants/validation-schemas";
+import type { ProjectWithActivitiesType } from "@/features/projects/types";
 
 // ============================================================================
-// QUESTIONNAIRE ANSWER TYPES
+// PARTICIPATE ANSWER TYPES
 // ============================================================================
 
 /**
@@ -144,7 +144,7 @@ export type Project = ProjectWithActivitiesType;
 /**
  * Re-export participant activity value type from config
  */
-export type { ParticipantActivityValueType } from "@/config/activities";
+export type { ParticipantActivityValueType } from "@greendex/config/activities";
 
 /**
  * Participation activity type - computed values for UI display

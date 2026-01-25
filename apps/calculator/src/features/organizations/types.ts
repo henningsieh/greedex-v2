@@ -1,8 +1,4 @@
-// ============================================================================
-// MEMBER ROLES
-// ============================================================================
-
-import type { MEMBER_SORT_FIELDS } from "@/config/organizations";
+import type { MEMBER_SORT_FIELDS } from "@greendex/config/organizations";
 
 /**
  * Organization member role definitions

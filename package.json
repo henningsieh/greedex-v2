@@ -2,12 +2,11 @@
   "name": "greendex-monorepo",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@10.13.1",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "turbo run format",
+    "lint": "oxlint --fix --fix-suggestions --fix-dangerously",
+    "format": "oxfmt",
     "test": "turbo run test",
     "test:run": "turbo run test:run",
     "type-check": "turbo run type-check",
@@ -19,6 +18,10 @@
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "turbo": "^2.5.3"
-  }
+    "oxfmt": "^0.26.0",
+    "oxlint": "^1.41.0",
+    "turbo": "^2.5.3",
+    "typescript": "^6.0.0-dev.20260124"
+  },
+  "packageManager": "pnpm@10.13.1"
 }

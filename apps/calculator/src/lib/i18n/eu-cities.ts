@@ -1,4 +1,4 @@
-import { EU_COUNTRIES } from "../../config/eu-countries";
+import { EU_COUNTRIES } from "@greendex/config/eu-countries";
 
 /**
  * EU Capital Cities with coordinates

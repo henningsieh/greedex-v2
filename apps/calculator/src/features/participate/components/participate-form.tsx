@@ -1,5 +1,17 @@
 "use client";
 
+import {
+  ACCOMMODATION_OPTIONS,
+  CAR_TYPE_OPTIONS,
+  ELECTRICITY_OPTIONS,
+  EMISSION_IMPACT_STEPS,
+  FOOD_OPTIONS,
+  GENDER_OPTIONS,
+  getParticipateStepsKey,
+  QUESTIONNAIRE_STEPS,
+  PARTICIPATE_TOTAL_STEPS,
+  ROOM_OCCUPANCY_OPTIONS,
+} from "@greendex/config/participate";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
@@ -14,18 +26,6 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import {
-  ACCOMMODATION_OPTIONS,
-  CAR_TYPE_OPTIONS,
-  ELECTRICITY_OPTIONS,
-  EMISSION_IMPACT_STEPS,
-  FOOD_OPTIONS,
-  GENDER_OPTIONS,
-  getParticipateStepsKey,
-  QUESTIONNAIRE_STEPS,
-  PARTICIPATE_TOTAL_STEPS,
-  ROOM_OCCUPANCY_OPTIONS,
-} from "@/config/participate";
 import { ImpactModal } from "@/features/participate/components/participate-impact-modal";
 import {
   areAllNonEmpty,

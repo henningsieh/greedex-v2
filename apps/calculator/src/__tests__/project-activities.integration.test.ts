@@ -1,8 +1,9 @@
+import type { EUCountryCode } from "@greendex/config/eu-countries";
+
 import { eq, like, sql } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import type { EUCountryCode } from "@/config/eu-countries";
 import type { ProjectActivityType } from "@/features/project-activities/types";
 import type { ProjectType } from "@/features/projects/types";
 

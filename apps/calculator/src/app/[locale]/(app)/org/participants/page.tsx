@@ -4,13 +4,13 @@
  * Organization participants page with list of participants
  */
 
+import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
 import { getTranslations } from "next-intl/server";
 import { headers as nextHeaders } from "next/headers";
 import { Suspense } from "react";
 
 import { ContentContainer } from "@/components/content-container";
 import { PageHeader } from "@/components/page-header";
-import { DEFAULT_PAGE_SIZE } from "@/config/pagination";
 import { TeamTableSkeleton } from "@/features/organizations/components/users-table";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import { ParticipantsTable } from "@/features/participants/components/participants-table";

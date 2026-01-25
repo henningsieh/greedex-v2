@@ -1,3 +1,4 @@
+import { EU_COUNTRY_CODES } from "@greendex/config/eu-countries";
 import {
   createInsertSchema,
   createSelectSchema,
@@ -5,7 +6,6 @@ import {
 } from "drizzle-zod";
 import { z } from "zod";
 
-import { EU_COUNTRY_CODES } from "@/config/eu-countries";
 import { ProjectActivityWithRelationsSchema } from "@/features/project-activities/validation-schemas";
 import {
   organization,
