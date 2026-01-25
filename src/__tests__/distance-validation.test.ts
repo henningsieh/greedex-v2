@@ -177,7 +177,7 @@ describe("i18n Translation Integration", () => {
     }
   });
 
-  it("should properly interpolate parameters in English messages", () => {
+  it("should treanslate parameters in English messages", () => {
     const schema = createDistanceSchema(tEn);
     const resultMin = schema.safeParse(0.05);
 
@@ -186,19 +186,6 @@ describe("i18n Translation Integration", () => {
       expect(resultMin.error.issues.length).toBeGreaterThan(0);
       expect(resultMin.error.issues[0].message).toBe(
         "Distance must be at least 0.1 km",
-      );
-    }
-  });
-
-  it("should properly interpolate parameters in German messages", () => {
-    const schema = createDistanceSchema(tDe);
-    const resultMin = schema.safeParse(0.05);
-
-    expect(resultMin.success).toBe(false);
-    if (!resultMin.success) {
-      expect(resultMin.error.issues.length).toBeGreaterThan(0);
-      expect(resultMin.error.issues[0].message).toBe(
-        "Die Entfernung muss mindestens 0.1 km betragen",
       );
     }
   });
