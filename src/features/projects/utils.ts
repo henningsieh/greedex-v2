@@ -7,11 +7,13 @@ import type { ProjectActivityType } from "@/features/project-activities/types";
 import type {
   ListProjectsInput,
   ProjectSortField,
+  ProjectStatistics,
   ProjectType,
 } from "@/features/projects/types";
 import type { ProjectSortFieldSchema } from "@/features/projects/validation-schemas";
 
 import { type AppRoute, PROJECT_DETAIL_PATH } from "@/app/routes";
+import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
 import { DEFAULT_PROJECT_SORT, MILLISECONDS_PER_DAY } from "@/config/projects";
 import { PROJECT_ACTIVITIES_ICONS } from "@/features/project-activities/activities-icons";
 import { projectsTable } from "@/lib/drizzle/schema";
@@ -160,6 +162,16 @@ export function createProjectComparator(
  * @param endDate The end date of the project
  * @returns The duration of the project in days
  */
+/**
+ * Compute the project duration in days in a tolerant way.
+ *
+ * - Returns 0 for invalid dates or when end is before start.
+ * - Uses Math.ceil to match UI expectations (partial days count as a full day).
+ *
+ * @param startDate The start date of the project
+ * @param endDate The end date of the project
+ * @returns The duration in whole days (>= 0)
+ */
 export const calculateProjectDuration = (
   startDate: string | Date,
   endDate: string | Date,
@@ -167,36 +179,59 @@ export const calculateProjectDuration = (
   const start = new Date(startDate);
   const end = new Date(endDate);
 
-  if (Number.isNaN(start.getTime())) {
-    throw new Error("Invalid start date provided");
-  }
-  if (Number.isNaN(end.getTime())) {
-    throw new Error("Invalid end date provided");
-  }
-  if (end.getTime() < start.getTime()) {
-    throw new Error("End date must be after or equal to start date");
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    return 0;
   }
 
-  return Math.floor((end.getTime() - start.getTime()) / MILLISECONDS_PER_DAY);
+  const diffInMs = end.getTime() - start.getTime();
+  if (!Number.isFinite(diffInMs) || diffInMs < 0) {
+    return 0;
+  }
+
+  return Math.max(0, Math.ceil(diffInMs / MILLISECONDS_PER_DAY));
 };
 
 /**
- * CO₂ emission factors in kilograms per kilometer for various transport modes.
+ * Compute commonly used statistics for a project in one place so the UI and other
+ * consumers get consistent, testable values.
+ *
+ * The function is tolerant of missing inputs and returns sensible defaults.
  */
-export const CO2_FACTORS = {
-  car: 0.192,
-  boat: 0.115,
-  bus: 0.089,
-  train: 0.041,
-  // Reserved for participant questionnaire calculations:
-  plane: 0.255,
-  electricCar: 0.053,
-} as const;
+export function getProjectStatistics(
+  project:
+    | { startDate?: string | Date; endDate?: string | Date }
+    | null
+    | undefined,
+  participants?: Array<unknown> | null,
+  activities?: ProjectActivityType[] | null,
+): ProjectStatistics {
+  const participantsCount = participants?.length ?? 0;
+  const activitiesCount = activities?.length ?? 0;
+
+  const totalDistance = (activities ?? []).reduce((sum, activity) => {
+    const distanceKm = Number(activity.distanceKm);
+    return sum + (Number.isFinite(distanceKm) && distanceKm > 0 ? distanceKm : 0);
+  }, 0);
+
+  const durationDays = project
+    ? calculateProjectDuration(project.startDate ?? "", project.endDate ?? "")
+    : 0;
+
+  const activitiesCO2Kg = calculateActivitiesCO2(activities ?? []);
+
+  return {
+    participantsCount,
+    activitiesCount,
+    totalDistanceKm: totalDistance,
+    durationDays,
+    activitiesCO2Kg,
+  };
+}
 
 /**
  * Type for valid activity types that can be used in CO2 calculations.
  */
-type ValidActivityType = keyof typeof CO2_FACTORS;
+type ValidActivityType = keyof typeof ACTIVITY_EMISSION_FACTORS;
 
 /**
  * Check if an activity type has a known CO2 factor.
@@ -207,7 +242,7 @@ type ValidActivityType = keyof typeof CO2_FACTORS;
 function hasValidCO2Factor(
   activityType: string,
 ): activityType is ValidActivityType {
-  return activityType in CO2_FACTORS;
+  return activityType in ACTIVITY_EMISSION_FACTORS;
 }
 
 /**
@@ -233,7 +268,7 @@ function calculateSingleActivityCO2(
   }
 
   // Calculate emissions based on activity type
-  return distanceKm * CO2_FACTORS[activityType];
+  return distanceKm * ACTIVITY_EMISSION_FACTORS[activityType];
 }
 
 /**

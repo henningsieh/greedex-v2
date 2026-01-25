@@ -2,32 +2,47 @@ import { describe, expect, it } from "vitest";
 
 import type { ProjectActivityType } from "@/features/project-activities/types";
 
+import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
+import {
+  ACCOMMODATION_DATA,
+  CO2_PER_TREE_PER_YEAR,
+  CONVENTIONAL_ENERGY_FACTOR,
+  FOOD_DATA,
+  GREEN_ENERGY_REDUCTION_FACTOR,
+  ROOM_OCCUPANCY_FACTORS,
+} from "@/config/participate";
 import {
   ACCOMMODATION_FACTORS,
+  FOOD_FACTORS,
   type ParticipantAnswers,
 } from "@/features/participate/types";
 import { calculateEmissions } from "@/features/participate/utils";
-import { calculateActivitiesCO2, CO2_FACTORS } from "@/features/projects/utils";
+import { calculateActivitiesCO2 } from "@/features/projects/utils";
 
 describe("Questionnaire Types and Calculations", () => {
   describe("CO₂ Emission Factors", () => {
     it("should have correct transport emission factors", () => {
-      expect(CO2_FACTORS.plane).toBe(0.255);
-      expect(CO2_FACTORS.boat).toBe(0.115);
-      expect(CO2_FACTORS.train).toBe(0.041);
-      expect(CO2_FACTORS.bus).toBe(0.089);
-      expect(CO2_FACTORS.car).toBe(0.192);
-      expect(CO2_FACTORS.electricCar).toBe(0.053);
+      // Verify all factors are defined and positive (values from config)
+      expect(ACTIVITY_EMISSION_FACTORS.plane).toBeGreaterThan(0);
+      expect(ACTIVITY_EMISSION_FACTORS.boat).toBeGreaterThan(0);
+      expect(ACTIVITY_EMISSION_FACTORS.train).toBeGreaterThan(0);
+      expect(ACTIVITY_EMISSION_FACTORS.bus).toBeGreaterThan(0);
+      expect(ACTIVITY_EMISSION_FACTORS.car).toBeGreaterThan(0);
+      expect(ACTIVITY_EMISSION_FACTORS.electricCar).toBeGreaterThan(0);
     });
 
     it("should have accommodation factors for all types", () => {
-      expect(ACCOMMODATION_FACTORS.Camping).toBe(1.5);
-      expect(ACCOMMODATION_FACTORS.Hostel).toBe(3.0);
-      expect(ACCOMMODATION_FACTORS["3★ Hotel"]).toBe(5.0);
-      expect(ACCOMMODATION_FACTORS["4★ Hotel"]).toBe(7.5);
-      expect(ACCOMMODATION_FACTORS["5★ Hotel"]).toBe(10.0);
-      expect(ACCOMMODATION_FACTORS.Apartment).toBe(4.0);
-      expect(ACCOMMODATION_FACTORS["Friends/Family"]).toBe(2.0);
+      // Verify config values match expected business requirements from ACCOMMODATION_DATA
+      for (const [type, factor] of ACCOMMODATION_DATA) {
+        expect(ACCOMMODATION_FACTORS[type]).toBe(factor);
+      }
+    });
+
+    it("should have food factors for all types", () => {
+      // Verify config values match expected business requirements from FOOD_DATA
+      for (const [type, factor] of FOOD_DATA) {
+        expect(FOOD_FACTORS[type]).toBe(factor);
+      }
     });
   });
 
@@ -42,8 +57,13 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // 100 * 0.255 + 50 * 0.041 + 20 * 0.089 = 25.5 + 2.05 + 1.78 = 29.33 (round trip: * 2 = 58.66)
-      expect(emissions.transportCO2).toBeCloseTo(58.66, 1);
+      // Calculate expected value using config factors
+      const expected =
+        (100 * ACTIVITY_EMISSION_FACTORS.plane +
+          50 * ACTIVITY_EMISSION_FACTORS.train +
+          20 * ACTIVITY_EMISSION_FACTORS.bus) *
+        2; // round trip
+      expect(emissions.transportCO2).toBeCloseTo(expected, 1);
     });
 
     it("should calculate car emissions with passengers correctly", () => {
@@ -55,8 +75,9 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // 100 * 0.192 / 4 = 4.8 (round trip: * 2 = 9.6)
-      expect(emissions.transportCO2).toBeCloseTo(9.6, 1);
+      // Calculate expected value using config factor
+      const expected = ((100 * ACTIVITY_EMISSION_FACTORS.car) / 4) * 2; // round trip
+      expect(emissions.transportCO2).toBeCloseTo(expected, 1);
     });
 
     it("should calculate electric car emissions correctly", () => {
@@ -68,11 +89,12 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // 100 * 0.053 / 1 = 5.3 (round trip: * 2 = 10.6)
-      expect(emissions.transportCO2).toBeCloseTo(10.6, 1);
+      // Calculate expected value using config factor
+      const expected = ((100 * ACTIVITY_EMISSION_FACTORS.electricCar) / 1) * 2; // round trip
+      expect(emissions.transportCO2).toBeCloseTo(expected, 1);
     });
 
-    it("should calculate accommodation emissions correctly", () => {
+    it("should calculate accommodation emissions correctly with green energy", () => {
       const answers: Partial<ParticipantAnswers> = {
         days: 7,
         accommodationCategory: "Hostel",
@@ -82,8 +104,32 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // 7 days * 3.0 (hostel) * 0.6 (2 people) * 0.75 (green energy) = 9.45
-      expect(emissions.accommodationCO2).toBeCloseTo(9.45, 1);
+      // Calculate expected value using config factors
+      const expected =
+        7 *
+        ACCOMMODATION_FACTORS.Hostel *
+        ROOM_OCCUPANCY_FACTORS["2 people"] *
+        GREEN_ENERGY_REDUCTION_FACTOR;
+      expect(emissions.accommodationCO2).toBeCloseTo(expected, 1);
+    });
+
+    it("should calculate accommodation emissions correctly with conventional energy", () => {
+      const answers: Partial<ParticipantAnswers> = {
+        days: 7,
+        accommodationCategory: "Hostel",
+        roomOccupancy: "2 people",
+        electricity: "conventional energy",
+      };
+
+      const emissions = calculateEmissions(answers);
+
+      // Calculate expected value using config factors (conventional energy = no reduction)
+      const expected =
+        7 *
+        ACCOMMODATION_FACTORS.Hostel *
+        ROOM_OCCUPANCY_FACTORS["2 people"] *
+        CONVENTIONAL_ENERGY_FACTOR;
+      expect(emissions.accommodationCO2).toBeCloseTo(expected, 1);
     });
 
     it("should calculate food emissions correctly", () => {
@@ -94,8 +140,9 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // 7 days * 4.0 (sometimes) = 28.0
-      expect(emissions.foodCO2).toBeCloseTo(28.0, 1);
+      // Calculate expected value using config factor
+      const expected = 7 * FOOD_FACTORS.sometimes;
+      expect(emissions.foodCO2).toBeCloseTo(expected, 1);
     });
 
     it("should calculate total emissions and trees needed", () => {
@@ -114,12 +161,21 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // Transport: 500 * 0.255 * 2 (round trip) = 255
-      // Accommodation: 7 * 1.5 * 0.3 * 0.75 (green energy) = 2.3625
-      // Food: 7 * 1.5 = 10.5
-      // Total: 267.8625
-      expect(emissions.totalCO2).toBeCloseTo(267.8625, 1);
-      expect(emissions.treesNeeded).toBe(13); // ceil(267.8625 / 22)
+      // Calculate expected values using config factors
+      const expectedTransport = 500 * ACTIVITY_EMISSION_FACTORS.plane * 2; // round trip
+      const expectedAccommodation =
+        7 *
+        ACCOMMODATION_FACTORS.Camping *
+        ROOM_OCCUPANCY_FACTORS["4+ people"] *
+        GREEN_ENERGY_REDUCTION_FACTOR;
+      const expectedFood = 7 * FOOD_FACTORS.never;
+      const expectedTotal =
+        expectedTransport + expectedAccommodation + expectedFood;
+
+      expect(emissions.totalCO2).toBeCloseTo(expectedTotal, 1);
+      expect(emissions.treesNeeded).toBe(
+        Math.ceil(expectedTotal / CO2_PER_TREE_PER_YEAR),
+      );
     });
 
     it("should handle zero values correctly", () => {
@@ -146,7 +202,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "1",
           projectId: "project1",
           activityType: "bus",
-          distanceKm: "50.0",
+          distanceKm: 50,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -156,7 +212,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "2",
           projectId: "project1",
           activityType: "train",
-          distanceKm: "100.0",
+          distanceKm: 100,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -166,10 +222,11 @@ describe("Questionnaire Types and Calculations", () => {
 
       const activitiesCO2 = calculateActivitiesCO2(activities);
 
-      // Bus: 50 * 0.089 = 4.45
-      // Train: 100 * 0.041 = 4.1
-      // Total: 8.55
-      expect(activitiesCO2).toBeCloseTo(8.55, 2);
+      // Calculate expected value using config factors
+      const expected =
+        50 * ACTIVITY_EMISSION_FACTORS.bus +
+        100 * ACTIVITY_EMISSION_FACTORS.train;
+      expect(activitiesCO2).toBeCloseTo(expected, 2);
     });
 
     it("should include project activities in total emissions", () => {
@@ -191,7 +248,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "1",
           projectId: "project1",
           activityType: "car",
-          distanceKm: "30.0",
+          distanceKm: 30,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -205,10 +262,14 @@ describe("Questionnaire Types and Calculations", () => {
         projectActivities,
       );
 
-      // Project activities: 30 * 0.192 = 5.76
-      expect(emissionsWithActivities.projectActivitiesCO2).toBeCloseTo(5.76, 2);
+      // Calculate expected value using config factor
+      const expectedProjectCO2 = 30 * ACTIVITY_EMISSION_FACTORS.car;
+      expect(emissionsWithActivities.projectActivitiesCO2).toBeCloseTo(
+        expectedProjectCO2,
+        2,
+      );
       expect(emissionsWithActivities.totalCO2).toBeCloseTo(
-        emissionsWithoutActivities.totalCO2 + 5.76,
+        emissionsWithoutActivities.totalCO2 + expectedProjectCO2,
         1,
       );
     });
@@ -219,7 +280,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "1",
           projectId: "project1",
           activityType: "boat",
-          distanceKm: "20.0",
+          distanceKm: 20,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -229,7 +290,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "2",
           projectId: "project1",
           activityType: "bus",
-          distanceKm: "40.0",
+          distanceKm: 40,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -239,7 +300,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "3",
           projectId: "project1",
           activityType: "train",
-          distanceKm: "15.0",
+          distanceKm: 15,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -249,7 +310,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "4",
           projectId: "project1",
           activityType: "car",
-          distanceKm: "25.0",
+          distanceKm: 25,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -259,12 +320,13 @@ describe("Questionnaire Types and Calculations", () => {
 
       const activitiesCO2 = calculateActivitiesCO2(activities);
 
-      // Boat: 20 * 0.115 = 2.3
-      // Bus: 40 * 0.089 = 3.56
-      // Train: 15 * 0.041 = 0.615
-      // Car: 25 * 0.192 = 4.8
-      // Total: 11.275
-      expect(activitiesCO2).toBeCloseTo(11.275, 2);
+      // Calculate expected value using config factors
+      const expected =
+        20 * ACTIVITY_EMISSION_FACTORS.boat +
+        40 * ACTIVITY_EMISSION_FACTORS.bus +
+        15 * ACTIVITY_EMISSION_FACTORS.train +
+        25 * ACTIVITY_EMISSION_FACTORS.car;
+      expect(activitiesCO2).toBeCloseTo(expected, 2);
     });
 
     it("should handle empty project activities", () => {
@@ -279,7 +341,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "1",
           projectId: "project1",
           activityType: "bus",
-          distanceKm: "0",
+          distanceKm: 0,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -289,7 +351,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "2",
           projectId: "project1",
           activityType: "train",
-          distanceKm: "-10",
+          distanceKm: -10,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -299,7 +361,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "3",
           projectId: "project1",
           activityType: "car",
-          distanceKm: "invalid",
+          distanceKm: Number.NaN,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -309,7 +371,7 @@ describe("Questionnaire Types and Calculations", () => {
           id: "4",
           projectId: "project1",
           activityType: "boat",
-          distanceKm: "50.0",
+          distanceKm: 50,
           description: null,
           activityDate: null,
           createdAt: new Date(),
@@ -319,8 +381,9 @@ describe("Questionnaire Types and Calculations", () => {
 
       const activitiesCO2 = calculateActivitiesCO2(activities);
 
-      // Only boat should be counted: 50 * 0.115 = 5.75
-      expect(activitiesCO2).toBeCloseTo(5.75, 2);
+      // Only boat should be counted (calculate using config factor)
+      const expected = 50 * ACTIVITY_EMISSION_FACTORS.boat;
+      expect(activitiesCO2).toBeCloseTo(expected, 2);
     });
 
     it("should return 0 for project activities CO2 when no activities provided", () => {

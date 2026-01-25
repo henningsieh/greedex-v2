@@ -268,7 +268,7 @@ async function seed() {
           id: createId(),
           projectId,
           activityType,
-          distanceKm: distanceKm.toString(),
+          distanceKm,
           description: `${activityType} trip - ${distanceKm} km`,
           activityDate: new Date(),
           createdAt: new Date(),

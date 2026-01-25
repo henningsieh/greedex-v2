@@ -5,6 +5,7 @@ import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -29,6 +30,7 @@ import {
 } from "@/config/activities";
 import {
   CreateActivityInputSchema,
+  createActivityInputSchema,
   type UpdateActivityInputSchema,
 } from "@/features/project-activities/validation-schemas";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
@@ -64,28 +66,34 @@ export function ProjectActivityForm({
   const queryClient = useQueryClient();
   const isEditing = !!activity;
 
+  // Create schema with i18n translations
+  const ActivityInputSchema = useMemo(() => createActivityInputSchema(t), [t]);
+
+  type FormValues = z.infer<typeof ActivityInputSchema>;
+
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<z.infer<typeof CreateActivityInputSchema>>({
-    resolver: zodResolver(CreateActivityInputSchema),
+  } = useForm<FormValues>({
+    resolver: zodResolver(ActivityInputSchema),
     mode: "onChange",
     defaultValues: {
       projectId,
-      activityType: activity?.activityType ?? undefined,
-      distanceKm: activity?.distanceKm
-        ? Number.parseFloat(activity.distanceKm)
-        : MIN_DISTANCE_KM,
+      activityType: activity?.activityType,
+      distanceKm:
+        activity?.distanceKm !== undefined
+          ? activity.distanceKm
+          : MIN_DISTANCE_KM,
       description: activity?.description ?? null,
       activityDate: activity?.activityDate ?? null,
-    },
+    } as FormValues,
   });
 
   const createMutation = useMutation({
-    mutationFn: (values: z.infer<typeof CreateActivityInputSchema>) =>
+    mutationFn: (values: z.infer<typeof ActivityInputSchema>) =>
       orpc.projectActivities.create(values),
     onSuccess: (result) => {
       if (result.success) {

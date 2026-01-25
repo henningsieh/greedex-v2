@@ -40,17 +40,16 @@ export type ProjectWithActivitiesType = z.infer<
   typeof ProjectWithActivitiesSchema
 >;
 
-// ============================================================================
-// PROJECT ACTIVITY TYPES (RE-EXPORTED)
-// ============================================================================
-
 /**
- * Re-export activity types from project-activities feature for convenience
+ * Project statistics summary object returned by `getProjectStatistics`.
  */
-export type {
-  ActivityValueType,
-  ProjectActivityType,
-} from "@/features/project-activities/types";
+export type ProjectStatistics = {
+  participantsCount: number;
+  activitiesCount: number;
+  totalDistanceKm: number;
+  durationDays: number;
+  activitiesCO2Kg: number;
+};
 
 // ============================================================================
 // Helper types for listProjects procedures

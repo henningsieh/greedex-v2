@@ -36,7 +36,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MILLISECONDS_PER_DAY } from "@/config/projects";
 import { ParticipantsLinkControls } from "@/features/participants/components/participants-link-controls";
 import { ParticipantsList } from "@/features/participants/components/participants-list";
 import {
@@ -46,7 +45,7 @@ import {
 import { ProjectActivitiesTab } from "@/features/projects/components/project-activities-tab";
 import { ProjectDetailsTab } from "@/features/projects/components/project-details-tab";
 import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
-import { calculateActivitiesCO2 } from "@/features/projects/utils";
+import { getProjectStatistics } from "@/features/projects/utils";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
@@ -317,31 +316,14 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
     }),
   );
 
-  // Calculate statistics
-  const participantsCount = participants?.length ?? 0;
-  const activitiesCount = activities?.length ?? 0;
-  const totalDistance =
-    activities?.reduce((sum, activity) => {
-      const distanceAsNumber = Number.parseFloat(activity.distanceKm);
-      return sum + (Number.isFinite(distanceAsNumber) ? distanceAsNumber : 0);
-    }, 0) ?? 0;
-  const startDate = new Date(project.startDate);
-  const endDate = new Date(project.endDate);
-  const duration = (() => {
-    if (
-      !(
-        Number.isFinite(startDate.getTime()) && Number.isFinite(endDate.getTime())
-      )
-    ) {
-      return 0;
-    }
-
-    const diffInMs = endDate.getTime() - startDate.getTime();
-    return Math.max(0, Math.ceil(diffInMs / MILLISECONDS_PER_DAY));
-  })();
-
-  // Calculate CO2 emissions from project activities
-  const projectActivitiesCO2 = calculateActivitiesCO2(activities);
+  // Calculate statistics (delegated to utility for consistency and testability)
+  const {
+    participantsCount,
+    activitiesCount,
+    totalDistanceKm,
+    durationDays,
+    activitiesCO2Kg,
+  } = getProjectStatistics(project, participants, activities);
 
   return (
     <div className="space-y-6">
@@ -357,7 +339,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
           </CardHeader>
           <CardContent>
             <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
-              {duration}
+              {durationDays}
               <span className="text-sm font-normal text-muted-foreground">
                 {t("statistics.days")}
               </span>
@@ -377,7 +359,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
             <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
               {activitiesCount}
               <span className="text-sm font-normal text-muted-foreground">
-                ({totalDistance.toFixed(1)} {t("statistics.km")})
+                ({totalDistanceKm.toFixed(1)} {t("statistics.km")})
               </span>
             </div>
           </CardContent>
@@ -393,7 +375,7 @@ export function ProjectDetails({ id }: ProjectDetailsProps) {
           </CardHeader>
           <CardContent>
             <div className="flex items-baseline gap-2 font-mono text-2xl font-semibold text-foreground">
-              {projectActivitiesCO2.toFixed(1)}{" "}
+              {activitiesCO2Kg.toFixed(1)}{" "}
               <span className="text-sm font-normal text-muted-foreground">
                 kg CO₂
               </span>

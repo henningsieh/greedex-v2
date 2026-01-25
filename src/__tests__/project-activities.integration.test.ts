@@ -214,7 +214,7 @@ describe("Project Activities Integration Tests", () => {
         id: randomUUID(),
         projectId: projectData.id,
         activityType: "car" as const,
-        distanceKm: "150.50",
+        distanceKm: 150.5,
         description: "Business trip to Munich",
         activityDate: new Date("2025-01-15"),
         createdAt: new Date(),
@@ -225,7 +225,7 @@ describe("Project Activities Integration Tests", () => {
         id: randomUUID(),
         projectId: projectData.id,
         activityType: "train" as const,
-        distanceKm: "250.00",
+        distanceKm: 250,
         description: "Conference in Hamburg",
         activityDate: new Date("2025-02-20"),
         createdAt: new Date(),
@@ -245,9 +245,9 @@ describe("Project Activities Integration Tests", () => {
 
       expect(activities).toHaveLength(2);
       expect(activities[0].activityType).toBe("car");
-      expect(activities[0].distanceKm).toBe("150.5"); // Rounded to 1 decimal place
+      expect(activities[0].distanceKm).toBe(150.5); // Rounded to 1 decimal place
       expect(activities[1].activityType).toBe("train");
-      expect(activities[1].distanceKm).toBe("250.0"); // Rounded to 1 decimal place
+      expect(activities[1].distanceKm).toBe(250); // Rounded to 1 decimal place
     });
   });
 
@@ -287,7 +287,7 @@ describe("Project Activities Integration Tests", () => {
         id: randomUUID(),
         projectId,
         activityType: "bus" as const,
-        distanceKm: "75.25",
+        distanceKm: 75.25,
         description: "Team building event",
         activityDate: new Date("2025-03-10"),
         createdAt: new Date(),
@@ -304,7 +304,7 @@ describe("Project Activities Integration Tests", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].activityType).toBe(activityData.activityType);
-      expect(result[0].distanceKm).toBe("75.3"); // 75.25 rounded to 1 decimal place
+      expect(result[0].distanceKm).toBe(75.3); // 75.25 rounded to 1 decimal place
       expect(result[0].description).toBe(activityData.description);
 
       activityId = activityData.id;
@@ -326,7 +326,7 @@ describe("Project Activities Integration Tests", () => {
 
     it("should update an activity", async () => {
       const newType = "train" as const;
-      const newDistance = "120.75";
+      const newDistance = 120.75;
       const newDescription = "Updated team event";
 
       await db
@@ -347,7 +347,7 @@ describe("Project Activities Integration Tests", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].activityType).toBe(newType);
-      expect(result[0].distanceKm).toBe("120.8"); // 120.75 rounded to 1 decimal place
+      expect(result[0].distanceKm).toBe(120.8); // 120.75 rounded to 1 decimal place
       expect(result[0].description).toBe(newDescription);
     });
 
@@ -375,7 +375,7 @@ describe("Project Activities Integration Tests", () => {
         id: randomUUID(),
         projectId,
         activityType: "car" as const,
-        distanceKm: "100.00",
+        distanceKm: 100,
         createdAt: new Date(),
         updatedAt: new Date(),
         description: null,
@@ -394,7 +394,7 @@ describe("Project Activities Integration Tests", () => {
     });
 
     it("should handle decimal precision correctly", async () => {
-      const testDistance = "123.456789"; // More precision than allowed
+      const testDistance = 123.456789; // More precision than allowed
 
       const activity = {
         id: randomUUID(),
@@ -421,7 +421,7 @@ describe("Project Activities Integration Tests", () => {
 
       expect(result).toHaveLength(1);
       // Should be rounded to 1 decimal place: 123.5 (scale changed from 2 to 1)
-      expect(result[0].distanceKm).toBe("123.5");
+      expect(result[0].distanceKm).toBe(123.5);
     });
   });
 
@@ -434,7 +434,7 @@ describe("Project Activities Integration Tests", () => {
         id: randomUUID(),
         projectId: fakeProjectId,
         activityType: "car" as const,
-        distanceKm: "100.00",
+        distanceKm: 100,
         createdAt: new Date(),
         updatedAt: new Date(),
         description: null,
@@ -478,7 +478,7 @@ describe("Project Activities Integration Tests", () => {
         id: cascadeActivityId,
         projectId: cascadeProjectId,
         activityType: "car" as const,
-        distanceKm: "50.00",
+        distanceKm: 50,
         description: null,
         activityDate: null,
         createdAt: new Date(),
@@ -516,7 +516,7 @@ describe("Project Activities Integration Tests", () => {
         id: testActivityId,
         projectId,
         activityType: "car" as const,
-        distanceKm: "25.00",
+        distanceKm: 25,
         description: null,
         activityDate: null,
         createdAt: new Date(),
@@ -550,7 +550,7 @@ describe("Project Activities Integration Tests", () => {
       console.time("update-no-explicit-updatedAt");
       await db
         .update(projectActivitiesTable)
-        .set({ distanceKm: "30.00" })
+        .set({ distanceKm: 30 })
         .where(eq(projectActivitiesTable.id, testActivityId));
       console.timeEnd("update-no-explicit-updatedAt");
 
@@ -571,7 +571,7 @@ describe("Project Activities Integration Tests", () => {
         await db
           .update(projectActivitiesTable)
           .set({
-            distanceKm: "30.00",
+            distanceKm: 30,
             updatedAt: nextTimestamp,
           })
           .where(eq(projectActivitiesTable.id, testActivityId));
@@ -603,7 +603,7 @@ describe("Project Activities Integration Tests", () => {
           id: randomUUID(),
           projectId,
           activityType: "car" as const,
-          distanceKm: `${(i + 1) * 10}.00`,
+          distanceKm: (i + 1) * 10,
           description: null,
           activityDate: null,
           createdAt: new Date(),

@@ -210,22 +210,23 @@ export function ParticipantsLinkControls({
   );
 }
 
-export function ParticipationControlsClientSkeleton() {
-  return (
-    <Card className="mb-8 space-y-4 border border-secondary/70 bg-secondary/10 p-4">
-      <div className="flex items-center justify-between">
-        <div className="mb-4 flex items-center gap-2">
-          <div className="size-5 rounded bg-muted" />
-          <div className="h-6 w-48 rounded bg-muted" />
-        </div>
-        <div className="h-8 w-32 rounded bg-muted" />
-      </div>
-      <div className="h-4 w-full rounded bg-muted" />
-      <div className="h-4 w-5/6 rounded bg-muted" />
-      <div className="mt-6 flex flex-wrap gap-2">
-        <div className="h-10 flex-1 rounded bg-muted" />
-        <div className="h-10 w-32 rounded bg-muted" />
-      </div>
-    </Card>
-  );
-}
+// UNUSED: ParticipationControlsClientSkeleton
+// export function ParticipationControlsClientSkeleton() {
+//   return (
+//     <Card className="mb-8 space-y-4 border border-secondary/70 bg-secondary/10 p-4">
+//       <div className="flex items-center justify-between">
+//         <div className="mb-4 flex items-center gap-2">
+//           <div className="size-5 rounded bg-muted" />
+//           <div className="h-6 w-48 rounded bg-muted" />
+//         </div>
+//         <div className="h-8 w-32 rounded bg-muted" />
+//       </div>
+//       <div className="h-4 w-full rounded bg-muted" />
+//       <div className="h-4 w-5/6 rounded bg-muted" />
+//       <div className="mt-6 flex flex-wrap gap-2">
+//         <div className="h-10 flex-1 rounded bg-muted" />
+//         <div className="h-10 w-32 rounded bg-muted" />
+//       </div>
+//     </Card>
+//   );
+// }

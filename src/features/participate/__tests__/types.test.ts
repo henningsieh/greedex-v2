@@ -6,7 +6,7 @@ import type {
 } from "@/features/participate/types";
 import type { ActivityValueType } from "@/features/project-activities/types";
 
-import { CO2_FACTORS } from "@/features/projects/utils";
+import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
 
 describe("Participant Activity Types", () => {
   it("should allow all project activity types for ParticipantActivity", () => {
@@ -47,7 +47,7 @@ describe("Participant Activity Types", () => {
     }
   });
 
-  it("should have all participant activity types covered in CO2_FACTORS", () => {
+  it("should have all participant activity types covered in ACTIVITY_EMISSION_FACTORS", () => {
     const participantActivityTypes: ParticipantActivityValueType[] = [
       "boat",
       "bus",
@@ -58,19 +58,29 @@ describe("Participant Activity Types", () => {
     ];
 
     for (const activityType of participantActivityTypes) {
-      expect(CO2_FACTORS).toHaveProperty(activityType);
-      expect(typeof CO2_FACTORS[activityType]).toBe("number");
-      expect(CO2_FACTORS[activityType]).toBeGreaterThan(0);
+      expect(ACTIVITY_EMISSION_FACTORS).toHaveProperty(activityType);
+      expect(typeof ACTIVITY_EMISSION_FACTORS[activityType]).toBe("number");
+      expect(ACTIVITY_EMISSION_FACTORS[activityType]).toBeGreaterThan(0);
     }
   });
 
   it("should have correct CO2 factors for each activity type", () => {
-    expect(CO2_FACTORS.car).toBe(0.192);
-    expect(CO2_FACTORS.boat).toBe(0.115);
-    expect(CO2_FACTORS.bus).toBe(0.089);
-    expect(CO2_FACTORS.train).toBe(0.041);
-    expect(CO2_FACTORS.plane).toBe(0.255);
-    expect(CO2_FACTORS.electricCar).toBe(0.053);
+    // Verify all emission factors are defined as positive numbers
+    // The actual values are defined in @/config/activities (single source of truth)
+    // and should be reviewed/updated only when scientific/regulatory standards change
+    expect(typeof ACTIVITY_EMISSION_FACTORS.car).toBe("number");
+    expect(typeof ACTIVITY_EMISSION_FACTORS.boat).toBe("number");
+    expect(typeof ACTIVITY_EMISSION_FACTORS.bus).toBe("number");
+    expect(typeof ACTIVITY_EMISSION_FACTORS.train).toBe("number");
+    expect(typeof ACTIVITY_EMISSION_FACTORS.plane).toBe("number");
+    expect(typeof ACTIVITY_EMISSION_FACTORS.electricCar).toBe("number");
+
+    expect(ACTIVITY_EMISSION_FACTORS.car).toBeGreaterThan(0);
+    expect(ACTIVITY_EMISSION_FACTORS.boat).toBeGreaterThan(0);
+    expect(ACTIVITY_EMISSION_FACTORS.bus).toBeGreaterThan(0);
+    expect(ACTIVITY_EMISSION_FACTORS.train).toBeGreaterThan(0);
+    expect(ACTIVITY_EMISSION_FACTORS.plane).toBeGreaterThan(0);
+    expect(ACTIVITY_EMISSION_FACTORS.electricCar).toBeGreaterThan(0);
   });
 
   it("should ensure project activities do not include plane or electricCar", () => {

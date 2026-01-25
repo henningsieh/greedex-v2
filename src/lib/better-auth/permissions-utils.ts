@@ -85,35 +85,36 @@ export function useProjectPermissions() {
   };
 }
 
-/**
- * Check if a user's role can create projects
- */
-export function canCreateProjects(role: MemberRole): boolean {
-  return checkProjectPermission(role, ["create"]);
-}
+// UNUSED: Commented out unused permission utility functions
+// /**
+//  * Check if a user's role can create projects
+//  */
+// export function canCreateProjects(role: MemberRole): boolean {
+//   return checkProjectPermission(role, ["create"]);
+// }
 
-/**
- * Check if a user's role can update projects
- */
-export function canUpdateProjects(role: MemberRole): boolean {
-  return checkProjectPermission(role, ["update"]);
-}
+// /**
+//  * Check if a user's role can update projects
+//  */
+// export function canUpdateProjects(role: MemberRole): boolean {
+//   return checkProjectPermission(role, ["update"]);
+// }
 
-/**
- * Check if a user's role can archive projects
- */
-export function canArchiveProjects(role: MemberRole): boolean {
-  return checkProjectPermission(role, ["archive"]);
-}
+// /**
+//  * Check if a user's role can archive projects
+//  */
+// export function canArchiveProjects(role: MemberRole): boolean {
+//   return checkProjectPermission(role, ["archive"]);
+// }
 
-/**
- * Determine whether a role has read-only project permissions.
- *
- * @returns `true` if the role can read projects but cannot create, update, or delete them, `false` otherwise.
- */
-export function isReadOnlyMember(role: MemberRole): boolean {
-  return (
-    checkProjectPermission(role, ["read"]) &&
-    !checkProjectPermission(role, ["create", "update", "delete"])
-  );
-}
+// /**
+//  * Determine whether a role has read-only project permissions.
+//  *
+//  * @returns `true` if the role can read projects but cannot create, update, or delete them, `false` otherwise.
+//  */
+// export function isReadOnlyMember(role: MemberRole): boolean {
+//   return (
+//     checkProjectPermission(role, ["read"]) &&
+//     !checkProjectPermission(role, ["create", "update", "delete"])
+//   );
+// }

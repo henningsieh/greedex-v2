@@ -1,7 +1,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Users2Icon, UsersIcon } from "lucide-react";
+import { Users2Icon } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -106,46 +106,47 @@ export function ParticipantsList({ activeProjectId }: ParticipantsListProps) {
   );
 }
 
-/**
- * Renders a skeleton placeholder UI for the participants list used while participant data is loading.
- *
- * @returns A React element showing an animated card with placeholder rows that mimic participant entries.
- */
-export function ParticipantsListSkeleton() {
-  const t = useTranslations("project.details");
-  return (
-    <Card className="border border-border/60 bg-card/80 shadow-sm">
-      <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="border border-secondary/30 bg-secondary/10 p-2 text-secondary">
-            <UsersIcon className="size-5" />
-          </div>
-          <div>
-            <div className="animate-pulse text-xs font-medium tracking-[0.2em] text-secondary/70 uppercase">
-              {t("participants")}
-            </div>
-            <div className="mt-1 h-6 w-32 animate-pulse rounded bg-secondary/50" />
-          </div>
-        </div>
-      </CardHeader>
+// UNUSED: ParticipantsListSkeleton
+// /**
+//  * Renders a skeleton placeholder UI for the participants list used while participant data is loading.
+//  *
+//  * @returns A React element showing an animated card with placeholder rows that mimic participant entries.
+//  */
+// export function ParticipantsListSkeleton() {
+//   const t = useTranslations(\"project.details\");
+//   return (
+//     <Card className=\"border border-border/60 bg-card/80 shadow-sm\">
+//       <CardHeader>
+//         <div className=\"flex items-center gap-3\">
+//           <div className=\"border border-secondary/30 bg-secondary/10 p-2 text-secondary\">
+//             <UsersIcon className=\"size-5\" />
+//           </div>
+//           <div>
+//             <div className=\"animate-pulse text-xs font-medium tracking-[0.2em] text-secondary/70 uppercase\">
+//               {t(\"participants\")}
+//             </div>
+//             <div className=\"mt-1 h-6 w-32 animate-pulse rounded bg-secondary/50\" />
+//           </div>
+//         </div>
+//       </CardHeader>
 
-      <CardContent>
-        <div className="space-y-2">
-          {Array.from({ length: 7 }).map((_, index) => (
-            <div
-              className="flex animate-pulse items-center gap-4 rounded-xl border border-secondary/20 bg-background p-4"
-              key={index}
-            >
-              <div className="size-10 rounded-full bg-secondary/50" />
-              <div className="flex-1 space-y-2">
-                <div className="h-4 w-1/3 rounded bg-secondary/50" />
-                <div className="h-3 w-1/2 rounded bg-secondary/50" />
-              </div>
-              <div className="h-3 w-24 rounded bg-secondary/50" />
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
+//       <CardContent>
+//         <div className=\"space-y-2\">
+//           {Array.from({ length: 7 }).map((_, index) => (
+//             <div
+//               className=\"flex animate-pulse items-center gap-4 rounded-xl border border-secondary/20 bg-background p-4\"
+//               key={index}
+//             >
+//               <div className=\"size-10 rounded-full bg-secondary/50\" />
+//               <div className=\"flex-1 space-y-2\">
+//                 <div className=\"h-4 w-1/3 rounded bg-secondary/50\" />
+//                 <div className=\"h-3 w-1/2 rounded bg-secondary/50\" />
+//               </div>
+//               <div className=\"h-3 w-24 rounded bg-secondary/50\" />
+//             </div>
+//           ))}
+//         </div>
+//       </CardContent>
+//     </Card>
+//   );
+// }

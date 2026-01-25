@@ -111,7 +111,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
           id: activity.id,
           projectId: activity.projectId,
           activityType: activity.activityType,
-          distanceKm: Number.parseFloat(activity.distanceKm),
+          distanceKm: activity.distanceKm,
           description: activity.description,
           activityDate: activity.activityDate
             ? new Date(activity.activityDate)
@@ -259,6 +259,9 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     if (activity.isNew === true && activity.isDeleted !== true) {
       if (!activity.activityType) {
         throw new Error("Activity type is required");
+      }
+      if (activity.distanceKm === undefined) {
+        throw new Error("Distance is required");
       }
 
       await createActivityMutation({
