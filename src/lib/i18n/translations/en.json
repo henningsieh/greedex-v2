@@ -343,6 +343,8 @@
         "next": "Next",
         "rows-per-page": "Rows per page",
         "projects-count": "Projects",
+        "showing-range": "Showing {start}-{end} of {total} projects",
+        "no-projects-count": "0 projects",
         "no-results": {
           "title": "No projects found",
           "description": "Try adjusting your filters or search query."
@@ -578,7 +580,6 @@
     },
     "loading": {
       "default": "Loading…",
-      "switchingProject": "Switching project…",
       "switchingOrganization": "Switching organization…"
     }
   },

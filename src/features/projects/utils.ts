@@ -13,6 +13,7 @@ import type {
 import type { ProjectSortFieldSchema } from "@/features/projects/validation-schemas";
 
 import { type AppRoute, PROJECT_DETAIL_PATH } from "@/app/routes";
+import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
 import { DEFAULT_PROJECT_SORT, MILLISECONDS_PER_DAY } from "@/config/projects";
 import { PROJECT_ACTIVITIES_ICONS } from "@/features/project-activities/activities-icons";
 import { projectsTable } from "@/lib/drizzle/schema";
@@ -228,22 +229,9 @@ export function getProjectStatistics(
 }
 
 /**
- * CO₂ emission factors in kilograms per kilometer for various transport modes.
- */
-export const CO2_FACTORS = {
-  car: 0.192,
-  boat: 0.115,
-  bus: 0.089,
-  train: 0.041,
-  // Reserved for participant questionnaire calculations:
-  plane: 0.255,
-  electricCar: 0.053,
-} as const;
-
-/**
  * Type for valid activity types that can be used in CO2 calculations.
  */
-type ValidActivityType = keyof typeof CO2_FACTORS;
+type ValidActivityType = keyof typeof ACTIVITY_EMISSION_FACTORS;
 
 /**
  * Check if an activity type has a known CO2 factor.
@@ -254,7 +242,7 @@ type ValidActivityType = keyof typeof CO2_FACTORS;
 function hasValidCO2Factor(
   activityType: string,
 ): activityType is ValidActivityType {
-  return activityType in CO2_FACTORS;
+  return activityType in ACTIVITY_EMISSION_FACTORS;
 }
 
 /**
@@ -280,7 +268,7 @@ function calculateSingleActivityCO2(
   }
 
   // Calculate emissions based on activity type
-  return distanceKm * CO2_FACTORS[activityType];
+  return distanceKm * ACTIVITY_EMISSION_FACTORS[activityType];
 }
 
 /**

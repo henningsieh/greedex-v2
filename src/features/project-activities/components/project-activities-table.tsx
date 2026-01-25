@@ -39,7 +39,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -284,24 +283,23 @@ export function ProjectActivitiesTable({
   );
 }
 
-export function ProjectActivitiesListSkeleton() {
-  return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <Skeleton className="h-6 w-40" />
-            <Skeleton className="mt-1 h-4 w-60" />
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
+// UNUSED: ProjectActivitiesListSkeleton
+// export function ProjectActivitiesListSkeleton() {
+//   return (
+//     <Card>
+//       <CardHeader>
+//         <div className="flex items-center justify-between">
+//           <div>
+//             <Skeleton className="h-6 w-40" />
+//             <Skeleton className="mt-1 h-4 w-60" />
+//           </div>
+//         </div>
+//       </CardHeader>
+//       <CardContent>
+//         <div className="space-y-4">
+//           <Skeleton className="h-10 w-full" />
+//           <Skeleton className="h-10 w-full" />
+//           <Skeleton className="h-10 w-full" />
+//         </div>
+//       </CardContent>
+//     </Card>

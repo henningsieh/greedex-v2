@@ -73,12 +73,11 @@ import { useEffect, useState } from "react";
 
 import type { Participant, ProjectStats } from "@/features/participate/types";
 
-import { ACTIVITY_VALUES } from "@/config/activities";
+import { ACTIVITY_VALUES, ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
 import { Leaderboard } from "@/features/liveview/leaderboard";
 import { LiveIndicator } from "@/features/liveview/live-indicator";
 import { StatsOverview } from "@/features/liveview/stats-overview";
 import { TransportBreakdown } from "@/features/liveview/transport-breakdown";
-import { CO2_FACTORS } from "@/features/projects/utils";
 
 /**
  * Create an array of mock Participant records for the demo/live-view UI.
@@ -134,7 +133,7 @@ function generateMockData(): Participant[] {
         const type =
           ACTIVITY_VALUES[Math.floor(Math.random() * ACTIVITY_VALUES.length)];
         const distanceKm = Math.floor(Math.random() * 1500) + 100;
-        const co2Kg = distanceKm * CO2_FACTORS[type];
+        const co2Kg = distanceKm * ACTIVITY_EMISSION_FACTORS[type];
 
         return {
           id: `${index}-${i}`,
@@ -244,7 +243,7 @@ export default function Dashboard() {
         const type =
           ACTIVITY_VALUES[Math.floor(Math.random() * ACTIVITY_VALUES.length)];
         const distanceKm = Math.floor(Math.random() * 500) + 50;
-        const co2Kg = distanceKm * CO2_FACTORS[type];
+        const co2Kg = distanceKm * ACTIVITY_EMISSION_FACTORS[type];
 
         participant.activities.push({
           id: `${Date.now()}`,

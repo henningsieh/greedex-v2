@@ -12,12 +12,12 @@ const getModeStyles = (mode?: LoadingMode) => {
   switch (mode) {
     case "project":
       return {
-        containerClassName: "border-2 border-secondary bg-secondary/20",
+        containerClassName: `border-2 border-secondary bg-secondary/20`,
         textColor: "text-secondary",
       };
     case "organization":
       return {
-        containerClassName: "border-2 border-accent bg-accent/20",
+        containerClassName: `border-2 border-accent bg-accent/20`,
         textColor: "text-accent",
       };
     default:
@@ -88,7 +88,7 @@ export function useAppLoading(options?: {
 }) {
   const context = useContext(LoadingContext);
   if (!context) {
-    throw new Error("useAppLoading must be used within LoadingProvider");
+    throw new Error(`useAppLoading must be used within LoadingProvider`);
   }
 
   const { loadingState, setLoading } = context;

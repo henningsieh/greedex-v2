@@ -19,7 +19,7 @@ export type AppRoute = StripLocale<AppRoutes>;
 
 // App routes
 export const DASHBOARD_PATH: AppRoute = "/org/dashboard";
-export const LIVE_VIEW_PATH: AppRoute = "/org/activeproject/liveview";
+// UNUSED: export const LIVE_VIEW_PATH: AppRoute = "/org/activeproject/liveview";
 export const PROJECTS_PATH: AppRoute = "/org/projects";
 export const PROJECT_DETAIL_PATH: AppRoute = "/org/projects/[id]";
 export const PROJECTS_ARCHIVE_PATH: AppRoute = "/org/projects-archive";
@@ -46,6 +46,3 @@ export const LIBRARY_PATH: AppRoute = "/library";
 export const TIPS_AND_TRICKS_PATH: AppRoute = "/tips-and-tricks";
 export const E_FOREST_PATH: AppRoute = "/e-forest";
 export const ABOUT_PATH: AppRoute = "/about";
-
-// Other routes
-export const ORPC_TEST_PATH: AppRoute = "/orpc-test";

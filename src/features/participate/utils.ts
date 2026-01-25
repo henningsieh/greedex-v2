@@ -7,6 +7,7 @@
 
 import type { ProjectActivityType } from "@/features/project-activities/types";
 
+import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
 import {
   CO2_PER_TREE_PER_YEAR,
   CONVENTIONAL_ENERGY_FACTOR,
@@ -15,7 +16,7 @@ import {
   ROOM_OCCUPANCY_FACTORS,
   ROUND_TRIP_MULTIPLIER,
 } from "@/config/participate";
-import { calculateActivitiesCO2, CO2_FACTORS } from "@/features/projects/utils";
+import { calculateActivitiesCO2 } from "@/features/projects/utils";
 
 import {
   ACCOMMODATION_FACTORS,
@@ -77,22 +78,22 @@ export function calculateEmissions(
 
   // Calculate transport emissions (round trip: TO and FROM project)
   if (answers.flightKm) {
-    transportCO2 += answers.flightKm * CO2_FACTORS.plane;
+    transportCO2 += answers.flightKm * ACTIVITY_EMISSION_FACTORS.plane;
   }
   if (answers.boatKm) {
-    transportCO2 += answers.boatKm * CO2_FACTORS.boat;
+    transportCO2 += answers.boatKm * ACTIVITY_EMISSION_FACTORS.boat;
   }
   if (answers.trainKm) {
-    transportCO2 += answers.trainKm * CO2_FACTORS.train;
+    transportCO2 += answers.trainKm * ACTIVITY_EMISSION_FACTORS.train;
   }
   if (answers.busKm) {
-    transportCO2 += answers.busKm * CO2_FACTORS.bus;
+    transportCO2 += answers.busKm * ACTIVITY_EMISSION_FACTORS.bus;
   }
   if (answers.carKm) {
     const carFactor =
       answers.carType === "electricCar"
-        ? CO2_FACTORS.electricCar
-        : CO2_FACTORS.car;
+        ? ACTIVITY_EMISSION_FACTORS.electricCar
+        : ACTIVITY_EMISSION_FACTORS.car;
     const passengers = answers.carPassengers || DEFAULT_CAR_PASSENGERS;
     transportCO2 += (answers.carKm * carFactor) / passengers;
   }

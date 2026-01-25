@@ -17,6 +17,8 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
   FunnelXIcon,
   SearchIcon,
   SheetIcon,
@@ -32,7 +34,7 @@ import type { ProjectType } from "@/features/projects/types";
 import { useConfirmDialog } from "@/components/confirm-dialog";
 import { Location } from "@/components/location";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Empty,
   EmptyDescription,
@@ -42,6 +44,12 @@ import {
 } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+} from "@/components/ui/pagination";
 import {
   Select,
   SelectContent,
@@ -61,7 +69,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from "@/config/pagination";
+import {
+  DEFAULT_PAGE_SIZE,
+  PAGE_SIZE_OPTIONS,
+  type PageSizeOption,
+} from "@/config/pagination";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import { ProjectTableColumns } from "@/features/projects/components/dashboard/projects-table-columns";
 import {
@@ -70,6 +82,7 @@ import {
 } from "@/features/projects/utils";
 import { Link } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import { cn } from "@/lib/utils";
 
 /**
  * Render an interactive projects table with search, filtering, sorting, pagination, row selection, and batch deletion controls.
@@ -118,10 +131,34 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
     updatedAt: false,
   });
   const [rowSelection, setRowSelection] = useState({});
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<{
+    pageIndex: number;
+    pageSize: PageSizeOption;
+  }>({
     pageIndex: 0,
     pageSize: DEFAULT_PAGE_SIZE,
   });
+
+  const handlePaginationChange = (updaterOrValue: any) => {
+    setPagination((prev) => {
+      const newPagination =
+        typeof updaterOrValue === "function"
+          ? updaterOrValue(prev)
+          : updaterOrValue;
+
+      // Ensure pageSize is a valid PageSizeOption
+      const validPageSize = PAGE_SIZE_OPTIONS.includes(
+        newPagination.pageSize as PageSizeOption,
+      )
+        ? (newPagination.pageSize as PageSizeOption)
+        : DEFAULT_PAGE_SIZE;
+
+      return {
+        ...newPagination,
+        pageSize: validPageSize,
+      };
+    });
+  };
 
   const table = useReactTable({
     data: projects,
@@ -134,7 +171,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    onPaginationChange: setPagination,
+    onPaginationChange: handlePaginationChange,
     state: {
       sorting,
       columnFilters,
@@ -194,10 +231,51 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
     }
   };
 
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const totalPages = table.getPageCount();
+    const currentPage = table.getState().pagination.pageIndex;
+    const pages: (number | "ellipsis")[] = [];
+
+    if (totalPages <= 7) {
+      // Show all pages if 7 or fewer
+      for (let i = 0; i < totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Always show first page
+      pages.push(0);
+
+      if (currentPage > 3) {
+        pages.push("ellipsis");
+      }
+
+      // Show current page and surrounding pages
+      const start = Math.max(1, Math.min(currentPage - 1, totalPages - 4));
+      const end = Math.min(totalPages - 2, Math.max(currentPage + 1, 3));
+
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - 4) {
+        pages.push("ellipsis");
+      }
+
+      // Always show last page
+      if (totalPages > 1) {
+        pages.push(totalPages - 1);
+      }
+    }
+
+    return pages;
+  };
+
   // Row navigation is handled by per-cell Link wrappers; click handlers removed.
 
   return (
     <>
+      <ConfirmDialogComponent />
       <div className="min-w-0">
         <div className="flex flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-1 flex-col gap-4 sm:flex-row sm:items-center">
@@ -271,7 +349,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                     : ""}
                 </span>
                 <span className="text-muted-foreground">
-                  {t("table.projects-count", { defaultValue: "Projects" })}
+                  {t("table.projects-count")}
                 </span>
               </Badge>
             </div>
@@ -431,16 +509,9 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                         <EmptyMedia variant="icon">
                           <SearchIcon className="size-6 text-muted-foreground" />
                         </EmptyMedia>
-                        <EmptyTitle>
-                          {t("table.no-results.title", {
-                            defaultValue: "No projects found",
-                          })}
-                        </EmptyTitle>
+                        <EmptyTitle>{t("table.no-results.title")}</EmptyTitle>
                         <EmptyDescription>
-                          {t("table.no-results.description", {
-                            defaultValue:
-                              "Try adjusting your filters or search query.",
-                          })}
+                          {t("table.no-results.description")}
                         </EmptyDescription>
                       </EmptyHeader>
                       <div className="mt-6">
@@ -451,9 +522,7 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                           }}
                           variant="outline"
                         >
-                          {t("table.clear-filters", {
-                            defaultValue: "Clear filters",
-                          })}
+                          {t("table.clear-filters")}
                         </Button>
                       </div>
                     </Empty>
@@ -480,13 +549,15 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
                 );
               }
               if (totalCount === 0) {
-                return <span>0 projects</span>;
+                return <span>{t("table.no-projects-count")}</span>;
               }
               return (
                 <span>
-                  Showing {pageIndex * pageSize + 1}-
-                  {Math.min((pageIndex + 1) * pageSize, totalCount)} of{" "}
-                  {totalCount} projects
+                  {t("table.showing-range", {
+                    start: pageIndex * pageSize + 1,
+                    end: Math.min((pageIndex + 1) * pageSize, totalCount),
+                    total: totalCount,
+                  })}
                 </span>
               );
             })()}
@@ -502,9 +573,12 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
             </Label>
 
             <Select
-              onValueChange={(value) =>
-                setPagination({ pageIndex: 0, pageSize: Number(value) })
-              }
+              onValueChange={(value) => {
+                const numValue = Number(value) as PageSizeOption;
+                if (PAGE_SIZE_OPTIONS.includes(numValue)) {
+                  setPagination({ pageIndex: 0, pageSize: numValue });
+                }
+              }}
               value={pagination.pageSize.toString()}
             >
               <SelectTrigger
@@ -527,29 +601,86 @@ export function ProjectsTable({ projects }: { projects: ProjectType[] }) {
               </SelectContent>
             </Select>
 
-            <Button
-              className="h-8 shrink-0 px-2"
-              disabled={!table.getCanPreviousPage()}
-              onClick={() => table.previousPage()}
-              size="sm"
-              variant="outline"
-            >
-              {t("table.previous")}
-            </Button>
-
-            <Button
-              className="h-8 shrink-0 px-2"
-              disabled={!table.getCanNextPage()}
-              onClick={() => table.nextPage()}
-              size="sm"
-              variant="outline"
-            >
-              {t("table.next")}
-            </Button>
+            <Pagination className="mx-0 w-auto">
+              <PaginationContent>
+                <PaginationItem>
+                  <button
+                    aria-label="Go to previous page"
+                    className={cn(
+                      buttonVariants({
+                        variant: "secondaryghost",
+                        size: "default",
+                      }),
+                      "gap-1 px-2.5 sm:pl-2.5",
+                      !table.getCanPreviousPage() &&
+                        "pointer-events-none opacity-50",
+                    )}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (table.getCanPreviousPage()) {
+                        table.previousPage();
+                      }
+                    }}
+                  >
+                    <ChevronLeftIcon />
+                    <span className="hidden sm:block">Previous</span>
+                  </button>
+                </PaginationItem>
+                {getPageNumbers().map((page, index) => (
+                  <PaginationItem key={index}>
+                    {page === "ellipsis" ? (
+                      <PaginationEllipsis />
+                    ) : (
+                      <button
+                        aria-current={
+                          page === table.getState().pagination.pageIndex
+                            ? "page"
+                            : undefined
+                        }
+                        className={buttonVariants({
+                          variant:
+                            page === table.getState().pagination.pageIndex
+                              ? "secondaryoutline"
+                              : "secondaryghost",
+                          size: "icon",
+                        })}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          table.setPageIndex(page);
+                        }}
+                      >
+                        {page + 1}
+                      </button>
+                    )}
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <button
+                    aria-label="Go to next page"
+                    className={cn(
+                      buttonVariants({
+                        variant: "secondaryghost",
+                        size: "default",
+                      }),
+                      "gap-1 px-2.5 sm:pr-2.5",
+                      !table.getCanNextPage() && "pointer-events-none opacity-50",
+                    )}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (table.getCanNextPage()) {
+                        table.nextPage();
+                      }
+                    }}
+                  >
+                    <span className="hidden sm:block">Next</span>
+                    <ChevronRightIcon />
+                  </button>
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
         </div>
       </div>
-      <ConfirmDialogComponent />
     </>
   );
 }

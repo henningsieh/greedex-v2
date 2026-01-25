@@ -80,37 +80,18 @@ export const DECIMAL_SCALE = 1;
 // ============================================================================
 
 /**
- * CO₂ emission factors for different transport types (kg CO₂ per km)
- * Based on European Environment Agency averages
+ * CO₂ emission factors for Erasmus+ journeys (kg CO₂ per km)
+ * Focused on intra-European travel within typical Erasmus+ distance bands
+ * Based on European Environment Agency and Our World in Data transport research
  */
 export const ACTIVITY_EMISSION_FACTORS: Record<
   ParticipantActivityValueType,
   number
 > = {
-  plane: 0.255, // Average commercial flight
-  boat: 0.02, // Ferry/boat
-  train: 0.014, // Electric train average
-  bus: 0.089, // Long-distance bus
-  car: 0.192, // Conventional car (diesel/petrol)
-  electricCar: 0.053, // Electric car (EU average grid mix)
-} as const;
-
-// ============================================================================
-// ACTIVITY DEFAULTS
-// ============================================================================
-
-/**
- * Default distance values for activities (km)
- * Used as placeholders in forms
- */
-export const ACTIVITY_DEFAULT_DISTANCES: Record<
-  ParticipantActivityValueType,
-  number
-> = {
-  plane: 0,
-  boat: 0,
-  train: 0,
-  bus: 0,
-  car: 0,
-  electricCar: 0,
+  plane: 0.154, // Short-haul intra-European flights (typical 500-2000km range)
+  boat: 0.05, // Standard ferry (use 0.115 for fast/long-distance ferry)
+  train: 0.035, // EU electric train average (lower for high-speed rail)
+  bus: 0.032, // Long-distance coach (Erasmus-eligible green travel)
+  car: 0.168, // Real-world EU fleet average (diesel/petrol)
+  electricCar: 0.053, // Electric car (EU grid mix average)
 } as const;
