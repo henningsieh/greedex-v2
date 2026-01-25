@@ -1,0 +1,27 @@
+{
+  "name": "@greendex/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/auth-client.ts"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf node_modules .turbo"
+  },
+  "dependencies": {
+    "@greendex/database": "workspace:*",
+    "@greendex/email": "workspace:*",
+    "better-auth": "^1.4.17"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.9",
+    "react": "19.2.3",
+    "typescript": "^6.0.0-dev.20260124"
+  }
+}

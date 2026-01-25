@@ -1,0 +1,26 @@
+{
+  "name": "@greendex/database",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts",
+    "./schema": "./src/schema.ts"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf node_modules .turbo"
+  },
+  "dependencies": {
+    "@greendex/config": "workspace:*",
+    "@greendex/types": "workspace:*",
+    "@paralleldrive/cuid2": "^3.0.6",
+    "drizzle-orm": "^0.45.1",
+    "pg": "^8.17.2"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.16.0",
+    "typescript": "^6.0.0-dev.20260124"
+  }
+}
