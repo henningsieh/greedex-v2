@@ -1,17 +1,22 @@
-import { relations } from "drizzle-orm";
 import { createId } from "@paralleldrive/cuid2";
+import { relations } from "drizzle-orm";
 import {
   boolean,
   customType,
-  decimal,
   pgTable,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
-import { ACTIVITY_VALUES, DECIMAL_PRECISION, DECIMAL_SCALE } from "@/config/activities";
+
 import type { EUCountryCode } from "@/config/eu-countries";
 import type { ActivityValueType } from "@/features/project-activities/types";
+
+import {
+  ACTIVITY_VALUES,
+  DECIMAL_PRECISION,
+  DECIMAL_SCALE,
+} from "@/config/activities";
+import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
 
 /**
  * Custom Drizzle type for distance values
@@ -30,24 +35,25 @@ const distanceKmType = customType<{ data: number; driverData: string }>({
   },
 });
 
-
 // ============================================================================
 // TABLES
 // ============================================================================
 
 /**
  * Project table
- * 
+ *
  * Projects belong to organizations and access is controlled through
  * Better Auth's organization membership system.
- * 
+ *
  * Members with "member" role can READ projects
  * Members with "admin" or "owner" role can CREATE, READ, UPDATE, DELETE projects
  *   - Owners can delete any projects in the organization
  *   - Admins can only delete projects they created (where they are the responsible team member)
  */
 export const projectsTable = pgTable("project", {
-  id: text("id").primaryKey().$defaultFn(() => createId()),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
   name: text("name").notNull(),
   startDate: timestamp("start_date").notNull(),
   endDate: timestamp("end_date").notNull(),
@@ -77,13 +83,15 @@ export const projectsTable = pgTable("project", {
 
 /**
  * Project Activity table
- * 
+ *
  * Tracks travel activities associated with projects for carbon footprint calculation.
  * Each activity is associated directly with a project (optional relation).
  * ProjectActivities are optional - a project without activities is always valid.
  */
 export const projectActivitiesTable = pgTable("project_activity", {
-  id: text("id").primaryKey().$defaultFn(() => createId()),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
   projectId: text("project_id")
     .notNull()
     .references(() => projectsTable.id, { onDelete: "cascade" }),
@@ -109,13 +117,15 @@ export const projectActivitiesTable = pgTable("project_activity", {
 
 /**
  * Project Participant table
- * 
+ *
  * Links project participants (members of the organization) to projects.
  * Country is stored here because it comes from the participation questionnaire,
  * not from the user's account registration.
  */
 export const projectParticipantsTable = pgTable("project_participant", {
-  id: text("id").primaryKey().$defaultFn(() => createId()),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
   projectId: text("project_id")
     .notNull()
     .references(() => projectsTable.id, { onDelete: "cascade" }),
@@ -125,7 +135,7 @@ export const projectParticipantsTable = pgTable("project_participant", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  
+
   // Country code from participation questionnaire (EU member state)
   country: text("country").$type<EUCountryCode>().notNull(),
 
@@ -183,4 +193,3 @@ export const projectParticipantRelations = relations(
     }),
   }),
 );
-

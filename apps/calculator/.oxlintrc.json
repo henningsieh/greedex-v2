@@ -1,0 +1,19 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": [
+    "node_modules/**",
+    ".next/**",
+    "dist/**",
+    "build/**",
+    "src/components/ui/**",
+    "src/lib/drizzle/migrations/**",
+    "src/lib/drizzle/schemas/**"
+  ],
+  "rules": {
+    "import/no-relative-parent-imports": "error",
+    "complexity": ["warn", 25],
+    "curly": "off",
+    "react/no-array-index-key": "off",
+    "typescript/array-type": "warn"
+  }
+}

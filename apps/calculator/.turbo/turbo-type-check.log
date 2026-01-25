@@ -1,0 +1,4 @@
+
+> @greendex/calculator@0.1.0 type-check /home/runner/work/greedex-calculator/greedex-calculator/apps/calculator
+> tsc --noEmit
+

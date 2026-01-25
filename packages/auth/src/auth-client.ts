@@ -3,7 +3,6 @@
  * Provides utilities for creating auth clients
  */
 import {
-  inferAdditionalFields,
   lastLoginMethodClient,
   magicLinkClient,
   organizationClient,
@@ -26,7 +25,7 @@ export interface AuthClientConfig {
 /**
  * Create an authenticated client for the given configuration
  */
-export function createAuthClient<TAuth>(config: AuthClientConfig) {
+export function createAuthClient(config: AuthClientConfig) {
   return createBetterAuthClient({
     baseURL: config.baseURL,
     plugins: [
@@ -36,7 +35,6 @@ export function createAuthClient<TAuth>(config: AuthClientConfig) {
       }),
       magicLinkClient(),
       lastLoginMethodClient(),
-      inferAdditionalFields<TAuth>(),
     ],
   });
 }

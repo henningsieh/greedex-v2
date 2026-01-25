@@ -9,6 +9,7 @@
  *
  * Note: These tests require a running server and are skipped in CI if the server is not available.
  */
+// @ts-expect-error - playwright types should be from @playwright/test
 import { chromium } from "playwright";
 import { beforeAll, describe, expect, it } from "vitest";
 

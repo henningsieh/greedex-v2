@@ -1,0 +1,6 @@
+
+> @greendex/calculator@0.1.0 lint /home/runner/work/greedex-calculator/greedex-calculator/apps/calculator
+> oxlint --fix --fix-suggestions --fix-dangerously
+
+Found 0 warnings and 0 errors.
+Finished in 104ms on 246 files using 4 threads.
