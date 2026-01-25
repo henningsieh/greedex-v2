@@ -100,31 +100,62 @@ export const createActivity = protectedProcedure
 
 ## Testing Usage
 
+Use **real** `next-intl` translators with `createTranslator` and actual translation files - no mocks needed:
+
 ```typescript
+import { createTranslator } from "next-intl";
 import enMessages from "@/lib/i18n/translations/en.json";
-import { vi } from "vitest";
+import deMessages from "@/lib/i18n/translations/de.json";
+import { describe, it, expect } from "vitest";
 
-function createT(locale = "en") {
-  const messages = locale === "en" ? enMessages : deMessages;
-  
-  return vi.fn((key: string, params?: object) => {
-    // Navigate nested keys and interpolate parameters
-    let value = messages;
-    for (const k of key.split(".")) {
-      value = value?.[k];
-    }
-    // Replace {param} placeholders
-    return String(value).replace(/{(\w+)}/g, (_, param) => params?.[param] ?? "");
+// Create real translators at module level - reuse in all tests
+const tEn = createTranslator({
+  locale: "en",
+  messages: enMessages,
+});
+
+const tDe = createTranslator({
+  locale: "de",
+  messages: deMessages,
+});
+
+describe("Activity Validation", () => {
+  it("validates with real i18n messages (English)", () => {
+    const schema = activitySchema(tEn);
+    const result = schema.safeParse({ /* invalid data */ });
+    
+    expect(result.success).toBe(false);
+    expect(result.error.issues[0].message).toBe("Distance must be at least 0.1 km");
   });
-}
 
-it("validates with i18n messages", () => {
-  const t = createT("en");
-  const schema = activitySchema(t);
-  const result = schema.safeParse({ /* invalid data */ });
-  
-  expect(result.success).toBe(false);
-  expect(result.error.issues[0].message).toContain("expected message");
+  it("validates with real i18n messages (German)", () => {
+    const schema = activitySchema(tDe);
+    const result = schema.safeParse({ /* invalid data */ });
+    
+    expect(result.success).toBe(false);
+    expect(result.error.issues[0].message).toBe("Die Entfernung muss mindestens 0.1 km betragen");
+  });
+});
+```
+
+**Key Insights:**
+- ✅ Uses **real** `createTranslator()` from "next-intl"
+- ✅ Loads **actual** JSON translation files
+- ✅ No type casting (`as any`), no mock functions
+- ✅ Tests verify schema AND translations simultaneously
+- ✅ Translation changes automatically reflected in tests
+- ✅ Identical translator behavior to production code
+
+**Critical: No Namespace in Tests**
+```typescript
+// ✅ Correct - validation uses full paths
+const tEn = createTranslator({ locale: "en", messages: enMessages });
+
+// ❌ Wrong - would duplicate namespace in path
+const tEn = createTranslator({ 
+  locale: "en", 
+  messages: enMessages, 
+  namespace: "project.activities" // Don't do this!
 });
 ```
 
@@ -292,7 +323,27 @@ const schema = myResourceSchema(t);
 
 ---
 
-## Real Examples from Codebase
+## Implementation Notes from Real Refactoring
+
+This pattern was proven working in [src/__tests__/distance-validation.test.ts](../../src/__tests__/distance-validation.test.ts) with all 26 tests passing:
+
+**What changed:**
+- ✅ Switched from custom mock translation functions to `createTranslator`
+- ✅ Removed 50+ lines of mock translation logic
+- ✅ Removed all `as any` type casting
+- ✅ Removed `vi.fn()` mock tracking code
+- ✅ Tests now use identical translators as production
+
+**Results:**
+- All 26 tests passing with real next-intl behavior
+- Translation changes automatically caught by tests
+- 100% type-safe, zero workarounds
+- Single translator instance reused across all tests
+
+**Key Discovery:**
+When validation code uses full paths like `t("project.activities.form.validation.distanceKm.min")`, the test translator should have **no namespace** specified. Otherwise the path gets duplicated.
+
+---
 
 ### Activity Schemas
 - **File:** `src/features/project-activities/validation-schemas.ts`

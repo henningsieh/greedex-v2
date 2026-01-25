@@ -252,79 +252,213 @@ export const internalProcedure = procedure
 
 ## Testing Strategy
 
-### Before: Mock Translations (Anti-pattern)
+### Before: Mock Translation Functions (Anti-pattern)
 
 ```typescript
-// ❌ AVOID: Duplicating translations in tests
-function createMockTranslations(locale = "en") {
-  const translations = {
-    en: {
-      "project.activities.form.validation.distanceKm.min":
-        "Distance must be at least {min} km",
-      "project.activities.form.validation.distanceKm.max":
-        "Distance cannot exceed {max} km",
-    },
-    // ... more hardcoded translations
-  };
-  // Test fails if production translations change
-}
-```
-
-### After: Real Translation Files
-
-```typescript
-// ✅ BETTER: Load real translations
-import enMessages from "@/lib/i18n/translations/en.json";
-import deMessages from "@/lib/i18n/translations/de.json";
-
-function createTranslationFunction(locale: "en" | "de" = "en") {
-  const messages = locale === "en" ? enMessages : deMessages;
-
-  const mockFn = vi.fn((key: string, params?: Record<string, number>) => {
-    // Navigate nested keys: "project.activities.form.validation.distanceKm.min"
-    const keys = key.split(".");
-    let value: any = messages;
-
-    for (const k of keys) {
-      value = value?.[k];
-      if (value === undefined) return key;
-    }
-
-    let message = value as string;
-
-    // Interpolate parameters
-    if (params) {
-      for (const [paramKey, paramValue] of Object.entries(params)) {
-        message = message.replace(`{${paramKey}}`, String(paramValue));
-      }
-    }
-
-    return message;
+// ❌ AVOID: Duplicating translation logic in tests
+function createTranslationFunction(locale = "en") {
+  const mockFn = vi.fn((key: string, params?: object) => {
+    // Manually navigate nested keys, parse parameters, etc.
+    // Type casting required: return mockFn as any
   });
-
   return mockFn as any;
 }
 
-// Usage in tests
-it("should validate with translated messages", () => {
-  const t = createTranslationFunction("en");
-  const schema = activityInputSchema(t);
-  const result = schema.safeParse({ distanceKm: 0.05 });
+// Problems:
+// - Reimplements translator behavior
+// - Type casting needed (as any)
+// - Duplicates logic that could break
+// - Hard to maintain as new locales added
+```
 
+### After: Real next-intl Translators (✅ Best Practice)
+
+```typescript
+// ✅ BEST: Use actual createTranslator from next-intl
+import { createTranslator } from "next-intl";
+import enMessages from "@/lib/i18n/translations/en.json";
+import deMessages from "@/lib/i18n/translations/de.json";
+
+// Create real translators at module level - reuse in all tests
+const tEn = createTranslator({
+  locale: "en",
+  messages: enMessages,
+});
+
+const tDe = createTranslator({
+  locale: "de",
+  messages: deMessages,
+});
+
+// Usage in tests - same as production!
+describe("Activity Schema", () => {
+  it("should validate with real translated messages (English)", () => {
+    const schema = activityInputSchema(tEn);
+    const result = schema.safeParse({ distanceKm: 0.05 });
+
+    expect(result.success).toBe(false);
+    expect(result.error.issues[0].message).toBe(
+      "Distance must be at least 0.1 km"
+    );
+  });
+
+  it("should validate with real translated messages (German)", () => {
+    const schema = activityInputSchema(tDe);
+    const result = schema.safeParse({ distanceKm: 0.05 });
+
+    expect(result.success).toBe(false);
+    expect(result.error.issues[0].message).toBe(
+      "Die Entfernung muss mindestens 0.1 km betragen"
+    );
+  });
+});
+```
+
+**Benefits:**
+- ✅ Uses **real** next-intl translator behavior
+- ✅ No custom translation logic in tests
+- ✅ No type casting or workarounds
+- ✅ Tests identical to production translator setup
+- ✅ Translation changes automatically tested
+- ✅ Easy to add new locales (just create new translator)
+- ✅ Single source of truth: JSON files
+
+---
+
+## Testing Implementation Guide
+
+### Key Learning: Namespace Configuration
+
+When using `createTranslator` in tests, **do NOT specify a namespace** if your validation code uses full paths:
+
+```typescript
+// ✅ Correct - validation code uses full paths like "project.activities.form.validation.distanceKm.min"
+const tEn = createTranslator({
+  locale: "en",
+  messages: enMessages,
+  // ← No namespace specified
+});
+
+// ❌ Wrong - would double-namespace: "project.activities.project.activities.form.validation.distanceKm.min"
+const tEn = createTranslator({
+  locale: "en",
+  messages: enMessages,
+  namespace: "project.activities", // ← This duplicates namespace in path
+});
+```
+
+### Test Structure Pattern
+
+```typescript
+import { createTranslator } from "next-intl";
+import { describe, expect, it } from "vitest";
+import enMessages from "@/lib/i18n/translations/en.json";
+import deMessages from "@/lib/i18n/translations/de.json";
+
+// 1. Create translators at module level (top of file)
+const tEn = createTranslator({
+  locale: "en",
+  messages: enMessages,
+});
+
+const tDe = createTranslator({
+  locale: "de",
+  messages: deMessages,
+});
+
+// 2. Reuse in all test descriptions
+describe("Activity Schema", () => {
+  it("English validation messages", () => {
+    const schema = activityInputSchema(tEn);
+    const result = schema.safeParse({ /* test data */ });
+    expect(result.error.issues[0].message).toBe("Distance must be at least 0.1 km");
+  });
+
+  it("German validation messages", () => {
+    const schema = activityInputSchema(tDe);
+    const result = schema.safeParse({ /* test data */ });
+    expect(result.error.issues[0].message).toBe("Die Entfernung muss mindestens 0.1 km betragen");
+  });
+});
+```
+
+### Best Practices for Test Translations
+
+1. **Create translators once, at module level**
+   - Avoid recreating on each test
+   - Expensive operation if done repeatedly
+   - Share `tEn` and `tDe` across all test cases
+
+2. **Use real translation JSON files**
+   - Import from `@/lib/i18n/translations/en.json`
+   - Tests validate actual production translations
+   - Changes in JSON automatically tested
+
+3. **Test both languages**
+   - English tests catch logic errors
+   - German tests catch parameter interpolation issues
+   - Both catch translation key mismatches
+
+4. **No type casting needed**
+   - `createTranslator` returns correctly typed function
+   - No `as any` required
+   - TypeScript validates translation keys
+
+### Common Test Patterns
+
+**Test validation messages exist:**
+```typescript
+it("provides translated error for min distance", () => {
+  const schema = activityInputSchema(tEn);
+  const result = schema.safeParse({ distanceKm: 0.05 });
+  
   expect(result.success).toBe(false);
   expect(result.error.issues[0].message).toBe("Distance must be at least 0.1 km");
 });
 ```
 
-**Benefits:**
-- Tests use identical translations as production
-- Translation changes automatically tested
-- Single source of truth for all messages
-- Easier to add new locales
+**Test parameter interpolation:**
+```typescript
+it("interpolates min distance parameter correctly", () => {
+  const schema = activityInputSchema(tEn);
+  const result = schema.safeParse({ distanceKm: 0.05 });
+  
+  expect(result.error.issues[0].message).toContain("0.1");
+});
+```
+
+**Test multiple error conditions:**
+```typescript
+describe("Distance validation all errors", () => {
+  it("min boundary violation", () => {
+    const schema = activityInputSchema(tEn);
+    expect(schema.safeParse({ distanceKm: 0.05 }).error.issues[0].message)
+      .toBe("Distance must be at least 0.1 km");
+  });
+
+  it("max boundary violation", () => {
+    const schema = activityInputSchema(tEn);
+    expect(schema.safeParse({ distanceKm: 6000.1 }).error.issues[0].message)
+      .toBe("Distance cannot exceed 6000 km");
+  });
+
+  it("step increment violation", () => {
+    const schema = activityInputSchema(tEn);
+    expect(schema.safeParse({ distanceKm: 0.15 }).error.issues[0].message)
+      .toBe("Distance must be in increments of 0.1 km");
+  });
+});
+```
+
+### Real Example from Codebase
+
+See [src/__tests__/distance-validation.test.ts](../../src/__tests__/distance-validation.test.ts) for the complete working implementation using `createTranslator`. This file demonstrates:
+- Creating module-level translators
+- Reusing across all test suites
+- Testing both English and German translations
+- Full test suite passing with real next-intl behavior
 
 ---
-
-## Migration Guide: Refactoring Other Schemas
 
 ### Step 1: Identify Schema Candidates
 
