@@ -533,7 +533,7 @@
         "title": "No archived projects",
         "description": "You haven't archived any projects yet. Archived projects appear here and can be restored anytime."
       },
-      "go-to-projects": "Go to active projects"
+      "go-to-projects": "Your active projects"
     },
     "settings": {
       "title": "Organization Settings",
@@ -1031,7 +1031,6 @@
       "text": "Co-funded by the"
     }
   },
-  "go-to-projects": "Go to projects",
   "userSettings": {
     "title": "User Settings",
     "description": "Manage your personal preferences and account settings",
