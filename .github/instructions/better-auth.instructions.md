@@ -1,50 +1,68 @@
 ---
-applyTo: "src/lib/better-auth/**/*.{ts,tsx}|src/app/api/auth/**/*.{ts,tsx}|src/middleware.{ts,tsx}"
-description: Better Auth configuration, authentication, and oRPC SSR integration patterns
+name: "Better Auth Integration"
+description: "Authentication patterns, organizations, and oRPC integration"
+applyTo: "**/auth/**/*.ts,**/better-auth/**/*.ts,**/middleware.ts"
 ---
 
-# Better-Auth Instructions
+# Better Auth Integration Guide
+
+**Context**: When working with authentication, organizations, or user management features.
+
+---
 
 ## Comprehensive Documentation
 
-**⚠️ CRITICAL**: This repository contains extensive Better Auth documentation in `/docs/better-auth/`. **Always consult these comprehensive guides first** for detailed configuration options, integration patterns, and examples:
+For detailed configuration options, integration patterns, and examples, **always consult** `/docs/better-auth/` first:
 
-- **Options & Configuration**: [docs/better-auth/better-auth.options.md](../../docs/better-auth/better-auth.options.md) - Complete reference for all Better Auth configuration options
-- **Organizations**: [docs/better-auth/better-auth.organizations.md](../../docs/better-auth/better-auth.organizations.md) - Organization features and permissions
-- **Credentials (Email/Password)**: [docs/better-auth/better-auth.credentials.email_password.md](../../docs/better-auth/better-auth.credentials.email_password.md) - Email/password authentication setup
-- **LastLoginMethod Utility**: [docs/better-auth/better-auth.utility.LastLoginMethod.md](../../docs/better-auth/better-auth.utility.LastLoginMethod.md) - Track user login methods
+- **Options & Configuration**: [docs/better-auth/better-auth.options.md](../../docs/better-auth/better-auth.options.md) — Complete reference for all Better Auth configuration options
+- **Organizations**: [docs/better-auth/better-auth.organizations.md](../../docs/better-auth/better-auth.organizations.md) — Organization features and permissions
+- **Credentials (Email/Password)**: [docs/better-auth/better-auth.credentials.email_password.md](../../docs/better-auth/better-auth.credentials.email_password.md) — Email/password authentication setup
+- **LastLoginMethod Utility**: [docs/better-auth/better-auth.utility.LastLoginMethod.md](../../docs/better-auth/better-auth.utility.LastLoginMethod.md) — Track user login methods
 
 For oRPC integration patterns, see [docs/orpc/orpc.better-auth.md](../../docs/orpc/orpc.better-auth.md).
 
-### Official Better Auth Resources
+---
 
-For the latest upstream documentation:
+## Official Resources
 
 - Official docs: https://www.better-auth.com/llms.txt
 - Google OAuth and other providers setup instructions available there
 
 ---
 
-## App-specific: Better Auth + oRPC SSR Pattern (Repository-specific guidance)
+## Application-Specific Pattern: Better Auth + oRPC SSR
 
-This section contains application-specific instructions for using Better Auth together with oRPC in this repository. These are not part of upstream oRPC docs but are important for contributors working on this app to avoid hydration mismatches and to prefetch auth-related data for SSR.
+This section contains **repository-specific** instructions for using Better Auth with oRPC in SSR contexts.
 
-### Why this is repo-specific
+### Why This Pattern Exists
 
-The Better Auth client provides client-side hooks (like `authClient.useSession()`), which cannot be used in server components or prefetchable Suspense boundaries. This repo uses oRPC to wrap Better Auth APIs and pass request headers through the oRPC context so these procedures can be pre-fetched on the server and used in client components via TanStack Query.
+The Better Auth client provides client-side hooks (e.g., `authClient.useSession()`), which **cannot** be used in:
 
-### Implementation example
+- Server components
+- Prefetchable Suspense boundaries
 
-```ts
+**Solution**: This repository wraps Better Auth APIs in oRPC procedures and passes request headers through the oRPC context. This allows:
+
+- Auth data to be **prefetched on the server** (no HTTP calls)
+- Client components to consume via **TanStack Query** (hydrated)
+
+### Implementation Example
+
+#### 1. Define oRPC Context with Headers
+
+```typescript
 // src/lib/orpc/context.ts
 import { os } from "@orpc/server";
+
 export const base = os.$context<{ headers: Headers }>();
 ```
 
-```ts
-// src/lib/orpc/procedures.ts
+#### 2. Create Auth Procedures
+
+```typescript
+// src/lib/orpc/procedures/auth.ts
 import { auth } from "@/lib/better-auth";
-import { base } from "./context";
+import { base } from "../context";
 
 export const getSession = base.handler(async ({ context }) => {
   return await auth.api.getSession({ headers: context.headers });
@@ -55,10 +73,104 @@ export const listOrganizations = base.handler(async ({ context }) => {
 });
 ```
 
-Add these procedures to your router and prefetch them inside server components to hydrate the client-side TanStack Query cache.
+#### 3. Register in Router
 
-### Usage & Decision Guidance
+```typescript
+// src/lib/orpc/router.ts
+import { os } from "@orpc/server";
+import { getSession, listOrganizations } from "./procedures/auth";
 
-Use oRPC + prefetch for server-rendered pages or for components inside Suspense boundaries. Use Better Auth hooks for interactive, client-only components.
+export const router = os.router({
+  auth: {
+    getSession,
+    listOrganizations,
+  },
+  // ... other procedures
+});
+```
 
-For more information and full examples, consult the repository's oRPC and TanStack Query integrations.
+#### 4. Prefetch in Server Component
+
+```typescript
+// src/app/[locale]/dashboard/page.tsx
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { getQueryClient } from "@/lib/tanstack-query/server";
+import { orpc } from "@/lib/orpc/orpc";
+
+export default async function DashboardPage() {
+  const queryClient = getQueryClient();
+
+  // Prefetch session on server (direct call, no HTTP)
+  await queryClient.prefetchQuery({
+    queryKey: orpc.auth.getSession.getQueryKey(),
+    queryFn: () => orpc.auth.getSession(),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <DashboardClient />
+    </HydrationBoundary>
+  );
+}
+```
+
+#### 5. Consume in Client Component
+
+```typescript
+// src/components/DashboardClient.tsx
+"use client";
+import { orpc } from "@/lib/orpc/orpc";
+
+export function DashboardClient() {
+  const { data: session } = orpc.auth.getSession.useQuery();
+
+  if (!session) {
+    return <div>Not authenticated</div>;
+  }
+
+  return <div>Welcome, {session.user.name}!</div>;
+}
+```
+
+---
+
+## Usage & Decision Guidance
+
+| Scenario                               | Use                                                           |
+| -------------------------------------- | ------------------------------------------------------------- |
+| **Server-rendered page**               | oRPC + prefetch (see example above)                           |
+| **Component inside Suspense**          | oRPC + prefetch                                               |
+| **Interactive, client-only component** | Better Auth hooks (`authClient.useSession()`)                 |
+| **Middleware (Next.js)**               | Better Auth API directly (`auth.api.getSession({ headers })`) |
+
+---
+
+## Common Tasks
+
+| Task                               | Implementation                                                                                      |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Check if user is authenticated** | Use `orpc.auth.getSession()` in server components or `authClient.useSession()` in client components |
+| **Protect a route**                | Add middleware or check session in layout/page                                                      |
+| **List user's organizations**      | Use `orpc.auth.listOrganizations()`                                                                 |
+| **Track last login method**        | Use `LastLoginMethod` utility (see docs)                                                            |
+| **Add OAuth provider**             | Configure in `src/lib/better-auth/auth.ts` (see official docs)                                      |
+
+---
+
+## File Locations
+
+| Purpose                    | Location                             |
+| -------------------------- | ------------------------------------ |
+| **Better Auth config**     | `src/lib/better-auth/auth.ts`        |
+| **Auth procedures (oRPC)** | `src/lib/orpc/procedures/auth.ts`    |
+| **HTTP endpoint**          | `src/app/api/auth/[...all]/route.ts` |
+| **Middleware**             | `src/middleware.ts`                  |
+
+---
+
+## For More Details
+
+- **Comprehensive Better Auth docs**: `/docs/better-auth/`
+- **oRPC integration**: `/docs/orpc/orpc.better-auth.md`
+- **TanStack Query SSR**: `/docs/tanstack-react-query/ssr.md`
+- **oRPC patterns**: `.github/instructions/orpc.instructions.md`
