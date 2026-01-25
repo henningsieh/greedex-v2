@@ -30,10 +30,7 @@ export async function sendPasswordResetEmail({
     console.log("📧 Sending password reset email to:", maskEmail(user.email));
 
     const emailHtml = await render(
-      PasswordResetEmail({
-        userName: user.name,
-        resetUrl: url,
-      }),
+      <PasswordResetEmail userName={user.name} resetUrl={url} />,
     );
 
     await sendEmail({
@@ -71,10 +68,7 @@ export async function sendEmailVerificationEmail({
     console.log("📧 Sending verification email to:", maskEmail(user.email));
 
     const emailHtml = await render(
-      EmailVerification({
-        userName: user.name,
-        verificationUrl: url,
-      }),
+      <EmailVerification userName={user.name} verificationUrl={url} />,
     );
 
     await sendEmail({
@@ -126,11 +120,11 @@ export async function sendOrganizationInvitation({
   try {
     console.log("📧 Sending organization invitation to:", maskEmail(email));
     const emailHtml = await render(
-      OrganizationInvitation({
-        organizationName,
-        inviterName,
-        inviteLink,
-      }),
+      <OrganizationInvitation
+        organizationName={organizationName}
+        inviterName={inviterName}
+        inviteLink={inviteLink}
+      />,
     );
 
     await sendEmail({

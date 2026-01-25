@@ -31,12 +31,4 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
   ],
-
-  // Run local dev server before starting tests
-  // webServer: {
-  //   command: "__NEXT_DEV_OVERLAY__=false bun run dev",
-  //   url: env.NEXT_PUBLIC_BASE_URL,
-  //   reuseExistingServer: !process.env.CI,
-  //   timeout: 120 * 1000,
-  // },
 });

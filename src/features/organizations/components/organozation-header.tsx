@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { ORGANIZATION_ICONS } from "@/features/organizations/organization-icons";
 import { CreateProjectButton } from "@/features/projects/components/create-project-button";
 import { usePathname } from "@/lib/i18n/routing";
@@ -61,21 +60,22 @@ export function OrganizationHeader() {
   );
 }
 
-export function DashboardHeaderSkeleton() {
-  return (
-    <Card className="border-primary/30 bg-primary/10 shadow-lg dark:border-primary/40 dark:bg-primary/10">
-      <CardHeader className="gap-6">
-        <CardTitle className="text-sm text-primary/60">
-          <Skeleton className="h-4 w-64" />
-        </CardTitle>
-        <CardDescription className="flex items-center gap-3 text-3xl font-bold text-primary dark:text-primary-foreground">
-          <Skeleton className="size-9 rounded-full" />
-          <Skeleton className="h-8 w-48" />
-        </CardDescription>
-        <CardAction>
-          <Skeleton className="h-10 w-42 bg-secondary" />
-        </CardAction>
-      </CardHeader>
-    </Card>
-  );
-}
+// UNUSED: DashboardHeaderSkeleton
+// export function DashboardHeaderSkeleton() {
+//   return (
+//     <Card className="border-primary/30 bg-primary/10 shadow-lg dark:border-primary/40 dark:bg-primary/10">
+//       <CardHeader className="gap-6">
+//         <CardTitle className="text-sm text-primary/60">
+//           <Skeleton className="h-4 w-64" />
+//         </CardTitle>
+//         <CardDescription className="flex items-center gap-3 text-3xl font-bold text-primary dark:text-primary-foreground">
+//           <Skeleton className="size-9 rounded-full" />
+//           <Skeleton className="h-8 w-48" />
+//         </CardDescription>
+//         <CardAction>
+//           <Skeleton className="h-10 w-42 bg-secondary" />
+//         </CardAction>
+//       </CardHeader>
+//     </Card>
+//   );
+// }

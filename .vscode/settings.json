@@ -1,69 +1,28 @@
 {
-  "json.schemaDownload.trustedDomains": {
-    "https://json.schemastore.org/": true
-  },
-  "emmet.showExpandedAbbreviation": "always",
-  "editor.formatOnPaste": true,
+  // ============================================================================
+  // CORE EDITOR SETTINGS
+  // ============================================================================
   "editor.codeActionsOnSave": {
-    "source.fixAll.oxc": "explicit",
-    "source.fixAll": "explicit"
+    "source.fixAll": "explicit",
+    "source.fixAll.oxc": "explicit"
   },
+  "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.rulers": [82],
-  "oxc.fmt.configPath": ".oxfmtrc.json",
-  "tailwindCSS.codeActions": true,
-  "tailwindCSS.lint.cssConflict": "warning",
-  "tailwindCSS.lint.invalidApply": "error",
-  "tailwindCSS.lint.invalidScreen": "error",
-  "tailwindCSS.lint.invalidVariant": "error",
-  "tailwindCSS.lint.invalidConfigPath": "error",
-  "tailwindCSS.lint.invalidTailwindDirective": "error",
-  "tailwindCSS.lint.recommendedVariantOrder": "warning",
-  "tailwindCSS.lint.suggestCanonicalClasses": "warning",
-  "tailwindCSS.validate": true,
 
-  "typescript.format.enable": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.experimental.useTsgo": false,
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.autoImportFileExcludePatterns": [
-    "**/node_modules/@radix-ui/**",
-    "**/node_modules/lucide-react/dist/esm/icons/*[^Icon].js"
-  ],
-  "chat.promptFilesRecommendations": {
-    "speckit.constitution": true,
-    "speckit.specify": true,
-    "speckit.plan": true,
-    "speckit.tasks": true,
-    "speckit.implement": true
+  // ============================================================================
+  // LANGUAGE-SPECIFIC FORMATTERS
+  // ============================================================================
+  "[css]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
-  "chat.tools.terminal.autoApprove": {
-    ".specify/scripts/bash/": true,
-    ".specify/scripts/powershell/": true
+  "[html]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
-  "search.exclude": {
-    "**/node_modules/@radix-ui": true
-  },
-  "i18n-ally.localesPaths": ["src/lib/i18n/translations"],
-  "i18n-ally.keystyle": "nested",
-  "i18n-ally.sourceLanguage": "en",
-  "i18n-ally.displayLanguage": "de",
-  "i18n-ally.extract.ignored": [" | "],
-  "i18n-ally.ignoreFiles": ["src/test/**"],
-  "i18n-ally.extract.ignoredByFiles": {
-    "src/test/orpc-error-type-safety.test.ts": true
-  },
-  "javascript.format.enable": true,
   "[javascript]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "[typescriptreact]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[json]": {
@@ -72,17 +31,86 @@
   "[jsonc]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
-  "[css]": {
+  "[markdown]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
-  "[html]": {
+  "[typescript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "[typescriptreact]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[yaml]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
-  "[markdown]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+
+  // ============================================================================
+  // TYPESCRIPT/JAVASCRIPT SETTINGS
+  // ============================================================================
+  "javascript.format.enable": true,
+  "typescript.experimental.useTsgo": false,
+  "typescript.format.enable": true,
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "**/node_modules/@radix-ui/**",
+    "**/node_modules/lucide-react/dist/esm/icons/*[^Icon].js"
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
+  // ============================================================================
+  // TAILWIND CSS SETTINGS
+  // ============================================================================
+  "tailwindCSS.codeActions": true,
+  "tailwindCSS.lint.cssConflict": "error",
+  "tailwindCSS.lint.invalidApply": "error",
+  "tailwindCSS.lint.invalidConfigPath": "error",
+  "tailwindCSS.lint.invalidScreen": "error",
+  "tailwindCSS.lint.invalidTailwindDirective": "error",
+  "tailwindCSS.lint.invalidVariant": "error",
+  "tailwindCSS.lint.recommendedVariantOrder": "error",
+  "tailwindCSS.lint.suggestCanonicalClasses": "error",
+  "tailwindCSS.validate": true,
+
+  // ============================================================================
+  // EXTENSION-SPECIFIC SETTINGS
+  // ============================================================================
+
+  // Chat
+  "chat.promptFilesRecommendations": {
+    "speckit.constitution": true,
+    "speckit.implement": true,
+    "speckit.plan": true,
+    "speckit.specify": true,
+    "speckit.tasks": true
   },
-  "typescript.updateImportsOnFileMove.enabled": "always"
+  "chat.tools.terminal.autoApprove": {
+    ".specify/scripts/bash/": true,
+    ".specify/scripts/powershell/": true
+  },
+
+  // GitLens
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "xai:grok-code-fast-1",
+
+  // i18n Ally
+  "i18n-ally.displayLanguage": "de",
+  "i18n-ally.extract.ignored": [" | "],
+  "i18n-ally.extract.ignoredByFiles": {
+    "src/test/orpc-error-type-safety.test.ts": true
+  },
+  "i18n-ally.ignoreFiles": ["src/test/**"],
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.localesPaths": ["src/lib/i18n/translations"],
+  "i18n-ally.sourceLanguage": "en",
+
+  // JSON
+  "json.schemaDownload.trustedDomains": {
+    "https://json.schemastore.org/": true
+  },
+
+  // Search
+  "search.exclude": {
+    "**/node_modules/@radix-ui": true
+  }
 }

@@ -343,6 +343,8 @@
         "next": "Nächste",
         "rows-per-page": "Zeilen pro Seite",
         "projects-count": "Projekte",
+        "showing-range": "Zeige {start}-{end} von {total} Projekten",
+        "no-projects-count": "0 Projekte",
         "no-results": {
           "title": "Keine Projekte gefunden",
           "description": "Keine Projekte entsprechen deinen Suchkriterien. Versuche, deine Filter anzupassen."
@@ -531,7 +533,7 @@
         "title": "Keine archivierten Projekte",
         "description": "Du hast noch keine Projekte archiviert. Archivierte Projekte erscheinen hier und können jederzeit wiederhergestellt werden."
       },
-      "go-to-projects": "Gehe zu aktiven Projekten"
+      "go-to-projects": "Deine aktiven Projekten"
     },
     "settings": {
       "title": "Organisationseinstellungen",
@@ -578,7 +580,6 @@
     },
     "loading": {
       "default": "Wird geladen…",
-      "switchingProject": "Projekt wird gewechselt…",
       "switchingOrganization": "Organisation wird gewechselt…"
     }
   },

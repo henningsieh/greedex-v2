@@ -16,5 +16,6 @@ export const PAGE_SIZE_OPTIONS = [5, 10, 25, 50] as const;
 
 /**
  * Type for available page size options
+ * Used in ProjectsTable and other paginated components for type safety
  */
 export type PageSizeOption = (typeof PAGE_SIZE_OPTIONS)[number];

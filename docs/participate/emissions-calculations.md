@@ -10,14 +10,15 @@ This document contains all numeric factors, formulas, example calculations, and 
 ## CO₂ Factors
 
 ### Transport CO₂ (kg CO₂ per km per person)
+**Based on Erasmus+ intra-European travel context**
 ```ts
 const CO2_FACTORS = {
-  car: 0.192,
-  boat: 0.115,
-  bus: 0.089,
-  train: 0.041,
-  plane: 0.255,
-  electricCar: 0.053,
+  car: 0.168,        // Real-world EU fleet average (diesel/petrol)
+  boat: 0.050,       // Standard ferry (0.115 for fast/long-distance ferry)
+  bus: 0.032,        // Long-distance coach (Erasmus-eligible green travel)
+  train: 0.035,      // EU electric train average (lower for high-speed rail)
+  plane: 0.154,      // Short-haul intra-European flights (500-2000km range)
+  electricCar: 0.053, // EU grid mix average
 };
 ```
 
@@ -87,13 +88,14 @@ Scenario:
 
 Results:
 ```
-Flight: 500 × 0.255 = 127.5 kg CO₂
-Bus: 20 × 0.089 = 1.78 kg CO₂
-Transport Total: 129.28 kg CO₂
+Flight: 500 × 0.154 = 77.0 kg CO₂
+Bus: 20 × 0.032 = 0.64 kg CO₂
+Transport Subtotal: 77.64 kg CO₂
+Transport Total (round trip): 77.64 × 2 = 155.28 kg CO₂
 Accommodation: 7 × 3.0 × 0.6 × 0.5 = 6.3 kg CO₂
 Food: 7 × 4.0 = 28.0 kg CO₂
-Total: 163.58 kg CO₂
-Trees: ceil(163.58 / 22) = 8
+Total: 189.58 kg CO₂
+Trees: ceil(189.58 / 22) = 9
 ```
 
 ### Emission Display Logic
@@ -105,11 +107,11 @@ Trees: ceil(163.58 / 22) = 8
 === Participant Questionnaire Complete ===
 Participant Answers: { /* ...answers... */ }
 Emissions Calculation: {
-  transportCO2: 129.3,
+  transportCO2: 155.28,
   accommodationCO2: 6.3,
   foodCO2: 28.0,
-  totalCO2: 163.6,
-  treesNeeded: 8
+  totalCO2: 189.58,
+  treesNeeded: 9
 }
 ==========================================
 ```

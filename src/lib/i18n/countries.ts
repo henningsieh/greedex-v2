@@ -6,15 +6,12 @@ import countries from "i18n-iso-countries";
 import deCountries from "i18n-iso-countries/langs/de.json";
 import enCountries from "i18n-iso-countries/langs/en.json";
 
-import { SUPPORTED_LOCALES } from "@/config/languages";
-
 // Register country locales for supported languages
 countries.registerLocale(enCountries);
 countries.registerLocale(deCountries);
 
 import {
   EU_COUNTRY_CODES,
-  type EUCountryCode,
   isEUCountry as isEUCountryBase,
 } from "@/config/eu-countries";
 
@@ -109,27 +106,28 @@ export const getCountryData = (
  */
 export const isEUCountry = isEUCountryBase;
 
-/**
- * Get the default EU country code for forms and UI elements
- * Since locales are no longer tied to specific countries, this returns
- * the first available EU country from supported locales, or Germany as fallback.
- *
- * @returns A valid EU country code
- */
-export const getDefaultEUCountry = (): EUCountryCode => {
-  // Try to find a locale with a country code that's in the EU
-  const localeWithEUCountry = SUPPORTED_LOCALES.find(
-    (locale) =>
-      "countryCode" in locale && isEUCountry(locale.countryCode as string),
-  );
+// UNUSED: getDefaultEUCountry
+// /**
+//  * Get the default EU country code for forms and UI elements
+//  * Since locales are no longer tied to specific countries, this returns
+//  * the first available EU country from supported locales, or Germany as fallback.
+//  *
+//  * @returns A valid EU country code
+//  */
+// export const getDefaultEUCountry = (): EUCountryCode => {
+//   // Try to find a locale with a country code that's in the EU
+//   const localeWithEUCountry = SUPPORTED_LOCALES.find(
+//     (locale) =>
+//       "countryCode" in locale && isEUCountry(locale.countryCode as string),
+//   );
 
-  if (localeWithEUCountry && "countryCode" in localeWithEUCountry) {
-    return localeWithEUCountry.countryCode as EUCountryCode;
-  }
+//   if (localeWithEUCountry && "countryCode" in localeWithEUCountry) {
+//     return localeWithEUCountry.countryCode as EUCountryCode;
+//   }
 
-  // Fallback to Germany (first EU country in the list)
-  return "DE";
-};
+//   // Fallback to Germany (first EU country in the list)
+//   return "DE";
+// };
 
 /**
  * Get all available countries (not just EU) with their flags

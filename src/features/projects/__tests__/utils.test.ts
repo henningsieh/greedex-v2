@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
+import { ACTIVITY_EMISSION_FACTORS } from "@/config/activities";
 import {
   calculateProjectDuration,
   getProjectStatistics,
-  CO2_FACTORS,
 } from "@/features/projects/utils";
 
 describe("calculateProjectDuration", () => {
@@ -51,7 +51,8 @@ describe("getProjectStatistics", () => {
     expect(stats.durationDays).toBe(4);
 
     // CO2: car 10 * carFactor + train 20.5 * trainFactor (unknown ignored, negative ignored)
-    const expectedCO2 = 10 * CO2_FACTORS.car + 20.5 * CO2_FACTORS.train;
+    const expectedCO2 =
+      10 * ACTIVITY_EMISSION_FACTORS.car + 20.5 * ACTIVITY_EMISSION_FACTORS.train;
     expect(stats.activitiesCO2Kg).toBeCloseTo(expectedCO2);
   });
 

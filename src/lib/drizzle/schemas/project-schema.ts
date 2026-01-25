@@ -9,7 +9,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { organization, user, member } from "@/lib/drizzle/schemas/auth-schema";
-import { ACTIVITY_VALUES } from "@/config/activities";
+import { ACTIVITY_VALUES, DECIMAL_PRECISION, DECIMAL_SCALE } from "@/config/activities";
 import type { EUCountryCode } from "@/config/eu-countries";
 import type { ActivityValueType } from "@/features/project-activities/types";
 
@@ -20,7 +20,7 @@ import type { ActivityValueType } from "@/features/project-activities/types";
  */
 const distanceKmType = customType<{ data: number; driverData: string }>({
   dataType() {
-    return "decimal(10, 1)";
+    return `decimal(${DECIMAL_PRECISION}, ${DECIMAL_SCALE})`;
   },
   fromDriver(value: string): number {
     return Number.parseFloat(value);

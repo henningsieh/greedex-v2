@@ -125,36 +125,3 @@ export function Location({
     </span>
   );
 }
-
-/**
- * @deprecated Use Location component instead. This component will be removed in a future version.
- *
- * Legacy component for backward compatibility during migration.
- */
-export function ProjectLocation({
-  project,
-  locale,
-  variant,
-  flagOnly,
-  showFlag,
-  className,
-}: {
-  project: { location?: string; country: string };
-  locale: string;
-  variant?: "inline" | "badge";
-  flagOnly?: boolean;
-  showFlag?: boolean;
-  className?: string;
-}) {
-  return (
-    <Location
-      className={className}
-      countryCode={project.country}
-      flagOnly={flagOnly}
-      locale={locale}
-      location={project.location}
-      showFlag={showFlag}
-      variant={variant}
-    />
-  );
-}
