@@ -1,15 +1,12 @@
 import { eq } from "drizzle-orm";
+import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { db } from "@/lib/drizzle/db";
 import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
 
-import {
-  CreateActivityInputSchema,
-  ProjectActivityWithRelationsSchema,
-  UpdateActivityInputSchema,
-} from "./validation-schemas";
+import { ProjectActivityWithRelationsSchema } from "./validation-schemas";
 
 // ============================================================================
 // HELPER FUNCTIONS
@@ -52,7 +49,13 @@ export const createProjectActivity = authorized
     summary: "Create a new project activity",
     tags: ["project", "activity"],
   })
-  .input(CreateActivityInputSchema)
+  .input(
+    createInsertSchema(projectActivitiesTable).omit({
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+    }),
+  )
   .output(
     z.object({
       success: z.boolean(),
@@ -127,7 +130,12 @@ export const updateProjectActivity = authorized
   .input(
     z.object({
       id: z.string().describe("Activity ID"),
-      data: UpdateActivityInputSchema,
+      data: createUpdateSchema(projectActivitiesTable).omit({
+        id: true,
+        projectId: true,
+        createdAt: true,
+        updatedAt: true,
+      }),
     }),
   )
   .output(

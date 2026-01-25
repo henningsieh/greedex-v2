@@ -6,12 +6,13 @@ import {
 import { z } from "zod";
 
 import { EU_COUNTRY_CODES } from "@/config/eu-countries";
+import { ProjectActivityWithRelationsSchema } from "@/features/project-activities/validation-schemas";
 import {
-  ActivityFormItemSchema,
-  EditActivityFormItemSchema,
-  ProjectActivityWithRelationsSchema,
-} from "@/features/project-activities/validation-schemas";
-import { organization, projectsTable, user } from "@/lib/drizzle/schema";
+  organization,
+  projectActivitiesTable,
+  projectsTable,
+  user,
+} from "@/lib/drizzle/schema";
 
 import { PROJECT_SORT_FIELDS } from "./types";
 
@@ -108,16 +109,43 @@ export const ProjectUpdateFormSchema = createUpdateSchema(projectsTable)
 
 /**
  * Combined form schema with activities for editing projects
+ *
+ * Activities use inline base schema with batch operation flags (no i18n needed)
  */
 export const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
-  activities: z.array(EditActivityFormItemSchema).optional(),
+  activities: z
+    .array(
+      createUpdateSchema(projectActivitiesTable)
+        .omit({
+          createdAt: true,
+          updatedAt: true,
+        })
+        .extend({
+          id: z.string(),
+          projectId: z.string(),
+          isNew: z.boolean().optional(),
+          isDeleted: z.boolean().optional(),
+        }),
+    )
+    .optional(),
 });
 
 /**
  * Combined form schema with optional activities for creating projects
+ *
+ * Activities use inline base schema for batch operations (no i18n needed)
  */
 export const CreateProjectWithActivitiesSchema = ProjectCreateFormSchema.extend({
-  activities: z.array(ActivityFormItemSchema).optional(),
+  activities: z
+    .array(
+      createInsertSchema(projectActivitiesTable).omit({
+        id: true,
+        projectId: true,
+        createdAt: true,
+        updatedAt: true,
+      }),
+    )
+    .optional(),
 });
 
 export type CreateProjectWithActivities = z.infer<

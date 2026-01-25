@@ -4,6 +4,7 @@ import type { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createInsertSchema } from "drizzle-zod";
 import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -45,13 +46,13 @@ import {
   DEFAULT_PROJECT_DURATION_DAYS,
   MILLISECONDS_PER_DAY,
 } from "@/config/projects";
-import { ActivityFormItemSchema } from "@/features/project-activities/validation-schemas";
 import {
   PROJECT_FORM_STEPS,
   PROJECT_FORM_TOTAL_STEPS,
 } from "@/features/projects/project-form-steps";
 import { getProjectDetailPath } from "@/features/projects/utils";
 import { CreateProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
+import { projectActivitiesTable } from "@/lib/drizzle/schema";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
@@ -131,9 +132,18 @@ export function CreateProjectForm({
   const { mutateAsync: createActivityMutation } = useMutation({
     mutationFn: (params: {
       projectId: string;
-      activity: z.infer<typeof ActivityFormItemSchema>;
+      activity: NonNullable<
+        z.infer<typeof CreateProjectWithActivitiesSchema>["activities"]
+      >[number];
     }) => {
-      const validActivity = ActivityFormItemSchema.parse(params.activity);
+      const validActivity = createInsertSchema(projectActivitiesTable)
+        .omit({
+          id: true,
+          projectId: true,
+          createdAt: true,
+          updatedAt: true,
+        })
+        .parse(params.activity);
 
       return orpc.projectActivities.create({
         projectId: params.projectId,
