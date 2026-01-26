@@ -58,7 +58,7 @@ export const ThemeSwitcher = ({
   return (
     <div
       className={cn(
-        "relative isolate flex h-8 rounded-full bg-transparent p-1 ring-1 ring-border hover:ring-primary",
+        "relative isolate flex h-8 rounded-full bg-transparent p-1 ring-1 ring-border hover:bg-accent/40 hover:ring-primary",
         className,
       )}
     >
@@ -82,7 +82,7 @@ export const ThemeSwitcher = ({
           <button
             aria-label={t(key)}
             title={t(key)}
-            className="relative size-6 rounded-full outline-none hover:bg-accent/40 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"
+            className="relative size-6 rounded-full outline-none hover:bg-primary/60 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50"
             key={key}
             onClick={() => handleThemeClick(key)}
             type="button"
@@ -90,7 +90,9 @@ export const ThemeSwitcher = ({
             <Icon
               className={cn(
                 "relative m-auto size-4",
-                isActive ? "text-accent-foreground" : "text-muted-foreground",
+                isActive
+                  ? "text-accent-foreground"
+                  : "text-muted-foreground hover:text-primary-foreground",
               )}
               strokeWidth="2.6"
             />

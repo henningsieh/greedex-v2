@@ -219,6 +219,16 @@ body {
     animation: gradient 8s linear infinite;
   }
 
+  /* Disable heavy background animations on small screens to reduce jank */
+  /* @media (max-width: 640px) {
+    .animate-gradient,
+    .animate-gradient-shift,
+    .animate-bounce {
+      animation: none !important;
+      background-size: auto !important;
+    }
+  } */
+
   @keyframes gradient-shift {
     0% {
       background-position: 0% 50%;

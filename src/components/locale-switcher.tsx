@@ -44,7 +44,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
         <Button
           aria-label={`Select language, current: ${currentLocale?.englishName || locale}`}
           className={cn(
-            "gap-2 rounded-full border-none bg-transparent p-1 ring-1 ring-border hover:ring-primary",
+            "hover:text-accent-accent-foreground gap-2 rounded-full border-none bg-transparent p-1 ring-1 ring-border hover:bg-accent/40 hover:ring-primary",
             isPending && "opacity-70",
             className,
           )}

@@ -972,7 +972,8 @@
       "about": "About",
       "login": "Login",
       "signup": "Sign Up",
-      "openMenu": "Open Menu"
+      "openMenu": "Open Menu",
+      "settings": "Settings"
     }
   },
   "about": {
