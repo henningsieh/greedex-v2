@@ -1,4 +1,3 @@
-import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
@@ -6,6 +5,7 @@ import { z } from "zod";
 import { MEMBER_ROLES } from "@/features/organizations/types";
 import { ProjectParticipantWithUserSchema } from "@/features/participants/validation-schemas";
 import { ProjectActivityWithRelationsSchema } from "@/features/project-activities/validation-schemas";
+import { DEFAULT_PROJECT_SORT } from "@/features/projects/types";
 import { computeSortDesc, orderByClauseFor } from "@/features/projects/utils";
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";

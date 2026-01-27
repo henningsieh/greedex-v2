@@ -1,16 +1,9 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
@@ -20,7 +13,6 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@greendex/*": ["../../packages/*/src"],
       "#next-routes/*": ["./.next/dev/types/*", "./.next/types/*"]
     }
   },
@@ -32,11 +24,7 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     ".next-inspect/types/**/*.ts",
-    ".next-inspect/dev/types/**/*.ts",
-    "../../packages/config/src/projects.ts",
-    "../../packages/config/src/pagination.ts",
-    "../../packages/config/src/organizations.ts",
-    "../../packages/config/src/participate.ts"
+    ".next-inspect/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

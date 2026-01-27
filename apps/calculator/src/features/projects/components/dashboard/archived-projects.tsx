@@ -1,6 +1,5 @@
 "use client";
 
-import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRightIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -21,6 +20,7 @@ import { ProjectsGrid } from "@/features/projects/components/dashboard/projects-
 import { ProjectsTable } from "@/features/projects/components/dashboard/projects-table";
 import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
 import { ProjectsViewSelect } from "@/features/projects/components/projects-view-select";
+import { DEFAULT_PROJECT_SORT } from "@/features/projects/types";
 import { Link } from "@/lib/i18n/routing";
 import { orpcQuery } from "@/lib/orpc/orpc";
 

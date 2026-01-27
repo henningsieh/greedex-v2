@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  DEFAULT_PROJECT_SORT,
-  ProjectSortField,
-} from "@greendex/config/projects";
 import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useMemo, useState } from "react";
@@ -22,6 +18,10 @@ import {
 import { Empty, EmptyDescription } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { ProjectCard } from "@/features/projects/components/project-card";
+import {
+  DEFAULT_PROJECT_SORT,
+  ProjectSortField,
+} from "@/features/projects/types";
 import { PROJECT_SORT_FIELDS } from "@/features/projects/types";
 import {
   createProjectComparator,

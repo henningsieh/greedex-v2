@@ -2,7 +2,6 @@
 
 import type z from "zod";
 
-import { MEMBER_SORT_FIELDS } from "@greendex/config/organizations";
 import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
@@ -19,7 +18,6 @@ import { FilterXIcon } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 
-import type { MemberRole, MemberSortField } from "@/features/organizations/types";
 import type { MemberWithUserSchema } from "@/features/organizations/validation-schemas";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -43,6 +41,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  USERS_SORT_FIELDS,
+  type MemberRole,
+  type MemberSortField,
+} from "@/features/organizations/types";
 import { SortableHeader } from "@/features/projects/components/sortable-header";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
@@ -87,7 +90,7 @@ export function UsersTable({
     procedureSortBy = "user.name";
   } else if (sortBy === "email") {
     procedureSortBy = "user.email";
-  } else if (MEMBER_SORT_FIELDS.includes(sortBy as MemberSortField)) {
+  } else if (USERS_SORT_FIELDS.includes(sortBy as MemberSortField)) {
     procedureSortBy = sortBy as MemberSortField;
   } else {
     procedureSortBy = undefined;

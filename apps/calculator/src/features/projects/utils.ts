@@ -1,10 +1,6 @@
 import type z from "zod";
 
 import { ACTIVITY_EMISSION_FACTORS } from "@greendex/config/activities";
-import {
-  DEFAULT_PROJECT_SORT,
-  ProjectSortField,
-} from "@greendex/config/projects";
 import { asc, desc, type SQL, sql } from "drizzle-orm";
 import React from "react";
 
@@ -18,6 +14,10 @@ import type { ProjectSortFieldSchema } from "@/features/projects/validation-sche
 
 import { type AppRoute, PROJECT_DETAIL_PATH } from "@/app/routes";
 import { PROJECT_ACTIVITIES_ICONS } from "@/features/project-activities/activities-icons";
+import {
+  DEFAULT_PROJECT_SORT,
+  ProjectSortField,
+} from "@/features/projects/types";
 import { projectsTable } from "@/lib/drizzle/schema";
 import { orpc } from "@/lib/orpc/orpc";
 

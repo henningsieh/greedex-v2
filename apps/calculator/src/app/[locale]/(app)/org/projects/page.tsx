@@ -4,7 +4,6 @@
  * Organization projects page with list of projects and create project button
  */
 
-import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import { Suspense } from "react";
@@ -16,6 +15,7 @@ import { CreateProjectButton } from "@/features/projects/components/create-proje
 import { ProjectsTab } from "@/features/projects/components/dashboard/projects-tab";
 import { ProjectsTabSkeleton } from "@/features/projects/components/dashboard/projects-table";
 import { PROJECT_ICONS } from "@/features/projects/components/project-icons";
+import { DEFAULT_PROJECT_SORT } from "@/features/projects/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";

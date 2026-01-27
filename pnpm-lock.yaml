@@ -386,11 +386,7 @@ importers:
         specifier: '>=18.0.0'
         version: 19.2.3
 
-  packages/config:
-    dependencies:
-      '@greendex/database':
-        specifier: workspace:*
-        version: link:../database
+  packages/config: {}
 
   packages/database:
     dependencies:

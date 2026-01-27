@@ -7,7 +7,6 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@greendex/config/activities";
-import { DEFAULT_PROJECT_DURATION_DAYS } from "@greendex/config/projects";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createInsertSchema } from "drizzle-zod";
@@ -47,6 +46,7 @@ import {
   PROJECT_FORM_STEPS,
   PROJECT_FORM_TOTAL_STEPS,
 } from "@/features/projects/project-form-steps";
+import { DEFAULT_PROJECT_DURATION_DAYS } from "@/features/projects/types";
 import {
   getProjectDetailPath,
   MILLISECONDS_PER_DAY,

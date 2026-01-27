@@ -1,10 +1,11 @@
-import { MEMBER_SORT_FIELDS } from "@greendex/config/organizations";
 import { ORPCError } from "@orpc/server";
 import { and, count, countDistinct, eq } from "drizzle-orm";
 import { z } from "zod";
 
-import type { MemberSortField } from "@/features/organizations/types";
-
+import {
+  USERS_SORT_FIELDS,
+  type MemberSortField,
+} from "@/features/organizations/types";
 import {
   MemberRoleSchema,
   MemberWithUserSchema,
@@ -168,7 +169,7 @@ export const searchMembers = authorized
           // Simple search string to match against user name or email
           search: z.string().optional(),
           // Sorting: a field name (e.g. "createdAt" | "user.name" | "email")
-          sortBy: z.enum(MEMBER_SORT_FIELDS).optional(),
+          sortBy: z.enum(USERS_SORT_FIELDS).optional(),
           sortDirection: z.enum(["asc", "desc"]).optional(),
           // limit/offset for pagination
           limit: z.number().optional(),

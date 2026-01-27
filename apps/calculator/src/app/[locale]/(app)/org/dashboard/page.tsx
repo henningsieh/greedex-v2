@@ -1,5 +1,4 @@
 import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
-import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 
@@ -8,6 +7,7 @@ import { PageHeader } from "@/components/page-header";
 import { OrganizationDashboard } from "@/features/organizations/components/organization-dashboard";
 import { ORGANIZATION_ICONS } from "@/features/organizations/organization-icons";
 import { MEMBER_ROLES } from "@/features/organizations/types";
+import { DEFAULT_PROJECT_SORT } from "@/features/projects/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/tanstack-react-query/hydration";
