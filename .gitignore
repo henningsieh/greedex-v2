@@ -24,6 +24,9 @@ src/lib/orpc/scalar-sri.ts
 # foreign repo
 docs/greendex-clickdummy/
 
+# turborepo
+/.turbo
+
 # next.js
 .next/
 /out/

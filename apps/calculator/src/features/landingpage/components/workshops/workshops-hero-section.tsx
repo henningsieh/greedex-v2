@@ -27,9 +27,9 @@ export async function WorkshopsHeroSection() {
 
       <div className="@container relative z-10 mx-auto max-w-6xl px-6 lg:px-0">
         <div className="space-y-8 text-center">
-          <h2 className="text-4xl font-semibold text-balance lg:text-5xl">
+          <h2 className="text-3xl leading-12 font-semibold text-balance lg:text-5xl">
             {t("workshops.headingPrefix")}{" "}
-            <span className="bg-linear-to-r from-primary/20 to-primary/60 px-1 py-2 text-primary-foreground">
+            <span className="bg-linear-to-r from-primary/20 to-primary/60 text-primary-foreground">
               {t("workshops.headingEmphasis")}
             </span>
             .

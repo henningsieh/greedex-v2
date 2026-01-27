@@ -114,7 +114,8 @@
 
   // JSON
   "json.schemaDownload.trustedDomains": {
-    "https://json.schemastore.org/": true
+    "https://turborepo.dev": true,
+    "https://ui.shadcn.com": true
   },
 
   // Search

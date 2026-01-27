@@ -20,7 +20,7 @@ import { Link } from "@/lib/i18n/routing";
  * @returns {JSX.Element} The rendered Navbar component.
  */
 // Note: Not used anywhere at the moment.
-export function Navbar() {
+export function Navbar(): React.ReactElement {
   return (
     <nav className="sticky top-0 z-50 border-b bg-background/20 backdrop-blur-sm">
       <div className="mx-auto flex h-15.75 items-center p-2">
