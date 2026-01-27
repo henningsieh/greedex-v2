@@ -1,6 +1,9 @@
 "use client";
 
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
+
 import { AnimatedGroup } from "@/components/animated-group";
+import { Badge } from "@/components/ui/badge";
 import { Globe } from "@/components/ui/globe";
 import { EU_MEMBER_COUNT, type EUCountryCode } from "@/config/eu-countries";
 import { EU_CAPITAL_CITIES } from "@/lib/i18n/eu-cities";
@@ -25,11 +28,63 @@ const transitionVariants = {
   },
 } as const;
 
+// Globe configuration
+const GLOBE_CONFIG = {
+  maxWidth: 640,
+  maxHeight: 640,
+  initialPhi: 3.5,
+  resetPhi: 3.5,
+  maxPhi: 5.5,
+  theta: 0.66,
+  rotationSpeed: 0.003,
+  mapSamples: 44_000,
+  mapBrightness: 3,
+  markerColor: [0.15, 0.65, 0.4] as [number, number, number],
+} as const;
+
 /**
  * Globe section component for the landing page
  * Displays an interactive 3D globe showcasing EU member states
  */
 export function GlobeSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const phiRef = useRef(GLOBE_CONFIG.initialPhi);
+  const [size, setSize] = useState<{ width: number; height: number }>({
+    width: GLOBE_CONFIG.maxWidth,
+    height: GLOBE_CONFIG.maxHeight,
+  });
+
+  // Measure container and update size (keeps square aspect ratio)
+  useLayoutEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const updateSize = () => {
+      const containerWidth = el.clientWidth || GLOBE_CONFIG.maxWidth;
+      const targetWidth = Math.min(containerWidth, GLOBE_CONFIG.maxWidth);
+      setSize({
+        width: Math.round(targetWidth),
+        height: Math.round(targetWidth),
+      });
+    };
+
+    updateSize();
+    const ro = new ResizeObserver(updateSize);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Handle auto-rotation with phi reset
+  const handleRender = useCallback((state: Record<string, any>) => {
+    phiRef.current += GLOBE_CONFIG.rotationSpeed;
+
+    // Reset phi if it grows too large to prevent runaway rotation
+    if (phiRef.current > GLOBE_CONFIG.maxPhi) {
+      phiRef.current = GLOBE_CONFIG.resetPhi;
+    }
+
+    state.phi = phiRef.current;
+  }, []);
   return (
     <section className="relative py-20 md:py-32">
       <div className="container mx-auto max-w-7xl px-6">
@@ -49,9 +104,12 @@ export function GlobeSection() {
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             {/* Left side - Text content */}
             <div className="space-y-6">
-              <div className="inline-block rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-semibold tracking-wider text-primary uppercase">
+              <Badge
+                className="border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-semibold tracking-wider text-primary uppercase"
+                variant="default"
+              >
                 Global Impact
-              </div>
+              </Badge>
 
               <h2 className="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl">
                 Across Europe,{" "}
@@ -103,39 +161,45 @@ export function GlobeSection() {
                     return null;
                   }
                   return (
-                    <span
-                      className="rounded-full border border-primary/90 bg-muted px-3 py-1 text-xs dark:bg-muted/20"
+                    <Badge
+                      variant="outline"
+                      className="border-primary/90 bg-muted/40 px-3 py-1 text-xs text-muted-foreground"
                       key={countryCode}
                     >
                       {city.name}
-                    </span>
+                    </Badge>
                   );
                 })}
-                <span className="rounded-full border border-primary/90 bg-primary/30 px-3 py-1 text-xs font-semibold text-primary-foreground/50">
+                <Badge
+                  className="border-primary/90 bg-primary/30 px-3 py-1 text-xs font-semibold text-primary-foreground/50"
+                  variant="default"
+                >
                   +{EU_MEMBER_COUNT - 8} more
-                </span>
+                </Badge>
               </div>
             </div>
 
             {/* Right side - Globe */}
             <div className="relative flex items-center justify-center">
-              <div className="relative">
+              <div
+                ref={containerRef}
+                className="relative mx-auto flex w-full max-w-120 items-center justify-center md:max-w-200"
+              >
                 {/* Glow effect behind globe */}
                 <div className="absolute inset-0 -z-10 rounded-full bg-linear-to-br from-emerald-400/20 via-teal-500/20 to-cyan-400/20 blur-3xl dark:from-emerald-500/30 dark:via-teal-600/30 dark:to-cyan-500/30" />
 
-                {/* Globe component (CSS glow removed to avoid double halo) */}
+                {/* Globe component */}
                 <Globe
-                  autoRotate={true}
-                  autoRotateSpeed={0.001}
                   cities={EU_CAPITAL_CITIES}
-                  className="mx-auto"
-                  height={800}
-                  mapBrightness={3}
-                  mapSamples={44_000}
-                  markerColor={[0.15, 0.65, 0.4]}
-                  phi={4}
-                  theta={0.6}
-                  width={800}
+                  className="mx-auto w-full"
+                  height={size.height}
+                  mapBrightness={GLOBE_CONFIG.mapBrightness}
+                  mapSamples={GLOBE_CONFIG.mapSamples}
+                  markerColor={GLOBE_CONFIG.markerColor}
+                  onRender={handleRender}
+                  phi={phiRef.current}
+                  theta={GLOBE_CONFIG.theta}
+                  width={size.width}
                 />
               </div>
             </div>

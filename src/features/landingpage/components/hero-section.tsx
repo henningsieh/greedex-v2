@@ -143,7 +143,10 @@ export async function HeroSection() {
       </section>
 
       <section>
-        <div className="mx-auto max-w-7xl scroll-mt-32 px-6 py-20" id="hero-text">
+        <div
+          className="mx-auto max-w-7xl scroll-mt-32 px-6 py-8 sm:py-12 md:py-20"
+          id="hero-text"
+        >
           <div className="text-center sm:mx-auto lg:mt-0 lg:mr-auto">
             <AnimatedGroup variants={transitionVariants}>
               <TextEffect
