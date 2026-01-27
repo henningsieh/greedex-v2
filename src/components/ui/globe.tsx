@@ -1,7 +1,7 @@
 "use client";
 
 import createGlobe from "cobe";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import type { CityLocation } from "@/lib/i18n/eu-cities";
 
@@ -20,14 +20,13 @@ export interface GlobeProps {
   markerColor?: [number, number, number];
   glowColor?: [number, number, number];
   markers?: Array<{ location: [number, number]; size: number }>;
-  autoRotate?: boolean;
-  autoRotateSpeed?: number;
+  onRender?: ((state: Record<string, any>) => void) | null;
 }
 
 /**
  * Globe component using Cobe library
  * Displays an interactive 3D globe with customizable markers and styling
- * 
+ *
  * @param className - Optional CSS classes
  * @param cities - Array of city locations to display as markers
  * @param width - Canvas width in pixels (default: 600)
@@ -42,8 +41,7 @@ export interface GlobeProps {
  * @param markerColor - RGB color for city markers
  * @param glowColor - RGB color for glow effect
  * @param markers - Custom markers array (overrides cities if provided)
- * @param autoRotate - Enable auto-rotation (default: true)
- * @param autoRotateSpeed - Rotation speed (default: 0.002)
+ * @param onRender - Callback for each render frame
  */
 export function Globe({
   className = "",
@@ -60,68 +58,62 @@ export function Globe({
   markerColor,
   glowColor,
   markers: customMarkers,
-  autoRotate = true,
-  autoRotateSpeed = 0.002,
+  onRender,
 }: GlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const phiRef = useRef(phi);
   const { theme, resolvedTheme } = useTheme();
-  
+
   // Determine if we're in dark mode
   const isDark = theme === "dark" || resolvedTheme === "dark";
-  
+
   // Use dark prop if provided, otherwise use theme
   const effectiveDark = dark !== undefined ? dark : isDark ? 1 : 0;
-  
+
   // Default colors based on theme
-  const defaultBaseColor: [number, number, number] = isDark 
+  const defaultBaseColor: [number, number, number] = isDark
     ? [0.1, 0.4, 0.3] // Dark mode: darker teal
     : [0.8, 0.95, 0.9]; // Light mode: very light teal
-    
+
   const defaultMarkerColor: [number, number, number] = isDark
     ? [0.2, 0.9, 0.6] // Dark mode: bright emerald
     : [0.15, 0.65, 0.4]; // Light mode: medium green
-    
+
   const defaultGlowColor: [number, number, number] = isDark
     ? [0.1, 0.5, 0.3] // Dark mode: emerald glow
     : [0.7, 0.9, 0.8]; // Light mode: soft teal glow
-
-  const onRender = useCallback(
-    (state: Record<string, any>) => {
-      if (!autoRotate) return;
-      
-      // Auto-rotate
-      phiRef.current += autoRotateSpeed;
-      state.phi = phiRef.current;
-    },
-    [autoRotate, autoRotateSpeed]
-  );
 
   useEffect(() => {
     if (!canvasRef.current) return;
 
     // Convert cities to markers format
-    const cityMarkers = customMarkers || cities.map((city) => ({
-      location: [city.latitude, city.longitude] as [number, number],
-      size: city.size || 0.08,
-    }));
+    const cityMarkers =
+      customMarkers ||
+      cities.map((city) => ({
+        location: [city.latitude, city.longitude] as [number, number],
+        size: city.size || 0.08,
+      }));
 
-    const globe = createGlobe(canvasRef.current, {
+    const globeConfig = {
       devicePixelRatio: 2,
       width: width * 2,
       height: height * 2,
-      phi: phi,
-      theta: theta,
+      phi,
+      theta,
       dark: effectiveDark,
-      diffuse: diffuse,
-      mapSamples: mapSamples,
-      mapBrightness: mapBrightness,
+      diffuse,
+      mapSamples,
+      mapBrightness,
       baseColor: baseColor || defaultBaseColor,
       markerColor: markerColor || defaultMarkerColor,
       glowColor: glowColor || defaultGlowColor,
       markers: cityMarkers,
-      onRender: onRender,
-    });
+    } as Parameters<typeof createGlobe>[1];
+
+    if (onRender) {
+      globeConfig.onRender = onRender;
+    }
+
+    const globe = createGlobe(canvasRef.current, globeConfig);
 
     return () => {
       globe.destroy();
@@ -152,8 +144,8 @@ export function Globe({
         ref={canvasRef}
         aria-hidden="true"
         style={{
-          width: width,
-          height: height,
+          width,
+          height,
           maxWidth: "100%",
           aspectRatio: "1",
         }}

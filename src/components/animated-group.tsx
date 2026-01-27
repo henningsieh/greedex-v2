@@ -186,13 +186,19 @@ function AnimatedGroup({
 
   const MotionChild = useMemo(() => motion.create(asChild), [asChild]);
 
-  // If triggerOnView is true, use `whileInView` + `viewport` so the
-  // animation triggers when the element scrolls into view. Otherwise
-  // fall back to the original initial/animate behavior.
+  // Tailwind breakpoint behavior:
+  // Use `whileInView` only on `md` and larger viewports (>= 768px). On
+  // smaller viewports we animate immediately to ensure content is visible
+  // on mobile browsers where IntersectionObserver can be flaky.
+  const useWhileInView = (() => {
+    if (!triggerOnView || typeof window === "undefined") return false;
+    return window.matchMedia("(min-width: 768px)").matches;
+  })();
+
   return (
     <MotionComponent
       initial={"hidden"}
-      {...(triggerOnView
+      {...(useWhileInView
         ? {
             whileInView: "visible",
             viewport: viewport ?? {

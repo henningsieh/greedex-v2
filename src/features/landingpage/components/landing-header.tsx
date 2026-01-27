@@ -89,12 +89,15 @@ export const LandingHeader = () => {
               {/* Mobile burger menu */}
               <div className="flex items-center gap-2 lg:hidden">
                 <ThemeSwitcher className="rounded-md" />
-                <LocaleSwitcher className="h-8 rounded-md has-[>svg]:px-2" />
+                <div className="hidden sm:inline-block">
+                  <LocaleSwitcher className="h-8 rounded-md has-[>svg]:px-2" />
+                </div>
+
                 <Sheet onOpenChange={setMenuOpen} open={menuOpen}>
                   <SheetTrigger asChild>
                     <Button
                       aria-label={t("navigation.openMenu")}
-                      className="flex items-center bg-transparent ring-1 ring-primary hover:bg-accent/40 lg:hidden"
+                      className="flex items-center bg-transparent ring-1 ring-primary hover:bg-accent/40 hover:text-muted-foreground lg:hidden"
                       size="sm"
                       variant="ghost"
                     >
@@ -103,7 +106,7 @@ export const LandingHeader = () => {
                   </SheetTrigger>
                   <SheetContent side="right">
                     <SheetHeader className="p-6 text-left">
-                      <SheetTitle className="flex items-center gap-2">
+                      <SheetTitle className="flex items-center gap-2 font-sans">
                         <Logo />
                         <span className="sr-only">Greedex Calculator</span>
                       </SheetTitle>
@@ -134,7 +137,16 @@ export const LandingHeader = () => {
                         ))}
                       </ul>
 
-                      <div className="mt-6 flex flex-col gap-4">
+                      <div className="mt-6 space-y-4">
+                        <div className="space-y-3">
+                          <p className="px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+                            {t("navigation.settings") || "Settings"}
+                          </p>
+                          <LocaleSwitcher className="w-full rounded-md" />
+                        </div>
+                      </div>
+
+                      <div className="mt-4 flex flex-col gap-4">
                         <Button asChild size="lg" variant="outline">
                           <Link
                             href={LOGIN_PATH}
