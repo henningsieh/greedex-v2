@@ -1,7 +1,28 @@
 {
-  "LandingPage": {
+  "landingPage": {
     "launchButton": "Erasmus+ CO₂-Rechner starten",
     "launchButtonAria": "Erasmus+ CO₂-Rechner öffnen — Login erforderlich",
+    "about": {
+      "partnersTitle": "Partner",
+      "partnersHeadline": "Das Projekt Greendex entstand aus Liebe zur Natur und der Notwendigkeit, zu einer nachhaltigeren Zukunft beizutragen. Das Projekt wurde als KA 2 – Strategische Partnerschaft im Rahmen des Erasmus+-Programms konzipiert und von der slowenischen Nationalagentur MOVIT finanziert. Im Rahmen dieses Projekts haben wir umfangreiche Forschungen zum Thema Nachhaltigkeit durchgeführt und eine Bibliothek für zukünftige Studien eingerichtet. Wir haben kreative Tipps und Tricks für Menschen entwickelt, die sie in ihrem Alltag umsetzen können, und für Jugendorganisationen, die sie in ihrer Arbeit anwenden können. Wir haben Schulungen entwickelt, die bei Mobilitätsmaßnahmen eingesetzt werden können, um das Bewusstsein zu schärfen und unseren CO2-Fußabdruck auszugleichen. Außerdem haben wir einen CO2-Fußabdruck-Rechner entwickelt, der speziell auf die Realität von Erasmus+ zugeschnitten ist. Wir haben in den Erasmus+-Wald investiert, in dem regelmäßig Bäume gepflanzt werden. Wir haben recherchiert, gelernt, geteilt, getestet und gepflanzt – für uns, für Sie und für die Zukunft.Übersetzt mit DeepL.com (kostenlose Version)",
+      "partnerBadge": "Partner",
+      "visitWebsite": "Website besuchen",
+      "erasmusFunding": "Gefördert durch das Erasmus+ Programm.",
+      "aboutTitle": "Über Greendex"
+    },
+    "header": {
+      "navigation": {
+        "workshops": "Workshops",
+        "eforest": "E+ Wald",
+        "tipsAndTricks": "Tipps & Tricks",
+        "library": "Ressourcen",
+        "about": "Über uns",
+        "login": "Anmelden",
+        "signup": "Registrieren",
+        "openMenu": "Menü öffnen",
+        "settings": "Einstellungen"
+      }
+    },
     "hero": {
       "missionTitle": "Unsere Mission",
       "missionText": "Das Erasmus+ Programm ermöglicht uns fantastische Lernabenteuer mit inspirierenden Menschen aus verschiedenen Ländern. Jedoch trägt jede unserer persönlichen Begegnungen zu einem erheblichen CO₂-Fußabdruck bei – durch unsere Reise- und Lebensgewohnheiten. Ziel dieses Projekts ist es, unseren CO₂-Fußabdruck in den Projekten, die wir durchführen, auszugleichen, indem wir mehr Bewusstsein schaffen und aktiv unsere Gewohnheiten ändern. Aus diesem Grund haben wir einen CO₂-Rechner entwickelt, der speziell auf Erasmus+ Projekte wie Jugendbegegnungen, Trainingskurse, Meetings etc. zugeschnitten ist. Dieser Rechner zeigt die finale CO₂-Menge, die jede*r Teilnehmende verursacht, und rechnet diese in die durchschnittliche Anzahl von Bäumen um, die unser CO₂ in ihrer Lebenszeit absorbieren werden. Unsere Berechnungen basieren auf wissenschaftlicher Forschung verschiedener Fachleute. Wir haben keine eigenen Berechnungen angestellt.",
@@ -10,10 +31,60 @@
       "scrollDown": "Nach unten scrollen",
       "meetCustomers": "Lerne unsere Partner kennen"
     },
+    "EPlusForest": {
+      "hero": {
+        "title": "E+ Wald"
+      },
+      "dream": {
+        "title": "Ein Traum",
+        "p1": "Jedes Projekt beginnt mit einem Traum. Und Träume sind die Essenz des Lebens. Ein Traum für dieses Projekt ist es, eine Welt zu schaffen, in der jeder mit der Natur in Berührung kommen und ihre Schönheit schätzen kann.",
+        "p2": "Wir wollen ein Projekt aufbauen, das es Menschen ermöglicht, die Schönheit der Natur aus nächster Nähe zu sehen, zu fühlen und zu erleben. Wir streben danach, ein Projekt zu schaffen, das Menschen zusammenbringt und ein Gefühl von Respekt und Verständnis für die Umwelt fördert. Wir wollen, dass dieses Projekt Menschen dazu inspiriert, zu handeln und zusammenzuarbeiten, um die Natur zu schützen, zu bewahren und wiederherzustellen. Wir stellen uns ein Projekt vor, das Menschen aller Altersgruppen, Hintergründe und Überzeugungen zusammenbringt, um die Schönheit der Natur zu genießen und einen Unterschied in der Welt zu machen. Wir wollen Ressourcen und Bildungsmöglichkeiten bereitstellen, damit Menschen etwas über die Umwelt, die Bedeutung des Naturschutzes und Handlungsmöglichkeiten lernen können. Wir glauben, dass wir durch Zusammenarbeit eine bessere Zukunft für unseren Planeten und alle seine Bewohner schaffen können.",
+        "ourForests": {
+          "title": "Unsere Wälder",
+          "portugal": {
+            "status": "Etabliert",
+            "location": "Portugal",
+            "description": "Der erste Erasmus+ Wald zur Kompensation des CO₂-Fußabdrucks von Mobilitätsprojekten.",
+            "treesLabel": "Gepflanzte Bäume"
+          },
+          "expanding": {
+            "status": "Wachsend",
+            "title": "Ausdehnung in Europa",
+            "description": "Die Bewegung breitet sich auf weitere Länder aus und schafft ein Netzwerk nachhaltiger Wälder.",
+            "slovenia": "Slowenien — Etablierter Wald",
+            "cyprus": "Zypern — In Arbeit",
+            "netherlands": "Niederlande — In Arbeit",
+            "joinUs": "Möchten Sie einen Wald in Ihrem Land starten? Kontaktieren Sie uns, um sich der Bewegung anzuschließen."
+          },
+          "readArticle": "Ganzen Artikel lesen",
+          "readMore": "Weitere Berichterstattung"
+        }
+      },
+      "donate": {
+        "title": "Spenden",
+        "description": "Wenn deine Organisation keinen Ort hat, um einen eigenen Wald zu starten, bist du eingeladen, an Greendex zu spenden, und wir werden Bäume in einem unserer Wälder in deinem Namen pflanzen.",
+        "howItWorks": {
+          "title": "Wie es funktioniert",
+          "p1": "Berechne die Anzahl der Bäume, die benötigt werden, um den CO₂-Fußabdruck deiner Mobilität auszugleichen, indem du unseren Rechner benutzt.",
+          "p2": "Die Anzahl wird im Gastgeberprofil sichtbar sein. Jeder Baum kostet 5 EUR."
+        },
+        "wePlantTrees": {
+          "title": "Wir pflanzen Bäume",
+          "p1": "Im Frühling und im Herbst. Sobald deine Spende registriert ist, senden wir dir eine Bestätigung darüber, die für Werbezwecke verwendet oder dem Abschlussbericht deines Projekts hinzugefügt werden kann. Wenn Bäume gepflanzt sind, erhältst du eine endgültige Bestätigung, den Standort deiner Bäume und ein Foto.",
+          "p2": "Du kannst uns unter plant.trees@greendex.world kontaktieren, uns über deine Spende informieren und wir senden dir Anweisungen."
+        },
+        "calculatorButton": "Rechner",
+        "contactButton": "Kontakt"
+      },
+      "funding": {
+        "text": "Kofinanziert durch die"
+      }
+    },
     "footer": {
-      "explore": "Entdecken",
+      "app": "App",
       "company": "Unternehmen",
-      "app": "App"
+      "explore": "Entdecken",
+      "copyright": "Alle Rechte vorbehalten."
     },
     "workshops": {
       "headingPrefix": "Hallo, liebe*r",
@@ -301,6 +372,52 @@
       }
     }
   },
+  "app": {
+    "appearance": {
+      "title": "Erscheinungsbild",
+      "description": "Passe an, wie die Anwendung aussieht und sich anfühlt",
+      "theme": "Design",
+      "themeDescription": "Wähle dein bevorzugtes Farbschema",
+      "themes": {
+        "light": "Helles Design",
+        "dark": "Dunkles Design",
+        "system": "Systemdesign"
+      }
+    },
+    "sidebar": {
+      "projects": {
+        "groupLabel": "Projektbereich",
+        "projects": "Projekte",
+        "participants": "Teilnehmende",
+        "archive": "Archiv",
+        "archiveLabel": "Projektarchiv",
+        "details": "Projektdetails"
+      },
+      "organization": {
+        "groupLabel": "Organisationsbereich",
+        "dashboard": "Dashboard",
+        "projects": "Projekte",
+        "team": "Team",
+        "settings": "Organisation",
+        "createproject": "Projekt erstellen"
+      },
+      "collapse": "Seitenleiste einklappen"
+    },
+    "loading": {
+      "default": "Wird geladen…",
+      "switchingOrganization": "Organisation wird gewechselt…"
+    },
+    "userSettings": {
+      "title": "Benutzereinstellungen",
+      "description": "Verwalte deine persönlichen Präferenzen und Kontoeinstellungen",
+      "language": {
+        "title": "Sprache & Region",
+        "description": "Wähle deine bevorzugte Sprache und regionale Einstellungen",
+        "locale": "Sprache",
+        "localeDescription": "Wähle deine bevorzugte Sprache"
+      }
+    }
+  },
   "organization": {
     "dashboard": {
       "title": "Dashboard",
@@ -558,134 +675,6 @@
       }
     }
   },
-  "app": {
-    "sidebar": {
-      "projects": {
-        "groupLabel": "Projektbereich",
-        "projects": "Projekte",
-        "participants": "Teilnehmende",
-        "archive": "Archiv",
-        "archiveLabel": "Projektarchiv",
-        "details": "Projektdetails"
-      },
-      "organization": {
-        "groupLabel": "Organisationsbereich",
-        "dashboard": "Dashboard",
-        "projects": "Projekte",
-        "team": "Team",
-        "settings": "Organisation",
-        "createproject": "Projekt erstellen"
-      },
-      "collapse": "Seitenleiste einklappen"
-    },
-    "loading": {
-      "default": "Wird geladen…",
-      "switchingOrganization": "Organisation wird gewechselt…"
-    }
-  },
-  "project": {
-    "details": {
-      "title": "Projektdetails",
-      "start-date": "Startdatum",
-      "end-date": "Enddatum",
-      "location": "Ort",
-      "country": "Land",
-      "welcome-message": "Willkommensnachricht",
-      "participants": "Teilnehmende",
-      "participants-description": "Teilnehmende werden hier angezeigt.",
-      "activities": "Aktivitäten",
-      "activities-description": "Projektaktivitäten werden hier angezeigt.",
-      "loading": "Projektdetails werden geladen…",
-      "people-joined": "Leute sind bereits beigetreten",
-      "no-participants-yet": "Noch keine Teilnehmenden",
-      "share-the-participation-link": "Teile den Teilnahmelink, um Personen zu diesem Projekt einzuladen.",
-      "tabs": {
-        "details": "Projektdetails",
-        "activities": "Projektaktivitäten",
-        "participants": "Projektteilnehmende"
-      },
-      "statistics": {
-        "participants": "Teilnehmende",
-        "activities": "Aktivitäten",
-        "total-distance": "Gesamtstrecke",
-        "duration": "Dauer",
-        "km": "km",
-        "days": "Tage",
-        "co2-emissions": "Emissionen"
-      },
-      "errors": {
-        "default-error": "Fehler beim Laden der Projektdetails.",
-        "project-not-found": "Das Projekt konnte nicht gefunden werden.",
-        "project-access-denied": "Du hast keinen Zugriff auf dieses Projekt."
-      },
-      "joined-on": "beigetreten am"
-    },
-    "activities": {
-      "title": "Projektaktivitäten",
-      "description": "Reiseaktivitäten zur Berechnung des CO₂-Fußabdrucks",
-      "empty": {
-        "title": "Noch keine Aktivitäten",
-        "description": "Für dieses Projekt wurden noch keine Aktivitäten erfasst. Füge Aktivitäten hinzu, um den CO₂-Fußabdruck zu verfolgen."
-      },
-      "types": {
-        "boat": "Boot",
-        "bus": "Bus",
-        "train": "Zug",
-        "car": "Auto"
-      },
-      "form": {
-        "title": "Aktivität hinzufügen",
-        "edit-title": "Aktivität bearbeiten",
-        "activity-type": "Aktivitätstyp",
-        "activity-type-placeholder": "Aktivitätstyp auswählen",
-        "distance": "Entfernung (km)",
-        "distance-placeholder": "Entfernung in Kilometern eingeben",
-        "description": "Beschreibung (optional)",
-        "description-placeholder": "Füge eine Beschreibung für diese Aktivität hinzu",
-        "activity-date": "Aktivitätsdatum (optional)",
-        "submit": "Aktivität hinzufügen",
-        "update": "Aktivität aktualisieren",
-        "cancel": "Abbrechen",
-        "adding": "Wird hinzugefügt…",
-        "updating": "Wird aktualisiert…",
-        "validation": {
-          "distanceKm": {
-            "min": "Die Entfernung muss mindestens {min} km betragen",
-            "max": "Die Entfernung darf {max} km nicht überschreiten",
-            "step": "Die Entfernung muss in Schritten von {step} km angegeben werden"
-          }
-        }
-      },
-      "delete": {
-        "confirm-title": "Aktivität löschen?",
-        "confirm-description": "Diese Aktivität wird dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
-        "confirm-button": "Löschen",
-        "cancel-button": "Abbrechen",
-        "deleting": "Löschen..."
-      },
-      "toast": {
-        "create-success": "Aktivität erfolgreich hinzugefügt",
-        "create-error": "Fehler beim Hinzufügen der Aktivität",
-        "update-success": "Aktivität erfolgreich aktualisiert",
-        "update-error": "Fehler beim Aktualisieren der Aktivität",
-        "delete-success": "Aktivität erfolgreich gelöscht",
-        "delete-error": "Fehler beim Löschen der Aktivität"
-      },
-      "table": {
-        "type": "Typ",
-        "distance": "Entfernung",
-        "description": "Beschreibung",
-        "date": "Datum",
-        "actions": "Aktionen",
-        "edit": "Bearbeiten",
-        "delete": "Löschen",
-        "km": "km"
-      },
-      "error": {
-        "load-failed": "Aktivitäten konnten nicht geladen werden. \nBitte probiere es noch einmal."
-      }
-    }
-  },
   "participation": {
     "questionnaire": {
       "header": {
@@ -832,6 +821,109 @@
       }
     }
   },
+  "project": {
+    "details": {
+      "title": "Projektdetails",
+      "start-date": "Startdatum",
+      "end-date": "Enddatum",
+      "location": "Ort",
+      "country": "Land",
+      "welcome-message": "Willkommensnachricht",
+      "participants": "Teilnehmende",
+      "participants-description": "Teilnehmende werden hier angezeigt.",
+      "activities": "Aktivitäten",
+      "activities-description": "Projektaktivitäten werden hier angezeigt.",
+      "loading": "Projektdetails werden geladen…",
+      "people-joined": "Leute sind bereits beigetreten",
+      "no-participants-yet": "Noch keine Teilnehmenden",
+      "share-the-participation-link": "Teile den Teilnahmelink, um Personen zu diesem Projekt einzuladen.",
+      "tabs": {
+        "details": "Projektdetails",
+        "activities": "Projektaktivitäten",
+        "participants": "Projektteilnehmende"
+      },
+      "statistics": {
+        "participants": "Teilnehmende",
+        "activities": "Aktivitäten",
+        "total-distance": "Gesamtstrecke",
+        "duration": "Dauer",
+        "km": "km",
+        "days": "Tage",
+        "co2-emissions": "Emissionen"
+      },
+      "errors": {
+        "default-error": "Fehler beim Laden der Projektdetails.",
+        "project-not-found": "Das Projekt konnte nicht gefunden werden.",
+        "project-access-denied": "Du hast keinen Zugriff auf dieses Projekt."
+      },
+      "joined-on": "beigetreten am"
+    },
+    "activities": {
+      "title": "Projektaktivitäten",
+      "description": "Reiseaktivitäten zur Berechnung des CO₂-Fußabdrucks",
+      "empty": {
+        "title": "Noch keine Aktivitäten",
+        "description": "Für dieses Projekt wurden noch keine Aktivitäten erfasst. Füge Aktivitäten hinzu, um den CO₂-Fußabdruck zu verfolgen."
+      },
+      "types": {
+        "boat": "Boot",
+        "bus": "Bus",
+        "train": "Zug",
+        "car": "Auto"
+      },
+      "form": {
+        "title": "Aktivität hinzufügen",
+        "edit-title": "Aktivität bearbeiten",
+        "activity-type": "Aktivitätstyp",
+        "activity-type-placeholder": "Aktivitätstyp auswählen",
+        "distance": "Entfernung (km)",
+        "distance-placeholder": "Entfernung in Kilometern eingeben",
+        "description": "Beschreibung (optional)",
+        "description-placeholder": "Füge eine Beschreibung für diese Aktivität hinzu",
+        "activity-date": "Aktivitätsdatum (optional)",
+        "submit": "Aktivität hinzufügen",
+        "update": "Aktivität aktualisieren",
+        "cancel": "Abbrechen",
+        "adding": "Wird hinzugefügt…",
+        "updating": "Wird aktualisiert…",
+        "validation": {
+          "distanceKm": {
+            "min": "Die Entfernung muss mindestens {min} km betragen",
+            "max": "Die Entfernung darf {max} km nicht überschreiten",
+            "step": "Die Entfernung muss in Schritten von {step} km angegeben werden"
+          }
+        }
+      },
+      "delete": {
+        "confirm-title": "Aktivität löschen?",
+        "confirm-description": "Diese Aktivität wird dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+        "confirm-button": "Löschen",
+        "cancel-button": "Abbrechen",
+        "deleting": "Löschen..."
+      },
+      "toast": {
+        "create-success": "Aktivität erfolgreich hinzugefügt",
+        "create-error": "Fehler beim Hinzufügen der Aktivität",
+        "update-success": "Aktivität erfolgreich aktualisiert",
+        "update-error": "Fehler beim Aktualisieren der Aktivität",
+        "delete-success": "Aktivität erfolgreich gelöscht",
+        "delete-error": "Fehler beim Löschen der Aktivität"
+      },
+      "table": {
+        "type": "Typ",
+        "distance": "Entfernung",
+        "description": "Beschreibung",
+        "date": "Datum",
+        "actions": "Aktionen",
+        "edit": "Bearbeiten",
+        "delete": "Löschen",
+        "km": "km"
+      },
+      "error": {
+        "load-failed": "Aktivitäten konnten nicht geladen werden. \nBitte probiere es noch einmal."
+      }
+    }
+  },
   "authentication": {
     "common": {
       "emailPlaceholder": "m@beispiel.de",
@@ -961,95 +1053,6 @@
         "success": "Bestätigungs-E-Mail erfolgreich gesendet!",
         "error": "Bestätigungs-E-Mail konnte nicht gesendet werden"
       }
-    }
-  },
-  "header": {
-    "navigation": {
-      "workshops": "Workshops",
-      "eforest": "E+ Wald",
-      "tipsAndTricks": "Tipps & Tricks",
-      "library": "Ressourcen",
-      "about": "Über uns",
-      "login": "Anmelden",
-      "signup": "Registrieren",
-      "openMenu": "Menü öffnen"
-    }
-  },
-  "about": {
-    "partnersTitle": "Partner",
-    "partnersHeadline": "Das Projekt Greendex entstand aus Liebe zur Natur und der Notwendigkeit, zu einer nachhaltigeren Zukunft beizutragen. Das Projekt wurde als KA 2 – Strategische Partnerschaft im Rahmen des Erasmus+-Programms konzipiert und von der slowenischen Nationalagentur MOVIT finanziert. Im Rahmen dieses Projekts haben wir umfangreiche Forschungen zum Thema Nachhaltigkeit durchgeführt und eine Bibliothek für zukünftige Studien eingerichtet. Wir haben kreative Tipps und Tricks für Menschen entwickelt, die sie in ihrem Alltag umsetzen können, und für Jugendorganisationen, die sie in ihrer Arbeit anwenden können. Wir haben Schulungen entwickelt, die bei Mobilitätsmaßnahmen eingesetzt werden können, um das Bewusstsein zu schärfen und unseren CO2-Fußabdruck auszugleichen. Außerdem haben wir einen CO2-Fußabdruck-Rechner entwickelt, der speziell auf die Realität von Erasmus+ zugeschnitten ist. Wir haben in den Erasmus+-Wald investiert, in dem regelmäßig Bäume gepflanzt werden. Wir haben recherchiert, gelernt, geteilt, getestet und gepflanzt – für uns, für Sie und für die Zukunft.Übersetzt mit DeepL.com (kostenlose Version)",
-    "partnerBadge": "Partner",
-    "visitWebsite": "Website besuchen",
-    "erasmusFunding": "Gefördert durch das Erasmus+ Programm."
-  },
-  "EPlusForest": {
-    "hero": {
-      "title": "E+ Wald"
-    },
-    "dream": {
-      "title": "Ein Traum",
-      "p1": "Jedes Projekt beginnt mit einem Traum. Und Träume sind die Essenz des Lebens. Ein Traum für dieses Projekt ist es, eine Welt zu schaffen, in der jeder mit der Natur in Berührung kommen und ihre Schönheit schätzen kann.",
-      "p2": "Wir wollen ein Projekt aufbauen, das es Menschen ermöglicht, die Schönheit der Natur aus nächster Nähe zu sehen, zu fühlen und zu erleben. Wir streben danach, ein Projekt zu schaffen, das Menschen zusammenbringt und ein Gefühl von Respekt und Verständnis für die Umwelt fördert. Wir wollen, dass dieses Projekt Menschen dazu inspiriert, zu handeln und zusammenzuarbeiten, um die Natur zu schützen, zu bewahren und wiederherzustellen. Wir stellen uns ein Projekt vor, das Menschen aller Altersgruppen, Hintergründe und Überzeugungen zusammenbringt, um die Schönheit der Natur zu genießen und einen Unterschied in der Welt zu machen. Wir wollen Ressourcen und Bildungsmöglichkeiten bereitstellen, damit Menschen etwas über die Umwelt, die Bedeutung des Naturschutzes und Handlungsmöglichkeiten lernen können. Wir glauben, dass wir durch Zusammenarbeit eine bessere Zukunft für unseren Planeten und alle seine Bewohner schaffen können.",
-      "ourForests": {
-        "title": "Unsere Wälder",
-        "portugal": {
-          "status": "Etabliert",
-          "location": "Portugal",
-          "description": "Der erste Erasmus+ Wald zur Kompensation des CO₂-Fußabdrucks von Mobilitätsprojekten.",
-          "treesLabel": "Gepflanzte Bäume"
-        },
-        "expanding": {
-          "status": "Wachsend",
-          "title": "Ausdehnung in Europa",
-          "description": "Die Bewegung breitet sich auf weitere Länder aus und schafft ein Netzwerk nachhaltiger Wälder.",
-          "slovenia": "Slowenien — Etablierter Wald",
-          "cyprus": "Zypern — In Arbeit",
-          "netherlands": "Niederlande — In Arbeit",
-          "joinUs": "Möchten Sie einen Wald in Ihrem Land starten? Kontaktieren Sie uns, um sich der Bewegung anzuschließen."
-        },
-        "readArticle": "Ganzen Artikel lesen",
-        "readMore": "Weitere Berichterstattung"
-      }
-    },
-    "donate": {
-      "title": "Spenden",
-      "description": "Wenn deine Organisation keinen Ort hat, um einen eigenen Wald zu starten, bist du eingeladen, an Greendex zu spenden, und wir werden Bäume in einem unserer Wälder in deinem Namen pflanzen.",
-      "howItWorks": {
-        "title": "Wie es funktioniert",
-        "p1": "Berechne die Anzahl der Bäume, die benötigt werden, um den CO₂-Fußabdruck deiner Mobilität auszugleichen, indem du unseren Rechner benutzt.",
-        "p2": "Die Anzahl wird im Gastgeberprofil sichtbar sein. Jeder Baum kostet 5 EUR."
-      },
-      "wePlantTrees": {
-        "title": "Wir pflanzen Bäume",
-        "p1": "Im Frühling und im Herbst. Sobald deine Spende registriert ist, senden wir dir eine Bestätigung darüber, die für Werbezwecke verwendet oder dem Abschlussbericht deines Projekts hinzugefügt werden kann. Wenn Bäume gepflanzt sind, erhältst du eine endgültige Bestätigung, den Standort deiner Bäume und ein Foto.",
-        "p2": "Du kannst uns unter plant.trees@greendex.world kontaktieren, uns über deine Spende informieren und wir senden dir Anweisungen."
-      },
-      "calculatorButton": "Rechner",
-      "contactButton": "Kontakt"
-    },
-    "funding": {
-      "text": "Kofinanziert durch die"
-    }
-  },
-  "userSettings": {
-    "title": "Benutzereinstellungen",
-    "description": "Verwalte deine persönlichen Präferenzen und Kontoeinstellungen",
-    "appearance": {
-      "title": "Erscheinungsbild",
-      "description": "Passe an, wie die Anwendung aussieht und sich anfühlt",
-      "theme": "Design",
-      "themeDescription": "Wähle dein bevorzugtes Farbschema",
-      "themes": {
-        "light": "Helles Design",
-        "dark": "Dunkles Design",
-        "system": "Systemdesign"
-      }
-    },
-    "language": {
-      "title": "Sprache & Region",
-      "description": "Wähle deine bevorzugte Sprache und regionale Einstellungen",
-      "locale": "Sprache",
-      "localeDescription": "Wähle deine bevorzugte Sprache"
     }
   }
 }

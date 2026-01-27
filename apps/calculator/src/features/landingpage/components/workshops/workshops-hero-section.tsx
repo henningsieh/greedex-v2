@@ -15,7 +15,7 @@ import { WORKSHOPS } from "@/config/workshops";
 import { Link } from "@/lib/i18n/routing";
 
 export async function WorkshopsHeroSection() {
-  const t = await getTranslations("LandingPage");
+  const t = await getTranslations("landingpage");
   const intro2 = t("workshops.intro2");
   const intro2Parts = intro2.split("workshops");
   return (

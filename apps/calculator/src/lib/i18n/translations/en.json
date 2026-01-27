@@ -1,7 +1,28 @@
 {
-  "LandingPage": {
+  "landingPage": {
     "launchButton": "Launch Erasmus+ Carbon Calculator",
     "launchButtonAria": "Launch Erasmus+ Carbon Calculator — login required",
+    "about": {
+      "partnersTitle": "Partners",
+      "partnersHeadline": "Project Greendex was born out of love for nature and necessity to contribute to the more sustainable future. Project was constructed as a KA 2 – Strategic partnership within Erasmus+ programme and funded by Slovenian National Agency MOVIT. In this project, we made extensive research about sustainability and created a Library for future study. We created creative Tips and Tricks for people to practice in their daily life and for youth organisations to implement at their work. We created educational sessions to be used on mobilities to bring awareness and to offset our carbon footprint. We have also created a carbon footprint calculator, specialised in Erasmus + reality. We invested to Erasmus+ forest, where trees are being regularly planted. We researched, learned, shared, tested, and planted for us, for you and for the future.",
+      "partnerBadge": "Partner",
+      "visitWebsite": "Visit website",
+      "erasmusFunding": "Co-funded by the Erasmus+ programme.",
+      "aboutTitle": "About Greendex"
+    },
+    "header": {
+      "navigation": {
+        "workshops": "Workshops",
+        "eforest": "E+ Forest",
+        "tipsAndTricks": "Tips & Tricks",
+        "library": "Library",
+        "about": "About",
+        "login": "Login",
+        "signup": "Sign Up",
+        "openMenu": "Open Menu",
+        "settings": "Settings"
+      }
+    },
     "hero": {
       "missionTitle": "Our mission",
       "missionText": "Erasmus+ programme enables us to have amazing learning adventures with inspirational people from different countries. However, each of our personal gatherings contributes to a deep carbon footprint due to our travelling and living habits. The purpose of this project was to offset our carbon footprint on the projects we make by bringing more awareness and more action to change our habits. For this reason, we have created a carbon footprint calculator that is specialized for Erasmus+ projects such as youth exchanges, training courses, meetings etc. This calculator offers the final number of the CO₂ produced by each participant and transforms this number to the number of the average trees that will absorb our CO₂ in their lifetime. Our calculations are based on scientific research done by different professionals. We did not make our own calculations.",
@@ -10,10 +31,60 @@
       "scrollDown": "Scroll down",
       "meetCustomers": "Meet Our Customers"
     },
+    "EPlusForest": {
+      "hero": {
+        "title": "E+Forest"
+      },
+      "dream": {
+        "title": "A dream",
+        "p1": "Every project starts with a dream. And dreams are the essence of life. A dream for this project is to create a world where everyone can be in touch with nature and appreciate its beauty.",
+        "p2": "We want to build a project that allows people to see, feel, and experience the beauty of nature up close. We aspire to create a project that will bring people together and foster a sense of respect and understanding of the environment. We want this project to inspire people to act and work together to protect, conserve, and restore nature. We envision a project that will bring people of all ages, backgrounds, and beliefs together to enjoy the beauty of nature and to make a difference in the world. We want to provide resources and educational opportunities for people to learn about the environment, the importance of conservation, and how to act. We believe that by working together, we can create a better future for our planet and all its inhabitants.",
+        "ourForests": {
+          "title": "Our Forests",
+          "portugal": {
+            "status": "Established",
+            "location": "Portugal",
+            "description": "The first Erasmus+ forest dedicated to offsetting carbon footprints from mobility projects.",
+            "treesLabel": "Trees planted"
+          },
+          "expanding": {
+            "status": "Growing",
+            "title": "Expanding Across Europe",
+            "description": "The movement is spreading to more countries, creating a network of sustainable forests.",
+            "slovenia": "Slovenia — Established forest",
+            "cyprus": "Cyprus — In progress",
+            "netherlands": "Netherlands — In progress",
+            "joinUs": "Want to start a forest in your country? Contact us to join the movement."
+          },
+          "readArticle": "Read Full Article",
+          "readMore": "More Coverage"
+        }
+      },
+      "donate": {
+        "title": "Donate",
+        "description": "If your organisation does not have a place to start your own forest, you are invited to donate to Greendex, and we will plant trees in one of our forests in your name.",
+        "howItWorks": {
+          "title": "How it works",
+          "p1": "Calculate the number of trees needed to offset the carbon footprint of your mobility by using our calculator.",
+          "p2": "The number will be visible on the host profile. Each tree will cost you 5 EUR."
+        },
+        "wePlantTrees": {
+          "title": "We plant trees",
+          "p1": "In Spring and in Autumn. As soon as your donation is registered, we will send you confirmation about it that can be used for promotional purposes or to add it in the final report of your project. When trees are planted, you will receive final confirmation, location of your trees, and a photo.",
+          "p2": "You can contact us at plant.trees@greendex.world, let us know about your donation and we will send you instructions."
+        },
+        "calculatorButton": "Calculator",
+        "contactButton": "Contact Us"
+      },
+      "funding": {
+        "text": "Co-funded by the"
+      }
+    },
     "footer": {
-      "explore": "Explore",
+      "app": "App",
       "company": "Company",
-      "app": "App"
+      "explore": "Explore",
+      "copyright": "All rights reserved."
     },
     "workshops": {
       "headingPrefix": "Hello, fellow",
@@ -301,6 +372,52 @@
       }
     }
   },
+  "app": {
+    "appearance": {
+      "title": "Appearance",
+      "description": "Customize how the application looks and feels",
+      "theme": "Theme",
+      "themeDescription": "Choose your preferred color scheme",
+      "themes": {
+        "light": "Light theme",
+        "dark": "Dark theme",
+        "system": "System theme"
+      }
+    },
+    "sidebar": {
+      "projects": {
+        "groupLabel": "Projects Area",
+        "projects": "Projects",
+        "participants": "Participants",
+        "archive": "Archive",
+        "archiveLabel": "Project archive",
+        "details": "Project Details"
+      },
+      "organization": {
+        "groupLabel": "Organization Area",
+        "dashboard": "Dashboard",
+        "projects": "Projects",
+        "team": "Team Members",
+        "settings": "Organization",
+        "createproject": "Create Project"
+      },
+      "collapse": "Collapse Sidebar"
+    },
+    "loading": {
+      "default": "Loading…",
+      "switchingOrganization": "Switching organization…"
+    },
+    "userSettings": {
+      "title": "User Settings",
+      "description": "Manage your personal preferences and account settings",
+      "language": {
+        "title": "Language & Region",
+        "description": "Select your preferred language and regional settings",
+        "locale": "Language",
+        "localeDescription": "Choose your preferred language"
+      }
+    }
+  },
   "organization": {
     "dashboard": {
       "title": "Dashboard",
@@ -558,134 +675,6 @@
       }
     }
   },
-  "app": {
-    "sidebar": {
-      "projects": {
-        "groupLabel": "Projects Area",
-        "projects": "Projects",
-        "participants": "Participants",
-        "archive": "Archive",
-        "archiveLabel": "Project archive",
-        "details": "Project Details"
-      },
-      "organization": {
-        "groupLabel": "Organization Area",
-        "dashboard": "Dashboard",
-        "projects": "Projects",
-        "team": "Team Members",
-        "settings": "Organization",
-        "createproject": "Create Project"
-      },
-      "collapse": "Collapse Sidebar"
-    },
-    "loading": {
-      "default": "Loading…",
-      "switchingOrganization": "Switching organization…"
-    }
-  },
-  "project": {
-    "details": {
-      "title": "Project Details",
-      "start-date": "Start Date",
-      "end-date": "End Date",
-      "location": "Location",
-      "country": "Country",
-      "welcome-message": "Welcome Message",
-      "participants": "Participants",
-      "participants-description": "Participants will be displayed here.",
-      "activities": "Activities",
-      "activities-description": "Project activities will be displayed here.",
-      "loading": "loading project details…",
-      "people-joined": "people have already joined",
-      "no-participants-yet": "No participants yet",
-      "share-the-participation-link": "Share the participation link to invite people to this project.",
-      "tabs": {
-        "details": "Project Details",
-        "activities": "Project Activities",
-        "participants": "Project Participants"
-      },
-      "statistics": {
-        "participants": "Participants",
-        "activities": "Activities",
-        "total-distance": "Total Distance",
-        "duration": "Duration",
-        "km": "km",
-        "days": "days",
-        "co2-emissions": "Emissions"
-      },
-      "errors": {
-        "default-error": "Failed to load project details.",
-        "project-not-found": "The project you are looking for does not exist.",
-        "project-access-denied": "You do not have access to this project."
-      },
-      "joined-on": "joined on"
-    },
-    "activities": {
-      "title": "Project Activities",
-      "description": "Travel activities tracked for carbon footprint calculation",
-      "empty": {
-        "title": "No activities yet",
-        "description": "This project doesn't have any activities recorded. Add activities to track the carbon footprint."
-      },
-      "types": {
-        "boat": "Boat",
-        "bus": "Bus",
-        "train": "Train",
-        "car": "Car"
-      },
-      "form": {
-        "title": "Add Activity",
-        "edit-title": "Edit Activity",
-        "activity-type": "Activity Type",
-        "activity-type-placeholder": "Select activity type",
-        "distance": "Distance (km)",
-        "distance-placeholder": "Enter distance in kilometers",
-        "description": "Description (optional)",
-        "description-placeholder": "Add a description for this activity",
-        "activity-date": "Activity Date (optional)",
-        "submit": "Add Activity",
-        "update": "Update Activity",
-        "cancel": "Cancel",
-        "adding": "Adding…",
-        "updating": "Updating…",
-        "validation": {
-          "distanceKm": {
-            "min": "Distance must be at least {min} km",
-            "max": "Distance cannot exceed {max} km",
-            "step": "Distance must be in increments of {step} km"
-          }
-        }
-      },
-      "delete": {
-        "confirm-title": "Delete Activity?",
-        "confirm-description": "This will permanently delete this activity. This action cannot be undone.",
-        "confirm-button": "Delete",
-        "cancel-button": "Cancel",
-        "deleting": "Deleting..."
-      },
-      "toast": {
-        "create-success": "Activity added successfully",
-        "create-error": "Failed to add activity",
-        "update-success": "Activity updated successfully",
-        "update-error": "Failed to update activity",
-        "delete-success": "Activity deleted successfully",
-        "delete-error": "Failed to delete activity"
-      },
-      "table": {
-        "type": "Type",
-        "distance": "Distance",
-        "description": "Description",
-        "date": "Date",
-        "actions": "Actions",
-        "edit": "Edit",
-        "delete": "Delete",
-        "km": "km"
-      },
-      "error": {
-        "load-failed": "Failed to load activities. Please try again."
-      }
-    }
-  },
   "participation": {
     "questionnaire": {
       "header": {
@@ -832,6 +821,109 @@
       }
     }
   },
+  "project": {
+    "details": {
+      "title": "Project Details",
+      "start-date": "Start Date",
+      "end-date": "End Date",
+      "location": "Location",
+      "country": "Country",
+      "welcome-message": "Welcome Message",
+      "participants": "Participants",
+      "participants-description": "Participants will be displayed here.",
+      "activities": "Activities",
+      "activities-description": "Project activities will be displayed here.",
+      "loading": "loading project details…",
+      "people-joined": "people have already joined",
+      "no-participants-yet": "No participants yet",
+      "share-the-participation-link": "Share the participation link to invite people to this project.",
+      "tabs": {
+        "details": "Project Details",
+        "activities": "Project Activities",
+        "participants": "Project Participants"
+      },
+      "statistics": {
+        "participants": "Participants",
+        "activities": "Activities",
+        "total-distance": "Total Distance",
+        "duration": "Duration",
+        "km": "km",
+        "days": "days",
+        "co2-emissions": "Emissions"
+      },
+      "errors": {
+        "default-error": "Failed to load project details.",
+        "project-not-found": "The project you are looking for does not exist.",
+        "project-access-denied": "You do not have access to this project."
+      },
+      "joined-on": "joined on"
+    },
+    "activities": {
+      "title": "Project Activities",
+      "description": "Travel activities tracked for carbon footprint calculation",
+      "empty": {
+        "title": "No activities yet",
+        "description": "This project doesn't have any activities recorded. Add activities to track the carbon footprint."
+      },
+      "types": {
+        "boat": "Boat",
+        "bus": "Bus",
+        "train": "Train",
+        "car": "Car"
+      },
+      "form": {
+        "title": "Add Activity",
+        "edit-title": "Edit Activity",
+        "activity-type": "Activity Type",
+        "activity-type-placeholder": "Select activity type",
+        "distance": "Distance (km)",
+        "distance-placeholder": "Enter distance in kilometers",
+        "description": "Description (optional)",
+        "description-placeholder": "Add a description for this activity",
+        "activity-date": "Activity Date (optional)",
+        "submit": "Add Activity",
+        "update": "Update Activity",
+        "cancel": "Cancel",
+        "adding": "Adding…",
+        "updating": "Updating…",
+        "validation": {
+          "distanceKm": {
+            "min": "Distance must be at least {min} km",
+            "max": "Distance cannot exceed {max} km",
+            "step": "Distance must be in increments of {step} km"
+          }
+        }
+      },
+      "delete": {
+        "confirm-title": "Delete Activity?",
+        "confirm-description": "This will permanently delete this activity. This action cannot be undone.",
+        "confirm-button": "Delete",
+        "cancel-button": "Cancel",
+        "deleting": "Deleting..."
+      },
+      "toast": {
+        "create-success": "Activity added successfully",
+        "create-error": "Failed to add activity",
+        "update-success": "Activity updated successfully",
+        "update-error": "Failed to update activity",
+        "delete-success": "Activity deleted successfully",
+        "delete-error": "Failed to delete activity"
+      },
+      "table": {
+        "type": "Type",
+        "distance": "Distance",
+        "description": "Description",
+        "date": "Date",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete",
+        "km": "km"
+      },
+      "error": {
+        "load-failed": "Failed to load activities. Please try again."
+      }
+    }
+  },
   "authentication": {
     "common": {
       "emailPlaceholder": "m@example.com",
@@ -961,95 +1053,6 @@
         "success": "Verification email sent successfully!",
         "error": "Failed to send verification email"
       }
-    }
-  },
-  "header": {
-    "navigation": {
-      "workshops": "Workshops",
-      "eforest": "E+ Forest",
-      "tipsAndTricks": "Tips & Tricks",
-      "library": "Library",
-      "about": "About",
-      "login": "Login",
-      "signup": "Sign Up",
-      "openMenu": "Open Menu"
-    }
-  },
-  "about": {
-    "partnersTitle": "Partners",
-    "partnersHeadline": "Project Greendex was born out of love for nature and necessity to contribute to the more sustainable future. Project was constructed as a KA 2 – Strategic partnership within Erasmus+ programme and funded by Slovenian National Agency MOVIT. In this project, we made extensive research about sustainability and created a Library for future study. We created creative Tips and Tricks for people to practice in their daily life and for youth organisations to implement at their work. We created educational sessions to be used on mobilities to bring awareness and to offset our carbon footprint. We have also created a carbon footprint calculator, specialised in Erasmus + reality. We invested to Erasmus+ forest, where trees are being regularly planted. We researched, learned, shared, tested, and planted for us, for you and for the future.",
-    "partnerBadge": "Partner",
-    "visitWebsite": "Visit website",
-    "erasmusFunding": "Co-funded by the Erasmus+ programme."
-  },
-  "EPlusForest": {
-    "hero": {
-      "title": "E+Forest"
-    },
-    "dream": {
-      "title": "A dream",
-      "p1": "Every project starts with a dream. And dreams are the essence of life. A dream for this project is to create a world where everyone can be in touch with nature and appreciate its beauty.",
-      "p2": "We want to build a project that allows people to see, feel, and experience the beauty of nature up close. We aspire to create a project that will bring people together and foster a sense of respect and understanding of the environment. We want this project to inspire people to act and work together to protect, conserve, and restore nature. We envision a project that will bring people of all ages, backgrounds, and beliefs together to enjoy the beauty of nature and to make a difference in the world. We want to provide resources and educational opportunities for people to learn about the environment, the importance of conservation, and how to act. We believe that by working together, we can create a better future for our planet and all its inhabitants.",
-      "ourForests": {
-        "title": "Our Forests",
-        "portugal": {
-          "status": "Established",
-          "location": "Portugal",
-          "description": "The first Erasmus+ forest dedicated to offsetting carbon footprints from mobility projects.",
-          "treesLabel": "Trees planted"
-        },
-        "expanding": {
-          "status": "Growing",
-          "title": "Expanding Across Europe",
-          "description": "The movement is spreading to more countries, creating a network of sustainable forests.",
-          "slovenia": "Slovenia — Established forest",
-          "cyprus": "Cyprus — In progress",
-          "netherlands": "Netherlands — In progress",
-          "joinUs": "Want to start a forest in your country? Contact us to join the movement."
-        },
-        "readArticle": "Read Full Article",
-        "readMore": "More Coverage"
-      }
-    },
-    "donate": {
-      "title": "Donate",
-      "description": "If your organisation does not have a place to start your own forest, you are invited to donate to Greendex, and we will plant trees in one of our forests in your name.",
-      "howItWorks": {
-        "title": "How it works",
-        "p1": "Calculate the number of trees needed to offset the carbon footprint of your mobility by using our calculator.",
-        "p2": "The number will be visible on the host profile. Each tree will cost you 5 EUR."
-      },
-      "wePlantTrees": {
-        "title": "We plant trees",
-        "p1": "In Spring and in Autumn. As soon as your donation is registered, we will send you confirmation about it that can be used for promotional purposes or to add it in the final report of your project. When trees are planted, you will receive final confirmation, location of your trees, and a photo.",
-        "p2": "You can contact us at plant.trees@greendex.world, let us know about your donation and we will send you instructions."
-      },
-      "calculatorButton": "Calculator",
-      "contactButton": "Contact Us"
-    },
-    "funding": {
-      "text": "Co-funded by the"
-    }
-  },
-  "userSettings": {
-    "title": "User Settings",
-    "description": "Manage your personal preferences and account settings",
-    "appearance": {
-      "title": "Appearance",
-      "description": "Customize how the application looks and feels",
-      "theme": "Theme",
-      "themeDescription": "Choose your preferred color scheme",
-      "themes": {
-        "light": "Light theme",
-        "dark": "Dark theme",
-        "system": "System theme"
-      }
-    },
-    "language": {
-      "title": "Language & Region",
-      "description": "Select your preferred language and regional settings",
-      "locale": "Language",
-      "localeDescription": "Choose your preferred language"
     }
   }
 }

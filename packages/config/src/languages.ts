@@ -24,11 +24,20 @@ export const SUPPORTED_LOCALES = [
   },
 ] as const;
 
+/**
+ * Type definitions and constants derived from supported locales
+ */
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 export type LocaleCode = SupportedLocale["code"];
 
+/**
+ * Array of supported locale codes
+ */
 export const LOCALE_CODES: LocaleCode[] = SUPPORTED_LOCALES.map(
   (locale) => locale.code,
 );
 
+/**
+ * Default locale code
+ */
 export const DEFAULT_LOCALE: LocaleCode = LOCALE_CODES[0];

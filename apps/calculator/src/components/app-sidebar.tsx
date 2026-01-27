@@ -125,7 +125,8 @@ export const SIDEBAR_GROUPS: SidebarGroupDef[] = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const { toggleSidebar, state } = useSidebar();
+  const { toggleSidebar, state, openMobile, isMobile, setOpenMobile } =
+    useSidebar();
 
   const t = useTranslations("app.sidebar");
 
@@ -135,6 +136,8 @@ export function AppSidebar() {
     label: t(g.labelKey),
     items: g.items.map((i) => ({ ...i, title: t(i.titleKey) })),
   }));
+
+  const isSidebarOpen = state === "expanded" || (isMobile && openMobile);
 
   return (
     <Sidebar collapsible="icon" variant="sidebar">
@@ -153,7 +156,14 @@ export function AppSidebar() {
               <SidebarGroupContent>
                 <SidebarMenu>
                   {group.items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
+                    <SidebarMenuItem
+                      onClick={() => {
+                        if (isMobile && openMobile) {
+                          setOpenMobile(false);
+                        }
+                      }}
+                      key={item.title}
+                    >
                       <SidebarMenuButton
                         asChild
                         variant={
@@ -182,8 +192,7 @@ export function AppSidebar() {
               className="text-nowrap [&>svg]:size-4"
               variant="outline"
             >
-              {state === "expanded" && <PanelRightOpenIcon />}
-              {state === "collapsed" && <PanelRightCloseIcon />}
+              {isSidebarOpen ? <PanelRightOpenIcon /> : <PanelRightCloseIcon />}
               {t("collapse")}
             </SidebarMenuButton>
           </SidebarMenuItem>

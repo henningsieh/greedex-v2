@@ -16,7 +16,7 @@ import { eForestConfig } from "@/config/e-forest";
 import { Link } from "@/lib/i18n/routing";
 
 export function DreamSection() {
-  const t = useTranslations("EPlusForest.dream");
+  const t = useTranslations("landingpage.EPlusForest.dream");
 
   return (
     <section className="py-12">

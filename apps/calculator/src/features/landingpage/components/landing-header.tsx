@@ -31,7 +31,7 @@ import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export const LandingHeader = () => {
-  const t = useTranslations("header");
+  const t = useTranslations("landingpage.header");
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -140,7 +140,7 @@ export const LandingHeader = () => {
                       <div className="mt-6 space-y-4">
                         <div className="space-y-3">
                           <p className="px-3 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
-                            {t("navigation.settings") || "Settings"}
+                            {t("navigation.settings")}
                           </p>
                           <LocaleSwitcher className="w-full rounded-md" />
                         </div>

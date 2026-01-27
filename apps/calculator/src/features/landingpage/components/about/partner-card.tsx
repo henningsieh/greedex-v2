@@ -22,7 +22,7 @@ interface PartnerCardProps {
 }
 
 export async function PartnerCard({ partner }: PartnerCardProps) {
-  const t = await getTranslations("about");
+  const t = await getTranslations("landingpage.about");
   const locale = await getLocale();
 
   const countryData = partner.countryCode

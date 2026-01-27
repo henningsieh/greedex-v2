@@ -8,6 +8,8 @@
     "./client": "./src/auth-client.ts"
   },
   "scripts": {
+    "format": "oxfmt",
+    "lint": "oxlint --fix --fix-suggestions --fix-dangerously",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf node_modules .turbo"
   },
@@ -15,6 +17,10 @@
     "@greendex/database": "workspace:*",
     "@greendex/email": "workspace:*",
     "better-auth": "^1.4.17"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.26.0",
+    "oxlint": "^1.41.0"
   },
   "peerDependencies": {
     "react": ">=18.0.0"

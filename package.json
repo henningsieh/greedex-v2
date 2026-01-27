@@ -5,8 +5,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "oxlint --fix --fix-suggestions --fix-dangerously",
-    "format": "oxfmt",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
     "test": "turbo run test",
     "test:run": "turbo run test:run",
     "type-check": "turbo run type-check",

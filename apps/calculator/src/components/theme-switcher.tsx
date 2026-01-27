@@ -22,7 +22,7 @@ export const ThemeSwitcher = ({
   className,
 }: ThemeSwitcherProps) => {
   const [mounted, setMounted] = useState(false);
-  const t = useTranslations("userSettings.appearance.themes");
+  const t = useTranslations("app.appearance.themes");
 
   const { theme, setTheme } = useTheme();
 

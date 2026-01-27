@@ -5,7 +5,7 @@ import Image from "next/image";
  * About page footer with Erasmus funding note
  */
 export async function AboutFooter() {
-  const t = await getTranslations("about");
+  const t = await getTranslations("landingpage.about");
 
   return (
     <div className="container mx-auto max-w-7xl px-4 pb-16 text-center">

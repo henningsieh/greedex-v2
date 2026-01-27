@@ -8,6 +8,8 @@
     "./templates": "./src/templates/index.ts"
   },
   "scripts": {
+    "format": "oxfmt",
+    "lint": "oxlint --fix --fix-suggestions --fix-dangerously",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf node_modules .turbo"
   },
@@ -15,5 +17,9 @@
     "@react-email/components": "^1.0.6",
     "nodemailer": "^7.0.12",
     "react": "19.2.3"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.26.0",
+    "oxlint": "^1.41.0"
   }
 }

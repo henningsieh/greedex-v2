@@ -24,42 +24,41 @@ import { Link } from "@/lib/i18n/routing";
  * @returns A JSX element representing the footer containing the logo, CTA, localized navigation links, and copyright.
  */
 export default async function FooterSection() {
-  const tLanding = await getTranslations("LandingPage");
-  const t = await getTranslations("header");
+  const t = await getTranslations("landingpage");
 
   const navigationLinks = [
     {
-      title: t("navigation.workshops"),
+      title: t("header.navigation.workshops"),
       href: WORKSHOPS_ANCHOR,
     },
     {
-      title: t("navigation.eforest"),
+      title: t("header.navigation.eforest"),
       href: E_FOREST_PATH,
     },
     {
-      title: t("navigation.tipsAndTricks"),
+      title: t("header.navigation.tipsAndTricks"),
       href: TIPS_AND_TRICKS_PATH,
     },
     {
-      title: t("navigation.library"),
+      title: t("header.navigation.library"),
       href: LIBRARY_PATH,
     },
   ];
 
   const companyLinks = [
     {
-      title: t("navigation.about"),
+      title: t("header.navigation.about"),
       href: ABOUT_PATH,
     },
   ];
 
   const appLinks = [
     {
-      title: t("navigation.login"),
+      title: t("header.navigation.login"),
       href: LOGIN_PATH,
     },
     {
-      title: t("navigation.signup"),
+      title: t("header.navigation.signup"),
       href: SIGNUP_PATH,
     },
   ];
@@ -78,13 +77,13 @@ export default async function FooterSection() {
             </Link>
             <div className="mt-8">
               <Link
-                aria-label={tLanding("launchButtonAria")}
+                aria-label={t("launchButtonAria")}
                 className="inline-block"
                 href={DASHBOARD_PATH}
-                title={tLanding("launchButtonAria")}
+                title={t("launchButtonAria")}
               >
                 <AnimatedGradientCTA leftEmoji={"🌳"}>
-                  {tLanding("launchButton")}
+                  {t("launchButton")}
                 </AnimatedGradientCTA>
               </Link>
             </div>
@@ -93,7 +92,7 @@ export default async function FooterSection() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-3">
             <div className="space-y-4 text-sm">
               <span className="block font-semibold text-foreground">
-                {tLanding("footer.explore")}
+                {t("footer.explore")}
               </span>
               <div className="flex flex-col space-y-3">
                 {navigationLinks.map((item, index) => (
@@ -110,7 +109,7 @@ export default async function FooterSection() {
 
             <div className="space-y-4 text-sm">
               <span className="block font-semibold text-foreground">
-                {tLanding("footer.company")}
+                {t("footer.company")}
               </span>
               <div className="flex flex-col space-y-3">
                 {companyLinks.map((item, index) => (
@@ -127,7 +126,7 @@ export default async function FooterSection() {
 
             <div className="space-y-4 text-sm">
               <span className="block font-semibold text-foreground">
-                {tLanding("footer.app")}
+                {t("footer.app")}
               </span>
               <div className="flex flex-col space-y-3">
                 {appLinks.map((item, index) => (
@@ -146,7 +145,7 @@ export default async function FooterSection() {
 
         <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t pt-8 sm:flex-row">
           <span className="text-center text-sm text-muted-foreground sm:text-left">
-            © {new Date().getFullYear()} Greendex. All rights reserved.
+            © {new Date().getFullYear()} Greendex | {t("footer.copyright")}
           </span>
         </div>
       </div>

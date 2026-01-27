@@ -17,7 +17,7 @@ const PlantingIcon = eForestConfig.icons.planting;
 const ContactIcon = eForestConfig.icons.contact;
 
 export function DonateSection() {
-  const t = useTranslations("EPlusForest");
+  const t = useTranslations("landingpage.EPlusForest");
 
   return (
     <section className="space-y-12 bg-muted/50 py-12">

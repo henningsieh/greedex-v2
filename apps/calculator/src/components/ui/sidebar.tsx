@@ -279,8 +279,8 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      {state === "expanded" && <PanelRightOpenIcon className="size-6" />}
-      {state === "collapsed" && <PanelRightCloseIcon className="size-6" />}
+      {state === "expanded" && <PanelRightOpenIcon className="size-5" />}
+      {state === "collapsed" && <PanelRightCloseIcon className="size-5" />}
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

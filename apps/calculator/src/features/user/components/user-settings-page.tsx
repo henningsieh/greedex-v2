@@ -13,7 +13,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 
 /**
  * User Settings Page Component
@@ -26,22 +25,26 @@ import { Separator } from "@/components/ui/separator";
  * Mobile responsive with proper spacing and card-based sections.
  */
 export async function UserSettingsPage() {
-  const t = await getTranslations("userSettings");
+  const t = await getTranslations("app");
 
   return (
     <div className="flex h-full w-full flex-col">
       <PageHeader
         icon={<UserCogIcon />}
-        title={t("title")}
-        description={t("description")}
+        title={t("userSettings.title")}
+        description={t("userSettings.description")}
       />
 
-      <ContentContainer width="md" className="py-8">
-        <div className="space-y-6">
+      <ContentContainer width="lg" className="py-8">
+        <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-between *:lg:gap-10">
           {/* Appearance Section */}
-          <Card>
+          <Card className="w-full max-w-lg">
             <CardHeader>
-              <CardTitle>{t("appearance.title")}</CardTitle>
+              <CardTitle>
+                <h2 className="text-2xl font-bold tracking-tight">
+                  {t("appearance.title")}
+                </h2>
+              </CardTitle>
               <CardDescription>{t("appearance.description")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -54,30 +57,34 @@ export async function UserSettingsPage() {
                     {t("appearance.themeDescription")}
                   </p>
                 </div>
-                <ThemeSwitcher className="shrink-0" />
+                <ThemeSwitcher className="w-22 shrink-0" />
               </div>
             </CardContent>
           </Card>
 
-          <Separator />
-
           {/* Language & Region Section */}
-          <Card>
+          <Card className="w-full max-w-lg">
             <CardHeader>
-              <CardTitle>{t("language.title")}</CardTitle>
-              <CardDescription>{t("language.description")}</CardDescription>
+              <CardTitle>
+                <h2 className="text-2xl font-bold tracking-tight">
+                  {t("userSettings.language.title")}
+                </h2>
+              </CardTitle>
+              <CardDescription>
+                {t("userSettings.language.description")}
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="space-y-1">
                   <Label className="text-base font-medium">
-                    {t("language.locale")}
+                    {t("userSettings.language.locale")}
                   </Label>
                   <p className="text-sm text-muted-foreground">
-                    {t("language.localeDescription")}
+                    {t("userSettings.language.localeDescription")}
                   </p>
                 </div>
-                <LocaleSwitcher className="shrink-0" />
+                <LocaleSwitcher className="w-22 shrink-0" />
               </div>
             </CardContent>
           </Card>

@@ -9,6 +9,8 @@
     "./schema": "./src/schema.ts"
   },
   "scripts": {
+    "format": "oxfmt",
+    "lint": "oxlint --fix --fix-suggestions --fix-dangerously",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf node_modules .turbo"
   },
@@ -17,5 +19,9 @@
     "@paralleldrive/cuid2": "^3.0.6",
     "drizzle-orm": "^0.45.1",
     "pg": "^8.17.2"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.26.0",
+    "oxlint": "^1.41.0"
   }
 }

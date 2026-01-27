@@ -40,12 +40,12 @@ export function PageHeader({
               <span className="flex shrink-0 items-center justify-center text-2xl sm:text-3xl md:text-4xl [&_svg]:inline-block [&_svg]:h-[1em] [&_svg]:w-[1em]">
                 {icon}
               </span>
-              <h1 className="truncate text-2xl font-bold whitespace-nowrap sm:text-3xl md:text-4xl">
+              <h1 className="truncate text-2xl font-bold whitespace-nowrap sm:text-4xl md:text-5xl">
                 {title}
               </h1>
             </div>
             {description && (
-              <div className="text-xs text-muted-foreground sm:text-sm md:text-base">
+              <div className="text-sm text-muted-foreground md:text-base">
                 {description}
               </div>
             )}

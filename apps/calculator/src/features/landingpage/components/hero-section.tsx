@@ -37,7 +37,7 @@ const BrushStroke = () => (
 );
 
 export async function HeroSection() {
-  const t = await getTranslations("LandingPage");
+  const t = await getTranslations("landingpage");
   return (
     <>
       {/* subtle background image behind everything (low opacity, non-interactive) */}
