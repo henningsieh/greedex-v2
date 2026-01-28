@@ -177,7 +177,7 @@ describe("i18n Translation Integration", () => {
     }
   });
 
-  it("should treanslate parameters in English messages", () => {
+  it("should translate parameters in English messages", () => {
     const schema = createDistanceSchema(tEn);
     const resultMin = schema.safeParse(0.05);
 

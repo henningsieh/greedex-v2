@@ -352,8 +352,8 @@ const tEn = createTranslator({
 ```typescript
 import { createTranslator } from "@greendex/i18n";
 import { describe, expect, it } from "vitest";
-import enMessages from "@/lib/i18n/translations/en.json";
-import deMessages from "@/lib/i18n/translations/de.json";
+import deMessages from "@greendex/i18n/locales/de.json";
+import enMessages from "@greendex/i18n/locales/en.json";
 
 // 1. Create translators at module level (top of file)
 const tEn = createTranslator({
@@ -539,7 +539,7 @@ export function MyComponent() {
 
 ```typescript
 // Load real translations instead of mocks
-import enMessages from "@/lib/i18n/translations/en.json";
+import enMessages from "@greendex/i18n/locales/en.json";
 
 function createT(locale = "en") {
   // Use same createTranslationFunction helper from distance-validation.test.ts

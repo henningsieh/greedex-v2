@@ -159,7 +159,7 @@ describe("i18n Translation Integration", () => {
     }
   });
 
-  it("should treanslate parameters in German messages", () => {
+  it("should translate parameters in German messages", () => {
     const schema = createDistanceSchema(tDe);
     const resultMin = schema.safeParse(0.05);
 
