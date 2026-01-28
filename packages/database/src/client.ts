@@ -9,57 +9,60 @@ import { Pool } from "pg";
 
 import * as schema from "./schema";
 
-// Global variable to store the pool across hot reloads
+type Database = NodePgDatabase<typeof schema>;
+
+// Global variable to store the pool across hot reloads in development
 declare global {
   var __pool: Pool | undefined;
 }
 
-// Lazy initialization of the database connection
-let _db: NodePgDatabase<typeof schema> | undefined;
-
-export const db = new Proxy({} as NodePgDatabase<typeof schema>, {
-  get(target, prop) {
-    if (!_db) {
-      const connectionString = process.env.DATABASE_URL;
-      if (!connectionString) {
-        throw new Error("DATABASE_URL environment variable is not set");
-      }
-
-      // Reuse existing pool in development to prevent memory leaks
-      if (!global.__pool) {
-        global.__pool = new Pool({
-          connectionString,
-          max: 10,
-        });
-      }
-
-      _db = drizzle(global.__pool, { schema });
-    }
-
-    return (_db as any)[prop];
-  },
-});
+let dbConnection: Database | undefined;
 
 /**
- * Create a new database connection with the given connection string
+ * Initialize and return the database instance
+ * Lazily creates the connection on first access
  */
-export function createDbConnection(
-  connectionString: string,
-): NodePgDatabase<typeof schema> {
-  const pool = new Pool({
-    connectionString,
-    max: 10,
-  });
+function initializeDb(): Database {
+  if (dbConnection) {
+    return dbConnection;
+  }
 
-  return drizzle(pool, { schema });
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error("DATABASE_URL environment variable is not set");
+  }
+
+  // Reuse pool in development to prevent connection leaks during hot reload
+  const pool = global.__pool ?? new Pool({ connectionString, max: 10 });
+  global.__pool = pool;
+
+  dbConnection = drizzle(pool, { schema });
+  return dbConnection;
 }
 
 /**
- * Initialize the database connection (legacy function, kept for compatibility)
+ * Create a lazy-loading proxy for any object type
  */
-export function initializeDb(
-  connectionString: string,
-): NodePgDatabase<typeof schema> {
-  // This function is now a no-op since db is initialized lazily
-  return db;
+function lazyProxy<T extends object>(initialize: () => T): T {
+  return new Proxy({} as T, {
+    get(_target, prop) {
+      const instance = initialize();
+      const value = Reflect.get(instance, prop, instance);
+      return typeof value === "function" ? value.bind(instance) : value;
+    },
+  });
+}
+
+/**
+ * Lazy-loading database client
+ * Connection is established on first query
+ */
+export const db = lazyProxy<Database>(initializeDb);
+
+/**
+ * Create a new database connection with a custom connection string
+ */
+export function createDbConnection(connectionString: string): Database {
+  const pool = new Pool({ connectionString, max: 10 });
+  return drizzle(pool, { schema });
 }

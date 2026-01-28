@@ -4,7 +4,7 @@
  */
 
 // Export database client
-export { db, createDbConnection, initializeDb } from "./client";
+export { db, createDbConnection } from "./client";
 
 // Export all schemas
 export * from "./schema";
