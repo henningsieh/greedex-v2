@@ -1,7 +1,7 @@
 "use client";
 
+import { useFormatter } from "@greendex/i18n/client";
 import { CalendarIcon } from "lucide-react";
-import { useFormatter } from "next-intl";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";

@@ -1,5 +1,5 @@
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { NextIntlClientProvider } from "@greendex/i18n/client";
+import { getMessages, setRequestLocale } from "@greendex/i18n/server";
 import { Comfortaa, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { notFound } from "next/navigation";
 
@@ -16,7 +16,7 @@ const comfortaa = Comfortaa({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
-  preload: true,
+  preload: false,
 });
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",

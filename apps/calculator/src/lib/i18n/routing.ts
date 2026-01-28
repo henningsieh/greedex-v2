@@ -1,6 +1,5 @@
 import { DEFAULT_LOCALE, LOCALE_CODES } from "@greendex/config/languages";
-import { createNavigation } from "next-intl/navigation";
-import { defineRouting } from "next-intl/routing";
+import { defineRouting, createNavigation } from "@greendex/i18n/server";
 
 export const routing = defineRouting({
   // All supported locales

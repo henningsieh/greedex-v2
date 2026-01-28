@@ -1,7 +1,7 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n/client";
 import { ORPCError } from "@orpc/client";
-import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import type { ErrorCode } from "@/lib/orpc/context";

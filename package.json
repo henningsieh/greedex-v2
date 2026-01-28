@@ -16,12 +16,24 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "prepare": "husky"
   },
+  "dependencies": {
+    "next": "16.1.6",
+    "next-intl": "4.7.0",
+    "pg": "8.17.2",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
   "devDependencies": {
+    "@types/node": "^25.0.10",
+    "@types/nodemailer": "^7.0.5",
+    "@types/pg": "^8.16.0",
+    "@types/react": "^19.2.9",
+    "@types/react-dom": "19.2.3",
     "husky": "^9.1.7",
     "oxfmt": "^0.26.0",
     "oxlint": "^1.41.0",
     "turbo": "^2.5.3",
-    "typescript": "^6.0.0-dev.20260124"
+    "typescript": "6.0.0-dev.20260128"
   },
   "packageManager": "pnpm@10.13.1"
 }

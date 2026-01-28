@@ -1,7 +1,7 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n/client";
 import { Loader2Icon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { createContext, useCallback, useContext, useState } from "react";
 
 import { cn } from "@/lib/utils";

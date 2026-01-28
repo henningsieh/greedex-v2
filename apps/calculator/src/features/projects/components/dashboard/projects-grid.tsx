@@ -1,7 +1,7 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n/client";
 import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useCallback, useMemo, useState } from "react";
 
 import type { ProjectType } from "@/features/projects/types";

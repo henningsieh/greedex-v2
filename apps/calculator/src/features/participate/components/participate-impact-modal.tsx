@@ -1,8 +1,8 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n/client";
 import { ArrowRightIcon, LeafIcon, XIcon } from "lucide-react";
 import { animate, motion, useMotionValue } from "motion/react";
-import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 

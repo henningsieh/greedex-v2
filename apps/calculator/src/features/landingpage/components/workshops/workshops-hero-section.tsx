@@ -1,5 +1,5 @@
+import { getTranslations } from "@greendex/i18n/server";
 import { ClockIcon } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
 import { AnimatedGroup } from "@/components/animated-group";

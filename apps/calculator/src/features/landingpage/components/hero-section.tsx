@@ -1,5 +1,5 @@
+import { getTranslations } from "@greendex/i18n/server";
 import { ChevronDown, ChevronRight } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
 import { DASHBOARD_PATH } from "@/app/routes";

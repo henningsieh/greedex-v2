@@ -1,7 +1,7 @@
 "use client";
 
+import { useFormatter } from "@greendex/i18n/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useFormatter } from "next-intl";
 
 import { Alert } from "@/components/ui/alert";
 import { orpcQuery } from "@/lib/orpc/orpc";

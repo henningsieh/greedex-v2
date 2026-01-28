@@ -1,7 +1,7 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
 
 import { Card } from "@/components/ui/card";
 import { orpcQuery } from "@/lib/orpc/orpc";

@@ -2,8 +2,8 @@
 
 import type { ComponentType } from "react";
 
+import { useTranslations } from "@greendex/i18n/client";
 import { PanelRightCloseIcon, PanelRightOpenIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { Suspense } from "react";
 
 import type { AppRoute } from "@/app/routes";

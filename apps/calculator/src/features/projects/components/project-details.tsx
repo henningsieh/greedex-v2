@@ -1,5 +1,6 @@
 "use client";
 
+import { useFormatter, useLocale, useTranslations } from "@greendex/i18n/client";
 import {
   useMutation,
   useQueryClient,
@@ -12,7 +13,6 @@ import {
   MoreHorizontalIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 

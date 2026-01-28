@@ -1,8 +1,8 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronDown, LogOutIcon, Settings } from "lucide-react";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
 

@@ -61,7 +61,7 @@ export function activityUpdateSchema(t: TranslateFn) { ... }
 
 ```typescript
 "use client";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@greendex/i18n/client";
 import { useMemo } from "react";
 import { activitySchema } from "@/features/activities/schemas";
 
@@ -83,7 +83,7 @@ export function ActivityForm() {
 ## Server Procedure Usage
 
 ```typescript
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n/server";
 import { activitySchema } from "@/features/activities/schemas";
 
 export const createActivity = protectedProcedure
@@ -103,9 +103,9 @@ export const createActivity = protectedProcedure
 Use **real** `next-intl` translators with `createTranslator` and actual translation files - no mocks needed:
 
 ```typescript
-import { createTranslator } from "next-intl";
-import enMessages from "@/lib/i18n/translations/en.json";
-import deMessages from "@/lib/i18n/translations/de.json";
+import { createTranslator } from "@greendex/i18n";
+import deMessages from "@greendex/i18n/locales/de.json";
+import enMessages from "@greendex/i18n/locales/en.json";
 import { describe, it, expect } from "vitest";
 
 // Create real translators at module level - reuse in all tests
@@ -139,7 +139,7 @@ describe("Activity Validation", () => {
 ```
 
 **Key Insights:**
-- ✅ Uses **real** `createTranslator()` from "next-intl"
+- ✅ Uses **real** `{ createTranslator }` from "@greendex/i18n"
 - ✅ Loads **actual** JSON translation files
 - ✅ No type casting (`as any`), no mock functions
 - ✅ Tests verify schema AND translations simultaneously
@@ -214,8 +214,8 @@ src/features/[domain]/validation-schemas.ts
 /**
  * Import server- or client-side translations, one or the other
  */
-import { getTranslations } from "next-intl/server";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "@greendex/i18n/server";
+import { useTranslations } from "@greendex/i18n/client";
 
 type TranslateFn = 
   | ReturnType<typeof useTranslations>

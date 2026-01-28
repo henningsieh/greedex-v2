@@ -3,8 +3,9 @@ import {
   MAX_DISTANCE_KM,
   MIN_DISTANCE_KM,
 } from "@greendex/config/activities";
+import { createTranslator } from "@greendex/i18n/client";
+import deMessages from "@greendex/i18n/locales/de.json";
 import { createInsertSchema } from "drizzle-zod";
-import { createTranslator } from "next-intl";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -14,8 +15,6 @@ import {
 } from "@/features/project-activities/utils";
 import { activityUpdateSchema } from "@/features/project-activities/validation-schemas";
 import { projectActivitiesTable } from "@/lib/drizzle/schema";
-// Import real translation messages
-import deMessages from "@/lib/i18n/translations/de.json";
 
 /**
  * Create real next-intl translator for German
@@ -159,7 +158,7 @@ describe("i18n Translation Integration", () => {
     }
   });
 
-  it("should treanslate parameters in German messages", () => {
+  it("should translate parameters in German messages", () => {
     const schema = createDistanceSchema(tDe);
     const resultMin = schema.safeParse(0.05);
 

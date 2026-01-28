@@ -1,5 +1,5 @@
-import type { useTranslations } from "next-intl";
-import type { getTranslations } from "next-intl/server";
+import type { useTranslations } from "@greendex/i18n/client";
+import type { getTranslations } from "@greendex/i18n/server";
 
 import { z } from "zod";
 

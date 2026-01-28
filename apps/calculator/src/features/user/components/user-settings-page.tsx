@@ -1,5 +1,5 @@
+import { getTranslations } from "@greendex/i18n/server";
 import { UserCogIcon } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 
 import { ContentContainer } from "@/components/content-container";
 import { LocaleSwitcher } from "@/components/locale-switcher";

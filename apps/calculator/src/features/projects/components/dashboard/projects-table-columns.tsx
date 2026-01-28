@@ -2,6 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 
+import { useFormatter, useTranslations } from "@greendex/i18n/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   ArchiveIcon,
@@ -11,7 +12,6 @@ import {
   EyeIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 

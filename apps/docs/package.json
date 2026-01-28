@@ -16,15 +16,9 @@
     "@greendex/i18n": "workspace:*",
     "fumadocs-core": "^15.4.1",
     "fumadocs-mdx": "^11.7.1",
-    "fumadocs-ui": "^15.4.1",
-    "next": "^16.1.4",
-    "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "fumadocs-ui": "^15.4.1"
   },
   "devDependencies": {
-    "@types/node": "^25.0.10",
-    "@types/react": "^19.2.9",
-    "@types/react-dom": "19.2.3",
     "oxfmt": "^0.26.0",
     "oxlint": "^1.41.0",
     "tailwindcss": "^4.1.18"

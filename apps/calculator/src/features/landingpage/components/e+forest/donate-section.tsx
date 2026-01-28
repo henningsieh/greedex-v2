@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@greendex/i18n/client";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";

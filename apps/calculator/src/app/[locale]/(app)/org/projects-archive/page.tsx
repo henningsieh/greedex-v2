@@ -4,7 +4,7 @@
  * Organization archived projects page
  */
 
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
