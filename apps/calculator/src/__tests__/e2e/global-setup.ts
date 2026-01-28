@@ -1,14 +1,15 @@
-import "dotenv/config";
-import en from "@greendex/i18n/locales/en.json";
+import en from "@greendex/i18n/locales/en.json" with { type: "json" };
 import { chromium, type FullConfig } from "@playwright/test";
 import { mkdirSync } from "fs";
 
-import { env } from "@/env";
-
 import { SEED_USER } from "../../../scripts/seed";
+
 /**
  * Global setup for Playwright tests
  * This runs once before all tests and verifies the app + DB by performing a login
+ *
+ * Environment variables are loaded by dotenv-cli before Playwright starts.
+ * Don't import from @/env here to avoid validation errors during type-checking.
  */
 async function globalSetup(config: FullConfig) {
   // Launch browser for setup checks
@@ -20,7 +21,13 @@ async function globalSetup(config: FullConfig) {
   const storagePath = "src/__tests__/e2e/.auth/storageState.json";
 
   try {
-    const baseURL = config.projects[0].use.baseURL || env.NEXT_PUBLIC_BASE_URL;
+    const baseURL =
+      config.projects[0].use.baseURL || process.env.NEXT_PUBLIC_BASE_URL;
+    if (!baseURL) {
+      throw new Error(
+        "Base URL is not defined. Please set NEXT_PUBLIC_BASE_URL environment variable.",
+      );
+    }
 
     // Sanity check server is running
     await page.goto(baseURL, { waitUntil: "networkidle", timeout: 30_000 });
@@ -67,7 +74,14 @@ async function globalSetup(config: FullConfig) {
     // Login with seed user
     await page.fill('input[name="email"]', SEED_USER.email);
     await page.fill('input[name="password"]', SEED_USER.password);
-    await page.click('button[type="submit"]');
+
+    // Wait a bit for any animations to settle
+    await page.waitForTimeout(500);
+
+    // Click with force to bypass animation stability check
+    const submitButton = page.locator('button[type="submit"]');
+    await submitButton.waitFor({ state: "visible", timeout: 10_000 });
+    await submitButton.click({ force: true, timeout: 10_000 });
 
     // Wait for redirect to dashboard
     await page.waitForURL("**/org/dashboard", { timeout: 30_000 });
@@ -79,7 +93,9 @@ async function globalSetup(config: FullConfig) {
     }
 
     // Ensure auth dir exists and save storage state for the rest of the suite
-    mkdirSync("src/__tests__/e2e/.auth", { recursive: true });
+    if (!process.env.WSL_DISTRO_NAME) {
+      mkdirSync("src/__tests__/e2e/.auth", { recursive: true });
+    }
     await page.context().storageState({ path: storagePath });
     console.log(`✅ Auth storage saved to ${storagePath}`);
   } catch (error) {

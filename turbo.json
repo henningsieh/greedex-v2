@@ -38,6 +38,27 @@
     "db:studio": {
       "cache": false,
       "persistent": true
+    },
+    "test:e2e": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "test:e2e:ui": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "test:e2e:debug": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "test:e2e:headed": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "test:e2e:report": {
+      "cache": false
     }
   }
 }
