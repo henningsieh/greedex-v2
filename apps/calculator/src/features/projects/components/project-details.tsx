@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormatter, useLocale, useTranslations } from "@greendex/i18n";
+import { useFormatter, useLocale, useTranslations } from "@greendex/i18n/client";
 import {
   useMutation,
   useQueryClient,

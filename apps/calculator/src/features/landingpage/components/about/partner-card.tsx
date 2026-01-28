@@ -1,4 +1,4 @@
-import { getLocale, getTranslations } from "@greendex/i18n";
+import { getLocale, getTranslations } from "@greendex/i18n/server";
 import { ExternalLinkIcon } from "lucide-react";
 import Image from "next/image";
 

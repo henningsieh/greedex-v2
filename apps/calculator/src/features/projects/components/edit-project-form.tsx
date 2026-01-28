@@ -7,7 +7,7 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@greendex/config/activities";
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isDefinedError } from "@orpc/client";
 import {

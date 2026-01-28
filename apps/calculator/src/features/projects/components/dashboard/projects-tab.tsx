@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { FolderOpenIcon } from "lucide-react";
 import { parseAsStringLiteral, useQueryState } from "nuqs";

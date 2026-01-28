@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { CopyIcon, ExternalLinkIcon, Link2Icon, QrCodeIcon } from "lucide-react";
 import QRCode from "qrcode";
 import { useCallback, useEffect, useRef, useState } from "react";

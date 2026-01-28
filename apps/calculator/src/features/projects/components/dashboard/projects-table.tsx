@@ -5,7 +5,7 @@ import {
   PAGE_SIZE_OPTIONS,
   type PageSizeOption,
 } from "@greendex/config/pagination";
-import { useLocale, useTranslations } from "@greendex/i18n";
+import { useLocale, useTranslations } from "@greendex/i18n/client";
 import {
   useMutation,
   useQueryClient,

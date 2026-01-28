@@ -1,8 +1,5 @@
-import {
-  NextIntlClientProvider,
-  getMessages,
-  setRequestLocale,
-} from "@greendex/i18n";
+import { NextIntlClientProvider } from "@greendex/i18n/client";
+import { getMessages, setRequestLocale } from "@greendex/i18n/server";
 import { Comfortaa, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { notFound } from "next/navigation";
 

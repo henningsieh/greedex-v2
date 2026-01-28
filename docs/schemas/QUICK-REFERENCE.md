@@ -61,7 +61,7 @@ export function activityUpdateSchema(t: TranslateFn) { ... }
 
 ```typescript
 "use client";
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { useMemo } from "react";
 import { activitySchema } from "@/features/activities/schemas";
 
@@ -83,7 +83,7 @@ export function ActivityForm() {
 ## Server Procedure Usage
 
 ```typescript
-import { getTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
 import { activitySchema } from "@/features/activities/schemas";
 
 export const createActivity = protectedProcedure
@@ -214,8 +214,8 @@ src/features/[domain]/validation-schemas.ts
 /**
  * Import server- or client-side translations, one or the other
  */
-import { getTranslations } from "@greendex/i18n";
-import { useTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
+import { useTranslations } from "@greendex/i18n/client";
 
 type TranslateFn = 
   | ReturnType<typeof useTranslations>

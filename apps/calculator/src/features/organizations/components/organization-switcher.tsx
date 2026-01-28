@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { CheckIcon, ChevronsUpDownIcon, PlusIcon } from "lucide-react";
 

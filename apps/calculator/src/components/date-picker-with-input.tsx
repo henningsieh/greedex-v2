@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormatter } from "@greendex/i18n";
+import { useFormatter } from "@greendex/i18n/client";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
 

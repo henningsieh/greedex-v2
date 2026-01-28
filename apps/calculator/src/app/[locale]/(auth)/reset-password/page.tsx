@@ -1,4 +1,4 @@
-import { getLocale } from "@greendex/i18n";
+import { getLocale } from "@greendex/i18n/server";
 
 import { LOGIN_PATH } from "@/app/routes";
 import AuthFlowLayout from "@/features/authentication/components/auth-flow-layout";

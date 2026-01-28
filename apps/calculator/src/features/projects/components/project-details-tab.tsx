@@ -1,4 +1,4 @@
-import { useFormatter, useTranslations } from "@greendex/i18n";
+import { useFormatter, useTranslations } from "@greendex/i18n/client";
 import { Calendar1Icon, CalendarXIcon, MessageSquareIcon } from "lucide-react";
 
 import type { ProjectWithRelationsType } from "@/features/projects/types";

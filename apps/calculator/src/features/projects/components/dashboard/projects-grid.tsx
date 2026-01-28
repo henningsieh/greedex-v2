@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 

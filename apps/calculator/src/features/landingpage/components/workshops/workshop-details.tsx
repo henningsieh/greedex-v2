@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { CheckCircle2, ExternalLink } from "lucide-react";
 
 import type { WorkshopType } from "@/features/landingpage/types";

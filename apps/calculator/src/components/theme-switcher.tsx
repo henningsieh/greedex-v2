@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";

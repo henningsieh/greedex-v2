@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "@greendex/i18n";
+import { useLocale } from "@greendex/i18n/client";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useMemo, useState } from "react";
 

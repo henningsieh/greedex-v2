@@ -4,7 +4,7 @@
  * Organization projects page with list of projects and create project button
  */
 
-import { getTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
 import { headers } from "next/headers";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";

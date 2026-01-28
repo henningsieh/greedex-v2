@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormatter, useLocale } from "@greendex/i18n";
+import { useFormatter, useLocale } from "@greendex/i18n/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   CalendarIcon,

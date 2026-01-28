@@ -1,5 +1,5 @@
 import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
-import { getTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
 import { headers } from "next/headers";
 
 import { ContentContainer } from "@/components/content-container";

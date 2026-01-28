@@ -5,7 +5,7 @@
  */
 
 import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
-import { getTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
 import { headers as nextHeaders } from "next/headers";
 import { Suspense } from "react";
 

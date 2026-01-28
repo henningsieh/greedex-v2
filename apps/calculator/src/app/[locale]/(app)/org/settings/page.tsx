@@ -4,7 +4,7 @@
  * Organization settings page with edit organization form
  */
 
-import { getTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
 import { Suspense } from "react";
 
 import { ContentContainer } from "@/components/content-container";

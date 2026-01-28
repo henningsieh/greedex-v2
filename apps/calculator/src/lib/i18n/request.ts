@@ -1,5 +1,5 @@
 import { DEFAULT_LOCALE } from "@greendex/config/languages";
-import { getRequestConfig } from "@greendex/i18n";
+import { getRequestConfig } from "@greendex/i18n/server";
 
 import { isSupportedLocale } from "@/lib/i18n/locales";
 

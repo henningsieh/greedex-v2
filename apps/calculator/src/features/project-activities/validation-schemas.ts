@@ -1,5 +1,5 @@
-import type { getTranslations } from "@greendex/i18n";
-import type { useTranslations } from "@greendex/i18n";
+import type { useTranslations } from "@greendex/i18n/client";
+import type { getTranslations } from "@greendex/i18n/server";
 
 import {
   createInsertSchema,

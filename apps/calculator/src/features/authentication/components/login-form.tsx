@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";

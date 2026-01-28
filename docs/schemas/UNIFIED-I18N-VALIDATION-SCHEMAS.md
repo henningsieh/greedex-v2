@@ -56,8 +56,8 @@ This document describes the unified validation schema pattern for handling i18n 
 /**
  * Import server- or client-side translations, one or the other
  */
-import { getTranslations } from "@greendex/i18n";
-import { useTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
+import { useTranslations } from "@greendex/i18n/client";
 
 /**
  * Unified translation function type that works for both client and server
@@ -174,7 +174,7 @@ export function createDistanceSchema(
 ```typescript
 "use client";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { useMemo } from "react";
 import { activityInputSchema, activityUpdateSchema } from "@/features/project-activities/validation-schemas";
 
@@ -201,7 +201,7 @@ export function ProjectActivityForm({ isEditing }: { isEditing: boolean }) {
 ### Server Component / Procedure
 
 ```typescript
-import { getTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
 import { activityUpdateSchema } from "@/features/project-activities/validation-schemas";
 
 export const updateActivityProcedure = protectedProcedure

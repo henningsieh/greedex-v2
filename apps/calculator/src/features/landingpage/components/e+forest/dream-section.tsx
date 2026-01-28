@@ -1,4 +1,4 @@
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { ExternalLink, MapPin, Trees } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";

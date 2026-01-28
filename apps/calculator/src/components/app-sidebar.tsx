@@ -2,7 +2,7 @@
 
 import type { ComponentType } from "react";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { PanelRightCloseIcon, PanelRightOpenIcon } from "lucide-react";
 import { Suspense } from "react";
 

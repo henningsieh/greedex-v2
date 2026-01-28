@@ -2,7 +2,7 @@
 
 import type { VariantProps } from "class-variance-authority";
 
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 
 import { CREATE_PROJECT_PATH } from "@/app/routes";
 import { Button } from "@/components/ui/button";

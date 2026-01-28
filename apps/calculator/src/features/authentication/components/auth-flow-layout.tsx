@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { getTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
 
 import { AnimatedGroup } from "@/components/animated-group";
 import { BackgroundAnimations } from "@/components/background-animations";

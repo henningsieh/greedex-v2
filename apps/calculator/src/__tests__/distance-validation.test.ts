@@ -3,8 +3,7 @@ import {
   MAX_DISTANCE_KM,
   MIN_DISTANCE_KM,
 } from "@greendex/config/activities";
-import { createTranslator } from "@greendex/i18n";
-// Import real translation messages
+import { createTranslator } from "@greendex/i18n/client";
 import deMessages from "@greendex/i18n/locales/de.json";
 import enMessages from "@greendex/i18n/locales/en.json";
 import { createInsertSchema } from "drizzle-zod";

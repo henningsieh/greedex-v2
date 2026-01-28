@@ -12,7 +12,7 @@ import {
   PARTICIPATE_TOTAL_STEPS,
   ROOM_OCCUPANCY_OPTIONS,
 } from "@greendex/config/participate";
-import { useTranslations } from "@greendex/i18n";
+import { useTranslations } from "@greendex/i18n/client";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";

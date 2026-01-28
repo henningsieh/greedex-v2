@@ -3,7 +3,7 @@
 import type z from "zod";
 
 import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
-import { useLocale, useTranslations } from "@greendex/i18n";
+import { useLocale, useTranslations } from "@greendex/i18n/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   type ColumnDef,

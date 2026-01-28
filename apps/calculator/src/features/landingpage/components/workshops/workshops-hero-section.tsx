@@ -1,4 +1,4 @@
-import { getTranslations } from "@greendex/i18n";
+import { getTranslations } from "@greendex/i18n/server";
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
 

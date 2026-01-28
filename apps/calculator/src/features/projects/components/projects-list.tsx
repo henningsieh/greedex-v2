@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormatter } from "@greendex/i18n";
+import { useFormatter } from "@greendex/i18n/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { Alert } from "@/components/ui/alert";
