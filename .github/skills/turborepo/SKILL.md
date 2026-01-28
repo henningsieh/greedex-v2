@@ -248,8 +248,8 @@ Root `package.json` scripts MUST delegate to `turbo run`, not run tasks directly
 // WRONG - bypasses turbo entirely
 {
   "scripts": {
-    "build": "bun build",
-    "dev": "bun dev"
+    "build": "pnpm build",
+    "dev": "pnpm dev"
   }
 }
 
@@ -270,7 +270,7 @@ Don't chain turbo tasks with `&&`. Let turbo orchestrate.
 // WRONG - turbo task not using turbo run
 {
   "scripts": {
-    "changeset:publish": "bun build && changeset publish"
+    "changeset:publish": "pnpm build && changeset publish"
   }
 }
 

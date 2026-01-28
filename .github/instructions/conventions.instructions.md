@@ -34,7 +34,7 @@ import { Button, Card, Dialog } from "@/components/ui"; // Don't do this
 
 ---
 
-## Build & Bundler Configuration
+## Build & pnpmdler Configuration
 
 ### Next.js Configuration
 
@@ -48,7 +48,7 @@ reactCompiler: true; // ⚠️ Do NOT disable or modify
 
 ### Package Optimization
 
-Check `next.config.ts` for `optimizePackageImports` — this pre-bundles heavy packages to improve cold start time.
+Check `next.config.ts` for `optimizePackageImports` — this pre-pnpmdles heavy packages to improve cold start time.
 
 See `docs/next/optimizePackageImports.md` for the list.
 
@@ -179,26 +179,26 @@ pnpm run db:migrate
 
 ## Package Manager
 
-**Use `bun` exclusively** — Do not use `npm`, `yarn`, or `pnpm`.
+**Use `pnpm` exclusively** — Do not use `npm`, `yarn`, or `bun`.
 
 ```bash
 # Install dependencies
-bun install
+pnpm install
 
 # Add package
-bun add <package>
+pnpm add <package>
 
 # Add dev dependency
-bun add -d <package>
+pnpm add -d <package>
 
 # Remove package
-bun remove <package>
+pnpm remove <package>
 
 # Run scripts
 pnpm run <script>
 ```
 
-**Lockfile**: `bun.lockb` (binary format) — commit this to version control.
+**Lockfile**: `pnpm.lockb` (binary format) — commit this to version control.
 
 ---
 
@@ -209,7 +209,7 @@ pnpm run <script>
 **Installation**:
 
 ```bash
-bunx shadcn@latest add <component-name>
+pnpmx shadcn@latest add <component-name>
 ```
 
 **Location**: `src/components/ui/`

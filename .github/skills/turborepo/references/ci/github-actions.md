@@ -36,7 +36,7 @@ jobs:
 
 ### pnpm
 
-```yaml
+```pnpm
 - uses: pnpm/action-setup@v3
   with:
     version: 9

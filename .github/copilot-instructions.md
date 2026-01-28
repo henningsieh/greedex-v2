@@ -28,7 +28,7 @@ Never execute commands that start processes or builds:
 
 | What                 | Value                 | Notes                              |
 | -------------------- | --------------------- | ---------------------------------- |
-| **Package Manager**  | `bun`                 | Use bun for all installs/scripts   |
+| **Package Manager**  | `pnpm`                | Use pnpm for all installs/scripts  |
 | **Node Modules**     | ESM only              | `"type": "module"` in package.json |
 | **Linter/Formatter** | Oxc                   | See `docs/oxc/` for standards      |
 | **Test Runner**      | Vitest                | Tests in `src/__tests__/`          |

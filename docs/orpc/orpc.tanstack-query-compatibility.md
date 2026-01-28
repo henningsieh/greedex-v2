@@ -39,12 +39,12 @@ Then reinstall dependencies:
 
 ```bash
 rm -rf node_modules bun.lockb
-bun install
+pnpm install
 ```
 
 **Verification**:
 ```bash
-bun why @tanstack/query-core
+pnpm why @tanstack/query-core
 # Should show only one version of @tanstack/query-core@5.90.19
 ```
 
@@ -58,7 +58,7 @@ bun why @tanstack/query-core
 
 **Can be removed when**:
 - `@orpc/tanstack-query` explicitly supports `@tanstack/query-core` version 5.90.19 or later
-- Remove the `resolutions` field and verify `bun why @tanstack/query-core` reports a single version
+- Remove the `resolutions` field and verify `pnpm why @tanstack/query-core` reports a single version
 - Run `pnpm run lint` to confirm no TypeScript errors
 
 ### Notes for Developers
