@@ -5,8 +5,8 @@
  */
 
 import { DEFAULT_PAGE_SIZE } from "@greendex/config/pagination";
+import { getTranslations } from "@greendex/i18n";
 import { UsersIcon } from "lucide-react";
-import { getTranslations } from "next-intl/server";
 import { headers as nextHeaders } from "next/headers";
 import { Suspense } from "react";
 

@@ -4,8 +4,8 @@
  * Organization project details page with project details tabs
  */
 
+import { getLocale } from "@greendex/i18n";
 import { safe } from "@orpc/client";
-import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 

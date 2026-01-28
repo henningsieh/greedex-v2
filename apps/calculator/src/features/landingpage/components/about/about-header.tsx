@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n";
 import Image from "next/image";
 
 /**

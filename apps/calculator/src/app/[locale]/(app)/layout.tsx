@@ -1,4 +1,4 @@
-import { getLocale } from "next-intl/server";
+import { getLocale } from "@greendex/i18n";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";

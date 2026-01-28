@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n";
 
 import { AnimatedGroup } from "@/components/animated-group";
 import { BackgroundAnimations } from "@/components/background-animations";

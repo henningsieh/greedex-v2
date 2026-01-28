@@ -1,7 +1,7 @@
 "use client";
 
+import { useLocale } from "@greendex/i18n";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useLocale } from "next-intl";
 import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";

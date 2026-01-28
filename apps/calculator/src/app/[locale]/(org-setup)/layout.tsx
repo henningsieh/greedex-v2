@@ -1,4 +1,4 @@
-import { getLocale } from "next-intl/server";
+import { getLocale } from "@greendex/i18n";
 
 import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/app/routes";
 import {

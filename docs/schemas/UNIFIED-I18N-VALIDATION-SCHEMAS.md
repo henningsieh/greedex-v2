@@ -56,7 +56,7 @@ This document describes the unified validation schema pattern for handling i18n 
 /**
  * Import server- or client-side translations, one or the other
  */
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n";
 import { useTranslations } from "next-intl";
 
 /**
@@ -201,7 +201,7 @@ export function ProjectActivityForm({ isEditing }: { isEditing: boolean }) {
 ### Server Component / Procedure
 
 ```typescript
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n";
 import { activityUpdateSchema } from "@/features/project-activities/validation-schemas";
 
 export const updateActivityProcedure = protectedProcedure
@@ -276,8 +276,8 @@ function createTranslationFunction(locale = "en") {
 ```typescript
 // ✅ BEST: Use actual createTranslator from next-intl
 import { createTranslator } from "next-intl";
-import enMessages from "@/lib/i18n/translations/en.json";
-import deMessages from "@/lib/i18n/translations/de.json";
+import deMessages from "@greendex/i18n/locales/de.json";
+import enMessages from "@greendex/i18n/locales/en.json";
 
 // Create real translators at module level - reuse in all tests
 const tEn = createTranslator({

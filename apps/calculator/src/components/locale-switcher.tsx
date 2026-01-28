@@ -1,8 +1,8 @@
 "use client";
 
 import { LocaleCode } from "@greendex/config/languages";
+import { useLocale } from "@greendex/i18n";
 import { Check, ChevronDown } from "lucide-react";
-import { useLocale } from "next-intl";
 import { useTransition } from "react";
 
 import { Button } from "@/components/ui/button";

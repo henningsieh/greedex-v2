@@ -16,6 +16,12 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "prepare": "husky"
   },
+  "dependencies": {
+    "next": "^16.1.4",
+    "next-intl": "^4.7.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
   "devDependencies": {
     "husky": "^9.1.7",
     "oxfmt": "^0.26.0",

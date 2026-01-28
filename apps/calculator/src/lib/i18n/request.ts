@@ -1,5 +1,5 @@
 import { DEFAULT_LOCALE } from "@greendex/config/languages";
-import { getRequestConfig } from "next-intl/server";
+import { getRequestConfig } from "@greendex/i18n";
 
 import { isSupportedLocale } from "@/lib/i18n/locales";
 
@@ -14,6 +14,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: (await import(`@/lib/i18n/translations/${locale}.json`)).default,
+    messages: (await import(`@greendex/i18n/locales/${locale}.json`)).default,
   };
 });

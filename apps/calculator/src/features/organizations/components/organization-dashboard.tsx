@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@greendex/i18n";
 import { useQueryState } from "nuqs";
 import { Suspense } from "react";
 

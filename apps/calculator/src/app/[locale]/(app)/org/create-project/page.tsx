@@ -4,7 +4,7 @@
  * Organization create project page with form
  */
 
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n";
 import { headers as nextHeaders } from "next/headers";
 
 import { ContentContainer } from "@/components/content-container";

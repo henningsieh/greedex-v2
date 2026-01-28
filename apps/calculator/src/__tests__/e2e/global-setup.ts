@@ -1,12 +1,11 @@
 import "dotenv/config";
+import en from "@greendex/i18n/locales/en.json";
 import { chromium, type FullConfig } from "@playwright/test";
 import { mkdirSync } from "fs";
 
 import { env } from "@/env";
 
 import { SEED_USER } from "../../../scripts/seed";
-import en from "../../lib/i18n/translations/en.json" assert { type: "json" };
-
 /**
  * Global setup for Playwright tests
  * This runs once before all tests and verifies the app + DB by performing a login

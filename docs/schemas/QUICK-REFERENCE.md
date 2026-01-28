@@ -83,7 +83,7 @@ export function ActivityForm() {
 ## Server Procedure Usage
 
 ```typescript
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n";
 import { activitySchema } from "@/features/activities/schemas";
 
 export const createActivity = protectedProcedure
@@ -104,8 +104,8 @@ Use **real** `next-intl` translators with `createTranslator` and actual translat
 
 ```typescript
 import { createTranslator } from "next-intl";
-import enMessages from "@/lib/i18n/translations/en.json";
-import deMessages from "@/lib/i18n/translations/de.json";
+import deMessages from "@greendex/i18n/locales/de.json";
+import enMessages from "@greendex/i18n/locales/en.json";
 import { describe, it, expect } from "vitest";
 
 // Create real translators at module level - reuse in all tests
@@ -214,7 +214,7 @@ src/features/[domain]/validation-schemas.ts
 /**
  * Import server- or client-side translations, one or the other
  */
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n";
 import { useTranslations } from "next-intl";
 
 type TranslateFn = 

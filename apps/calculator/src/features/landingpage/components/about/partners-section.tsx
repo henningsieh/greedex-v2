@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "@greendex/i18n";
 
 import { PARTNERS } from "@/config/about";
 import { PartnerCard } from "@/features/landingpage/components/about/partner-card";

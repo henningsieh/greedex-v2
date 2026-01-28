@@ -1,5 +1,5 @@
+import { getLocale, getTranslations } from "@greendex/i18n";
 import { ExternalLinkIcon } from "lucide-react";
-import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 
 import type { Partner } from "@/config/about";
