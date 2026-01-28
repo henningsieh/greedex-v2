@@ -24,7 +24,7 @@ import { Link } from "@/lib/i18n/routing";
  * @returns A JSX element representing the footer containing the logo, CTA, localized navigation links, and copyright.
  */
 export default async function FooterSection() {
-  const t = await getTranslations("landingpage");
+  const t = await getTranslations("landingPage");
 
   const navigationLinks = [
     {

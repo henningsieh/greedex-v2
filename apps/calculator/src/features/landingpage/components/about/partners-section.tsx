@@ -7,7 +7,7 @@ import { PartnerCard } from "@/features/landingpage/components/about/partner-car
  * Partners content section with title, intro, and partner cards grid
  */
 export async function PartnersSection() {
-  const t = await getTranslations("landingpage.about");
+  const t = await getTranslations("landingPage.about");
 
   return (
     <section className="py-12">

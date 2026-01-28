@@ -2,7 +2,7 @@
  * Workshops Configuration
  *
  * Metadata configuration for workshops (static data only - no i18n content)
- * All translatable content is in messages/[locale].json under LandingPage.workshops
+ * All translatable content is in messages/[locale].json under landingPage.workshops
  */
 
 /**

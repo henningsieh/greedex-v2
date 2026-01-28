@@ -5,7 +5,7 @@ import Image from "next/image";
  * About page header with background image and title
  */
 export async function AboutHeader() {
-  const t = await getTranslations("landingpage.about");
+  const t = await getTranslations("landingPage.about");
 
   return (
     <div className="relative h-[50vh] min-h-125 w-full overflow-hidden">
