@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@greendex/i18n";
 
 import type { auth } from "@/lib/better-auth";
 

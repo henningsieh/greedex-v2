@@ -7,6 +7,7 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@greendex/config/activities";
+import { useTranslations } from "@greendex/i18n";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { isDefinedError } from "@orpc/client";
 import {
@@ -15,7 +16,6 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { ArrowLeft, ArrowRight, Check, Plus, Trash2 } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";

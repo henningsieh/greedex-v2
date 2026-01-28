@@ -1,5 +1,6 @@
 "use client";
 
+import { useFormatter, useLocale } from "@greendex/i18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   CalendarIcon,
@@ -8,7 +9,6 @@ import {
   MoreHorizontalIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useFormatter, useLocale } from "next-intl";
 import { Suspense, useState } from "react";
 import { toast } from "sonner";
 

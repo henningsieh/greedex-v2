@@ -7,9 +7,9 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@greendex/config/activities";
+import { useTranslations } from "@greendex/i18n";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";

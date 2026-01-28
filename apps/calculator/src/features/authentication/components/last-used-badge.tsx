@@ -2,7 +2,7 @@
 
 import type { ComponentPropsWithoutRef } from "react";
 
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@greendex/i18n";
 
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

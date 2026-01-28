@@ -1,12 +1,12 @@
 "use client";
 
+import { useFormatter, useTranslations } from "@greendex/i18n";
 import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { EditIcon, PlusIcon, Trash2Icon } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 

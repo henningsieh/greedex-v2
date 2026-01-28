@@ -5,6 +5,7 @@ import {
   PAGE_SIZE_OPTIONS,
   type PageSizeOption,
 } from "@greendex/config/pagination";
+import { useLocale, useTranslations } from "@greendex/i18n";
 import {
   useMutation,
   useQueryClient,
@@ -30,7 +31,6 @@ import {
   TablePropertiesIcon,
   Trash2Icon,
 } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 

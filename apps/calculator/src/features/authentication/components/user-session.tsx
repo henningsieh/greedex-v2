@@ -1,7 +1,7 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
 

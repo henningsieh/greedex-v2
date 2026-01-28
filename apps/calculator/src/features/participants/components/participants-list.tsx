@@ -1,8 +1,8 @@
 "use client";
 
+import { useFormatter, useTranslations } from "@greendex/i18n";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Users2Icon } from "lucide-react";
-import { useFormatter, useTranslations } from "next-intl";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {

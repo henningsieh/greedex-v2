@@ -1,7 +1,7 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n";
 import { CopyIcon, ExternalLinkIcon, Link2Icon, QrCodeIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import QRCode from "qrcode";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

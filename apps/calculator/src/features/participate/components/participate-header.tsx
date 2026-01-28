@@ -1,7 +1,7 @@
 "use client";
 
+import { useLocale, useTranslations } from "@greendex/i18n";
 import { LeafIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
 
 import type { Project } from "@/features/participate/types";
 

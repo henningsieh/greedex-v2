@@ -1,8 +1,8 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArrowRightIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { PROJECTS_PATH } from "@/app/routes";

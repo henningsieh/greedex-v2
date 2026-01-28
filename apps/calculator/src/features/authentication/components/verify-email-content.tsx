@@ -1,7 +1,7 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n";
 import { MailIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

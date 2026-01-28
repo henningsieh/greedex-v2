@@ -1,7 +1,7 @@
 "use client";
 
+import { useTranslations } from "@greendex/i18n";
 import { SheetIcon, TablePropertiesIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 

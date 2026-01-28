@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { useTranslations } from "@greendex/i18n";
 import Image from "next/image";
 
 import { eForestConfig } from "@/config/e-forest";
