@@ -304,9 +304,9 @@ const schema = myResourceSchema(t);
 - [ ] Update all procedures with `await getTranslations()`
 - [ ] Update tests to load real translations
 - [ ] Delete old schema exports
-- [ ] Run tests: `bun run test`
-- [ ] Run format: `bun run format`
-- [ ] Run lint: `bun run lint`
+- [ ] Run tests: `pnpm run test`
+- [ ] Run format: `pnpm run format`
+- [ ] Run lint: `pnpm run lint`
 
 ---
 

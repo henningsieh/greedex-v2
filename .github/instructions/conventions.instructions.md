@@ -63,8 +63,8 @@ This project uses **Oxc** for extremely fast linting and formatting.
 **Commands**:
 
 ```bash
-bun run lint      # Check for issues
-bun run format    # Auto-fix formatting
+pnpm run lint      # Check for issues
+pnpm run format    # Auto-fix formatting
 ```
 
 **Configuration**: See `docs/oxc/` for:
@@ -85,9 +85,9 @@ bun run format    # Auto-fix formatting
 **Commands**:
 
 ```bash
-bun run test              # Interactive mode (watch)
-bun run test:run          # Run once
-bun run test:coverage     # Coverage report
+pnpm run test              # Interactive mode (watch)
+pnpm run test:run          # Run once
+pnpm run test:coverage     # Coverage report
 ```
 
 **Conventions**:
@@ -130,9 +130,9 @@ describe("myFunction", () => {
 
 ### Pre-Commit Checklist
 
-1. `bun run format` — Auto-fix formatting
-2. `bun run lint` — Check for errors
-3. `bun run test:run` — Ensure tests pass
+1. `pnpm run format` — Auto-fix formatting
+2. `pnpm run lint` — Check for errors
+3. `pnpm run test:run` — Ensure tests pass
 4. Review changes with `git diff`
 
 ---
@@ -148,10 +148,10 @@ describe("myFunction", () => {
 ```bash
 # 1. Edit schema in src/lib/drizzle/schema/
 # 2. Generate migration
-bun run db:generate
+pnpm run db:generate
 
 # 3. Apply migration
-bun run db:migrate
+pnpm run db:migrate
 ```
 
 **Connection**: See `docs/database/coolify-ssl-connection.md` for SSL setup.
@@ -195,7 +195,7 @@ bun add -d <package>
 bun remove <package>
 
 # Run scripts
-bun run <script>
+pnpm run <script>
 ```
 
 **Lockfile**: `bun.lockb` (binary format) — commit this to version control.

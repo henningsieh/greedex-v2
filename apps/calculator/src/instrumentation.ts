@@ -5,6 +5,7 @@
  */
 export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {
+    // Initialize oRPC client
     await import("@/lib/orpc/client.server");
   }
 }

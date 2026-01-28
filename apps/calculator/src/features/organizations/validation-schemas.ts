@@ -1,13 +1,13 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
-
-import { MEMBER_ROLES } from "@/features/organizations/types";
 import {
   invitation,
   member as memberTable,
   organization,
   user as userTable,
-} from "@/lib/drizzle/schema";
+} from "@greendex/database/schema";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
+
+import { MEMBER_ROLES } from "@/features/organizations/types";
 
 // ============================================================================
 // ORGANIZATION - Schemas

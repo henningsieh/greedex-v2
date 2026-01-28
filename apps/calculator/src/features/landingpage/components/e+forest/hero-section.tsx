@@ -4,7 +4,7 @@ import Image from "next/image";
 import { eForestConfig } from "@/config/e-forest";
 
 export function HeroSection() {
-  const t = useTranslations("landingpage.EPlusForest.hero");
+  const t = useTranslations("landingPage.EPlusForest.hero");
 
   return (
     <div className="relative h-[50vh] min-h-125 w-full overflow-hidden">

@@ -10,15 +10,15 @@
 
 Never execute commands that start processes or builds:
 
-- `bun run dev`, `bun run build`, `bun run start`
+- `pnpm run dev`, `pnpm run build`, `pnpm run start`
 - `npm run dev`, `yarn dev`, or any dev server
 - Background processes or new terminal sessions
 - `git push --force`, `git reset --hard`, or destructive git operations
 
 ### Allowed Commands
 
-- **Linting/Formatting**: `bun run lint`, `bun run format`
-- **Testing**: `bun run test`, `bun run test:run`, `bun run test:coverage`
+- **Linting/Formatting**: `pnpm run lint`, `pnpm run format`
+- **Testing**: `pnpm run test`, `pnpm run test:run`, `pnpm run test:coverage`
 - **Git (read-only + commits)**: `git status`, `git log`, `git diff`, `git add`, `git commit`, `git checkout -b`
 - **Static analysis**: File reads, searches, code inspection
 
@@ -94,7 +94,7 @@ Before submitting work:
 - [ ] No forbidden commands were executed
 - [ ] `src/instrumentation.ts` import ordering preserved
 - [ ] Tests updated for changed functionality
-- [ ] `bun run format && bun run lint` executed and passing
+- [ ] `pnpm run format && pnpm run lint` executed and passing
 - [ ] Documentation consulted before integration changes (use `.github/instructions/` files)
 - [ ] Git commits are focused and well-described
 

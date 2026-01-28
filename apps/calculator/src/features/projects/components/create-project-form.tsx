@@ -7,6 +7,7 @@ import {
   DISTANCE_KM_STEP,
   MIN_DISTANCE_KM,
 } from "@greendex/config/activities";
+import { projectActivitiesTable } from "@greendex/database/schema";
 import { useTranslations } from "@greendex/i18n/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -52,7 +53,6 @@ import {
   MILLISECONDS_PER_DAY,
 } from "@/features/projects/utils";
 import { CreateProjectWithActivitiesSchema } from "@/features/projects/validation-schemas";
-import { projectActivitiesTable } from "@/lib/drizzle/schema";
 import { useRouter } from "@/lib/i18n/routing";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 

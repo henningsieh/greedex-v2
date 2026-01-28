@@ -1,3 +1,9 @@
+import { db } from "@greendex/database";
+import {
+  projectActivitiesTable,
+  projectParticipantsTable,
+  projectsTable,
+} from "@greendex/database/schema";
 import { ORPCError } from "@orpc/server";
 import { and, count, countDistinct, eq } from "drizzle-orm";
 import { z } from "zod";
@@ -11,12 +17,6 @@ import {
   MemberWithUserSchema,
 } from "@/features/organizations/validation-schemas";
 import { auth } from "@/lib/better-auth";
-import { db } from "@/lib/drizzle/db";
-import {
-  projectActivitiesTable,
-  projectParticipantsTable,
-  projectsTable,
-} from "@/lib/drizzle/schemas/project-schema";
 import { base } from "@/lib/orpc/context";
 import { authorized } from "@/lib/orpc/middleware";
 

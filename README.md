@@ -298,13 +298,13 @@ Configuration: `apps/calculator/.oxlintrc.json` and formatting rules in `docs/ox
 1. Push your code to GitHub
 2. Connect the repo to Vercel
 3. Set environment variables in Vercel dashboard
-4. Deploy (Vercel automatically runs `bun run build` and `bun run start`)
+4. Deploy (Vercel automatically runs `pnpm run build` and `pnpm run start`)
 
 ### Self-Hosted (Docker / VPS)
 
-1. Build locally or in CI/CD: `bun run build`
+1. Build locally or in CI/CD: `pnpm run build`
 2. Set production env vars
-3. Run: `bun run start` (expects `out/server.js` from build step)
+3. Run: `pnpm run start` (expects `out/server.js` from build step)
 4. Use a process manager (PM2, systemd) to keep the server running
 
 ---
@@ -312,8 +312,8 @@ Configuration: `apps/calculator/.oxlintrc.json` and formatting rules in `docs/ox
 ## Contributing
 
 1. Create a feature branch: `git checkout -b feature/my-feature`
-2. Make changes and test locally with `bun run dev`
-3. Lint & format: `bun run lint && bun run format`
+2. Make changes and test locally with `pnpm run dev`
+3. Lint & format: `pnpm run lint && pnpm run format`
 4. Commit with descriptive messages
 5. Push and open a PR
 

@@ -137,7 +137,7 @@ export function MyComponent() {
 Tests for country utilities are in `src/__tests__/country-i18n.test.ts`. Run them with:
 
 ```bash
-bun run test src/__tests__/country-i18n.test.ts
+pnpm run test src/__tests__/country-i18n.test.ts
 ```
 
 ## Adding New Features
@@ -205,7 +205,7 @@ The locale registration is already handled automatically through the config impo
 - Run the application and verify the new language appears in the locale switcher
 - Test that country selection works with the new locale
 - Verify that all UI text is properly translated
-- Run tests: `bun run test`
+- Run tests: `pnpm run test`
 
 #### Files Modified When Adding a Language:
 - ✅ `src/config/Languages.ts` - Add locale configuration

@@ -108,7 +108,7 @@
   },
   "i18n-ally.keystyle": "nested",
   "i18n-ally.ignoreFiles": ["src/test/**"],
-  "i18n-ally.enabledFrameworks": ["react-i18next"],
+  "i18n-ally.enabledFrameworks": ["next-intl"],
   "i18n-ally.localesPaths": ["packages/i18n/src/locales"],
   "i18n-ally.sourceLanguage": "en",
 

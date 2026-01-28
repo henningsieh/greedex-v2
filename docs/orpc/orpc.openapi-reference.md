@@ -91,7 +91,7 @@ Greedex uses **Subresource Integrity (SRI)** to ensure the Scalar bundle loaded 
 
 2. Build time: `scripts/generate-sri.js` computes hash
    ```bash
-   bun run generate:sri
+   pnpm run generate:sri
    # → Fetches exact bundle from CDN
    # → Computes SHA-384 hash
    # → Writes to src/lib/orpc/scalar-sri.ts

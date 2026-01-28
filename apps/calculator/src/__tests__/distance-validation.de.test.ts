@@ -3,6 +3,7 @@ import {
   MAX_DISTANCE_KM,
   MIN_DISTANCE_KM,
 } from "@greendex/config/activities";
+import { projectActivitiesTable } from "@greendex/database/schema";
 import { createTranslator } from "@greendex/i18n/client";
 import deMessages from "@greendex/i18n/locales/de.json";
 import { createInsertSchema } from "drizzle-zod";
@@ -14,7 +15,6 @@ import {
   validateDistanceStep,
 } from "@/features/project-activities/utils";
 import { activityUpdateSchema } from "@/features/project-activities/validation-schemas";
-import { projectActivitiesTable } from "@/lib/drizzle/schema";
 
 /**
  * Create real next-intl translator for German

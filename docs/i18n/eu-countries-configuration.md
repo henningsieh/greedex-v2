@@ -187,7 +187,7 @@ If the EU expands or requirements change:
 
 1. Add the new entry to `EU_COUNTRIES` in [src/config/eu-countries.ts](../../src/config/eu-countries.ts)
 2. No other files need updating - the configuration is automatically consumed by all dependent systems
-3. Run tests to verify: `bun run test`
+3. Run tests to verify: `pnpm run test`
 
 Example:
 
@@ -240,7 +240,7 @@ All country utilities are tested in [src/test/country-i18n.test.ts](../../src/te
 Run tests with:
 
 ```bash
-bun run test
+pnpm run test
 ```
 
 ## Benefits

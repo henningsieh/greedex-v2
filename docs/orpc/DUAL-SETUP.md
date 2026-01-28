@@ -182,8 +182,8 @@ export const openapiHandler = new OpenAPIHandler(router, {
 
 2. **Build-time generation**: `scripts/generate-sri.js`
    ```bash
-   # Runs automatically on `bun run build`
-   $ bun run generate:sri
+   # Runs automatically on `pnpm run build`
+   $ pnpm run generate:sri
    # → Fetches exact Scalar version from CDN
    # → Computes SHA-384 hash
    # → Writes to src/lib/orpc/scalar-sri.ts
@@ -284,8 +284,8 @@ Features:
 
 ```bash
 # Build and run locally
-bun run build
-bun run start
+pnpm run build
+pnpm run start
 
 # RPC calls work from any JavaScript context
 # (This is tested in src/__tests__/openapi-rest.test.ts)
@@ -295,7 +295,7 @@ bun run start
 
 ```bash
 # Run test suite
-bun run test:run
+pnpm run test:run
 
 # Test specific REST endpoint with curl
 curl http://localhost:3000/api/openapi/health
@@ -487,7 +487,7 @@ import { orpc } from "@/lib/orpc/orpc";
 |---------|-------|----------|
 | "TypeError: Cannot read property X" in type checking | Importing from wrong location | Import from `@/lib/orpc/orpc`, not from router |
 | REST endpoint returns 404 | Procedure missing `.route()` metadata | Add `.route({ method, path })` to procedure |
-| Scalar UI shows as blank page | SRI mismatch or bundle not loading | Run `bun run generate:sri` and rebuild |
+| Scalar UI shows as blank page | SRI mismatch or bundle not loading | Run `pnpm run generate:sri` and rebuild |
 | Authentication fails on protected endpoint | Headers not passed | Ensure cookies are sent (fetch with credentials) |
 | OpenAPI spec missing endpoints | Not registered in router | Add procedure to `src/lib/orpc/router.ts` |
 | Binary data error in browser | Calling RPC from curl/Postman | Use `/api/openapi` endpoint instead for REST |

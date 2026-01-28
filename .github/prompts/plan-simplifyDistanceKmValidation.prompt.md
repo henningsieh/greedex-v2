@@ -251,7 +251,7 @@ describe("Floating-Point Edge Cases", () => {
 Execute:
 
 ```bash
-bun run test src/__tests__/distance-validation.test.ts
+pnpm run test src/__tests__/distance-validation.test.ts
 ```
 
 Verify:
@@ -452,7 +452,7 @@ All translation files are in `src/lib/i18n/translations/`:
 - [ ] Add i18n translation integration tests (verify EN and DE translations work)
 - [ ] Add floating-point edge case tests
 - [ ] Run unit tests
-- [ ] Run `bun run format && bun run lint`
+- [ ] Run `pnpm run format && pnpm run lint`
 
 ## Expected Benefits
 

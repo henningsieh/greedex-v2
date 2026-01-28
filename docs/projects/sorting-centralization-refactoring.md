@@ -96,7 +96,7 @@ export const DEFAULT_PROJECT_SORT = {
 **Purpose**: Ensure sort fields are compile-time validated against actual DB schema.
 
 ```typescript
-import type { projectsTable } from "@/lib/drizzle/schema";
+import type { projectsTable } from "@greendex/database/schema";
 import { DEFAULT_PROJECT_SORT as CONFIG_DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 
 /**

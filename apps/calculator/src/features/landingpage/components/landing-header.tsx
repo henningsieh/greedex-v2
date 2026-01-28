@@ -31,7 +31,7 @@ import { Link } from "@/lib/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export const LandingHeader = () => {
-  const t = useTranslations("landingpage.header");
+  const t = useTranslations("landingPage.header");
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 

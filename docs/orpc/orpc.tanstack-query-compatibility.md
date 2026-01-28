@@ -59,12 +59,12 @@ bun why @tanstack/query-core
 **Can be removed when**:
 - `@orpc/tanstack-query` explicitly supports `@tanstack/query-core` version 5.90.19 or later
 - Remove the `resolutions` field and verify `bun why @tanstack/query-core` reports a single version
-- Run `bun run lint` to confirm no TypeScript errors
+- Run `pnpm run lint` to confirm no TypeScript errors
 
 ### Notes for Developers
 
 - **Don't update** `@tanstack/query-core` manually in `resolutions` without checking upstream
-- **Always verify** with `bun run lint` after package updates
+- **Always verify** with `pnpm run lint` after package updates
 - **Keep monitoring** the [oRPC releases page](https://github.com/orpc/orpc/releases)
 - **Document** any new version compatibility issues in this file
 

@@ -5,12 +5,15 @@
  *
  * - Purpose: Insert a seed user, organization, projects and activities for local development and tests.
  * - Warning: Stop the Next.js dev server (or any process using the database) before running to avoid connection conflicts.
- * - Run: bun run db:seed (uses tsx)
+ * - Run: pnpm run db:seed (uses tsx)
  *
  * Uses its own DB pool and will exit the process when finished. For local/dev use only — do not run in production.
  */
 
 import { hex } from "@better-auth/utils/hex";
+import { projectActivitiesTable, projectsTable } from "@greendex/database/schema";
+import * as schema from "@greendex/database/schema";
+import { account, member, organization, user } from "@greendex/database/schema";
 import { scryptAsync } from "@noble/hashes/scrypt.js";
 import { createId } from "@paralleldrive/cuid2";
 import { config } from "dotenv";
@@ -20,20 +23,8 @@ import { Pool } from "pg";
 
 import type { ActivityValueType } from "@/features/project-activities/types";
 
-import * as schema from "@/lib/drizzle/schema";
-import {
-  account,
-  member,
-  organization,
-  user,
-} from "@/lib/drizzle/schemas/auth-schema";
-import {
-  projectActivitiesTable,
-  projectsTable,
-} from "@/lib/drizzle/schemas/project-schema";
-
 // Load environment variables from .env file
-config();
+config({ path: "../../.env" });
 
 // Validate DATABASE_URL is available
 const DATABASE_URL = process.env.DATABASE_URL;

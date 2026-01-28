@@ -35,7 +35,7 @@ import { Link } from "@/lib/i18n/routing";
  * @returns A React element containing the full workshop details UI for the given `type`.
  */
 export function WorkshopDetails({ type }: { type: WorkshopType }) {
-  const t = useTranslations("landingpage.workshops");
+  const t = useTranslations("landingPage.workshops");
 
   // Helper to get link configuration for a step
   const getStepLinks = (

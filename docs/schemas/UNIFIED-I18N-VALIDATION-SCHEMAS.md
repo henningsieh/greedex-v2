@@ -625,7 +625,7 @@ When refactoring a new schema family:
 - [ ] Replace mock translations with real translation loading in tests
 - [ ] Delete old static schema exports
 - [ ] Run full test suite (all 147+ tests must pass)
-- [ ] Run `bun run format && bun run lint`
+- [ ] Run `pnpm run format && pnpm run lint`
 - [ ] Update related documentation
 
 ---

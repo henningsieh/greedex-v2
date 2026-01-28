@@ -12,14 +12,20 @@
     "format": "oxfmt",
     "lint": "oxlint --fix --fix-suggestions --fix-dangerously",
     "type-check": "tsc --noEmit",
+    "db:pull": "pnpm exec drizzle-kit pull",
+    "db:push": "pnpm exec drizzle-kit push",
+    "db:generate": "pnpm exec drizzle-kit generate",
+    "db:migrate": "TERM=dumb NO_COLOR=1 FORCE_COLOR=0 pnpm exec drizzle-kit migrate",
+    "db:studio": "pnpm exec drizzle-kit studio",
     "clean": "rm -rf node_modules .turbo"
   },
   "dependencies": {
     "@greendex/config": "workspace:*",
-    "@paralleldrive/cuid2": "^3.0.6",
-    "drizzle-orm": "^0.45.1"
+    "pg": "^8.17.2"
   },
   "devDependencies": {
+    "dotenv": "^17.2.3",
+    "drizzle-kit": "^0.31.8",
     "oxfmt": "^0.26.0",
     "oxlint": "^1.41.0"
   }

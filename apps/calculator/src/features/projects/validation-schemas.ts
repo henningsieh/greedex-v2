@@ -1,5 +1,11 @@
 import { EU_COUNTRY_CODES } from "@greendex/config/eu-countries";
 import {
+  organization,
+  projectActivitiesTable,
+  projectsTable,
+  user,
+} from "@greendex/database/schema";
+import {
   createInsertSchema,
   createSelectSchema,
   createUpdateSchema,
@@ -7,12 +13,6 @@ import {
 import { z } from "zod";
 
 import { ProjectActivityWithRelationsSchema } from "@/features/project-activities/validation-schemas";
-import {
-  organization,
-  projectActivitiesTable,
-  projectsTable,
-  user,
-} from "@/lib/drizzle/schema";
 
 import { PROJECT_SORT_FIELDS } from "./types";
 
