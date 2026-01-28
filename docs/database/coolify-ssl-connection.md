@@ -78,7 +78,7 @@ DATABASE_URL=postgres://user:pass@host:port/db?sslmode=require&uselibpqcompat=tr
 Run the SSL connection tests:
 
 ```bash
-bun run test src/__tests__/db-ssl-connection.test.ts
+pnpm run test src/__tests__/db-ssl-connection.test.ts
 ```
 
 The tests verify:

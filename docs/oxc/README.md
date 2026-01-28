@@ -27,8 +27,8 @@ docs/oxc/
 
 ## Usage in This Project
 
-- **Format code**: `bun run format` (runs Oxfmt with import sorting and Tailwind class sorting)
-- **Lint code**: `bun run lint` (runs Oxlint with auto-fix and TypeScript type checking)
+- **Format code**: `pnpm run format` (runs Oxfmt with import sorting and Tailwind class sorting)
+- **Lint code**: `pnpm run lint` (runs Oxlint with auto-fix and TypeScript type checking)
 
 Configuration files:
 - `.oxfmtrc.json` - Oxfmt configuration

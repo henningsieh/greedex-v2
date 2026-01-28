@@ -1,18 +1,7 @@
 {
   "$schema": "../../node_modules/oxfmt/configuration_schema.json",
+  "extends": "../../.oxfmtrc.json",
   "printWidth": 82,
-  "ignorePatterns": [
-    "node_modules/**",
-    ".next/**",
-    "dist/**",
-    "build/**",
-    "src/components/ui/**",
-    "src/lib/drizzle/migrations/**"
-  ],
-  "experimentalSortImports": {
-    "ignoreCase": true,
-    "newlinesBetween": true
-  },
   "experimentalTailwindcss": {
     "stylesheet": "src/app/globals.css",
     "attributes": ["class", "className"],

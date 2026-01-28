@@ -290,7 +290,7 @@ Scripts like `prebuild` that manually build other packages bypass Turborepo's de
 // WRONG - manually building dependencies
 {
   "scripts": {
-    "prebuild": "cd ../../packages/types && bun run build && cd ../utils && bun run build",
+    "prebuild": "cd ../../packages/types && pnpm run build && cd ../utils && pnpm run build",
     "build": "next build"
   }
 }

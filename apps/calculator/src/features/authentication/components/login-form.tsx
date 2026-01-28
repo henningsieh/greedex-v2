@@ -267,9 +267,7 @@ export function LoginForm({
                       nextPageUrl,
                       DASHBOARD_PATH,
                     );
-                    signupHref += `?nextPageUrl=${encodeURIComponent(
-                      normalized,
-                    )}`;
+                    signupHref += `?nextPageUrl=${encodeURIComponent(normalized)}`;
                   }
                   return (
                     <Button asChild className="px-0 pl-1" variant="link">

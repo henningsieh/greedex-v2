@@ -1,20 +1,19 @@
 import type { EUCountryCode } from "@greendex/config/eu-countries";
 
-import { eq, like, sql } from "drizzle-orm";
-import { randomUUID } from "node:crypto";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
-
-import type { ProjectActivityType } from "@/features/project-activities/types";
-import type { ProjectType } from "@/features/projects/types";
-
-import { db } from "@/lib/drizzle/db";
+import { db } from "@greendex/database";
 import {
   member,
   organization,
   projectActivitiesTable,
   projectsTable,
   user,
-} from "@/lib/drizzle/schema";
+} from "@greendex/database/schema";
+import { eq, like, sql } from "drizzle-orm";
+import { randomUUID } from "node:crypto";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+
+import type { ProjectActivityType } from "@/features/project-activities/types";
+import type { ProjectType } from "@/features/projects/types";
 
 // Test data constants
 const TEST_USER = {

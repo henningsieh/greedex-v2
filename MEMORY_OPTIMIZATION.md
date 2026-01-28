@@ -97,7 +97,7 @@ Added a new development script with increased Node.js memory allocation:
 ```json
 {
   "scripts": {
-    "dev:memory": "NODE_OPTIONS='--max-old-space-size=4096' concurrently --kill-others \"NODE_OPTIONS='--max-old-space-size=4096' next dev\" \"bun run dev:socket\""
+    "dev:memory": "NODE_OPTIONS='--max-old-space-size=4096' concurrently --kill-others \"NODE_OPTIONS='--max-old-space-size=4096' next dev\" \"pnpm run dev:socket\""
   }
 }
 ```
@@ -115,7 +115,7 @@ Added a new development script with increased Node.js memory allocation:
 The regular dev script now benefits from the optimizations:
 
 ```bash
-bun run dev
+pnpm run dev
 ```
 
 ### Memory-Optimized Development
@@ -123,7 +123,7 @@ bun run dev
 If you still experience memory issues, use the memory-optimized script:
 
 ```bash
-bun run dev:memory
+pnpm run dev:memory
 ```
 
 This allocates more memory to Node.js, giving the dev server more headroom.
@@ -169,8 +169,8 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 
 The changes have been validated:
 
-- ✅ Formatting: `bun run format` passed
-- ✅ Linting: `bun run lint` passed (oxlint found 0 warnings/errors)
+- ✅ Formatting: `pnpm run format` passed
+- ✅ Linting: `pnpm run lint` passed (oxlint found 0 warnings/errors)
 - ✅ TypeScript: Compiles successfully
 
 ## Related Issues
@@ -183,7 +183,7 @@ The changes have been validated:
 
 To monitor if the optimization is working:
 
-1. Start the dev server with `bun run dev`
+1. Start the dev server with `pnpm run dev`
 2. Watch for memory warnings in the console
 3. Use `node --inspect` flag and Chrome DevTools to monitor heap usage
 4. Compare memory usage before/after making code changes

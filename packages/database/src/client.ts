@@ -14,6 +14,32 @@ declare global {
   var __pool: Pool | undefined;
 }
 
+// Lazy initialization of the database connection
+let _db: NodePgDatabase<typeof schema> | undefined;
+
+export const db = new Proxy({} as NodePgDatabase<typeof schema>, {
+  get(target, prop) {
+    if (!_db) {
+      const connectionString = process.env.DATABASE_URL;
+      if (!connectionString) {
+        throw new Error("DATABASE_URL environment variable is not set");
+      }
+
+      // Reuse existing pool in development to prevent memory leaks
+      if (!global.__pool) {
+        global.__pool = new Pool({
+          connectionString,
+          max: 10,
+        });
+      }
+
+      _db = drizzle(global.__pool, { schema });
+    }
+
+    return (_db as any)[prop];
+  },
+});
+
 /**
  * Create a new database connection with the given connection string
  */
@@ -29,37 +55,11 @@ export function createDbConnection(
 }
 
 /**
- * Get or create the database connection
- * Uses a global pool in development to prevent memory leaks from hot reloads
- *
- * Note: In production builds, this will create a new pool each time
- * unless you pass the same connectionString. The calculator app should
- * use this via its env configuration.
+ * Initialize the database connection (legacy function, kept for compatibility)
  */
-let _db: NodePgDatabase<typeof schema> | undefined;
-
-export function getDb(connectionString: string): NodePgDatabase<typeof schema> {
-  if (typeof window !== "undefined") {
-    throw new Error("Database client cannot be used in the browser");
-  }
-
-  // Reuse existing pool in development to prevent memory leaks
-  // SSL Configuration: DATABASE_URL must include ?sslmode=require&uselibpqcompat=true
-  // for Coolify's "require (secure)" SSL mode. See docs/database/coolify-ssl-connection.md
-  if (!global.__pool) {
-    global.__pool = new Pool({
-      connectionString,
-      max: 10,
-    });
-  }
-
-  if (!_db) {
-    _db = drizzle(global.__pool, { schema });
-  }
-
-  return _db;
+export function initializeDb(
+  connectionString: string,
+): NodePgDatabase<typeof schema> {
+  // This function is now a no-op since db is initialized lazily
+  return db;
 }
-
-// Export a placeholder db that must be initialized by the consumer
-// This will be replaced by the calculator app using its env configuration
-export const db = null as unknown as NodePgDatabase<typeof schema>;

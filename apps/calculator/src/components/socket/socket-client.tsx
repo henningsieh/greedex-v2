@@ -75,9 +75,7 @@ export default function SocketClient({ socketUrl }: Props) {
         <div className="mb-6 rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
           <div className="flex items-center gap-2">
             <div
-              className={`size-4 rounded-full ${
-                isConnected ? "bg-green-500" : "bg-red-500"
-              }`}
+              className={`size-4 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"}`}
             />
             <span className="font-medium">
               {isConnected ? "Connected" : "Disconnected"}

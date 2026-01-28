@@ -23,7 +23,7 @@ function readGeneratedVersion() {
   const outPath = path.resolve(process.cwd(), "src/lib/orpc/scalar-sri.ts");
   if (!fs.existsSync(outPath)) {
     console.error(
-      `${outPath} not found. Run 'bun run generate:sri' to generate it.`,
+      `${outPath} not found. Run 'pnpm run generate:sri' to generate it.`,
     );
     process.exit(1);
   }
@@ -43,7 +43,7 @@ const genVersion = readGeneratedVersion();
 
 if (pkgVersion !== genVersion) {
   console.error(
-    `Scalar version mismatch:\n  package.json config.scalarVersion = "${pkgVersion}"\n  src/lib/orpc/scalar-sri.ts SCALAR_VERSION = "${genVersion}"\n\nRun 'bun run generate:sri' to regenerate the SRI file or update package.json to the desired version.`,
+    `Scalar version mismatch:\n  package.json config.scalarVersion = "${pkgVersion}"\n  src/lib/orpc/scalar-sri.ts SCALAR_VERSION = "${genVersion}"\n\nRun 'pnpm run generate:sri' to regenerate the SRI file or update package.json to the desired version.`,
   );
   process.exit(2);
 }

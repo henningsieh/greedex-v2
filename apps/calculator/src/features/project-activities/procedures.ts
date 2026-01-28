@@ -1,9 +1,9 @@
+import { db } from "@greendex/database";
+import { projectActivitiesTable, projectsTable } from "@greendex/database/schema";
 import { eq } from "drizzle-orm";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import { z } from "zod";
 
-import { db } from "@/lib/drizzle/db";
-import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
 
 import { ProjectActivityWithRelationsSchema } from "./validation-schemas";

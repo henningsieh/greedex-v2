@@ -55,7 +55,7 @@ project's mission and credibility. Tests are implemented manually to ensure
 proper integration with the existing test infrastructure.
 
 **AI Agent Constraints**:
-- NEVER run the application (`bun run dev`, `bun run build`, `bun run start`)
+- NEVER run the application (`pnpm run dev`, `pnpm run build`, `pnpm run start`)
 - NEVER execute test commands (`bun test`, `npm test`, `vitest`, `playwright test`)
 - The user maintains a running development server in the background
 - Focus on code generation, not execution or testing
@@ -120,9 +120,9 @@ and role-based permissions for these entities.
 	integration tests. Critical calculation regressions MUST be prevented by
 	automated tests tied to dataset versions. Test implementation is handled
 	manually by project maintainers.
-- **Build / Release**: Local dev uses `bun run dev` (maintained by user).
+- **Build / Release**: Local dev uses `pnpm run dev` (maintained by user).
 	**AI agents MUST NOT run the application**. Production build follows
-	`bun run build` -> `bun run start` and relies on compiled `out/server.js` as
+	`pnpm run build` -> `pnpm run start` and relies on compiled `out/server.js` as
 	the authoritative artifact.
 - **Documentation**: Specs, plans, and PR descriptions MUST reference the
 	constitution when they affect privacy, calculations, accessibility, or

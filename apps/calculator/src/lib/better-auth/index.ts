@@ -1,3 +1,6 @@
+import { db } from "@greendex/database";
+import * as schema from "@greendex/database/schema";
+import { member } from "@greendex/database/schema";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
 import { nextCookies } from "better-auth/next-js";
@@ -15,9 +18,6 @@ import {
   member as memberRole,
   owner,
 } from "@/features/projects/permissions";
-import { db } from "@/lib/drizzle/db";
-import * as schema from "@/lib/drizzle/schema";
-import { member } from "@/lib/drizzle/schema";
 import {
   sendEmailVerificationEmail,
   sendOrganizationInvitation,

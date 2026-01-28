@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@paralleldrive/cuid2':
+        specifier: ^3.0.6
+        version: 3.3.0
+      drizzle-orm:
+        specifier: ^0.45.1
+        version: 0.45.1(@types/pg@8.16.0)(kysely@0.28.10)(pg@8.17.2)
       next:
         specifier: 16.1.6
         version: 16.1.6(@babel/core@7.28.6)(@playwright/test@1.58.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -87,9 +93,6 @@ importers:
       '@orpc/tanstack-query':
         specifier: ^1.13.4
         version: 1.13.4(@orpc/client@1.13.4)(@tanstack/query-core@5.90.20)
-      '@paralleldrive/cuid2':
-        specifier: ^3.0.6
-        version: 3.3.0
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -207,9 +210,6 @@ importers:
       cross-env:
         specifier: ^10.1.0
         version: 10.1.0
-      drizzle-orm:
-        specifier: ^0.45.1
-        version: 0.45.1(@types/pg@8.16.0)(kysely@0.28.10)(pg@8.17.2)
       drizzle-zod:
         specifier: ^0.8.3
         version: 0.8.3(drizzle-orm@0.45.1(@types/pg@8.16.0)(kysely@0.28.10)(pg@8.17.2))(zod@4.3.6)
@@ -301,9 +301,6 @@ importers:
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
-      drizzle-kit:
-        specifier: ^0.31.8
-        version: 0.31.8
       jsdom:
         specifier: ^27.4.0
         version: 27.4.0(@noble/hashes@2.0.1)
@@ -393,13 +390,16 @@ importers:
       '@greendex/config':
         specifier: workspace:*
         version: link:../config
-      '@paralleldrive/cuid2':
-        specifier: ^3.0.6
-        version: 3.3.0
-      drizzle-orm:
-        specifier: ^0.45.1
-        version: 0.45.1(@types/pg@8.16.0)(kysely@0.28.10)(pg@8.17.2)
+      pg:
+        specifier: ^8.17.2
+        version: 8.17.2
     devDependencies:
+      dotenv:
+        specifier: ^17.2.3
+        version: 17.2.3
+      drizzle-kit:
+        specifier: ^0.31.8
+        version: 0.31.8
       oxfmt:
         specifier: ^0.26.0
         version: 0.26.0

@@ -1,3 +1,11 @@
+import { db } from "@greendex/database";
+import {
+  projectActivitiesTable,
+  projectParticipantsTable,
+  projectsTable,
+  session as sessionTable,
+  user,
+} from "@greendex/database/schema";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
@@ -8,14 +16,6 @@ import { ProjectActivityWithRelationsSchema } from "@/features/project-activitie
 import { DEFAULT_PROJECT_SORT } from "@/features/projects/types";
 import { computeSortDesc, orderByClauseFor } from "@/features/projects/utils";
 import { auth } from "@/lib/better-auth";
-import { db } from "@/lib/drizzle/db";
-import {
-  projectActivitiesTable,
-  projectParticipantsTable,
-  projectsTable,
-  session as sessionTable,
-  user,
-} from "@/lib/drizzle/schema";
 import { base } from "@/lib/orpc/context";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
 

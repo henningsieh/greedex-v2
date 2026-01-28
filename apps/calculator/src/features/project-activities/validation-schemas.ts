@@ -1,6 +1,7 @@
 import type { useTranslations } from "@greendex/i18n/client";
 import type { getTranslations } from "@greendex/i18n/server";
 
+import { projectActivitiesTable, projectsTable } from "@greendex/database/schema";
 import {
   createInsertSchema,
   createSelectSchema,
@@ -8,7 +9,6 @@ import {
 } from "drizzle-zod";
 
 import { createDistanceSchema } from "@/features/project-activities/utils";
-import { projectActivitiesTable, projectsTable } from "@/lib/drizzle/schema";
 
 // ============================================================================
 // UNIFIED TRANSLATION TYPE

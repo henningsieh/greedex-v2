@@ -1,6 +1,7 @@
 import type z from "zod";
 
 import { ACTIVITY_EMISSION_FACTORS } from "@greendex/config/activities";
+import { projectsTable } from "@greendex/database/schema";
 import { asc, desc, type SQL, sql } from "drizzle-orm";
 import React from "react";
 
@@ -18,7 +19,6 @@ import {
   DEFAULT_PROJECT_SORT,
   ProjectSortField,
 } from "@/features/projects/types";
-import { projectsTable } from "@/lib/drizzle/schema";
 import { orpc } from "@/lib/orpc/orpc";
 
 /**
