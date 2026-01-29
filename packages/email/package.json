@@ -1,0 +1,31 @@
+{
+  "name": "@greendex/email",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./templates": "./src/templates/index.ts"
+  },
+  "scripts": {
+    "format": "oxfmt",
+    "lint": "oxlint --fix --fix-suggestions --fix-dangerously",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf node_modules .turbo"
+  },
+  "dependencies": {
+    "@react-email/components": "^1.0.6",
+    "nodemailer": "^7.0.12"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "19.2.3",
+    "oxfmt": "^0.26.0",
+    "oxlint": "^1.41.0",
+    "react": "19.2.3"
+  },
+  "peerDependencies": {
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  }
+}

@@ -67,7 +67,7 @@ export function getProjectsDefaultSorting() {
 
 ```typescript
 // src/components/features/projects/dashboard/projects-grid.tsx
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 
 export function ProjectsGrid() {
   // Initialize from config
@@ -122,7 +122,7 @@ export function ProjectsTable() {
 
 ```typescript
 // src/app/[locale]/(app)/org/projects/page.tsx
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 
 export default async function ProjectsPage() {
   const queryClient = getQueryClient();
@@ -144,7 +144,7 @@ export default async function ProjectsPage() {
 
 ```typescript
 // src/features/projects/procedures.ts
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 
 export const listProjects = authorized
   .handler(async ({ input }) => {
@@ -209,7 +209,7 @@ const invalid = {
 
 ```typescript
 // Configuration (in src/config/)
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 
 // Types (in src/features/)
 import { PROJECT_SORT_FIELDS, type ProjectSortField, type ProjectType } from "@/features/projects/types";
@@ -225,7 +225,7 @@ import {
 
 ```typescript
 // ❌ Don't import DEFAULT_PROJECT_SORT from features
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";  // ✅ correct source is config/projects
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";  // ✅ correct source is config/projects
 
 // ❌ Don't import from old paths
 // Deprecated import removed - use { DEFAULT_PROJECT_SORT } from "@/config/projects" instead
@@ -446,7 +446,7 @@ type ProjectColumns = keyof typeof projectsTable.$inferSelect;
 import { DEFAULT_PROJECT_SORT } from "@/features/projects";
 
 // ✅ Correct
-import { DEFAULT_PROJECT_SORT } from "@/config/projects";
+import { DEFAULT_PROJECT_SORT } from "@greendex/config/projects";
 ```
 
 ### Sort Not Working in Grid

@@ -69,7 +69,7 @@
   "tailwindCSS.lint.invalidTailwindDirective": "error",
   "tailwindCSS.lint.invalidVariant": "error",
   "tailwindCSS.lint.recommendedVariantOrder": "error",
-  "tailwindCSS.lint.suggestCanonicalClasses": "error",
+  "tailwindCSS.lint.suggestCanonicalClasses": "warning",
   "tailwindCSS.validate": true,
 
   // ============================================================================
@@ -86,7 +86,15 @@
   },
   "chat.tools.terminal.autoApprove": {
     ".specify/scripts/bash/": true,
-    ".specify/scripts/powershell/": true
+    ".specify/scripts/powershell/": true,
+    "pnpm": true
+  },
+  "chat.tools.edits.autoApprove": {
+    "**/*": true,
+    "**/.vscode/*.json": false,
+    "**/.git/**": false,
+    "**/{package.json,package-lock.json,server.xml,build.rs,web.config,.gitattributes,.env}": true,
+    "**/*.{code-workspace,csproj,fsproj,vbproj,vcxproj,proj,targets,props}": false
   },
 
   // GitLens
@@ -95,18 +103,19 @@
 
   // i18n Ally
   "i18n-ally.displayLanguage": "de",
-  "i18n-ally.extract.ignored": [" | "],
   "i18n-ally.extract.ignoredByFiles": {
     "src/test/orpc-error-type-safety.test.ts": true
   },
-  "i18n-ally.ignoreFiles": ["src/test/**"],
   "i18n-ally.keystyle": "nested",
-  "i18n-ally.localesPaths": ["src/lib/i18n/translations"],
+  "i18n-ally.ignoreFiles": ["src/test/**"],
+  "i18n-ally.enabledFrameworks": ["next-intl"],
+  "i18n-ally.localesPaths": ["packages/i18n/src/locales"],
   "i18n-ally.sourceLanguage": "en",
 
   // JSON
   "json.schemaDownload.trustedDomains": {
-    "https://json.schemastore.org/": true
+    "https://turborepo.dev": true,
+    "https://ui.shadcn.com": true
   },
 
   // Search

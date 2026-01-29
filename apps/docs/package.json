@@ -1,0 +1,26 @@
+{
+  "name": "@greendex/docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "PORT=3001 next dev",
+    "build": "next build",
+    "start": "next start --port 3001",
+    "format": "oxfmt",
+    "lint": "oxlint --fix --fix-suggestions --fix-dangerously",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .next .turbo node_modules"
+  },
+  "dependencies": {
+    "@greendex/i18n": "workspace:*",
+    "fumadocs-core": "^15.4.1",
+    "fumadocs-mdx": "^11.7.1",
+    "fumadocs-ui": "^15.4.1"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.26.0",
+    "oxlint": "^1.41.0",
+    "tailwindcss": "^4.1.18"
+  }
+}

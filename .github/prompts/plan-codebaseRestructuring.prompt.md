@@ -827,8 +827,8 @@ Once you approve the plan, the refactoring will follow these phases:
 
 ### **Phase 7: Testing & Validation**
 
-- [ ] Run `bun run lint && bun run format`
-- [ ] Run `bun run test:run` for all affected files
+- [ ] Run `pnpm run lint && pnpm run format`
+- [ ] Run `pnpm run test:run` for all affected files
 - [ ] Manual testing of all features
 - [ ] Verify no circular imports
 

@@ -1,0 +1,27 @@
+{
+  "name": "@greendex/i18n",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/*",
+    "./client": "./src/client.ts",
+    "./server": "./src/server.ts",
+    "./locales/*.json": "./src/locales/*.json"
+  },
+  "scripts": {
+    "format": "oxfmt",
+    "lint": "oxlint --fix --fix-suggestions --fix-dangerously",
+    "clean": "rm -rf node_modules .turbo"
+  },
+  "dependencies": {
+    "@greendex/config": "workspace:*"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.26.0",
+    "oxlint": "^1.41.0"
+  },
+  "peerDependencies": {
+    "next-intl": "^4.7.0"
+  }
+}

@@ -120,7 +120,7 @@ The server-side client **must** be imported before any code that uses it. Breaki
 import { z } from "zod";
 import { base } from "../context";
 import { db } from "@/lib/drizzle";
-import { projects } from "@/lib/drizzle/schema";
+import { projects } from "@greendex/database/schema";
 
 export const listProjects = base
   .input(

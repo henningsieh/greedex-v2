@@ -1,0 +1,7 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Hoist shared dev dependencies to root
+hoistPattern:
+  - typescript
