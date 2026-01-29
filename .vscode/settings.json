@@ -69,7 +69,7 @@
   "tailwindCSS.lint.invalidTailwindDirective": "error",
   "tailwindCSS.lint.invalidVariant": "error",
   "tailwindCSS.lint.recommendedVariantOrder": "error",
-  "tailwindCSS.lint.suggestCanonicalClasses": "error",
+  "tailwindCSS.lint.suggestCanonicalClasses": "warning",
   "tailwindCSS.validate": true,
 
   // ============================================================================
